@@ -1,3 +1,0 @@
-#!/bin/sh
-
-exec mono "/usr/local/lib/commandline/SampleApp.exe" "$@"

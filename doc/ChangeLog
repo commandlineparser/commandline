@@ -5,9 +5,10 @@
         . file replaced; { group start; } group end
     -----------------------------------------------------------------------------------
 
-
-
-
+    Release promoted to beta due to stability.
+    Modified project structure.
+    Added unix build files.
+    Published on github.com/.
 
 2011-09-17	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
