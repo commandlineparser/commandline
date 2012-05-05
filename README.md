@@ -20,6 +20,7 @@ Unix/Macintosh:
 The project is small and well suited to be included in your application. If you don't merge it to your project tree, you must reference CommandLine.dll and import CommandLine and CommandLine.Text namespaces.
 
 Create a class to receive parsed values:
+
     class Options {
       [Option("r", "read", Required=True, HelpText="Input file to be processed.")]
       public string InputFile = "";
@@ -38,6 +39,7 @@ Create a class to receive parsed values:
     }
 
 Add few lines to your Main method:
+
     static void Main(string[] args) {
       var options = new Options();
       var parser = new CommandLineParser(new CommandLineParserSettings(Console.Error));
