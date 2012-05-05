@@ -1,0 +1,1015 @@
+2012-05-05	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+    ------------------------------------------------------------------------------------
+        + file added; * file modified; - file deleted; ~ file renamed; > file moved;
+        . file replaced; { group start; } group end
+    -----------------------------------------------------------------------------------
+
+
+
+
+
+2011-09-17	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+    ------------------------------------------------------------------------------------
+        + file added; * file modified; - file deleted; ~ file renamed; > file moved;
+        . file replaced; { group start; } group end
+    ------------------------------------------------------------------------------------
+
+    [a] Evolutionary Maintenance: Added a new feature to report a more detailed help
+        text when user input violates parsing rules.
+        This release bring this feature to the next level.
+
+    + Core/ParsingError.cs (ParsingError)
+        Added. Class that records a parsing error.
+
+    + Core/BadOptionInfo.cs (BadOptionInfo)
+        Added. This class is used as a light reference for bad options. 
+
+    + Utility/StringUtil.cs (StringUtil)
+        Added. Basic string utility class.
+
+    + Text/EnglishSentenceBuilder.cs (EnglishSentenceBuilder)
+        Added. Used with StringBuilder for localize text.
+   
+    + Text/BaseSentenceBuilder.cs (BaseSentenceBuilder)
+        Added. The base class for localized sentence building.
+
+    > Core/PostParsingState.cs (PostParsingState)
+        Moved. This is the right place for this class.
+
+    * Parser/CommandLineOptionsBase.cs (CommandLineOptionsBase)
+        Modified. This class was refactored for [a].
+
+    * Core/ArgumentParser.cs (ArgumentParser)
+        Modified. Modified for [a].
+
+    * Parser/CommandLineParser.cs (CommandLineParser)
+        Modified. Modified for [a].
+	
+    * Core/OptionMap.cs (OptionMap)
+        Modified. Modified for [a].
+	
+    * Text/HelpText.cs (HelpText)
+        Modified. Modified for [a].
+        
+    * Text/TESTS/HelpTextFixture.cs (HelpTextFixture)
+        Modified. Modified for [a].
+
+2011-07-06	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+    ------------------------------------------------------------------------------------
+        + file added; * file modified; - file deleted; ~ file renamed; > file moved;
+        . file replaced; { group start; } group end
+    ------------------------------------------------------------------------------------
+
+    [a] Evolutionary Maintenance: Added a new feature to report a more detailed help
+        text when user input violates parsing rules.
+        # discussion 204518 (http://commandline.codeplex.com/discussions/204518)
+        # discussion 249258 (http://commandline.codeplex.com/discussions/249258)
+
+    * Solution, Project Files {CommandLine.sln, CommandLine.csproj[.user], SampleApp.csproj[.user]}
+        Modified. Project format updated to MS Visual C# 2010 Express.
+		NOTE: the target framework is still .NET Framework 2.0.
+
+    . ../../lib/nunit.framework.dll
+        Replaced. Assembly replaced with the one supplied with NUnit version 2.5.10.11092.
+
+    * Text/TESTS/HelpTextFixture.cs (HelpTextFixture)
+        Modified. Added tests DetailedHelpWith*() for implent and test [a].
+
+    + TESTS/Mocks/ComplexOptions.cs (ComplexOptions)
+	    Added. Mock object needed (for now) to HelpTextFixture test type.
+
+    + Parser/CommandLineOptionsBase.cs (CommandLineOptionsBase)
+        Added. New abstract type used when you need to get parsing errors.
+
+    + Parser/PostParsingState.cs (PostParsingState)
+        Added. Internal type that models the state of the parser at the and of the job.
+
+    * Parser/CommandLineParser.cs (CommandLineParser)
+        Modified. Added private method SetPostParsingStateIfNeeded(object,PostParsingState). The type was modified for [a].
+
+    * Core/ArgumentParser.cs (ArgumentParser)
+        Modified. Added property PostParsingState LastPostParsingState{get,set} and method DefineOptionThatViolatesFormat(OptionInfo).
+		Again, the type was modified for [a].
+
+    * Core/LongOptionParser.cs (LongOptionParser)
+        Modified. The method Parse(IArgumentEnumerator,OptionMap,object) was modified for [a].
+
+    * Core/OptionGroupParser.cs (OptionGroupParser)
+        Modified. Also the method Parse(IArgumentEnumerator,OptionMap,object) was modified for [a].
+
+    * Text/HelpText.cs (HelpText)
+        Modified. Added method RenderParsingErrorsText(CommandLineOptionsBase) and protected method GetMessageText(MessageEnum) to handle parsing error rendering (see [a]).
+
+    * Core/OptionInfo.cs (OptionInfo)
+        Modified. Added property NameWithSwitch{get}.
+
+    * Core/OptionMap.cs (OptionMap)
+        Modified. The method EnforceRules() was modified for handling [a] requirements.
+
+2010-05-19	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	-----------------------------------------------------------------------------------
+		+ file added; * file modified; - file deleted; ~ file renamed; > file moved
+		{ group start; } group end
+	-----------------------------------------------------------------------------------
+
+    * Text/HelpText.cs (HelpText)
+		Modified. Changed incorrect spelling of a variable of GetMaxLength(IList<BaseOptionAttribute>) method
+		(see issue #R20100506.00 - http://commandline.codeplex.com/WorkItem/View.aspx?WorkItemId=10554).
+		Parameterless constructor made public.
+		Added more public constructors.
+		(see issue #R20100507.00 - http://commandline.codeplex.com/WorkItem/View.aspx?WorkItemId=10573)
+
+    * Text/TESTS/HelpTextFixture.cs (HelpTextFixture)
+        Modified. Added test
+			::InstancingWithParameterlessConstructor
+		
+2010-03-18	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	-----------------------------------------------------------------------------------
+		+ file added; * file modified; - file deleted; ~ file renamed; > file moved
+		{ group start; } group end
+	-----------------------------------------------------------------------------------
+
+    * HelpText.cs (HelpText)
+        Modified. Now you can customize options help text using the FormatOptionHelpText event as
+        requested in #REQ0005 ([1]
+        http://commandline.codeplex.com/WorkItem/View.aspx?WorkItemId=10426&ProjectName=commandline by fhaag).
+   
+    + FormatOptionHelpTextEventArgs.cs (FormatOptionHelpTextEventArgs)
+		Added. See [1].
+ 
+    * HelpTextFixture.cs (HelpTextFixture)
+        Modified. See [1].   
+
+2010-03-08	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	-----------------------------------------------------------------------------------
+		+ file added; * file modified; - file deleted; ~ file renamed; > file moved
+		{ group start; } group end
+	-----------------------------------------------------------------------------------
+	
+   {*  Parser/TESTS/CommandLineParserFixture.cs (CommandLineParserFixture)
+    *  Parser/TESTS/MutuallyExclusiveParsingFixture.cs (MutuallyExclusiveParsingFixture)
+    *  Parser/TESTS/NullableTypesParsingFixture.cs (NullableTypesParsingFixture)
+    *} Parser/TESTS/Parser/TESTS/.cs (Parser/TESTS/)
+        All Modified. Refactoring toward code readability and maintainability.
+        Introduced use of CommandLineParserBaseFixture::AssertParserSuccess(bool).
+        Introduced use of CommandLineParserBaseFixture::AssertParserFailure(bool).
+        
+   {*  Text/HelpText.cs (HelpText)
+    *} Text/TESTS/HelpTextFixture.cs (HelpTextFixture)
+		Patch 'fix_helptext_infinite_loop.patch' officially applied
+		(thanks to user/dev philr;
+		see http://commandline.codeplex.com/WorkItem/View.aspx?WorkItemId=10361).
+
+    *  {all}.cs
+		Modified header. Updated the range of years in copyright notice.
+	
+    *  Core/IArgumentEnumerator.cs (IArgumentEnumerator)
+		Modified. Redefined for mono compatibility.
+
+   {*  Core/StringArrayEnumerator.cs (StringArrayEnumerator)
+    *} Core/OneCharStringEnumerator.cs (OneCharStringEnumerator)
+		All Modified. See IArgumentEnumerator (Core/IArgumentEnumerator.cs).
+	
+2009-11-28	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	---------------------------------------------------------------------------------------
+	+ file added
+	* file modified
+	- file deleted
+	~ file renamed
+	> file moved
+	---------------------------------------------------------------------------------------
+	
+	+ Tests/Mocks/SimpleOptionsWithBadOptionArray.cs (SimpleOptionsWithBadOptionArray)
+		Added. Used in OptionArrayAttributeParsingFixture.
+	
+	* Core/OptionInfo.cs (OptionInfo)
+		Modified. Modified ::SetValue(IList<string>, object) method to handle exceptions correctly.
+
+	* Core/ArgumentParser.cs (ArgumentParser)
+		Modified. Added ::EnsureOptionArrayAttributeIsNotBoundToScalar(OptionInfo) method
+		to prevent misuse of syntax defined by attributes.
+		
+	* Core/OptionGroupParser.cs (OptionGroupParser)
+		Modified. Introduced use of ArgumentParser::EnsureOptionArrayAttributeIsNotBoundToScalar(...).
+	
+	* Core/LongOptionParser.cs (LongOptionParser)
+		Modified. Introduced use of ArgumentParser::EnsureOptionArrayAttributeIsNotBoundToScalar(...).
+	
+	* Parser/Tests/OptionArrayAttributeParsingFixture.cs (OptionArrayAttributeParsingFixture)
+		Modified. Added following test methods.
+			::PassingBadValueToAnIntegerArrayOptionFails()
+			::PassingNoValueToAStringArrayOptionFails()
+			::PassingNoValueToAnIntegerArrayOptionFails()
+			::WillThrowExceptionIfOptionArrayAttributeBoundToStringWithShortName()
+			::WillThrowExceptionIfOptionArrayAttributeBoundToStringWithLongName()
+			::WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithShortName()
+			::WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithLongName()
+	
+2009-11-24	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	---------------------------------------------------------------------------------------
+	+ file added
+	* file modified
+	- file deleted
+	~ file renamed
+	> file moved
+	---------------------------------------------------------------------------------------
+		
+	+ Core/TargetWrapper.cs (TargetWrapper)
+		Added. Decouples the instance that will contain parsed values by the code that consumes it.
+
+	* Core/ArgumentParser.cs (ArgumentParser)
+		Modified. Added method ::BooleanToParserState(...) with two overloads (this simple method will
+		make code of [LongOption|OptionGroup]Parser more clean - or so I hope).
+		Added ::EnsureOptionAttributeIsArrayCompatible(OptionInfo) method for the same reason described above.
+
+	* Parser/CommandLineParser.cs (CommandLineParser)
+		Modified. Try to use TargetWrapper instead of working directly with options instance.
+		
+	* Core/LongOptionParser.cs (LongOptionParser)
+		Modified. Introduced the use of ArgumentParser::BooleanToParserState(...)
+		and ArgumentParser::EnsureOptionAttributeIsArrayCompatible(...) for a cleaner code and
+		improved maintainability.
+		
+	* Core/OptionGroupParser.cs (OptionGroupParser)
+		Modified. Same changes of LongOptionParser.
+				
+	~ Tests/MockUtil.cs (MockUtil) -> Tests/DebugStringUtil.cs (DebugStringUtil)
+		Renamed. A correct name is the first step for refactoring a unit of code.
+		
+	* Core/Tests/ArgumentParserFixture.cs (ArgumentParserFixture)
+		Modified. Test code simplified.
+		
+	* Attributes/Tests/HelpOptionAttributeFixture.cs (HelpOptionAttributeFixture)
+		Modified. Minor refactoring.
+		
+	* Attributes/Tests/ValueListAttributeFixture.cs (ValueListAttributeFixture)
+		Modified. Minor refactoring.
+
+2009-11-22	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* IArgumentEnumerator.cs (IArgumentEnumerator)
+		Modified. The interface now inherits from IEnumerator<string>.
+		Added ::MovePrevious() method to be implemented (for now only) by StringArrayEnumerator.
+		
+	* OneCharStringEnumerator.cs (OneCharStringEnumerator)
+		Modified. See IArgumentEnumerator[.cs].
+		
+	* StringArrayEnumerator.cs (StringArrayEnumerator)
+		Modified. See IArgumentEnumerator[.cs].
+	
+	* OptionMap.cs (OptionMap)
+		Modified.
+		
+	* OptionListAttribute.cs (OptionListAttribute)
+		Modified. AttributeUsage removed, it's inherited from Option[Attribute].
+		
+	* OptionArrayAttribute.cs (OptionArrayAttribute)
+		Added. This new attribute defines an option to store multiple values in an array.
+		
+	* OptionInfo.cs (OptionInfo)
+		Modified. ::IsArray property added.
+		::IsAttributeArrayCompatible property added.
+		::SetValue(IList<string>, object) method added to handle OptionArray[Attribute].
+		
+	* SimpleOptionsWithArray.cs (SimpleOptionsWithArray)
+	* SimpleOptionsWithArrayAndValueList.cs (SimpleOptionsWithArrayAndValueList)
+		Added.
+		
+	* OptionArrayAttributeParsingFixture.cs (OptionArrayAttributeParsingFixture)
+		Added. Unit tests for parsing with OptionArray[Attribute].
+		
+	* ArgumentParser.cs (ArgumentParser)
+		Modified. Added protected method ::GetNextInputValues(IArgumentEnumerator) for handle OptionArray[Attribute].
+
+	* ArgumentParserFixture.cs (ArgumentParserFixture)
+		Added.
+		
+	* ParserException.cs -> CommandLineParserException.cs (CommandLineParserException)
+		Renamed. CommandLineParserException is a name more consistent with other CommandLineParser* types
+		than ParserException.
+		
+	* BaseFixture.cs (BaseFixture)
+		Added. This is another step towards unit tests refactoring.
+
+	* CommandLineParserBaseFixture.cs (CommandLineParserBaseFixture)
+		Modified. Now inherits from BaseFixture. 
+
+2009-11-16	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* IStringEnumerator.cs -> IArgumentEnumerator.cs (IArgumentEnumerator)
+		Renamed. This interface is used to enumerate over a string vector (old StringEnumeratorEx)
+		or a string item of this vector (old CharEnumeratorEx). I think that IArgumentEnumerator is a more
+		meaningful name.
+	
+	* OptionGroupParser.cs (OptionGroupParser)
+		Modified. Reference to IStringEnumerator changed to IArgumentEnumerator.
+		Reference to CharEnumeratorEx changed to OneCharStringEnumerator.
+		OptionMap referenced directly (IOptionMap interface currently removed).
+		
+	* LongOptionParser.cs (LongOptionParser)
+		Modified. Reference to IStringEnumerator changed to IArgumentEnumerator.
+		OptionMap referenced directly (IOptionMap interface currently removed).
+		
+	* StringEnumeratorEx.cs -> StringArrayEnumerator.cs (StringArrayEnumerator)
+		Renamed. This isn't an extended version of CLR StringEnumerator. It's really a custom string array
+		enumerator. So I decided to refactor it, starting from giving it a correct name.
+
+	* CharEnumeratorEx.cs -> OneCharStringEnumerator.cs (OneCharStringEnumerator)
+		Renamed. This is really a string enumerator that has its ::Current member made of a
+		1-char string. Motivation for name refactoring as above.
+
+	* CommandLineParser.cs (CommandLineParser)
+		Modified. Reference to IStringEnumerator changed to IArgumentEnumerator.
+		Reference to StringEnumeratorEx changed to StringArrayEnumerator.
+		OptionMap referenced directly (IOptionMap interface currently removed).
+		
+	* EnumeratorsFixture.cs (EnumeratorsFixture)
+		Modified. Reference to IStringEnumerator changed to IArgumentEnumerator.
+		Reference to CharEnumeratorEx changed to OneCharStringEnumerator.
+		Reference to StringEnumeratorEx changed to StringArrayEnumerator.
+		
+	* IOptionMap.cs (IOptionMap)
+		Removed. Why keep an internal interface inherited only from one concrete type?
+		
+	* OptionMap.cs (OptionMap)
+		Modified. Inheritance from IOptionMap removed.
+		
+	* OptionInfo.cs (OptionInfo)
+		Modified. OptionMap referenced directly (IOptionMap interface currently removed).
+		::IsDefined defined with automatic property syntax.
+
+	* ArgumentParser.cs (ArgumentParser)
+		Modified. Reference to IStringEnumerator changed to IArgumentEnumerator.
+		OptionMap referenced directly (IOptionMap interface currently removed).
+		
+	* OptionMapFixture.cs (OptionMapFixture)
+		Modified. OptionMap referenced directly (IOptionMap interface currently removed).
+	
+	* BaseOptionAttribute.cs (BaseOptionAttribute)
+		Modified. Where possible, automatic properties used.
+		
+	* OptionListAttribute.cs (OptionListAttribute)
+		Modified. ::Separator defined with automatic property syntax.
+	
+	* ValueListAttribute.cs (ValueListAttribute)
+		Modified. ::MaximumElements defined with automatic property syntax.
+		
+	* CommandLineParserSettings.cs (ValueListAttribute)
+		Modified. Where possible, automatic properties used.
+		
+2009-11-12	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* Program.cs (SampleApp.Program)
+		Modified. Minor internal refactoring.
+		
+	* HelpText.cs
+		Modified. [Steven Evans ->] Added support for automatic text wrap.
+		Updated the type XML comment.
+		Added possibility to add an additional new line after description of an option (::AdditionalNewLineAfterOption).
+		
+	* HelpTextFixture.cs 
+		Modified. [Steven Evans ->] Added test code for new features of HelpText (see above).
+				
+2009-11-09	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* Mocks folder
+		Created. The new folder is a subdirectory of {project-root>/Tests.
+		All types inside this folder will belong to namespace CommandLine.Tests.Mocks.
+
+	* MockOptionsBase.cs (MockOptionsBase)
+		Moved. This source file was moved and renamed to OptionsBase.cs (OptionsBase).
+		
+	* SimpleOptions.cs (SimpleOptions)
+		Created. Refactoring of CommandLineParserFixture.MockOptions.
+		
+	* SimpleOptionsWithValueList.cs (SimpleOptions)
+		Created. Refactoring of CommandLineParserFixture.MockOptionsExtended.
+		
+	* NumberSetOptions.cs (NumberSetOptions)
+		Created. Refactoring of CommandLineParserFixture.MockNumericOptions.
+		
+	* BooleanSetOptions (BooleanSetOptions)
+		Created. Refactoring of CommandLineParserFixture.MockBoolPrevalentOptions.
+		
+	* SimpleOptionsWithOptionList (SimpleOptionsWithOptionList)
+		Created. Refactoring of CommandLineParserFixture.MockOptionsWithOptionList.
+		
+	* SimpleOptionsWithEnum (SimpleOptionsWithEnum)
+		Created. Refactoring of CommandLineParserFixture.MockOptionsWithEnum.
+		
+	* MixedCaseOptions (MixedCaseOptions)
+		Created. Refactoring of CommandLineParserFixture.MockOptionsCaseSensitive.
+		
+	* CommandLineParserFixture.Mocks.cs
+		Removed. The partial CommandLineParserFixture in this code file is now empty.
+		
+	* CommandLineParserFixture.cs (CommandLineParserFixture)
+		Modified. The type CommandLineParserFixture is no longer partial.
+
+	* CommandLineParserSettingsFixture.cs (CommandLineParserSettingsFixture)
+		Modified. Type CommandLineParserSettingsFixture.MockOptions moved in a separate file.
+
+	* SimpleOptionsWithHelpOption.cs (SimpleOptionsWithHelpOption)
+		Created. Refactoring of CommandLineParserSettingsFixture.MockOptions.
+		
+	* OptionsWithDefaultSet.cs (OptionsWithDefaultSet)
+		Created. Refactoring of MutuallyExclusiveParsingFixture.MockOptionsWithDefaultSet.
+		
+	* OptionsWithMultipleSet.cs (OptionsWithMultipleSet)
+		Created. Refactoring of MutuallyExclusiveParsingFixture.MockColorOptions.
+		
+	* OptionsWithMultipleSetAndOneOption.cs (OptionsWithMultipleSetAndOneOption)
+		Created. Refactoring of MutuallyExclusiveParsingFixture.MockExtendedColorOptions.
+
+	* MutuallyExclusiveParsingFixture.cs (MutuallyExclusiveParsingFixture)
+		Modified. Nested mock types moved to separate files.
+
+	* ValueListAttributeParsingFixture.cs (ValueListAttributeParsingFixture)
+		Modified. Nested type MockOptionsWithValueList removed and replaced with SimpleOptionsWithValueList.
+		Nested type MockOptionsWithValueListMaxElemDefined removed and replaced with OptionsWithValueListMaximumThree.
+		Nested type MockOptionsWithValueListMaxElemEqZero removed and replaced with OptionsWithValueListMaximumZero.
+		
+	* SimpleOptionsWithValueList.cs (SimpleOptionsWithValueList)
+	  OptionsWithValueListMaximumThree.cs (OptionsWithValueListMaximumThree)
+	  OptionsWithValueListMaximumZero.cs (OptionsWithValueListMaximumZero)
+		Created. Compare above.
+		
+	* NAnt Script (../nant/default.build)
+		Modified. Aligned to Visual Studio project.
+		
+	* Validator.cs (Validator)
+		Renamed. In a near future I plan to use types with 'validator' semantic to enable validation of
+		parsed values. So I've renamed this type (that validates methods arguments) with a more
+		meaningful 'Assumes[.cs]'.
+		I've also refactored names of methods.
+
+	* HelpText.cs (HelpText)
+	  HeadingInfo.cs (HeadingInfo)
+	  CopyrightInfo.cs (CopyrightInfo)
+	  CommandLineParser.cs (CommandLineParser)
+	  StringEnumeratorEx.cs (StringEnumeratorEx)
+	  CharEnumeratorEx.cs (CharEnumeratorEx)
+		Modified. Reference to Validator type changed to Assumes type.
+
+	* BaseOptionAttribute.cs (BaseOptionAttribute)
+		Modified. The short name of an option can now be made by only one character.
+		This satisfy #DGN0002 ([1] http://commandline.codeplex.com/WorkItem/View.aspx?WorkItemId=9077
+		by andy78smith).
+
+	* AttributesFixture.cs
+		Created. New tests for #DGN0002 (see [1]).
+		
+	* StringEnumeratorEx.cs (StringEnumeratorEx)
+		Modified. ::GetRemainingFromNext() now throws a more correct System.NotSupportedException
+		instead of System.NotImplementedException.
+		
+	* NullableTypesParsingFixture.cs (NullableTypesParsingFixture)
+		Created. #REQ0003 ([2] http://commandline.codeplex.com/WorkItem/View.aspx?WorkItemId=7649
+		by jeffwilcox).
+		
+	* NullableTypesOptions.cs (NullableTypesOptions)
+		Created. Mock object for NullableTypesParsingFixture.
+		
+	* OptionInfo.cs (OptionInfo)
+		Modified. Added ::SetNullableValue(string, object) to handle nullable types; see [2].
+		::SetValueScalar(string, object) marked private (not necessary to be public).
+		::SetValueList(string, object) marked private (not necessary to be public).
+
+	* ReflectionUtil.cs (ReflectionUtil)
+		Modified. Added method ::IsNullableType(Type); see [2].
+		
+	* CommandLineParserFixture.cs (CommandLineParserFixture.cs)
+		Modified. ::PassingNoValueToAIntegerTypeLongOptionFails corrected in ::PassingNoValueToAnIntegerTypeLongOptionFails.
+		
+	* config folder
+		Created. This new subdirectory created inside {project-roo}/doc will host configuration related files.
+		
+	* net-3.5_fx-node.nant-conf
+		Moved/Renamed. Moved to {project-roo}/doc/config and renamed as NAnt.exe.config.part.
+		
+	* CommandLine.sln
+		Moved. The MS Visual C# 2008 EE solution file is now under {project-root} directory.
+		This satisfy #REQ0004 ([3] http://commandline.codeplex.com/WorkItem/View.aspx?WorkItemId=9080
+		by x97mdr).
+		
+	* msvs2008 folder
+		Removed.
+		
+2009-11-01	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* {all}.cs
+		Modified. Code formatting lightly adjusted for readability and maintainability.
+		
+	* OptionInfo.cs (OptionInfo)
+		[if|else] construct of ::SetValue(string, object) turned into [guard-clause|return].
+		
+	* HelpText.cs (HelpText)
+		[if|else] construct of ::GetLength(*) turned into [guard-clause|return].
+		
+	* IncompatibleTypesException.cs (IncompatibleTypesException)
+		Removed. It's no longer necessary.
+	
+	* ParserException.cs (ParserException)
+		Moved. {project-root}/Exceptions/ParserException.cs was moved to {project-root}/Parser.
+		
+	* Exceptions folder
+		Removed.
+		
+	* NAnt Script (../nant/default.build)
+		Modified. Aligned to Visual Studio project.
+		
+	* Tests folder
+		Created. This folder will contain reusable test code.
+		
+	* MockUtil.cs
+	  MockOptionsBase.cs
+		Moved. Both files moved to {project-root}/Tests folder.
+		
+	* CommandLineParserBaseFixture.cs (CommandLineParserBaseFixture)
+		Added. CommandLineParserBaseFixture will be the base class for testing CommandLineParser.
+		
+	* ValueListAttributeParsingFixture.cs (ValueListAttributeParsingFixture)
+		Added. Groups tests for CommandLineParser type related to ValueList[Attribute]. These tests
+		were first contained in CommandLineParserFixture.
+		
+	* CommandLineParserBaseFixture.cs (CommandLineParserBaseFixture)
+		Modified. See ValueListAttributeParsingFixture[.cs] changes.
+		
+	* CommandLineParserFixture.Mocks.cs (types nested in CommandLineParserFixture)
+		Modified. Added MockOptionsExtended type.
+		
+	* CommandLineLibrary.shfb
+		Removed. This file was converted to a newer version of SandCastle (sc 2.4.10520, hpfb 1.8.0.2 beta).	
+		
+	* CommandLineLibrary.shfbproj
+		Added. This is the new version of CommandLineLibrary.shfb (source for build CHM help file).
+		
+2009-09-16	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* Parser.cs (Parser)
+		Removed. This type has been marked obsolete many release ago.
+	
+	* CommandLineParser.cs (CommandLineParser)
+		Modified. Private method ParseArgumentList renamed to DoParseArguments.
+		XML comments revised.
+		Now the behavior of both ParseArguments(...) methods is aligned with the introduction of
+		CommandLineParserSettings::HelpWriter. Setting this property to null (or passing null to
+		the overload of ParseArgurguments(...) that accepts helpWriter as argument) means that
+		in case of fail (or help request) you don't want to display any help screen.
+		
+	* Parser folder
+		Added. Contains ICommandLineParser.cs, CommandLineParser.cs, CommandLineParserSettings.cs
+		
+	* Tests folder
+		Moved. {project-root}/Tests was moved inside of {project-root}/Parser.
+				
+	* ICommandLineParser.cs (ICommandLineParser)
+		Modified. XML comments revised.
+		
+	* NAnt Script (../nant/default.build)
+		Modified. Changed to reflect MS Visual C# 2008 EE project layout.
+		The function 'path::combine(...)' is now used in a more extensive way.
+		
+	* Properties/ThisAssembly.cs
+		Version defined '1.6 stable'.
+		
+	* PairT.cs
+		Changed. This type has ben replaced (and adapted) with the version shipped with
+		Common Utility Library (see [1] http://commonapi.codeplex.com/).
+		
+	* Util folder
+		Renamed. Extended to 'Utility'.
+		
+	* CommandLineParserFixture.cs (CommandLineParserFixture)
+		Modified. Added more tests for #BUG0003 (fixed in a previous release).
+		Added more tests for #REQ0001 (implemented in a previous release).
+		
+	* CommandLineParserFixture.Mocks
+		Modified. Added type MockNumericOptions.
+		
+	* ArgumentParser.cs (ArgumentParser)
+		Modified. Now single dash '-' is allowed also as non-option value (you can capture it with ValueList[Attribute]).
+		
+	* LongOptionParser.cs (LongOptionParser)
+		Modified. Removed commented code.
+		
+	* OptionMap.cs (OptionMap)
+		Modified. Removed commented code.
+		
+	* SampleApp/ThisAssembly.cs (ThisAssembly)
+		Added. Contains assembly's constants.
+		
+	* SampleApp/Program.cs
+		Modified. It has been updated to be more readable.
+		
+	* CommandLineParserSettings.cs
+		Modified. Removed default setting of HelpWriter property (internal get accessor).
+		
+	* CommandLineParserSettingsFixture.cs
+		Added. Contains CommandLineParserSettings specific's tests.
+		
+	*  doc folder (../doc)
+		Modified. Added NUNIT-LICENCE, copied and renamed from {install-dir}/NUnit 2.4.8/license.txt.
+		(I forgot to do this form earliest version!)
+
+2009-08-22	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* CommandLineParserFixture.cs (CommandLineParserFixture)
+		Modified. User Rasqualtwilight (see
+		[1] https://www.blogger.com/comment.g?blogID=1092962441290089148&postID=3958784299747727243)
+		correctly suggest that the parser should fail if nothing (or null string in case of
+		string option) is passed to a long option (#BUG0002).
+		Modified for #DGN0001 (see [3]).
+		The refactoring of ParserSettings type name (to CommandLineParserSettings)
+		has impacted some test(s).
+		
+	* LongOptionParser.cs (LongOptionParser)
+		Modified. (#BUG0002)
+		
+	* ArgumentParser.cs (ArgumentParser)
+		Modified. Added a guard clause like suggested by Rasqualtwilight in [1]; see IsInputValue(string) method.
+		The method IsInputValue(...) was also modified in order to accept '-' (single dash) as option
+		input parameter value; also this is stated in [1] and referenced as #REQ0001 (see
+		[2] http://stackoverflow.com/questions/367309/which-command-line-commands-style-do-you-prefer).
+		The dash '-' is used by some program to indicate STDIN (again, see [1] and [2]).
+
+	* ICommandLineParser.cs (ICommandLineParser)
+		Modified. Removed previously added overload ParseArguments(...) that accepts ParserSettings.
+		I think that this is a better design choiche (#DGN0001, see
+		[3] http://commandline.codeplex.com/Thread/View.aspx?ThreadId=64678).
+		This is done to decouple ParserSettings type from this interface and couple it with the
+		main parser implementation (CommandLineParser).
+		
+	* CommandLineParser.cs (CommandLineParser)
+		Modified. (#DGN0001)
+
+	* HelpText.cs (HelpText)
+		Modified. In order to fullfill the user pruiz request (#REQ0002; see
+		[3] http://commandline.codeplex.com/WorkItem/View.aspx?WorkItemId=8015).
+
+	* HelpTextFixture.cs (HelpTextFixture)
+		Modified. (#REQ0002)
+		
+	* CommandLineParserFixture.Mocks.cs (MockOptionsCaseSensitive)
+		Modified. In order to fullfill design choice #DGN0001:
+		moving the ParserSettings type from method to class constructor removes the
+		obligation to have an HelpOption attribute (HelpOptionAttribute.cs) defined.
+		
+	* ParserSettings.cs (ParserSettings)
+		Renamed to CommandLineParserSettings.cs: ParserSettings type renamed to
+		CommandLineParserSettings.
+		 |
+		\|/
+	* CommandLineParserSettings.cs (CommandLineParserSettings)	
+		Added standard copyright header.
+		Added MutuallyExclusive boolean property to switch on/off parsing rule for options with
+		MutuallyExclusiveSet defined. 
+		Added more constructors.
+		Modified for #REQ0003 (see [4]).
+		
+	* OptionAttribute.cs (OptionAttribute)
+		Modified. The OptionAttribute is modified in order to add a "mutually exclusive" feature requested
+		by ErikEJ (#REQ0003; see [4] http://commandline.codeplex.com/WorkItem/View.aspx?WorkItemId=7134).
+		Added public string property MutuallyExclusiveSet (string).
+
+	* MutuallyExclusiveParsingFixture.cs
+		Added. Unit tests for "mutually exclusive" feature (#REQ0003).
+
+	* OptionInfo.cs (OptionInfo)
+		Modified. (#REQ0003)
+		Added string property MutuallyExclusiveSet to handle the same property on OptionAttribute (see
+		OptionAttribute.cs).
+		
+	* OptionMap.cs (OptionMap)
+		Modified. Altered constructor.
+		Changes made to OptionMap::EnforceRules(...) to handle #REQ0003 (see [4]); this doesn't affect
+		public API, because OptionMap type is internal for library private use.
+		
+	* OptionMapFixture.cs (OptionMapFixture)
+		Modified. Some changes made for #REQ0003 (see [4]).
+
+2009-08-01	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* CommandLineParserFixture.cs (CommandLineParserFixture)
+		Modified. Added test code to implement 'case sensitive on/off switch' following
+		user unruledboy request (#REQ0000) posted in project hosting web site
+		(http://commandline.codeplex.com/Thread/View.aspx?ThreadId=44806).
+	
+	* ParserSettings.cs (ParserSettings)
+		Added. This object configures aspects of parser's behavior. (#REQ0000)
+		
+	* ICommandLineParser.cs (ICommandLineParser)
+		Modified. Added a ParseArguments(...) overload that accepts an instance of
+		ParserSettings. (#REQ0000)
+		
+	* CommandLineParser.cs (CommandLineParser)
+		Modified. Now implements the new method defined in ICommandLineParser. (#REQ0000)
+		
+	* ArgumentParser.cs (ArgumentParser)
+		Modified. (#REQ0000)
+	
+	* OptionMap.cs (OptionMap)
+		Modified. (#REQ0000)
+		
+	* OptionMapFixture.cs (OptionMapFixture)
+		Modified. Internal type OptionMap has a new public constructor (see OptionMap.cs).	
+		
+2009-01-21	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* CommandLineParserFixture.cs (CommandLineParserFixture)
+		Modified. Added test code to put highlight a bug noticed working for a blog tutorial
+		(http://gsscoder.blogspot.com/2009/01/hands-on-code-modify-copy-directory.html).
+		I wrote the tutorial for other people and finally helped me too.
+		I'm sure that this kind of bug was not here even with earlier version of CommandLine.dll.
+		So why appeared in a 1.5-stable? It's appeared because the code coverage were not enough
+		deep and a so simple case were not take in to account (LEARN FROM THIS ERROR!!!).
+	* OptionMap.cs (OptionMap)
+		Modified. Last changes to this class hasn't modified Unit-Tests results. Anyway the
+		problem was here and now was corrected (ref. #BUG0002). The problem was that an undefined
+		input results in raising an unhandled excpetion, instead of returning false (this is
+		valid for all overloads of 'bool CommandLineParser::ParseArguments(...)').
+	* OptionMapFixture.cs (OptionMapFixture, OptionMapFixture+OptionMapBuilder)
+		Modified. Minor internal refactoring (mostly for future use).
+		Added tests for consolidate contract of OptionMap (:IOptionMap) type (OptionMap.cs):
+		this also is in relation of bug #BUG0002.
+	* ValueListAttributeFixture.cs
+		Modified. Removed commented code.
+	* IncompatibleTypesException.cs
+		Modified. Heading comment.
+
+2009-01-08	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* {all}.cs
+		Modified. Updated header.
+	* ThisAssembly.cs
+		Modified. Updated version.
+	* CommandLineParserFixture.cs
+		Modified for Unit-Test refactoring.
+	* CommandLineParserFixture.Mocks.cs
+		Extracted from CommandLineParserFixture.cs.
+	* MockUtil.cs
+		Added. Used in Unit-Test.
+	* MockOptions.cs
+		Added. Base class from mock options types (Unit-Test).
+	* OptionInfo.cs
+		Modified. Added support for enum types. See 'bool OptionInfo::SetValueScalar(string, object)'.
+	* CopyrightInfo.cs
+		Modified.
+	* HelpText.cs
+		Modified.
+	* HelpTextFixture.cs
+		Added.
+	* PairT.cs
+		Modified. Marked sealed.
+	* IncompatibleTypesException.cs
+		Modified. Marked obsolete (instead catch ParserException type).
+	* ParserException.cs
+		Added. The ParserException type will be used through (more specialized exception types will
+		be created only if really needed).
+	* ValueListAttribute.cs
+		Modfied
+	* SampleApp/Program.cs
+		Modified.
+	
+2008-12-20	Giacomo Stelluti Scala	<gsscoder@ymail.com>
+
+	* Applied my latestì coding standard' about tabs to all sources (*.cs):
+		size 4 (spaces).
+	* Removed 'internal' keyword from type declaration (because in C# is implicit).
+	* ICommandLineParser.cs
+		Added. Interface for command line parsing (derived from Parser.cs).
+		This interface was introduced for simplify the use of the parser with
+		'inversion of control/dependency injection' containers.
+		(Read: http://gsscoder.blogspot.com/2008/10/decouple-software-in-services.html)
+	* CommandLineParser.cs
+		Added. Default implementation for ICommandLineParser.
+	* Parser.cs
+		Modified. Now its a client of ICommandLineParser/CommandLineParser.
+		It' use is deprecated use instead CommandLineParser.
+	* Source tree reorganized moving most files to a new 'Core/' directory.
+	* Test files moved to relative '../Tests/' subdirectory.
+	* ParserFixture.cs
+		Modified. Renamed to CommandLineParserFixture.cs.
+	* IOptionMap.cs
+		Added. Used in refactoring of OptionMap type (see OptionMap.cs).
+	* OptionMap.cs
+		Modified. Partially rewritten.
+	* ArgumentParser.cs
+		Modified. References IOptionMap instead of OptionMap.
+	* LongOptionParser.cs
+	  OptionGroupParser.cs
+	  OptionInfo.cs
+		Modified. As ArgumentParser derived types now references IOptionMap.
+	* EnumeratorsFixture.cs
+		Modified.
+	* CharEnumerator.cs
+		Modified.
+		
+2008-07-22	Giacomo Stelluti Scala	<giacomo.stelluti@gmail.com>
+
+	* OptionListAttribute.cs
+		Added. Allows to set an option with a composite value (values separated by a character).
+	* ParserFixture.cs
+		Modified.
+	* OptionInfo.cs
+		Modified.
+	* ValueListAttribute.cs
+		Added. Modified a comment.
+
+2008-05-05	Giacomo Stelluti Scala	<giacomo.stelluti@gmail.com>
+
+	* Enumerations/ParserState.cs
+		Moved to Interfaces.
+	* CharEnumeratorEx.cs, StringEnumeratorEx.cs
+		Moved to Collections.
+	* NAnt Script (../nant/default.build)
+		Modified.
+	* Text/Tests/HeadingInfoFixture.cs
+		Added. Unit tests for Text/HeadingInfo.cs
+	* Attributes/ValueListAttribute.cs
+		Modified. Added check for maximum elements.
+	* Parser.cs
+		Modified. Added support for modified ValueListAttribute type.
+	* Tests/ParserFixture.cs
+		Modified. Added tests for new features of ValueListAttribute type.
+	* Util/Validator.cs
+		Modified. Method CheckZeroLength<T> now throws the correct exception.
+	* Text/Tests/CopyrightInfoFixture.cs
+		Modified.
+
+2008-04-27	Giacomo Stelluti Scala	<giacomo.stelluti@gmail.com>
+
+	* OptionInfo.cs, PairT.cs
+		Moved from Data to Collections directory.
+	* Data directory
+		Renamed as Text. All types inside included in CommandLine.Text namespace.
+	* Text/CopyrightInfo.cs
+		Nested enumaration Symbol replaced with a boolean.
+	* Tests/CopyrightInfoFixture.cs
+		Moved to Text/Tests/CopyrightInfoFixture.cs
+	* Text/HeadingInfo.cs
+		Added. Decouples data previously handled by HelpText type.
+	* Text/HelpText.cs
+		Modified. Data previously handled by this type is now managed by HeadingInfo (HeadingInfo.cs).
+		
+2008-04-01	Giacomo Stelluti Scala	<giacomo.stelluti@gmail.com>
+
+	* Documentation Comments added to following Sources:
+		- Parser.cs
+		- Attributes/BaseOptionAttribute.cs
+		- Attributes/HelpOptionAttribute.cs
+		- Attributes/OptionAttribute.cs
+		- Attributes/ValueListAttribute.cs
+		- Data/CopyrightInfo.cs
+		- Data/HelpText.cs
+		- Exceptions/IncompatibleTypesException.cs
+	* Source code formatting follows my internal coding standards;
+	  very similar to Mono's one (see log record of 2007-07-10).
+	* ValueListAttribute.cs
+		Updated. Two public members 'Type ValueListAttribute.ConcreteType { get; }' and
+		'IList<string> ValueListAttribute.GetReference(object)'are now marked internal.
+		
+2007-10-04	Giacomo Stelluti Scala	<giacomo.stelluti@gmail.com>
+	
+	* HelpOptionAttributeFixture.cs
+		Updated. Tests added.
+	* ParserFixture.cs
+		Updated. Tests added.
+	* HelpText.cs
+		Updated. Now display help for HelpOptionAttribute too.
+	* OptionAttribute.cs
+		Updated. HelpText moved to BaseOptionAttribute.
+	* BaseOptionAttribute.cs
+		Updated. BaseOptionAttribute now includes HelpText property.
+	* HelpOptionAttribute.cs
+		Updated. Changed HelpOptionAttribute.Required { get; } to return false
+		and don't raise exception.
+	* ReflectionUtil.cs
+		Updated. Added ReflectionUtil.RetrieveMethodAttributeOnly<>() method.
+
+2007-08-13	Giacomo Stelluti Scala	<giacomo.stelluti@gmail.com>
+
+	* Copyright notice included in #region/#endregion markers.
+	* Files grouped in directories.
+	* ReflectionUtilFixture.cs
+		Added.
+	* PairT.cs
+		Added.
+	* ReflectionUtil.cs
+		Added.
+	* OptionInfo.cs
+		Updated. Used ReflectionUtil in OptionInfo.CreateMap(Type).
+	* BaseOptionAttribute.cs
+		Added. New base class for attribute types that models options.
+	* OptionAttribute.cs
+		Updated. Removed OptionAttribute.FromField(FieldInfo), it's no longer needed.
+	* ValueListAttribute.cs
+		Updated. Used ReflectionUtil in ValueListAttribute.GetField(object, out Type).
+	* IncompatibleTypesException.cs
+		Updated. Changed constructors from public to internal.
+	* CopyrightInfoFixture.cs
+		Added.
+	* CopyrightInfo.cs
+		Added. New public helper class for format copyright notice.
+	* HelpText.cs
+		Added. New public helper class for format help text.
+	* HelpOptionAttributeFixture.cs
+		Added. Tests for new help management feature.
+	* HelpOptionAttribute.cs
+		Added. New attribute for manage user help request from command line.
+	* Validator.cs
+		Added. Validates methods arguments and throws exceptions.
+	* Parser.cs
+		Updated. Added overload of ParseArguments for manage user help request
+		Paser.ParseArguments(string[], object, TextWriter).
+	* ArgumentParser.cs
+		Updated. Added helper methods CompareShort/CompareLong(string, string).
+	* CharEnumeratorEx.cs
+		Updated.
+	* StringEnumeratorEx.cs
+		Updated.
+	* SampleApp/Program.cs
+		Updated.
+
+2007-07-20	Giacomo Stelluti Scala	<giacomo.stelluti@gmail.com>
+
+	* ValueListAttributeFixture.cs
+		Added.
+	* ValueListAttribute.cs
+		Added.
+	* IncompatibleTypesException.cs
+		Added.
+	* OptionInfo.cs
+		Update. Removed duplicate method call in OptionInfo.CreateMap(Type).
+		Added thread safety when modifying options instance with OptionInfo.SetValue(string/bool, options).
+	* ValueContainer.cs
+		Dropped. ValueContainer abstract class replaced by ValueList[Attribute].
+	* Parser.cs
+		Updated. Used ValueListAttribute, removed ValueContainer.
+		Added thread safety when modifying values of options instance with IList<string>.Add(string).
+	* Tests/ParserFixture.cs
+		Updated.
+	* IPartialParser.cs
+		Dropped.
+	* ArgumentParser.cs.
+		Added. Replaces IPartialParser and Parser.CreateParser(string).
+	
+2007-07-10	Giacomo Stelluti Scala	<giacomo.stelluti@gmail.com>
+
+	* Source files formatted following the Mono Coding Guidelines
+	  (http://www.mono-project.com/Coding_Guidelines).
+	* Parser.cs
+		Parser.IParser renamed to Parser.IPartialParser.
+		Parser.ParseResult renamed to Parser.ParserState.
+		Parser.IsInputValue() moved to ParserUtil (new class).
+		Parser.Parser(Type) constructor made private (ref. #BUG0001).
+		Parser class nested types moved to root namespace and marked internal.
+	* IPartialParser.cs
+	  LongOptionParser.cs
+	  OptionGroupParser.cs
+	  OptionInfo.cs
+	  OptionMap.cs
+	  ParserState.cs
+	  ParserUtil.cs
+	    Created.
+	* Tests/MockObjects.cs
+		Dropped. Mock types made private and nested in ParserFixture class.
+	* Tests/ParserFixture.cs
+		Updated. Introduced test for #BUG0001.
+	* Tests/OptionMapFixture.cs
+		Added.
+	* OptionMap.cs (old nested type Parser.OptionMap)
+		Refactored using generics.
+	* IPartialParser.cs (old nested type Parser.IParser)
+		Updated. Changed method signature.
+		
+2007-06-30  Giacomo Stelluti Scala  <giacomo.stelluti@gmail.com>
+
+	* Project moved from www.gotdotnet.com to www.codeplex.com.
+	* Compiled for MS .NET Version 2.0 and Mono Profile 2.0.
+	* Enumerator types refactored.
+	* Test code refactored and extended.
+
+2006-03-30  Giacomo Stelluti Scala  <stelluti.scala@libero.it>
+
+	* Interface IValueContainer changed to abstract class.
+	* Minor bug fix (ref. #BUG0000):
+	  illegal short option assignment using tokens is now detected,
+	  ILLEGAL FORM: "-x=10" or "-x:10"
+	  LEGAL FORM: "-x10" or "-x 10".
+
+2005-05-31  Giacomo Stelluti Scala  <stelluti.scala@libero.it>
+
+	* New design.
+	  
+2005-05-05  Giacomo Stelluti Scala  <stelluti.scala@libero.it>
+
+	* Initial Release.

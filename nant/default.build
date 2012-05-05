@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Command Line Library" default="help" basedir="." xmlns="http://nant.sf.net/release/0.85/nant.xsd">
+  <property name="out.root" value="${path::combine('.', 'build.out')}" />
+  <property name="dll.name" value="CommandLine"/>
+  <property name="debug" value="None"/>
+  <property name="unit.tests" value="off" readonly="false" overwrite="true"/>
+  <property name="define" value=""/>
+  <property name="src.root" value="${path::combine('..', 'src')}" />
+  <property name="ref.root" value="${path::combine('..', 'lib')}" />
+  <property name="lib.src" value="${path::combine(src.root, 'libcmdline')}"/>
+  
+  <target name="help">
+    <echo message="Command Line Library 1.8 NAnt Build File"/>
+    <echo message="-----------------------------------------"/>
+    <echo message="allowed targets"/>
+    <echo message=" help - displays this help"/>
+    <echo message=" clean - cleans build output files"/>
+    <echo message=" build - builds the library"/>
+    <echo message=" tests - builds the library including unit tests classes"/>
+    <echo message="         (and related helper types) ns: *.Tests[.*]"/>
+    <echo message=""/>
+    <echo message="in case of problems please email to:"/>
+    <echo message="gsscoder@gmail.com"/>
+  </target>
+  
+  <target name="clean">
+    <delete dir="${out.root}" if="${directory::exists(out.root)}" verbose="true" />
+  </target>
+
+  <target name="tests">
+    <property name="debug" value="Full"/>
+    <property name="define" value="UNIT_TESTS"/>
+    <property name="unit.tests" value="on"/>
+    <call target="build"/>
+  </target>
+  
+  <target name="build" depends="clean">
+    <mkdir dir="${out.root}"/>
+    <csc target="library" output="${path::combine(out.root, dll.name)}.dll" doc="${path::combine(out.root, dll.name)}.XML"
+         debug="${debug}" define="${define}" verbose="true">
+      <references>
+        <include name="System.dll"/>
+        <include name="${path::combine(ref.root,'nunit.framework.dll')}" if="${property::get-value('unit.tests')=='on'}"/>
+      </references>
+      <sources basedir="${lib.src}">
+        <include name="${path::combine('Properties', '*.cs')}"/>
+        <include name="${path::combine('Attributes', '*.cs')}"/>
+        <include name="${path::combine('Attributes', path::combine('Tests', '*.cs'))}'" if="${property::get-value('unit.tests')=='on'}"/>
+        <include name="${path::combine('Core', '*.cs')}"/>
+        <include name="${path::combine('Core', path::combine('Tests', '*.cs'))}" if="${property::get-value('unit.tests')=='on'}"/>
+        <include name="${path::combine('Text', '*.cs')}"/>
+        <include name="${path::combine('Text', path::combine('Tests', '*.cs'))}" if="${property::get-value('unit.tests')=='on'}"/>
+        <include name="${path::combine('Utility', '*.cs')}"/>
+        <include name="${path::combine('Utility', path::combine('Tests', '*.cs'))}" if="${property::get-value('unit.tests')=='on'}"/>
+        <include name="${path::combine('Parser', '*.cs')}"/>
+        <include name="${path::combine('Parser', path::combine('Tests', '*.cs'))}" if="${property::get-value('unit.tests')=='on'}"/>
+        <include name="${path::combine('Tests', '*.cs')}" if="${property::get-value('unit.tests')=='on'}"/>
+        <include name="${path::combine('Tests', path::combine('Mocks', '*.cs'))}" if="${property::get-value('unit.tests')=='on'}"/>
+      </sources>
+    </csc>
+    <copy file="${path::combine(ref.root,'nunit.framework.dll')}" todir="${out.root}" overwrite="true"
+          if="${property::get-value('unit.tests')=='on'}"/>
+  </target>
+  
+</project>

@@ -1,0 +1,120 @@
+VALID_CULTURES =   ar bg ca zh-CHS cs da de el en es fi fr he hu is it ja ko nl no pl pt ro ru hr sk sq sv th tr id uk be sl et lv lt fa vi hy eu mk af ka fo hi sw gu ta te kn mr gl kok ar-SA bg-BG ca-ES zh-TW cs-CZ da-DK de-DE el-GR en-US fi-FI fr-FR he-IL hu-HU is-IS it-IT ja-JP ko-KR nl-NL nb-NO pl-PL pt-BR ro-RO ru-RU hr-HR sk-SK sq-AL sv-SE th-TH tr-TR id-ID uk-UA be-BY sl-SI et-EE lv-LV lt-LT fa-IR vi-VN hy-AM eu-ES mk-MK af-ZA ka-GE fo-FO hi-IN sw-KE gu-IN ta-IN te-IN kn-IN mr-IN gl-ES kok-IN ar-IQ zh-CN de-CH en-GB es-MX fr-BE it-CH nl-BE nn-NO pt-PT sv-FI ar-EG zh-HK de-AT en-AU es-ES fr-CA ar-LY zh-SG de-LU en-CA es-GT fr-CH ar-DZ zh-MO en-NZ es-CR fr-LU ar-MA en-IE es-PA ar-TN en-ZA es-DO ar-OM es-VE ar-YE es-CO ar-SY es-PE ar-JO en-TT es-AR ar-LB en-ZW es-EC ar-KW en-PH es-CL ar-AE es-UY ar-BH es-PY ar-QA es-BO es-SV es-HN es-NI es-PR zh-CHT
+
+s2q=$(subst \ ,?,$1)
+q2s=$(subst ?,\ ,$1)
+# use this when result will be quoted
+unesc2=$(subst ?, ,$1)
+
+build_sources = $(FILES) $(GENERATED_FILES)
+build_sources_esc= $(call s2q,$(build_sources))
+# use unesc2, as build_sources_embed is quoted
+build_sources_embed= $(call unesc2,$(build_sources_esc:%='$(srcdir)/%'))
+
+comma__=,
+get_resource_name = $(firstword $(subst $(comma__), ,$1))
+get_culture =  $(lastword $(subst ., ,$(basename $1)))
+is_cultured_resource = $(and $(word 3,$(subst ., ,$1)), $(filter $(VALID_CULTURES),$(lastword $(subst ., ,$(basename $1)))))
+
+RESOURCES_ESC=$(call s2q,$(RESOURCES))
+
+build_resx_list = $(foreach res, $(RESOURCES_ESC), $(if $(filter %.resx, $(call get_resource_name,$(res))),$(res),))
+build_non_culture_resx_list = $(foreach res, $(build_resx_list),$(if $(call is_cultured_resource,$(call get_resource_name,$(res))),,$(res)))
+build_non_culture_others_list = $(foreach res, $(filter-out $(build_resx_list),$(RESOURCES_ESC)),$(if $(call is_cultured_resource,$(call get_resource_name,$(res))),,$(res)))
+build_others_list = $(build_non_culture_others_list)
+build_xamlg_list = $(filter %.xaml.g.cs, $(FILES))
+
+# resgen all .resx resources
+build_resx_files = $(foreach res, $(build_resx_list), $(call get_resource_name,$(res)))
+build_resx_resources_esc = $(build_resx_files:.resx=.resources)
+build_resx_resources = $(call q2s,$(build_resx_resources_esc))
+
+# embed resources for the main assembly
+build_resx_resources_hack = $(subst .resx,.resources, $(build_non_culture_resx_list))
+# use unesc2, as build_resx_resources_embed is quoted
+build_resx_resources_embed = $(call unesc2,$(build_resx_resources_hack:%='-resource:%'))
+build_others_files = $(call q2s,$(foreach res, $(build_others_list),$(call get_resource_name,$(res))))
+build_others_resources = $(build_others_files)
+# use unesc2, as build_others_resources_embed is quoted
+build_others_resources_embed = $(call unesc2,$(build_others_list:%='-resource:$(srcdir)/%'))
+
+build_resources = $(build_resx_resources) $(build_others_resources)
+build_resources_embed = $(build_resx_resources_embed) $(build_others_resources_embed)
+
+# -usesourcepath is available only for resgen2
+emit_resgen_target_1=$(call q2s,$1) : $(call q2s,$(subst .resources,.resx,$1)); cd '$$(shell dirname '$$<')' && MONO_IOMAP=drive $$(RESGEN) '$$(shell basename '$$<')' '$$(shell basename '$$@')'
+emit_resgen_target_2=$(call q2s,$1) : $(call q2s,$(subst .resources,.resx,$1)); MONO_IOMAP=drive $$(RESGEN) -usesourcepath '$$<' '$$@'
+
+emit_resgen_target=$(if $(filter resgen2,$(RESGEN)),$(emit_resgen_target_2),$(emit_resgen_target_1))
+emit_resgen_targets=$(foreach res,$(build_resx_resources_esc),$(eval $(call emit_resgen_target,$(res))))
+
+build_references_ref = $(call q2s,$(foreach ref, $(call s2q,$(REFERENCES)), $(if $(filter -pkg:%, $(ref)), $(ref), $(if $(filter -r:%, $(ref)), $(ref), -r:$(ref)))))
+build_references_ref += $(call q2s,$(foreach ref, $(call s2q,$(DLL_REFERENCES)), -r:$(ref)))
+build_references_ref += $(call q2s,$(foreach ref, $(call s2q,$(PROJECT_REFERENCES)), -r:$(ref)))
+
+s2q2s=$(call unesc2,$(call s2q,$1))
+cp_actual=test -z $1 || cp $1 $2
+cp=$(call cp_actual,'$(call s2q2s,$1)','$(call s2q2s,$2)')
+
+rm_actual=test -z '$1' || rm -f '$2'
+rm=$(call rm_actual,$(call s2q2s,$1),$(call s2q2s,$2)/$(shell basename '$(call s2q2s,$1)'))
+
+EXTRA_DIST += $(build_sources) $(build_resx_files) $(build_others_files) $(ASSEMBLY_WRAPPER_IN) $(EXTRAS) $(DATA_FILES) $(build_culture_res_files)
+CLEANFILES += $(ASSEMBLY) $(ASSEMBLY).mdb $(BINARIES) $(build_resx_resources) $(build_satellite_assembly_list)
+DISTCLEANFILES = $(GENERATED_FILES) $(pc_files) $(BUILD_DIR)/*
+
+pkglib_SCRIPTS = $(ASSEMBLY)
+bin_SCRIPTS = $(BINARIES)
+
+programfilesdir = @libdir@/@PACKAGE@
+programfiles_DATA = $(PROGRAMFILES)
+linuxpkgconfigdir = @libdir@/pkgconfig
+linuxpkgconfig_DATA = $(LINUX_PKGCONFIG)
+
+
+# macros
+
+# $(call emit-deploy-target,deploy-variable-name)
+define emit-deploy-target
+$($1): $($1_SOURCE)
+	mkdir -p '$$(shell dirname '$$@')'
+	cp '$$<' '$$@'
+endef
+
+# $(call emit-deploy-wrapper,wrapper-variable-name,wrapper-sourcefile,x)
+# assumes that for a wrapper foo.pc its source template is foo.pc.in
+# if $3 is non-empty then wrapper is marked exec
+define emit-deploy-wrapper
+$($1): $2 $(top_srcdir)/config.make
+	mkdir -p '$$(shell dirname '$$@')'
+	cp '$$<' '$$@'
+	$(if $3,chmod +x '$$@')
+
+$2: $2.in $(top_srcdir)/config.make
+	sed -e "s,@prefix@,$(prefix)," -e "s,@PACKAGE@,$(PACKAGE)," -e "s,@expanded_libdir@,$(libdir)," -e "s,@expanded_bindir@,$(bindir)," -e "s,@expanded_datadir@,$(datadir)," < $2.in > $2
+endef
+
+# generating satellite assemblies
+
+culture_resources = $(foreach res, $(RESOURCES_ESC), $(if $(call is_cultured_resource,$(call get_resource_name, $(res))),$(res)))
+cultures = $(sort $(foreach res, $(culture_resources), $(call get_culture,$(call get_resource_name,$(res)))))
+culture_resource_dependencies = $(call q2s,$(BUILD_DIR)/$1/$(SATELLITE_ASSEMBLY_NAME): $(subst .resx,.resources,$2))
+culture_resource_commandlines = $(call unesc2,cmd_line_satellite_$1 += '/embed:$(subst .resx,.resources,$2)')
+build_satellite_assembly_list = $(call q2s,$(cultures:%=$(BUILD_DIR)/%/$(SATELLITE_ASSEMBLY_NAME)))
+build_culture_res_files = $(call q2s,$(foreach res, $(culture_resources),$(call get_resource_name,$(res))))
+install_satellite_assembly_list = $(subst $(BUILD_DIR),$(DESTDIR)$(libdir)/$(PACKAGE),$(build_satellite_assembly_list))
+
+$(eval $(foreach res, $(culture_resources), $(eval $(call culture_resource_dependencies,$(call get_culture,$(call get_resource_name,$(res))),$(call get_resource_name,$(res))))))
+$(eval $(foreach res, $(culture_resources), $(eval $(call culture_resource_commandlines,$(call get_culture,$(call get_resource_name,$(res))),$(res)))))
+
+$(build_satellite_assembly_list): $(BUILD_DIR)/%/$(SATELLITE_ASSEMBLY_NAME):
+	mkdir -p '$(@D)'
+	$(AL) -out:'$@' -culture:$* -t:lib $(cmd_line_satellite_$*)
+
+$(install_satellite_assembly_list):
+	mkdir -p '$(@D)'
+	cp $(subst $(DESTDIR)$(libdir)/$(PACKAGE), $(BUILD_DIR), $@) $@
+
+install-satellite-assemblies: $(install_satellite_assembly_list)
+	
+uninstall-satellite-assemblies:
+	rm -rf $(install_satellite_assembly_list)

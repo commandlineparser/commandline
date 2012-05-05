@@ -1,0 +1,2591 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestRecord xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <UnitTestResult>
+      <TestDate>2011-08-29T20:30:13</TestDate>
+      <Status>Success</Status>
+      <TotalFailures>0</TotalFailures>
+      <TotalSuccess>112</TotalSuccess>
+      <TotalIgnored>0</TotalIgnored>
+      <Time />
+    </UnitTestResult>
+  </Results>
+  <Tests>
+    <TestRecord Name="CommandLine">
+      <Results>
+        <UnitTestResult>
+          <TestDate>2011-08-29T20:30:13</TestDate>
+          <Status>Success</Status>
+          <TotalFailures>0</TotalFailures>
+          <TotalSuccess>112</TotalSuccess>
+          <TotalIgnored>0</TotalIgnored>
+          <Time />
+        </UnitTestResult>
+      </Results>
+      <Tests>
+        <TestRecord Name="Tests">
+          <Results>
+            <UnitTestResult>
+              <TestDate>2011-08-29T20:30:13</TestDate>
+              <Status>Success</Status>
+              <TotalFailures>0</TotalFailures>
+              <TotalSuccess>91</TotalSuccess>
+              <TotalIgnored>0</TotalIgnored>
+              <Time />
+            </UnitTestResult>
+          </Results>
+          <Tests>
+            <TestRecord Name="ArgumentParserFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>1</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="GetNextInputValues">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="AttributesFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>6</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="AllOptionsAllowNullValueInShortName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="AllOptionsAllowOneCharacterInShortName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="HelpOptionShortNameCanNotExceedOneCharacter">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="OptionListShortNameCanNotExceedOneCharacter">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="OptionShortNameCanNotExceedOneCharacter">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ShortNameOfBaseOptionDerivedTypeCanNotExceedOneCharacter">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="CommandLineParserFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>23</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="AllowSingleDashAsNonOptionValue">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,03ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="AllowSingleDashAsOptionInputValue">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="DefaultParsingIsCaseSensitive">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="DisablingCaseSensitive">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseEnumOptions">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                      <ConsoleOutput>a/access: ReadWrite
+s/string: data.bin
+i: 0
+switch: False
+
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseOptionList">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                      <ConsoleOutput>string1
+stringTwo
+stringIII
+test-file.txt
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseShortAdjacentOptions">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                      <ConsoleOutput>a/option-a: True
+b/option-b: False
+c/option-c: True
+d/double: 65
+
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseShortLongOptions">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,03ms</Message>
+                      <ConsoleOutput>a/option-a: False
+b/option-b: True
+c/option-c: False
+d/double: 9
+
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringIntegerBoolOptions">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                      <ConsoleOutput>s/string: another string
+i: 100
+switch: True
+
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringOption">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput>s/string: something
+i: 0
+switch: False
+
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParsingNonExistentLongOptionFailsWithoutThrowingAnException">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParsingNonExistentShortOptionFailsWithoutThrowingAnException">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToAByteTypeLongOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToADoubleTypeLongOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToAFloatTypeLongOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToALongTypeLongOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToAnIntegerTypeLongOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToAShortTypeLongOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToAStringTypeLongOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ShortOptionRefusesEqualToken">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput>s/string: 
+i: 0
+switch: False
+
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="UsingWrongCaseWithDefaultFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="WillThrowExceptionIfArgumentsArrayIsNull">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="WillThrowExceptionIfOptionsInstanceIsNull">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="CommandLineParserSettingsFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>3</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="SettingHelpWriterUsingArgument">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="SettingHelpWriterUsingConstructor">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="SettingHelpWriterUsingProperty">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="EnumeratorsFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>2</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="CharIteration">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="StringIteration">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="HelpOptionAttributeFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>3</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="BadInputActivatesHelp">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,10ms</Message>
+                      <ConsoleOutput>MyProgram 1.0
+Copyright (C) 2007 Authors, Inc.
+This software is under the terms of the XYZ License
+(http://license-text.org/show.cgi?xyz).
+Usage: myprog --input equations-file.xml -o result-file.xml
+       myprog -i equations-file.xml --paralell
+       myprog -i equations-file.xml -vo result-file.xml
+
+  i, input     Required. Input file with equations, xml format (see manual).
+  o, output    Output file with results, otherwise standard output.
+  paralell     Paralellize processing in multiple threads.
+  v            Show detailed processing messages.
+  help         Display this screen.
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="CorrectInputNotActivatesHelp">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ExplicitHelpActivation">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="MutuallyExclusiveParsingFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>7</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="ParsingMutuallyExclusiveOptionsAndRequiredOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParsingMutuallyExclusiveOptionsAndRequiredOptionSucceeds">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParsingOneMutuallyExclusiveOptionSucceeds">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParsingOneMutuallyExclusiveOptionWithAnotherOptionSucceeds">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParsingThreeMutuallyExclusiveOptionsInTwoSetFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParsingTwoMutuallyExclusiveOptionsFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParsingTwoMutuallyExclusiveOptionsInTwoSetSucceeds">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="NullableTypesParsingFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>10</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="ParseNullableDoubleOption">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseNullableEnumerationOption">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseNullableIntegerOption">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringOptionAndNullableValueTypes">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingBadValueToANullableDoubleOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingBadValueToANullableEnumerationOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingBadValueToANullableIntegerOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToANullableDoubleOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToANullableEnumerationOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToANullableIntegerOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="OptionArrayAttributeParsingFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>19</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="ParseDifferentArraysTogether_CombinationOne">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseDifferentArraysTogether_CombinationTwo">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseDoubleArrayOptionUsingShortName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseIntegerArrayOptionUsingShortName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringArrayOptionUsingLongName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringArrayOptionUsingLongNameWithEqualSign">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringArrayOptionUsingLongNameWithValueList">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringArrayOptionUsingShortName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringArrayOptionUsingShortNameAndStringOptionAfter">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringArrayOptionUsingShortNameAndStringOptionBefore">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringArrayOptionUsingShortNameWithOptionsBeforeAndAfter">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ParseStringArrayOptionUsingShortNameWithValueAdjacent">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingBadValueToAnIntegerArrayOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToAnIntegerArrayOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="PassingNoValueToAStringArrayOptionFails">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithLongName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithShortName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="WillThrowExceptionIfOptionArrayAttributeBoundToStringWithLongName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="WillThrowExceptionIfOptionArrayAttributeBoundToStringWithShortName">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="OptionMapFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>3</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="ManageOptions">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="RetrieveNotExistentLongOption">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="RetrieveNotExistentShortOption">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="ReflectionUtilFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>3</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="GetFieldsAttributeList">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="GetFieldsByAttribute">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                      <ConsoleOutput>Attribute: CommandLine.Tests.ReflectionUtilFixture+MockAttribute
+	Field: StringField
+	Field: BooleanField
+Attribute: CommandLine.Tests.ReflectionUtilFixture+AnotherMockAttribute
+	Field: IntField
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="GetMethodByAttribute">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="ValueListAttributeFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>6</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="ConcreteTypeIsGenericListOfString">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ConcreteTypeIsGenericListOfStringSubType">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="GetGenericListOfStringInterfaceReference">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="UseGenericListOfStringInterfaceReference">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="WillThrowExceptionIfConcreteTypeIsIncompatible">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="WillThrowExceptionIfConcreteTypeIsNull">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+            <TestRecord Name="ValueListAttributeParsingFixture">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>5</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="ValueListAttributeIsolatesNonOptionValues">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput>non-option value: file1.ext
+non-option value: file2.ext
+non-option value: file3.ext
+s/string: out.ext
+i: 0
+switch: True
+
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ValueListWithMaxElemInsideBounds">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput>o/output: 
+w/overwrite: False
+non-option value: file.a
+non-option value: file.b
+non-option value: file.c
+
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ValueListWithMaxElemOutsideBounds">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ValueListWithMaxElemSetToZeroFailes">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput />
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+                <TestRecord Name="ValueListWithMaxElemSetToZeroSucceeds">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>1</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                      <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                      <ConsoleOutput>
+</ConsoleOutput>
+                      <ConsoleError />
+                    </UnitTestResult>
+                  </Results>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+          </Tests>
+        </TestRecord>
+        <TestRecord Name="Text">
+          <Results>
+            <UnitTestResult>
+              <TestDate>2011-08-29T20:30:13</TestDate>
+              <Status>Success</Status>
+              <TotalFailures>0</TotalFailures>
+              <TotalSuccess>21</TotalSuccess>
+              <TotalIgnored>0</TotalIgnored>
+              <Time />
+            </UnitTestResult>
+          </Results>
+          <Tests>
+            <TestRecord Name="Tests">
+              <Results>
+                <UnitTestResult>
+                  <TestDate>2011-08-29T20:30:13</TestDate>
+                  <Status>Success</Status>
+                  <TotalFailures>0</TotalFailures>
+                  <TotalSuccess>21</TotalSuccess>
+                  <TotalIgnored>0</TotalIgnored>
+                  <Time />
+                </UnitTestResult>
+              </Results>
+              <Tests>
+                <TestRecord Name="CopyrightInfoFixture">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>7</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                    </UnitTestResult>
+                  </Results>
+                  <Tests>
+                    <TestRecord Name="DefaultSymbolSeveralYears">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="DefaultSymbolTwoNonConsecutiveYears">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="DerivedClass">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="LowerSymbolOneYear">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="UpperSymbolTwoConsecutiveYears">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="WillThrowExceptionIfAuthorIsNull">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="WillThrowExceptionIfNoYearsAreSupplied">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                  </Tests>
+                </TestRecord>
+                <TestRecord Name="HeadingInfoFixture">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>2</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                    </UnitTestResult>
+                  </Results>
+                  <Tests>
+                    <TestRecord Name="OnlyProgramName">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="ProgramNameAndVersion">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                  </Tests>
+                </TestRecord>
+                <TestRecord Name="HelpTextFixture">
+                  <Results>
+                    <UnitTestResult>
+                      <TestDate>2011-08-29T20:30:13</TestDate>
+                      <Status>Success</Status>
+                      <TotalFailures>0</TotalFailures>
+                      <TotalSuccess>12</TotalSuccess>
+                      <TotalIgnored>0</TotalIgnored>
+                      <Time />
+                    </UnitTestResult>
+                  </Results>
+                  <Tests>
+                    <TestRecord Name="AddAnEmptyPreOptionsLineIsAllowed">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="CustomizeOptionsFormat">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                          <ConsoleOutput>Customizing Test.
+Pre-Options.
+
+  v, verbose       Kommentar umfassend Operationen.
+  i, input-file    Erforderlich. Gibt den Eingang an zu bearbeitenden Datei.
+
+Post-Options.
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="DetailedHelpWithBadFormat">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,01ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -j/--offset option violates format.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="DetailedHelpWithBadFormatAndMutualExclusiveness">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -j/--offset option violates format.
+  -j/--offset option violates format.  -a/--all option violates mutual 
+exclusiveness.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:31:00</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,04ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -j/--offset option violates format.
+  -j/--offset option violates format.  -a/--all option violates mutual 
+exclusiveness.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:31:01</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,04ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -j/--offset option violates format.
+  -j/--offset option violates format.  -a/--all option violates mutual 
+exclusiveness.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:31:04</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,04ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -j/--offset option violates format.
+  -j/--offset option violates format.  -a/--all option violates mutual 
+exclusiveness.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:37:16</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,04ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -j/--offset option violates format.
+  -j/--offset option violates format.  -a/--all option violates mutual 
+exclusiveness.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="DetailedHelpWithBadMutualExclusiveness">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -a/--all option violates mutual exclusiveness.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="DetailedHelpWithMissingRequired">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -i/--input required option is missing.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="DetailedHelpWithMissingRequiredAndBadFormat">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -o/--output required option is missing.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:27</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,03ms</Message>
+                          <ConsoleOutput>unittest 1.8
+Copyright (C) 2005 - 2011 CommandLine.dll Author
+
+ERROR(S):
+  -o/--output required option is missing.
+
+This is free software. You may redistribute copies of it under the terms of
+the MIT License &lt;http://www.opensource.org/licenses/mit-license.php&gt;.
+Usage: Please run the unit...
+
+  a, all       Read the file completely.
+
+  p, part      Read the file partially.
+
+  i, input     Required. Specify input file to be processed.
+
+  o, output    Required. Specify output file to be created.
+
+  j, offset    Processing begins from specified offset.
+
+  b, bytes     Maximum number of bytes to process.
+
+  help         Displays this help screen.
+
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="InstancingWithParameterlessConstructor">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput>Parameterless Constructor Test.
+Copyright (C) 2011 Author
+Pre-Options.
+
+  s, something    Input something here.
+
+Post-Options.
+</ConsoleOutput>
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="LongHelpTextWithoutSpaces">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="LongPreAndPostLinesWithoutSpaces">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="PostOptionsLinesFeatureAdded">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                    <TestRecord Name="WhenHelpTextIsLongerThanWidthItWillWrapAroundAsIfInAColumn">
+                      <Results>
+                        <UnitTestResult>
+                          <TestDate>2011-08-29T20:30:13</TestDate>
+                          <Status>Success</Status>
+                          <TotalFailures>0</TotalFailures>
+                          <TotalSuccess>1</TotalSuccess>
+                          <TotalIgnored>0</TotalIgnored>
+                          <Time />
+                          <Message>Test riuscito
+
+Tempo di esecuzione: 0,00ms</Message>
+                          <ConsoleOutput />
+                          <ConsoleError />
+                        </UnitTestResult>
+                      </Results>
+                    </TestRecord>
+                  </Tests>
+                </TestRecord>
+              </Tests>
+            </TestRecord>
+          </Tests>
+        </TestRecord>
+      </Tests>
+    </TestRecord>
+  </Tests>
+</TestRecord>

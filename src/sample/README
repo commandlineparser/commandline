@@ -1,0 +1,33 @@
+Command Line Library / Example Application
+------------------------------------------
+
+Supported Syntax Examples:
+
+>Win32 Platforms<
+
+C:\> sampleapp -rfile -i --calculate
+C:\> sampleapp -ir other-file --jump=9
+C:\> sampleapp --jump 100 --read=this-one -wout -v0
+C:\> sampleapp -wout -ij 200 -v 2 -r file.xzy
+C:\> sampleapp inp1 --read="long file name.ext" -j 99.9 inp2
+(*1) C:\> sampleapp -rinp.xml "-o+;-"
+
+>Linux/*nix Platforms<
+
+# mono SampleApp.exe -rfile -i --calculate
+# mono SampleApp.exe -ir other-file --jump=9
+# mono SampleApp.exe --jump 100 --read=this-one -wout -v0
+# mono SampleApp.exe -wout -ij 200 -v 2 -r file.xzy
+# mono SampleApp.exe inp1 --read="long file name.ext" -j 99.9 inp2
+(*1) # mono SampleApp.exe -rinp.xml "-o+;-"
+
+(note depending on your kind of configuration you may not need to call
+mon for executing your .NET app; in this is true replace 'mono SampleApp.exe' with
+'./SampleApp.exe'; remember that *nix systems are case-sensitive)
+
+Note(s):
+1.: In Linux/*nix systems and in MS PowerShell (win32) ';' and math operators ('+', '-', ...)
+can have special meanings. I known I made a problematic choice for demonstrate
+the use of OptionList attribute... But in this way you can be aware of command line
+pitfalls! As you can see the problem is resolved embracing both 'option name' and 'option
+value' inside double quotes '"'.
