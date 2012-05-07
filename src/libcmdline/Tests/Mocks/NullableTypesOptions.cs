@@ -28,6 +28,8 @@
 #endregion
 #if UNIT_TESTS
 #region Using Directives
+
+using System.ComponentModel;
 using System.IO;
 #endregion
 
@@ -37,16 +39,20 @@ namespace CommandLine.Tests.Mocks
     class NullableTypesOptions : OptionsBase
     {
         [Option("i", "int")]
-        public int? IntegerValue = null;
+        [DefaultValue(null)]
+        public int? IntegerValue { get; set; }
 
         [Option("e", "enum")]
-        public FileAccess? EnumValue = null;
+        [DefaultValue(null)]
+        public FileAccess? EnumValue { get; set; }
 
         [Option("d", "double")]
-        public double? DoubleValue = null;
+        [DefaultValue(null)]
+        public double? DoubleValue { get; set; }
 
         [Option("s", "string")]
-        public string StringValue = null;
+        [DefaultValue(null)]
+        public string StringValue { get; set; }
     } 
 }
 #endif

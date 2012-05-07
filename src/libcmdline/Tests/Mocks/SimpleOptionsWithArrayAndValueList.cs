@@ -29,6 +29,8 @@
 #if UNIT_TESTS
 #region Using Directives
 using System.Collections.Generic;
+using System.ComponentModel;
+
 #endregion
 
 namespace CommandLine.Tests.Mocks
@@ -36,7 +38,8 @@ namespace CommandLine.Tests.Mocks
     class SimpleOptionsWithArrayAndValueList : SimpleOptionsWithArray
     {
         [ValueList(typeof(List<string>))]
-        public IList<string> Items = null;
+        [DefaultValue(null)]
+        public IList<string> Items { get; set; }
     }
 }
 #endif

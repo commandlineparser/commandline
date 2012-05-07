@@ -30,6 +30,7 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using CommandLine;
 using CommandLine.Text;
@@ -55,48 +56,47 @@ namespace SampleApp
         private sealed class Options : CommandLineOptionsBase
         {
             #region Standard Option Attribute
-            [Option("r", "read",
-                    Required = true,
-                    HelpText = "Input file with data to process.")]
-            public string InputFile = String.Empty;
+            [Option("r", "read", Required = true, HelpText = "Input file with data to process.")]
+            [DefaultValue("")]
+            public string InputFile {get; set;}
 
-            [Option("w", "write",
-                    HelpText = "Output file with processed data (otherwise standard output).")]
-            public string OutputFile = String.Empty;
+            [Option("w", "write", HelpText = "Output file with processed data (otherwise standard output).")]
+            [DefaultValue("")]
+            public string OutputFile { get; set; }
 
-            [Option(null, "calculate",
-                    HelpText = "Add results in bottom of tabular data.")]
-            public bool Calculate = false;
+            [Option(null, "calculate", HelpText = "Add results in bottom of tabular data.")]
+            [DefaultValue(false)]
+            public bool Calculate { get; set; }
 
-            [Option("v", null,
-                    HelpText = "Verbose level. Range: from 0 to 2.")]
-            public int? VerboseLevel = null;
+            [Option("v", null, HelpText = "Verbose level. Range: from 0 to 2.")]
+            [DefaultValue(null)]
+            public int? VerboseLevel {get;set;}
+             
+            [Option("i", null, HelpText = "If file has errors don't stop processing.")]
+            [DefaultValue(false)]
+            public bool IgnoreErrors {get;set;}
 
-            [Option("i", null,
-                   HelpText = "If file has errors don't stop processing.")]
-            public bool IgnoreErrors = false;
+            [Option("j", "jump", HelpText = "Data processing start offset.")]
+            [DefaultValue(0)]
+            public double StartOffset {get;set;}
 
-            [Option("j", "jump",
-                    HelpText = "Data processing start offset.")]
-            public double StartOffset = 0;
-
-            [Option(null, "optimize",
-                HelpText = "Optimize for Speed|Accuracy.")]
-            public OptimizeFor Optimization = OptimizeFor.Unspecified;
+            [Option(null, "optimize", HelpText = "Optimize for Speed|Accuracy.")]
+            [DefaultValue(OptimizeFor.Unspecified)]
+            public OptimizeFor Optimization {get;set;}
             #endregion
 
             #region Specialized Option Attribute
-            [ValueList(typeof(List<string>))]
-            public IList<string> DefinitionFiles = null;
 
-            [OptionList("o", "operators", Separator = ';',
-                HelpText = "Operators included in processing (+;-;...)." +
-                " Separate each operator with a semicolon." +
-                " Do not include spaces between operators and separator.")]
-            public IList<string> AllowedOperators = null;
+            [ValueList(typeof(List<string>))]
+            [DefaultValue(null)]
+            public IList<string> DefinitionFiles { get; set; }
+
+            [OptionList("o", "operators", Separator = ';', HelpText = "Operators included in processing (+;-;...)." +
+                " Separate each operator with a semicolon." + " Do not include spaces between operators and separator.")]
+            [DefaultValue(null)]
+            public IList<string> AllowedOperators { get; set; }
             
-            [HelpOption(
-                    HelpText = "Dispaly this help screen.")]
+            [HelpOption(HelpText = "Dispaly this help screen.")]
             public string GetUsage()
             {
                 var help = new HelpText(Program._headingInfo);

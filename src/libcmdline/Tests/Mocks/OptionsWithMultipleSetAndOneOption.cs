@@ -27,6 +27,8 @@
 //
 #endregion
 
+using System.ComponentModel;
+
 #if UNIT_TESTS
 namespace CommandLine.Tests.Mocks
 {
@@ -35,7 +37,8 @@ namespace CommandLine.Tests.Mocks
     class OptionsWithMultipleSetAndOneOption : OptionsWithMultipleSet
     {
         [Option("c", "default-color-set", Required = true)]
-        public ColorSet DefaultColorSet = ColorSet.Undefined;
+        [DefaultValue(ColorSet.Undefined)]
+        public ColorSet DefaultColorSet  { get; set; }
     }
 }
 #endif

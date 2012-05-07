@@ -27,16 +27,20 @@
 //
 #endregion
 
+using System.ComponentModel;
+
 #if UNIT_TESTS
 namespace CommandLine.Tests.Mocks
 {
     sealed class SimpleOptionsWithHelpOption
     {
         [Option(null, "filename")]
-        public string FileName = null;
+        [DefaultValue(null)]
+        public string FileName { get; set; }
 
         [Option("o", "overwrite")]
-        public bool Overwrite = false;
+        [DefaultValue(false)]
+        public bool Overwrite { get; set; }
 
         [HelpOption]
         public string GetUsage()

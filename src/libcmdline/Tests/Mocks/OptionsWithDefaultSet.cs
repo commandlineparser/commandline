@@ -27,22 +27,28 @@
 //
 #endregion
 
+using System.ComponentModel;
+
 #if UNIT_TESTS
 namespace CommandLine.Tests.Mocks
 {
     class OptionsWithDefaultSet : OptionsBase
     {
         [Option("f", "file", MutuallyExclusiveSet = null)]
-        public string FileName = null;
+        [DefaultValue(null)]
+        public string FileName { get; set; }
 
         [Option("i", "file-id", MutuallyExclusiveSet = null)]
-        public int FileId = int.MinValue;
+        [DefaultValue(int.MinValue)]
+        public int FileId { get; set; }
 
         [Option("d", "file-default", MutuallyExclusiveSet = null)]
-        public bool FileDefault = false;
+        [DefaultValue(false)]
+        public bool FileDefault { get; set; }
 
         [Option("v", "verbose")]
-        public bool Verbose = false;
+        [DefaultValue(false)]
+        public bool Verbose { get; set; }
     }
 
 }

@@ -39,12 +39,12 @@ namespace CommandLine
     /// Must be applied to a field compatible with an <see cref="System.Collections.Generic.IList&lt;T&gt;"/> interface
     /// of <see cref="System.String"/> instances.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field,
+    [AttributeUsage(AttributeTargets.Property,
             AllowMultiple=false,
             Inherited=true)]
     public sealed class ValueListAttribute : Attribute
     {
-        private Type _concreteType;
+        private readonly Type _concreteType;
 
         private ValueListAttribute()
         {
@@ -83,20 +83,20 @@ namespace CommandLine
         internal static IList<string> GetReference(object target)
         {
             Type concreteType;
-            var field = GetField(target, out concreteType);
+            var property = GetProperty(target, out concreteType);
 
-            if (field == null)
+            if (property == null || concreteType == null)
                 return null;
 
-            field.SetValue(target, Activator.CreateInstance(concreteType));
+            property.SetValue(target, Activator.CreateInstance(concreteType), null);
             
-            return (IList<string>)field.GetValue(target);
+            return (IList<string>)property.GetValue(target, null);
         }
 
         internal static ValueListAttribute GetAttribute(object target)
         {
-            var list = ReflectionUtil.RetrieveFieldList<ValueListAttribute>(target);
-            if (list.Count == 0)
+            var list = ReflectionUtil.RetrievePropertyList<ValueListAttribute>(target);
+            if (list == null || list.Count == 0)
                 return null;
 
             if (list.Count > 1)
@@ -107,12 +107,12 @@ namespace CommandLine
             return pairZero.Right;
         }
 
-        private static FieldInfo GetField(object target, out Type concreteType)
+        private static PropertyInfo GetProperty(object target, out Type concreteType)
         {
             concreteType = null;
 
-            var list = ReflectionUtil.RetrieveFieldList<ValueListAttribute>(target);
-            if (list.Count == 0)
+            var list = ReflectionUtil.RetrievePropertyList<ValueListAttribute>(target);
+            if (list == null || list.Count == 0)
                 return null;
 
             if (list.Count > 1)

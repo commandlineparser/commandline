@@ -29,6 +29,8 @@
 #if UNIT_TESTS
 #region Using Directives
 using System.Collections.Generic;
+using System.ComponentModel;
+
 #endregion
 
 namespace CommandLine.Tests.Mocks
@@ -36,13 +38,16 @@ namespace CommandLine.Tests.Mocks
     class SimpleOptionsWithArray : SimpleOptions
     {
         [OptionArray("z", "strarr")]
-        public string[] StringArrayValue = null;
+        [DefaultValue(null)]
+        public string[] StringArrayValue { get; set; }
 
         [OptionArray("y", "intarr")]
-        public int[] IntegerArrayValue = null;
+        [DefaultValue(null)]
+        public int[] IntegerArrayValue { get; set; }
 
         [OptionArray("q", "dblarr")]
-        public double[] DoubleArrayValue = null;
+        [DefaultValue(null)]
+        public double[] DoubleArrayValue { get; set; }
     }
 }
 #endif
