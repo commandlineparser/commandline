@@ -259,15 +259,23 @@ namespace CommandLine.Text.Tests
             Assert.AreEqual("Post-Options.", lines[6]);
         }
 
-/*
-	[Test]
-	public void AddOptionsWithDashes()
-	{
-	    var local = new HelpText();
-	    local.Heading = new HeadingInfo("AddOptionsWithDashes");
-            local.
-	}
-*/
+		[Test]
+		public void AddOptionsWithDashes()
+		{
+		    var local = new HelpText {
+				AddDashesToOption = true,
+		    	Heading = new HeadingInfo("AddOptionsWithDashes"),
+	        	Copyright = new CopyrightInfo("Author", DateTime.Now.Year)
+			};
+			local.AddOptions(new MockOptionsSimple());
+			
+			string help = local.ToString();
+			
+			Console.WriteLine(help);
+			
+            string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+			Assert.AreEqual("  -s, --something    Input something here.", lines[3]);
+		}
 		
         #region Parsing Errors Subsystem Test, related to Help Text building
         [Test]

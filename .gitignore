@@ -1,0 +1,10 @@
+src/libcmdline/bin/*
+src/libcmdline/obj
+src/sample/bin/*
+src/sample/obj
+CommandLine.suo
+CommandLine.userprefs
+*~
+*.pidb
+*.test-cache
+src/libcmdline/test-results/*

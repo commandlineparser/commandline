@@ -1,4 +1,4 @@
-Command Line Parser Library for CLR.
+Command Line Parser Library 1.9.0.7 for CLR.
 ===
 
 Compatibility:
@@ -13,7 +13,7 @@ Unix/Macintosh:
 
     ./configure
     make
-    sudo make install
+    (sudo make install)
 
 ### To use:
 
@@ -23,10 +23,12 @@ Create a class to receive parsed values:
 
     class Options {
       [Option("r", "read", Required=True, HelpText="Input file to be processed.")]
-      public string InputFile = "";
+      [DefaultValue("")]
+      public string InputFile { get; set; }
     
       [Option("v", "verbose", HelpText="Output all messages to standard output.")]
-      public bool Verbose = false;
+      [DefaultValue(false)]
+      public bool Verbose { get; set; }
 
       [HelpOption(HelpText="Display this help screen.")]
       public string GetUsage() {
@@ -58,3 +60,9 @@ Resources for newcomers:
   - [CodePlex](http://commandline.codeplex.com)
   - [Quickstart](http://commandline.codeplex.com/wikipage?title=Quickstart&referringTitle=Documentation)
   - [GNU getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html)
+
+Author:
+  - Giacomo Stelluti Scala (https://github.com/gsscoder)
+Contributors:
+  - Steven Evans (http://sleeplessmonkey.blogspot.it/)
+  - Kevin Moore (https://github.com/gimmemoore)
