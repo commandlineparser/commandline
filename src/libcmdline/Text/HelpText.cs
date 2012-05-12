@@ -314,7 +314,7 @@ namespace CommandLine.Text
             Assumes.NotNull(options, "options");
             Assumes.NotNullOrEmpty(requiredWord, "requiredWord");
 
-            var optionList = ReflectionUtil.RetrieveFieldAttributeList<BaseOptionAttribute>(options);
+            var optionList = ReflectionUtil.RetrievePropertyAttributeList<BaseOptionAttribute>(options);
             var optionHelp = ReflectionUtil.RetrieveMethodAttributeOnly<HelpOptionAttribute>(options);
 
             if (optionHelp != null)

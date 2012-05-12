@@ -27,28 +27,36 @@
 //
 #endregion
 
+using System.ComponentModel;
+
 #if UNIT_TESTS
 namespace CommandLine.Tests.Mocks
 {
     class NumberSetOptions : OptionsBase
     {
         [Option("b", "byte")]
-        public byte ByteValue = 0;
+        [DefaultValue(0)]
+        public byte ByteValue { get; set; }
 
         [Option("s", "short")]
-        public short ShortValue = 0;
+        [DefaultValue(0)]
+        public short ShortValue { get; set; }
 
         [Option("i", "int")]
-        public int IntegerValue = 0;
+        [DefaultValue(0)]
+        public int IntegerValue { get; set; }
 
         [Option("l", "long")]
-        public long LongValue = 0;
+        [DefaultValue(0)]
+        public long LongValue { get; set; }
 
         [Option("f", "float")]
-        public float FloatValue = 0;
+        [DefaultValue(0)]
+        public float FloatValue { get; set; }
 
         [Option("d", "double")]
-        public double DoubleValue = 0;
+        [DefaultValue(0)]
+        public double DoubleValue { get; set; }
     }
 }
 #endif

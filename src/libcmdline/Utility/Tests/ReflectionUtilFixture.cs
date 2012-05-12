@@ -30,6 +30,7 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using NUnit.Framework;
 #endregion
@@ -56,13 +57,16 @@ namespace CommandLine.Tests
         private class MockObject
         {
             [Mock]
-            public string StringField = String.Empty;
+            [DefaultValue("")]
+            public string StringField {get;set;}
 
             [Mock]
-            public bool BooleanField = false;
+            [DefaultValue(false)]
+            public bool BooleanField {get;set;}
 
             [AnotherMock]
-            public int IntField = 0;
+            [DefaultValue(0)]
+            public int IntField { get; set; }
 
             [Mock]
             public void DoNothing()
@@ -72,14 +76,17 @@ namespace CommandLine.Tests
 
         private class AnotherMockObject
         {
-            [MockWithValue(StringValue="applied to x")]
-            public long x = 0;
+            [MockWithValue(StringValue="applied to X")]
+            [DefaultValue(0)]
+            public long X { get; set; }
 
-            [MockWithValue(StringValue="applied to y")]
-            public long y = 0;
+            [MockWithValue(StringValue="applied to Y")]
+            [DefaultValue(0)]
+            public long Y { get; set; }
 
-            [MockWithValue(StringValue="applied to z")]
-            public long z = 0;
+            [MockWithValue(StringValue="applied to Z")]
+            [DefaultValue(0)]
+            public long Z { get; set; }
         }
         #endregion
 
@@ -100,7 +107,7 @@ namespace CommandLine.Tests
         [Test]
         public void GetFieldsByAttribute()
         {
-            var list = ReflectionUtil.RetrieveFieldList<MockAttribute>(_target);
+            var list = ReflectionUtil.RetrievePropertyList<MockAttribute>(_target);
 
             Assert.AreEqual(2, list.Count);
             Assert.AreEqual("StringField", list[0].Left.Name);
@@ -108,7 +115,7 @@ namespace CommandLine.Tests
 
             PrintFieldList<MockAttribute>(list);
 
-            var anotherList = ReflectionUtil.RetrieveFieldList<AnotherMockAttribute>(_target);
+            var anotherList = ReflectionUtil.RetrievePropertyList<AnotherMockAttribute>(_target);
 
             Assert.AreEqual(1, anotherList.Count);
             Assert.AreEqual("IntField", anotherList[0].Left.Name);
@@ -128,20 +135,20 @@ namespace CommandLine.Tests
         [Test]
         public void GetFieldsAttributeList()
         {
-            var list = ReflectionUtil.RetrieveFieldAttributeList<MockWithValueAttribute>(new AnotherMockObject());
+            var list = ReflectionUtil.RetrievePropertyAttributeList<MockWithValueAttribute>(new AnotherMockObject());
 
             Assert.IsNotNull(list);
             Assert.AreEqual(3, list.Count);
-            Assert.AreEqual("applied to x", list[0].StringValue);
-            Assert.AreEqual("applied to y", list[1].StringValue);
-            Assert.AreEqual("applied to z", list[2].StringValue);
+            Assert.AreEqual("applied to X", list[0].StringValue);
+            Assert.AreEqual("applied to Y", list[1].StringValue);
+            Assert.AreEqual("applied to Z", list[2].StringValue);
         }
 
-        private static void PrintFieldList<TAttribute>(IList<Pair<FieldInfo, TAttribute>> list)
+        private static void PrintFieldList<TAttribute>(IList<Pair<PropertyInfo, TAttribute>> list)
                 where TAttribute : Attribute
         {
             Console.WriteLine("Attribute: {0}", list[0].Right.GetType());
-            foreach (Pair<FieldInfo, TAttribute> pair in list)
+            foreach (Pair<PropertyInfo, TAttribute> pair in list)
             {
                 Console.WriteLine("\tField: {0}", pair.Left.Name);
             }

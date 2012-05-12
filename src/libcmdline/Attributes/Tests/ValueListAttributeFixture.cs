@@ -30,6 +30,7 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using NUnit.Framework;
 #endregion
 
@@ -46,7 +47,8 @@ namespace CommandLine.Tests
         private class MockOptions
         {
             [ValueList(typeof(List<string>))]
-            public IList<string> Values = null;
+            [DefaultValue(null)]
+            public IList<string> Values { get; set; }
         }
         #endregion
 

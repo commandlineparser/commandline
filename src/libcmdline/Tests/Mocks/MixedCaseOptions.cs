@@ -27,16 +27,20 @@
 //
 #endregion
 
+using System.ComponentModel;
+
 #if UNIT_TESTS
 namespace CommandLine.Tests.Mocks
 {
     class MixedCaseOptions : OptionsBase
     {
         [Option("a", "Alfa-Option")]
-        public string AlfaValue = null;
+        [DefaultValue(null)]
+        public string AlfaValue { get; set; }
 
         [Option("b", "beta-OPTION")]
-        public string BetaValue = null;
+        [DefaultValue(null)]
+        public string BetaValue { get; set; }
     }
 }
 #endif

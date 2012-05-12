@@ -27,6 +27,8 @@
 //
 #endregion
 
+using System.ComponentModel;
+
 #if UNIT_TESTS
 namespace CommandLine.Tests.Mocks
 {
@@ -34,23 +36,29 @@ namespace CommandLine.Tests.Mocks
     {
         // rgb mutually exclusive set
         [Option("r", "red", MutuallyExclusiveSet = "rgb")]
-        public byte Red = 0;
+        [DefaultValue(0)]
+        public byte Red { get; set; }
 
         [Option("g", "green", MutuallyExclusiveSet = "rgb")]
-        public byte Green = 0;
+        [DefaultValue(0)]
+        public byte Green { get; set; }
 
         [Option("b", "blue", MutuallyExclusiveSet = "rgb")]
-        public byte Blue = 0;
+        [DefaultValue(0)]
+        public byte Blue { get; set; }
 
         // hsv mutually exclusive set
         [Option("h", "hue", MutuallyExclusiveSet = "hsv")]
-        public short Hue = 0;
+        [DefaultValue(0)]
+        public short Hue { get; set; }
 
         [Option("s", "saturation", MutuallyExclusiveSet = "hsv")]
-        public byte Saturation = 0;
+        [DefaultValue(0)]
+        public byte Saturation { get; set; }
 
         [Option("v", "value", MutuallyExclusiveSet = "hsv")]
-        public byte Value = 0;
+        [DefaultValue(0)]
+        public byte Value { get; set; }
     }
 
 }

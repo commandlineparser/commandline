@@ -29,6 +29,8 @@
 #if UNIT_TESTS
 #region Using Directives
 using System.Collections.Generic;
+using System.ComponentModel;
+
 #endregion
 
 namespace CommandLine.Tests.Mocks
@@ -36,7 +38,8 @@ namespace CommandLine.Tests.Mocks
     class OptionsWithValueListMaximumZero : OptionsBase
     {
         [ValueList(typeof(List<string>), MaximumElements = 0)]
-        public IList<string> Junk = null;
+        [DefaultValue(null)]
+        public IList<string> Junk { get; set; }
     }
 }
 #endif

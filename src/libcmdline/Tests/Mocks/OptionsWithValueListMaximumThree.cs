@@ -29,6 +29,8 @@
 #if UNIT_TESTS
 #region Using Directives
 using System.Collections.Generic;
+using System.ComponentModel;
+
 #endregion
 
 namespace CommandLine.Tests.Mocks
@@ -36,13 +38,16 @@ namespace CommandLine.Tests.Mocks
     class OptionsWithValueListMaximumThree : OptionsBase
     {
         [Option("o", "output")]
-        public string OutputFile = null;
+        [DefaultValue(null)]
+        public string OutputFile { get; set; }
 
         [Option("w", "overwrite")]
-        public bool Overwrite = false;
+        [DefaultValue(false)]
+        public bool Overwrite { get; set; }
 
         [ValueList(typeof(List<string>), MaximumElements = 3)]
-        public IList<string> InputFilenames = null;
+        [DefaultValue(null)]
+        public IList<string> InputFilenames { get; set; }
     }
 }
 #endif

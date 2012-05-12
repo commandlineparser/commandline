@@ -27,22 +27,28 @@
 //
 #endregion
 
+using System.ComponentModel;
+
 #if UNIT_TESTS
 namespace CommandLine.Tests.Mocks
 {
     public class ComplexOptions : CommandLineOptionsBase
     {
         [Option("i", "input", Required = true, HelpText = "Specify input file to be processed.")]
-        public string InputFileName = null;
+        [DefaultValue(null)]
+        public string InputFileName { get; set; }
 
         [Option("o", "output", Required = true, HelpText = "Specify output file to be created.")]
-        public string OutputFileName = null;
+        [DefaultValue(null)]
+        public string OutputFileName { get; set; }
 
         [Option("j", "offset", HelpText = "Processing begins from specified offset.")]
-        public long StartOffset = 0;
+        [DefaultValue(0)]
+        public long StartOffset { get; set; }
 
         [Option("b", "bytes", HelpText = "Maximum number of bytes to process.")]
-        public long Bytes = 0;
+        [DefaultValue(0)]
+        public long Bytes { get; set; }
 
         public override string ToString()
         {
