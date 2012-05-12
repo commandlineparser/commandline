@@ -53,7 +53,8 @@ namespace CommandLine.Text
         private StringBuilder _postOptionsHelp;
 		private BaseSentenceBuilder _sentenceBuilder; 
         private static readonly string _defaultRequiredWord = "Required.";
-
+		private bool _addDashesToOption = false;
+		
         /// <summary>
         /// Occurs when an option help text is formatted.
         /// </summary>
@@ -230,6 +231,16 @@ namespace CommandLine.Text
             get { return _maximumDisplayWidth.HasValue ? _maximumDisplayWidth.Value : _defaultMaximumLength; }
             set { _maximumDisplayWidth = value; }
         }
+		
+		/// <summary>
+		/// Gets or sets the format of options for adding or removing dashes.
+		/// It modifies behavior of <see cref="AddOptions"/> method.
+		/// </summary>
+		public bool AddDashesToOption
+		{
+			get { return _addDashesToOption; }
+			set { _addDashesToOption = value; }
+		}
 
         /// <summary>
         /// Gets or sets whether to add an additional line after the description of the option.
@@ -341,11 +352,9 @@ namespace CommandLine.Text
 				return string.Empty;
 			}
             var text = new StringBuilder();
-			//help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
 			foreach (var e in options.InternalLastPostParsingState.Errors)
             {
 				var line = new StringBuilder();
-                //line.Append("  "); // two spaces indentation
 				line.Append(StringUtil.Spaces(indent));
                 if (!string.IsNullOrEmpty(e.BadOption.ShortName))
                 {
@@ -358,36 +367,29 @@ namespace CommandLine.Text
                 line.Append(" ");
 				if (e.ViolatesRequired)
                 {
-                    //line.Append(" required option is missing");
 					line.Append(_sentenceBuilder.RequiredOptionMissingText);
                 }
                 else
                 {
-                    //line.Append(" option");
 					line.Append(_sentenceBuilder.OptionWord);
                 }
                 if (e.ViolatesFormat)
                 {
-                    //line.Append(" violates format");
 					line.Append(_sentenceBuilder.ViolatesFormatText);
                 }
                 if (e.ViolatesMutualExclusiveness)
                 {
                     if (e.ViolatesFormat || e.ViolatesRequired)
                     {
-                        //line.Append(" and");
 						line.Append(" ");
 						line.Append(_sentenceBuilder.AndWord);
                     }
-                    //line.Append(" violates mutual exclusiveness");
 					line.Append(" ");
 					line.Append(_sentenceBuilder.ViolatesMutualExclusivenessText);
                 }
                 line.Append('.');
-                //help.AddPreOptionsLine(line.ToString());
 				text.AppendLine(line.ToString());
             }
-            //help.AddPreOptionsLine(string.Empty);
 			return text.ToString();
 		}
 
@@ -397,16 +399,17 @@ namespace CommandLine.Text
             StringBuilder optionName = new StringBuilder(maxLength);
             if (option.HasShortName)
             {
+				if (_addDashesToOption) { optionName.Append('-'); }
+				
                 optionName.AppendFormat("{0}", option.ShortName);
-
-                if (option.HasLongName)
-                {
-                    optionName.Append(", ");
-                }
+				
+                if (option.HasLongName) { optionName.Append(", "); }
             }
 
             if (option.HasLongName)
             {
+				if (_addDashesToOption) { optionName.Append("--"); }
+				
                 optionName.AppendFormat("{0}", option.LongName);
             }
 

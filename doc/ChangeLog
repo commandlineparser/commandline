@@ -1,3 +1,17 @@
+2012-05-..	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+    ------------------------------------------------------------------------------------
+        + file added; * file modified; - file deleted; ~ file renamed; > file moved;
+        . file replaced; { group start; } group end
+    -----------------------------------------------------------------------------------
+
+    * Text/HelpText.cs (HelpText)
+        Modified. Added HelpText.AddDashesToOption formatting property
+        (default = false).
+
+    * Text/Tests/HelpTextFixture.cs (HelpTextFixture)
+        Modified. Added tests from HelpText.AddDashesToOption.
+    
 2012-05-05	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
     ------------------------------------------------------------------------------------

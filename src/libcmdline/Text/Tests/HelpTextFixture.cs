@@ -104,55 +104,10 @@ namespace CommandLine.Text.Tests
                 string errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
                 if (!string.IsNullOrEmpty(errors))
                 {
-                    //help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR: ", errors, Environment.NewLine));
-					//help.AddPreOptionsLine(Environment.NewLine);
 					help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
 					help.AddPreOptionsLine(errors);
-					//help.AddPreOptionsLine(Environment.NewLine);
                 }
-				/*
-                if (LastPostParsingState.Errors.Count > 0)
-                {
-                    //help.AddPreOptionsLine();
-                    help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
-                    foreach (var e in LastPostParsingState.Errors)
-                    {
-						var b = new StringBuilder();
-                        b.Append("  "); // two spaces indentation
-                        if (!string.IsNullOrEmpty(e.BadOption.ShortName))
-                        {
-                            b.Append('-');
-                            b.Append(e.BadOption.ShortName);
-                            b.Append('/');
-                        }
-                        b.Append("--");
-                        b.Append(e.BadOption.LongName);
-                        if (e.ViolatesRequired)
-                        {
-                            b.Append(" required option is missing");
-                        }
-                        else
-                        {
-                            b.Append(" option");
-                        }
-                        if (e.ViolatesFormat)
-                        {
-                            b.Append(" violates format");
-                        }
-                        if (e.ViolatesMutualExclusiveness)
-                        {
-                            if (e.ViolatesFormat || e.ViolatesRequired)
-                            {
-                                b.Append(" and");
-                            }
-                            b.Append(" violates mutual exclusiveness");
-                        }
-                        b.Append('.');
-                        help.AddPreOptionsLine(b.ToString());
-                    }
-                    help.AddPreOptionsLine(string.Empty);
-                }
-                */
+
                 help.AddPreOptionsLine("This is free software. You may redistribute copies of it under the terms of");
                 help.AddPreOptionsLine("the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
                 help.AddPreOptionsLine("Usage: Please run the unit...");
@@ -293,6 +248,16 @@ namespace CommandLine.Text.Tests
             Assert.AreEqual("Post-Options.", lines[6]);
         }
 
+/*
+	[Test]
+	public void AddOptionsWithDashes()
+	{
+	    var local = new HelpText();
+	    local.Heading = new HeadingInfo("AddOptionsWithDashes");
+            local.
+	}
+*/
+		
         #region Parsing Errors Subsystem Test, related to Help Text building
         [Test]
         public void DetailedHelpWithBadFormat()
@@ -317,7 +282,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Test]
-		public void DetailedHelpWithMissingRequiredAndBadFormat()
+	public void DetailedHelpWithMissingRequiredAndBadFormat()
         {
             var options = new ComplexOptionsWithHelp();
 
