@@ -36,23 +36,29 @@ namespace CommandLine
 {
     static class ReflectionUtil
     {
-        public static IList<Pair<FieldInfo, TAttribute>> RetrieveFieldList<TAttribute>(object target)
+        public static IList<Pair<PropertyInfo, TAttribute>> RetrievePropertyList<TAttribute>(object target)
                 where TAttribute : Attribute
         {
-            IList<Pair<FieldInfo, TAttribute>> list = new List<Pair<FieldInfo, TAttribute>>();
-            var info = target.GetType().GetFields();
-
-            foreach (FieldInfo field in info)
+            IList<Pair<PropertyInfo, TAttribute>> list = new List<Pair<PropertyInfo, TAttribute>>();
+            if (target != null)
             {
-                if (!field.IsStatic && !field.IsInitOnly && !field.IsLiteral)
+                var propertiesInfo = target.GetType().GetProperties();
+
+                foreach (var property in propertiesInfo)
                 {
-                    Attribute attribute =
-                        Attribute.GetCustomAttribute(field, typeof(TAttribute), false);
-                    if (attribute != null)
-                        list.Add(new Pair<FieldInfo, TAttribute>(field, (TAttribute)attribute));
+                    if (property != null && (property.CanRead && property.CanWrite))
+                    {
+                        var setMethod = property.GetSetMethod();
+                        if (setMethod != null && !setMethod.IsStatic)
+                        {
+                            var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
+                            if (attribute != null)
+                                list.Add(new Pair<PropertyInfo, TAttribute>(property, (TAttribute)attribute));
+                        }
+                    }
                 }
             }
-
+            
             return list;
         }
 
@@ -94,20 +100,23 @@ namespace CommandLine
             return null;
         }
 
-        public static IList<TAttribute> RetrieveFieldAttributeList<TAttribute>(object target)
+        public static IList<TAttribute> RetrievePropertyAttributeList<TAttribute>(object target)
                 where TAttribute : Attribute
         {
             IList<TAttribute> list = new List<TAttribute>();
-            var info = target.GetType().GetFields();
+            var info = target.GetType().GetProperties();
 
-            foreach (FieldInfo field in info)
+            foreach (var property in info)
             {
-                if (!field.IsStatic && !field.IsInitOnly && !field.IsLiteral)
+                if (property != null && (property.CanRead && property.CanWrite))
                 {
-                    Attribute attribute =
-                        Attribute.GetCustomAttribute(field, typeof(TAttribute), false);
-                    if (attribute != null)
-                        list.Add((TAttribute)attribute);
+                    var setMethod = property.GetSetMethod();
+                    if (setMethod != null && !setMethod.IsStatic)
+                    {
+                        var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
+                        if (attribute != null)
+                            list.Add((TAttribute)attribute);
+                    }
                 }
             }
 

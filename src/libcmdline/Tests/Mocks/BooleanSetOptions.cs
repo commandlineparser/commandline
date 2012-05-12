@@ -27,22 +27,28 @@
 //
 #endregion
 
+using System.ComponentModel;
+
 #if UNIT_TESTS
 namespace CommandLine.Tests.Mocks
 {
     class BooleanSetOptions : OptionsBase
     {
         [Option("a", "option-a")]
-        public bool BooleanOne = false;
+        [DefaultValue(false)]
+        public bool BooleanOne { get; set; }
 
         [Option("b", "option-b")]
-        public bool BooleanTwo = false;
+        [DefaultValue(false)]
+        public bool BooleanTwo { get; set; }
 
         [Option("c", "option-c")]
-        public bool BooleanThree = false;
+        [DefaultValue(false)]
+        public bool BooleanThree { get; set; }
 
         [Option("d", "double")]
-        public double NonBooleanValue = 0;
+        [DefaultValue(0)]
+        public double NonBooleanValue { get; set; }
     }
 }
 #endif

@@ -27,19 +27,24 @@
 //
 #endregion
 
+using System.ComponentModel;
+
 #if UNIT_TESTS
 namespace CommandLine.Tests.Mocks
 {
     class SimpleOptions : OptionsBase
     {
         [Option("s", "string")]
-        public string StringValue = null;
+        [DefaultValue(null)]
+        public string StringValue { get; set; }
 
         [Option("i", null)]
-        public int IntegerValue = 0;
+        [DefaultValue(0)]
+        public int IntegerValue { get; set; }
 
         [Option(null, "switch")]
-        public bool BooleanValue = false;
+        [DefaultValue(false)]
+        public bool BooleanValue { get; set; }
     } 
 }
 #endif

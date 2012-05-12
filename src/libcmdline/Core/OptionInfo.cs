@@ -41,24 +41,32 @@ namespace CommandLine
     sealed class OptionInfo
     {
         private readonly OptionAttribute _attribute;
-        private readonly FieldInfo _field;
-        private bool _required;
-        private string _helpText;
-        private string _shortName;
-        private string _longName;
-        private string _mutuallyExclusiveSet;
+        private readonly PropertyInfo _property;
+        private readonly bool _required;
+        private readonly string _helpText;
+        private readonly string _shortName;
+        private readonly string _longName;
+        private readonly string _mutuallyExclusiveSet;
+        private readonly object _setValueLock = new object();
 
-        private object _setValueLock = new object();
-
-        public OptionInfo(OptionAttribute attribute, FieldInfo field)
+        public OptionInfo(OptionAttribute attribute, PropertyInfo property)
         {
-            _required = attribute.Required;
-            _helpText = attribute.HelpText;
-            _shortName = attribute.ShortName;
-            _longName = attribute.LongName;
-            _mutuallyExclusiveSet = attribute.MutuallyExclusiveSet;
-            _field = field;
-            _attribute = attribute;
+            if (attribute != null)
+            {
+                _required = attribute.Required;
+                _helpText = attribute.HelpText;
+                _shortName = attribute.ShortName;
+                _longName = attribute.LongName;
+                _mutuallyExclusiveSet = attribute.MutuallyExclusiveSet;
+                _attribute = attribute;
+            }
+            else
+                throw new ArgumentNullException("attribute", "The attribute is mandatory");
+
+            if (property != null)
+                _property = property;
+            else
+                throw new ArgumentNullException("property", "The property is mandatory");
         }
 
 #if UNIT_TESTS
@@ -70,17 +78,23 @@ namespace CommandLine
 #endif
         public static OptionMap CreateMap(object target, CommandLineParserSettings settings)
         {
-            var list = ReflectionUtil.RetrieveFieldList<OptionAttribute>(target);
-            OptionMap map = new OptionMap(list.Count, settings);
-
-            foreach (Pair<FieldInfo, OptionAttribute> pair in list)
+            var list = ReflectionUtil.RetrievePropertyList<OptionAttribute>(target);
+            if (list != null)
             {
-                map[pair.Right.UniqueName] = new OptionInfo(pair.Right, pair.Left);
+                var map = new OptionMap(list.Count, settings);
+
+                foreach (var pair in list)
+                {
+                    if (pair != null && pair.Right != null) 
+                        map[pair.Right.UniqueName] = new OptionInfo(pair.Right, pair.Left);
+                }
+
+                map.RawOptions = target;
+
+                return map;
             }
 
-            map.RawOptions = target;
-
-            return map;
+            return null;
         }
 
         public bool SetValue(string value, object options)
@@ -88,7 +102,7 @@ namespace CommandLine
             if (_attribute is OptionListAttribute)
                 return SetValueList(value, options);
 
-            if (ReflectionUtil.IsNullableType(_field.FieldType))
+            if (ReflectionUtil.IsNullableType(_property.PropertyType))
                 return SetNullableValue(value, options);
 
             return SetValueScalar(value, options);
@@ -96,7 +110,7 @@ namespace CommandLine
 
         public bool SetValue(IList<string> values, object options)
         {
-            Type elementType = _field.FieldType.GetElementType();
+            Type elementType = _property.PropertyType.GetElementType();
             Array array = Array.CreateInstance(elementType, values.Count);
             
             for (int i = 0; i < array.Length; i++)
@@ -106,7 +120,7 @@ namespace CommandLine
                     lock (_setValueLock)
                     {
                         array.SetValue(Convert.ChangeType(values[i], elementType, CultureInfo.InvariantCulture), i);
-                        _field.SetValue(options, array);
+                        _property.SetValue(options, array, null);
                     }
                 }
                 catch (FormatException)
@@ -122,18 +136,18 @@ namespace CommandLine
         {
             try
             {
-                if (_field.FieldType.IsEnum)
+                if (_property.PropertyType.IsEnum)
                 {
                     lock (_setValueLock)
                     {
-                        _field.SetValue(options, Enum.Parse(_field.FieldType, value, true));
+                        _property.SetValue(options, Enum.Parse(_property.PropertyType, value, true), null);
                     }
                 }
                 else
                 {
                     lock (_setValueLock)
                     {
-                        _field.SetValue(options, Convert.ChangeType(value, _field.FieldType, CultureInfo.InvariantCulture));
+                        _property.SetValue(options, Convert.ChangeType(value, _property.PropertyType, CultureInfo.InvariantCulture), null);
                     }
                 }
             }
@@ -155,13 +169,13 @@ namespace CommandLine
 
         private bool SetNullableValue(string value, object options)
         {
-            var nc = new NullableConverter(_field.FieldType);
+            var nc = new NullableConverter(_property.PropertyType);
 
             try
             {
                 lock (_setValueLock)
                 {
-                    _field.SetValue(options, nc.ConvertFromString(null, CultureInfo.InvariantCulture, value));
+                    _property.SetValue(options, nc.ConvertFromString(null, CultureInfo.InvariantCulture, value), null);
                 }
             }
             // the FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException,
@@ -178,7 +192,7 @@ namespace CommandLine
         {
             lock (_setValueLock)
             {
-                _field.SetValue(options, value);
+                _property.SetValue(options, value, null);
 
                 return true;
             }
@@ -188,9 +202,9 @@ namespace CommandLine
         {
             lock (_setValueLock)
             {
-                _field.SetValue(options, new List<string>());
+                _property.SetValue(options, new List<string>(), null);
 
-                var fieldRef = (IList<string>)_field.GetValue(options);
+                var fieldRef = (IList<string>)_property.GetValue(options, null);
                 var values = value.Split(((OptionListAttribute)_attribute).Separator);
 
                 for (int i = 0; i < values.Length; i++)
@@ -240,12 +254,12 @@ namespace CommandLine
 
         public bool IsBoolean
         {
-            get { return _field.FieldType == typeof(bool); }
+            get { return _property.PropertyType == typeof(bool); }
         }
 
         public bool IsArray
         {
-            get { return _field.FieldType.IsArray; }
+            get { return _property.PropertyType.IsArray; }
         }
 
         public bool IsAttributeArrayCompatible

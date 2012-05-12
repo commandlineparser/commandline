@@ -29,6 +29,7 @@
 #if UNIT_TESTS
 #region Using Directives
 using System;
+using System.ComponentModel;
 using System.IO;
 using CommandLine.Text;
 using NUnit.Framework;
@@ -42,25 +43,21 @@ namespace CommandLine.Tests
         #region Mock Objects
         private class MockOptions
         {
-            [Option("i", "input",
-                    Required=true,
-                    HelpText="Input file with equations, xml format (see manual).")]
-            public string InputFile = null;
+            [Option("i", "input", Required = true, HelpText = "Input file with equations, xml format (see manual).")]
+            [DefaultValue(null)]
+            public string InputFile { get; set; }
 
-            [Option("o", "output",
-                    Required=false,
-                    HelpText="Output file with results, otherwise standard output.")]
-            public string OutputFile = null;
+            [Option("o", "output", Required=false, HelpText="Output file with results, otherwise standard output.")]
+            [DefaultValue(null)]
+            public string OutputFile {get;set;}
 
-            [Option(null, "paralell",
-                    Required=false,
-                    HelpText="Paralellize processing in multiple threads.")]
-            public bool ParalellizeProcessing = false;
+            [Option(null, "paralell", Required=false, HelpText="Paralellize processing in multiple threads.")]
+            [DefaultValue(false)]
+            public bool ParalellizeProcessing{get;set;}
 
-            [Option("v", null,
-                    Required=false,
-                    HelpText="Show detailed processing messages.")]
-            public bool Verbose = false;
+            [Option("v", null, Required=false, HelpText="Show detailed processing messages.")]
+            [DefaultValue(false)]
+            public bool Verbose{get;set;}
 
             [HelpOption(HelpText="Display this screen.")]
             public string GetUsage()

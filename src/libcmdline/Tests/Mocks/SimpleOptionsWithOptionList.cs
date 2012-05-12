@@ -29,6 +29,8 @@
 #if UNIT_TESTS
 #region Using Directives
 using System.Collections.Generic;
+using System.ComponentModel;
+
 #endregion
 
 namespace CommandLine.Tests.Mocks
@@ -36,7 +38,8 @@ namespace CommandLine.Tests.Mocks
     class SimpleOptionsWithOptionList : SimpleOptions
     {
         [OptionList("k", "keywords", ':')]
-        public IList<string> SearchKeywords = null;
+        [DefaultValue(null)]
+        public IList<string> SearchKeywords { get; set; }
     }
 }
 #endif

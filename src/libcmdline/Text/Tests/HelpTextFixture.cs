@@ -31,6 +31,8 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Text;
 using System.Globalization;
 using NUnit.Framework;
@@ -46,52 +48,61 @@ namespace CommandLine.Text.Tests
         class MockOptions
         {
             [Option("v", "verbose")]
-            public bool Verbose = false;
+            [DefaultValue(false)]
+            public bool Verbose { get; set; }
 
             [Option(null, "input-file")]
-            public string FileName = string.Empty;
+            [DefaultValue("")]
+            public string FileName { get; set; }
         }
 
         class MockOptionsWithDescription
         {
             [Option("v", "verbose", HelpText = "Comment extensively every operation.")]
-            public bool Verbose = false;
+            [DefaultValue(false)]
+            public bool Verbose { get; set; }
 
             [Option("i", "input-file", Required = true, HelpText = "Specify input file to be processed.")]
-            public string FileName = string.Empty;
+            [DefaultValue("")]
+            public string FileName { get; set; }
         }
 
         private class MockOptionsWithLongDescription
         {
             [Option("v", "verbose", HelpText = "This is the description of the verbosity to test out the wrapping capabilities of the Help Text.")]
-            public bool Verbose = false;
+            [DefaultValue(false)]
+            public bool Verbose { get; set; }
 
             [Option(null, "input-file", HelpText = "This is a very long description of the Input File argument that gets passed in.  It should  be passed in as a string.")]
-            public string FileName = string.Empty;
+            [DefaultValue("")]
+            public string FileName { get; set; }
         }
 
         private class MockOptionsWithLongDescriptionAndNoSpaces
         {
             [Option("v", "verbose", HelpText = "Before 012345678901234567890123 After")]
-            public bool Verbose = false;
+            [DefaultValue(false)]
+            public bool Verbose { get; set; }
 
             [Option(null, "input-file", HelpText = "Before 012345678901234567890123456789 After")]
-            public string FileName = string.Empty;
+            [DefaultValue("")]
+            public string FileName { get; set; }
         }
 
         public class MockOptionsSimple
         {
             [Option("s", "something", HelpText = "Input something here.")]
-            public string Something;
+            [DefaultValue(null)]
+            public string Something { get; set; }
         }
 
         public class ComplexOptionsWithHelp : ComplexOptions
         {
             [Option("a", "all", HelpText = "Read the file completely.", MutuallyExclusiveSet = "reading")]
-            public bool ReadAll;
+            public bool ReadAll { get; set; }
 
             [Option("p", "part", HelpText = "Read the file partially.", MutuallyExclusiveSet = "reading")]
-            public bool ReadPartially;
+            public bool ReadPartially { get; set; }
 
             [HelpOption(HelpText ="Displays this help screen.")]
             public string GetUsage()

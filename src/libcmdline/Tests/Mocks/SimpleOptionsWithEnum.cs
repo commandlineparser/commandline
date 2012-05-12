@@ -28,6 +28,8 @@
 #endregion
 #if UNIT_TESTS
 #region Using Directives
+
+using System.ComponentModel;
 using System.IO;
 #endregion
 
@@ -36,7 +38,8 @@ namespace CommandLine.Tests.Mocks
     class SimpleOptionsWithEnum : SimpleOptions
     {
         [Option("a", "access", Required = true)]
-        public FileAccess FileAccess = FileAccess.Read;
+        [DefaultValue(FileAccess.Read)]
+        public FileAccess FileAccess { get; set; }
     }
 }
 #endif
