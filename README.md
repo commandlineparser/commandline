@@ -67,6 +67,7 @@ Resources for newcomers:
 
 Author:
   - Giacomo Stelluti Scala (https://github.com/gsscoder)
+
 Contributors:
   - Steven Evans (http://sleeplessmonkey.blogspot.it/)
   - Kevin Moore (https://github.com/gimmemoore)
