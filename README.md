@@ -27,11 +27,9 @@ Create a class to receive parsed values:
 
     class Options {
       [Option("r", "read", Required=True, HelpText="Input file to be processed.")]
-      [DefaultValue("")]
       public string InputFile { get; set; }
     
       [Option("v", "verbose", HelpText="Output all messages to standard output.")]
-      [DefaultValue(false)]
       public bool Verbose { get; set; }
 
       [HelpOption(HelpText="Display this help screen.")]
