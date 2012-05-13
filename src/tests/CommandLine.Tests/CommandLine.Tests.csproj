@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CommandLine.Tests</RootNamespace>
+    <AssemblyName>CommandLine.Tests</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <Package>nunit</Package>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+    <Folder Include="Core\" />
+    <Folder Include="Parser\" />
+    <Folder Include="Text\" />
+    <Folder Include="Utility\" />
+    <Folder Include="Mocks\" />
+    <Folder Include="Attributes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BaseFixture.cs" />
+    <Compile Include="CommandLineParserBaseFixture.cs" />
+    <Compile Include="DebugStringUtil.cs" />
+    <Compile Include="Mocks\BooleanSetOptions.cs" />
+    <Compile Include="Mocks\ComplexOptions.cs" />
+    <Compile Include="Mocks\MixedCaseOptions.cs" />
+    <Compile Include="Mocks\NullableTypesOptions.cs" />
+    <Compile Include="Mocks\NumberSetOptions.cs" />
+    <Compile Include="Mocks\OptionsBase.cs" />
+    <Compile Include="Mocks\OptionsWithDefaultSet.cs" />
+    <Compile Include="Mocks\OptionsWithMultipleSet.cs" />
+    <Compile Include="Mocks\OptionsWithMultipleSetAndOneOption.cs" />
+    <Compile Include="Mocks\OptionsWithValueListMaximumThree.cs" />
+    <Compile Include="Mocks\OptionsWithValueListMaximumZero.cs" />
+    <Compile Include="Mocks\SimpleOptions.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithArray.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithArrayAndValueList.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithBadOptionArray.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithEnum.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithHelpOption.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithOptionList.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithValueList.cs" />
+    <Compile Include="Attributes\AttributesFixture.cs" />
+    <Compile Include="Attributes\HelpOptionAttributeFixture.cs" />
+    <Compile Include="Attributes\ValueListAttributeFixture.cs" />
+    <Compile Include="Core\ArgumentParserFixture.cs" />
+    <Compile Include="Core\EnumeratorsFixture.cs" />
+    <Compile Include="Core\OptionMapFixture.cs" />
+    <Compile Include="Parser\CommandLineParserFixture.cs" />
+    <Compile Include="Parser\CommandLineParserSettingsFixture.cs" />
+    <Compile Include="Parser\MutuallyExclusiveParsingFixture.cs" />
+    <Compile Include="Parser\NullableTypesParsingFixture.cs" />
+    <Compile Include="Parser\OptionArrayAttributeParsingFixture.cs" />
+    <Compile Include="Parser\ValueListAttributeParsingFixture.cs" />
+    <Compile Include="Text\CopyrightInfoFixture.cs" />
+    <Compile Include="Text\HeadingInfoFixture.cs" />
+    <Compile Include="Text\HelpTextFixture.cs" />
+    <Compile Include="Utility\ReflectionUtilFixture.cs" />
+    <Compile Include="Properties\ThisAssembly.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libcmdline\CommandLine.csproj">
+      <Project>{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}</Project>
+      <Name>CommandLine</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
