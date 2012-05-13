@@ -74,10 +74,6 @@
       <Project>{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}</Project>
       <Name>CommandLine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\tests\CommandLine.Tests\CommandLine.Tests.csproj">
-      <Project>{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}</Project>
-      <Name>CommandLine.Tests</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -87,7 +87,7 @@
     <Compile Include="Properties\ThisAssembly.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libcmdline\CommandLine.csproj">
+    <ProjectReference Include="..\libcmdline\CommandLine.csproj">
       <Project>{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}</Project>
       <Name>CommandLine</Name>
     </ProjectReference>
