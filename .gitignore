@@ -2,6 +2,8 @@ src/libcmdline/bin/*
 src/libcmdline/obj
 src/sample/bin/*
 src/sample/obj
+src/tests/bin/*
+src/tests/obj
 CommandLine.suo
 CommandLine.userprefs
 *~

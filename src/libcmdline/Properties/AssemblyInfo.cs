@@ -31,6 +31,7 @@ using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 #endregion
 
 [assembly: AssemblyTitle(ThisAssembly.Title)]
@@ -41,6 +42,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyInformationalVersion(ThisAssembly.InformationalVersion)]
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: AssemblyCulture("")]
+[assembly: InternalsVisibleTo("CommandLine.Tests")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 #else

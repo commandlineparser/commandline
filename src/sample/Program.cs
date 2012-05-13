@@ -26,7 +26,7 @@
 // THE SOFTWARE.
 //
 #endregion
-#define EXEC_TESTS
+//#define EXEC_TESTS
 #region Using Directives
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ using System.ComponentModel;
 using System.Text;
 using CommandLine;
 using CommandLine.Text;
-#if UNIT_TESTS && EXEC_TESTS
+#if EXEC_TESTS
 using CommandLine.Tests;
 using CommandLine.Text.Tests;
 #endif
@@ -99,9 +99,11 @@ namespace SampleApp
             [HelpOption(HelpText = "Dispaly this help screen.")]
             public string GetUsage()
             {
-                var help = new HelpText(Program._headingInfo);
-                help.AdditionalNewLineAfterOption = true;
-                help.Copyright = new CopyrightInfo("Giacomo Stelluti Scala", 2005, 2012);
+                var help = new HelpText { Heading = Program._headingInfo,
+					Copyright = new CopyrightInfo("Giacomo Stelluti Scala", 2005, 2012),
+                	AdditionalNewLineAfterOption = true,
+					AddDashesToOption = true
+				};
                 this.HandleParsingErrorsInHelp(help);
                 help.AddPreOptionsLine("This is free software. You may redistribute copies of it under the terms of");
                 help.AddPreOptionsLine("the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
@@ -118,7 +120,7 @@ namespace SampleApp
                 if (this.LastPostParsingState.Errors.Count > 0)
                 {
                 }
-                string errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
+                var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
                 if (!string.IsNullOrEmpty(errors))
                 {
 					help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
@@ -138,7 +140,7 @@ namespace SampleApp
             RunATestForDebugging();
 #endif
             var options = new Options();
-            ICommandLineParser parser = new CommandLineParser(new CommandLineParserSettings(Console.Error));
+            var parser = new CommandLineParser(new CommandLineParserSettings(Console.Error));
             if (!parser.ParseArguments(args, options))
                 Environment.Exit(1);
 
@@ -150,7 +152,7 @@ namespace SampleApp
         private static void DoCoreTask(Options options)
         {
             if (options.VerboseLevel == null)
-                Console.Write("verbose [off]");
+                Console.Write("verICommandLineParserbose [off]");
             else
                 Console.WriteLine("verbose [on]: {0}", (options.VerboseLevel < 0 || options.VerboseLevel > 2) ? "#invalid value#" : options.VerboseLevel.ToString());
             Console.WriteLine();

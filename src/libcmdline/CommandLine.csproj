@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -77,16 +77,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Attributes\OptionListAttribute.cs" />
-    <Compile Include="Attributes\Tests\HelpOptionAttributeFixture.cs" />
-    <Compile Include="Attributes\Tests\ValueListAttributeFixture.cs" />
     <Compile Include="Parser\CommandLineParser.cs" />
-    <Compile Include="Core\Tests\EnumeratorsFixture.cs" />
-    <Compile Include="Core\Tests\OptionMapFixture.cs" />
     <Compile Include="Parser\CommandLineOptionsBase.cs" />
     <Compile Include="Parser\ICommandLineParser.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
-    <Compile Include="Parser\Tests\CommandLineParserFixture.cs" />
-    <Compile Include="Tests\Mocks\ComplexOptions.cs" />
     <Compile Include="Text\CopyrightInfo.cs" />
     <Compile Include="Core\OptionMap.cs" />
     <Compile Include="Core\ArgumentParser.cs">
@@ -99,9 +93,6 @@
     <Compile Include="Core\PairT.cs" />
     <Compile Include="Core\ParserState.cs" />
     <Compile Include="Text\HeadingInfo.cs" />
-    <Compile Include="Text\Tests\CopyrightInfoFixture.cs" />
-    <Compile Include="Text\Tests\HeadingInfoFixture.cs" />
-    <Compile Include="Utility\Tests\ReflectionUtilFixture.cs" />
     <Compile Include="Utility\Assumes.cs" />
     <Compile Include="Utility\ReflectionUtil.cs" />
     <Compile Include="Core\StringArrayEnumerator.cs" />
@@ -154,42 +145,13 @@
     <Compile Include="Parser\CommandLineParserException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tests\Mocks\OptionsBase.cs" />
-    <Compile Include="Tests\DebugStringUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\OptionArrayAttribute.cs" />
-    <Compile Include="Attributes\Tests\AttributesFixture.cs" />
     <Compile Include="Core\TargetWrapper.cs" />
-    <Compile Include="Core\Tests\ArgumentParserFixture.cs" />
     <Compile Include="Parser\CommandLineParserSettings.cs" />
-    <Compile Include="Parser\Tests\CommandLineParserSettingsFixture.cs" />
-    <Compile Include="Parser\Tests\OptionArrayAttributeParsingFixture.cs" />
-    <Compile Include="Parser\Tests\NullableTypesParsingFixture.cs" />
-    <Compile Include="Parser\Tests\ValueListAttributeParsingFixture.cs" />
-    <Compile Include="Parser\Tests\MutuallyExclusiveParsingFixture.cs" />
-    <Compile Include="Tests\CommandLineParserBaseFixture.cs" />
-    <Compile Include="Tests\BaseFixture.cs" />
-    <Compile Include="Tests\Mocks\BooleanSetOptions.cs" />
-    <Compile Include="Tests\Mocks\SimpleOptionsWithArray.cs" />
-    <Compile Include="Tests\Mocks\SimpleOptionsWithArrayAndValueList.cs" />
-    <Compile Include="Tests\Mocks\SimpleOptionsWithBadOptionArray.cs" />
-    <Compile Include="Tests\Mocks\NullableTypesOptions.cs" />
-    <Compile Include="Tests\Mocks\OptionsWithValueListMaximumZero.cs" />
-    <Compile Include="Tests\Mocks\OptionsWithValueListMaximumThree.cs" />
-    <Compile Include="Tests\Mocks\OptionsWithMultipleSetAndOneOption.cs" />
-    <Compile Include="Tests\Mocks\OptionsWithMultipleSet.cs" />
-    <Compile Include="Tests\Mocks\OptionsWithDefaultSet.cs" />
-    <Compile Include="Tests\Mocks\SimpleOptionsWithHelpOption.cs" />
-    <Compile Include="Tests\Mocks\MixedCaseOptions.cs" />
-    <Compile Include="Tests\Mocks\SimpleOptionsWithEnum.cs" />
-    <Compile Include="Tests\Mocks\SimpleOptionsWithOptionList.cs" />
-    <Compile Include="Tests\Mocks\NumberSetOptions.cs" />
-    <Compile Include="Tests\Mocks\SimpleOptionsWithValueList.cs" />
-    <Compile Include="Tests\Mocks\SimpleOptions.cs" />
     <Compile Include="Text\FormatOptionHelpTextEventArgs.cs" />
     <Compile Include="Text\HelpText.cs" />
-    <Compile Include="Text\Tests\HelpTextFixture.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
