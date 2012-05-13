@@ -33,20 +33,22 @@ namespace CommandLine.Tests.Mocks
 {
     public class ComplexOptions : CommandLineOptionsBase
     {
+        public ComplexOptions()
+        {
+            StartOffset = 0;
+            Bytes = 0;
+        }
+
         [Option("i", "input", Required = true, HelpText = "Specify input file to be processed.")]
-        [DefaultValue(null)]
         public string InputFileName { get; set; }
 
         [Option("o", "output", Required = true, HelpText = "Specify output file to be created.")]
-        [DefaultValue(null)]
         public string OutputFileName { get; set; }
 
         [Option("j", "offset", HelpText = "Processing begins from specified offset.")]
-        [DefaultValue(0)]
         public long StartOffset { get; set; }
 
         [Option("b", "bytes", HelpText = "Maximum number of bytes to process.")]
-        [DefaultValue(0)]
         public long Bytes { get; set; }
 
         public override string ToString()

@@ -36,15 +36,12 @@ namespace CommandLine.Tests.Mocks
     class OptionsWithValueListMaximumThree : OptionsBase
     {
         [Option("o", "output")]
-        [DefaultValue(null)]
         public string OutputFile { get; set; }
 
         [Option("w", "overwrite")]
-        [DefaultValue(false)]
         public bool Overwrite { get; set; }
 
         [ValueList(typeof(List<string>), MaximumElements = 3)]
-        [DefaultValue(null)]
         public IList<string> InputFilenames { get; set; }
     }
 }

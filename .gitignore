@@ -10,3 +10,4 @@ CommandLine.userprefs
 *.pidb
 *.test-cache
 src/libcmdline/test-results/*
+src/tests/CommandLine.Tests/test-results/*

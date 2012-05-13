@@ -33,20 +33,21 @@ namespace CommandLine.Tests.Mocks
 {
     class OptionsWithDefaultSet : OptionsBase
     {
+        public OptionsWithDefaultSet()
+        {
+            FileId = int.MinValue;
+        }
+
         [Option("f", "file", MutuallyExclusiveSet = null)]
-        [DefaultValue(null)]
         public string FileName { get; set; }
 
         [Option("i", "file-id", MutuallyExclusiveSet = null)]
-        [DefaultValue(int.MinValue)]
         public int FileId { get; set; }
 
         [Option("d", "file-default", MutuallyExclusiveSet = null)]
-        [DefaultValue(false)]
         public bool FileDefault { get; set; }
 
         [Option("v", "verbose")]
-        [DefaultValue(false)]
         public bool Verbose { get; set; }
     }
 

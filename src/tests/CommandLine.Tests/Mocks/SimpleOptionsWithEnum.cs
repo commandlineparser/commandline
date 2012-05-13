@@ -36,8 +36,12 @@ namespace CommandLine.Tests.Mocks
 {
     class SimpleOptionsWithEnum : SimpleOptions
     {
+        public SimpleOptionsWithEnum()
+        {
+            FileAccess = FileAccess.Read;
+        }
+
         [Option("a", "access", Required = true)]
-        [DefaultValue(FileAccess.Read)]
         public FileAccess FileAccess { get; set; }
     }
 }

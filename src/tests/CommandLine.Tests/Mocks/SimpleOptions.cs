@@ -33,16 +33,18 @@ namespace CommandLine.Tests.Mocks
 {
     class SimpleOptions : OptionsBase
     {
+        public SimpleOptions()
+        {
+            IntegerValue = 0;
+        }
+
         [Option("s", "string")]
-        [DefaultValue(null)]
         public string StringValue { get; set; }
 
         [Option("i", null)]
-        [DefaultValue(0)]
         public int IntegerValue { get; set; }
 
         [Option(null, "switch")]
-        [DefaultValue(false)]
         public bool BooleanValue { get; set; }
     } 
 }

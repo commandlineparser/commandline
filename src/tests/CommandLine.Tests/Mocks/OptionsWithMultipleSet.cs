@@ -33,30 +33,34 @@ namespace CommandLine.Tests.Mocks
 {
     class OptionsWithMultipleSet
     {
+        public OptionsWithMultipleSet()
+        {
+            Red = 0;
+            Green = 0;
+            Blue = 0;
+            Hue = 0;
+            Saturation = 0;
+            Value = 0;
+        }
+
         // rgb mutually exclusive set
         [Option("r", "red", MutuallyExclusiveSet = "rgb")]
-        [DefaultValue(0)]
         public byte Red { get; set; }
 
         [Option("g", "green", MutuallyExclusiveSet = "rgb")]
-        [DefaultValue(0)]
         public byte Green { get; set; }
 
         [Option("b", "blue", MutuallyExclusiveSet = "rgb")]
-        [DefaultValue(0)]
         public byte Blue { get; set; }
 
         // hsv mutually exclusive set
         [Option("h", "hue", MutuallyExclusiveSet = "hsv")]
-        [DefaultValue(0)]
         public short Hue { get; set; }
 
         [Option("s", "saturation", MutuallyExclusiveSet = "hsv")]
-        [DefaultValue(0)]
         public byte Saturation { get; set; }
 
         [Option("v", "value", MutuallyExclusiveSet = "hsv")]
-        [DefaultValue(0)]
         public byte Value { get; set; }
     }
 

@@ -34,11 +34,9 @@ namespace CommandLine.Tests.Mocks
     class MixedCaseOptions : OptionsBase
     {
         [Option("a", "Alfa-Option")]
-        [DefaultValue(null)]
         public string AlfaValue { get; set; }
 
         [Option("b", "beta-OPTION")]
-        [DefaultValue(null)]
         public string BetaValue { get; set; }
     }
 }

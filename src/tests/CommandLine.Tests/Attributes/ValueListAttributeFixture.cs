@@ -46,7 +46,6 @@ namespace CommandLine.Tests
         private class MockOptions
         {
             [ValueList(typeof(List<string>))]
-            [DefaultValue(null)]
             public IList<string> Values { get; set; }
         }
         #endregion

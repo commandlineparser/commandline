@@ -36,7 +36,6 @@ namespace CommandLine.Tests.Mocks
     class OptionsWithMultipleSetAndOneOption : OptionsWithMultipleSet
     {
         [Option("c", "default-color-set", Required = true)]
-        [DefaultValue(ColorSet.Undefined)]
         public ColorSet DefaultColorSet  { get; set; }
     }
 }

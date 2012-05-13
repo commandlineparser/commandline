@@ -34,11 +34,9 @@ namespace CommandLine.Tests.Mocks
     sealed class SimpleOptionsWithHelpOption
     {
         [Option(null, "filename")]
-        [DefaultValue(null)]
         public string FileName { get; set; }
 
         [Option("o", "overwrite")]
-        [DefaultValue(false)]
         public bool Overwrite { get; set; }
 
         [HelpOption]

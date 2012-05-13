@@ -33,28 +33,32 @@ namespace CommandLine.Tests.Mocks
 {
     class NumberSetOptions : OptionsBase
     {
+        public NumberSetOptions()
+        {
+            ByteValue = 0;
+            ShortValue = 0;
+            IntegerValue = 0;
+            LongValue = 0;
+            FloatValue = 0;
+            DoubleValue = 0;
+        }
+
         [Option("b", "byte")]
-        [DefaultValue(0)]
         public byte ByteValue { get; set; }
 
         [Option("s", "short")]
-        [DefaultValue(0)]
         public short ShortValue { get; set; }
 
         [Option("i", "int")]
-        [DefaultValue(0)]
         public int IntegerValue { get; set; }
 
         [Option("l", "long")]
-        [DefaultValue(0)]
         public long LongValue { get; set; }
 
         [Option("f", "float")]
-        [DefaultValue(0)]
         public float FloatValue { get; set; }
 
         [Option("d", "double")]
-        [DefaultValue(0)]
         public double DoubleValue { get; set; }
     }
 }

@@ -47,51 +47,42 @@ namespace CommandLine.Text.Tests
         class MockOptions
         {
             [Option("v", "verbose")]
-            [DefaultValue(false)]
             public bool Verbose { get; set; }
 
             [Option(null, "input-file")]
-            [DefaultValue("")]
             public string FileName { get; set; }
         }
 
         class MockOptionsWithDescription
         {
             [Option("v", "verbose", HelpText = "Comment extensively every operation.")]
-            [DefaultValue(false)]
             public bool Verbose { get; set; }
 
             [Option("i", "input-file", Required = true, HelpText = "Specify input file to be processed.")]
-            [DefaultValue("")]
             public string FileName { get; set; }
         }
 
         private class MockOptionsWithLongDescription
         {
             [Option("v", "verbose", HelpText = "This is the description of the verbosity to test out the wrapping capabilities of the Help Text.")]
-            [DefaultValue(false)]
             public bool Verbose { get; set; }
 
             [Option(null, "input-file", HelpText = "This is a very long description of the Input File argument that gets passed in.  It should  be passed in as a string.")]
-            [DefaultValue("")]
             public string FileName { get; set; }
         }
 
         private class MockOptionsWithLongDescriptionAndNoSpaces
         {
             [Option("v", "verbose", HelpText = "Before 012345678901234567890123 After")]
-            [DefaultValue(false)]
             public bool Verbose { get; set; }
 
             [Option(null, "input-file", HelpText = "Before 012345678901234567890123456789 After")]
-            [DefaultValue("")]
             public string FileName { get; set; }
         }
 
         public class MockOptionsSimple
         {
             [Option("s", "something", HelpText = "Input something here.")]
-            [DefaultValue(null)]
             public string Something { get; set; }
         }
 

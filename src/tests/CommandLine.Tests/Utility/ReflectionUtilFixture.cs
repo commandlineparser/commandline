@@ -55,16 +55,18 @@ namespace CommandLine.Tests
 
         private class MockObject
         {
+            public MockObject()
+            {
+                IntField = 0;
+            }
+
             [Mock]
-            [DefaultValue("")]
             public string StringField {get;set;}
 
             [Mock]
-            [DefaultValue(false)]
             public bool BooleanField {get;set;}
 
             [AnotherMock]
-            [DefaultValue(0)]
             public int IntField { get; set; }
 
             [Mock]
@@ -75,16 +77,20 @@ namespace CommandLine.Tests
 
         private class AnotherMockObject
         {
+            public AnotherMockObject()
+            {
+                X = 0;
+                Y = 0;
+                Z = 0;
+            }
+
             [MockWithValue(StringValue="applied to X")]
-            [DefaultValue(0)]
             public long X { get; set; }
 
             [MockWithValue(StringValue="applied to Y")]
-            [DefaultValue(0)]
             public long Y { get; set; }
 
             [MockWithValue(StringValue="applied to Z")]
-            [DefaultValue(0)]
             public long Z { get; set; }
         }
         #endregion

@@ -55,33 +55,35 @@ namespace SampleApp
 
         private sealed class Options : CommandLineOptionsBase
         {
+            public Options()
+            {
+                // use constructor for default values
+                // - if null, you don't need to set
+                // - if equal to first enum item, don't set
+                // - if false, you don't set also
+                StartOffset = 0;
+            }
+
             #region Standard Option Attribute
             [Option("r", "read", Required = true, HelpText = "Input file with data to process.")]
-            [DefaultValue("")]
             public string InputFile {get; set;}
 
             [Option("w", "write", HelpText = "Output file with processed data (otherwise standard output).")]
-            [DefaultValue("")]
             public string OutputFile { get; set; }
 
             [Option(null, "calculate", HelpText = "Add results in bottom of tabular data.")]
-            [DefaultValue(false)]
             public bool Calculate { get; set; }
 
             [Option("v", null, HelpText = "Verbose level. Range: from 0 to 2.")]
-            [DefaultValue(null)]
-            public int? VerboseLevel {get;set;}
+            public int? VerboseLevel { get; set; }
              
             [Option("i", null, HelpText = "If file has errors don't stop processing.")]
-            [DefaultValue(false)]
-            public bool IgnoreErrors {get;set;}
+            public bool IgnoreErrors { get; set; }
 
             [Option("j", "jump", HelpText = "Data processing start offset.")]
-            [DefaultValue(0)]
-            public double StartOffset {get;set;}
+            public double StartOffset { get; set; }
 
             [Option(null, "optimize", HelpText = "Optimize for Speed|Accuracy.")]
-            [DefaultValue(OptimizeFor.Unspecified)]
             public OptimizeFor Optimization {get;set;}
             #endregion
 
@@ -119,12 +121,12 @@ namespace SampleApp
             {
                 if (this.LastPostParsingState.Errors.Count > 0)
                 {
-                }
-                var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
-                if (!string.IsNullOrEmpty(errors))
-                {
-					help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
-					help.AddPreOptionsLine(errors);
+                    var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
+                    if (!string.IsNullOrEmpty(errors))
+                    {
+    					help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
+    					help.AddPreOptionsLine(errors);
+                    }
                 }
             }
             #endregion
@@ -136,7 +138,7 @@ namespace SampleApp
         /// <param name="args">Command Line Arguments splitted by the System.</param>
         private static void Main(string[] args)
         {
-#if UNIT_TESTS && EXEC_TESTS
+#if EXEC_TESTS
             RunATestForDebugging();
 #endif
             var options = new Options();
@@ -152,7 +154,7 @@ namespace SampleApp
         private static void DoCoreTask(Options options)
         {
             if (options.VerboseLevel == null)
-                Console.Write("verICommandLineParserbose [off]");
+                Console.WriteLine("verbose [off]");
             else
                 Console.WriteLine("verbose [on]: {0}", (options.VerboseLevel < 0 || options.VerboseLevel > 2) ? "#invalid value#" : options.VerboseLevel.ToString());
             Console.WriteLine();
@@ -177,7 +179,7 @@ namespace SampleApp
                 Console.WriteLine(builder.Remove(builder.Length - 2, 2).ToString());
             }
             Console.WriteLine();
-            if (options.OutputFile.Length > 0)
+            if (!string.IsNullOrEmpty(options.OutputFile))
                 _headingInfo.WriteMessage(string.Format("writing elaborated data: {0} ...", options.OutputFile));
             else
             {
@@ -186,7 +188,7 @@ namespace SampleApp
             }
         }
 
-#if UNIT_TESTS && EXEC_TESTS
+#if EXEC_TESTS
         private static void RunATestForDebugging()
         {
             //OptionArrayAttributeParsingFixture f = new OptionArrayAttributeParsingFixture();

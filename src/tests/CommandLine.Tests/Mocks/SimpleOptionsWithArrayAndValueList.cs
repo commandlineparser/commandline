@@ -36,7 +36,6 @@ namespace CommandLine.Tests.Mocks
     class SimpleOptionsWithArrayAndValueList : SimpleOptionsWithArray
     {
         [ValueList(typeof(List<string>))]
-        [DefaultValue(null)]
         public IList<string> Items { get; set; }
     }
 }

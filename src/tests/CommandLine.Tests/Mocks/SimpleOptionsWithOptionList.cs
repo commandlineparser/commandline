@@ -36,7 +36,6 @@ namespace CommandLine.Tests.Mocks
     class SimpleOptionsWithOptionList : SimpleOptions
     {
         [OptionList("k", "keywords", ':')]
-        [DefaultValue(null)]
         public IList<string> SearchKeywords { get; set; }
     }
 }

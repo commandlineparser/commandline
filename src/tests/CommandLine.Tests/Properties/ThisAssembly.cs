@@ -26,7 +26,7 @@
 // THE SOFTWARE.
 #endregion
 
-static class ThisAssembly
+static class _ThisAssembly
 {
     internal const string Title = "CommandLine.Tests.dll";
     internal const string Copyright = "Copyright (C) 2005 - 2012 Giacomo Stelluti Scala";

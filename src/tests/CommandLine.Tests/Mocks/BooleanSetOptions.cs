@@ -33,20 +33,21 @@ namespace CommandLine.Tests.Mocks
 {
     class BooleanSetOptions : OptionsBase
     {
+        public BooleanSetOptions()
+        {
+            NonBooleanValue = 0;
+        }
+
         [Option("a", "option-a")]
-        [DefaultValue(false)]
         public bool BooleanOne { get; set; }
 
         [Option("b", "option-b")]
-        [DefaultValue(false)]
         public bool BooleanTwo { get; set; }
 
         [Option("c", "option-c")]
-        [DefaultValue(false)]
         public bool BooleanThree { get; set; }
 
         [Option("d", "double")]
-        [DefaultValue(0)]
         public double NonBooleanValue { get; set; }
     }
 }

@@ -35,12 +35,15 @@ namespace CommandLine.Tests.Mocks
 {
     class SimpleOptionsWithBadOptionArray : SimpleOptionsWithArray
     {
+        public SimpleOptionsWithBadOptionArray()
+        {
+            BadIntegerValue = 0;
+        }
+
         [OptionArray("v", "bstrarr")]
-        [DefaultValue(null)]
         public string BadStringValue { get; set; }
 
         [OptionArray("w", "bintarr")]
-        [DefaultValue(int.MinValue)]
         public int BadIntegerValue { get; set; }
     }
 }

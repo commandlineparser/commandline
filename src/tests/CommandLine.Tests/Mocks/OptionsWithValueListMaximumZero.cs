@@ -37,7 +37,6 @@ namespace CommandLine.Tests.Mocks
     class OptionsWithValueListMaximumZero : OptionsBase
     {
         [ValueList(typeof(List<string>), MaximumElements = 0)]
-        [DefaultValue(null)]
         public IList<string> Junk { get; set; }
     }
 }

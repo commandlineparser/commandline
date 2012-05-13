@@ -36,15 +36,12 @@ namespace CommandLine.Tests.Mocks
     class SimpleOptionsWithArray : SimpleOptions
     {
         [OptionArray("z", "strarr")]
-        [DefaultValue(null)]
         public string[] StringArrayValue { get; set; }
 
         [OptionArray("y", "intarr")]
-        [DefaultValue(null)]
         public int[] IntegerArrayValue { get; set; }
 
         [OptionArray("q", "dblarr")]
-        [DefaultValue(null)]
         public double[] DoubleArrayValue { get; set; }
     }
 }

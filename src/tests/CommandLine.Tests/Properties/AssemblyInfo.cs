@@ -34,12 +34,12 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 #endregion
 
-[assembly: AssemblyTitle(ThisAssembly.Title)]
+[assembly: AssemblyTitle(_ThisAssembly.Title)]
 [assembly: AssemblyProduct("Command Line Parsing Library")]
-[assembly: AssemblyDescription(ThisAssembly.Title)]
-[assembly: AssemblyCopyright(ThisAssembly.Copyright)]
-[assembly: AssemblyVersion(ThisAssembly.Version)]
-[assembly: AssemblyInformationalVersion(ThisAssembly.InformationalVersion)]
+[assembly: AssemblyDescription(_ThisAssembly.Title)]
+[assembly: AssemblyCopyright(_ThisAssembly.Copyright)]
+[assembly: AssemblyVersion(_ThisAssembly.Version)]
+[assembly: AssemblyInformationalVersion(_ThisAssembly.InformationalVersion)]
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: AssemblyCulture("")]
 #if DEBUG

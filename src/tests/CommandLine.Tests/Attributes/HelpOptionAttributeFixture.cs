@@ -43,19 +43,15 @@ namespace CommandLine.Tests
         private class MockOptions
         {
             [Option("i", "input", Required = true, HelpText = "Input file with equations, xml format (see manual).")]
-            [DefaultValue(null)]
             public string InputFile { get; set; }
 
             [Option("o", "output", Required=false, HelpText="Output file with results, otherwise standard output.")]
-            [DefaultValue(null)]
             public string OutputFile {get;set;}
 
             [Option(null, "paralell", Required=false, HelpText="Paralellize processing in multiple threads.")]
-            [DefaultValue(false)]
             public bool ParalellizeProcessing{get;set;}
 
             [Option("v", null, Required=false, HelpText="Show detailed processing messages.")]
-            [DefaultValue(false)]
             public bool Verbose{get;set;}
 
             [HelpOption(HelpText="Display this screen.")]

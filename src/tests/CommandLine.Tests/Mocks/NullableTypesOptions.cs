@@ -36,19 +36,15 @@ namespace CommandLine.Tests.Mocks
     class NullableTypesOptions : OptionsBase
     {
         [Option("i", "int")]
-        [DefaultValue(null)]
         public int? IntegerValue { get; set; }
 
         [Option("e", "enum")]
-        [DefaultValue(null)]
         public FileAccess? EnumValue { get; set; }
 
         [Option("d", "double")]
-        [DefaultValue(null)]
         public double? DoubleValue { get; set; }
 
         [Option("s", "string")]
-        [DefaultValue(null)]
         public string StringValue { get; set; }
     } 
 }

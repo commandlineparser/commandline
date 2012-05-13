@@ -7,6 +7,10 @@ Compatibility:
   - .NET Framework 2.0+
   - Mono 2.1+ Profile
 
+News:
+---
+  - Test code moved to external project CommandLine.Tests.
+
 ### To build:
 
 Unix/Macintosh:
