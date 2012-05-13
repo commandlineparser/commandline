@@ -72,86 +72,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\BaseOptionAttribute.cs" />
-    <Compile Include="Attributes\HelpOptionAttribute.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Attributes\OptionListAttribute.cs" />
-    <Compile Include="Parser\CommandLineParser.cs" />
-    <Compile Include="Parser\CommandLineOptionsBase.cs" />
-    <Compile Include="Parser\ICommandLineParser.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
-    <Compile Include="Text\CopyrightInfo.cs" />
-    <Compile Include="Core\OptionMap.cs" />
-    <Compile Include="Core\ArgumentParser.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Core\IArgumentEnumerator.cs" />
-    <Compile Include="Core\LongOptionParser.cs" />
-    <Compile Include="Core\OptionGroupParser.cs" />
-    <Compile Include="Core\OptionInfo.cs" />
-    <Compile Include="Core\PairT.cs" />
-    <Compile Include="Core\ParserState.cs" />
-    <Compile Include="Text\HeadingInfo.cs" />
-    <Compile Include="Utility\Assumes.cs" />
-    <Compile Include="Utility\ReflectionUtil.cs" />
-    <Compile Include="Core\StringArrayEnumerator.cs" />
-    <Compile Include="Attributes\OptionAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\OneCharStringEnumerator.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Attributes\ValueListAttribute.cs" />
-    <Compile Include="Core\BadOptionInfo.cs" />
-    <Compile Include="Core\ParsingError.cs" />
-    <Compile Include="Core\PostParsingState.cs" />
-    <Compile Include="Text\BaseSentenceBuilder.cs" />
-    <Compile Include="Text\EnglishSentenceBuilder.cs" />
-    <Compile Include="Utility\StringUtil.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Parser\CommandLineParserException.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Attributes\OptionArrayAttribute.cs" />
-    <Compile Include="Core\TargetWrapper.cs" />
-    <Compile Include="Parser\CommandLineParserSettings.cs" />
-    <Compile Include="Text\FormatOptionHelpTextEventArgs.cs" />
-    <Compile Include="Text\HelpText.cs" />
+    <Compile Include="CommandLine.cs" />
+    <Compile Include="CommandLineText.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
