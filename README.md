@@ -27,6 +27,7 @@ Anyway using HelpText class will avoid you a lot of repetitive coding.
 
 Create a class to receive parsed values:
 
+```csharp
     class Options {
       [Option("r", "read", Required=True, HelpText="Input file to be processed.")]
       public string InputFile { get; set; }
@@ -43,9 +44,11 @@ Create a class to receive parsed values:
         return help;
       }
     }
+```
 
 Add few lines to your Main method:
 
+```csharp
     static void Main(string[] args) {
       var options = new Options();
       var parser = new CommandLineParser(new CommandLineParserSettings(Console.Error));
@@ -54,6 +57,7 @@ Add few lines to your Main method:
         if (options.Verbose) Console.WriteLine("Filename: {0}", options.InputFile);
       }
     }
+```
 
 Resources for newcomers:
 ---
