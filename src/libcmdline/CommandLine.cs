@@ -236,6 +236,7 @@ namespace CommandLine
         public OptionListAttribute(string shortName, string longName)
             : base(shortName, longName)
         {
+            Separator = ':';
         }
 
         /// <summary>
