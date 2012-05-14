@@ -18,10 +18,15 @@ To build:
 ---
 MonoDevelop or Visual Studio.
 
-To use:
+To install:
 ---
-The project is small and well suited to be included in your application. If you don't merge it to your project tree, you must reference CommandLine.dll and import CommandLine and CommandLine.Text namespaces.
-I recommend you prefer source inclusion over assembly referencing.
+  - NuGet way: Install-Package CommandLine
+  - XCOPY way: cp CommandLine/src/libcmdline/*.cs To/Your/Project/Dir
+
+Notes:
+---
+The project is small and well suited (or better thought) to be included in your application. If you don't merge it to your project tree, you must reference CommandLine.dll and import CommandLine and CommandLine.Text namespaces (or install via NuGet).
+I recommend you source inclusion over assembly referencing.
 The help text builder (CommandLine.Text.HelpText) is not coupled with the parser, so, if you don't need it, don't include it in your project.
 Anyway using HelpText class will avoid you a lot of repetitive coding.
 
