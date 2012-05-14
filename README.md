@@ -65,9 +65,8 @@ Resources for newcomers:
   - [Quickstart](http://commandline.codeplex.com/wikipage?title=Quickstart&referringTitle=Documentation)
   - [GNU getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html)
 
-Author:
-  - Giacomo Stelluti Scala (https://github.com/gsscoder)
-
-Contributors:
-  - Steven Evans (http://sleeplessmonkey.blogspot.it/)
-  - Kevin Moore (https://github.com/gimmemoore)
+Contacts:
+---
+Giacomo Stelluti Scala
+  - gsscoder AT gmail DOT com
+  - [Blog](http://gsscoder.blogspot.it)
