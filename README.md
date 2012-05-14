@@ -14,12 +14,12 @@ News:
     - CommandLine.cs (namespace CommandLine): the parser
     - CommandLineText.cs (namespace CommandLine.Text): help text builder
 
-### To build:
-
+To build:
+---
 MonoDevelop or Visual Studio.
 
-### To use:
-
+To use:
+---
 The project is small and well suited to be included in your application. If you don't merge it to your project tree, you must reference CommandLine.dll and import CommandLine and CommandLine.Text namespaces.
 I recommend you prefer source inclusion over assembly referencing.
 The help text builder (CommandLine.Text.HelpText) is not coupled with the parser, so, if you don't need it, don't include it in your project.
