@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.0.7 for CLR.
+Command Line Parser Library 1.9.0.9 for CLR.
 ===
 
 Compatibility:
@@ -56,8 +56,7 @@ Add few lines to your Main method:
 ```csharp
     static void Main(string[] args) {
       var options = new Options();
-      var parser = new CommandLineParser(new CommandLineParserSettings(Console.Error));
-      if (parser.ParseArguments(args, options)) {
+      if (CommandLineParser.Default.ParseArguments(args, options)) {
         // Consume values here
         if (options.Verbose) Console.WriteLine("Filename: {0}", options.InputFile);
       }

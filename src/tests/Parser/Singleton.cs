@@ -1,6 +1,6 @@
 #region License
 //
-// Command Line Library: ThisAssembly.cs
+// Command Line Library: Singleton.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -24,12 +24,31 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//
 #endregion
-
-static class ThisAssembly
+#region Using Directives
+using System;
+using System.IO;
+using CommandLine.Tests.Mocks;
+using NUnit.Framework;
+#endregion
+namespace CommandLine.Tests
 {
-    internal const string Title = "CommandLine.dll";
-    internal const string Copyright = "Copyright (C) 2005 - 2012 Giacomo Stelluti Scala";
-    internal const string Version = "1.9.0.9"; //beta
-    internal const string InformationalVersion = "1.9.0.9";
+    [TestFixture]
+    public class Singleton
+    {
+        [Test]
+        public void ParseStringIntegerBoolOptions()
+        {
+            var options = new SimpleOptions();
+            bool result = CommandLineParser.Default.ParseArguments(
+                    new string[] { "-s", "another string", "-i100", "--switch" }, options);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual("another string", options.StringValue);
+            Assert.AreEqual(100, options.IntegerValue);
+            Assert.AreEqual(true, options.BooleanValue);
+            Console.WriteLine(options);
+        }
+    }
 }

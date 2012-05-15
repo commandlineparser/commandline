@@ -1586,7 +1586,15 @@ namespace CommandLine
     /// </summary>
     public class CommandLineParser : ICommandLineParser
     {
+        private static readonly ICommandLineParser _default = new CommandLineParser(true);
         private CommandLineParserSettings _settings;
+
+        // special constructor for singleton instance, parameter ignored
+        private CommandLineParser(bool singleton)
+        {
+            _settings = new CommandLineParserSettings(
+                false, false, Console.Error);
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.CommandLineParser"/> class.
@@ -1607,6 +1615,14 @@ namespace CommandLine
             Assumes.NotNull(settings, "settings");
 
             _settings = settings;
+        }
+
+        /// <summary>
+        /// Singleton instance created with basic defaults.
+        /// </summary>
+        public static ICommandLineParser Default
+        {
+            get { return _default; }
         }
 
         /// <summary>
