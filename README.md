@@ -9,6 +9,7 @@ Compatibility:
 
 News:
 --- 
+  - Added singleton CommandLineParser.Default for common uses.
   - Test code moved to external project CommandLine.Tests.
   - All code refactored in two files:
     - CommandLine.cs (namespace CommandLine): the parser
