@@ -26,7 +26,7 @@
 // THE SOFTWARE.
 //
 #endregion
-#define EXEC_TESTS
+//#define EXEC_TESTS
 #region Using Directives
 using System;
 using System.Collections.Generic;
