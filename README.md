@@ -41,7 +41,7 @@ Create a class to receive parsed values:
       [Option("v", "verbose", HelpText="Output all messages to standard output.")]
       public bool Verbose { get; set; }
 
-      [HelpOption(HelpText="Display this help screen.")]
+      [HelpOption]
       public string GetUsage() {
         var help = new HelpText(new HeadingInfo("git-sample", "0.1"));
         help.Copyright = new CopyrightInfo("mr the author", 2005, 2012);
