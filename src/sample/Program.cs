@@ -26,7 +26,7 @@
 // THE SOFTWARE.
 //
 #endregion
-//#define EXEC_TESTS
+#define EXEC_TESTS
 #region Using Directives
 using System;
 using System.Collections.Generic;
@@ -98,7 +98,7 @@ namespace SampleApp
             [DefaultValue(null)]
             public IList<string> AllowedOperators { get; set; }
             
-            [HelpOption(HelpText = "Dispaly this help screen.")]
+            [HelpOption]
             public string GetUsage()
             {
                 var help = new HelpText { Heading = Program._headingInfo,
@@ -205,10 +205,11 @@ namespace SampleApp
             //f.WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithShortName();
             //f2.GetNextInputValues();
             //f3.CustomizeOptionsFormat();
-			f3.DetailedHelpWithBadFormatAndMutualExclusiveness();
+			//f3.DetailedHelpWithBadFormatAndMutualExclusiveness();
             //f3.DetailedHelpWithBadMutualExclusiveness();
             //f3.DetailedHelpWithMissingRequired();
             //f3.DetailedHelpWithBadFormat();
+            f3.CreateBasicInstance();
             Console.Write("press any key");
             Console.ReadKey();
             Environment.Exit(1);

@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.0.9 for CLR.
+Command Line Parser Library 1.9.1.0 for CLR.
 ===
 
 Compatibility:
@@ -8,9 +8,9 @@ Compatibility:
   - Mono 2.1+ Profile
 
 News:
---- 
+---
+  - Added default for HelpOption.HelpText.
   - Added singleton CommandLineParser.Default for common uses.
-  - Test code moved to external project CommandLine.Tests.
   - All code refactored in two files:
     - CommandLine.cs (namespace CommandLine): the parser
     - CommandLineText.cs (namespace CommandLine.Text): help text builder

@@ -98,12 +98,15 @@ namespace CommandLine
             Inherited=true)]
     public sealed class HelpOptionAttribute : BaseOptionAttribute
     {
+        private const string _defaultHelpText = "Display this help screen.";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.HelpOptionAttribute"/> class.
         /// </summary>
         public HelpOptionAttribute()
             : this(null, "help")
         {
+            HelpText = _defaultHelpText;
         }
 
         /// <summary>
@@ -114,8 +117,9 @@ namespace CommandLine
         /// <param name="longName">The long name of the option or null if not used.</param>
         public HelpOptionAttribute(string shortName, string longName)
         {
-            base.ShortName = shortName;
-            base.LongName = longName;
+            ShortName = shortName;
+            LongName = longName;
+            HelpText = _defaultHelpText;
         }
 
         /// <summary>

@@ -266,7 +266,15 @@ namespace CommandLine.Text.Tests
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 			Assert.AreEqual("  -s, --something    Input something here.", lines[3]);
 		}
-		
+
+        [Test]
+        public void CreateBasicInstance()
+        {
+            var local = new HelpText();
+
+            Assert.AreEqual("", local.ToString());
+        }
+
         #region Parsing Errors Subsystem Test, related to Help Text building
         [Test]
         public void DetailedHelpWithBadFormat()

@@ -3,8 +3,11 @@ Command Line Parser Library
 Project Author/Coordinator: Giacomo Stelluti Scala
 Contributor(s): Steven Evans
 ---------------------------------------------------------------------------------------
-Version 1.9.0.7 Beta (*3)
-Latest Update: 13-may-2012
+Version 1.9.1.0 Beta (*3)
+Latest Update: 16-may-2012
+
+Git home:
+https://github.com/gsscoder/commandline
 
 General Info:
 This library allows command line arguments parsing.
@@ -69,9 +72,13 @@ Framework Compatibility:
 
 Development Environment:
   - OS: Ubuntu Desktop (http://www.ubuntu.com/)
-  - IDE: MonoDevelop 2.4 (http://monodevelop.com/)
-  - Version Control: SVN (http://subversion.tigris.org/)
-  - Other Tools: Scribes (http://scribes.sourceforge.net/)
+  - IDE: MonoDevelop (http://monodevelop.com/)
+  - Version Control: 
+  		Git (http://git-scm.com/)
+  		SVN (http://subversion.tigris.org/)
+  - Other Tools:
+  		TextMate (http://macromates.com/)
+  		Scribes (http://scribes.sourceforge.net/)
 
 Test Environment:
   - Mac OS X Lion

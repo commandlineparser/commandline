@@ -858,7 +858,7 @@ namespace CommandLine.Text
         public override string ToString()
         {
             const int extraLength = 10;
-            var builder = new StringBuilder(_heading.Length + GetLength(_copyright) +
+            var builder = new StringBuilder(GetLength(_heading) + GetLength(_copyright) +
                 GetLength(_preOptionsHelp) + GetLength(_optionsHelp) + extraLength);
 
             builder.Append(_heading);

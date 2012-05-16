@@ -1,4 +1,9 @@
-2012-05-15	Giacomo Stelluti Scala	<gsscoder@gmail.com
+2012-05-16	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Added default to HelpOption.HelpText.
+  * Fixed a minor bug in HelpText constructor.
+
+2012-05-15	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Added default singleton CommandLineParser.Default.
   * Added test fixture for CommandLineParser.Defualt.
