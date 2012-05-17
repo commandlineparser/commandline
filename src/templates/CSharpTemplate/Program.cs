@@ -31,40 +31,40 @@ namespace CSharpTemplate
 			public bool BooleanValue { get; set; }
 			
 			[HelpOption]
-            public string GetUsage()
-            {
-                var help = new HelpText {
+			public string GetUsage()
+			{
+				var help = new HelpText {
 					Heading = new HeadingInfo(ThisAssembly.Title, ThisAssembly.InformationalVersion),
 					Copyright = new CopyrightInfo(ThisAssembly.Author, 2012),
-                	AdditionalNewLineAfterOption = true,
+					AdditionalNewLineAfterOption = true,
 					AddDashesToOption = true
 				};
-                this.HandleParsingErrorsInHelp(help);
-                help.AddPreOptionsLine("<<license details here.>>");
-                help.AddPreOptionsLine("Usage: CSharpTemplate -tSomeText --numeric 2012 -b");
-                help.AddOptions(this);
-
-                return help;
-            }
+				this.HandleParsingErrorsInHelp(help);
+				help.AddPreOptionsLine("<<license details here.>>");
+				help.AddPreOptionsLine("Usage: CSharpTemplate -tSomeText --numeric 2012 -b");
+				help.AddOptions(this);
+				
+				return help;
+			}
 			
-            void HandleParsingErrorsInHelp(HelpText help)
-            {
-                if (this.LastPostParsingState.Errors.Count > 0)
-                {
-                    var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
-                    if (!string.IsNullOrEmpty(errors))
-                    {
-    					help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
-    					help.AddPreOptionsLine(errors);
-                    }
-                }
-            }			
+			void HandleParsingErrorsInHelp(HelpText help)
+			{
+				if (this.LastPostParsingState.Errors.Count > 0)
+				{
+					var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
+					if (!string.IsNullOrEmpty(errors))
+					{
+						help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
+						help.AddPreOptionsLine(errors);
+					}
+				}
+			}
 		}
-		
+			
 		static void Main(string[] args)
 		{
-            var options = new Options();
-            if (CommandLineParser.Default.ParseArguments(args, options))
+			var options = new Options();
+			if (CommandLineParser.Default.ParseArguments(args, options))
 			{
 				Console.WriteLine("t|ext: " + options.TextValue);
 				Console.WriteLine("n|umeric: " + options.NumericValue.ToString());
@@ -73,4 +73,3 @@ namespace CSharpTemplate
 		}
 	}
 }
-
