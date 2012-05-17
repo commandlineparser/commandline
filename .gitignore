@@ -4,8 +4,10 @@ src/sample/bin/*
 src/sample/obj
 src/tests/bin/*
 src/tests/obj
-CommandLine.suo
-CommandLine.userprefs
+src/templates/CSharpTemplate/bin/*
+src/templates/CSharpTemplate/obj 
+*.suo
+*.userprefs
 *~
 *.pidb
 *.test-cache

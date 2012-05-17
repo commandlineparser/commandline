@@ -751,6 +751,7 @@ namespace CommandLine.Text
                 }
                 if (e.ViolatesFormat)
                 {
+                    line.Append(" ");
 					line.Append(_sentenceBuilder.ViolatesFormatText);
                 }
                 if (e.ViolatesMutualExclusiveness)
@@ -966,7 +967,8 @@ namespace CommandLine.Text
             return value.Length;
         }
 
-        private static int GetMaxLength(IList<BaseOptionAttribute> optionList)
+		//ex static
+        private int GetMaxLength(IList<BaseOptionAttribute> optionList)
         {
             int length = 0;
             foreach (BaseOptionAttribute option in optionList)
@@ -977,10 +979,12 @@ namespace CommandLine.Text
                 if (hasShort)
                 {
                     optionLength += option.ShortName.Length;
+					if (AddDashesToOption) ++optionLength;
                 }
                 if (hasLong)
                 {
                     optionLength += option.LongName.Length;
+					if (AddDashesToOption) optionLength += 2;
                 }
                 if (hasShort && hasLong)
                 {
