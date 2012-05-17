@@ -26,6 +26,10 @@ To install:
   - NuGet way: Install-Package CommandLine
   - XCOPY way: cp CommandLine/src/libcmdline/*.cs To/Your/Project/Dir
 
+To start:
+---
+  - [CSharp Template](https://github.com/gsscoder/commandline/blob/master/src/templates/CSharpTemplate/Program.cs)
+
 Notes:
 ---
 The project is small and well suited (or better thought) to be included in your application. If you don't merge it to your project tree, you must reference CommandLine.dll and import CommandLine and CommandLine.Text namespaces (or install via NuGet).
