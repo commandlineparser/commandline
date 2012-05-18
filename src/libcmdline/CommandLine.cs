@@ -35,6 +35,7 @@ using System.Runtime.Serialization;
 using System.Diagnostics;
 using System.Globalization;
 using System.ComponentModel;
+using System.Threading;
 #endregion
 
 namespace CommandLine
@@ -863,7 +864,8 @@ namespace CommandLine
                 {
                     lock (_setValueLock)
                     {
-                        array.SetValue(Convert.ChangeType(values[i], elementType, CultureInfo.InvariantCulture), i);
+                        //array.SetValue(Convert.ChangeType(values[i], elementType, CultureInfo.InvariantCulture), i);
+                        array.SetValue(Convert.ChangeType(values[i], elementType, Thread.CurrentThread.CurrentCulture), i);
                         _property.SetValue(options, array, null);
                     }
                 }
@@ -891,7 +893,8 @@ namespace CommandLine
                 {
                     lock (_setValueLock)
                     {
-                        _property.SetValue(options, Convert.ChangeType(value, _property.PropertyType, CultureInfo.InvariantCulture), null);
+                        //_property.SetValue(options, Convert.ChangeType(value, _property.PropertyType, CultureInfo.InvariantCulture), null);
+                        _property.SetValue(options, Convert.ChangeType(value, _property.PropertyType, Thread.CurrentThread.CurrentCulture), null);
                     }
                 }
             }
@@ -919,7 +922,8 @@ namespace CommandLine
             {
                 lock (_setValueLock)
                 {
-                    _property.SetValue(options, nc.ConvertFromString(null, CultureInfo.InvariantCulture, value), null);
+                    //_property.SetValue(options, nc.ConvertFromString(null, CultureInfo.InvariantCulture, value), null);
+                    _property.SetValue(options, nc.ConvertFromString(null, Thread.CurrentThread.CurrentCulture, value), null);
                 }
             }
             // the FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException,
@@ -1714,7 +1718,7 @@ namespace CommandLine
                         }
                     }
                 }
-				
+                
             }
 
             hadError |= !optionMap.EnforceRules();

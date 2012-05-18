@@ -25,10 +25,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
+using System.Globalization;
+
+
 #endregion
 #region Using Directives
 using System;
 using System.IO;
+using System.Threading;
 using CommandLine.Tests.Mocks;
 using NUnit.Framework;
 #endregion
@@ -38,6 +42,10 @@ namespace CommandLine.Tests
     [TestFixture]
     public sealed class CommandLineParserFixture : CommandLineParserBaseFixture
     {
+        public CommandLineParserFixture() : base()
+        {
+        }
+
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void WillThrowExceptionIfArgumentsArrayIsNull()
@@ -123,9 +131,7 @@ namespace CommandLine.Tests
             Console.WriteLine(options.StringValue);
         }
 
-        /// <summary>
-        /// Ref.: #BUG0000.
-        /// </summary>
+        #region #BUG0000
         [Test]
         public void ShortOptionRefusesEqualToken()
         {
@@ -134,6 +140,7 @@ namespace CommandLine.Tests
             Assert.IsFalse(base.Parser.ParseArguments(new string[] { "-i=10" }, options));
             Console.WriteLine(options);
         }
+        #endregion
 
         [Test]
         public void ParseEnumOptions()
@@ -146,6 +153,34 @@ namespace CommandLine.Tests
             Assert.AreEqual("data.bin", options.StringValue);
             Assert.AreEqual(FileAccess.ReadWrite, options.FileAccess);
             Console.WriteLine(options);
+        }
+
+        [Test]
+        public void ParseCultureSpecificNumber()
+        {
+            var actualCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-d", "10,986" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(10.986, options.DoubleValue);
+
+            Thread.CurrentThread.CurrentCulture = actualCulture;
+        }
+
+        [Test]
+        public void ParseCultureSpecificNullableNumber()
+        {
+            var actualCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "--n-double", "12,32982" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(12.32982, options.NullableDoubleValue);
+
+            Thread.CurrentThread.CurrentCulture = actualCulture;
         }
 
         #region #BUG0002

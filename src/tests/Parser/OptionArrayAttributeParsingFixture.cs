@@ -25,6 +25,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
+using System.Threading;
+using System.Globalization;
+
+
 #endregion
 #region Using Directives
 using System;
@@ -38,6 +42,10 @@ namespace CommandLine.Tests
     [TestFixture]
     public sealed class OptionArrayAttributeParsingFixture : CommandLineParserBaseFixture
     {
+        public OptionArrayAttributeParsingFixture() : base()
+        {
+        }
+
         [Test]
         public void ParseStringArrayOptionUsingShortName()
         {
@@ -340,6 +348,20 @@ namespace CommandLine.Tests
         public void WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithLongName()
         {
             base.Parser.ParseArguments(new string[] { "--bintarr", "1", "2", "3" }, new SimpleOptionsWithBadOptionArray());
+        }
+
+        [Test]
+        public void ParseCultureSpecificNumber()
+        {
+            var actualCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
+            var options = new SimpleOptionsWithArray();
+            bool result = base.Parser.ParseArguments(new string[] { "-q", "1,2", "1,23", "1,234" }, options);
+
+            base.AssertParserSuccess(result);
+            base.AssertArrayItemEqual(new double[] { 1.2, 1.23, 1.234 }, options.DoubleArrayValue);
+
+            Thread.CurrentThread.CurrentCulture = actualCulture;
         }
     }
 }

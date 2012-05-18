@@ -36,6 +36,10 @@ namespace CommandLine.Tests
     [TestFixture]
     public sealed class MutuallyExclusiveParsingFixture : CommandLineParserBaseFixture
     {
+        public MutuallyExclusiveParsingFixture() : base()
+        {
+        }
+
         protected override ICommandLineParser CreateCommandLineParser()
         {
             return new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});

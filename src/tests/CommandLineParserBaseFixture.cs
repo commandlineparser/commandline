@@ -25,10 +25,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
+using System.Globalization;
+
+
 #endregion
 #region Using Directives
 using System;
 using System.IO;
+using System.Threading;
+using System.Globalization;
 using NUnit.Framework;
 #endregion
 
@@ -36,6 +41,15 @@ namespace CommandLine.Tests
 {
     public abstract class CommandLineParserBaseFixture : BaseFixture
     {
+        public CommandLineParserBaseFixture()
+        {
+            // Before latest changes, some values were parsed with CultureInfo.InvariantCulture
+            // that is compatible with en-US.
+            // Following instructions prevent old tests from break.
+            // New tests were added for verify new culture-specific support.
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+        }
+
         private ICommandLineParser _parser = null;
 
         protected virtual ICommandLineParser CreateCommandLineParser()

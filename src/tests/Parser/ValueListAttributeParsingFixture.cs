@@ -38,6 +38,10 @@ namespace CommandLine.Tests
     [TestFixture]
     public sealed class ValueListAttributeParsingFixture : CommandLineParserBaseFixture
     {
+        public ValueListAttributeParsingFixture() : base()
+        {
+        }
+
         [Test]
         public void ValueListAttributeIsolatesNonOptionValues()
         {

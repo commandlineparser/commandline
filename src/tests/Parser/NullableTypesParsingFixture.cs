@@ -39,6 +39,10 @@ namespace CommandLine.Tests
     [TestFixture]
     public sealed class NullableTypesParsingFixture : CommandLineParserBaseFixture
     {
+        public NullableTypesParsingFixture() : base()
+        {
+        }
+
         [Test]
         public void ParseNullableIntegerOption()
         {

@@ -60,5 +60,8 @@ namespace CommandLine.Tests.Mocks
 
         [Option("d", "double")]
         public double DoubleValue { get; set; }
+
+        [Option(null, "n-double")]
+        public double? NullableDoubleValue { get; set; }
     }
 }
