@@ -50,5 +50,15 @@ namespace CommandLine.Tests
             Assert.AreEqual(true, options.BooleanValue);
             Console.WriteLine(options);
         }
+
+        [Test]
+        public void DefaultDoesntSupportMutuallyExclusiveOptions()
+        {
+            var options = new OptionsWithMultipleSet();
+            bool result = CommandLineParser.Default.ParseArguments(
+                new string[] { "-r1", "-g2", "-b3", "-h4", "-s5", "-v6" }, options);
+
+            Assert.IsTrue(result); // enabling MutuallyExclusive option it would fails
+        }
     }
 }

@@ -1703,7 +1703,7 @@ namespace CommandLine
                         {
                             SetPostParsingStateIfNeeded(options, parser.PostParsingState);
                             hadError = true;
-                            continue; //break;
+                            continue;
                         }
 
                         if ((result & ParserState.MoveOnNextElement) == ParserState.MoveOnNextElement)
@@ -1714,7 +1714,7 @@ namespace CommandLine
                         if (!target.AddValueItemIfAllowed(argument))
                         {
                             hadError = true;
-                            continue; //break;
+                            continue;
                         }
                     }
                 }
@@ -1877,28 +1877,6 @@ namespace CommandLine
 
     internal static class StringUtil
     {
-        /*
-        public static bool StartsWithIgnoreCase(string strA, string strB)
-        {
-            if (strB == null)
-            {
-                return false;
-            }
-            return (string.Compare(strA, 0, strB, 0, strB.Length, StringComparison.OrdinalIgnoreCase) == 0);
-        }
-        */
-
-        /*
-        public static bool EqualsWithIgnoreCase(string strA, string strB)
-        {
-            if (strB == null)
-            {
-                return false;
-            }
-            return (string.Compare(strA, strB, StringComparison.OrdinalIgnoreCase) == 0);
-        }
-        */
-        
         public static string Spaces(int count)
         {
             return new String(' ', count);
