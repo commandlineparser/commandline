@@ -14,7 +14,7 @@ Compatibility:
 News:
 ---
   - Added support for parsing culture-specific values.
-  - Added templates directory for quickstart (only C#, VB.NET coming soon).
+  - Added templates directory for quickstart (C# and VB.NET).
   - Minor fix in HelpText (bad alignment when AddDashesToOption is set).
   - Added singleton CommandLineParser.Default for common uses.
 
