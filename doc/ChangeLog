@@ -1,5 +1,11 @@
 2012-05-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Added tests for BaseOptionAttribute::DefaultValue.
+  * Setting a bad value for BaseOptionAttribute::DefaultValue raises
+    a CommandLineParserException.
+
+2012-05-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * All option attributes that inherits from BaseOptionAttribute support initialization
     via DefaultValue (this feature needs more tests).
   * All solution (included tests project) now build also in Release config.

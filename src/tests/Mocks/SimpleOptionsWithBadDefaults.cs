@@ -1,6 +1,6 @@
 #region License
 //
-// Command Line Library: ThisAssembly.cs
+// Command Line Library: SimpleOptionsWithBadDefaults.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -24,12 +24,22 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//
 #endregion
 
-static class ThisAssembly
+using System.ComponentModel;
+
+namespace CommandLine.Tests.Mocks
 {
-    internal const string Title = "CommandLine.dll";
-    internal const string Copyright = "Copyright (C) 2005 - 2012 Giacomo Stelluti Scala";
-    internal const string Version = "1.9.1.11"; //beta
-    internal const string InformationalVersion = "1.9.1.11";
+    class SimpleOptionsWithBadDefaults : OptionsBase
+    {
+        [Option("s", "string", DefaultValue = "str")]
+        public string StringValue { get; set; }
+
+        [Option("i", null, DefaultValue = "bad")]
+        public int IntegerValue { get; set; }
+
+        [Option(null, "switch", DefaultValue=true)]
+        public bool BooleanValue { get; set; }
+    } 
 }

@@ -994,7 +994,14 @@ namespace CommandLine
             {
                 lock (_setValueLock)
                 {
-                    _property.SetValue(options, _defaultValue, null);
+                    try
+                    {
+                        _property.SetValue(options, _defaultValue, null);
+                    }
+                    catch(Exception e)
+                    {
+                        throw new CommandLineParserException("Bad default value.", e);
+                    }
                 }
             }
         }

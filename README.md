@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.1.9 for CLR.
+Command Line Parser Library 1.9.1.11 for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.
 It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the user.
@@ -13,9 +13,9 @@ Compatibility:
 
 News:
 ---
+  - If you use a bad value setting a default value a CommandLineParserException is raised.
   - Added field initialization via BaseOptionAttribute::DefaultValue.
   - Added support for parsing culture-specific values.
-  - Added templates directory for quickstart (C# and VB.NET).
   - Added singleton CommandLineParser.Default for common uses.
 
 To build:

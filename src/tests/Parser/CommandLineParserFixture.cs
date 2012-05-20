@@ -195,6 +195,26 @@ namespace CommandLine.Tests
             Assert.AreEqual(true, options.BooleanValue);
         }
 
+        [Test]
+        public void ParseOptionsWithDefaultArray()
+        {
+            var options = new SimpleOptionsWithDefaultArray();
+            bool result = base.Parser.ParseArguments(new string[] { "-y", "4", "5", "6" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(new string[] { "a", "b", "c" }, options.StringArrayValue);
+            Assert.AreEqual(new int[] { 4, 5, 6 }, options.IntegerArrayValue);
+            Assert.AreEqual(new double[] { 1.1, 2.2, 3.3 }, options.DoubleArrayValue);
+        }
+
+        [Test]
+        [ExpectedException(typeof(CommandLineParserException))]
+        public void ParseOptionsWithBadDefaults()
+        {
+            var options = new SimpleOptionsWithBadDefaults();
+            base.Parser.ParseArguments(new string[] {}, options);
+        }
+
         #region #BUG0002
         [Test]
         public void ParsingNonExistentShortOptionFailsWithoutThrowingAnException()

@@ -86,6 +86,8 @@
     <Compile Include="..\libcmdline\CommandLineText.cs">
       <Link>CommandLineText.cs</Link>
     </Compile>
+    <Compile Include="Mocks\SimpleOptionsWithBadDefaults.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithDefaultArray.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

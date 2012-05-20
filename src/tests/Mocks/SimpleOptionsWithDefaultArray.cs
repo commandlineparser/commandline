@@ -1,6 +1,6 @@
 #region License
 //
-// Command Line Library: ThisAssembly.cs
+// Command Line Library: SimpleOptionsWithDefaultArray.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -24,12 +24,24 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//
+#endregion
+#region Using Directives
+using System.Collections.Generic;
+using System.ComponentModel;
 #endregion
 
-static class ThisAssembly
+namespace CommandLine.Tests.Mocks
 {
-    internal const string Title = "CommandLine.dll";
-    internal const string Copyright = "Copyright (C) 2005 - 2012 Giacomo Stelluti Scala";
-    internal const string Version = "1.9.1.11"; //beta
-    internal const string InformationalVersion = "1.9.1.11";
+    class SimpleOptionsWithDefaultArray : SimpleOptions
+    {
+        [OptionArray("z", "strarr", DefaultValue = new string[] { "a", "b", "c"})]
+        public string[] StringArrayValue { get; set; }
+
+        [OptionArray("y", "intarr", DefaultValue = new int[] { 1, 2, 3})]
+        public int[] IntegerArrayValue { get; set; }
+
+        [OptionArray("q", "dblarr", DefaultValue = new double[] { 1.1, 2.2, 3.3})]
+        public double[] DoubleArrayValue { get; set; }
+    }
 }
