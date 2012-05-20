@@ -30,6 +30,7 @@ To install:
 To start:
 ---
   - [CSharp Template](https://github.com/gsscoder/commandline/blob/master/src/templates/CSharpTemplate/Program.cs)
+  - [VB.NET Template](https://github.com/gsscoder/commandline/blob/master/src/templates/VBNetTemplate/Program.vb)
 
 Notes:
 ---
@@ -42,10 +43,12 @@ Create a class to receive parsed values:
 
 ```csharp
     class Options {
-      [Option("r", "read", Required=True, DefaultValue = "in.dat", HelpText="Input file to be processed.")]
+      [Option("r", "read", Required=True, DefaultValue = "in.dat",
+        HelpText="Input file to be processed.")]
       public string InputFile { get; set; }
     
-      [Option("v", "verbose", DefaultValue = true, HelpText="Output all messages to standard output.")]
+      [Option("v", "verbose", DefaultValue = true,
+        HelpText="Output all messages to standard output.")]
       public bool Verbose { get; set; }
 
       [HelpOption]

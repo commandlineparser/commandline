@@ -1,4 +1,5 @@
 ﻿VBNetTemplate
 -------------
+- It currently builds only under Visual Studio.
 - This project references {libroot}/src/libcmdline/bin/Release.
 - If the reference is broken, open the library project and build using Release config.
