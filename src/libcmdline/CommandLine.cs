@@ -47,6 +47,8 @@ namespace CommandLine
     public abstract class BaseOptionAttribute : Attribute
     {
         private string _shortName;
+        private object _defaultValue;
+        private bool _hasDefaultValue;
 
         /// <summary>
         /// Short name of this command line option. You can use only one character.
@@ -73,6 +75,19 @@ namespace CommandLine
         /// </summary>
         public virtual bool Required { get; set; }
 
+        /// <summary>
+        /// Gets or sets mapped property default value.
+        /// </summary>
+        /// <value>
+        public object DefaultValue {
+            get { return _defaultValue; }
+            set
+            {
+                _defaultValue = value;
+                _hasDefaultValue = true;
+            }
+        }
+
         internal bool HasShortName
         {
             get { return !string.IsNullOrEmpty(_shortName); }
@@ -81,6 +96,11 @@ namespace CommandLine
         internal bool HasLongName
         {
             get { return !string.IsNullOrEmpty(LongName); }
+        }
+
+        internal bool HasDefaultValue
+        {
+            get { return _hasDefaultValue; }
         }
 
         /// <summary>
@@ -198,7 +218,7 @@ namespace CommandLine
             base.LongName = longName;
         }
 
-        #if DEBUG
+        #if UNIT_TESTS
         internal OptionInfo CreateOptionInfo()
         {
             return new OptionInfo(base.ShortName, base.LongName);
@@ -403,7 +423,7 @@ namespace CommandLine
             return true;
         }
 
-        #if DEBUG
+        #if UNIT_TESTS
         public static IList<string> PublicWrapperOfGetNextInputValues(IArgumentEnumerator ae)
         {
             return GetNextInputValues(ae);
@@ -791,6 +811,8 @@ namespace CommandLine
         private readonly string _shortName;
         private readonly string _longName;
         private readonly string _mutuallyExclusiveSet;
+        private readonly object _defaultValue;
+        private readonly bool _hasDefaultValue;
         private readonly object _setValueLock = new object();
 
         public OptionInfo(OptionAttribute attribute, PropertyInfo property)
@@ -802,6 +824,8 @@ namespace CommandLine
                 _shortName = attribute.ShortName;
                 _longName = attribute.LongName;
                 _mutuallyExclusiveSet = attribute.MutuallyExclusiveSet;
+                _defaultValue = attribute.DefaultValue;
+                _hasDefaultValue = attribute.HasDefaultValue;
                 _attribute = attribute;
             }
             else
@@ -813,7 +837,7 @@ namespace CommandLine
                 throw new ArgumentNullException("property", "The property is mandatory");
         }
 
-        #if DEBUG
+        #if UNIT_TESTS
         internal OptionInfo(string shortName, string longName)
         {
             _shortName = shortName;
@@ -964,6 +988,17 @@ namespace CommandLine
             }
         }
 
+        public void SetDefault(object options)
+        {
+            if (_hasDefaultValue)
+            {
+                lock (_setValueLock)
+                {
+                    _property.SetValue(options, _defaultValue, null);
+                }
+            }
+        }
+
         public string ShortName
         {
             get { return _shortName; }
@@ -1103,6 +1138,14 @@ namespace CommandLine
         public bool EnforceRules()
         {
             return EnforceMutuallyExclusiveMap() && EnforceRequiredRule();
+        }
+
+        public void SetDefaults()
+        {
+            foreach (OptionInfo option in _map.Values)
+            {
+                option.SetDefault(this.RawOptions);
+            }
         }
 
         private bool EnforceRequiredRule()
@@ -1687,6 +1730,7 @@ namespace CommandLine
         {
             bool hadError = false;
             var optionMap = OptionInfo.CreateMap(options, _settings);
+            optionMap.SetDefaults();
             var target = new TargetWrapper(options);
 
             IArgumentEnumerator arguments = new StringArrayEnumerator(args);

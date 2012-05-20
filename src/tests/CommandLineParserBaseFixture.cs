@@ -33,7 +33,6 @@ using System.Globalization;
 using System;
 using System.IO;
 using System.Threading;
-using System.Globalization;
 using NUnit.Framework;
 #endregion
 

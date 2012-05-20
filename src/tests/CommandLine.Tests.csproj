@@ -16,7 +16,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;UNIT_TESTS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -28,6 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <DefineConstants>UNIT_TESTS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -78,12 +79,13 @@
     <Compile Include="Utility\ReflectionUtilFixture.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="Parser\Singleton.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\libcmdline\CommandLine.csproj">
-      <Project>{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}</Project>
-      <Name>CommandLine</Name>
-    </ProjectReference>
+    <Compile Include="Mocks\SimpleOptionsWithDefaults.cs" />
+    <Compile Include="..\libcmdline\CommandLine.cs">
+      <Link>CommandLine.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineText.cs">
+      <Link>CommandLineText.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

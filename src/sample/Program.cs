@@ -55,14 +55,14 @@ namespace SampleApp
 
         private sealed class Options : CommandLineOptionsBase
         {
-            public Options()
-            {
-                // use constructor for default values
-                // - if null, you don't need to set
-                // - if equal to first enum item, don't set
-                // - if false, you don't set also
-                StartOffset = 0;
-            }
+            //public Options()
+            //{
+            //    // use constructor for default values
+            //    // - if null, you don't need to set
+            //    // - if equal to first enum item, don't set
+            //    // - if false, you don't set also
+            //    StartOffset = 0;
+            //}
 
             #region Standard Option Attribute
             [Option("r", "read", Required = true, HelpText = "Input file with data to process.")]
@@ -80,7 +80,7 @@ namespace SampleApp
             [Option("i", null, HelpText = "If file has errors don't stop processing.")]
             public bool IgnoreErrors { get; set; }
 
-            [Option("j", "jump", HelpText = "Data processing start offset.")]
+            [Option("j", "jump", DefaultValue = 0, HelpText = "Data processing start offset.")]
             public double StartOffset { get; set; }
 
             [Option(null, "optimize", HelpText = "Optimize for Speed|Accuracy.")]

@@ -183,6 +183,18 @@ namespace CommandLine.Tests
             Thread.CurrentThread.CurrentCulture = actualCulture;
         }
 
+        [Test]
+        public void ParseOptionsWithDefaults()
+        {
+            var options = new SimpleOptionsWithDefaults();
+            bool result = base.Parser.ParseArguments(new string[] {}, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual("str", options.StringValue);
+            Assert.AreEqual(9, options.IntegerValue);
+            Assert.AreEqual(true, options.BooleanValue);
+        }
+
         #region #BUG0002
         [Test]
         public void ParsingNonExistentShortOptionFailsWithoutThrowingAnException()

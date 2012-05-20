@@ -124,7 +124,7 @@ namespace CommandLine.Text.Tests
         [SetUp]
         public void SetUp()
         {
-            _helpText = new HelpText(new HeadingInfo(ThisAssembly.Title, ThisAssembly.Version));
+            _helpText = new HelpText(new HeadingInfo(_ThisAssembly.Title, _ThisAssembly.Version));
         }
 
         [Test]
