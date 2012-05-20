@@ -77,7 +77,7 @@ Add few lines to your Main method:
 Resources for newcomers:
 ---
   - [CodePlex](http://commandline.codeplex.com)
-  - [Quickstart](http://commandline.codeplex.com/wikipage?title=Quickstart&referringTitle=Documentation)
+  - [Quickstart](https://github.com/gsscoder/commandline/wiki/Quickstart)
   - [GNU getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html)
 
 Contacts:
