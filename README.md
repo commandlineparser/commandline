@@ -43,12 +43,12 @@ Create a class to receive parsed values:
 
 ```csharp
     class Options {
-      [Option("r", "read", Required=True, DefaultValue = "in.dat",
-        HelpText="Input file to be processed.")]
+      [Option("r", "read", Required = true,
+        HelpText = "Input file to be processed.")]
       public string InputFile { get; set; }
     
       [Option("v", "verbose", DefaultValue = true,
-        HelpText="Output all messages to standard output.")]
+        HelpText = "Output all messages to standard output.")]
       public bool Verbose { get; set; }
 
       [HelpOption]
