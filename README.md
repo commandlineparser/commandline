@@ -48,7 +48,7 @@ Create a class to receive parsed values:
       public string InputFile { get; set; }
     
       [Option("v", "verbose", DefaultValue = true,
-        HelpText = "Output all messages to standard output.")]
+        HelpText = "Prints all messages to standard output.")]
       public bool Verbose { get; set; }
 
       [HelpOption]
