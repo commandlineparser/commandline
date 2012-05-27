@@ -209,7 +209,8 @@ namespace SampleApp
             //f3.DetailedHelpWithBadMutualExclusiveness();
             //f3.DetailedHelpWithMissingRequired();
             //f3.DetailedHelpWithBadFormat();
-            f3.CreateBasicInstance();
+            //f3.CreateBasicInstance();
+            f3.InvokeRenderParsingErrorsText();
             Console.Write("press any key");
             Console.ReadKey();
             Environment.Exit(1);

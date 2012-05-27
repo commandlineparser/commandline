@@ -1,3 +1,8 @@
+2012-05-27	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Minor fix in HelpText::RenderParsingErrorsText().
+  * Beta promoted to RC0.
+
 2012-05-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Added tests for BaseOptionAttribute::DefaultValue.

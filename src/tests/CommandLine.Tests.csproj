@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="Mocks\SimpleOptionsWithBadDefaults.cs" />
     <Compile Include="Mocks\SimpleOptionsWithDefaultArray.cs" />
+    <Compile Include="Mocks\RPEOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

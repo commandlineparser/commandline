@@ -17,7 +17,6 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -70,9 +69,9 @@
     <Compile Include="Properties\ThisAssembly.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libcmdline\CommandLine.csproj">
-      <Project>{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}</Project>
-      <Name>CommandLine</Name>
+    <ProjectReference Include="..\tests\CommandLine.Tests.csproj">
+      <Project>{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}</Project>
+      <Name>CommandLine.Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

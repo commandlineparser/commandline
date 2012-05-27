@@ -30,6 +30,6 @@ static class ThisAssembly
 {
     internal const string Title = "CommandLine.dll";
     internal const string Copyright = "Copyright (C) 2005 - 2012 Giacomo Stelluti Scala";
-    internal const string Version = "1.9.1.11"; //beta
-    internal const string InformationalVersion = "1.9.1.11";
+    internal const string Version = "1.9.1.15"; //rc0
+    internal const string InformationalVersion = "1.9.1.15";
 }

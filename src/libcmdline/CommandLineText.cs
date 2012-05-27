@@ -716,13 +716,17 @@ namespace CommandLine.Text
             foreach (var e in options.InternalLastPostParsingState.Errors) {
                 var line = new StringBuilder ();
                 line.Append (StringUtil.Spaces (indent));
-                if (!string.IsNullOrEmpty (e.BadOption.ShortName)) {
+                if (!string.IsNullOrEmpty(e.BadOption.ShortName))
+                {
                     line.Append ('-');
                     line.Append (e.BadOption.ShortName);
-                    line.Append ('/');
+                    if (!string.IsNullOrEmpty(e.BadOption.LongName)) line.Append ('/');
                 }
-                line.Append ("--");
-                line.Append (e.BadOption.LongName);
+                if (!string.IsNullOrEmpty(e.BadOption.LongName))
+                {
+                    line.Append ("--");
+                    line.Append (e.BadOption.LongName);
+                }
                 line.Append (" ");
                 if (e.ViolatesRequired) {
                     line.Append (_sentenceBuilder.RequiredOptionMissingText);

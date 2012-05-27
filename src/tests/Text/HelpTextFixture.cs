@@ -275,6 +275,28 @@ namespace CommandLine.Text.Tests
             Assert.AreEqual("", local.ToString());
         }
 
+        [Test]
+        public void InvokeRenderParsingErrorsText()
+        {
+            var sw = new StringWriter();
+            var options = new RPEOptions();
+            var parser = new CommandLineParser(new CommandLineParserSettings{
+                MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
+            var result = parser.ParseArguments(new string[] {"--option-b", "hello", "-cWORLD"}, options);
+
+            Assert.IsFalse(result);
+
+            var outsw = sw.ToString();
+
+            Console.WriteLine(outsw);
+
+            var lines = outsw.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+            Assert.AreEqual(lines[0], "--option-b option violates format.");
+            Assert.AreEqual(lines[1], "-c/--option-c option violates format.");
+            Assert.AreEqual(lines[2], "-a required option is missing.");
+        }
+
         #region Parsing Errors Subsystem Test, related to Help Text building
         [Test]
         public void DetailedHelpWithBadFormat()
