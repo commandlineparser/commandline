@@ -55,15 +55,6 @@ namespace SampleApp
 
         private sealed class Options : CommandLineOptionsBase
         {
-            //public Options()
-            //{
-            //    // use constructor for default values
-            //    // - if null, you don't need to set
-            //    // - if equal to first enum item, don't set
-            //    // - if false, you don't set also
-            //    StartOffset = 0;
-            //}
-
             #region Standard Option Attribute
             [Option("r", "read", Required = true, HelpText = "Input file with data to process.")]
             public string InputFile {get; set;}
@@ -97,7 +88,24 @@ namespace SampleApp
                 " Separate each operator with a semicolon." + " Do not include spaces between operators and separator.")]
             [DefaultValue(null)]
             public IList<string> AllowedOperators { get; set; }
-            
+
+            [HelpOption]
+            public string GetUsage()
+            {
+                return HelpText.AutoBuild(this, delegate(HelpText current) {
+                    if (this.LastPostParsingState.Errors.Count > 0)
+                    {
+                        var errors = current.RenderParsingErrorsText(this, 2); // indent with two spaces
+                        if (!string.IsNullOrEmpty(errors))
+                        {
+                            current.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
+                            current.AddPreOptionsLine(errors);
+                        }
+                    }
+                });
+            }
+
+            /*
             [HelpOption]
             public string GetUsage()
             {
@@ -124,11 +132,12 @@ namespace SampleApp
                     var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
                     if (!string.IsNullOrEmpty(errors))
                     {
-    					help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
-    					help.AddPreOptionsLine(errors);
+                        help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
+                        help.AddPreOptionsLine(errors);
                     }
                 }
             }
+            */
             #endregion
         }
 

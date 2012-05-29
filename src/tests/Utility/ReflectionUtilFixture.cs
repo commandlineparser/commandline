@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using CommandLine.Text;
 using NUnit.Framework;
 #endregion
 
@@ -147,6 +148,35 @@ namespace CommandLine.Tests
             Assert.AreEqual("applied to X", list[0].StringValue);
             Assert.AreEqual("applied to Y", list[1].StringValue);
             Assert.AreEqual("applied to Z", list[2].StringValue);
+        }
+
+        [Test]
+        public void GetAssemblyTitleAttribute()
+        {
+            var attr = ReflectionUtil.GetAttribute<AssemblyTitleAttribute>();
+
+            Assert.IsNotNull(attr);
+            Assert.IsInstanceOf(typeof(AssemblyTitleAttribute), attr);
+        }
+
+        /*
+        [Test]
+        public void GetAssemblyVersionAttribute()
+        {
+            var attr = ReflectionUtil.GetAttribute<AssemblyVersionAttribute>();
+
+            Assert.IsNotNull(attr);
+            Assert.IsInstanceOf(typeof(AssemblyVersionAttribute), attr);
+        }
+        */
+
+        [Test]
+        public void GetAssemblyInformationalVersionAttribute()
+        {
+            var attr = ReflectionUtil.GetAttribute<AssemblyInformationalVersionAttribute>();
+
+            Assert.IsNotNull(attr);
+            Assert.IsInstanceOf(typeof(AssemblyInformationalVersionAttribute), attr);
         }
 
         private static void PrintFieldList<TAttribute>(IList<Pair<PropertyInfo, TAttribute>> list)

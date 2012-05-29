@@ -1920,6 +1920,14 @@ namespace CommandLine
             return list;
         }
 
+        public static TAttribute GetAttribute<TAttribute>()
+            where TAttribute : Attribute
+        {
+            object[] a = Assembly.GetCallingAssembly().GetCustomAttributes(typeof(TAttribute), false);
+            if (a == null || a.Length <= 0) return null;
+            return (TAttribute)a[0];
+        }
+
         public static bool IsNullableType(Type type)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>));

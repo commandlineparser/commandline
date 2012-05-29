@@ -34,11 +34,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Globalization;
-
+using System.Reflection;
+using System.Runtime.InteropServices;
 #endregion
 
 namespace CommandLine.Text
 {
+    #region *SentenceBuilder
     /// <summary>
     /// Models an abstract sentence builder.
     /// </summary>
@@ -141,7 +143,9 @@ namespace CommandLine.Text
         /// </value>        
         public override string ViolatesMutualExclusivenessText { get { return "violates mutual exclusiveness"; } }
     }
+    #endregion
 
+    #region Secondary Helpers
     /// <summary>
     /// Models the copyright informations part of an help text.
     /// You can assign it where you assign any <see cref="System.String"/> instance.
@@ -382,6 +386,198 @@ namespace CommandLine.Text
         }
     }
 
+    /*
+    internal static class AssemblyVersionAttributeUtil
+    {
+        public static string GetInformationalVersion(this AssemblyVersionAttribute attr)
+        {
+            var parts = attr.Version.Split('.');
+            if (parts.Length > 2)
+            {
+                return string.Format(CultureInfo.InvariantCulture, "{0}.{1}", parts[0], parts[1]);
+            }
+            return attr.Version;
+        }
+    }
+    */
+
+    internal static class StringBuilderUtil
+    {
+        public static void AppendLineIfNotNullOrEmpty(this StringBuilder bldr, string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                bldr.AppendLine(value);
+            }
+        }
+    }
+    #endregion
+
+    #region Attributes
+    public abstract class MultiLineTextAttribute : Attribute
+    {
+        //string _fullText;
+        string _line1;
+        string _line2;
+        string _line3;
+        string _line4;
+        string _line5;
+
+        //public MultiLineTextAttribute(object fullText)
+        //{
+        //    var realFullText = fullText as string;
+        //    Assumes.NotNullOrEmpty(realFullText, "fullText");
+        //    _fullText = realFullText;
+        //}
+        public MultiLineTextAttribute(string line1)
+        {
+            Assumes.NotNullOrEmpty(line1, "line1");
+            _line1 = line1;
+        }
+        public MultiLineTextAttribute(string line1, string line2)
+            : this(line1)
+        {
+            Assumes.NotNullOrEmpty(line2, "line2");
+            _line2 = line2;
+        }
+                public MultiLineTextAttribute(string line1, string line2, string line3)
+            : this(line1, line2)
+        {
+            Assumes.NotNullOrEmpty(line3, "line3");
+            _line3 = line3;
+        }
+        public MultiLineTextAttribute(string line1, string line2, string line3, string line4)
+            : this(line1, line2, line3)
+        {
+            Assumes.NotNullOrEmpty(line4, "line4");
+            _line4 = line4;
+        }
+        public MultiLineTextAttribute(string line1, string line2, string line3, string line4, string line5)
+            : this(line1, line2, line3, line4)
+        {
+            Assumes.NotNullOrEmpty(line5, "line5");
+            _line5 = line5;
+        }
+
+        /*
+        public string FullText
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_fullText))
+                {
+                    if (!string.IsNullOrEmpty(_line1))
+                    {
+                        var builder = new StringBuilder(_line1);
+                        builder.AppendLineIfNotNullOrEmpty(_line2);
+                        builder.AppendLineIfNotNullOrEmpty(_line3);
+                        builder.AppendLineIfNotNullOrEmpty(_line4);
+                        builder.AppendLineIfNotNullOrEmpty(_line5);
+                        _fullText = builder.ToString();
+                    }
+                }
+                return _fullText;
+            }
+        }
+        */
+
+        internal void AddToHelpText(HelpText helpText, bool before)
+        {
+            if (before)
+            {
+                if (!string.IsNullOrEmpty(_line1)) helpText.AddPreOptionsLine(_line1);
+                if (!string.IsNullOrEmpty(_line2)) helpText.AddPreOptionsLine(_line2);
+                if (!string.IsNullOrEmpty(_line3)) helpText.AddPreOptionsLine(_line3);
+                if (!string.IsNullOrEmpty(_line4)) helpText.AddPreOptionsLine(_line4);
+                if (!string.IsNullOrEmpty(_line5)) helpText.AddPreOptionsLine(_line5);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(_line1)) helpText.AddPostOptionsLine(_line1);
+                if (!string.IsNullOrEmpty(_line2)) helpText.AddPostOptionsLine(_line2);
+                if (!string.IsNullOrEmpty(_line3)) helpText.AddPostOptionsLine(_line3);
+                if (!string.IsNullOrEmpty(_line4)) helpText.AddPostOptionsLine(_line4);
+                if (!string.IsNullOrEmpty(_line5)) helpText.AddPostOptionsLine(_line5);
+            }
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Assembly, Inherited=false), ComVisible(true)]
+    public sealed class AssemblyLicenseAttribute : MultiLineTextAttribute
+    {
+        //public AssemblyLicenseAttribute(object fullText)
+        //    : base(fullText)
+        //{
+        //}
+        public AssemblyLicenseAttribute(string line1)
+            : base(line1)
+        {
+        }
+        public AssemblyLicenseAttribute(string line1, string line2)
+            : base(line1, line2)
+        {
+        }
+        public AssemblyLicenseAttribute(string line1, string line2, string line3)
+            : base(line1, line2, line3)
+        {
+        }
+        public AssemblyLicenseAttribute(string line1, string line2, string line3, string line4)
+            : base(line1, line2, line3, line4)
+        {
+        }
+        public AssemblyLicenseAttribute(string line1, string line2, string line3, string line4, string line5)
+            : base(line1, line2, line3, line4, line5)
+        {
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Assembly, Inherited=false), ComVisible(true)]
+    public sealed class AssemblyUsageAttribute : MultiLineTextAttribute
+    {
+        //public AssemblyUsageAttribute(object fullText)
+        //    : base(fullText)
+        //{
+        //}
+        public AssemblyUsageAttribute(string line1)
+            : base(line1)
+        {
+        }
+        public AssemblyUsageAttribute(string line1, string line2)
+            : base(line1, line2)
+        {
+        }
+        public AssemblyUsageAttribute(string line1, string line2, string line3)
+            : base(line1, line2, line3)
+        {
+        }
+        public AssemblyUsageAttribute(string line1, string line2, string line3, string line4)
+            : base(line1, line2, line3, line4)
+        {
+        }
+        public AssemblyUsageAttribute(string line1, string line2, string line3, string line4, string line5)
+            : base(line1, line2, line3, line4, line5)
+        {
+        }
+    }
+
+    /*[AttributeUsage(AttributeTargets.Assembly, Inherited=false), ComVisible(true)]
+    public sealed class AssemblyInformationalVersionAttribute : Attribute
+    {
+        public string Version { get; private set; }
+
+        public AssemblyInformationalVersionAttribute (string version)
+        {
+            this.Version = version;
+        }
+    }*/
+    #endregion
+
+    #region HelpText
+    /// <summary>
+    /// Handle parsing errors delegate.
+    /// </summary>
+    public delegate void HandleParsingErrorsDelegate(HelpText current);
+
     /// <summary>
     /// Provides data for the FormatOptionHelpText event.
     /// </summary>
@@ -565,15 +761,85 @@ namespace CommandLine.Text
         {
             Assumes.NotNull (sentenceBuilder, "sentenceBuilder");
             
-            _sentenceBuilder = sentenceBuilder;                 
+            _sentenceBuilder = sentenceBuilder;
         }
-        
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults.
+        /// </summary>
+        /// <returns>
+        /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
+        /// </returns>
+        /// <param name='options'>
+        /// The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.
+        /// </param>
+        public static HelpText AutoBuild(object options)
+        {
+            return AutoBuild(options, null);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults.
+        /// </summary>
+        /// <returns>
+        /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
+        /// </returns>
+        /// <param name='options'>
+        /// The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.
+        /// </param>
+        /// <param name='errDelegate'>
+        /// A delegate used to customize the text block for reporting parsing errors.
+        /// </param>
+        public static HelpText AutoBuild(object options, HandleParsingErrorsDelegate errDelegate)
+        {
+            var title = ReflectionUtil.GetAttribute<AssemblyTitleAttribute>();
+            if (title == null) throw new InvalidOperationException("HelpText::AutoBuild() requires that you define AssemblyTitleAttribute.");
+            var version = ReflectionUtil.GetAttribute<AssemblyInformationalVersionAttribute>();
+            if (version == null) throw new InvalidOperationException("HelpText::AutoBuild() requires that you define AssemblyInformationalVersionAttribute.");
+            var copyright = ReflectionUtil.GetAttribute<AssemblyCopyrightAttribute>();
+            if (copyright == null) throw new InvalidOperationException("HelpText::AutoBuild() requires that you define AssemblyCopyrightAttribute.");
+
+            var auto = new HelpText {
+                Heading = new HeadingInfo(Path.GetFileNameWithoutExtension(title.Title), version.InformationalVersion),
+                Copyright = copyright.Copyright,
+                AdditionalNewLineAfterOption = true,
+                AddDashesToOption = true };
+
+            if (errDelegate != null)
+            {
+                var typedTarget = options as CommandLineOptionsBase;
+                if (typedTarget != null)
+                {
+                    errDelegate(auto);
+                }
+            }
+
+            var license = ReflectionUtil.GetAttribute<AssemblyLicenseAttribute>();
+            if (license != null)
+            {
+                //auto.AddPreOptionsLine(license.FullText);
+                license.AddToHelpText(auto, true);
+            }
+            var usage = ReflectionUtil.GetAttribute<AssemblyUsageAttribute>();
+            if (usage != null)
+            {
+                //auto.AddPreOptionsLine(usage.FullText);
+                usage.AddToHelpText(auto, true);
+            }
+
+            auto.AddOptions(options);
+
+            return auto;
+        }
+
         /// <summary>
         /// Sets the heading information string.
         /// You can directly assign a <see cref="CommandLine.Text.HeadingInfo"/> instance.
         /// </summary>
-        public string Heading {
-            set {
+        public string Heading
+        {
+            set
+            {
                 Assumes.NotNullOrEmpty (value, "value");
                 _heading = value;
             }
@@ -583,8 +849,10 @@ namespace CommandLine.Text
         /// Sets the copyright information string.
         /// You can directly assign a <see cref="CommandLine.Text.CopyrightInfo"/> instance.
         /// </summary>
-        public string Copyright {
-            set {
+        public string Copyright
+        {
+            set
+            {
                 Assumes.NotNullOrEmpty (value, "value");
                 _copyright = value;
             }
@@ -603,7 +871,8 @@ namespace CommandLine.Text
         /// Gets or sets the format of options for adding or removing dashes.
         /// It modifies behavior of <see cref="AddOptions"/> method.
         /// </summary>
-        public bool AddDashesToOption {
+        public bool AddDashesToOption
+        {
             get { return _addDashesToOption; }
             set { _addDashesToOption = value; }
         }
@@ -611,7 +880,8 @@ namespace CommandLine.Text
         /// <summary>
         /// Gets or sets whether to add an additional line after the description of the option.
         /// </summary>
-        public bool AdditionalNewLineAfterOption {
+        public bool AdditionalNewLineAfterOption
+        {
             get { return _additionalNewLineAfterOption; }
             set { _additionalNewLineAfterOption = value; }
         }
@@ -964,4 +1234,5 @@ namespace CommandLine.Text
                 handler (this, e);
         }
     }
+    #endregion
 }

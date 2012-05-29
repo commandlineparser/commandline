@@ -29,14 +29,27 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using CommandLine.Text;
 #endregion
 
 [assembly: AssemblyTitle(ThisAssembly.Title)]
 [assembly: AssemblyProduct("Command Line Parsing Library")]
 [assembly: AssemblyDescription("Sample Application for Command Line Library")]
-[assembly: AssemblyCopyright(ThisAssembly.Version)]
+[assembly: AssemblyCopyright(ThisAssembly.Copyright)]
 [assembly: AssemblyVersion(ThisAssembly.Version)]
 [assembly: AssemblyCulture("")]
+
+// here we're using new CommandLine.Text attributes
+[assembly: AssemblyLicense(
+    "This is free software. You may redistribute copies of it under the terms of",
+    "the MIT License <http://www.opensource.org/licenses/mit-license.php>.")]
+[assembly: AssemblyUsage(
+    "Usage: SampleApp -rMyData.in -wMyData.out --calculate",
+    "       SampleApp -rMyData.in -i -j9.7 file0.def file1.def",
+    "       SampleApp -rMath.xml -wReport.bin -o *;/;+;-")]
+[assembly: AssemblyInformationalVersionAttribute(
+    ThisAssembly.InformationalVersion)]
+
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 #else

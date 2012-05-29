@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.1.15 for CLR.
+Command Line Parser Library 1.9.2.1 for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.
 It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the user.
@@ -13,9 +13,8 @@ Compatibility:
 
 News:
 ---
+  - Introduced AssemblyLicenseAttribute and AssemblyUsageAttribute for use with HelpText::AutoBuild().
   - Beta promoted to RC0.
-  - Minor fix in HelpText::RenderParsingErrorsText().
-  - If you use a bad value setting a default value a CommandLineParserException is raised.
   - Added field initialization via BaseOptionAttribute::DefaultValue.
   - Added support for parsing culture-specific values.
 
@@ -54,11 +53,7 @@ Create a class to receive parsed values:
 
       [HelpOption]
       public string GetUsage() {
-        var help = new HelpText(new HeadingInfo("github-sample", "0.1"));
-        help.Copyright = new CopyrightInfo("your name here", 2005, 2012);
-        help.AddPreOptionsLine("some custom stuff here");
-        help.AddOptions(this);
-        return help;
+        return HelpText.AutoBuild(this);
       }
     }
 ```
