@@ -401,6 +401,7 @@ namespace CommandLine.Text
     }
     */
 
+    /*
     internal static class StringBuilderUtil
     {
         public static void AppendLineIfNotNullOrEmpty(this StringBuilder bldr, string value)
@@ -411,6 +412,7 @@ namespace CommandLine.Text
             }
         }
     }
+    */
     #endregion
 
     #region Attributes
