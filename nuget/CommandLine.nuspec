@@ -7,7 +7,7 @@
     <licenseUrl>https://github.com/gsscoder/commandline/blob/master/doc/LICENSE</licenseUrl>
     <projectUrl>https://github.com/gsscoder/commandline</projectUrl>
     <iconUrl>https://github.com/gsscoder/commandline/raw/master/art/CommandLine.png</iconUrl>
-    <id>CommandLine</id>
+    <id>CommandLineParser</id>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</description>
     <tags>Command Line Parser</tags>
@@ -15,5 +15,6 @@
   <files>
     <file src="lib\CommandLine.dll" target="lib\CommandLine.dll" />
     <file src="lib\CommandLine.XML" target="lib\CommandLine.XML" />
+    <file src="readme.txt" target="readme.txt" />
   </files>
 </package>

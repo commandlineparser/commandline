@@ -13,6 +13,7 @@ Compatibility:
 
 News:
 ---
+  - Official nuget package is CommandLineParser.
   - Introduced AssemblyLicenseAttribute and AssemblyUsageAttribute for use with HelpText::AutoBuild().
   - Beta promoted to RC0.
   - Added field initialization via BaseOptionAttribute::DefaultValue.
@@ -24,8 +25,8 @@ MonoDevelop or Visual Studio.
 
 To install:
 ---
-  - NuGet way: Install-Package CommandLine
-  - XCOPY way: cp CommandLine/src/libcmdline/*.cs To/Your/Project/Dir
+  - NuGet way: ``Install-Package CommandLineParser``
+  - XCOPY way: ``cp CommandLine/src/libcmdline/*.cs To/Your/Project/Dir``
 
 To start:
 ---
