@@ -55,7 +55,7 @@ Create a class to receive parsed values:
       [HelpOption]
       public string GetUsage() {
         return HelpText.AutoBuild(this,
-        	(HelpText current) => HelpText.DefaultHandleParsingErrorsHandler(this, current));
+        	(HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
       }
     }
 ```

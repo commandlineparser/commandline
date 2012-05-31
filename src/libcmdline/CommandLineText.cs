@@ -850,7 +850,7 @@ namespace CommandLine.Text
             return auto;
         }
 
-        public static void DefaultHandleParsingErrorsHandler(CommandLineOptionsBase options, HelpText current)
+        public static void DefaultParsingErrorsHandler(CommandLineOptionsBase options, HelpText current)
         {
             if (options.InternalLastPostParsingState.Errors.Count > 0)
             {

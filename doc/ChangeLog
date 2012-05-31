@@ -1,7 +1,7 @@
 2012-05-31	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Added errors heading in sentence builder.
-  * Added HelpText.DefaultHandleParsingErrorsHandler for reduce code devoted to errors handling.
+  * Added HelpText.DefaultParsingErrorsHandler for reduce code devoted to errors handling.
 
 2012-05-29	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
