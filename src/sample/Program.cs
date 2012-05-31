@@ -79,7 +79,6 @@ namespace SampleApp
             #endregion
 
             #region Specialized Option Attribute
-
             [ValueList(typeof(List<string>))]
             [DefaultValue(null)]
             public IList<string> DefinitionFiles { get; set; }
@@ -88,7 +87,16 @@ namespace SampleApp
                 " Separate each operator with a semicolon." + " Do not include spaces between operators and separator.")]
             [DefaultValue(null)]
             public IList<string> AllowedOperators { get; set; }
+            #endregion
 
+            #region Help Screen
+            [HelpOption]
+            public string GetUsage()
+            {
+                return HelpText.AutoBuild(this, (HelpText current) => HelpText.DefaultHandleParsingErrorsHandler(this, current));
+            }
+
+            /*
             [HelpOption]
             public string GetUsage()
             {
@@ -104,6 +112,7 @@ namespace SampleApp
                     }
                 });
             }
+            */
 
             /*
             [HelpOption]

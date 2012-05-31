@@ -96,6 +96,14 @@ namespace CommandLine.Text
         /// The sentence 'violates mutual exclusiveness'.
         /// </value>
         public abstract string ViolatesMutualExclusivenessText { get; }
+
+        /// <summary>
+        /// Gets a string containing the error heading text.
+        /// </summary>
+        /// <value>
+        /// The error heading text.
+        /// </value>
+        public abstract string ErrorsHeadingText { get; }
     }
 
     /// <summary>
@@ -142,6 +150,14 @@ namespace CommandLine.Text
         /// The sentence 'violates mutual exclusiveness' in english.
         /// </value>        
         public override string ViolatesMutualExclusivenessText { get { return "violates mutual exclusiveness"; } }
+
+        /// <summary>
+        /// Gets a string containing the error heading text in english.
+        /// </summary>
+        /// <value>
+        /// The error heading text in english.
+        /// </value>
+        public override string ErrorsHeadingText { get { return "ERROR(S):"; } }
     }
     #endregion
 
@@ -834,6 +850,19 @@ namespace CommandLine.Text
             return auto;
         }
 
+        public static void DefaultHandleParsingErrorsHandler(CommandLineOptionsBase options, HelpText current)
+        {
+            if (options.InternalLastPostParsingState.Errors.Count > 0)
+            {
+                var errors = current.RenderParsingErrorsText(options, 2); // indent with two spaces
+                if (!string.IsNullOrEmpty(errors))
+                {
+                    current.AddPreOptionsLine(string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText));
+                    current.AddPreOptionsLine(errors);
+                }
+            }
+        }
+
         /// <summary>
         /// Sets the heading information string.
         /// You can directly assign a <see cref="CommandLine.Text.HeadingInfo"/> instance.
@@ -886,6 +915,11 @@ namespace CommandLine.Text
         {
             get { return _additionalNewLineAfterOption; }
             set { _additionalNewLineAfterOption = value; }
+        }
+
+        public BaseSentenceBuilder SentenceBuilder
+        {
+            get { return _sentenceBuilder; }
         }
 
         /// <summary>

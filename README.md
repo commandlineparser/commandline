@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.2.1 for CLR.
+Command Line Parser Library 1.9.2.3 for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.
 It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the user.
@@ -43,7 +43,7 @@ Anyway using HelpText class will avoid you a lot of repetitive coding.
 Create a class to receive parsed values:
 
 ```csharp
-    class Options {
+    class Options : CommandLineOptionsBase {
       [Option("r", "read", Required = true,
         HelpText = "Input file to be processed.")]
       public string InputFile { get; set; }
@@ -54,7 +54,8 @@ Create a class to receive parsed values:
 
       [HelpOption]
       public string GetUsage() {
-        return HelpText.AutoBuild(this);
+        return HelpText.AutoBuild(this,
+        	(HelpText current) => HelpText.DefaultHandleParsingErrorsHandler(this, current));
       }
     }
 ```
