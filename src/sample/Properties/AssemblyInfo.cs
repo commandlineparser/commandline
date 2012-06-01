@@ -37,6 +37,7 @@ using CommandLine.Text;
 [assembly: AssemblyDescription("Sample Application for Command Line Library")]
 [assembly: AssemblyCopyright(ThisAssembly.Copyright)]
 [assembly: AssemblyVersion(ThisAssembly.Version)]
+[assembly: AssemblyInformationalVersionAttribute(ThisAssembly.InformationalVersion)]
 [assembly: AssemblyCulture("")]
 
 // here we're using new CommandLine.Text attributes
@@ -47,8 +48,6 @@ using CommandLine.Text;
     "Usage: SampleApp -rMyData.in -wMyData.out --calculate",
     "       SampleApp -rMyData.in -i -j9.7 file0.def file1.def",
     "       SampleApp -rMath.xml -wReport.bin -o *;/;+;-")]
-[assembly: AssemblyInformationalVersionAttribute(
-    ThisAssembly.InformationalVersion)]
 
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
