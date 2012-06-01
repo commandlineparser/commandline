@@ -76,6 +76,7 @@ Resources for newcomers:
 ---
   - [CodePlex](http://commandline.codeplex.com)
   - [Quickstart](https://github.com/gsscoder/commandline/wiki/Quickstart)
+  - [Wiki](https://github.com/gsscoder/commandline/wiki)
   - [GNU getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html)
 
 Contacts:
