@@ -44,4 +44,9 @@ if (CommandLineParser.Default.ParseArguments(args, options)) {
   // consume values here
 }
 
+Nuget:
+------
+Package ha version 1.9.2.41 'cause 1.9.2.4 was published with some problems.
+But actual lib version is 1.9.2.4.
+
 Have fun!
