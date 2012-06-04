@@ -1,5 +1,5 @@
-Command Line Parser Library 1.9.2.1 RC0
----------------------------------------
+Command Line Parser Library 1.9.2.4 Stable
+------------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
 
@@ -26,6 +26,15 @@ class Options {
 }
 
 As you can see I've added the new DefaultValue property to help you initialize properties.
+
+Shortcut for Help Screen
+------------------------
+[HelpOption]
+public string GetUsage()
+{
+  return HelpText.AutoBuild(this,
+    (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+}
 
 Note:
 -----

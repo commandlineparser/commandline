@@ -1,20 +1,22 @@
 <?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>1.9.2.1</version>
+    <version>1.9.2.4</version>
     <authors>Giacomo Stelluti Scala</authors>
     <owners>Giacomo Stelluti Scala</owners>
     <licenseUrl>https://github.com/gsscoder/commandline/blob/master/doc/LICENSE</licenseUrl>
     <projectUrl>https://github.com/gsscoder/commandline</projectUrl>
     <iconUrl>https://github.com/gsscoder/commandline/raw/master/art/CommandLine.png</iconUrl>
     <id>CommandLineParser</id>
+    <title>Command Line Parser Library</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</description>
+    <copyright>2005 - 2012 Giacomo Stelluti Scala</copyright>
     <tags>Command Line Parser</tags>
   </metadata>
   <files>
-    <file src="lib\CommandLine.dll" target="lib\CommandLine.dll" />
-    <file src="lib\CommandLine.XML" target="lib\CommandLine.XML" />
-    <file src="readme.txt" target="readme.txt" />
+    <file src="C:\Users\vmuser\Desktop\commandline_nuget\lib\CommandLine.dll" target="lib\CommandLine.dll" />
+    <file src="C:\Users\vmuser\Desktop\commandline_nuget\lib\CommandLine.XML" target="lib\CommandLine.XML" />
+    <file src="C:\Users\vmuser\Desktop\commandline_nuget\readme.txt" target="readme.txt" />
   </files>
 </package>
