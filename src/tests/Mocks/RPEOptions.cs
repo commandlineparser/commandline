@@ -16,13 +16,23 @@ namespace CommandLine.Tests.Mocks
         public double OptionC { get; set; }
 
         [HelpOption]
-        public string GetUsage()
+        public virtual string GetUsage()
         {
             if (LastPostParsingState.Errors.Count > 0)
             {
                 return new HelpText().RenderParsingErrorsText(this, 0);
             }
             return "";
+        }
+    }
+
+    public class RPEOptionsForAutoBuild : RPEOptions
+    {
+        [HelpOption]
+        public override string GetUsage ()
+        {
+            return HelpText.AutoBuild(this, delegate(HelpText current) {
+                HelpText.DefaultParsingErrorsHandler(this, current); });
         }
     }
 }

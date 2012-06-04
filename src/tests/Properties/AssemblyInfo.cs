@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using CommandLine.Text;
 #endregion
 
 [assembly: AssemblyTitle(_ThisAssembly.Title)]
@@ -42,6 +43,13 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyInformationalVersion(_ThisAssembly.InformationalVersion)]
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: AssemblyCulture("")]
+
+[assembly: AssemblyLicense(
+    "This is free software. You may redistribute copies of it under the terms of",
+    "the MIT License <http://www.opensource.org/licenses/mit-license.php>.")]
+[assembly: AssemblyUsage(
+    "[no usage, this is a dll]")]
+
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 #else

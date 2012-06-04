@@ -280,7 +280,7 @@ namespace CommandLine.Text.Tests
         {
             var sw = new StringWriter();
             var options = new RPEOptions();
-            var parser = new CommandLineParser(new CommandLineParserSettings{
+            var parser = new CommandLineParser(new CommandLineParserSettings {
                 MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
             var result = parser.ParseArguments(new string[] {"--option-b", "hello", "-cWORLD"}, options);
 
@@ -295,6 +295,67 @@ namespace CommandLine.Text.Tests
             Assert.AreEqual(lines[0], "--option-b option violates format.");
             Assert.AreEqual(lines[1], "-c/--option-c option violates format.");
             Assert.AreEqual(lines[2], "-a required option is missing.");
+        }
+
+        [Test]
+        public void AutoBuildWithRenderParsingErrorsHelper()
+        {
+            var sw = new StringWriter();
+            var options = new RPEOptionsForAutoBuild();
+            var parser = new CommandLineParser(new CommandLineParserSettings {
+                MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
+            var result = parser.ParseArguments(new string[] {"--option-b", "hello", "-cWORLD"}, options);
+
+            Assert.IsFalse(result);
+
+            var outsw = sw.ToString();
+
+            Console.WriteLine(outsw);
+
+            var lines = outsw.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+            Assert.AreEqual(lines[0], "CommandLine.Tests 1.9");
+            Assert.AreEqual(lines[1], "Copyright (C) 2005 - 2012 Giacomo Stelluti Scala");
+            Assert.AreEqual(lines[3], "ERROR(S):");
+            Assert.AreEqual(lines[4], "  --option-b option violates format.");
+            Assert.AreEqual(lines[5], "  -c/--option-c option violates format.");
+            Assert.AreEqual(lines[6], "  -a required option is missing.");
+            Assert.AreEqual(lines[8], "This is free software. You may redistribute copies of it under the terms of");
+            Assert.AreEqual(lines[9], "the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
+            Assert.AreEqual(lines[10], "[no usage, this is a dll]");
+            Assert.AreEqual(lines[12], "  -a                Required. This string option is defined A.");
+            Assert.AreEqual(lines[14], "  --option-b        This integer option is defined B.");
+            Assert.AreEqual(lines[16], "  -c, --option-c    This double option is defined C.");
+            Assert.AreEqual(lines[18], "  --help            Display this help screen.");
+        }
+
+        [Test]
+        public void AutoBuild()
+        {
+            var sw = new StringWriter();
+            var options = new SimpleOptionsForAutoBuid();
+            var parser = new CommandLineParser(new CommandLineParserSettings {
+                MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
+            var result = parser.ParseArguments(new string[] {}, options);
+
+            Assert.IsFalse(result);
+
+            var outsw = sw.ToString();
+
+            Console.WriteLine(outsw);
+
+            var lines = outsw.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+
+            Assert.AreEqual(lines[0], "CommandLine.Tests 1.9");
+            Assert.AreEqual(lines[1], "Copyright (C) 2005 - 2012 Giacomo Stelluti Scala");
+            Assert.AreEqual(lines[2], "This is free software. You may redistribute copies of it under the terms of");
+            Assert.AreEqual(lines[3], "the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
+            Assert.AreEqual(lines[4], "[no usage, this is a dll]");
+            Assert.AreEqual(lines[6], "  -m, --mock      Required. Force required.");
+            Assert.AreEqual(lines[8], "  -s, --string    ");
+            Assert.AreEqual(lines[10], "  -i              ");
+            Assert.AreEqual(lines[12], "  --switch        ");
+            Assert.AreEqual(lines[14], "  --help          Display this help screen.");
         }
 
         #region Parsing Errors Subsystem Test, related to Help Text building

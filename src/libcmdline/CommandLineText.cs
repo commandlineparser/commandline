@@ -858,7 +858,9 @@ namespace CommandLine.Text
                 if (!string.IsNullOrEmpty(errors))
                 {
                     current.AddPreOptionsLine(string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText));
-                    current.AddPreOptionsLine(errors);
+                    //current.AddPreOptionsLine(errors);
+                    var lines = errors.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                    foreach (var line in lines) { current.AddPreOptionsLine(line); }
                 }
             }
         }

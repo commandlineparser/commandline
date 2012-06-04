@@ -228,7 +228,8 @@ namespace SampleApp
             //f3.DetailedHelpWithMissingRequired();
             //f3.DetailedHelpWithBadFormat();
             //f3.CreateBasicInstance();
-            f3.InvokeRenderParsingErrorsText();
+            //f3.InvokeRenderParsingErrorsText();
+            f3.AutoBuildWithRenderParsingErrorsHelper();
             Console.Write("press any key");
             Console.ReadKey();
             Environment.Exit(1);
