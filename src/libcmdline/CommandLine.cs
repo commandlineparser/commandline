@@ -399,16 +399,16 @@ namespace CommandLine
             this.PostParsingState.Add(new ParsingError(option.ShortName, option.LongName, true));
         }
 
-        public static ArgumentParser Create(string argument)
+        public static ArgumentParser Create(string argument, bool ignoreUnknownArguments = false)
         {
             if (argument.Equals("-", StringComparison.InvariantCulture))
                 return null;
 
             if (argument[0] == '-' && argument[1] == '-')
-                return new LongOptionParser();
+                return new LongOptionParser(ignoreUnknownArguments);
 
             if (argument[0] == '-')
-                return new OptionGroupParser();
+                return new OptionGroupParser(ignoreUnknownArguments);
 
             return null;
         }
@@ -535,6 +535,13 @@ namespace CommandLine
 
     internal sealed class LongOptionParser : ArgumentParser
     {
+        private readonly bool _ignoreUnkwnownArguments;
+
+        public LongOptionParser(bool ignoreUnkwnownArguments)
+        {
+            _ignoreUnkwnownArguments = ignoreUnkwnownArguments;
+        }
+
         public override ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
         {
             var parts = argumentEnumerator.Current.Substring(2).Split(new[] { '=' }, 2);
@@ -542,7 +549,7 @@ namespace CommandLine
             bool valueSetting;
 
             if (option == null)
-                return ParserState.Failure;
+                return _ignoreUnkwnownArguments ? ParserState.MoveOnNextElement : ParserState.Failure;
 
             option.IsDefined = true;
 
@@ -700,6 +707,13 @@ namespace CommandLine
 
     internal sealed class OptionGroupParser : ArgumentParser
     {
+        private readonly bool _ignoreUnkwnownArguments;
+
+        public OptionGroupParser(bool ignoreUnkwnownArguments)
+        {
+            _ignoreUnkwnownArguments = ignoreUnkwnownArguments;
+        }
+
         public override ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
         {
             IArgumentEnumerator group = new OneCharStringEnumerator(argumentEnumerator.Current.Substring(1));
@@ -707,7 +721,7 @@ namespace CommandLine
             {
                 var option = map[group.Current];
                 if (option == null)
-                    return ParserState.Failure;
+                    return _ignoreUnkwnownArguments ? ParserState.MoveOnNextElement : ParserState.Failure;
 
                 option.IsDefined = true;
 
@@ -1593,6 +1607,23 @@ namespace CommandLine
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.CommandLineParserSettings"/> class,
+        /// setting case comparison, mutually exclusive behavior and help output option.
+        /// </summary>
+        /// <param name="caseSensitive">If set to true, parsing will be case sensitive.</param>
+        /// <param name="mutuallyExclusive">If set to true, enable mutually exclusive behavior.</param>
+        /// <param name="ignoreUnknownArguments">If set to true, allow the parser to skip unknown argument, otherwise return a parse failure</param>
+        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
+        /// default <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
+        public CommandLineParserSettings(bool caseSensitive, bool mutuallyExclusive, bool ignoreUnknownArguments, TextWriter helpWriter)
+        {
+            CaseSensitive = caseSensitive;
+            MutuallyExclusive = mutuallyExclusive;
+            HelpWriter = helpWriter;
+            IgnoreUnknownArguments = ignoreUnknownArguments;
+        }
+
+        /// <summary>
         /// Gets or sets the case comparison behavior.
         /// Default is set to true.
         /// </summary>
@@ -1609,6 +1640,23 @@ namespace CommandLine
         /// Setting this property to null, will disable help screen.
         /// </summary>
         public TextWriter HelpWriter { internal get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the parser shall move on to the next argument and ignore the given argument if it
+        /// encounter an unknown arguments
+        /// </summary>
+        /// <value>
+        /// <c>true</c> to allow parsing the arguments with differents class options that do not have all the arguments.
+        /// </value>
+        /// <remarks>
+        /// This allows fragmented version class parsing, useful for project with addon where addons also requires command line arguments but
+        /// when these are unknown by the main program at build time.
+        /// </remarks>
+        public bool IgnoreUnknownArguments
+        {
+            internal get;
+            set;
+        }
     }
 
     /// <summary>
@@ -1718,7 +1766,7 @@ namespace CommandLine
                 string argument = arguments.Current;
                 if (!string.IsNullOrEmpty(argument))
                 {
-                    ArgumentParser parser = ArgumentParser.Create(argument);
+                    ArgumentParser parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
                     if (parser != null)
                     {
                         ParserState result = parser.Parse(arguments, optionMap, options);
