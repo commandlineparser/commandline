@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.2.4 for CLR.
+Command Line Parser Library 1.9.3.1 for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.
 It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the user.
@@ -13,7 +13,7 @@ Compatibility:
 
 News:
 ---
-  - RC0 promoted to Stable.
+  - Merged code from Kevin Moore for handle unknown arguments.
   - Added tests for HelpText::AutoBuild.
   - Fixed minor formatting error in HelpText::DefaultParsingErrorsHandler.
   - Introduced AssemblyLicenseAttribute and AssemblyUsageAttribute for use with HelpText::AutoBuild().

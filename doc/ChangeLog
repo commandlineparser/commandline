@@ -1,3 +1,7 @@
+2012-06-12  Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  ** Merged pull request from Kevin Moore to support unknown arguments.
+
 2012-06-04	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   ** Added tests for HelpText::AutoBuild.
