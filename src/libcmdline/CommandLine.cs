@@ -33,7 +33,6 @@ using System.Reflection;
 using System;
 using System.Runtime.Serialization;
 using System.Diagnostics;
-using System.Globalization;
 using System.ComponentModel;
 using System.Threading;
 #endregion
@@ -78,7 +77,6 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets mapped property default value.
         /// </summary>
-        /// <value>
         public object DefaultValue {
             get { return _defaultValue; }
             set
@@ -119,7 +117,7 @@ namespace CommandLine
             Inherited=true)]
     public sealed class HelpOptionAttribute : BaseOptionAttribute
     {
-        private const string _defaultHelpText = "Display this help screen.";
+        private const string DEFAULT_HELP_TEXT = "Display this help screen.";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.HelpOptionAttribute"/> class.
@@ -127,7 +125,7 @@ namespace CommandLine
         public HelpOptionAttribute()
             : this(null, "help")
         {
-            HelpText = _defaultHelpText;
+            HelpText = DEFAULT_HELP_TEXT;
         }
 
         /// <summary>
@@ -140,7 +138,7 @@ namespace CommandLine
         {
             ShortName = shortName;
             LongName = longName;
-            HelpText = _defaultHelpText;
+            HelpText = DEFAULT_HELP_TEXT;
         }
 
         /// <summary>
@@ -385,7 +383,7 @@ namespace CommandLine
 
     internal abstract class ArgumentParser
     {
-        public ArgumentParser()
+        protected ArgumentParser()
         {
             this.PostParsingState = new List<ParsingError>();
         }
@@ -401,16 +399,16 @@ namespace CommandLine
             this.PostParsingState.Add(new ParsingError(option.ShortName, option.LongName, true));
         }
 
-        public static ArgumentParser Create(string argument)
+        public static ArgumentParser Create(string argument, bool ignoreUnknownArguments = false)
         {
             if (argument.Equals("-", StringComparison.InvariantCulture))
                 return null;
 
             if (argument[0] == '-' && argument[1] == '-')
-                return new LongOptionParser();
+                return new LongOptionParser(ignoreUnknownArguments);
 
             if (argument[0] == '-')
-                return new OptionGroupParser();
+                return new OptionGroupParser(ignoreUnknownArguments);
 
             return null;
         }
@@ -466,10 +464,11 @@ namespace CommandLine
         {
             if (value && !addMoveNextIfTrue)
                 return ParserState.Success;
-            else if (value && addMoveNextIfTrue)
+
+            if (value)
                 return ParserState.Success | ParserState.MoveOnNextElement;
-            else
-                return ParserState.Failure;
+
+            return ParserState.Failure;
         }
 
         protected static void EnsureOptionAttributeIsArrayCompatible(OptionInfo option)
@@ -503,11 +502,9 @@ namespace CommandLine
         /// <summary>
         /// The short name of the option
         /// </summary>
+        /// <value>Returns the short name of the option.</value>
         public string ShortName
         {
-            /// <summary>
-            /// Returns the short name of the option.
-            /// </summary>
             get;
             internal set;
         }
@@ -515,10 +512,8 @@ namespace CommandLine
         /// <summary>
         /// The long name of the option
         /// </summary>
+        /// <value>Returns the long name of the option.</value>
         public string LongName {
-            /// <summary>
-            /// Returns the long name of the option.
-            /// </summary>
             get;
             internal set;
         }
@@ -540,19 +535,21 @@ namespace CommandLine
 
     internal sealed class LongOptionParser : ArgumentParser
     {
-        public LongOptionParser()
-            : base()
+        private readonly bool _ignoreUnkwnownArguments;
+
+        public LongOptionParser(bool ignoreUnkwnownArguments)
         {
+            _ignoreUnkwnownArguments = ignoreUnkwnownArguments;
         }
 
-        public sealed override ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
+        public override ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
         {
-            var parts = argumentEnumerator.Current.Substring(2).Split(new char[] { '=' }, 2);
+            var parts = argumentEnumerator.Current.Substring(2).Split(new[] { '=' }, 2);
             var option = map[parts[0]];
-            var valueSetting = false;
+            bool valueSetting;
 
             if (option == null)
-                return ParserState.Failure;
+                return _ignoreUnkwnownArguments ? ParserState.MoveOnNextElement : ParserState.Failure;
 
             option.IsDefined = true;
 
@@ -573,19 +570,17 @@ namespace CommandLine
 
                         return ArgumentParser.BooleanToParserState(valueSetting);
                     }
-                    else
-                    {
-                        ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
 
-                        var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
-                        items.Insert(0, parts[1]);
+                    ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
 
-                        valueSetting = option.SetValue(items, options);
-                        if (!valueSetting)
-                            this.DefineOptionThatViolatesFormat(option);
+                    var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
+                    items.Insert(0, parts[1]);
 
-                        return ArgumentParser.BooleanToParserState(valueSetting);
-                    }
+                    valueSetting = option.SetValue(items, options);
+                    if (!valueSetting)
+                        this.DefineOptionThatViolatesFormat(option);
+
+                    return ArgumentParser.BooleanToParserState(valueSetting);
                 }
                 else
                 {
@@ -597,31 +592,27 @@ namespace CommandLine
 
                         return ArgumentParser.BooleanToParserState(valueSetting, true);
                     }
-                    else
-                    {
-                        ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
 
-                        var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
+                    ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
 
-                        valueSetting = option.SetValue(items, options);
-                        if (!valueSetting)
-                            this.DefineOptionThatViolatesFormat(option);
+                    var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
 
-                        return ArgumentParser.BooleanToParserState(valueSetting, true);
-                    }
+                    valueSetting = option.SetValue(items, options);
+                    if (!valueSetting)
+                        this.DefineOptionThatViolatesFormat(option);
+
+                    return ArgumentParser.BooleanToParserState(valueSetting, true);
                 }
             }
-            else
-            {
-                if (parts.Length == 2)
-                    return ParserState.Failure;
 
-                valueSetting = option.SetValue(true, options);
-                if (!valueSetting)
-                    this.DefineOptionThatViolatesFormat(option);
+            if (parts.Length == 2)
+                return ParserState.Failure;
 
-                return ArgumentParser.BooleanToParserState(valueSetting);
-            }
+            valueSetting = option.SetValue(true, options);
+            if (!valueSetting)
+                this.DefineOptionThatViolatesFormat(option);
+
+            return ArgumentParser.BooleanToParserState(valueSetting);
         }
     }
 
@@ -716,16 +707,21 @@ namespace CommandLine
 
     internal sealed class OptionGroupParser : ArgumentParser
     {
-        public sealed override ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
-        {
-            var valueSetting = false;
+        private readonly bool _ignoreUnkwnownArguments;
 
+        public OptionGroupParser(bool ignoreUnkwnownArguments)
+        {
+            _ignoreUnkwnownArguments = ignoreUnkwnownArguments;
+        }
+
+        public override ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
+        {
             IArgumentEnumerator group = new OneCharStringEnumerator(argumentEnumerator.Current.Substring(1));
             while (group.MoveNext())
             {
                 var option = map[group.Current];
                 if (option == null)
-                    return ParserState.Failure;
+                    return _ignoreUnkwnownArguments ? ParserState.MoveOnNextElement : ParserState.Failure;
 
                 option.IsDefined = true;
 
@@ -736,6 +732,7 @@ namespace CommandLine
                     if (argumentEnumerator.IsLast && group.IsLast)
                         return ParserState.Failure;
 
+                    bool valueSetting;
                     if (!group.IsLast)
                     {
                         if (!option.IsArray)
@@ -746,19 +743,17 @@ namespace CommandLine
 
                             return ArgumentParser.BooleanToParserState(valueSetting);
                         }
-                        else
-                        {
-                            ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
 
-                            var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
-                            items.Insert(0, group.GetRemainingFromNext());
+                        ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
 
-                            valueSetting = option.SetValue(items, options);
-                            if (!valueSetting)
-                                this.DefineOptionThatViolatesFormat(option);
+                        var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
+                        items.Insert(0, @group.GetRemainingFromNext());
 
-                            return ArgumentParser.BooleanToParserState(valueSetting, true);
-                        }
+                        valueSetting = option.SetValue(items, options);
+                        if (!valueSetting)
+                            this.DefineOptionThatViolatesFormat(option);
+
+                        return ArgumentParser.BooleanToParserState(valueSetting, true);
                     }
 
                     if (!argumentEnumerator.IsLast && !ArgumentParser.IsInputValue(argumentEnumerator.Next))
@@ -773,28 +768,24 @@ namespace CommandLine
 
                             return ArgumentParser.BooleanToParserState(valueSetting, true);
                         }
-                        else
-                        {
-                            ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
 
-                            var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
+                        ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
 
-                            valueSetting = option.SetValue(items, options);
-                            if (!valueSetting)
-                                this.DefineOptionThatViolatesFormat(option);
+                        var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
 
-                            return ArgumentParser.BooleanToParserState(valueSetting);
-                        }
+                        valueSetting = option.SetValue(items, options);
+                        if (!valueSetting)
+                            this.DefineOptionThatViolatesFormat(option);
+
+                        return ArgumentParser.BooleanToParserState(valueSetting);
                     }
                 }
-                else
-                {
-                    if (!group.IsLast && map[group.Next] == null)
-                        return ParserState.Failure;
 
-                    if (!option.SetValue(true, options))
-                        return ParserState.Failure;
-                }
+                if (!@group.IsLast && map[@group.Next] == null)
+                    return ParserState.Failure;
+
+                if (!option.SetValue(true, options))
+                    return ParserState.Failure;
             }
 
             return ParserState.Success;
@@ -1069,27 +1060,24 @@ namespace CommandLine
     {
         sealed class MutuallyExclusiveInfo
         {
-            int count = 0;
+            int _count;
             
             public MutuallyExclusiveInfo(OptionInfo option)
             {
-                //BadOption = new BadOptionInfo();
                 BadOption = option; 
             }
             
-            //public BadOptionInfo BadOption { get; private set; }
-            public OptionInfo BadOption { get; set; }
+            public OptionInfo BadOption { get; private set; }
             
-            public void IncrementOccurrence() { ++count; }
+            public void IncrementOccurrence() { ++_count; }
             
-            public int Occurrence { get { return count; } }
+            public int Occurrence { get { return _count; } }
         }
         
         readonly CommandLineParserSettings _settings;
-        Dictionary<string, string> _names;
-        Dictionary<string, OptionInfo> _map;
-        //Dictionary<string, int> _mutuallyExclusiveSetMap;
-        Dictionary<string, MutuallyExclusiveInfo> _mutuallyExclusiveSetMap;
+        readonly Dictionary<string, string> _names;
+        readonly Dictionary<string, OptionInfo> _map;
+        readonly Dictionary<string, MutuallyExclusiveInfo> _mutuallyExclusiveSetMap;
 
         public OptionMap(int capacity, CommandLineParserSettings settings)
         {
@@ -1121,10 +1109,9 @@ namespace CommandLine
                     option = _map[key];
                 else
                 {
-                    string optionKey = null;
                     if (_names.ContainsKey(key))
                     {
-                        optionKey = _names[key];
+                        var optionKey = _names[key];
                         option = _map[optionKey];
                     }
                 }
@@ -1203,29 +1190,30 @@ namespace CommandLine
                 _mutuallyExclusiveSetMap.Add(setName, new MutuallyExclusiveInfo(option));
             }
 
-            //_mutuallyExclusiveSetMap[setName]++;
             _mutuallyExclusiveSetMap[setName].IncrementOccurrence();
         }
 
         private static void BuildAndSetPostParsingStateIfNeeded(object options, OptionInfo option, bool? required, bool? mutualExclusiveness)
         {
-            if (options is CommandLineOptionsBase)
-            {
-                ParsingError error = new ParsingError();
-                //if (option != null)
-                //{
-                    error.BadOption.ShortName = option.ShortName; //error.BadOptionShortName = option.ShortName;
-                    error.BadOption.LongName = option.LongName; //error.BadOptionLongName = option.LongName;
-                //}
-                if (required != null) error.ViolatesRequired = required.Value;
-                if (mutualExclusiveness != null) error.ViolatesMutualExclusiveness = mutualExclusiveness.Value;
+            var commandLineOptionsBase = options as CommandLineOptionsBase;
+            if (commandLineOptionsBase == null) 
+                return;
 
-                ((CommandLineOptionsBase)options).InternalLastPostParsingState.Errors.Add(error);
-            }
+            var error = new ParsingError {
+                BadOption = {
+                    ShortName = option.ShortName, 
+                    LongName = option.LongName
+                }
+            };
+
+            if (required != null) error.ViolatesRequired = required.Value;
+            if (mutualExclusiveness != null) error.ViolatesMutualExclusiveness = mutualExclusiveness.Value;
+
+            (commandLineOptionsBase).InternalLastPostParsingState.Errors.Add(error);
         }
     }
 
-    internal sealed class Pair<TLeft, TRight>
+    internal sealed class Pair<TLeft, TRight> where TLeft : class where TRight : class
     {
         private readonly TLeft _left;
         private readonly TRight _right;
@@ -1339,9 +1327,9 @@ namespace CommandLine
 
     internal sealed class StringArrayEnumerator : IArgumentEnumerator
     {
-        private string[] _data;
+        private readonly string[] _data;
         private int _index;
-        private int _endIndex;
+        private readonly int _endIndex;
 
         public StringArrayEnumerator(string[] value)
         {
@@ -1434,9 +1422,9 @@ namespace CommandLine
 
     internal class TargetWrapper
     {
-        private object _target;
-        private IList<string> _valueList;
-        private ValueListAttribute _vla;
+        private readonly object _target;
+        private readonly IList<string> _valueList;
+        private readonly ValueListAttribute _vla;
 
         public TargetWrapper(object target)
         {
@@ -1502,7 +1490,7 @@ namespace CommandLine
     /// </summary>
     public abstract class CommandLineOptionsBase
     {
-        public CommandLineOptionsBase()
+        protected CommandLineOptionsBase()
         {
             LastPostParsingState = new PostParsingState();
         }
@@ -1519,10 +1507,9 @@ namespace CommandLine
     /// This exception is thrown when a generic parsing error occurs.
     /// </summary>
     [Serializable]
-    public sealed class CommandLineParserException : Exception, ISerializable
+    public sealed class CommandLineParserException : Exception
     {
         internal CommandLineParserException()
-            : base()
         {
         }
 
@@ -1547,13 +1534,13 @@ namespace CommandLine
     /// </summary>
     public sealed class CommandLineParserSettings
     {
-        private const bool _caseSensitiveDefault = true;
+        private const bool CASE_SENSITIVE_DEFAULT = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.CommandLineParserSettings"/> class.
         /// </summary>
         public CommandLineParserSettings()
-            : this(_caseSensitiveDefault)
+            : this(CASE_SENSITIVE_DEFAULT)
         {
         }
 
@@ -1574,7 +1561,7 @@ namespace CommandLine
         /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
         /// default <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
         public CommandLineParserSettings(TextWriter helpWriter)
-            : this(_caseSensitiveDefault)
+            : this(CASE_SENSITIVE_DEFAULT)
         {
             HelpWriter = helpWriter;
         }
@@ -1620,6 +1607,23 @@ namespace CommandLine
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.CommandLineParserSettings"/> class,
+        /// setting case comparison, mutually exclusive behavior and help output option.
+        /// </summary>
+        /// <param name="caseSensitive">If set to true, parsing will be case sensitive.</param>
+        /// <param name="mutuallyExclusive">If set to true, enable mutually exclusive behavior.</param>
+        /// <param name="ignoreUnknownArguments">If set to true, allow the parser to skip unknown argument, otherwise return a parse failure</param>
+        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
+        /// default <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
+        public CommandLineParserSettings(bool caseSensitive, bool mutuallyExclusive, bool ignoreUnknownArguments, TextWriter helpWriter)
+        {
+            CaseSensitive = caseSensitive;
+            MutuallyExclusive = mutuallyExclusive;
+            HelpWriter = helpWriter;
+            IgnoreUnknownArguments = ignoreUnknownArguments;
+        }
+
+        /// <summary>
         /// Gets or sets the case comparison behavior.
         /// Default is set to true.
         /// </summary>
@@ -1636,6 +1640,23 @@ namespace CommandLine
         /// Setting this property to null, will disable help screen.
         /// </summary>
         public TextWriter HelpWriter { internal get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if the parser shall move on to the next argument and ignore the given argument if it
+        /// encounter an unknown arguments
+        /// </summary>
+        /// <value>
+        /// <c>true</c> to allow parsing the arguments with differents class options that do not have all the arguments.
+        /// </value>
+        /// <remarks>
+        /// This allows fragmented version class parsing, useful for project with addon where addons also requires command line arguments but
+        /// when these are unknown by the main program at build time.
+        /// </remarks>
+        public bool IgnoreUnknownArguments
+        {
+            internal get;
+            set;
+        }
     }
 
     /// <summary>
@@ -1645,13 +1666,12 @@ namespace CommandLine
     public class CommandLineParser : ICommandLineParser
     {
         private static readonly ICommandLineParser _default = new CommandLineParser(true);
-        private CommandLineParserSettings _settings;
+        private readonly CommandLineParserSettings _settings;
 
         // special constructor for singleton instance, parameter ignored
         private CommandLineParser(bool singleton)
         {
-            _settings = new CommandLineParserSettings(
-                false, false, Console.Error);
+            _settings = new CommandLineParserSettings(false, false, Console.Error);
         }
 
         /// <summary>
@@ -1744,9 +1764,9 @@ namespace CommandLine
             while (arguments.MoveNext())
             {
                 string argument = arguments.Current;
-                if (argument != null && argument.Length > 0)
+                if (!string.IsNullOrEmpty(argument))
                 {
-                    ArgumentParser parser = ArgumentParser.Create(argument);
+                    ArgumentParser parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
                     if (parser != null)
                     {
                         ParserState result = parser.Parse(arguments, optionMap, options);
@@ -1765,7 +1785,6 @@ namespace CommandLine
                         if (!target.AddValueItemIfAllowed(argument))
                         {
                             hadError = true;
-                            continue;
                         }
                     }
                 }
@@ -1800,10 +1819,11 @@ namespace CommandLine
         }
 
         //private static void SetPostParsingStateIfNeeded(object options, PostParsingState state)
-        private static void SetPostParsingStateIfNeeded(object options, List<ParsingError> state)
+        private static void SetPostParsingStateIfNeeded(object options, IEnumerable<ParsingError> state)
         {
-            if (options is CommandLineOptionsBase)
-                ((CommandLineOptionsBase)options).InternalLastPostParsingState.Errors.AddRange(state);
+            var commandLineOptionsBase = options as CommandLineOptionsBase;
+            if (commandLineOptionsBase != null)
+                (commandLineOptionsBase).InternalLastPostParsingState.Errors.AddRange(state);
         }
     }
     #endregion
@@ -1930,7 +1950,7 @@ namespace CommandLine
 
         public static bool IsNullableType(Type type)
         {
-            return type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>));
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
     }
 
