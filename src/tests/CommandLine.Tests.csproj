@@ -90,6 +90,8 @@
     <Compile Include="Mocks\SimpleOptionsWithDefaultArray.cs" />
     <Compile Include="Mocks\RPEOptions.cs" />
     <Compile Include="Mocks\SimpleOptionsForAutoBuid.cs" />
+    <Compile Include="Parser\UnknownArgumentsFixture.cs" />
+    <Compile Include="Mocks\OptionsForPlugInScenario.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

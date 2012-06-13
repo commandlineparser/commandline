@@ -1,6 +1,6 @@
 #region License
 //
-// Command Line Library: SimpleOptions.cs
+// Command Line Library: UnknownArguments.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -26,23 +26,36 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+using System.IO;
+using CommandLine.Tests.Mocks;
+using NUnit.Framework;
+#endregion
 
-namespace CommandLine.Tests.Mocks
+namespace CommandLine.Tests
 {
-    class SimpleOptions : OptionsBase
+    [TestFixture]
+    public class UnknownArgumentsFixture
     {
-        public SimpleOptions()
+        [Test]
+        public void ParseValidUnknownArguments()
         {
-            IntegerValue = 0;
+            string[] args = { "--plugin", "addonX", "--filename", "input.dat" };
+            var appOptions = new OptionsForAppWithPlugIns();
+            var parser = new CommandLineParser(new CommandLineParserSettings {
+                IgnoreUnknownArguments = true, CaseSensitive = true });
+            var result1 = parser.ParseArguments(args, appOptions);
+
+            Assert.IsTrue(result1);
+            Assert.AreEqual("addonX", appOptions.PlugInName);
+
+            var plugInXOptions = new OptionsOfPlugInX();
+            var result2 = parser.ParseArguments(args, plugInXOptions);
+
+            Assert.IsTrue(result2);
+            Assert.AreEqual("input.dat", plugInXOptions.InputFileName);
+            Assert.AreEqual(10, plugInXOptions.ReadOffset);
         }
-
-        [Option("s", "string")]
-        public string StringValue { get; set; }
-
-        [Option("i", null)]
-        public int IntegerValue { get; set; }
-
-        [Option(null, "switch")]
-        public bool BooleanValue { get; set; }
-    } 
+    }
 }

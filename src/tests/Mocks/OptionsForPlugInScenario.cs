@@ -26,23 +26,25 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+using CommandLine;
+#endregion
 
 namespace CommandLine.Tests.Mocks
 {
-    class SimpleOptions : OptionsBase
+    public class OptionsForAppWithPlugIns //: CommandLineOptionsBase
     {
-        public SimpleOptions()
-        {
-            IntegerValue = 0;
-        }
+        [Option("p", "plugin", Required = true, HelpText = "Plug-In to activate.")]
+        public string PlugInName { get; set; }
+    }
 
-        [Option("s", "string")]
-        public string StringValue { get; set; }
+    public class OptionsOfPlugInX
+    {
+        [Option(null, "filename", Required = true, HelpText = "Plug-In X input filename.")]
+        public string InputFileName { get; set; }
 
-        [Option("i", null)]
-        public int IntegerValue { get; set; }
-
-        [Option(null, "switch")]
-        public bool BooleanValue { get; set; }
-    } 
+        [Option("s", "seek", DefaultValue = 10, HelpText = "Start offset to begin read.")] 
+        public long ReadOffset { get; set; }
+    }
 }
