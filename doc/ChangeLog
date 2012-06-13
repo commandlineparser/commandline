@@ -1,11 +1,15 @@
+2012-06-13  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Added fixture for unknown arguments (and first test).
+
 2012-06-12  Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
-  ** Merged pull request from Kevin Moore to support unknown arguments.
+  * Merged pull request from Kevin Moore to support unknown arguments.
 
 2012-06-04	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
-  ** Added tests for HelpText::AutoBuild.
-  ** Fixed minor formatting error in HelpText::DefaultParsingErrorsHandler.
+  * Added tests for HelpText::AutoBuild.
+  * Fixed minor formatting error in HelpText::DefaultParsingErrorsHandler.
 
 2012-05-31	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
