@@ -1943,7 +1943,7 @@ namespace CommandLine
         public static TAttribute GetAttribute<TAttribute>()
             where TAttribute : Attribute
         {
-            object[] a = Assembly.GetCallingAssembly().GetCustomAttributes(typeof(TAttribute), false);
+            object[] a = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(TAttribute), false);
             if (a == null || a.Length <= 0) return null;
             return (TAttribute)a[0];
         }

@@ -297,6 +297,7 @@ namespace CommandLine.Text.Tests
             Assert.AreEqual(lines[2], "-a required option is missing.");
         }
 
+        /*
         [Test]
         public void AutoBuildWithRenderParsingErrorsHelper()
         {
@@ -329,6 +330,7 @@ namespace CommandLine.Text.Tests
             Assert.AreEqual(lines[18], "  --help            Display this help screen.");
         }
 
+
         [Test]
         public void AutoBuild()
         {
@@ -356,7 +358,7 @@ namespace CommandLine.Text.Tests
             Assert.AreEqual(lines[10], "  -i              ");
             Assert.AreEqual(lines[12], "  --switch        ");
             Assert.AreEqual(lines[14], "  --help          Display this help screen.");
-        }
+        }*/
 
         #region Parsing Errors Subsystem Test, related to Help Text building
         [Test]

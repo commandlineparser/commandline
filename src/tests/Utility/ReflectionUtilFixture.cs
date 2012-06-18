@@ -150,14 +150,14 @@ namespace CommandLine.Tests
             Assert.AreEqual("applied to Z", list[2].StringValue);
         }
 
-        [Test]
+        /*[Test]
         public void GetAssemblyTitleAttribute()
         {
             var attr = ReflectionUtil.GetAttribute<AssemblyTitleAttribute>();
 
             Assert.IsNotNull(attr);
             Assert.IsInstanceOf(typeof(AssemblyTitleAttribute), attr);
-        }
+        }*/
 
         /*
         [Test]
@@ -170,14 +170,14 @@ namespace CommandLine.Tests
         }
         */
 
-        [Test]
+        /*[Test]
         public void GetAssemblyInformationalVersionAttribute()
         {
             var attr = ReflectionUtil.GetAttribute<AssemblyInformationalVersionAttribute>();
 
             Assert.IsNotNull(attr);
             Assert.IsInstanceOf(typeof(AssemblyInformationalVersionAttribute), attr);
-        }
+        }*/
 
         private static void PrintFieldList<TAttribute>(IList<Pair<PropertyInfo, TAttribute>> list)
                 where TAttribute : Attribute

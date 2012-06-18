@@ -1,3 +1,8 @@
+2012-06-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Fixed issue with ReflectionUtil::GetAttribute / HelpText::AutoBuild.
+  * For now disabled some tests for these methods.
+
 2012-06-13  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Added fixture for unknown arguments (and first test).
