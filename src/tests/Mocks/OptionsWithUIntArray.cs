@@ -1,6 +1,6 @@
 #region License
 //
-// Command Line Library: AssemblyInfo.cs
+// Command Line Library: OptionsWithUIntArray.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -26,29 +26,25 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using System.Reflection;
-using System.Resources;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-#endregion
 
-[assembly: AssemblyTitle(ThisAssembly.Title)]
-[assembly: AssemblyProduct("Command Line Parsing Library")]
-[assembly: AssemblyDescription(ThisAssembly.Title)]
-[assembly: AssemblyCopyright(ThisAssembly.Copyright)]
-[assembly: AssemblyVersion(ThisAssembly.Version)]
-[assembly: AssemblyInformationalVersion(ThisAssembly.InformationalVersion)]
-[assembly: NeutralResourcesLanguage("en-US")]
-[assembly: AssemblyCulture("")]
-[assembly: InternalsVisibleTo("CommandLine.Tests")]
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-[assembly: AssemblyConfiguration("Release")]
-#endif
-[assembly: ComVisible(false)]
-[assembly: CLSCompliant(true)]
-//[assembly: AssemblyCompany("")]
-//[assembly: AssemblyTrademark("")]
+using System;
+using CommandLine;
+
+namespace CommandLine.Tests
+{
+    public class OptionsWithUIntArray
+    {
+        [Option("s", "somestr")]
+        public string SomeStringValue { get; set; }
+
+        [OptionArray("o", "arrayone")]
+        public uint[] ArrayOne { get; set; }
+
+        [OptionArray("t", "arraytwo")]
+        public uint[] ArrayTwo { get; set; }
+
+        [Option("b", "somebool")]
+        public bool SomeBooleanValue { get; set; }
+    }
+}
+

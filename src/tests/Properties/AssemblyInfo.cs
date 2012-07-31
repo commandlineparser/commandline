@@ -56,6 +56,6 @@ using CommandLine.Text;
 [assembly: AssemblyConfiguration("Release")]
 #endif
 [assembly: ComVisible(false)]
-[assembly: CLSCompliant(true)]
+//[assembly: CLSCompliant(true)]
 //[assembly: AssemblyCompany("")]
 //[assembly: AssemblyTrademark("")]

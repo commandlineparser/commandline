@@ -9,7 +9,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>CommandLine.Tests</RootNamespace>
     <AssemblyName>CommandLine.Tests</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -92,6 +91,7 @@
     <Compile Include="Mocks\SimpleOptionsForAutoBuid.cs" />
     <Compile Include="Parser\UnknownArgumentsFixture.cs" />
     <Compile Include="Mocks\OptionsForPlugInScenario.cs" />
+    <Compile Include="Mocks\OptionsWithUIntArray.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

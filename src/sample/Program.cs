@@ -211,7 +211,7 @@ namespace SampleApp
         {
             //OptionArrayAttributeParsingFixture f = new OptionArrayAttributeParsingFixture();
             //ArgumentParserFixture f2 = new ArgumentParserFixture();
-            HelpTextFixture f3 = new HelpTextFixture();
+            //HelpTextFixture f3 = new HelpTextFixture();
             //f.ParseStringArrayOptionUsingShortName();
             //f.ParseStringArrayOptionUsingShortNameWithValueAdjacent();
             //f.ParseStringArrayOptionUsingLongName();
@@ -229,7 +229,9 @@ namespace SampleApp
             //f3.DetailedHelpWithBadFormat();
             //f3.CreateBasicInstance();
             //f3.InvokeRenderParsingErrorsText();
-            f3.AutoBuildWithRenderParsingErrorsHelper();
+            //f3.AutoBuildWithRenderParsingErrorsHelper();
+            var f4 = new OptionArrayAttributeParsingFixture();
+            f4.ParseTwoUIntConsecutiveArray();
             Console.Write("press any key");
             Console.ReadKey();
             Environment.Exit(1);

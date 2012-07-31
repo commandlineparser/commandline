@@ -27,8 +27,6 @@
 //
 using System.Threading;
 using System.Globalization;
-
-
 #endregion
 #region Using Directives
 using System;
@@ -362,6 +360,44 @@ namespace CommandLine.Tests
             base.AssertArrayItemEqual(new double[] { 1.2, 1.23, 1.234 }, options.DoubleArrayValue);
 
             Thread.CurrentThread.CurrentCulture = actualCulture;
+        }
+
+        /****************************************************************************************************/
+
+        [Test]
+        public void ParseTwoUIntConsecutiveArray()
+        {
+            var options = new OptionsWithUIntArray();
+            var result = CommandLineParser.Default.ParseArguments(new string[] {
+                "--somestr", "just a string",
+                "--arrayone", "10", "20", "30", "40",
+                "--arraytwo", "11", "22", "33", "44",
+                "--somebool"
+            }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual("just a string", options.SomeStringValue);
+            base.AssertArrayItemEqual(new uint[] {10, 20, 30, 40}, options.ArrayOne);
+            base.AssertArrayItemEqual(new uint[] {11, 22, 33, 44}, options.ArrayTwo);
+            Assert.AreEqual(true, options.SomeBooleanValue);
+        }
+
+        [Test]
+        public void ParseTwoUIntConsecutiveArrayUsingShortNames()
+        {
+            var options = new OptionsWithUIntArray();
+            var result = CommandLineParser.Default.ParseArguments(new string[] {
+                "-s", "just a string",
+                "-o", "10", "20", "30", "40",
+                "-t", "11", "22", "33", "44",
+                "-b"
+            }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual("just a string", options.SomeStringValue);
+            base.AssertArrayItemEqual(new uint[] {10, 20, 30, 40}, options.ArrayOne);
+            base.AssertArrayItemEqual(new uint[] {11, 22, 33, 44}, options.ArrayTwo);
+            Assert.AreEqual(true, options.SomeBooleanValue);
         }
     }
 }

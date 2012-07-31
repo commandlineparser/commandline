@@ -601,7 +601,8 @@ namespace CommandLine
                     if (!valueSetting)
                         this.DefineOptionThatViolatesFormat(option);
 
-                    return ArgumentParser.BooleanToParserState(valueSetting, true);
+                    //return ArgumentParser.BooleanToParserState(valueSetting, true);
+                    return ArgumentParser.BooleanToParserState(valueSetting);
                 }
             }
 

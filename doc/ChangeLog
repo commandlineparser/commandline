@@ -1,13 +1,19 @@
-2012-06-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+2012-07-31	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Changed projects target to Mono 4.0 Profile.
+  * Added tests ParseTwoUIntConsecutiveArray* to OptionArrayAttributeParsingFixture.
+  * Fixed the LongOptionParser type problem of parsing two consecutive arrays (issue from m1gu3l github user). 
+
+2012-06-18	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Fixed issue with ReflectionUtil::GetAttribute / HelpText::AutoBuild.
   * For now disabled some tests for these methods.
 
-2012-06-13  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+2012-06-13	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Added fixture for unknown arguments (and first test).
 
-2012-06-12  Giacomo Stelluti Scala	<gsscoder@gmail.com>
+2012-06-12	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Merged pull request from Kevin Moore to support unknown arguments.
 
