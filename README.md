@@ -13,7 +13,7 @@ Compatibility:
 
 News:
 ---
-  - Target of projects set to Mono 4.0 Profile (but stills compatible with 2.0).
+  - Target of projects set to Mono 4.0 Profile (but stills compatible with 2.1 / NETFx 2.0).
   - Fixed the LongOptionParser type problem of parsing two consecutive arrays (issue from m1gu3l github user). 
   - Fixed issue in ReflectionUtil::GetAttribute() / HelpText::AutoBuild().
   - Merged code from Kevin Moore for handle unknown arguments.
