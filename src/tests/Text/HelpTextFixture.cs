@@ -414,7 +414,21 @@ namespace CommandLine.Text.Tests
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "zero", "-pa" }, options);
 
             Assert.IsFalse(result);
-        }		
+        }
+
+
+    [Test]
+        public void MultipleRequiredFields_WithMoreThanOneRequiredFieldNotSpecified_ReportsAllMissingRequiredFields()
+        {
+          var options = new ComplexOptions();
+          using (var writer = new StringWriter())
+          {
+            new CommandLineParser(new CommandLineParserSettings(false,  false, writer)).ParseArguments(new string[0], options, writer);
+
+            Assert.AreEqual(2, options.InternalLastPostParsingState.Errors.Count);
+          }
+        }
+    
         #endregion
 
         private void CustomizeOptionsFormat_FormatOptionHelpText(object sender, FormatOptionHelpTextEventArgs e)
