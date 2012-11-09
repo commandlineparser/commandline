@@ -1145,15 +1145,18 @@ namespace CommandLine
 
         private bool EnforceRequiredRule()
         {
+            bool requiredRulesAllMet = true;
             foreach (OptionInfo option in _map.Values)
             {
                 if (option.Required && !option.IsDefined)
                 {
                     BuildAndSetPostParsingStateIfNeeded(this.RawOptions, option, true, null);
-                    return false;
+                    requiredRulesAllMet = false;
                 }
             }
-            return true;
+
+
+            return requiredRulesAllMet;
         }
 
         private bool EnforceMutuallyExclusiveMap()
@@ -1944,7 +1947,9 @@ namespace CommandLine
         public static TAttribute GetAttribute<TAttribute>()
             where TAttribute : Attribute
         {
-            object[] a = Assembly.GetEntryAssembly().GetCustomAttributes(typeof(TAttribute), false);
+            Assembly assemblyFromWhichToPullInformation = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+
+            object[] a = assemblyFromWhichToPullInformation.GetCustomAttributes(typeof(TAttribute), false);
             if (a == null || a.Length <= 0) return null;
             return (TAttribute)a[0];
         }
