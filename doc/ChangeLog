@@ -1,3 +1,8 @@
+2012-11-09	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Merged pull request #10 from hugodahl for displaying all missing but required values.
+  * Current version set to: 1.9.3.21 beta.
+
 2012-07-31	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Changed projects target to Mono 4.0 Profile.
