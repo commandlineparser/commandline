@@ -384,7 +384,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Test]
-	public void DetailedHelpWithMissingRequiredAndBadFormat()
+	    public void DetailedHelpWithMissingRequiredAndBadFormat()
         {
             var options = new ComplexOptionsWithHelp();
 

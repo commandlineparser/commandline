@@ -13,11 +13,11 @@ Compatibility:
 
 News:
 ---
+  - Merged (and tested) code from hugodahl (pull request #10) for displaying all missing but required values.
   - Target of projects set to Mono 4.0 Profile (but stills compatible with 2.1 / NETFx 2.0).
   - Fixed the LongOptionParser type problem of parsing two consecutive arrays (issue from m1gu3l github user). 
   - Fixed issue in ReflectionUtil::GetAttribute() / HelpText::AutoBuild().
   - Merged code from Kevin Moore for handle unknown arguments.
-  - Introduced AssemblyLicenseAttribute and AssemblyUsageAttribute for use with HelpText::AutoBuild().
 
 To build:
 ---
