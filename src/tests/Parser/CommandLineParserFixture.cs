@@ -360,5 +360,86 @@ namespace CommandLine.Tests
             Assert.AreEqual("-", options.Items[0]);
         }
         #endregion
+
+        #region #BUG0004
+        [Test]
+        public void ParseNegativeIntegerValue()
+        {
+            var options = new SimpleOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-i", "-4096" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(-4096, options.IntegerValue);
+        }
+
+        public void ParseNegativeIntegerValue_InputStyle2()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-i-4096" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(-4096, options.IntegerValue);
+        }
+
+        public void ParseNegativeIntegerValue_InputStyle3()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "--int", "-4096" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(-4096, options.IntegerValue);
+        }
+
+        public void ParseNegativeIntegerValue_InputStyle4()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "--int=-4096" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(-4096, options.IntegerValue);
+        }
+
+
+        [Test]
+        public void ParseNegativeFloatingPointValue()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-d", "-4096.1024" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(-4096.1024, options.DoubleValue);
+        }
+
+        [Test]
+        public void ParseNegativeFloatingPointValue_InputStyle2()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-d-4096.1024" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(-4096.1024, options.DoubleValue);
+        }
+
+        [Test]
+        public void ParseNegativeFloatingPointValue_InputStyle3()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "--double", "-4096.1024" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(-4096.1024, options.DoubleValue);
+        }
+
+        [Test]
+        public void ParseNegativeFloatingPointValue_InputStyle4()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "--double=-4096.1024" }, options);
+
+            base.AssertParserSuccess(result);
+            Assert.AreEqual(-4096.1024, options.DoubleValue);
+        }
+        #endregion
+
     }
 }

@@ -394,13 +394,14 @@ namespace CommandLine
 
         protected void DefineOptionThatViolatesFormat(OptionInfo option)
         {
-            //this.PostParsingState.BadOptionInfo = option;
-            //this.PostParsingState.ViolatesFormat = true;
             this.PostParsingState.Add(new ParsingError(option.ShortName, option.LongName, true));
         }
 
         public static ArgumentParser Create(string argument, bool ignoreUnknownArguments = false)
         {
+            if (StringUtil.IsNumeric(argument))
+                return null;
+
             if (argument.Equals("-", StringComparison.InvariantCulture))
                 return null;
 
@@ -415,6 +416,9 @@ namespace CommandLine
 
         public static bool IsInputValue(string argument)
         {
+            if (StringUtil.IsNumeric(argument))
+                return true;
+
             if (argument.Length > 0)
                 return argument.Equals("-", StringComparison.InvariantCulture) || argument[0] != '-';
 
@@ -1965,6 +1969,12 @@ namespace CommandLine
         public static string Spaces(int count)
         {
             return new String(' ', count);
+        }
+
+        public static bool IsNumeric(string value)
+        {
+            decimal temporary;
+            return decimal.TryParse(value, out temporary);
         }
     }
     #endregion

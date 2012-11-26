@@ -1,3 +1,15 @@
+2012-11-26	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Fixed bug reported by github user sbambrick about negative numbers parsing
+      (id #BUG0004, ref.: https://github.com/gsscoder/commandline/issues/13).
+  * library/CommandLine.cs/ArgumentParser (ArgumentParser)
+      Methods Create(...) and IsInputValue(...) modified for #BUG0004.
+  * library/CommandLine.cs/StringUtil (StringUtil)
+      Added method 'bool IsNumeric(string)' used in modified ArgumentParser methods.
+  * tests/CommandLineParserFixture.cs
+      Added new region #BUG0004 with 8 new tests.
+  * Version incremented to 1.9.3.23.
+
 2012-11-09	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Merged pull request #10 from hugodahl for displaying all missing but required values.
