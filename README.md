@@ -13,6 +13,7 @@ Compatibility:
 
 News:
 ---
+  - NuGet package updated and uploaded.
   - Fixed an issue notified by github user sbambrick about parsing negative numbers.
   - Merged (and tested) code from hugodahl (pull request #10) for displaying all missing but required values.
   - Target of projects set to Mono 4.0 Profile (but stills compatible with 2.1 / NETFx 2.0).

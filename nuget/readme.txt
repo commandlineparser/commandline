@@ -1,5 +1,5 @@
-Command Line Parser Library 1.9.2.4 Stable
-------------------------------------------
+Command Line Parser Library 1.9.3.23 Beta
+-----------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
 
@@ -43,10 +43,5 @@ If you don't use mutually exclusive options, now there's a singleton built for c
 if (CommandLineParser.Default.ParseArguments(args, options)) {
   // consume values here
 }
-
-Nuget:
-------
-Package ha version 1.9.2.41 'cause 1.9.2.4 was published with some problems.
-But actual lib version is 1.9.2.4.
 
 Have fun!
