@@ -58,7 +58,7 @@ namespace CommandLine
             internal set
             {
                 if (value != null && value.Length > 1)
-                    throw new ArgumentException("shortName");
+                    throw new ArgumentException("shortName length must be 1 character or null.");
 
                 _shortName = value;
             }
