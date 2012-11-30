@@ -234,8 +234,9 @@ namespace SampleApp
             //f4.ParseTwoUIntConsecutiveArray();
             CommandLineParserFixture f5 = new CommandLineParserFixture();
             //f5.ParseNegativeIntegerValue();
-            f5.ParseNegativeIntegerValue_InputStyle4();
+            //f5.ParseNegativeIntegerValue_InputStyle4();
             //f5.ParseNegativeFloatingPointValue_InputStyle4();
+            f5.PassingLongValueToIntegerOptionMustFailGracefully();
             Console.Write("press any key");
             Console.ReadKey();
             Environment.Exit(1);

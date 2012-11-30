@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.3.23 for CLR.
+Command Line Parser Library 1.9.3.25 for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.
 It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the user.
@@ -13,7 +13,7 @@ Compatibility:
 
 News:
 ---
-  - NuGet package updated and uploaded.
+  - Fixed an issue notified by github user jandler about numbers overflow.
   - Fixed an issue notified by github user sbambrick about parsing negative numbers.
   - Merged (and tested) code from hugodahl (pull request #10) for displaying all missing but required values.
   - Target of projects set to Mono 4.0 Profile (but stills compatible with 2.1 / NETFx 2.0).

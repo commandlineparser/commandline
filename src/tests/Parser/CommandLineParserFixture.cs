@@ -441,5 +441,52 @@ namespace CommandLine.Tests
         }
         #endregion
 
+        #region #BUG0005
+        [Test]
+        public void PassingShortValueToByteOptionMustFailGracefully()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-b", short.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+
+            base.AssertParserFailure(result);
+        }
+
+        [Test]
+        public void PassingIntegerValueToShortOptionMustFailGracefully()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-s", int.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+
+            base.AssertParserFailure(result);
+        }
+
+        [Test]
+        public void PassingLongValueToIntegerOptionMustFailGracefully()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-i", long.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+
+            base.AssertParserFailure(result);
+        }
+
+        [Test]
+        public void PassingFloatValueToLongOptionMustFailGracefully()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-l", float.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+
+            base.AssertParserFailure(result);
+        }
+
+        [Test]
+        public void PassingDoubleValueToFloatOptionMustFailGracefully()
+        {
+            var options = new NumberSetOptions();
+            bool result = base.Parser.ParseArguments(new string[] { "-f", double.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+
+            base.AssertParserFailure(result);
+        }
+        #endregion
+
     }
 }

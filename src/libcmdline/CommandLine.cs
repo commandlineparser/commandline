@@ -605,7 +605,6 @@ namespace CommandLine
                     if (!valueSetting)
                         this.DefineOptionThatViolatesFormat(option);
 
-                    //return ArgumentParser.BooleanToParserState(valueSetting, true);
                     return ArgumentParser.BooleanToParserState(valueSetting);
                 }
             }
@@ -884,7 +883,6 @@ namespace CommandLine
                 {
                     lock (_setValueLock)
                     {
-                        //array.SetValue(Convert.ChangeType(values[i], elementType, CultureInfo.InvariantCulture), i);
                         array.SetValue(Convert.ChangeType(values[i], elementType, Thread.CurrentThread.CurrentCulture), i);
                         _property.SetValue(options, array, null);
                     }
@@ -913,7 +911,6 @@ namespace CommandLine
                 {
                     lock (_setValueLock)
                     {
-                        //_property.SetValue(options, Convert.ChangeType(value, _property.PropertyType, CultureInfo.InvariantCulture), null);
                         _property.SetValue(options, Convert.ChangeType(value, _property.PropertyType, Thread.CurrentThread.CurrentCulture), null);
                     }
                 }
@@ -930,6 +927,10 @@ namespace CommandLine
             {
                 return false;
             }
+            catch (OverflowException) // Convert.ChangeType
+            {
+                return false;
+            }
 
             return true;
         }
@@ -942,7 +943,6 @@ namespace CommandLine
             {
                 lock (_setValueLock)
                 {
-                    //_property.SetValue(options, nc.ConvertFromString(null, CultureInfo.InvariantCulture, value), null);
                     _property.SetValue(options, nc.ConvertFromString(null, Thread.CurrentThread.CurrentCulture, value), null);
                 }
             }
@@ -1099,7 +1099,6 @@ namespace CommandLine
 
             if (_settings.MutuallyExclusive)
             {
-                //_mutuallyExclusiveSetMap = new Dictionary<string, int>(capacity, StringComparer.OrdinalIgnoreCase);
                 _mutuallyExclusiveSetMap = new Dictionary<string, MutuallyExclusiveInfo>(capacity, StringComparer.OrdinalIgnoreCase);
             }
         }
@@ -1174,12 +1173,10 @@ namespace CommandLine
                     BuildMutuallyExclusiveMap(option);
             }
 
-            //foreach (int occurrence in _mutuallyExclusiveSetMap.Values)
             foreach (MutuallyExclusiveInfo info in _mutuallyExclusiveSetMap.Values)
             {
-                if (info.Occurrence > 1) //if (occurrence > 1)
+                if (info.Occurrence > 1)
                 {
-                    //BuildAndSetPostParsingStateIfNeeded(this.RawOptions, null, null, true);
                     BuildAndSetPostParsingStateIfNeeded(this.RawOptions, info.BadOption, null, true);
                     return false;
                 }
@@ -1194,7 +1191,6 @@ namespace CommandLine
 
             if (!_mutuallyExclusiveSetMap.ContainsKey(setName))
             {
-                //_mutuallyExclusiveSetMap.Add(setName, 0);
                 _mutuallyExclusiveSetMap.Add(setName, new MutuallyExclusiveInfo(option));
             }
 
@@ -1826,7 +1822,6 @@ namespace CommandLine
             return false;
         }
 
-        //private static void SetPostParsingStateIfNeeded(object options, PostParsingState state)
         private static void SetPostParsingStateIfNeeded(object options, IEnumerable<ParsingError> state)
         {
             var commandLineOptionsBase = options as CommandLineOptionsBase;

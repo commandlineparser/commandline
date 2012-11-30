@@ -1,3 +1,15 @@
+2012-11-30	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Fixed bug reported by github user jandler about numbers overflow
+    (id #BUG0005, ref.: https://github.com/gsscoder/commandline/issues/14).
+  * library/CommandLine.cs/OptionInfo (OptionInfo)
+      Method SetValueScalar(...) modified for #BUG0005.
+  * tests/CommandLineParserFixture.cs
+      Added new region #BUG0005 with 5 new tests.
+  * tests/CommandLine.cs
+      Removed old lines of commented code.
+  * Version incremented to 1.9.3.25.
+
 2012-11-26	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Fixed bug reported by github user sbambrick about negative numbers parsing
