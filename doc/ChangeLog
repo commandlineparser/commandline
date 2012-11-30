@@ -1,5 +1,12 @@
 2012-11-30	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Merged pull request #11 from github user jafin
+      (ref.: https://github.com/gsscoder/commandline/pull/11).
+  * All tests runned for verify changes -> all passed.
+  * Version incremented to 1.9.3.27.
+
+2012-11-30	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Fixed bug reported by github user jandler about numbers overflow
     (id #BUG0005, ref.: https://github.com/gsscoder/commandline/issues/14).
   * library/CommandLine.cs/OptionInfo (OptionInfo)
