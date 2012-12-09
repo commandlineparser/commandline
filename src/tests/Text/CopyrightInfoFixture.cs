@@ -124,5 +124,18 @@ namespace CommandLine.Text.Tests
 
             Assert.AreEqual("Copyleft (C) '96, '97, '98, 2005 Free Company, Inc.", info.ToString());
         }
+
+        #region #BUG0006
+        [Test]
+        public void ShouldNotGrowWhenConvertedToString()
+        {
+            var info = new CopyrightInfo ("ManOnTheMoon, Inc.", 2019);
+
+            for (int i=0; i<10; i++)
+            {
+                Assert.AreEqual (37, info.ToString ().Length);
+            }
+        }
+        #endregion
     }
 }

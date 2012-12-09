@@ -117,7 +117,7 @@ namespace CommandLine
             Inherited=true)]
     public sealed class HelpOptionAttribute : BaseOptionAttribute
     {
-        private const string DEFAULT_HELP_TEXT = "Display this help screen.";
+        private const string DefaultHelpText = "Display this help screen.";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.HelpOptionAttribute"/> class.
@@ -125,7 +125,7 @@ namespace CommandLine
         public HelpOptionAttribute()
             : this(null, "help")
         {
-            HelpText = DEFAULT_HELP_TEXT;
+            HelpText = DefaultHelpText;
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace CommandLine
         {
             ShortName = shortName;
             LongName = longName;
-            HelpText = DEFAULT_HELP_TEXT;
+            HelpText = DefaultHelpText;
         }
 
         /// <summary>
@@ -1538,13 +1538,13 @@ namespace CommandLine
     /// </summary>
     public sealed class CommandLineParserSettings
     {
-        private const bool CASE_SENSITIVE_DEFAULT = true;
+        private const bool CaseSensitiveDefault = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.CommandLineParserSettings"/> class.
         /// </summary>
         public CommandLineParserSettings()
-            : this(CASE_SENSITIVE_DEFAULT)
+            : this(CaseSensitiveDefault)
         {
         }
 
@@ -1565,7 +1565,7 @@ namespace CommandLine
         /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
         /// default <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
         public CommandLineParserSettings(TextWriter helpWriter)
-            : this(CASE_SENSITIVE_DEFAULT)
+            : this(CaseSensitiveDefault)
         {
             HelpWriter = helpWriter;
         }
@@ -1669,7 +1669,7 @@ namespace CommandLine
     /// </summary>
     public class CommandLineParser : ICommandLineParser
     {
-        private static readonly ICommandLineParser _default = new CommandLineParser(true);
+        private static readonly ICommandLineParser DefaultParser = new CommandLineParser(true);
         private readonly CommandLineParserSettings _settings;
 
         // special constructor for singleton instance, parameter ignored
@@ -1704,7 +1704,7 @@ namespace CommandLine
         /// </summary>
         public static ICommandLineParser Default
         {
-            get { return _default; }
+            get { return DefaultParser; }
         }
 
         /// <summary>
@@ -1947,6 +1947,7 @@ namespace CommandLine
             where TAttribute : Attribute
         {
             object[] a = AssemblyFromWhichToPullInformation.GetCustomAttributes(typeof(TAttribute), false);
+
             if (a == null || a.Length <= 0) return null;
             return (TAttribute)a[0];
         }

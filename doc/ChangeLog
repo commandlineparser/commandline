@@ -1,3 +1,14 @@
+2012-12-09	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Minor code refactoring suggested by ReSharper.
+  * Fixed bug reported by github user mizipzor about grow of CopyrightInfo
+      (id #BUG0006, ref.: https://github.com/gsscoder/commandline/issues/22).
+  * library/CommandLineText.cs/CopyrightInfo (CopyrightInfo)
+      Modified method ToString() for #BUG0006.
+  * tests/Text/CopyrightInfoFixture.cs
+      Added test ShouldNotGrowWhenConvertedToString() for #BUG0006.
+  * Version incremented to 1.9.3.29 rc0.
+
 2012-11-30	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Merged pull request #11 from github user jafin
@@ -8,7 +19,7 @@
 2012-11-30	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Fixed bug reported by github user jandler about numbers overflow
-    (id #BUG0005, ref.: https://github.com/gsscoder/commandline/issues/14).
+      (id #BUG0005, ref.: https://github.com/gsscoder/commandline/issues/14).
   * library/CommandLine.cs/OptionInfo (OptionInfo)
       Method SetValueScalar(...) modified for #BUG0005.
   * tests/CommandLineParserFixture.cs
