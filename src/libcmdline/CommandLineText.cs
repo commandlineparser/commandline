@@ -171,10 +171,10 @@ namespace CommandLine.Text
         private readonly bool _isSymbolUpper;
         private readonly int[] _years;
         private readonly string _author;
-        private static readonly string _defaultCopyrightWord = "Copyright";
-        private static readonly string _symbolLower = "(c)";
-        private static readonly string _symbolUpper = "(C)";
-        private StringBuilder _builder;
+        private const string DefaultCopyrightWord = "Copyright";
+        private const string SymbolLower = "(c)";
+        private const string SymbolUpper = "(C)";
+        private readonly int _builderSize; 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class.
@@ -226,8 +226,7 @@ namespace CommandLine.Text
             _isSymbolUpper = isSymbolUpper;
             _author = author;
             _years = years;
-            _builder = new StringBuilder
-                    (CopyrightWord.Length + author.Length + (4 * years.Length) + extraLength);
+            _builderSize = CopyrightWord.Length + author.Length + (4 * years.Length) + extraLength;
         }
 
         /// <summary>
@@ -236,19 +235,20 @@ namespace CommandLine.Text
         /// <returns>The <see cref="System.String"/> that contains the copyright informations.</returns>
         public override string ToString ()
         {
-            _builder.Append (CopyrightWord);
-            _builder.Append (' ');
+            var builder = new StringBuilder(_builderSize);
+            builder.Append (CopyrightWord);
+            builder.Append (' ');
             if (_isSymbolUpper)
-                _builder.Append (_symbolUpper);
+                builder.Append (SymbolUpper);
             else
-                _builder.Append (_symbolLower);
+                builder.Append (SymbolLower);
 
-            _builder.Append (' ');
-            _builder.Append (FormatYears (_years));
-            _builder.Append (' ');
-            _builder.Append (_author);
+            builder.Append (' ');
+            builder.Append (FormatYears (_years));
+            builder.Append (' ');
+            builder.Append (_author);
 
-            return _builder.ToString ();
+            return builder.ToString ();
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace CommandLine.Text
         /// When overridden in a derived class, allows to specify a different copyright word.
         /// </summary>
         protected virtual string CopyrightWord {
-            get { return _defaultCopyrightWord; }
+            get { return DefaultCopyrightWord; }
         }
 
         /// <summary>
@@ -435,11 +435,11 @@ namespace CommandLine.Text
     public abstract class MultiLineTextAttribute : Attribute
     {
         //string _fullText;
-        string _line1;
-        string _line2;
-        string _line3;
-        string _line4;
-        string _line5;
+        readonly string _line1;
+        readonly string _line2;
+        readonly string _line3;
+        readonly string _line4;
+        readonly string _line5;
 
         //public MultiLineTextAttribute(object fullText)
         //{
@@ -447,30 +447,34 @@ namespace CommandLine.Text
         //    Assumes.NotNullOrEmpty(realFullText, "fullText");
         //    _fullText = realFullText;
         //}
-        public MultiLineTextAttribute(string line1)
+        protected MultiLineTextAttribute(string line1)
         {
             Assumes.NotNullOrEmpty(line1, "line1");
             _line1 = line1;
         }
-        public MultiLineTextAttribute(string line1, string line2)
+
+        protected MultiLineTextAttribute(string line1, string line2)
             : this(line1)
         {
             Assumes.NotNullOrEmpty(line2, "line2");
             _line2 = line2;
         }
-                public MultiLineTextAttribute(string line1, string line2, string line3)
+
+        protected MultiLineTextAttribute(string line1, string line2, string line3)
             : this(line1, line2)
         {
             Assumes.NotNullOrEmpty(line3, "line3");
             _line3 = line3;
         }
-        public MultiLineTextAttribute(string line1, string line2, string line3, string line4)
+
+        protected MultiLineTextAttribute(string line1, string line2, string line3, string line4)
             : this(line1, line2, line3)
         {
             Assumes.NotNullOrEmpty(line4, "line4");
             _line4 = line4;
         }
-        public MultiLineTextAttribute(string line1, string line2, string line3, string line4, string line5)
+
+        protected MultiLineTextAttribute(string line1, string line2, string line3, string line4, string line5)
             : this(line1, line2, line3, line4)
         {
             Assumes.NotNullOrEmpty(line5, "line5");
@@ -628,18 +632,18 @@ namespace CommandLine.Text
     /// </summary>
     public class HelpText
     {
-        private const int _builderCapacity = 128;
-        private const int _defaultMaximumLength = 80; // default console width
+        private const int BuilderCapacity = 128;
+        private const int DefaultMaximumLength = 80; // default console width
         private int? _maximumDisplayWidth;
         private string _heading;
         private string _copyright;
         private bool _additionalNewLineAfterOption;
-        private StringBuilder _preOptionsHelp;
+        private readonly StringBuilder _preOptionsHelp;
         private StringBuilder _optionsHelp;
-        private StringBuilder _postOptionsHelp;
-        private BaseSentenceBuilder _sentenceBuilder;
-        private static readonly string _defaultRequiredWord = "Required.";
-        private bool _addDashesToOption = false;
+        private readonly StringBuilder _postOptionsHelp;
+        private readonly BaseSentenceBuilder _sentenceBuilder;
+        private const string DefaultRequiredWord = "Required.";
+        private bool _addDashesToOption;
         
         /// <summary>
         /// Occurs when an option help text is formatted.
@@ -670,8 +674,8 @@ namespace CommandLine.Text
         /// </summary>
         public HelpText ()
         {
-            _preOptionsHelp = new StringBuilder (_builderCapacity);
-            _postOptionsHelp = new StringBuilder (_builderCapacity);
+            _preOptionsHelp = new StringBuilder (BuilderCapacity);
+            _postOptionsHelp = new StringBuilder (BuilderCapacity);
             
             _sentenceBuilder = BaseSentenceBuilder.CreateBuiltIn ();
         }
@@ -896,7 +900,7 @@ namespace CommandLine.Text
         /// </summary>
         /// <value>The maximum width of the display.</value>
         public int MaximumDisplayWidth {
-            get { return _maximumDisplayWidth.HasValue ? _maximumDisplayWidth.Value : _defaultMaximumLength; }
+            get { return _maximumDisplayWidth.HasValue ? _maximumDisplayWidth.Value : DefaultMaximumLength; }
             set { _maximumDisplayWidth = value; }
         }
         
@@ -956,7 +960,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>
         public void AddOptions (object options)
         {
-            AddOptions (options, _defaultRequiredWord);
+            AddOptions (options, DefaultRequiredWord);
         }
 
         /// <summary>
@@ -999,7 +1003,7 @@ namespace CommandLine.Text
             }
 
             int maxLength = GetMaxLength (optionList);
-            _optionsHelp = new StringBuilder (_builderCapacity);
+            _optionsHelp = new StringBuilder (BuilderCapacity);
             int remainingSpace = maximumLength - (maxLength + 6);
             foreach (BaseOptionAttribute option in optionList) {
                 AddOption (requiredWord, maxLength, option, remainingSpace);
@@ -1239,7 +1243,7 @@ namespace CommandLine.Text
         }
 
         //ex static
-        private int GetMaxLength (IList<BaseOptionAttribute> optionList)
+        private int GetMaxLength (IEnumerable<BaseOptionAttribute> optionList)
         {
             int length = 0;
             foreach (BaseOptionAttribute option in optionList) {
