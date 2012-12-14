@@ -1269,8 +1269,6 @@ namespace CommandLine
 
         internal ParsingError(string shortName, string longName, bool format)
         {
-            //this.BadOptionShortName = shortName;
-            //this.BadOptionLongName = longName;
             this.BadOption = new BadOptionInfo(shortName, longName);
             
             this.ViolatesFormat = format;

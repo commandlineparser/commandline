@@ -40,7 +40,7 @@ using System.Runtime.InteropServices;
 
 namespace CommandLine.Text
 {
-    #region *SentenceBuilder
+    #region SentenceBuilder
     /// <summary>
     /// Models an abstract sentence builder.
     /// </summary>
@@ -49,9 +49,7 @@ namespace CommandLine.Text
         /// <summary>
         /// Creates the built in sentence builder.
         /// </summary>
-        /// <returns>
-        /// The built in sentence builder.
-        /// </returns>
+        /// <returns>The built in sentence builder.</returns>
         public static BaseSentenceBuilder CreateBuiltIn ()
         {
             return new EnglishSentenceBuilder ();
@@ -60,49 +58,37 @@ namespace CommandLine.Text
         /// <summary>
         /// Gets a string containing word 'option'.
         /// </summary>
-        /// <value>
-        /// The word 'option'.
-        /// </value>
+        /// <value>The word 'option'.</value>
         public abstract string OptionWord { get; }
         
         /// <summary>
         /// Gets a string containing the word 'and'.
         /// </summary>
-        /// <value>
-        /// The word 'and'.
-        /// </value>
+        /// <value>The word 'and'.</value>
         public abstract string AndWord { get; }
         
         /// <summary>
         /// Gets a string containing the sentence 'required option missing'.
         /// </summary>
-        /// <value>
-        /// The sentence 'required option missing'.
-        /// </value>
+        /// <value>The sentence 'required option missing'.</value>
         public abstract string RequiredOptionMissingText { get; }
         
         /// <summary>
         /// Gets a string containing the sentence 'violates format'.
         /// </summary>
-        /// <value>
-        /// The sentence 'violates format'.
-        /// </value>
+        /// <value>The sentence 'violates format'.</value>
         public abstract string ViolatesFormatText { get; }
         
         /// <summary>
         /// Gets a string containing the sentence 'violates mutual exclusiveness'.
         /// </summary>
-        /// <value>
-        /// The sentence 'violates mutual exclusiveness'.
-        /// </value>
+        /// <value>The sentence 'violates mutual exclusiveness'.</value>
         public abstract string ViolatesMutualExclusivenessText { get; }
 
         /// <summary>
         /// Gets a string containing the error heading text.
         /// </summary>
-        /// <value>
-        /// The error heading text.
-        /// </value>
+        /// <value>The error heading text.</value>
         public abstract string ErrorsHeadingText { get; }
     }
 
@@ -114,49 +100,37 @@ namespace CommandLine.Text
         /// <summary>
         /// Gets a string containing word 'option' in english.
         /// </summary>
-        /// <value>
-        /// The word 'option' in english.
-        /// </value>
+        /// <value>The word 'option' in english.</value>
         public override string OptionWord { get { return "option"; } }
         
         /// <summary>
         /// Gets a string containing the word 'and' in english.
         /// </summary>
-        /// <value>
-        /// The word 'and' in english.
-        /// </value>        
+        /// <value>The word 'and' in english.</value>        
         public override string AndWord { get { return "and"; } }
         
         /// <summary>
         /// Gets a string containing the sentence 'required option missing' in english.
         /// </summary>
-        /// <value>
-        /// The sentence 'required option missing' in english.
-        /// </value>        
+        /// <value>The sentence 'required option missing' in english.</value>        
         public override string RequiredOptionMissingText { get { return "required option is missing"; } }
         
         /// <summary>
         /// Gets a string containing the sentence 'violates format' in english.
         /// </summary>
-        /// <value>
-        /// The sentence 'violates format' in english.
-        /// </value>        
+        /// <value>The sentence 'violates format' in english.</value>        
         public override string ViolatesFormatText { get { return "violates format"; } }
         
         /// <summary>
         /// Gets a string containing the sentence 'violates mutual exclusiveness' in english.
         /// </summary>
-        /// <value>
-        /// The sentence 'violates mutual exclusiveness' in english.
-        /// </value>        
+        /// <value>The sentence 'violates mutual exclusiveness' in english.</value>        
         public override string ViolatesMutualExclusivenessText { get { return "violates mutual exclusiveness"; } }
 
         /// <summary>
         /// Gets a string containing the error heading text in english.
         /// </summary>
-        /// <value>
-        /// The error heading text in english.
-        /// </value>
+        /// <value>The error heading text in english.</value>
         public override string ErrorsHeadingText { get { return "ERROR(S):"; } }
     }
     #endregion
@@ -401,52 +375,20 @@ namespace CommandLine.Text
             WriteMessage (message, Console.Error);
         }
     }
-
-    /*
-    internal static class AssemblyVersionAttributeUtil
-    {
-        public static string GetInformationalVersion(this AssemblyVersionAttribute attr)
-        {
-            var parts = attr.Version.Split('.');
-            if (parts.Length > 2)
-            {
-                return string.Format(CultureInfo.InvariantCulture, "{0}.{1}", parts[0], parts[1]);
-            }
-            return attr.Version;
-        }
-    }
-    */
-
-    /*
-    internal static class StringBuilderUtil
-    {
-        public static void AppendLineIfNotNullOrEmpty(this StringBuilder bldr, string value)
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                bldr.AppendLine(value);
-            }
-        }
-    }
-    */
     #endregion
 
     #region Attributes
+    /// <summary>
+    /// Provides base properties for creating an attribute, used to define multiple lines of text.
+    /// </summary>
     public abstract class MultiLineTextAttribute : Attribute
     {
-        //string _fullText;
         readonly string _line1;
         readonly string _line2;
         readonly string _line3;
         readonly string _line4;
         readonly string _line5;
 
-        //public MultiLineTextAttribute(object fullText)
-        //{
-        //    var realFullText = fullText as string;
-        //    Assumes.NotNullOrEmpty(realFullText, "fullText");
-        //    _fullText = realFullText;
-        //}
         protected MultiLineTextAttribute(string line1)
         {
             Assumes.NotNullOrEmpty(line1, "line1");
@@ -481,28 +423,6 @@ namespace CommandLine.Text
             _line5 = line5;
         }
 
-        /*
-        public string FullText
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_fullText))
-                {
-                    if (!string.IsNullOrEmpty(_line1))
-                    {
-                        var builder = new StringBuilder(_line1);
-                        builder.AppendLineIfNotNullOrEmpty(_line2);
-                        builder.AppendLineIfNotNullOrEmpty(_line3);
-                        builder.AppendLineIfNotNullOrEmpty(_line4);
-                        builder.AppendLineIfNotNullOrEmpty(_line5);
-                        _fullText = builder.ToString();
-                    }
-                }
-                return _fullText;
-            }
-        }
-        */
-
         internal void AddToHelpText(HelpText helpText, bool before)
         {
             if (before)
@@ -524,74 +444,131 @@ namespace CommandLine.Text
         }
     }
 
+    /// <summary>
+    /// Models a multiline assembly license text.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Assembly, Inherited=false), ComVisible(true)]
     public sealed class AssemblyLicenseAttribute : MultiLineTextAttribute
     {
-        //public AssemblyLicenseAttribute(object fullText)
-        //    : base(fullText)
-        //{
-        //}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// with one line of text.
+        /// </summary>
+        /// <param name="line1">First line of license text.</param>
         public AssemblyLicenseAttribute(string line1)
             : base(line1)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// with two lines of text.
+        /// </summary>
+        /// <param name="line1">First line of license text.</param>
+        /// <param name="line2">Second line of license text.</param>
         public AssemblyLicenseAttribute(string line1, string line2)
             : base(line1, line2)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// with three lines of text.
+        /// </summary>
+        /// <param name="line1">First line of license text.</param>
+        /// <param name="line2">Second line of license text.</param>
+        /// <param name="line3">Third line of license text.</param>
         public AssemblyLicenseAttribute(string line1, string line2, string line3)
             : base(line1, line2, line3)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// with four lines of text.
+        /// </summary>
+        /// <param name="line1">First line of license text.</param>
+        /// <param name="line2">Second line of license text.</param>
+        /// <param name="line3">Third line of license text.</param>
+        /// <param name="line4">Fourth line of license text.</param>
         public AssemblyLicenseAttribute(string line1, string line2, string line3, string line4)
             : base(line1, line2, line3, line4)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// with five lines of text.
+        /// </summary>
+        /// <param name="line1">First line of license text.</param>
+        /// <param name="line2">Second line of license text.</param>
+        /// <param name="line3">Third line of license text.</param>
+        /// <param name="line4">Fourth line of license text.</param>
+        /// <param name="line5">Fifth line of license text.</param>
         public AssemblyLicenseAttribute(string line1, string line2, string line3, string line4, string line5)
             : base(line1, line2, line3, line4, line5)
         {
         }
     }
 
+    /// <summary>
+    /// Models a multiline assembly usage text.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Assembly, Inherited=false), ComVisible(true)]
     public sealed class AssemblyUsageAttribute : MultiLineTextAttribute
     {
-        //public AssemblyUsageAttribute(object fullText)
-        //    : base(fullText)
-        //{
-        //}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyUsageAttribute"/> class
+        /// with one line of text.
+        /// </summary>
+        /// <param name="line1">First line of usage text.</param>
         public AssemblyUsageAttribute(string line1)
             : base(line1)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyUsageAttribute"/> class
+        /// with two lines of text.
+        /// </summary>
+        /// <param name="line1">First line of usage text.</param>
+        /// <param name="line2">Second line of usage text.</param>
         public AssemblyUsageAttribute(string line1, string line2)
             : base(line1, line2)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyUsageAttribute"/> class
+        /// with three lines of text.
+        /// </summary>
+        /// <param name="line1">First line of usage text.</param>
+        /// <param name="line2">Second line of usage text.</param>
+        /// <param name="line3">Third line of usage text.</param>
         public AssemblyUsageAttribute(string line1, string line2, string line3)
             : base(line1, line2, line3)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyUsageAttribute"/> class
+        /// with four lines of text.
+        /// </summary>
+        /// <param name="line1">First line of usage text.</param>
+        /// <param name="line2">Second line of usage text.</param>
+        /// <param name="line3">Third line of usage text.</param>
+        /// <param name="line4">Fourth line of usage text.</param>
         public AssemblyUsageAttribute(string line1, string line2, string line3, string line4)
             : base(line1, line2, line3, line4)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyUsageAttribute"/> class
+        /// with five lines of text.
+        /// </summary>
+        /// <param name="line1">First line of usage text.</param>
+        /// <param name="line2">Second line of usage text.</param>
+        /// <param name="line3">Third line of usage text.</param>
+        /// <param name="line4">Fourth line of usage text.</param>
+        /// <param name="line5">Fifth line of usage text.</param>
         public AssemblyUsageAttribute(string line1, string line2, string line3, string line4, string line5)
             : base(line1, line2, line3, line4, line5)
         {
         }
     }
-
-    /*[AttributeUsage(AttributeTargets.Assembly, Inherited=false), ComVisible(true)]
-    public sealed class AssemblyInformationalVersionAttribute : Attribute
-    {
-        public string Version { get; private set; }
-
-        public AssemblyInformationalVersionAttribute (string version)
-        {
-            this.Version = version;
-        }
-    }*/
     #endregion
 
     #region HelpText
@@ -714,13 +691,8 @@ namespace CommandLine.Text
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class
         /// specifying the sentence builder and heading informations.
         /// </summary>
-        /// <param name="sentenceBuilder">
-        /// A <see cref="BaseSentenceBuilder"/> instance.
-        /// </param>
-        /// <param name="heading">
-        /// A string with heading information or
-        /// an instance of <see cref="CommandLine.Text.HeadingInfo"/>.
-        /// </param>
+        /// <param name="sentenceBuilder">A <see cref="BaseSentenceBuilder"/> instance.</param>
+        /// <param name="heading">A string with heading information or an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
         public HelpText (BaseSentenceBuilder sentenceBuilder, string heading)
             : this(heading)
         {
@@ -733,10 +705,8 @@ namespace CommandLine.Text
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class
         /// specifying heading and copyright informations.
         /// </summary>
-        /// <param name="heading">A string with heading information or
-        /// an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
-        /// <param name="copyright">A string with copyright information or
-        /// an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
+        /// <param name="heading">A string with heading information or an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
+        /// <param name="copyright">A string with copyright information or an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
         /// <exception cref="System.ArgumentException">Thrown when one or more parameters <paramref name="heading"/> are null or empty strings.</exception>
         public HelpText (string heading, string copyright)
             : this()
@@ -747,7 +717,15 @@ namespace CommandLine.Text
             _heading = heading;
             _copyright = copyright;
         }
-        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class
+        /// specifying heading and copyright informations.
+        /// </summary>
+        /// <param name="sentenceBuilder">A <see cref="BaseSentenceBuilder"/> instance.</param>
+        /// <param name="heading">A string with heading information or an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
+        /// <param name="copyright">A string with copyright information or an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
+        /// <exception cref="System.ArgumentException">Thrown when one or more parameters <paramref name="heading"/> are null or empty strings.</exception>
         public HelpText (BaseSentenceBuilder sentenceBuilder, string heading, string copyright)
             : this(heading, copyright)
         {
@@ -760,10 +738,8 @@ namespace CommandLine.Text
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class
         /// specifying heading and copyright informations.
         /// </summary>
-        /// <param name="heading">A string with heading information or
-        /// an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
-        /// <param name="copyright">A string with copyright information or
-        /// an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
+        /// <param name="heading">A string with heading information or an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
+        /// <param name="copyright">A string with copyright information or an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
         /// <param name="options">The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
         /// <exception cref="System.ArgumentException">Thrown when one or more parameters <paramref name="heading"/> are null or empty strings.</exception>
         public HelpText (string heading, string copyright, object options)
@@ -778,6 +754,15 @@ namespace CommandLine.Text
             AddOptions (options);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class
+        /// specifying heading and copyright informations.
+        /// </summary>
+        /// <param name="sentenceBuilder">A <see cref="BaseSentenceBuilder"/> instance.</param>
+        /// <param name="heading">A string with heading information or an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
+        /// <param name="copyright">A string with copyright information or an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
+        /// <param name="options">The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <exception cref="System.ArgumentException">Thrown when one or more parameters <paramref name="heading"/> are null or empty strings.</exception>
         public HelpText (BaseSentenceBuilder sentenceBuilder, string heading, string copyright, object options)
             : this(heading, copyright, options)
         {
@@ -792,9 +777,7 @@ namespace CommandLine.Text
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
-        /// <param name='options'>
-        /// The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.
-        /// </param>
+        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
         public static HelpText AutoBuild(object options)
         {
             return AutoBuild(options, null);
@@ -806,12 +789,8 @@ namespace CommandLine.Text
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
-        /// <param name='options'>
-        /// The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.
-        /// </param>
-        /// <param name='errDelegate'>
-        /// A delegate used to customize the text block for reporting parsing errors.
-        /// </param>
+        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name='errDelegate'>A delegate used to customize the text block for reporting parsing errors.</param>
         public static HelpText AutoBuild(object options, HandleParsingErrorsDelegate errDelegate)
         {
             var title = ReflectionUtil.GetAttribute<AssemblyTitleAttribute>();
@@ -854,6 +833,11 @@ namespace CommandLine.Text
             return auto;
         }
 
+        /// <summary>
+        /// Supplies a default parsing error handler implementation.
+        /// </summary>
+        /// <param name="options">The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name="current">The <see cref="CommandLine.Text.HelpText"/> instance.</param>
         public static void DefaultParsingErrorsHandler(CommandLineOptionsBase options, HelpText current)
         {
             if (options.InternalLastPostParsingState.Errors.Count > 0)
@@ -862,7 +846,6 @@ namespace CommandLine.Text
                 if (!string.IsNullOrEmpty(errors))
                 {
                     current.AddPreOptionsLine(string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText));
-                    //current.AddPreOptionsLine(errors);
                     var lines = errors.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
                     foreach (var line in lines) { current.AddPreOptionsLine(line); }
                 }
@@ -923,6 +906,9 @@ namespace CommandLine.Text
             set { _additionalNewLineAfterOption = value; }
         }
 
+        /// <summary>
+        /// Gets the <see cref="BaseSentenceBuilder"/> instance specified in constructor.
+        /// </summary>
         public BaseSentenceBuilder SentenceBuilder
         {
             get { return _sentenceBuilder; }
@@ -1013,12 +999,9 @@ namespace CommandLine.Text
         /// <summary>
         /// Builds a string that contains a parsing error message.
         /// </summary>
-        /// <param name="options">
-        /// An options target <see cref="CommandLineOptionsBase"/> instance that collected command line arguments parsed with the <see cref="CommandLine.CommandLineParser"/> class.
-        /// </param>
-        /// <returns>
-        /// The <see cref="System.String"/> that contains the parsing error message.
-        /// </returns>
+        /// <param name="options">An options target <see cref="CommandLineOptionsBase"/> instance that collected command line arguments parsed with the <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name="indent">Number of spaces used to indent text.</param>
+        /// <returns>The <see cref="System.String"/> that contains the parsing error message.</returns>
         public string RenderParsingErrorsText (CommandLineOptionsBase options, int indent)
         {
             if (options.InternalLastPostParsingState.Errors.Count == 0) {
@@ -1066,7 +1049,7 @@ namespace CommandLine.Text
         private void AddOption (string requiredWord, int maxLength, BaseOptionAttribute option, int widthOfHelpText)
         {
             _optionsHelp.Append ("  ");
-            StringBuilder optionName = new StringBuilder (maxLength);
+            var optionName = new StringBuilder (maxLength);
             if (option.HasShortName) {
                 if (_addDashesToOption) {
                     optionName.Append ('-');
@@ -1098,7 +1081,7 @@ namespace CommandLine.Text
                 option.HelpText = String.Format ("{0} ", requiredWord) + option.HelpText;
             }
 
-            FormatOptionHelpTextEventArgs e = new FormatOptionHelpTextEventArgs (option);
+            var e = new FormatOptionHelpTextEventArgs (option);
             OnFormatOptionHelpText (e);
             option.HelpText = e.Option.HelpText;
 
@@ -1242,7 +1225,6 @@ namespace CommandLine.Text
             return value.Length;
         }
 
-        //ex static
         private int GetMaxLength (IEnumerable<BaseOptionAttribute> optionList)
         {
             int length = 0;

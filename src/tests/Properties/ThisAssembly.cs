@@ -30,6 +30,6 @@ static class _ThisAssembly
 {
     internal const string Title = "CommandLine.Tests.dll";
     internal const string Copyright = "Copyright (C) 2005 - 2012 Giacomo Stelluti Scala";
-    internal const string Version = "1.9.3.29";
+    internal const string Version = "1.9.3.31";
     internal const string InformationalVersion = "1.9";
 }
