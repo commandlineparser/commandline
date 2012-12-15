@@ -34,13 +34,14 @@ using System;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
 {
     public abstract class CommandLineParserBaseFixture : BaseFixture
     {
-        public CommandLineParserBaseFixture()
+        protected CommandLineParserBaseFixture()
         {
             // Before latest changes, some values were parsed with CultureInfo.InvariantCulture
             // that is compatible with en-US.
@@ -49,32 +50,24 @@ namespace CommandLine.Tests
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
         }
 
-        private ICommandLineParser _parser = null;
+        protected bool Result { set; get; }
 
-        protected virtual ICommandLineParser CreateCommandLineParser()
+        [SetUp]
+        public virtual void CreateInstance()
         {
-            return new CommandLineParser();
+            Parser = new CommandLineParser();
         }
 
-        protected void AssertParserSuccess(bool result)
+        protected void ResultShouldBeTrue()
         {
-            Assert.IsTrue(result);
+            Result.Should().Be.True();
         }
 
-        protected void AssertParserFailure(bool result)
+        protected void ResultShouldBeFalse()
         {
-            Assert.IsFalse(result);
+            Result.Should().Be.False();
         }
 
-        protected ICommandLineParser Parser
-        {
-            get
-            {
-                if (_parser == null)
-                    _parser = CreateCommandLineParser();
-
-                return _parser;
-            }
-        }
+        protected ICommandLineParser Parser { get; set; }
     }
 }

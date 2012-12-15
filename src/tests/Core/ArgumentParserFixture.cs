@@ -34,7 +34,6 @@ using NUnit.Framework;
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
     public sealed class ArgumentParserFixture : BaseFixture
     {
         [Test]
@@ -46,7 +45,7 @@ namespace CommandLine.Tests
 
             var items = ArgumentParser.PublicWrapperOfGetNextInputValues(ae);
 
-            base.AssertArrayItemEqual(new string[] { "one", "two" }, items);
+            base.ElementsShouldBeEqual(new string[] { "one", "two" }, items);
             Assert.AreEqual("two", ae.Current);
         }
     }

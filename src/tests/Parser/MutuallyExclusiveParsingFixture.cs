@@ -33,25 +33,22 @@ using NUnit.Framework;
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
     public sealed class MutuallyExclusiveParsingFixture : CommandLineParserBaseFixture
     {
-        public MutuallyExclusiveParsingFixture() : base()
-        {
-        }
+        public MutuallyExclusiveParsingFixture() : base() {}
 
-        protected override ICommandLineParser CreateCommandLineParser()
+        public override void CreateInstance()
         {
-            return new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});
+            Parser = new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});
         }
 
         [Test]
         public void ParsingOneMutuallyExclusiveOptionSucceeds()
         {
             var options = new OptionsWithDefaultSet();
-            bool result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml" }, options);
 
-            base.AssertParserSuccess(result);
+            ResultShouldBeTrue();
             Assert.AreEqual("mystuff.xml", options.FileName);
         }
 
@@ -59,18 +56,18 @@ namespace CommandLine.Tests
         public void ParsingTwoMutuallyExclusiveOptionsFails()
         {
             var options = new OptionsWithDefaultSet();
-            bool result = base.Parser.ParseArguments(new string[] { "-i", "1", "--file=mystuff.xml" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-i", "1", "--file=mystuff.xml" }, options);
             
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParsingOneMutuallyExclusiveOptionWithAnotherOptionSucceeds()
         {
             var options = new OptionsWithDefaultSet();
-            bool result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml", "-v" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml", "-v" }, options);
             
-            base.AssertParserSuccess(result);
+            ResultShouldBeTrue();
             Assert.AreEqual("mystuff.xml", options.FileName);
             Assert.AreEqual(true, options.Verbose);
         }
@@ -79,9 +76,9 @@ namespace CommandLine.Tests
         public void ParsingTwoMutuallyExclusiveOptionsInTwoSetSucceeds()
         {
             var options = new OptionsWithMultipleSet();
-            bool result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
-            base.AssertParserSuccess(result);
+            ResultShouldBeTrue();
             Assert.AreEqual(167, options.Green);
             Assert.AreEqual(205, options.Hue);
         }
@@ -90,27 +87,27 @@ namespace CommandLine.Tests
         public void ParsingThreeMutuallyExclusiveOptionsInTwoSetFails()
         {
             var options = new OptionsWithMultipleSet();
-            bool result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205", "--saturation=37" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205", "--saturation=37" }, options);
             
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParsingMutuallyExclusiveOptionsAndRequiredOptionFails()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
-            bool result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParsingMutuallyExclusiveOptionsAndRequiredOptionSucceeds()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
-            bool result = base.Parser.ParseArguments(new string[] { "-g100", "-h200", "-cRgbColorSet" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-g100", "-h200", "-cRgbColorSet" }, options);
             
-            base.AssertParserSuccess(result);
+            ResultShouldBeTrue();
             Assert.AreEqual(100, options.Green);
             Assert.AreEqual(200, options.Hue);
             Assert.AreEqual(ColorSet.RgbColorSet, options.DefaultColorSet);

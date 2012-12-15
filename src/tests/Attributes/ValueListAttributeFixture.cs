@@ -35,7 +35,6 @@ using NUnit.Framework;
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
     public class ValueListAttributeFixture : BaseFixture
     {
         #region Mock Objects
@@ -99,7 +98,7 @@ namespace CommandLine.Tests
             //Assert.AreEqual("value0", options.Values[0]);
             //Assert.AreEqual("value1", options.Values[1]);
             //Assert.AreEqual("value2", options.Values[2]);
-            base.AssertArrayItemEqual(new string[] { "value0", "value1", "value2" }, options.Values);
+            base.ElementsShouldBeEqual(new string[] { "value0", "value1", "value2" }, options.Values);
         }
     }
 }

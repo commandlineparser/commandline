@@ -35,7 +35,6 @@ using NUnit.Framework;
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
     public sealed class ValueListAttributeParsingFixture : CommandLineParserBaseFixture
     {
         public ValueListAttributeParsingFixture() : base()
@@ -46,10 +45,10 @@ namespace CommandLine.Tests
         public void ValueListAttributeIsolatesNonOptionValues()
         {
             var options = new SimpleOptionsWithValueList();
-            bool result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                 new string[] { "--switch", "file1.ext", "file2.ext", "file3.ext", "-s", "out.ext" }, options);
 
-            base.AssertParserSuccess(result);
+            ResultShouldBeTrue();
             Assert.AreEqual("file1.ext", options.Items[0]);
             Assert.AreEqual("file2.ext", options.Items[1]);
             Assert.AreEqual("file3.ext", options.Items[2]);
@@ -62,9 +61,9 @@ namespace CommandLine.Tests
         public void ValueListWithMaxElemInsideBounds()
         {
             var options = new OptionsWithValueListMaximumThree();
-            bool result = base.Parser.ParseArguments(new string[] { "file.a", "file.b", "file.c" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "file.a", "file.b", "file.c" }, options);
 
-            base.AssertParserSuccess(result);
+            ResultShouldBeTrue();
             Assert.AreEqual("file.a", options.InputFilenames[0]);
             Assert.AreEqual("file.b", options.InputFilenames[1]);
             Assert.AreEqual("file.c", options.InputFilenames[2]);
@@ -77,19 +76,19 @@ namespace CommandLine.Tests
         public void ValueListWithMaxElemOutsideBounds()
         {
             var options = new OptionsWithValueListMaximumThree();
-            bool result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                     new string[] { "file.a", "file.b", "file.c", "file.d" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ValueListWithMaxElemSetToZeroSucceeds()
         {
             var options = new OptionsWithValueListMaximumZero();
-            bool result = base.Parser.ParseArguments(new string[] { }, options);
+            Result = base.Parser.ParseArguments(new string[] { }, options);
 
-            base.AssertParserSuccess(result);
+            ResultShouldBeTrue();
             Assert.AreEqual(0, options.Junk.Count);
             Console.WriteLine(options);
         }

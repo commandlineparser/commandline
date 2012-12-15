@@ -76,10 +76,10 @@ namespace CommandLine.Tests
             var options = new MockOptions();
             var writer = new StringWriter();
 
-            bool result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                     new string[] { "-imath.xml", "-oresult.xml" }, options, writer);
 
-            base.AssertParserSuccess(result);
+            ResultShouldBeTrue();;
             Assert.AreEqual(0, writer.ToString().Length);
         }
 
@@ -89,10 +89,10 @@ namespace CommandLine.Tests
             var options = new MockOptions();
             var writer = new StringWriter();
 
-            bool result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                     new string[] { "math.xml", "-oresult.xml" }, options, writer);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
 
             string helpText = writer.ToString();
             Assert.IsTrue(helpText.Length > 0);
@@ -106,10 +106,10 @@ namespace CommandLine.Tests
             var options = new MockOptions();
             var writer = new StringWriter();
 
-            bool result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                     new string[] { "--help" }, options, writer);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
 
             string helpText = writer.ToString();
             Assert.IsTrue(helpText.Length > 0);
