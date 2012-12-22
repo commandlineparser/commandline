@@ -35,6 +35,7 @@ using System.IO;
 using System.Text;
 using System.Globalization;
 using NUnit.Framework;
+using Should.Fluent;
 using CommandLine.Tests.Mocks;
 #endregion
 
@@ -149,8 +150,8 @@ namespace CommandLine.Text.Tests
             string help = local.ToString();
 
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            Assert.AreEqual(lines[lines.Length - 2], "This is a first post-options line.");
-            Assert.AreEqual(lines[lines.Length - 1], "This is a second post-options line.");
+            lines[lines.Length - 2].Should().Equal("This is a first post-options line.");
+            lines[lines.Length - 1].Should().Equal("This is a second post-options line.");
         }
 
         [Test]
@@ -161,12 +162,12 @@ namespace CommandLine.Text.Tests
             string help = _helpText.ToString();
 
             string[] lines = help.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
-            Assert.AreEqual(lines[2], "  v, verbose    This is the description", "The first line should have the arguments and the start of the Help Text.");
-            string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
-            Assert.AreEqual(lines[3], "                of the verbosity to ", formattingMessage);
-            Assert.AreEqual(lines[4], "                test out the wrapping ", formattingMessage);
-            Assert.AreEqual(lines[5], "                capabilities of the ", formattingMessage);
-            Assert.AreEqual(lines[6], "                Help Text.", formattingMessage);
+            lines[2].Should().Equal("  v, verbose    This is the description"); //"The first line should have the arguments and the start of the Help Text.");
+            //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
+            lines[3].Should().Equal("                of the verbosity to ");
+            lines[4].Should().Equal("                test out the wrapping ");
+            lines[5].Should().Equal("                capabilities of the ");
+            lines[6].Should().Equal("                Help Text.");
         }
 
         [Test]
@@ -177,12 +178,12 @@ namespace CommandLine.Text.Tests
             string help = _helpText.ToString();
 
             string[] lines = help.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            Assert.AreEqual("  v, verbose    Before ", lines[2]);
-            Assert.AreEqual("                012345678901234567890123", lines[3]);
-            Assert.AreEqual("                After", lines[4]);
-            Assert.AreEqual("  input-file    Before ", lines[5]);
-            Assert.AreEqual("                012345678901234567890123", lines[6]);
-            Assert.AreEqual("                456789 After", lines[7]);
+            lines[2].Should().Equal("  v, verbose    Before ");
+            lines[3].Should().Equal("                012345678901234567890123");
+            lines[4].Should().Equal("                After");
+            lines[5].Should().Equal("  input-file    Before ");
+            lines[6].Should().Equal("                012345678901234567890123");
+            lines[7].Should().Equal("                456789 After");
         }
 
         [Test]
@@ -197,12 +198,12 @@ namespace CommandLine.Text.Tests
             string help = local.ToString();
 
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            Assert.AreEqual("Before ", lines[1]);
-            Assert.AreEqual("0123456789012345678901234567890123456789", lines[2]);
-            Assert.AreEqual("012 After", lines[3]);
-            Assert.AreEqual("Before ", lines[lines.Length - 3]);
-            Assert.AreEqual("0123456789012345678901234567890123456789", lines[lines.Length - 2]);
-            Assert.AreEqual(" After", lines[lines.Length - 1]);
+            lines[1].Should().Equal("Before ");
+            lines[2].Should().Equal("0123456789012345678901234567890123456789");
+            lines[3].Should().Equal("012 After");
+            lines[lines.Length - 3].Should().Equal("Before ");
+            lines[lines.Length - 2].Should().Equal("0123456789012345678901234567890123456789");
+            lines[lines.Length - 1].Should().Equal(" After");
         }
 
         [Test]
@@ -219,11 +220,11 @@ namespace CommandLine.Text.Tests
             Console.WriteLine(help);
 
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            Assert.AreEqual("Customizing Test.", lines[0]);
-            Assert.AreEqual("Pre-Options.", lines[1]);
-            Assert.AreEqual("  v, verbose       Kommentar umfassend Operationen.", lines[3]);
-            Assert.AreEqual("  i, input-file    Erforderlich. Gibt den Eingang an zu bearbeitenden Datei.", lines[4]);
-            Assert.AreEqual("Post-Options.", lines[6]);
+            lines[0].Should().Equal("Customizing Test.");
+            lines[1].Should().Equal("Pre-Options.");
+            lines[3].Should().Equal("  v, verbose       Kommentar umfassend Operationen.");
+            lines[4].Should().Equal("  i, input-file    Erforderlich. Gibt den Eingang an zu bearbeitenden Datei.");
+            lines[6].Should().Equal("Post-Options.");
         }
 
         [Test]
@@ -242,11 +243,11 @@ namespace CommandLine.Text.Tests
             Console.WriteLine(help);
 
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            Assert.AreEqual("Parameterless Constructor Test.", lines[0]);
-            Assert.AreEqual(string.Format(CultureInfo.InvariantCulture, "Copyright (C) {0} Author", year), lines[1]);
-            Assert.AreEqual("Pre-Options.", lines[2]);
-            Assert.AreEqual("  s, something    Input something here.", lines[4]);
-            Assert.AreEqual("Post-Options.", lines[6]);
+            lines[0].Should().Equal("Parameterless Constructor Test.");
+            lines[1].Should().Equal(string.Format(CultureInfo.InvariantCulture, "Copyright (C) {0} Author", year));
+            lines[2].Should().Equal("Pre-Options.");
+            lines[4].Should().Equal("  s, something    Input something here.");
+            lines[6].Should().Equal("Post-Options.");
         }
 
 		[Test]
@@ -264,7 +265,7 @@ namespace CommandLine.Text.Tests
 			Console.WriteLine(help);
 			
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-			Assert.AreEqual("  -s, --something    Input something here.", lines[3]);
+			lines[3].Should().Equal("  -s, --something    Input something here.");
 		}
 
         [Test]
@@ -272,7 +273,7 @@ namespace CommandLine.Text.Tests
         {
             var local = new HelpText();
 
-            Assert.AreEqual("", local.ToString());
+            local.ToString().Should().Equal("");
         }
 
         [Test]
@@ -284,7 +285,7 @@ namespace CommandLine.Text.Tests
                 MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
             var result = parser.ParseArguments(new string[] {"--option-b", "hello", "-cWORLD"}, options);
 
-            Assert.IsFalse(result);
+            result.Should().Be.False();
 
             var outsw = sw.ToString();
 
@@ -292,9 +293,9 @@ namespace CommandLine.Text.Tests
 
             var lines = outsw.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-            Assert.AreEqual(lines[0], "--option-b option violates format.");
-            Assert.AreEqual(lines[1], "-c/--option-c option violates format.");
-            Assert.AreEqual(lines[2], "-a required option is missing.");
+            lines[0].Should().Equal("--option-b option violates format.");
+            lines[1].Should().Equal("-c/--option-c option violates format.");
+            lines[2].Should().Equal("-a required option is missing.");
         }
 
         /*
@@ -369,7 +370,7 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(Console.Out)).ParseArguments(
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "abc" }, options);
 
-            Assert.IsFalse(result);
+            result.Should().Be.False();
         }
 
         [Test]
@@ -380,7 +381,7 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(Console.Out)).ParseArguments(
                 new string[] { "-j0" }, options);
 
-            Assert.IsFalse(result);
+            result.Should().Be.False();
         }
 
         [Test]
@@ -391,7 +392,7 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(Console.Out)).ParseArguments(
                 new string[] { "-i0" }, options);
 
-            Assert.IsFalse(result);
+            result.Should().Be.False();
         }
 
 		[Test]
@@ -402,7 +403,7 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(true, true, Console.Out)).ParseArguments(
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "0", "-ap" }, options);
 
-            Assert.IsFalse(result);
+            result.Should().Be.False();
         }
 		
 		[Test]
@@ -413,11 +414,11 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(true, true, Console.Out)).ParseArguments(
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "zero", "-pa" }, options);
 
-            Assert.IsFalse(result);
+            result.Should().Be.False();
         }
 
 
-    [Test]
+        [Test]
         public void MultipleRequiredFields_WithMoreThanOneRequiredFieldNotSpecified_ReportsAllMissingRequiredFields()
         {
           var options = new ComplexOptions();
@@ -425,10 +426,9 @@ namespace CommandLine.Text.Tests
           {
             new CommandLineParser(new CommandLineParserSettings(false,  false, writer)).ParseArguments(new string[0], options, writer);
 
-            Assert.AreEqual(2, options.InternalLastPostParsingState.Errors.Count);
+            options.InternalLastPostParsingState.Errors.Should().Count.Exactly(2);
           }
         }
-    
         #endregion
 
         private void CustomizeOptionsFormat_FormatOptionHelpText(object sender, FormatOptionHelpTextEventArgs e)
@@ -448,7 +448,9 @@ namespace CommandLine.Text.Tests
             }
             
             if (e.Option.Required)
+            {
                 optionHelp = "Erforderlich. " + optionHelp;
+            }
 
             e.Option.HelpText = optionHelp;
         }

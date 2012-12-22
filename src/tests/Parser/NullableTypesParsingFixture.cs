@@ -30,8 +30,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using CommandLine.Tests.Mocks;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
@@ -49,13 +50,13 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-i", "99" }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual(99, options.IntegerValue);
+            options.IntegerValue.Should().Equal(99);
 
             options = new NullableTypesOptions();
             Result = base.Parser.ParseArguments(new string[] { }, options);
 
             ResultShouldBeTrue();
-            Assert.IsNull(options.IntegerValue);
+            options.IntegerValue.Should().Be.Null();
         }
 
         [Test]
@@ -83,13 +84,13 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--enum=ReadWrite" }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual(FileAccess.ReadWrite, options.EnumValue);
+            options.EnumValue.Should().Equal(FileAccess.ReadWrite);
 
             options = new NullableTypesOptions();
             Result = base.Parser.ParseArguments(new string[] { }, options);
 
             ResultShouldBeTrue();
-            Assert.IsNull(options.EnumValue);
+            options.EnumValue.Should().Be.Null();
         }
 
         [Test]
@@ -117,13 +118,13 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-d9.999" }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual(9.999, options.DoubleValue);
+            options.DoubleValue.Should().Equal(9.999);
 
             options = new NullableTypesOptions();
             Result = base.Parser.ParseArguments(new string[] { }, options);
 
             ResultShouldBeTrue();
-            Assert.IsNull(options.DoubleValue);
+            options.DoubleValue.Should().Be.Null();
         }
 
         [Test]
@@ -151,17 +152,17 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--string", "alone" }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual("alone", options.StringValue);
+            options.StringValue.Should().Equal("alone");
 
             options = new NullableTypesOptions();
             Result = base.Parser.ParseArguments(
                 new string[] { "-d1.789", "--int", "10099", "-stogether", "--enum", "Read" }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual(1.789, options.DoubleValue);
-            Assert.AreEqual(10099, options.IntegerValue);
-            Assert.AreEqual("together", options.StringValue);
-            Assert.AreEqual(FileAccess.Read, options.EnumValue);
+            options.DoubleValue.Should().Equal(1.789D);
+            options.IntegerValue.Should().Equal(10099);
+            options.StringValue.Should().Equal("together");
+            options.EnumValue.Should().Equal(FileAccess.Read);
         }
 
     }

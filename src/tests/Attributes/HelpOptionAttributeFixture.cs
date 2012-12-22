@@ -32,6 +32,7 @@ using System.ComponentModel;
 using System.IO;
 using CommandLine.Text;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
@@ -80,7 +81,7 @@ namespace CommandLine.Tests
                     new string[] { "-imath.xml", "-oresult.xml" }, options, writer);
 
             ResultShouldBeTrue();;
-            Assert.AreEqual(0, writer.ToString().Length);
+            writer.ToString().Length.Should().Equal(0);
         }
 
         [Test]
@@ -95,7 +96,7 @@ namespace CommandLine.Tests
             ResultShouldBeFalse();
 
             string helpText = writer.ToString();
-            Assert.IsTrue(helpText.Length > 0);
+            (helpText.Length > 0).Should().Be.True();
 
             Console.Write(helpText);
         }
@@ -112,7 +113,7 @@ namespace CommandLine.Tests
             ResultShouldBeFalse();
 
             string helpText = writer.ToString();
-            Assert.IsTrue(helpText.Length > 0);
+            (helpText.Length > 0).Should().Be.True();
         }
     }
 }

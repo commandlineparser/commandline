@@ -25,12 +25,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System.Globalization;
-
-
 #endregion
 #region Using Directives
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
@@ -50,7 +48,7 @@ namespace CommandLine.Tests
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
         }
 
-        protected bool Result { set; get; }
+        protected bool? Result { set; get; }
 
         [SetUp]
         public virtual void CreateInstance()
@@ -61,11 +59,13 @@ namespace CommandLine.Tests
         protected void ResultShouldBeTrue()
         {
             Result.Should().Be.True();
+            Result = null;
         }
 
         protected void ResultShouldBeFalse()
         {
             Result.Should().Be.False();
+            Result = null;
         }
 
         protected ICommandLineParser Parser { get; set; }

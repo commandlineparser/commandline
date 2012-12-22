@@ -31,8 +31,9 @@ using System.Globalization;
 #region Using Directives
 using System;
 using System.Collections.Generic;
-using CommandLine.Tests.Mocks;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
@@ -91,7 +92,7 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three" }, options.StringArrayValue);
-            Assert.AreEqual("after", options.StringValue);
+            options.StringValue.Should().Equal("after");
         }
 
         [Test]
@@ -101,7 +102,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-s", "before", "-z", "one", "two", "three" }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual("before", options.StringValue);
+            options.StringValue.Should().Equal("before");
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three" }, options.StringArrayValue);
         }
 
@@ -113,10 +114,10 @@ namespace CommandLine.Tests
                 "-i", "191919", "-z", "one", "two", "three", "--switch", "--string=near" }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual(191919, options.IntegerValue);
+            options.IntegerValue.Should().Equal(191919);
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three" }, options.StringArrayValue);
-            Assert.IsTrue(options.BooleanValue);
-            Assert.AreEqual("near", options.StringValue);
+            options.BooleanValue.Should().Be.True();
+            options.StringValue.Should().Equal("near");
         }
 
         [Test]
@@ -127,10 +128,10 @@ namespace CommandLine.Tests
                 "-shere", "-i999", "--strarr=0", "1", "2", "3", "4", "5", "6", "7", "8", "9" , "--switch", "f1.xml", "f2.xml"}, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual("here", options.StringValue);
-            Assert.AreEqual(999, options.IntegerValue);
+            options.StringValue.Should().Equal("here");
+            options.IntegerValue.Should().Equal(999);
             base.ElementsShouldBeEqual(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, options.StringArrayValue);
-            Assert.IsTrue(options.BooleanValue);
+            options.BooleanValue.Should().Be.True();
             base.ElementsShouldBeEqual(new string[] { "f1.xml", "f2.xml" }, options.Items);
         }
 
@@ -268,7 +269,7 @@ namespace CommandLine.Tests
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
-            Assert.AreEqual("after", options.StringValue);
+            options.StringValue.Should().Equal("after");
 
             options = new SimpleOptionsWithArray();
             Result = base.Parser.ParseArguments(new string[] {
@@ -279,7 +280,7 @@ namespace CommandLine.Tests
             }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual("before", options.StringValue);
+            options.StringValue.Should().Equal("before");
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
@@ -295,7 +296,7 @@ namespace CommandLine.Tests
             ResultShouldBeTrue();
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
-            Assert.AreEqual("near-the-center", options.StringValue);
+            options.StringValue.Should().Equal("near-the-center");
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
 
             options = new SimpleOptionsWithArray();
@@ -309,12 +310,12 @@ namespace CommandLine.Tests
             }, options);
 
             ResultShouldBeTrue();
-            Assert.IsTrue(options.BooleanValue);
+            options.BooleanValue.Should().Be.True();
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
-            Assert.AreEqual(1234, options.IntegerValue);
+            options.IntegerValue.Should().Equal(1234);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
-            Assert.AreEqual("I'm really playing with the parser!", options.StringValue);
+            options.StringValue.Should().Equal("I'm really playing with the parser!");
         }
 
         /****************************************************************************************************/
@@ -375,10 +376,10 @@ namespace CommandLine.Tests
             }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual("just a string", options.SomeStringValue);
+            options.SomeStringValue.Should().Equal("just a string");
             base.ElementsShouldBeEqual(new uint[] {10, 20, 30, 40}, options.ArrayOne);
             base.ElementsShouldBeEqual(new uint[] {11, 22, 33, 44}, options.ArrayTwo);
-            Assert.AreEqual(true, options.SomeBooleanValue);
+            options.SomeBooleanValue.Should().Be.True();
         }
 
         [Test]
@@ -393,10 +394,10 @@ namespace CommandLine.Tests
             }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual("just a string", options.SomeStringValue);
+            options.SomeStringValue.Should().Equal("just a string");
             base.ElementsShouldBeEqual(new uint[] {10, 20, 30, 40}, options.ArrayOne);
             base.ElementsShouldBeEqual(new uint[] {11, 22, 33, 44}, options.ArrayTwo);
-            Assert.AreEqual(true, options.SomeBooleanValue);
+            options.SomeBooleanValue.Should().Be.True();
         }
     }
 }

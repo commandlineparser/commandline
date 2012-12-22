@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
@@ -46,7 +47,7 @@ namespace CommandLine.Tests
             var items = ArgumentParser.PublicWrapperOfGetNextInputValues(ae);
 
             base.ElementsShouldBeEqual(new string[] { "one", "two" }, items);
-            Assert.AreEqual("two", ae.Current);
+            ae.Current.Should().Equal("two");
         }
     }
 }

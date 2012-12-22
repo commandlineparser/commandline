@@ -27,8 +27,9 @@
 //
 #endregion
 #region Using Directives
-using CommandLine.Tests.Mocks;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
@@ -49,7 +50,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml" }, options);
 
             ResultShouldBeTrue();
-            Assert.AreEqual("mystuff.xml", options.FileName);
+            options.FileName.Should().Equal("mystuff.xml");
         }
 
         [Test]
@@ -68,8 +69,8 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml", "-v" }, options);
             
             ResultShouldBeTrue();
-            Assert.AreEqual("mystuff.xml", options.FileName);
-            Assert.AreEqual(true, options.Verbose);
+            options.FileName.Should().Equal("mystuff.xml");
+            options.Verbose.Should().Equal(true);
         }
 
         [Test]
@@ -79,8 +80,8 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
             ResultShouldBeTrue();
-            Assert.AreEqual(167, options.Green);
-            Assert.AreEqual(205, options.Hue);
+            options.Green.Should().Equal((byte) 167);
+            options.Hue.Should().Equal((short) 205);
         }
 
         [Test]
@@ -108,9 +109,9 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-g100", "-h200", "-cRgbColorSet" }, options);
             
             ResultShouldBeTrue();
-            Assert.AreEqual(100, options.Green);
-            Assert.AreEqual(200, options.Hue);
-            Assert.AreEqual(ColorSet.RgbColorSet, options.DefaultColorSet);
+            options.Green.Should().Equal((byte) 100);
+            options.Hue.Should().Equal((short) 200);
+            options.DefaultColorSet.Should().Equal(ColorSet.RgbColorSet);
         }
     }
 }

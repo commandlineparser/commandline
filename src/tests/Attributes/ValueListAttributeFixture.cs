@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
@@ -81,8 +82,8 @@ namespace CommandLine.Tests
             var options = new MockOptions();
 
             IList<string> values = ValueListAttribute.GetReference(options);
-            Assert.IsNotNull(values);
-            Assert.AreEqual(typeof(List<string>), values.GetType());
+            values.Should().Not.Be.Null();
+            values.GetType().Should().Equal(typeof(List<string>));
         }
 
         [Test]
@@ -95,9 +96,6 @@ namespace CommandLine.Tests
             values.Add("value1");
             values.Add("value2");
 
-            //Assert.AreEqual("value0", options.Values[0]);
-            //Assert.AreEqual("value1", options.Values[1]);
-            //Assert.AreEqual("value2", options.Values[2]);
             base.ElementsShouldBeEqual(new string[] { "value0", "value1", "value2" }, options.Values);
         }
     }

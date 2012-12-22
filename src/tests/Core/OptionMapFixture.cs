@@ -28,8 +28,9 @@
 #endregion
 #region Using Directives
 using System.Collections.Generic;
-using CommandLine;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine;
 #endregion
 
 namespace CommandLine.Tests
@@ -99,29 +100,31 @@ namespace CommandLine.Tests
         [Test]
         public void ManageOptions()
         {
-            Assert.AreSame(_omBuilder.Options[0], _optionMap[_omBuilder.Names[0]]);
-            Assert.AreSame(_omBuilder.Options[1], _optionMap[_omBuilder.Names[1]]);
-            Assert.AreSame(_omBuilder.Options[2], _optionMap[_omBuilder.Names[2]]);
+            _omBuilder.Options[0].Should().Be.SameAs(_optionMap[_omBuilder.Names[0]]);
+            _omBuilder.Options[1].Should().Be.SameAs(_optionMap[_omBuilder.Names[1]]);
+            _omBuilder.Options[2].Should().Be.SameAs(_optionMap[_omBuilder.Names[2]]);
         }
 
         [Test]
         public void RetrieveNotExistentShortOption()
         {
             var shortOi = _optionMap["y"];
-            Assert.IsNull(shortOi);
+            shortOi.Should().Be.Null();
         }
 
         [Test]
         public void RetrieveNotExistentLongOption()
         {
             var longOi = _optionMap["nomorebugshere"];
-            Assert.IsNull(longOi);
+            longOi.Should().Be.Null();
         }
 
-        private static OptionMap CreateMap(ref OptionMap map,  IDictionary<string, OptionInfo> optionCache)
+        private static OptionMap CreateMap (ref OptionMap map, IDictionary<string, OptionInfo> optionCache)
         {
             if (map == null)
-                map = new OptionMap(3, new CommandLineParserSettings(true));
+            {
+                map = new OptionMap (3, new CommandLineParserSettings (true));
+            }
 
             var attribute1 = new OptionAttribute("p", "pretend");
             var attribute2 = new OptionAttribute(null, "newuse");
