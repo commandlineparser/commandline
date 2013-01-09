@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,16 +35,16 @@ namespace CommandLine.Tests.Mocks
 {
     class NullableTypesOptions : OptionsBase
     {
-        [Option("i", "int")]
+        [Option('i', "int")]
         public int? IntegerValue { get; set; }
 
-        [Option("e", "enum")]
+        [Option('e', "enum")]
         public FileAccess? EnumValue { get; set; }
 
-        [Option("d", "double")]
+        [Option('d', "double")]
         public double? DoubleValue { get; set; }
 
-        [Option("s", "string")]
+        [Option('s', "string")]
         public string StringValue { get; set; }
     } 
 }

@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,93 +27,91 @@
 //
 #endregion
 #region Using Directives
-using CommandLine.Tests.Mocks;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
     public sealed class MutuallyExclusiveParsingFixture : CommandLineParserBaseFixture
     {
-        public MutuallyExclusiveParsingFixture() : base()
-        {
-        }
+        public MutuallyExclusiveParsingFixture() : base() {}
 
-        protected override ICommandLineParser CreateCommandLineParser()
+        public override void CreateInstance()
         {
-            return new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});
+            Parser = new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});
         }
 
         [Test]
         public void ParsingOneMutuallyExclusiveOptionSucceeds()
         {
             var options = new OptionsWithDefaultSet();
-            bool result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("mystuff.xml", options.FileName);
+            ResultShouldBeTrue();
+            options.FileName.Should().Equal("mystuff.xml");
         }
 
         [Test]
         public void ParsingTwoMutuallyExclusiveOptionsFails()
         {
             var options = new OptionsWithDefaultSet();
-            bool result = base.Parser.ParseArguments(new string[] { "-i", "1", "--file=mystuff.xml" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-i", "1", "--file=mystuff.xml" }, options);
             
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParsingOneMutuallyExclusiveOptionWithAnotherOptionSucceeds()
         {
             var options = new OptionsWithDefaultSet();
-            bool result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml", "-v" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml", "-v" }, options);
             
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("mystuff.xml", options.FileName);
-            Assert.AreEqual(true, options.Verbose);
+            ResultShouldBeTrue();
+            options.FileName.Should().Equal("mystuff.xml");
+            options.Verbose.Should().Equal(true);
         }
 
         [Test]
         public void ParsingTwoMutuallyExclusiveOptionsInTwoSetSucceeds()
         {
             var options = new OptionsWithMultipleSet();
-            bool result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(167, options.Green);
-            Assert.AreEqual(205, options.Hue);
+            ResultShouldBeTrue();
+            options.Green.Should().Equal((byte) 167);
+            options.Hue.Should().Equal((short) 205);
         }
 
         [Test]
         public void ParsingThreeMutuallyExclusiveOptionsInTwoSetFails()
         {
             var options = new OptionsWithMultipleSet();
-            bool result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205", "--saturation=37" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205", "--saturation=37" }, options);
             
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParsingMutuallyExclusiveOptionsAndRequiredOptionFails()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
-            bool result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParsingMutuallyExclusiveOptionsAndRequiredOptionSucceeds()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
-            bool result = base.Parser.ParseArguments(new string[] { "-g100", "-h200", "-cRgbColorSet" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-g100", "-h200", "-cRgbColorSet" }, options);
             
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(100, options.Green);
-            Assert.AreEqual(200, options.Hue);
-            Assert.AreEqual(ColorSet.RgbColorSet, options.DefaultColorSet);
+            ResultShouldBeTrue();
+            options.Green.Should().Equal((byte) 100);
+            options.Hue.Should().Equal((short) 200);
+            options.DefaultColorSet.Should().Equal(ColorSet.RgbColorSet);
         }
     }
 }

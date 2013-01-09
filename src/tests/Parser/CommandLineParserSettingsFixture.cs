@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@
 using System.IO;
 using CommandLine.Tests.Mocks;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
@@ -46,8 +47,8 @@ namespace CommandLine.Tests
             
             bool success = parser.ParseArguments(new string[] {"--help"}, options);
 
-            Assert.AreEqual(false, success);
-            Assert.AreEqual("MockOptions::GetUsage()", writer.ToString()); 
+            success.Should().Be.False();
+            writer.ToString().Should().Equal("MockOptions::GetUsage()");
         }
 
         [Test]
@@ -61,8 +62,8 @@ namespace CommandLine.Tests
 
             bool success = parser.ParseArguments(new string[] { "--help" }, options);
 
-            Assert.AreEqual(false, success);
-            Assert.AreEqual("MockOptions::GetUsage()", writer.ToString());
+            success.Should().Be.False();
+            writer.ToString().Should().Equal("MockOptions::GetUsage()");
         }
 
         [Test]
@@ -74,8 +75,8 @@ namespace CommandLine.Tests
 
             bool success = parser.ParseArguments(new string[] { "--help" }, options, writer);
 
-            Assert.AreEqual(false, success);
-            Assert.AreEqual("MockOptions::GetUsage()", writer.ToString());
+            success.Should().Be.False();
+            writer.ToString().Should().Equal("MockOptions::GetUsage()");
         }
     }
 }

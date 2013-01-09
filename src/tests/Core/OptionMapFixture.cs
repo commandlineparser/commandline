@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,10 @@
 #endregion
 #region Using Directives
 using System.Collections.Generic;
-using CommandLine;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine;
+using CommandLine.Internal;
 #endregion
 
 namespace CommandLine.Tests
@@ -51,7 +53,16 @@ namespace CommandLine.Tests
                 _names = new List<string>(capacity);
             }
 
-            public void AppendOption(string shortName, string longName)
+            public void AppendOption(string longName)
+            {
+                var oa = new OptionAttribute(longName);
+                var oi = oa.CreateOptionInfo();
+                _optionMap[oa.UniqueName] = oi;
+                _options.Add(oi);
+                _names.Add(oa.UniqueName);
+            }
+
+            public void AppendOption(char shortName, string longName)
             {
                 var oa = new OptionAttribute(shortName, longName);
                 var oi = oa.CreateOptionInfo();
@@ -83,9 +94,9 @@ namespace CommandLine.Tests
         public void CreateInstance()
         {
             _omBuilder = new OptionMapBuilder(3);
-            _omBuilder.AppendOption("p", "pretend");
-            _omBuilder.AppendOption(null, "newuse");
-            _omBuilder.AppendOption("D", null);
+            _omBuilder.AppendOption('p', "pretend");
+            _omBuilder.AppendOption("newuse");
+            _omBuilder.AppendOption('D', null);
 
             _optionMap = _omBuilder.OptionMap;
         }
@@ -99,33 +110,35 @@ namespace CommandLine.Tests
         [Test]
         public void ManageOptions()
         {
-            Assert.AreSame(_omBuilder.Options[0], _optionMap[_omBuilder.Names[0]]);
-            Assert.AreSame(_omBuilder.Options[1], _optionMap[_omBuilder.Names[1]]);
-            Assert.AreSame(_omBuilder.Options[2], _optionMap[_omBuilder.Names[2]]);
+            _omBuilder.Options[0].Should().Be.SameAs(_optionMap[_omBuilder.Names[0]]);
+            _omBuilder.Options[1].Should().Be.SameAs(_optionMap[_omBuilder.Names[1]]);
+            _omBuilder.Options[2].Should().Be.SameAs(_optionMap[_omBuilder.Names[2]]);
         }
 
         [Test]
         public void RetrieveNotExistentShortOption()
         {
             var shortOi = _optionMap["y"];
-            Assert.IsNull(shortOi);
+            shortOi.Should().Be.Null();
         }
 
         [Test]
         public void RetrieveNotExistentLongOption()
         {
             var longOi = _optionMap["nomorebugshere"];
-            Assert.IsNull(longOi);
+            longOi.Should().Be.Null();
         }
 
-        private static OptionMap CreateMap(ref OptionMap map,  IDictionary<string, OptionInfo> optionCache)
+        private static OptionMap CreateMap (ref OptionMap map, IDictionary<string, OptionInfo> optionCache)
         {
             if (map == null)
-                map = new OptionMap(3, new CommandLineParserSettings(true));
+            {
+                map = new OptionMap (3, new CommandLineParserSettings (true));
+            }
 
-            var attribute1 = new OptionAttribute("p", "pretend");
-            var attribute2 = new OptionAttribute(null, "newuse");
-            var attribute3 = new OptionAttribute("D", null);
+            var attribute1 = new OptionAttribute('p', "pretend");
+            var attribute2 = new OptionAttribute("newuse");
+            var attribute3 = new OptionAttribute('D', null);
 
             var option1 = attribute1.CreateOptionInfo();
             var option2 = attribute2.CreateOptionInfo();

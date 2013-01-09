@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -43,25 +43,25 @@ namespace CommandLine.Tests.Mocks
             DoubleValue = 0;
         }
 
-        [Option("b", "byte")]
+        [Option('b', "byte")]
         public byte ByteValue { get; set; }
 
-        [Option("s", "short")]
+        [Option('s', "short")]
         public short ShortValue { get; set; }
 
-        [Option("i", "int")]
+        [Option('i', "int")]
         public int IntegerValue { get; set; }
 
-        [Option("l", "long")]
+        [Option('l', "long")]
         public long LongValue { get; set; }
 
-        [Option("f", "float")]
+        [Option('f', "float")]
         public float FloatValue { get; set; }
 
-        [Option("d", "double")]
+        [Option('d', "double")]
         public double DoubleValue { get; set; }
 
-        [Option(null, "n-double")]
+        [Option("n-double")]
         public double? NullableDoubleValue { get; set; }
     }
 }

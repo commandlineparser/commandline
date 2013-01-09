@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ using System.ComponentModel;
 using System.IO;
 using CommandLine.Text;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
@@ -42,16 +43,16 @@ namespace CommandLine.Tests
         #region Mock Objects
         private class MockOptions
         {
-            [Option("i", "input", Required = true, HelpText = "Input file with equations, xml format (see manual).")]
+            [Option('i', "input", Required = true, HelpText = "Input file with equations, xml format (see manual).")]
             public string InputFile { get; set; }
 
-            [Option("o", "output", Required=false, HelpText="Output file with results, otherwise standard output.")]
+            [Option('o', "output", Required=false, HelpText="Output file with results, otherwise standard output.")]
             public string OutputFile {get;set;}
 
-            [Option(null, "paralell", Required=false, HelpText="Paralellize processing in multiple threads.")]
+            [Option("paralell", Required=false, HelpText="Paralellize processing in multiple threads.")]
             public bool ParalellizeProcessing{get;set;}
 
-            [Option("v", null, Required=false, HelpText="Show detailed processing messages.")]
+            [Option('v', null, Required=false, HelpText="Show detailed processing messages.")]
             public bool Verbose{get;set;}
 
             [HelpOption(HelpText="Display this screen.")]
@@ -76,11 +77,11 @@ namespace CommandLine.Tests
             var options = new MockOptions();
             var writer = new StringWriter();
 
-            bool result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                     new string[] { "-imath.xml", "-oresult.xml" }, options, writer);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(0, writer.ToString().Length);
+            ResultShouldBeTrue();;
+            writer.ToString().Length.Should().Equal(0);
         }
 
         [Test]
@@ -89,13 +90,13 @@ namespace CommandLine.Tests
             var options = new MockOptions();
             var writer = new StringWriter();
 
-            bool result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                     new string[] { "math.xml", "-oresult.xml" }, options, writer);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
 
             string helpText = writer.ToString();
-            Assert.IsTrue(helpText.Length > 0);
+            (helpText.Length > 0).Should().Be.True();
 
             Console.Write(helpText);
         }
@@ -106,13 +107,13 @@ namespace CommandLine.Tests
             var options = new MockOptions();
             var writer = new StringWriter();
 
-            bool result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                     new string[] { "--help" }, options, writer);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
 
             string helpText = writer.ToString();
-            Assert.IsTrue(helpText.Length > 0);
+            (helpText.Length > 0).Should().Be.True();
         }
     }
 }

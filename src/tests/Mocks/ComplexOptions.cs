@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,16 +39,16 @@ namespace CommandLine.Tests.Mocks
             Bytes = 0;
         }
 
-        [Option("i", "input", Required = true, HelpText = "Specify input file to be processed.")]
+        [Option('i', "input", Required = true, HelpText = "Specify input file to be processed.")]
         public string InputFileName { get; set; }
 
-        [Option("o", "output", Required = true, HelpText = "Specify output file to be created.")]
+        [Option('o', "output", Required = true, HelpText = "Specify output file to be created.")]
         public string OutputFileName { get; set; }
 
-        [Option("j", "offset", HelpText = "Processing begins from specified offset.")]
+        [Option('j', "offset", HelpText = "Processing begins from specified offset.")]
         public long StartOffset { get; set; }
 
-        [Option("b", "bytes", HelpText = "Maximum number of bytes to process.")]
+        [Option('b', "bytes", HelpText = "Maximum number of bytes to process.")]
         public long Bytes { get; set; }
 
         public override string ToString()

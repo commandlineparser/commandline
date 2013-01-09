@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,8 @@
 #endregion
 #region Using Directives
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Internal;
 #endregion
 
 namespace CommandLine.Tests
@@ -46,21 +48,21 @@ namespace CommandLine.Tests
             IArgumentEnumerator e = new StringArrayEnumerator(values);
             e.MoveNext();
 
-            Assert.AreEqual(valueOne, e.Current);
-            Assert.AreEqual(valueTwo, e.Next);
-            Assert.IsFalse(e.IsLast);
+            e.Current.Should().Equal(valueOne);
+            e.Next.Should().Equal(valueTwo);
+            e.IsLast.Should().Be.False();
             
             e.MoveNext();
             
-            Assert.AreEqual(valueTwo, e.Current);
-            Assert.AreEqual(valueThree, e.Next);
-            Assert.IsFalse(e.IsLast);
+            e.Current.Should().Equal(valueTwo);
+            e.Next.Should().Equal(valueThree);
+            e.IsLast.Should().Be.False();
             
             e.MoveNext();
             
-            Assert.AreEqual(valueThree, e.Current);
-            Assert.IsNull(e.Next);
-            Assert.IsTrue(e.IsLast);
+            e.Current.Should().Equal(valueThree);
+            e.Next.Should().Be.Null();
+            e.IsLast.Should().Be.True();
         }
 
         [Test]
@@ -69,29 +71,29 @@ namespace CommandLine.Tests
             IArgumentEnumerator e = new OneCharStringEnumerator("abcd");
             e.MoveNext();
 
-            Assert.AreEqual("a", e.Current);
-            Assert.AreEqual("b", e.Next);
-            Assert.AreEqual("bcd", e.GetRemainingFromNext());
-            Assert.IsFalse(e.IsLast);
+            e.Current.Should().Equal("a");
+            e.Next.Should().Equal("b");
+            e.GetRemainingFromNext().Should().Equal("bcd");
+            e.IsLast.Should().Be.False();
             
             e.MoveNext();
             
-            Assert.AreEqual("b", e.Current);
-            Assert.AreEqual("c", e.Next);
-            Assert.AreEqual("cd", e.GetRemainingFromNext());
-            Assert.IsFalse(e.IsLast);
+            e.Current.Should().Equal("b");
+            e.Next.Should().Equal("c");
+            e.GetRemainingFromNext().Should().Equal("cd");
+            e.IsLast.Should().Be.False();
             
             e.MoveNext();
             
-            Assert.AreEqual("c", e.Current);
-            Assert.AreEqual("d", e.Next);
-            Assert.AreEqual("d", e.GetRemainingFromNext());
-            Assert.IsFalse(e.IsLast);
+            e.Current.Should().Equal("c");
+            e.Next.Should().Equal("d");
+            e.GetRemainingFromNext().Should().Equal("d");
+            e.IsLast.Should().Be.False();
             
             e.MoveNext();
             
-            Assert.AreEqual("d", e.Current);
-            Assert.IsTrue(e.IsLast);
+            e.Current.Should().Equal("d");
+            e.IsLast.Should().Be.True();
         }
     }
 }

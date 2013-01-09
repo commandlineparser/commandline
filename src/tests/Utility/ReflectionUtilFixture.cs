@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
-using CommandLine.Text;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Text;
+using CommandLine.Internal;
 #endregion
 
 namespace CommandLine.Tests
@@ -115,16 +117,16 @@ namespace CommandLine.Tests
         {
             var list = ReflectionUtil.RetrievePropertyList<MockAttribute>(_target);
 
-            Assert.AreEqual(2, list.Count);
-            Assert.AreEqual("StringField", list[0].Left.Name);
-            Assert.AreEqual("BooleanField", list[1].Left.Name);
+            list.Should().Count.Exactly(2);
+            list[0].Left.Name.Should().Equal("StringField");
+            list[1].Left.Name.Should().Equal("BooleanField");
 
             PrintFieldList<MockAttribute>(list);
 
             var anotherList = ReflectionUtil.RetrievePropertyList<AnotherMockAttribute>(_target);
 
-            Assert.AreEqual(1, anotherList.Count);
-            Assert.AreEqual("IntField", anotherList[0].Left.Name);
+            anotherList.Should().Count.Exactly(1);
+            anotherList[0].Left.Name.Should().Equal("IntField");
 
             PrintFieldList<AnotherMockAttribute>(anotherList);
         }
@@ -134,8 +136,8 @@ namespace CommandLine.Tests
         {
             var pair = ReflectionUtil.RetrieveMethod<MockAttribute>(_target);
 
-            Assert.IsNotNull(pair);
-            Assert.AreEqual("DoNothing", pair.Left.Name);
+            pair.Should().Not.Be.Null();
+            pair.Left.Name.Should().Equal("DoNothing");
         }
 
         [Test]
@@ -143,11 +145,11 @@ namespace CommandLine.Tests
         {
             var list = ReflectionUtil.RetrievePropertyAttributeList<MockWithValueAttribute>(new AnotherMockObject());
 
-            Assert.IsNotNull(list);
-            Assert.AreEqual(3, list.Count);
-            Assert.AreEqual("applied to X", list[0].StringValue);
-            Assert.AreEqual("applied to Y", list[1].StringValue);
-            Assert.AreEqual("applied to Z", list[2].StringValue);
+            list.Should().Not.Be.Null();
+            list.Should().Count.Exactly(3);
+            list[0].StringValue.Should().Equal("applied to X");
+            list[1].StringValue.Should().Equal("applied to Y");
+            list[2].StringValue.Should().Equal("applied to Z");
         }
 
         /*[Test]

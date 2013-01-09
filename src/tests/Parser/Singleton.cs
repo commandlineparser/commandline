@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,9 @@
 #region Using Directives
 using System;
 using System.IO;
-using CommandLine.Tests.Mocks;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Tests.Mocks;
 #endregion
 namespace CommandLine.Tests
 {
@@ -44,10 +45,10 @@ namespace CommandLine.Tests
             bool result = CommandLineParser.Default.ParseArguments(
                     new string[] { "-s", "another string", "-i100", "--switch" }, options);
 
-            Assert.IsTrue(result);
-            Assert.AreEqual("another string", options.StringValue);
-            Assert.AreEqual(100, options.IntegerValue);
-            Assert.AreEqual(true, options.BooleanValue);
+            result.Should().Be.True();
+            options.StringValue.Should().Equal("another string");
+            options.IntegerValue.Should().Equal(100);
+            options.BooleanValue.Should().Be.True();
             Console.WriteLine(options);
         }
 
@@ -58,7 +59,7 @@ namespace CommandLine.Tests
             bool result = CommandLineParser.Default.ParseArguments(
                 new string[] { "-r1", "-g2", "-b3", "-h4", "-s5", "-v6" }, options);
 
-            Assert.IsTrue(result); // enabling MutuallyExclusive option it would fails
+            result.Should().Be.True(); // enabling MutuallyExclusive option it would fails
         }
     }
 }

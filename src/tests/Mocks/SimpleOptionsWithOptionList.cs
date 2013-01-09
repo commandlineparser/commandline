@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ namespace CommandLine.Tests.Mocks
 {
     class SimpleOptionsWithOptionList : SimpleOptions
     {
-        [OptionList("k", "keywords", ':')]
+        [OptionList('k', "keywords", ':')]
         public IList<string> SearchKeywords { get; set; }
     }
 }

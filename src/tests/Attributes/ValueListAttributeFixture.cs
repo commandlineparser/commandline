@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
     public class ValueListAttributeFixture : BaseFixture
     {
         #region Mock Objects
@@ -82,8 +82,8 @@ namespace CommandLine.Tests
             var options = new MockOptions();
 
             IList<string> values = ValueListAttribute.GetReference(options);
-            Assert.IsNotNull(values);
-            Assert.AreEqual(typeof(List<string>), values.GetType());
+            values.Should().Not.Be.Null();
+            values.GetType().Should().Equal(typeof(List<string>));
         }
 
         [Test]
@@ -96,10 +96,7 @@ namespace CommandLine.Tests
             values.Add("value1");
             values.Add("value2");
 
-            //Assert.AreEqual("value0", options.Values[0]);
-            //Assert.AreEqual("value1", options.Values[1]);
-            //Assert.AreEqual("value2", options.Values[2]);
-            base.AssertArrayItemEqual(new string[] { "value0", "value1", "value2" }, options.Values);
+            base.ElementsShouldBeEqual(new string[] { "value0", "value1", "value2" }, options.Values);
         }
     }
 }

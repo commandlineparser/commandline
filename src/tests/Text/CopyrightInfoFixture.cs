@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Text.Tests
@@ -76,7 +77,7 @@ namespace CommandLine.Text.Tests
         {
             var copyright = new CopyrightInfo(false, "Authors, Inc.", 2007);
 
-            Assert.AreEqual("Copyright (c) 2007 Authors, Inc.", copyright.ToString());
+            copyright.ToString().Should().Equal("Copyright (c) 2007 Authors, Inc.");
         }
 
         [Test]
@@ -84,7 +85,7 @@ namespace CommandLine.Text.Tests
         {
             var copyright = new CopyrightInfo(true, "X & Y Group", 2006, 2007);
 
-            Assert.AreEqual("Copyright (C) 2006, 2007 X & Y Group", copyright.ToString());
+            copyright.ToString().Should().Equal("Copyright (C) 2006, 2007 X & Y Group");
         }
 
         [Test]
@@ -92,7 +93,7 @@ namespace CommandLine.Text.Tests
         {
             var copyright = new CopyrightInfo("W & Z, Inc.", 2005, 2007);
 
-            Assert.AreEqual("Copyright (C) 2005 - 2007 W & Z, Inc.", copyright.ToString());
+            copyright.ToString().Should().Equal("Copyright (C) 2005 - 2007 W & Z, Inc.");
         }
 
         [Test]
@@ -100,7 +101,7 @@ namespace CommandLine.Text.Tests
         {
             var copyright = new CopyrightInfo("CommandLine, Ltd", 1999, 2003, 2004, 2007);
 
-            Assert.AreEqual("Copyright (C) 1999 - 2003, 2004 - 2007 CommandLine, Ltd", copyright.ToString());
+            copyright.ToString().Should().Equal("Copyright (C) 1999 - 2003, 2004 - 2007 CommandLine, Ltd");
         }
 
         [Test]
@@ -122,7 +123,7 @@ namespace CommandLine.Text.Tests
         {
             var info = new CopyleftInfo(true, "Free Company, Inc.", 96, 97, 98, 2005);
 
-            Assert.AreEqual("Copyleft (C) '96, '97, '98, 2005 Free Company, Inc.", info.ToString());
+            info.ToString().Should().Equal("Copyleft (C) '96, '97, '98, 2005 Free Company, Inc.");
         }
 
         #region #BUG0006
@@ -133,7 +134,7 @@ namespace CommandLine.Text.Tests
 
             for (int i=0; i<10; i++)
             {
-                Assert.AreEqual (37, info.ToString ().Length);
+                info.ToString().Length.Should().Equal(37);
             }
         }
         #endregion

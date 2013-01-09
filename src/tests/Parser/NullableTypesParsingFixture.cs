@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,13 +30,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using CommandLine.Tests.Mocks;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
     public sealed class NullableTypesParsingFixture : CommandLineParserBaseFixture
     {
         public NullableTypesParsingFixture() : base()
@@ -47,122 +47,122 @@ namespace CommandLine.Tests
         public void ParseNullableIntegerOption()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-i", "99" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-i", "99" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(99, options.IntegerValue);
+            ResultShouldBeTrue();
+            options.IntegerValue.Should().Equal(99);
 
             options = new NullableTypesOptions();
-            result = base.Parser.ParseArguments(new string[] { }, options);
+            Result = base.Parser.ParseArguments(new string[] { }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.IsNull(options.IntegerValue);
+            ResultShouldBeTrue();
+            options.IntegerValue.Should().Be.Null();
         }
 
         [Test]
         public void PassingBadValueToANullableIntegerOptionFails()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-i", "string-value" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-i", "string-value" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingNoValueToANullableIntegerOptionFails()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-int" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-int" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParseNullableEnumerationOption()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--enum=ReadWrite" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--enum=ReadWrite" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(FileAccess.ReadWrite, options.EnumValue);
+            ResultShouldBeTrue();
+            options.EnumValue.Should().Equal(FileAccess.ReadWrite);
 
             options = new NullableTypesOptions();
-            result = base.Parser.ParseArguments(new string[] { }, options);
+            Result = base.Parser.ParseArguments(new string[] { }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.IsNull(options.EnumValue);
+            ResultShouldBeTrue();
+            options.EnumValue.Should().Be.Null();
         }
 
         [Test]
         public void PassingBadValueToANullableEnumerationOptionFails()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-e", "Overwrite" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-e", "Overwrite" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingNoValueToANullableEnumerationOptionFails()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--enum" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--enum" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParseNullableDoubleOption()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-d9.999" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-d9.999" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(9.999, options.DoubleValue);
+            ResultShouldBeTrue();
+            options.DoubleValue.Should().Equal(9.999);
 
             options = new NullableTypesOptions();
-            result = base.Parser.ParseArguments(new string[] { }, options);
+            Result = base.Parser.ParseArguments(new string[] { }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.IsNull(options.DoubleValue);
+            ResultShouldBeTrue();
+            options.DoubleValue.Should().Be.Null();
         }
 
         [Test]
         public void PassingBadValueToANullableDoubleOptionFails()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--double", "9,999" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--double", "9,999" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingNoValueToANullableDoubleOptionFails()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-d" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-d" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParseStringOptionAndNullableValueTypes()
         {
             var options = new NullableTypesOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--string", "alone" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--string", "alone" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("alone", options.StringValue);
+            ResultShouldBeTrue();
+            options.StringValue.Should().Equal("alone");
 
             options = new NullableTypesOptions();
-            result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                 new string[] { "-d1.789", "--int", "10099", "-stogether", "--enum", "Read" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(1.789, options.DoubleValue);
-            Assert.AreEqual(10099, options.IntegerValue);
-            Assert.AreEqual("together", options.StringValue);
-            Assert.AreEqual(FileAccess.Read, options.EnumValue);
+            ResultShouldBeTrue();
+            options.DoubleValue.Should().Equal(1.789D);
+            options.IntegerValue.Should().Equal(10099);
+            options.StringValue.Should().Equal("together");
+            options.EnumValue.Should().Equal(FileAccess.Read);
         }
 
     }

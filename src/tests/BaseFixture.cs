@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,27 +29,29 @@
 #region Using Directives
 using System.Collections.Generic;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
 {
+    [TestFixture]
     public abstract class BaseFixture
     {
-        protected void AssertArrayItemEqual<T>(T[] expected, T[] actual)
+        protected void ElementsShouldBeEqual<T>(T[] expected, T[] actual)
         {
-            Assert.AreEqual(expected.Length, actual.Length);
+            expected.Length.Should().Equal(actual.Length);
             for (int i = 0; i < expected.Length; i++)
             {
-                Assert.AreEqual(expected[i], actual[i]);
+                expected[i].Should().Equal(actual[i]);
             }
         }
 
-        protected void AssertArrayItemEqual(string[] expected, IList<string> actual)
+        protected void ElementsShouldBeEqual(string[] expected, IList<string> actual)
         {
-            Assert.AreEqual(expected.Length, actual.Count);
+            expected.Length.Should().Equal(actual.Count);
             for (int i = 0; i < expected.Length; i++)
             {
-                Assert.AreEqual(expected[i], actual[i]);
+                expected[i].Should().Equal(actual[i]);
             }
         }
     }

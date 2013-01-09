@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,16 +27,14 @@
 //
 #endregion
 
-using System.ComponentModel;
-
 namespace CommandLine.Tests.Mocks
 {
     class MixedCaseOptions : OptionsBase
     {
-        [Option("a", "Alfa-Option")]
+        [Option('a', "Alfa-Option")]
         public string AlfaValue { get; set; }
 
-        [Option("b", "beta-OPTION")]
+        [Option('b', "beta-OPTION")]
         public string BetaValue { get; set; }
     }
 }

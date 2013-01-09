@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,16 +25,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System.Globalization;
-
-
 #endregion
 #region Using Directives
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using CommandLine.Tests.Mocks;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
@@ -64,10 +63,10 @@ namespace CommandLine.Tests
         public void ParseStringOption()
         {
             var options = new SimpleOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-s", "something" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-s", "something" }, options);
             
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("something", options.StringValue);
+            ResultShouldBeTrue();
+            options.StringValue.Should().Equal("something");
             Console.WriteLine(options);
         }
 
@@ -75,13 +74,13 @@ namespace CommandLine.Tests
         public void ParseStringIntegerBoolOptions()
         {
             var options = new SimpleOptions();
-            bool result = base.Parser.ParseArguments(
+            Result = base.Parser.ParseArguments(
                     new string[] { "-s", "another string", "-i100", "--switch" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("another string", options.StringValue);
-            Assert.AreEqual(100, options.IntegerValue);
-            Assert.AreEqual(true, options.BooleanValue);
+            ResultShouldBeTrue();
+            options.StringValue.Should().Equal("another string");
+            options.IntegerValue.Should().Equal(100);
+            options.BooleanValue.Should().Be.True();
             Console.WriteLine(options);
         }
 
@@ -89,13 +88,13 @@ namespace CommandLine.Tests
         public void ParseShortAdjacentOptions()
         {
             var options = new BooleanSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-ca", "-d65" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-ca", "-d65" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.IsTrue(options.BooleanThree);
-            Assert.IsTrue(options.BooleanOne);
-            Assert.IsFalse(options.BooleanTwo);
-            Assert.AreEqual(65, options.NonBooleanValue);
+            ResultShouldBeTrue();
+            options.BooleanThree.Should().Be.True();
+            options.BooleanOne.Should().Be.True();
+            options.BooleanTwo.Should().Be.False();
+            options.NonBooleanValue.Should().Equal(65D);
             Console.WriteLine(options);
         }
 
@@ -103,13 +102,13 @@ namespace CommandLine.Tests
         public void ParseShortLongOptions()
         {
             var options = new BooleanSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-b", "--double=9" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-b", "--double=9" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.IsTrue(options.BooleanTwo);
-            Assert.IsFalse(options.BooleanOne);
-            Assert.IsFalse(options.BooleanThree);
-            Assert.AreEqual(9, options.NonBooleanValue);
+            ResultShouldBeTrue();
+            options.BooleanTwo.Should().Be.True();
+            options.BooleanOne.Should().Be.False();
+            options.BooleanThree.Should().Be.False();
+            options.NonBooleanValue.Should().Equal(9D);
             Console.WriteLine(options);
         }
  
@@ -117,17 +116,17 @@ namespace CommandLine.Tests
         public void ParseOptionList()
         {
             var options = new SimpleOptionsWithOptionList();
-            bool result = base.Parser.ParseArguments(new string[] {
+            Result = base.Parser.ParseArguments(new string[] {
                                 "-k", "string1:stringTwo:stringIII", "-s", "test-file.txt" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("string1", options.SearchKeywords[0]);
+            ResultShouldBeTrue();
+            options.SearchKeywords[0].Should().Equal("string1");
             Console.WriteLine(options.SearchKeywords[0]);
-            Assert.AreEqual("stringTwo", options.SearchKeywords[1]);
+            options.SearchKeywords[1].Should().Equal("stringTwo");
             Console.WriteLine(options.SearchKeywords[1]);
-            Assert.AreEqual("stringIII", options.SearchKeywords[2]);
+            options.SearchKeywords[2].Should().Equal("stringIII");
             Console.WriteLine(options.SearchKeywords[2]);
-            Assert.AreEqual("test-file.txt", options.StringValue);
+            options.StringValue.Should().Equal("test-file.txt");
             Console.WriteLine(options.StringValue);
         }
 
@@ -137,7 +136,8 @@ namespace CommandLine.Tests
         {
             var options = new SimpleOptions();
 
-            Assert.IsFalse(base.Parser.ParseArguments(new string[] { "-i=10" }, options));
+            Result = base.Parser.ParseArguments(new string[] { "-i=10" }, options);
+            ResultShouldBeFalse();
             Console.WriteLine(options);
         }
         #endregion
@@ -147,11 +147,11 @@ namespace CommandLine.Tests
         {
             var options = new SimpleOptionsWithEnum();
 
-            bool result = base.Parser.ParseArguments(new string[] { "-s", "data.bin", "-a", "ReadWrite" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-s", "data.bin", "-a", "ReadWrite" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("data.bin", options.StringValue);
-            Assert.AreEqual(FileAccess.ReadWrite, options.FileAccess);
+            ResultShouldBeTrue();
+            options.StringValue.Should().Equal("data.bin");
+            options.FileAccess.Should().Equal(FileAccess.ReadWrite);
             Console.WriteLine(options);
         }
 
@@ -161,10 +161,10 @@ namespace CommandLine.Tests
             var actualCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-d", "10,986" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-d", "10,986" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(10.986, options.DoubleValue);
+            ResultShouldBeTrue();
+            options.DoubleValue.Should().Equal(10.986D);
 
             Thread.CurrentThread.CurrentCulture = actualCulture;
         }
@@ -175,10 +175,10 @@ namespace CommandLine.Tests
             var actualCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--n-double", "12,32982" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--n-double", "12,32982" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(12.32982, options.NullableDoubleValue);
+            ResultShouldBeTrue();
+            options.NullableDoubleValue.Should().Equal(12.32982D);
 
             Thread.CurrentThread.CurrentCulture = actualCulture;
         }
@@ -187,24 +187,24 @@ namespace CommandLine.Tests
         public void ParseOptionsWithDefaults()
         {
             var options = new SimpleOptionsWithDefaults();
-            bool result = base.Parser.ParseArguments(new string[] {}, options);
+            Result = base.Parser.ParseArguments(new string[] {}, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("str", options.StringValue);
-            Assert.AreEqual(9, options.IntegerValue);
-            Assert.AreEqual(true, options.BooleanValue);
+            ResultShouldBeTrue();
+            options.StringValue.Should().Equal("str");
+            options.IntegerValue.Should().Equal(9);
+            options.BooleanValue.Should().Be.True();
         }
 
         [Test]
         public void ParseOptionsWithDefaultArray()
         {
             var options = new SimpleOptionsWithDefaultArray();
-            bool result = base.Parser.ParseArguments(new string[] { "-y", "4", "5", "6" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-y", "4", "5", "6" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(new string[] { "a", "b", "c" }, options.StringArrayValue);
-            Assert.AreEqual(new int[] { 4, 5, 6 }, options.IntegerArrayValue);
-            Assert.AreEqual(new double[] { 1.1, 2.2, 3.3 }, options.DoubleArrayValue);
+            ResultShouldBeTrue();
+            options.StringArrayValue.Should().Equal(new string[] { "a", "b", "c" });
+            options.IntegerArrayValue.Should().Equal(new int[] { 4, 5, 6 });
+            options.DoubleArrayValue.Should().Equal(new double[] { 1.1, 2.2, 3.3 });
         }
 
         [Test]
@@ -220,18 +220,18 @@ namespace CommandLine.Tests
         public void ParsingNonExistentShortOptionFailsWithoutThrowingAnException()
         {
             var options = new SimpleOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-x" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-x" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void ParsingNonExistentLongOptionFailsWithoutThrowingAnException()
         {
             var options = new SimpleOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--extend" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--extend" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
         #endregion
 
@@ -241,11 +241,11 @@ namespace CommandLine.Tests
         {
             ICommandLineParser local = new CommandLineParser();
             var options = new MixedCaseOptions();
-            bool result = local.ParseArguments(new string[] { "-a", "alfa", "--beta-OPTION", "beta" }, options);
+            Result = local.ParseArguments(new string[] { "-a", "alfa", "--beta-OPTION", "beta" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("alfa", options.AlfaValue);
-            Assert.AreEqual("beta", options.BetaValue);
+            ResultShouldBeTrue();
+            options.AlfaValue.Should().Equal("alfa");
+            options.BetaValue.Should().Equal("beta");
         }
 
         [Test]
@@ -253,9 +253,9 @@ namespace CommandLine.Tests
         {
             ICommandLineParser local = new CommandLineParser();
             var options = new MixedCaseOptions();
-            bool result = local.ParseArguments(new string[] { "-A", "alfa", "--Beta-Option", "beta" }, options);
+            Result = local.ParseArguments(new string[] { "-A", "alfa", "--Beta-Option", "beta" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
@@ -263,11 +263,11 @@ namespace CommandLine.Tests
         {
             ICommandLineParser local = new CommandLineParser(new CommandLineParserSettings(false)); //Ref.: #DGN0001
             var options = new MixedCaseOptions();
-            bool result = local.ParseArguments(new string[] { "-A", "alfa", "--Beta-Option", "beta" }, options);
+            Result = local.ParseArguments(new string[] { "-A", "alfa", "--Beta-Option", "beta" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("alfa", options.AlfaValue);
-            Assert.AreEqual("beta", options.BetaValue);
+            ResultShouldBeTrue();
+            options.AlfaValue.Should().Equal("alfa");
+            options.BetaValue.Should().Equal("beta");
         }
         #endregion
 
@@ -276,63 +276,63 @@ namespace CommandLine.Tests
         public void PassingNoValueToAStringTypeLongOptionFails()
         {
             var options = new SimpleOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--string" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--string" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingNoValueToAByteTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--byte" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--byte" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingNoValueToAShortTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--short" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--short" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingNoValueToAnIntegerTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--int" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--int" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingNoValueToALongTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--long" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--long" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingNoValueToAFloatTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--float" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--float" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingNoValueToADoubleTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--double" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--double" }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
         #endregion
 
@@ -341,23 +341,23 @@ namespace CommandLine.Tests
         public void AllowSingleDashAsOptionInputValue()
         {
             var options = new SimpleOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--string", "-" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--string", "-" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("-", options.StringValue);
+            ResultShouldBeTrue();
+            options.StringValue.Should().Equal("-");
         }
 
         [Test]
         public void AllowSingleDashAsNonOptionValue()
         {
             var options = new SimpleOptionsWithValueList();
-            bool result = base.Parser.ParseArguments(new string[] { "-sparser.xml", "-", "--switch" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-sparser.xml", "-", "--switch" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual("parser.xml", options.StringValue);
-            Assert.AreEqual(true, options.BooleanValue);
-            Assert.AreEqual(1, options.Items.Count);
-            Assert.AreEqual("-", options.Items[0]);
+            ResultShouldBeTrue();
+            options.StringValue.Should().Equal("parser.xml");
+            options.BooleanValue.Should().Be.True();
+            options.Items.Count.Should().Equal(1);
+            options.Items[0].Should().Equal("-");
         }
         #endregion
 
@@ -366,37 +366,37 @@ namespace CommandLine.Tests
         public void ParseNegativeIntegerValue()
         {
             var options = new SimpleOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-i", "-4096" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-i", "-4096" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(-4096, options.IntegerValue);
+            ResultShouldBeTrue();
+            options.IntegerValue.Should().Equal(-4096);
         }
 
         public void ParseNegativeIntegerValue_InputStyle2()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-i-4096" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-i-4096" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(-4096, options.IntegerValue);
+            ResultShouldBeTrue();
+            options.IntegerValue.Should().Equal(-4096);
         }
 
         public void ParseNegativeIntegerValue_InputStyle3()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--int", "-4096" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--int", "-4096" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(-4096, options.IntegerValue);
+            ResultShouldBeTrue();
+            options.IntegerValue.Should().Equal(-4096);
         }
 
         public void ParseNegativeIntegerValue_InputStyle4()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--int=-4096" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--int=-4096" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(-4096, options.IntegerValue);
+            ResultShouldBeTrue();
+            options.IntegerValue.Should().Equal(-4096);
         }
 
 
@@ -404,40 +404,40 @@ namespace CommandLine.Tests
         public void ParseNegativeFloatingPointValue()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-d", "-4096.1024" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-d", "-4096.1024" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(-4096.1024, options.DoubleValue);
+            ResultShouldBeTrue();
+            options.DoubleValue.Should().Equal(-4096.1024D);
         }
 
         [Test]
         public void ParseNegativeFloatingPointValue_InputStyle2()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-d-4096.1024" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-d-4096.1024" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(-4096.1024, options.DoubleValue);
+            ResultShouldBeTrue();
+            options.DoubleValue.Should().Equal(-4096.1024D);
         }
 
         [Test]
         public void ParseNegativeFloatingPointValue_InputStyle3()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--double", "-4096.1024" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--double", "-4096.1024" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(-4096.1024, options.DoubleValue);
+            ResultShouldBeTrue();
+            options.DoubleValue.Should().Equal(-4096.1024D);
         }
 
         [Test]
         public void ParseNegativeFloatingPointValue_InputStyle4()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "--double=-4096.1024" }, options);
+            Result = base.Parser.ParseArguments(new string[] { "--double=-4096.1024" }, options);
 
-            base.AssertParserSuccess(result);
-            Assert.AreEqual(-4096.1024, options.DoubleValue);
+            ResultShouldBeTrue();
+            options.DoubleValue.Should().Equal(-4096.1024D);
         }
         #endregion
 
@@ -446,47 +446,46 @@ namespace CommandLine.Tests
         public void PassingShortValueToByteOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-b", short.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-b", short.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingIntegerValueToShortOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-s", int.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-s", int.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingLongValueToIntegerOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-i", long.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-i", long.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingFloatValueToLongOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-l", float.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-l", float.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
 
         [Test]
         public void PassingDoubleValueToFloatOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            bool result = base.Parser.ParseArguments(new string[] { "-f", double.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            Result = base.Parser.ParseArguments(new string[] { "-f", double.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            base.AssertParserFailure(result);
+            ResultShouldBeFalse();
         }
         #endregion
-
     }
 }

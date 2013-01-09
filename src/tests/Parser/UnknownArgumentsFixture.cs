@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,9 @@
 #region Using Directives
 using System;
 using System.IO;
-using CommandLine.Tests.Mocks;
 using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
@@ -47,15 +48,15 @@ namespace CommandLine.Tests
                 IgnoreUnknownArguments = true, CaseSensitive = true });
             var result1 = parser.ParseArguments(args, appOptions);
 
-            Assert.IsTrue(result1);
-            Assert.AreEqual("addonX", appOptions.PlugInName);
+            result1.Should().Be.True();
+            appOptions.PlugInName.Should().Equal("addonX");
 
             var plugInXOptions = new OptionsOfPlugInX();
             var result2 = parser.ParseArguments(args, plugInXOptions);
 
-            Assert.IsTrue(result2);
-            Assert.AreEqual("input.dat", plugInXOptions.InputFileName);
-            Assert.AreEqual(10, plugInXOptions.ReadOffset);
+            result2.Should().Be.True();
+            plugInXOptions.InputFileName.Should().Equal("input.dat");
+            plugInXOptions.ReadOffset.Should().Equal(10L);
         }
     }
 }

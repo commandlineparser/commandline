@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,22 +25,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-using System.Globalization;
-
-
 #endregion
 #region Using Directives
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
+using Should.Fluent;
 #endregion
 
 namespace CommandLine.Tests
 {
     public abstract class CommandLineParserBaseFixture : BaseFixture
     {
-        public CommandLineParserBaseFixture()
+        protected CommandLineParserBaseFixture()
         {
             // Before latest changes, some values were parsed with CultureInfo.InvariantCulture
             // that is compatible with en-US.
@@ -49,32 +48,26 @@ namespace CommandLine.Tests
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
         }
 
-        private ICommandLineParser _parser = null;
+        protected bool? Result { set; get; }
 
-        protected virtual ICommandLineParser CreateCommandLineParser()
+        [SetUp]
+        public virtual void CreateInstance()
         {
-            return new CommandLineParser();
+            Parser = new CommandLineParser();
         }
 
-        protected void AssertParserSuccess(bool result)
+        protected void ResultShouldBeTrue()
         {
-            Assert.IsTrue(result);
+            Result.Should().Be.True();
+            Result = null;
         }
 
-        protected void AssertParserFailure(bool result)
+        protected void ResultShouldBeFalse()
         {
-            Assert.IsFalse(result);
+            Result.Should().Be.False();
+            Result = null;
         }
 
-        protected ICommandLineParser Parser
-        {
-            get
-            {
-                if (_parser == null)
-                    _parser = CreateCommandLineParser();
-
-                return _parser;
-            }
-        }
+        protected ICommandLineParser Parser { get; set; }
     }
 }

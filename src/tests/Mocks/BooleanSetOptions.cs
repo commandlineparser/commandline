@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@
 //
 #endregion
 
+using System;
 using System.ComponentModel;
 
 namespace CommandLine.Tests.Mocks
@@ -38,16 +39,16 @@ namespace CommandLine.Tests.Mocks
             NonBooleanValue = 0;
         }
 
-        [Option("a", "option-a")]
+        [Option('a', "option-a")]
         public bool BooleanOne { get; set; }
 
-        [Option("b", "option-b")]
+        [Option('b', "option-b")]
         public bool BooleanTwo { get; set; }
 
-        [Option("c", "option-c")]
+        [Option('c', "option-c")]
         public bool BooleanThree { get; set; }
 
-        [Option("d", "double")]
+        [Option('d', "double")]
         public double NonBooleanValue { get; set; }
     }
 }
