@@ -70,6 +70,7 @@ Add few lines to your Main method:
 ```
 
 Acknowledgements:
+---
 I want to thank all the people who in recent years have taken an interest in this project here on GitHub, on CodePlex and also those who contacted me directly. In particular Steven Evans for improving the help subsystem, Kevin Moore that has introduced a plugin friendly architecture and finally Dan Nemec that with its contribution has made possible the introduction of verb commands from version 1.9.4.91. Thanks also to JetBrains for providing an open source license for [ReSharper](http://www.jetbrains.com/resharper/).
 
 Resources for newcomers:
