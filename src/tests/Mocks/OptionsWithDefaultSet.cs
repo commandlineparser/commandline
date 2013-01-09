@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,16 +38,16 @@ namespace CommandLine.Tests.Mocks
             FileId = int.MinValue;
         }
 
-        [Option("f", "file", MutuallyExclusiveSet = null)]
+        [Option('f', "file", MutuallyExclusiveSet = null)]
         public string FileName { get; set; }
 
-        [Option("i", "file-id", MutuallyExclusiveSet = null)]
+        [Option('i', "file-id", MutuallyExclusiveSet = null)]
         public int FileId { get; set; }
 
-        [Option("d", "file-default", MutuallyExclusiveSet = null)]
+        [Option('d', "file-default", MutuallyExclusiveSet = null)]
         public bool FileDefault { get; set; }
 
-        [Option("v", "verbose")]
+        [Option('v', "verbose")]
         public bool Verbose { get; set; }
     }
 

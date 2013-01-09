@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Should.Fluent;
+using CommandLine.Internal;
 #endregion
 
 namespace CommandLine.Tests

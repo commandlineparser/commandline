@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,10 +35,10 @@ namespace CommandLine.Tests.Mocks
 {
     class OptionsWithValueListMaximumThree : OptionsBase
     {
-        [Option("o", "output")]
+        [Option('o', "output")]
         public string OutputFile { get; set; }
 
-        [Option("w", "overwrite")]
+        [Option('w', "overwrite")]
         public bool Overwrite { get; set; }
 
         [ValueList(typeof(List<string>), MaximumElements = 3)]

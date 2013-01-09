@@ -1,3 +1,47 @@
+2013-01-09	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * API change 00: in ctor string shortName -> char; property string ShortName -> char?
+      - BaseOptionAttribute
+      - HelpOptionAttribute
+      - OptionAttribute
+      - ParsingEror
+      - BadOptionInfo
+  * API change 01: short name with whitespace/line terminator is not allowed.
+      - BaseOptionAttribute (enforced in ShortName::set)
+	  - tests/AttributesFixture.cs
+  * API change 02 (extension/non breaking): verbs
+    - tests/Mocks/OptionsWithVerbs.cs added
+    - tests/Mocks/OptionsWithVerbsHelp.cs added	
+	- tests/Parser/VerbsFixture.cs added
+	- tests/Text/VerbsHelpTextFixture.cs added
+	- CommandLine.cs
+      - BaseOptionAttribute::DefaultValue and ::ShortName made virtual
+	  - CommandLineParserSettings::StringComparison member added
+	  - ReflectionUtil::RetrieveOptionProperty<T:OptionAttribute> member added
+	  - introduced CMDLINE_VERBS preprocessor "public" directive (other are for "internal" use)
+	- CommandLineVerbs.cs added to implement verb commands (module is optional at source code level)
+	  - #Core# -> expanded OptionInfo implementation
+	  - #Attributes#
+	      -> VerbOptionAttribute added (inherits from OptionAttribute)
+	      -> HelpVerbOptionAttributed added (inherits from BaseOptionAttribute directly)
+      - #Parser#
+          -> expanded CommandLineParser implementation	  
+    - CommandLineText.cs
+	  - added a trivial optional parameter to HelpText::AutoBuild for supporting verbs
+  * Comments: added missing comments to MultiLineTextAttribute type.
+  * IArgumentEnumerator doesn't inherit anymore from IDisposable (it was only a legacy of old design).
+  * Internal types moved to namespace CommandLine.Internal.
+  * ParsingError made sealed.
+  * License year range updated in code license region/comment.  
+  * Code formatting
+    - privates (except ctor) moved at the end of types.
+    - braces around allo blocks (also one line code blocks).
+    - no braces on same construct line:
+	  - except when all in one line
+      - except for object initializers
+	- some blank line removed for favor source inclusion.
+  * Version incremented to 1.9.4.91 Beta.
+	  
 2012-12-22	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Extended use of Should.Fluent to whole test project.

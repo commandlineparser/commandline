@@ -1,8 +1,6 @@
-Command Line Parser Library 1.9.3.34 Stable for CLR.
+Command Line Parser Library 1.9.4.91 Beta for CLR.
 ===
-The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.
-It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the user.
-Everything that is boring and repetitive to be programmed stands up on library shoulders, letting you concentrate yourself on core logic.
+The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
 
 Compatibility:
@@ -13,14 +11,10 @@ Compatibility:
 
 News:
 ---
-  - Extended use of Should.Fluent to whole test project.
-  - CommandLine.dll signed; removed old commented code and added missing XML documentation comments.
-  - Fixed CopyrightInfo issue #22 reported by github user mizipzor.
-  - Merged pull request #11 from github user jafin (exception text update).
-  - Fixed an issue notified by github user jandler about numbers overflow.
-  - Fixed an issue notified by github user sbambrick about parsing negative numbers.
-  - Merged (and tested) code from hugodahl (pull request #10) for displaying all missing but required values.
-  - Fixed the LongOptionParser type problem of parsing two consecutive arrays (issue from m1gu3l github user). 
+  - Short name of ordinary options is now defined as character.
+  - Introduced support for verb commands (e.g. app verb1 --ordinary-option).
+  - Internal refactoring and code reorganization for better maintainability.
+  - No member with public visibility was left without XML comments.
 
 To build:
 ---
@@ -36,22 +30,22 @@ To start:
   - [CSharp Template](https://github.com/gsscoder/commandline/blob/master/src/templates/CSharpTemplate/Program.cs)
   - [VB.NET Template](https://github.com/gsscoder/commandline/blob/master/src/templates/VBNetTemplate/Program.vb)
 
+Verb Commands:
+Since introduction of verb commands is a very new feature, templates and sample application are not updated to illustrate it. Please refer to unit tests code for learn how to [define](https://github.com/gsscoder/commandline/blob/master/src/tests/Mocks/OptionsWithVerbsHelp.cs), how to [respond](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/VerbsFixture.cs) and how they [relate to help subsystem](https://github.com/gsscoder/commandline/blob/master/src/tests/Text/VerbsHelpTextFixture.cs).
+
 Notes:
 ---
-The project is small and well suited (or better thought) to be included in your application. If you don't merge it to your project tree, you must reference CommandLine.dll and import CommandLine and CommandLine.Text namespaces (or install via NuGet).
-I recommend you source inclusion over assembly referencing.
-The help text builder (CommandLine.Text.HelpText) is not coupled with the parser, so, if you don't need it, don't include it in your project.
-Anyway using HelpText class will avoid you a lot of repetitive coding.
+The project is small and well suited (or better thought) to be included in your application. If you don't merge it to your project tree, you must reference CommandLine.dll and import CommandLine and CommandLine.Text namespaces (or install via NuGet). I recommend you source inclusion over assembly referencing. The help text builder (CommandLine.Text.HelpText) is not coupled with the parser, so, if you don't need it, don't include it in your project. Anyway using HelpText class will avoid you a lot of repetitive coding. Finally include the new CommandLineVerbs.cs source file to use verb commands.
 
 Create a class to receive parsed values:
 
 ```csharp
     class Options : CommandLineOptionsBase {
-      [Option("r", "read", Required = true,
+      [Option('r', "read", Required = true,
         HelpText = "Input file to be processed.")]
       public string InputFile { get; set; }
     
-      [Option("v", "verbose", DefaultValue = true,
+      [Option('v', "verbose", DefaultValue = true,
         HelpText = "Prints all messages to standard output.")]
       public bool Verbose { get; set; }
 
@@ -74,6 +68,9 @@ Add few lines to your Main method:
       }
     }
 ```
+
+Acknowledgements:
+I want to thank all the people who in recent years have taken an interest in this project here on GitHub, on CodePlex and also those who contacted me directly. In particular Steven Evans for improving the help subsystem, Kevin Moore that has introduced a plugin friendly architecture and finally Dan Nemec that with its contribution has made possible the introduction of verb commands from version 1.9.4.91. Thanks also to JetBrains for providing an open source license for [ReSharper](http://www.jetbrains.com/resharper/).
 
 Resources for newcomers:
 ---

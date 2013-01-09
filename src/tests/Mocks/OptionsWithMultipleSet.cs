@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -44,23 +44,23 @@ namespace CommandLine.Tests.Mocks
         }
 
         // rgb mutually exclusive set
-        [Option("r", "red", MutuallyExclusiveSet = "rgb")]
+        [Option('r', "red", MutuallyExclusiveSet = "rgb")]
         public byte Red { get; set; }
 
-        [Option("g", "green", MutuallyExclusiveSet = "rgb")]
+        [Option('g', "green", MutuallyExclusiveSet = "rgb")]
         public byte Green { get; set; }
 
-        [Option("b", "blue", MutuallyExclusiveSet = "rgb")]
+        [Option('b', "blue", MutuallyExclusiveSet = "rgb")]
         public byte Blue { get; set; }
 
         // hsv mutually exclusive set
-        [Option("h", "hue", MutuallyExclusiveSet = "hsv")]
+        [Option('h', "hue", MutuallyExclusiveSet = "hsv")]
         public short Hue { get; set; }
 
-        [Option("s", "saturation", MutuallyExclusiveSet = "hsv")]
+        [Option('s', "saturation", MutuallyExclusiveSet = "hsv")]
         public byte Saturation { get; set; }
 
-        [Option("v", "value", MutuallyExclusiveSet = "hsv")]
+        [Option('v', "value", MutuallyExclusiveSet = "hsv")]
         public byte Value { get; set; }
     }
 

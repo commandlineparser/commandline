@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,59 +38,93 @@ namespace CommandLine.Tests
     {
         class CustomOptionAttribute : BaseOptionAttribute
         {
-            public CustomOptionAttribute(string shortName, string longName)
+            public CustomOptionAttribute(string longName)
             {
-                base.ShortName = shortName;
-                base.LongName = longName;
+                ShortName = null;
+                LongName = longName;
+            }
+
+            public CustomOptionAttribute(char shortName, string longName)
+            {
+                ShortName = shortName;
+                LongName = longName;
             }
         }
 
         #region #DGN0002
+        // Impossible now! (see API change 00)
+        //[Test]
+        //[ExpectedException(typeof(ArgumentException))]
+        //public void OptionShortNameCanNotExceedOneCharacter()
+        //{
+        //    new OptionAttribute("more-than-one-character", null);
+        //}
+        //[Test]
+        //[ExpectedException(typeof(ArgumentException))]
+        //public void OptionListShortNameCanNotExceedOneCharacter()
+        //{
+        //    new OptionListAttribute("same-as-above", null);
+        //}
+        //[Test]
+        //[ExpectedException(typeof(ArgumentException))]
+        //public void HelpOptionShortNameCanNotExceedOneCharacter()
+        //{
+        //    new HelpOptionAttribute("same-as-above-again", null);
+        //}
+        //[Test]
+        //[ExpectedException(typeof(ArgumentException))]
+        //public void ShortNameOfBaseOptionDerivedTypeCanNotExceedOneCharacter()
+        //{
+        //    new CustomOptionAttribute("not-allowed", null);
+        //}
+        #endregion
+
+        #region API change 01
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void OptionShortNameCanNotExceedOneCharacter()
+        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "ShortName with whitespace or line terminator character is not allowed.")]
+        public void ShortNameWithLineTerminatorThrowsException()
         {
-            new OptionAttribute("more-than-one-character", null);
+            new OptionAttribute('\n');
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void OptionListShortNameCanNotExceedOneCharacter()
+        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "ShortName with whitespace or line terminator character is not allowed.")]
+        public void ShortNameWithLineTerminatorThrowsException_2()
         {
-            new OptionListAttribute("same-as-above", null);
+            new OptionAttribute('\r');
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void HelpOptionShortNameCanNotExceedOneCharacter()
+        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "ShortName with whitespace or line terminator character is not allowed.")]
+        public void ShortNameWithWhiteSpaceThrowsException()
         {
-            new HelpOptionAttribute("same-as-above-again", null);
+            new OptionAttribute(' ');
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ShortNameOfBaseOptionDerivedTypeCanNotExceedOneCharacter()
+        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "ShortName with whitespace or line terminator character is not allowed.")]
+        public void ShortNameWithWhiteSpaceThrowsException_2()
         {
-            new CustomOptionAttribute("not-allowed", null);
+            new OptionAttribute('\t');
         }
         #endregion
 
         [Test]
         public void AllOptionsAllowOneCharacterInShortName()
         {
-            new OptionAttribute("o", null);
-            new OptionListAttribute("l", null);
-            new HelpOptionAttribute("?", null);
-            new CustomOptionAttribute("c", null);
+            new OptionAttribute('o', null);
+            new OptionListAttribute('l', null);
+            new HelpOptionAttribute('?', null);
+            new CustomOptionAttribute('c', null);
         }
 
         [Test]
         public void AllOptionsAllowNullValueInShortName()
         {
-            new OptionAttribute(null, "option-attr");
-            new OptionListAttribute(null, "option-list-attr");
-            new HelpOptionAttribute(null, "help-attr");
-            new CustomOptionAttribute(null, "custom-attr");
+            new OptionAttribute("option-attr");
+            new OptionListAttribute("option-list-attr");
+            new HelpOptionAttribute("help-attr");
+            new CustomOptionAttribute("custom-attr");
         }
     }
 }

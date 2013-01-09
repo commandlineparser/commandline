@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,13 +35,13 @@ namespace CommandLine.Tests.Mocks
 {
     class SimpleOptionsWithArray : SimpleOptions
     {
-        [OptionArray("z", "strarr")]
+        [OptionArray('z', "strarr")]
         public string[] StringArrayValue { get; set; }
 
-        [OptionArray("y", "intarr")]
+        [OptionArray('y', "intarr")]
         public int[] IntegerArrayValue { get; set; }
 
-        [OptionArray("q", "dblarr")]
+        [OptionArray('q', "dblarr")]
         public double[] DoubleArrayValue { get; set; }
     }
 }

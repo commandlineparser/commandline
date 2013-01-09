@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLineVerbs.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommandLine.cs" />

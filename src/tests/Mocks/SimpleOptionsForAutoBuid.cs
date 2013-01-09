@@ -6,7 +6,7 @@ namespace CommandLine.Tests.Mocks
 {
     class SimpleOptionsForAutoBuid : SimpleOptions
     {
-        [Option("m", "mock", Required=true, HelpText="Force required.")]
+        [Option('m', "mock", Required=true, HelpText="Force required.")]
         public bool MockOption { get; set; }
 
         [HelpOption]

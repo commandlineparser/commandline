@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -40,10 +40,10 @@ namespace CommandLine.Tests.Mocks
             BadIntegerValue = 0;
         }
 
-        [OptionArray("v", "bstrarr")]
+        [OptionArray('v', "bstrarr")]
         public string BadStringValue { get; set; }
 
-        [OptionArray("w", "bintarr")]
+        [OptionArray('w', "bintarr")]
         public int BadIntegerValue { get; set; }
     }
 }

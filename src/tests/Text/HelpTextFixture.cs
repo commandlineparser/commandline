@@ -7,7 +7,7 @@
 // Contributor(s):
 //   Steven Evans
 // 
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -47,52 +47,52 @@ namespace CommandLine.Text.Tests
         #region Mock Objects
         class MockOptions
         {
-            [Option("v", "verbose")]
+            [Option('v', "verbose")]
             public bool Verbose { get; set; }
 
-            [Option(null, "input-file")]
+            [Option("input-file")]
             public string FileName { get; set; }
         }
 
         class MockOptionsWithDescription
         {
-            [Option("v", "verbose", HelpText = "Comment extensively every operation.")]
+            [Option('v', "verbose", HelpText = "Comment extensively every operation.")]
             public bool Verbose { get; set; }
 
-            [Option("i", "input-file", Required = true, HelpText = "Specify input file to be processed.")]
+            [Option('i', "input-file", Required = true, HelpText = "Specify input file to be processed.")]
             public string FileName { get; set; }
         }
 
         private class MockOptionsWithLongDescription
         {
-            [Option("v", "verbose", HelpText = "This is the description of the verbosity to test out the wrapping capabilities of the Help Text.")]
+            [Option('v', "verbose", HelpText = "This is the description of the verbosity to test out the wrapping capabilities of the Help Text.")]
             public bool Verbose { get; set; }
 
-            [Option(null, "input-file", HelpText = "This is a very long description of the Input File argument that gets passed in.  It should  be passed in as a string.")]
+            [Option("input-file", HelpText = "This is a very long description of the Input File argument that gets passed in.  It should  be passed in as a string.")]
             public string FileName { get; set; }
         }
 
         private class MockOptionsWithLongDescriptionAndNoSpaces
         {
-            [Option("v", "verbose", HelpText = "Before 012345678901234567890123 After")]
+            [Option('v', "verbose", HelpText = "Before 012345678901234567890123 After")]
             public bool Verbose { get; set; }
 
-            [Option(null, "input-file", HelpText = "Before 012345678901234567890123456789 After")]
+            [Option("input-file", HelpText = "Before 012345678901234567890123456789 After")]
             public string FileName { get; set; }
         }
 
         public class MockOptionsSimple
         {
-            [Option("s", "something", HelpText = "Input something here.")]
+            [Option('s', "something", HelpText = "Input something here.")]
             public string Something { get; set; }
         }
 
         public class ComplexOptionsWithHelp : ComplexOptions
         {
-            [Option("a", "all", HelpText = "Read the file completely.", MutuallyExclusiveSet = "reading")]
+            [Option('a', "all", HelpText = "Read the file completely.", MutuallyExclusiveSet = "reading")]
             public bool ReadAll { get; set; }
 
-            [Option("p", "part", HelpText = "Read the file partially.", MutuallyExclusiveSet = "reading")]
+            [Option('p', "part", HelpText = "Read the file partially.", MutuallyExclusiveSet = "reading")]
             public bool ReadPartially { get; set; }
 
             [HelpOption(HelpText ="Displays this help screen.")]
@@ -106,8 +106,8 @@ namespace CommandLine.Text.Tests
                 string errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
                 if (!string.IsNullOrEmpty(errors))
                 {
-					help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
-					help.AddPreOptionsLine(errors);
+                    help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
+                    help.AddPreOptionsLine(errors);
                 }
 
                 help.AddPreOptionsLine("This is free software. You may redistribute copies of it under the terms of");
@@ -250,23 +250,23 @@ namespace CommandLine.Text.Tests
             lines[6].Should().Equal("Post-Options.");
         }
 
-		[Test]
-		public void AddOptionsWithDashes()
-		{
-		    var local = new HelpText {
-				AddDashesToOption = true,
-		    	Heading = new HeadingInfo("AddOptionsWithDashes"),
-	        	Copyright = new CopyrightInfo("Author", DateTime.Now.Year)
-			};
-			local.AddOptions(new MockOptionsSimple());
-			
-			string help = local.ToString();
-			
-			Console.WriteLine(help);
-			
+        [Test]
+        public void AddOptionsWithDashes()
+        {
+            var local = new HelpText {
+                AddDashesToOption = true,
+                Heading = new HeadingInfo("AddOptionsWithDashes"),
+                Copyright = new CopyrightInfo("Author", DateTime.Now.Year)
+            };
+            local.AddOptions(new MockOptionsSimple());
+            
+            string help = local.ToString();
+            
+            Console.WriteLine(help);
+            
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-			lines[3].Should().Equal("  -s, --something    Input something here.");
-		}
+            lines[3].Should().Equal("  -s, --something    Input something here.");
+        }
 
         [Test]
         public void CreateBasicInstance()
@@ -385,7 +385,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Test]
-	    public void DetailedHelpWithMissingRequiredAndBadFormat()
+        public void DetailedHelpWithMissingRequiredAndBadFormat()
         {
             var options = new ComplexOptionsWithHelp();
 
@@ -395,7 +395,7 @@ namespace CommandLine.Text.Tests
             result.Should().Be.False();
         }
 
-		[Test]
+        [Test]
         public void DetailedHelpWithBadMutualExclusiveness()
         {
             var options = new ComplexOptionsWithHelp();
@@ -405,8 +405,8 @@ namespace CommandLine.Text.Tests
 
             result.Should().Be.False();
         }
-		
-		[Test]
+        
+        [Test]
         public void DetailedHelpWithBadFormatAndMutualExclusiveness()
         {
             var options = new ComplexOptionsWithHelp();
@@ -436,13 +436,13 @@ namespace CommandLine.Text.Tests
             // Simulating a localization process.
             string optionHelp = null;
 
-            switch (e.Option.ShortName)
+            switch (e.Option.ShortName.Value)
             {
-                case "v":
+                case 'v':
                     optionHelp = "Kommentar umfassend Operationen.";
                     break;
 
-                case "i":
+                case 'i':
                     optionHelp = "Gibt den Eingang an zu bearbeitenden Datei.";
                     break;
             }

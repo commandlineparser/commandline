@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,16 +34,16 @@ namespace CommandLine.Tests
 {
     public class OptionsWithUIntArray
     {
-        [Option("s", "somestr")]
+        [Option('s', "somestr")]
         public string SomeStringValue { get; set; }
 
-        [OptionArray("o", "arrayone")]
+        [OptionArray('o', "arrayone")]
         public uint[] ArrayOne { get; set; }
 
-        [OptionArray("t", "arraytwo")]
+        [OptionArray('t', "arraytwo")]
         public uint[] ArrayTwo { get; set; }
 
-        [Option("b", "somebool")]
+        [Option('b', "somebool")]
         public bool SomeBooleanValue { get; set; }
     }
 }

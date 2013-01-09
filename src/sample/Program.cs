@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -56,25 +56,25 @@ namespace SampleApp
         private sealed class Options : CommandLineOptionsBase
         {
             #region Standard Option Attribute
-            [Option("r", "read", Required = true, HelpText = "Input file with data to process.")]
+            [Option('r', "read", Required = true, HelpText = "Input file with data to process.")]
             public string InputFile {get; set;}
 
-            [Option("w", "write", HelpText = "Output file with processed data (otherwise standard output).")]
+            [Option('w', "write", HelpText = "Output file with processed data (otherwise standard output).")]
             public string OutputFile { get; set; }
 
-            [Option(null, "calculate", HelpText = "Add results in bottom of tabular data.")]
+            [Option("calculate", HelpText = "Add results in bottom of tabular data.")]
             public bool Calculate { get; set; }
 
-            [Option("v", null, HelpText = "Verbose level. Range: from 0 to 2.")]
+            [Option('v', HelpText = "Verbose level. Range: from 0 to 2.")]
             public int? VerboseLevel { get; set; }
              
-            [Option("i", null, HelpText = "If file has errors don't stop processing.")]
+            [Option("i", HelpText = "If file has errors don't stop processing.")]
             public bool IgnoreErrors { get; set; }
 
-            [Option("j", "jump", DefaultValue = 0, HelpText = "Data processing start offset.")]
+            [Option('j', "jump", DefaultValue = 0, HelpText = "Data processing start offset.")]
             public double StartOffset { get; set; }
 
-            [Option(null, "optimize", HelpText = "Optimize for Speed|Accuracy.")]
+            [Option("optimize", HelpText = "Optimize for Speed|Accuracy.")]
             public OptimizeFor Optimization {get;set;}
             #endregion
 
@@ -83,7 +83,7 @@ namespace SampleApp
             [DefaultValue(null)]
             public IList<string> DefinitionFiles { get; set; }
 
-            [OptionList("o", "operators", Separator = ';', HelpText = "Operators included in processing (+;-;...)." +
+            [OptionList('o', "operators", Separator = ';', HelpText = "Operators included in processing (+;-;...)." +
                 " Separate each operator with a semicolon." + " Do not include spaces between operators and separator.")]
             [DefaultValue(null)]
             public IList<string> AllowedOperators { get; set; }
@@ -119,10 +119,10 @@ namespace SampleApp
             public string GetUsage()
             {
                 var help = new HelpText { Heading = Program._headingInfo,
-					Copyright = new CopyrightInfo("Giacomo Stelluti Scala", 2005, 2012),
-                	AdditionalNewLineAfterOption = true,
-					AddDashesToOption = true
-				};
+                    Copyright = new CopyrightInfo("Giacomo Stelluti Scala", 2005, 2012),
+                    AdditionalNewLineAfterOption = true,
+                    AddDashesToOption = true
+                };
                 this.HandleParsingErrorsInHelp(help);
                 help.AddPreOptionsLine("This is free software. You may redistribute copies of it under the terms of");
                 help.AddPreOptionsLine("the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
@@ -223,7 +223,7 @@ namespace SampleApp
             //f.WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithShortName();
             //f2.GetNextInputValues();
             //f3.CustomizeOptionsFormat();
-			//f3.DetailedHelpWithBadFormatAndMutualExclusiveness();
+            //f3.DetailedHelpWithBadFormatAndMutualExclusiveness();
             //f3.DetailedHelpWithBadMutualExclusiveness();
             //f3.DetailedHelpWithMissingRequired();
             //f3.DetailedHelpWithBadFormat();

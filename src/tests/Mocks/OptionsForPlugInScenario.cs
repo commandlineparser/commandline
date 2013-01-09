@@ -5,7 +5,7 @@
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
 //
-// Copyright (C) 2005 - 2012 Giacomo Stelluti Scala
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,16 +35,16 @@ namespace CommandLine.Tests.Mocks
 {
     public class OptionsForAppWithPlugIns //: CommandLineOptionsBase
     {
-        [Option("p", "plugin", Required = true, HelpText = "Plug-In to activate.")]
+        [Option('p', "plugin", Required = true, HelpText = "Plug-In to activate.")]
         public string PlugInName { get; set; }
     }
 
     public class OptionsOfPlugInX
     {
-        [Option(null, "filename", Required = true, HelpText = "Plug-In X input filename.")]
+        [Option("filename", Required = true, HelpText = "Plug-In X input filename.")]
         public string InputFileName { get; set; }
 
-        [Option("s", "seek", DefaultValue = 10, HelpText = "Start offset to begin read.")] 
+        [Option('s', "seek", DefaultValue = 10, HelpText = "Start offset to begin read.")] 
         public long ReadOffset { get; set; }
     }
 }
