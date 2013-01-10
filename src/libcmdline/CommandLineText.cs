@@ -896,7 +896,7 @@ namespace CommandLine.Text
                 Heading = HeadingInfo.Default,
                 Copyright = CopyrightInfo.Default,
                 AdditionalNewLineAfterOption = true,
-                AddDashesToOption = true };
+                AddDashesToOption = !verbsIndex };
 
             if (errDelegate != null)
             {

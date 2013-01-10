@@ -2101,8 +2101,9 @@ namespace CommandLine
     {
         public const string Title = "CommandLine.dll";
         public const string Copyright = "Copyright (C) 2005 - 2013 Giacomo Stelluti Scala";
-        public const string Version = "1.9.4.91"; //beta
-        public const string InformationalVersion = "1.9.4.91";
+        public const string Version = "1.9.4.93";
+        public const string ReleaseType = "beta";
+        public const string InformationalVersion = Version;
     }
     #pragma warning restore 1591
     #endregion
