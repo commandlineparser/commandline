@@ -16,3 +16,4 @@ src/templates/VBNetTemplate/obj
 src/libcmdline/test-results/*
 src/tests/test-results/*
 *.DS_Store
+*.csproj.user

@@ -1,5 +1,10 @@
 2013-01-10	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Source splitted again putting each type in its .cs file.
+  * Version incremented to 1.9.4.95 Beta.
+
+2013-01-10	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Merged pull request #25 from contributor mizipzor.
   * Version incremented to 1.9.4.93 Beta.
 

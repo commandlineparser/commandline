@@ -1,6 +1,6 @@
-#region License
+﻿#region License
 //
-// Command Line Library: AssemblyInfo.cs
+// Command Line Library: Pair.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -28,32 +28,57 @@
 #endregion
 #region Using Directives
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Threading;
 #endregion
 
-[assembly: AssemblyTitle(ThisAssembly.Title)]
-[assembly: AssemblyProduct("Command Line Parsing Library")]
-[assembly: AssemblyDescription(ThisAssembly.Title)]
-[assembly: AssemblyCopyright(ThisAssembly.Copyright)]
-[assembly: AssemblyVersion(ThisAssembly.Version)]
-[assembly: AssemblyInformationalVersion(ThisAssembly.InformationalVersion)]
-[assembly: NeutralResourcesLanguage("en-US")]
-[assembly: AssemblyCulture("")]
-//[assembly: InternalsVisibleTo("CommandLine.Tests, PublicKey=" +
-//  "00240000048000009400000006020000002400005253413100040000010001005f2d4ad015120a" +
-//  "16600c77de58ee16abbf200b4fa10bb2a5f4a3e56d50cd79da7b18aae7eb1419407383ff12a4a9" +
-//  "60f35c47e367c85634b6e7ec6318fdd0064a88bf35701728045e07626397295c34c7a8699abed4" +
-//  "2821814aa2166b0632d8cd3a013396ad2a11f950b20022c20d4e801fd21dca3fc2c3a23280df12" +
-//  "6cf214bf")]
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-[assembly: AssemblyConfiguration("Release")]
-#endif
-[assembly: ComVisible(false)]
-[assembly: CLSCompliant(true)]
-//[assembly: AssemblyCompany("")]
-//[assembly: AssemblyTrademark("")]
+namespace CommandLine.Internal
+{
+    internal sealed class Pair<TLeft, TRight>
+        where TLeft : class
+        where TRight : class
+    {
+        public Pair(TLeft left, TRight right)
+        {
+            _left = left;
+            _right = right;
+        }
+
+        public TLeft Left
+        {
+            get { return _left; }
+        }
+
+        public TRight Right
+        {
+            get { return _right; }
+        }
+
+        public override int GetHashCode()
+        {
+            int leftHash = (_left == null ? 0 : _left.GetHashCode());
+            int rightHash = (_right == null ? 0 : _right.GetHashCode());
+
+            return leftHash ^ rightHash;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Pair<TLeft, TRight>;
+
+            if (other == null)
+            {
+                return false;
+            }
+            return Equals(_left, other._left) && Equals(_right, other._right);
+        }
+
+        private readonly TLeft _left;
+        private readonly TRight _right;
+    }
+}

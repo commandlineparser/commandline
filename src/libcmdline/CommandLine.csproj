@@ -74,11 +74,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLineVerbs.cs" />
+    <Compile Include="Attributes\BaseOptionAttribute.cs" />
+    <Compile Include="Attributes\OptionAttribute.cs" />
+    <Compile Include="Attributes\OptionArrayAttribute.cs" />
+    <Compile Include="Attributes\HelpOptionAttribute.cs" />
+    <Compile Include="Attributes\OptionListAttribute.cs" />
+    <Compile Include="Attributes\ValueListAttribute.cs" />
+    <Compile Include="Core\CommandLineParser.cs" />
+    <Compile Include="Verbs\CommandLineParser.cs" />
+    <Compile Include="Core\BadOptionInfo.cs" />
+    <Compile Include="Core\ParsingError.cs" />
+    <Compile Include="Core\PostParsingState.cs" />
+    <Compile Include="Core\ICommandLineParser.cs" />
+    <Compile Include="Core\CommandLineParserException.cs" />
+    <Compile Include="Core\CommandLineOptionsBase.cs" />
+    <Compile Include="Internal\Assumes.cs" />
+    <Compile Include="Internal\StringUtil.cs" />
+    <Compile Include="Internal\ReflectionUtil.cs" />
+    <Compile Include="Internal\Pair.cs" />
+    <Compile Include="Internal\TargetWrapper.cs" />
+    <Compile Include="Internal\LongOptionParser.cs" />
+    <Compile Include="Internal\OptionGroupParser.cs" />
+    <Compile Include="Internal\OptionInfo.cs" />
+    <Compile Include="Internal\OptionMap.cs" />
+    <Compile Include="Internal\OneCharStringEnumerator.cs" />
+    <Compile Include="Internal\StringArrayEnumerator.cs" />
+    <Compile Include="Internal\ArgumentParser.cs" />
+    <Compile Include="Internal\IArgumentEnumerator.cs" />
+    <Compile Include="Internal\ParserState.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommandLine.cs" />
-    <Compile Include="CommandLineText.cs" />
+    <Compile Include="Text\HelpText.cs" />
+    <Compile Include="Core\CommandLineParserSettings.cs" />
+    <Compile Include="Properties\ThisLibrary.cs" />
+    <Compile Include="Text\BaseSentenceBuilder.cs" />
+    <Compile Include="Text\EnglishSentenceBuilder.cs" />
+    <Compile Include="Text\CopyrightInfo.cs" />
+    <Compile Include="Text\HeadingInfo.cs" />
+    <Compile Include="Text\MultiLineTextAttribute.cs" />
+    <Compile Include="Text\AssemblyLicenseAttribute.cs" />
+    <Compile Include="Text\AssemblyUsageAttribute.cs" />
+    <Compile Include="Text\HandleParsingErrorsDelegate.cs" />
+    <Compile Include="Text\FormatOptionHelpTextEventArgs.cs" />
+    <Compile Include="Verbs\HelpVerbOptionAttribute.cs" />
+    <Compile Include="Verbs\VerbOptionAttribute.cs" />
+    <Compile Include="Verbs\OptionInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -91,4 +131,5 @@
   <ItemGroup>
     <None Include="CommandLine.snk" />
   </ItemGroup>
+  <ItemGroup />
 </Project>

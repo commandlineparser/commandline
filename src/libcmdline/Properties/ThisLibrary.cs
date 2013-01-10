@@ -1,6 +1,6 @@
-#region License
+﻿#region License
 //
-// Command Line Library: AssemblyInfo.cs
+// Command Line Library: CommandLine.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -26,36 +26,16 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using System.Reflection;
-using System.Resources;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using CommandLine.Text;
-#endregion
-
-[assembly: AssemblyTitle(_ThisAssembly.Title)]
-[assembly: AssemblyProduct("Command Line Parsing Library")]
-[assembly: AssemblyDescription(_ThisAssembly.Title)]
-[assembly: AssemblyCopyright(_ThisAssembly.Copyright)]
-[assembly: AssemblyVersion(_ThisAssembly.Version)]
-[assembly: AssemblyInformationalVersion(_ThisAssembly.InformationalVersion)]
-[assembly: NeutralResourcesLanguage("en-US")]
-[assembly: AssemblyCulture("")]
-
-[assembly: AssemblyLicense(
-    "This is free software. You may redistribute copies of it under the terms of",
-    "the MIT License <http://www.opensource.org/licenses/mit-license.php>.")]
-[assembly: AssemblyUsage(
-    "[no usage, this is a dll]")]
-
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-//[assembly: AssemblyConfiguration("Release")]
-#endif
-[assembly: ComVisible(false)]
-//[assembly: CLSCompliant(true)]
-//[assembly: AssemblyCompany("")]
-//[assembly: AssemblyTrademark("")]
+namespace CommandLine
+{
+    #pragma warning disable 1591
+    public static class ThisLibrary
+    {
+        public const string Title = "CommandLine.dll";
+        public const string Copyright = "Copyright (C) 2005 - 2013 Giacomo Stelluti Scala";
+        public const string Version = "1.9.4.95";
+        public const string ReleaseType = "beta";
+        public const string InformationalVersion = Version;
+    }
+    #pragma warning restore 1591
+}
