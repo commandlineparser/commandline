@@ -1114,12 +1114,15 @@ namespace CommandLine
             public static TAttribute GetAttribute<TAttribute>()
                 where TAttribute : Attribute
             {
-                var assemblyFromWhichToPullInformation = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-
-                object[] a = assemblyFromWhichToPullInformation.GetCustomAttributes(typeof(TAttribute), false);
+                object[] a = AssemblyFromWhichToPullInformation.GetCustomAttributes(typeof(TAttribute), false);
                 if (a.Length <= 0) { return null; }
 
                 return (TAttribute) a[0];
+            }
+
+            public static Assembly AssemblyFromWhichToPullInformation
+            {
+                get { return Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(); }
             }
 
             public static Pair<PropertyInfo, TAttribute> RetrieveOptionProperty<TAttribute>(object target, string uniqueName)

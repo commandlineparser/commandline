@@ -144,6 +144,16 @@ namespace CommandLine.Text
     public class CopyrightInfo
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class
+        /// with an assembly attribute, this overrides all formatting.
+        /// </summary>
+        /// <param name="attribute">The attribute which text to use.</param>
+        private CopyrightInfo(AssemblyCopyrightAttribute attribute)
+        {
+            _attribute = attribute;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class.
         /// </summary>
         protected CopyrightInfo()
@@ -202,6 +212,11 @@ namespace CommandLine.Text
         /// <returns>The <see cref="System.String"/> that contains the copyright informations.</returns>
         public override string ToString()
         {
+            if (_attribute != null)
+            {
+                return _attribute.Copyright;
+            }
+
             var builder = new StringBuilder(_builderSize);
             builder.Append(CopyrightWord);
             builder.Append(' ');
@@ -270,6 +285,32 @@ namespace CommandLine.Text
             return yearsPart.ToString();
         }
 
+        /// <summary>
+        /// The default copyright information.
+        /// Retrieved from <see cref="AssemblyCopyrightAttribute"/>, if it exists,
+        /// otherwise it uses <see cref="AssemblyCompanyAttribute"/> as copyright holder with the current year.
+        /// If neither exists it throws an <see cref="InvalidOperationException"/>.
+        /// </summary>
+        public static CopyrightInfo Default
+        {
+            get
+            {
+                // if an exact copyright string has been specified, it takes precedence
+                var copyright = ReflectionUtil.GetAttribute<AssemblyCopyrightAttribute>();
+                if (copyright != null)
+                {
+                    return new CopyrightInfo(copyright);
+                }
+                // if no copyright attribute exist but a company attribute does, use it as copyright holder
+                var company = ReflectionUtil.GetAttribute<AssemblyCompanyAttribute>();
+                if (company != null)
+                {
+                    return new CopyrightInfo(company.Company, DateTime.Now.Year);
+                }
+                throw new InvalidOperationException("CopyrightInfo::Default requires that you define AssemblyCopyrightAttribute or AssemblyCompanyAttribute.");
+            }
+        }
+        
         private readonly bool _isSymbolUpper;
         private readonly int[] _years;
         private readonly string _author;
@@ -277,6 +318,7 @@ namespace CommandLine.Text
         private const string SymbolLower = "(c)";
         private const string SymbolUpper = "(C)";
         private readonly int _builderSize;
+        private readonly AssemblyCopyrightAttribute _attribute;
     }
 
     /// <summary>
@@ -376,15 +418,39 @@ namespace CommandLine.Text
         /// </summary>
         /// <param name="message">The <see cref="System.String"/> message to write.</param>
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="message"/> is null or empty string.</exception>
-        public void WriteError(string message)
+        public void WriteError (string message)
         {
-            WriteMessage(message, Console.Error);
+            WriteMessage (message, Console.Error);
         }
+
+        /// <summary>
+        /// The default heading information.
+        /// The title is retrieved from <see cref="AssemblyTitleAttribute"/>,
+        /// or the assembly short name if its not defined.
+        /// The version is retrieved from <see cref="AssemblyInformationalVersionAttribute"/>,
+        /// or the assembly version if its not defined.
+        /// </summary>
+        public static HeadingInfo Default
+        {
+            get
+            {
+                var titleAttribute = ReflectionUtil.GetAttribute<AssemblyTitleAttribute>();
+                string title = titleAttribute == null
+                    ? ReflectionUtil.AssemblyFromWhichToPullInformation.GetName().Name
+                    : Path.GetFileNameWithoutExtension(titleAttribute.Title);
+                var versionAttribute = ReflectionUtil.GetAttribute<AssemblyInformationalVersionAttribute>();
+                string version = versionAttribute == null
+                    ? ReflectionUtil.AssemblyFromWhichToPullInformation.GetName().Version.ToString()
+                    : versionAttribute.InformationalVersion;
+                return new HeadingInfo(title, version);
+            }
+        }
+
         private readonly string _programName;
         private readonly string _version;
     }
     #endregion
-
+    
     #region Attributes
     /// <summary>
     /// Provides base properties for creating an attribute, used to define multiple lines of text.
@@ -826,20 +892,11 @@ namespace CommandLine.Text
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise (default) it outputs options.</param>
         public static HelpText AutoBuild(object options, HandleParsingErrorsDelegate errDelegate, bool verbsIndex = false)
         {
-            var title = ReflectionUtil.GetAttribute<AssemblyTitleAttribute>();
-            if (title == null) { throw new InvalidOperationException("HelpText::AutoBuild() requires that you define AssemblyTitleAttribute."); }
-            var version = ReflectionUtil.GetAttribute<AssemblyInformationalVersionAttribute>();
-            if (version == null) { throw new InvalidOperationException("HelpText::AutoBuild() requires that you define AssemblyInformationalVersionAttribute."); }
-            var copyright = ReflectionUtil.GetAttribute<AssemblyCopyrightAttribute>();
-            if (copyright == null) { throw new InvalidOperationException("HelpText::AutoBuild() requires that you define AssemblyCopyrightAttribute."); }
-
-            var auto = new HelpText
-                {
-                    Heading = new HeadingInfo(Path.GetFileNameWithoutExtension(title.Title), version.InformationalVersion),
-                    Copyright = copyright.Copyright,
-                    AdditionalNewLineAfterOption = true,
-                    AddDashesToOption = !verbsIndex
-                };
+            var auto = new HelpText {
+                Heading = HeadingInfo.Default,
+                Copyright = CopyrightInfo.Default,
+                AdditionalNewLineAfterOption = true,
+                AddDashesToOption = true };
 
             if (errDelegate != null)
             {
