@@ -9,8 +9,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>CommandLine.Tests</RootNamespace>
     <AssemblyName>CommandLine.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,11 +37,137 @@
       <HintPath>..\..\packages\ShouldFluent.1.1.12.0\lib\Should.Fluent.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Compile Include="..\libcmdline\CommandLineVerbs.cs">
-      <Link>CommandLineVerbs.cs</Link>
+    <Compile Include="..\libcmdline\Attributes\BaseOptionAttribute.cs">
+      <Link>Library\Attributes\BaseOptionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Attributes\HelpOptionAttribute.cs">
+      <Link>Library\Attributes\HelpOptionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Attributes\OptionArrayAttribute.cs">
+      <Link>Library\Attributes\OptionArrayAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Attributes\OptionAttribute.cs">
+      <Link>Library\Attributes\OptionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Attributes\OptionListAttribute.cs">
+      <Link>Library\Attributes\OptionListAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Attributes\ValueListAttribute.cs">
+      <Link>Library\Attributes\ValueListAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\BadOptionInfo.cs">
+      <Link>Library\Core\BadOptionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\CommandLineOptionsBase.cs">
+      <Link>Library\Core\CommandLineOptionsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\CommandLineParser.cs">
+      <Link>Library\Core\CommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\CommandLineParserException.cs">
+      <Link>Library\Core\CommandLineParserException.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\CommandLineParserSettings.cs">
+      <Link>Library\Core\CommandLineParserSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\ICommandLineParser.cs">
+      <Link>Library\Core\ICommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\ParsingError.cs">
+      <Link>Library\Core\ParsingError.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\PostParsingState.cs">
+      <Link>Library\Core\PostParsingState.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\ArgumentParser.cs">
+      <Link>Library\Internal\ArgumentParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\Assumes.cs">
+      <Link>Library\Internal\Assumes.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\IArgumentEnumerator.cs">
+      <Link>Library\Internal\IArgumentEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\LongOptionParser.cs">
+      <Link>Library\Internal\LongOptionParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\OneCharStringEnumerator.cs">
+      <Link>Library\Internal\OneCharStringEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\OptionGroupParser.cs">
+      <Link>Library\Internal\OptionGroupParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\OptionInfo.cs">
+      <Link>Library\Internal\OptionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\OptionMap.cs">
+      <Link>Library\Internal\OptionMap.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\Pair.cs">
+      <Link>Library\Internal\Pair.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\ParserState.cs">
+      <Link>Library\Internal\ParserState.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\ReflectionUtil.cs">
+      <Link>Library\Internal\ReflectionUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\StringArrayEnumerator.cs">
+      <Link>Library\Internal\StringArrayEnumerator.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\StringUtil.cs">
+      <Link>Library\Internal\StringUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\TargetWrapper.cs">
+      <Link>Library\Internal\TargetWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Properties\ThisLibrary.cs">
+      <Link>Library\ThisLibrary.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\AssemblyLicenseAttribute.cs">
+      <Link>Library\Text\AssemblyLicenseAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\AssemblyUsageAttribute.cs">
+      <Link>Library\Text\AssemblyUsageAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\BaseSentenceBuilder.cs">
+      <Link>Library\Text\BaseSentenceBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\CopyrightInfo.cs">
+      <Link>Library\Text\CopyrightInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\EnglishSentenceBuilder.cs">
+      <Link>Library\Text\EnglishSentenceBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\FormatOptionHelpTextEventArgs.cs">
+      <Link>Library\Text\FormatOptionHelpTextEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\HandleParsingErrorsDelegate.cs">
+      <Link>Library\Text\HandleParsingErrorsDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\HeadingInfo.cs">
+      <Link>Library\Text\HeadingInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\HelpText.cs">
+      <Link>Library\Text\HelpText.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\MultiLineTextAttribute.cs">
+      <Link>Library\Text\MultiLineTextAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Verbs\CommandLineParser.cs">
+      <Link>Library\Verbs\CommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Verbs\HelpVerbOptionAttribute.cs">
+      <Link>Library\Verbs\HelpVerbOptionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Verbs\OptionInfo.cs">
+      <Link>Library\Verbs\OptionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Verbs\VerbOptionAttribute.cs">
+      <Link>Library\Verbs\VerbOptionAttribute.cs</Link>
     </Compile>
     <Compile Include="Mocks\OptionsWithVerbsHelp.cs" />
     <Compile Include="Mocks\OptionsWithVerbs.cs" />
@@ -91,12 +215,6 @@
     <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="Parser\Singleton.cs" />
     <Compile Include="Mocks\SimpleOptionsWithDefaults.cs" />
-    <Compile Include="..\libcmdline\CommandLine.cs">
-      <Link>CommandLine.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\CommandLineText.cs">
-      <Link>CommandLineText.cs</Link>
-    </Compile>
     <Compile Include="Mocks\SimpleOptionsWithBadDefaults.cs" />
     <Compile Include="Mocks\SimpleOptionsWithDefaultArray.cs" />
     <Compile Include="Mocks\RPEOptions.cs" />
@@ -104,9 +222,11 @@
     <Compile Include="Parser\UnknownArgumentsFixture.cs" />
     <Compile Include="Mocks\OptionsForPlugInScenario.cs" />
     <Compile Include="Mocks\OptionsWithUIntArray.cs" />
+    <Compile Include="Text\MultiLineTextAttributeFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

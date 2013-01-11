@@ -1,6 +1,6 @@
-#region License
+﻿#region License
 //
-// Command Line Library: AssemblyInfo.cs
+// Command Line Library: ParserState.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -28,34 +28,15 @@
 #endregion
 #region Using Directives
 using System;
-using System.Reflection;
-using System.Resources;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using CommandLine.Text;
 #endregion
 
-[assembly: AssemblyTitle(_ThisAssembly.Title)]
-[assembly: AssemblyProduct("Command Line Parsing Library")]
-[assembly: AssemblyDescription(_ThisAssembly.Title)]
-[assembly: AssemblyCopyright(_ThisAssembly.Copyright)]
-[assembly: AssemblyVersion(_ThisAssembly.Version)]
-[assembly: AssemblyInformationalVersion(_ThisAssembly.InformationalVersion)]
-[assembly: NeutralResourcesLanguage("en-US")]
-[assembly: AssemblyCulture("")]
-
-[assembly: AssemblyLicense(
-    "This is free software. You may redistribute copies of it under the terms of",
-    "the MIT License <http://www.opensource.org/licenses/mit-license.php>.")]
-[assembly: AssemblyUsage(
-    "[no usage, this is a dll]")]
-
-#if DEBUG
-[assembly: AssemblyConfiguration("Debug")]
-#else
-//[assembly: AssemblyConfiguration("Release")]
-#endif
-[assembly: ComVisible(false)]
-//[assembly: CLSCompliant(true)]
-//[assembly: AssemblyCompany("")]
-//[assembly: AssemblyTrademark("")]
+namespace CommandLine.Internal
+{
+    [Flags]
+    internal enum ParserState : ushort
+    {
+        Success = 0x01,
+        Failure = 0x02,
+        MoveOnNextElement = 0x04
+    }
+}
