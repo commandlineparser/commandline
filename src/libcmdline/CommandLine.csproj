@@ -79,7 +79,6 @@
     <Compile Include="Attributes\OptionArrayAttribute.cs" />
     <Compile Include="Attributes\HelpOptionAttribute.cs" />
     <Compile Include="Attributes\OptionListAttribute.cs" />
-    <Compile Include="Attributes\ResourcedOptionAttribute.cs" />
     <Compile Include="Attributes\ValueListAttribute.cs" />
     <Compile Include="Core\CommandLineParser.cs" />
     <Compile Include="Verbs\CommandLineParser.cs" />

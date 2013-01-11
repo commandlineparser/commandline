@@ -28,6 +28,7 @@
 #endregion
 #region Using Directives
 using System;
+using System.Resources;
 using CommandLine.Internal;
 #endregion
 
@@ -82,7 +83,19 @@ namespace CommandLine
         /// <summary>
         /// A short description of this command line option. Usually a sentence summary. 
         /// </summary>
-        public string HelpText { get; set; }
+        public string HelpText
+        {
+            get { return _helpText;}
+            set
+            {
+                if (_helpTextKey != null)
+                {
+                    throw new InvalidOperationException(
+                        "You are not allowed to set both HelpText and HelpTextKey.");
+                }
+                _helpText = value;
+            }
+        }
 
         internal bool HasShortName
         {
@@ -99,8 +112,38 @@ namespace CommandLine
             get { return _hasDefaultValue; }
         }
 
+        /// <summary>
+        /// This is the name of the string resource in the ResourceManager that should be used as HelpText.
+        /// </summary>
+        public string HelpTextKey
+        {
+            get { return _helpTextKey; }
+            set
+            {
+                if (ResourceManager == null)
+                {
+                    throw new InvalidOperationException(
+                        "You need to assign a ResourceManager to set HelpTextKey.");
+                }
+                if (_helpText != null)
+                {
+                    throw new InvalidOperationException(
+                        "You are not allowed to set both HelpText and HelpTextKey.");
+                }
+                _helpTextKey = value;
+                _helpText = ResourceManager.GetString(value);
+            }
+        }
+
+        /// <summary>
+        /// The resource manager used to retrieve the resourced strings.
+        /// </summary>
+        public static ResourceManager ResourceManager;
+
         private char? _shortName;
         private object _defaultValue;
         private bool _hasDefaultValue;
+        private string _helpText;
+        private string _helpTextKey;
     }
 }
