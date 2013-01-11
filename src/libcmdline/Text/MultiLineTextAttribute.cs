@@ -28,6 +28,7 @@
 #endregion
 #region Using Directives
 using System;
+using System.Text;
 using CommandLine.Internal;
 #endregion
 
@@ -107,23 +108,58 @@ namespace CommandLine.Text
             _line5 = line5;
         }
 
+        internal void AddToHelpText(Action<string> action)
+        {
+            var strArray = new string[] {_line1, _line2, _line3, _line4, _line5};
+            Array.ForEach( strArray, (line) =>
+            {
+                if (!string.IsNullOrEmpty(line)) { action( line ); }
+            });
+        }
+
         internal void AddToHelpText(HelpText helpText, bool before)
         {
+            // before flag only distinguishes which action is called, 
+            // so refactor common code and call with appropriate action
             if (before)
             {
-                if (!string.IsNullOrEmpty(_line1)) { helpText.AddPreOptionsLine(_line1); }
-                if (!string.IsNullOrEmpty(_line2)) { helpText.AddPreOptionsLine(_line2); }
-                if (!string.IsNullOrEmpty(_line3)) { helpText.AddPreOptionsLine(_line3); }
-                if (!string.IsNullOrEmpty(_line4)) { helpText.AddPreOptionsLine(_line4); }
-                if (!string.IsNullOrEmpty(_line5)) { helpText.AddPreOptionsLine(_line5); }
+                AddToHelpText(helpText.AddPreOptionsLine);
             }
             else
             {
-                if (!string.IsNullOrEmpty(_line1)) { helpText.AddPostOptionsLine(_line1); }
-                if (!string.IsNullOrEmpty(_line2)) { helpText.AddPostOptionsLine(_line2); }
-                if (!string.IsNullOrEmpty(_line3)) { helpText.AddPostOptionsLine(_line3); }
-                if (!string.IsNullOrEmpty(_line4)) { helpText.AddPostOptionsLine(_line4); }
-                if (!string.IsNullOrEmpty(_line5)) { helpText.AddPostOptionsLine(_line5); }
+                AddToHelpText(helpText.AddPostOptionsLine);
+            }
+        }
+
+        /// <summary>
+        /// Returns the last line with text. Preserves blank lines if user intended by skipping a line.
+        /// </summary>
+        /// <returns>The last index of line of the non-blank line.
+        /// </returns>
+        /// <param name='strArray'>The string array to process.</param>
+        protected virtual int GetLastLineWithText(string[] strArray)
+        {
+            int index = Array.FindLastIndex(strArray, (str) => { return !string.IsNullOrEmpty(str); });
+
+            // remember FindLastIndex returns zero-based index
+            return index + 1;
+        }
+
+        /// <summary>
+        /// Returns all non-blank lines as string.
+        /// </summary>
+        /// <value>A string of all non-blank lines.</value>
+        public virtual string Value
+        {
+            get
+            {
+                var value = new StringBuilder(string.Empty);
+                var strArray = new string[] { _line1, _line2, _line3, _line4, _line5 };
+                for (int i = 0; i < GetLastLineWithText(strArray); i++)
+                {
+                    value.AppendLine(strArray[i]);
+                }
+                return value.ToString();
             }
         }
 

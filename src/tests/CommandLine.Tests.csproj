@@ -9,8 +9,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>CommandLine.Tests</RootNamespace>
     <AssemblyName>CommandLine.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,13 +29,6 @@
     <ConsolePause>false</ConsolePause>
     <DefineConstants>UNIT_TESTS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
@@ -46,6 +37,7 @@
       <HintPath>..\..\packages\ShouldFluent.1.1.12.0\lib\Should.Fluent.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\libcmdline\Attributes\BaseOptionAttribute.cs">
@@ -230,6 +222,7 @@
     <Compile Include="Parser\UnknownArgumentsFixture.cs" />
     <Compile Include="Mocks\OptionsForPlugInScenario.cs" />
     <Compile Include="Mocks\OptionsWithUIntArray.cs" />
+    <Compile Include="Text\MultiLineTextAttributeFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

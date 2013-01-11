@@ -1,3 +1,9 @@
+2013-01-11	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Manually merged contribution by github user rkayman (Robert Kayman) that extend use of
+      MultiLineTextAttribute (and hence derived types).
+  * Version incremented to 1.9.4.97 Beta.
+
 2013-01-10	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Source splitted again putting each type in its .cs file.
