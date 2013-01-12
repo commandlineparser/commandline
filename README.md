@@ -8,7 +8,7 @@ Compatibility:
   - C# 3.0+ compiler
   - .NET Framework 2.0+
   - Mono 2.1+ Profile
-
+ 
 News:
 ---
   - Short name of ordinary options is now defined as character.
