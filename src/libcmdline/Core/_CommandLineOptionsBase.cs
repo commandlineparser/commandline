@@ -50,17 +50,17 @@ namespace CommandLine
         /// </summary>
         protected CommandLineOptionsBase()
         {
-            LastPostParsingState = new PostParsingState();
+            LastParserState = new ParserState();
         }
 
         /// <summary>
         /// Provides data of the state final parser to derived classes .
         /// </summary>
-        protected PostParsingState LastPostParsingState { get; private set; }
+        protected IParserState LastParserState { get; private set; }
 
-        internal PostParsingState InternalLastPostParsingState
+        internal IParserState InternalLastParserState
         {
-            get { return LastPostParsingState; }
+            get { return LastParserState; }
         }
     }
 }

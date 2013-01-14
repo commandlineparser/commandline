@@ -133,7 +133,7 @@ namespace CommandLine.Internal
             {
                 if (option.Required && !option.IsDefined)
                 {
-                    BuildAndSetPostParsingStateIfNeeded(RawOptions, option, true, null);
+                    SetParserStateIfNeeded(RawOptions, option, true, null);
                     requiredRulesAllMet = false;
                 }
             }
@@ -157,7 +157,7 @@ namespace CommandLine.Internal
             {
                 if (info.Occurrence > 1)
                 {
-                    BuildAndSetPostParsingStateIfNeeded(RawOptions, info.BadOption, null, true);
+                    SetParserStateIfNeeded(RawOptions, info.BadOption, null, true);
                     return false;
                 }
             }
@@ -174,10 +174,21 @@ namespace CommandLine.Internal
             _mutuallyExclusiveSetMap[setName].IncrementOccurrence();
         }
 
-        private static void BuildAndSetPostParsingStateIfNeeded(object options, OptionInfo option, bool? required, bool? mutualExclusiveness)
+        private static void SetParserStateIfNeeded(object options, OptionInfo option, bool? required, bool? mutualExclusiveness)
         {
-            var commandLineOptionsBase = options as CommandLineOptionsBase;
-            if (commandLineOptionsBase == null)
+            var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
+            if (list.Count == 0)
+            {
+                return;
+            }
+            var property = list[0].Left;
+            // This method can be called when parser state is still not intialized
+            if (property.GetValue(options, null) == null)
+            {
+                property.SetValue(options, new CommandLine.ParserState(), null);
+            }
+            var parserState = (IParserState)property.GetValue(options, null);
+            if (parserState == null)
             {
                 return;
             }
@@ -191,7 +202,7 @@ namespace CommandLine.Internal
             };
             if (required != null) { error.ViolatesRequired = required.Value; }
             if (mutualExclusiveness != null) { error.ViolatesMutualExclusiveness = mutualExclusiveness.Value; }
-            (commandLineOptionsBase).InternalLastPostParsingState.Errors.Add(error);
+            parserState.Errors.Add(error);
         }
 
         private readonly CommandLineParserSettings _settings;

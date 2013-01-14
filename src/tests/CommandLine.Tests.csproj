@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;UNIT_TESTS; UNIT_TESTS_VERBS</DefineConstants>
+    <DefineConstants>DEBUG;UNIT_TESTS; UNIT_TESTS_VERBS; CMDLINE_VERBS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -27,7 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <DefineConstants>UNIT_TESTS</DefineConstants>
+    <DefineConstants>UNIT_TESTS; UNIT_TESTS_VERBS; CMDLINE_VERBS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -55,14 +55,14 @@
     <Compile Include="..\libcmdline\Attributes\OptionListAttribute.cs">
       <Link>Library\Attributes\OptionListAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Attributes\ParserStateAttribute.cs">
+      <Link>Library\Attributes\ParserStateAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\Attributes\ValueListAttribute.cs">
       <Link>Library\Attributes\ValueListAttribute.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Core\BadOptionInfo.cs">
       <Link>Library\Core\BadOptionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineOptionsBase.cs">
-      <Link>Library\Core\CommandLineOptionsBase.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Core\CommandLineParser.cs">
       <Link>Library\Core\CommandLineParser.cs</Link>
@@ -76,11 +76,14 @@
     <Compile Include="..\libcmdline\Core\ICommandLineParser.cs">
       <Link>Library\Core\ICommandLineParser.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Core\IParserState.cs">
+      <Link>Library\Core\IParserState.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\ParserState.cs">
+      <Link>Library\Core\ParserState.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\Core\ParsingError.cs">
       <Link>Library\Core\ParsingError.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\PostParsingState.cs">
-      <Link>Library\Core\PostParsingState.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Internal\ArgumentParser.cs">
       <Link>Library\Internal\ArgumentParser.cs</Link>
@@ -169,6 +172,7 @@
     <Compile Include="..\libcmdline\Verbs\VerbOptionAttribute.cs">
       <Link>Library\Verbs\VerbOptionAttribute.cs</Link>
     </Compile>
+    <Compile Include="Mocks\CommandLineOptionsBase.cs" />
     <Compile Include="Mocks\OptionsWithVerbsHelp.cs" />
     <Compile Include="Mocks\OptionsWithVerbs.cs" />
     <Compile Include="Parser\VerbsFixture.cs" />

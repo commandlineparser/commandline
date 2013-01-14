@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: VerbOptionAttribute.cs
+// Command Line Library: ParserStateAttribute.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -26,54 +26,18 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Preprocessor Directives
-// Do not change symbol definitions in sources. Configure it when building.
-#endregion
-#if CMDLINE_VERBS
 #region Using Directives
 using System;
-using System.Collections.Generic;
-using System.Reflection;
-using CommandLine.Internal;
 #endregion
-//
-// Needs CMDLINE_VERBS preprocessor directive defined at compile time.
-//
+
+
 namespace CommandLine
 {
     /// <summary>
-    /// Models a verb command specification.
+    /// Indicates that the property can receive an instance of type <see cref="CommandLine.IParserState"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class VerbOptionAttribute : OptionAttribute
+    public sealed class ParserStateAttribute : Attribute
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.VerbOptionAttribute"/> class.
-        /// </summary>
-        /// <param name="longName">The long name of the verb command.</param>
-        public VerbOptionAttribute(string longName)
-            : base(longName)
-        {
-            Assumes.NotNullOrEmpty(longName, "longName");
-        }
-
-        /// <summary>
-        /// Verb commands do not support short name by design.
-        /// </summary>
-        public override char? ShortName
-        {
-            get { return null; }
-            internal set {}
-        }
-
-        /// <summary>
-        /// Verb commands cannot be mandatory since are mutually exclusive by design.
-        /// </summary>
-        public override bool Required
-        {
-            get { return false; }
-            set {}
-        }
     }
 }
-#endif

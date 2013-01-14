@@ -52,16 +52,36 @@ namespace CommandLine.Internal
             return decimal.TryParse(value, out temporary);
         }
 
-        public static bool IsWhiteSpace(int @char)
+        public static bool IsWhiteSpace(char c)
         {
-            return @char == 0x09 || @char == 0x0B || @char == 0x0C || @char == 0x20 || @char == 0xA0 ||
-                @char == 0x1680 || @char == 0x180E || (@char >= 8192 && @char <= 8202) || @char == 0x202F ||
-                @char == 0x205F || @char == 0x3000 || @char == 0xFEFF;
+            switch (c)
+            {
+                // Regular
+                case '\f':
+                case '\v':
+                case ' ':
+                case '\t':
+                    return true;
+
+                // Unicode
+                default:
+                    return (c > 127 && char.IsWhiteSpace(c));
+            }
         }
 
-        public static bool IsLineTerminator(int @char)
+        public static bool IsLineTerminator(char c)
         {
-            return @char == 0x0A || @char == 0x0D || @char == 0x2028 || @char == 0x2029;
+            switch (c)
+            {
+                case '\xD':
+                case '\xA':
+                case '\x2028':
+                case '\x2029':
+                    return true;
+
+                default:
+                    return false;
+            }
         }
     }
 }

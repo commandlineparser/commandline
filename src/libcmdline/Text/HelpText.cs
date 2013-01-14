@@ -223,8 +223,8 @@ namespace CommandLine.Text
 
             if (errDelegate != null)
             {
-                var typedTarget = options as CommandLineOptionsBase;
-                if (typedTarget != null)
+                var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
+                if (list != null)
                 {
                     errDelegate(auto);
                 }
@@ -249,21 +249,29 @@ namespace CommandLine.Text
         /// <summary>
         /// Supplies a default parsing error handler implementation.
         /// </summary>
-        /// <param name="options">The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name="options">The instance that collects parsed arguments parsed and associates <see cref="CommandLine.ParserStateAttribute"/>
+        /// to a property of type <see cref="IParserState"/>.</param>
         /// <param name="current">The <see cref="CommandLine.Text.HelpText"/> instance.</param>
-        public static void DefaultParsingErrorsHandler(CommandLineOptionsBase options, HelpText current)
+        public static void DefaultParsingErrorsHandler(object options, HelpText current)
         {
-            if (options.InternalLastPostParsingState.Errors.Count > 0)
+            var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
+            if (list.Count == 0)
             {
-                var errors = current.RenderParsingErrorsText(options, 2); // indent with two spaces
-                if (!string.IsNullOrEmpty(errors))
+                return;
+            }
+            var parserState = (IParserState) list[0].Left.GetValue(options, null);
+            if (parserState == null || parserState.Errors.Count == 0)
+            {
+                return;
+            }
+            var errors = current.RenderParsingErrorsText(options, 2); // indent with two spaces
+            if (!string.IsNullOrEmpty(errors))
+            {
+                current.AddPreOptionsLine(string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText));
+                var lines = errors.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                foreach (var line in lines)
                 {
-                    current.AddPreOptionsLine(string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText));
-                    var lines = errors.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                    foreach (var line in lines)
-                    {
-                        current.AddPreOptionsLine(line);
-                    }
+                    current.AddPreOptionsLine(line);
                 }
             }
         }
@@ -419,21 +427,28 @@ namespace CommandLine.Text
         /// <summary>
         /// Builds a string that contains a parsing error message.
         /// </summary>
-        /// <param name="options">An options target <see cref="CommandLineOptionsBase"/> instance that collected command line arguments parsed with the <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name="options">An options target instance that collects parsed arguments parsed with the <see cref="CommandLine.ParserStateAttribute"/>
+        /// associated to a property of type <see cref="IParserState"/>.</param>
         /// <param name="indent">Number of spaces used to indent text.</param>
         /// <returns>The <see cref="System.String"/> that contains the parsing error message.</returns>
-        public string RenderParsingErrorsText(CommandLineOptionsBase options, int indent)
+        public string RenderParsingErrorsText(object options, int indent)
         {
-            if (options.InternalLastPostParsingState.Errors.Count == 0)
+            var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
+            if (list.Count == 0)
+            {
+                return string.Empty; // Or exception?
+            }
+            var parserState = (IParserState)list[0].Left.GetValue(options, null);
+            if (parserState == null || parserState.Errors.Count == 0)
             {
                 return string.Empty;
             }
             var text = new StringBuilder();
-            foreach (var e in options.InternalLastPostParsingState.Errors)
+            foreach (var e in parserState.Errors)
             {
                 var line = new StringBuilder();
                 line.Append(StringUtil.Spaces(indent));
-                if (e.BadOption.ShortName != null) //if (!string.IsNullOrEmpty(e.BadOption.ShortName))
+                if (e.BadOption.ShortName != null)
                 {
                     line.Append('-');
                     line.Append(e.BadOption.ShortName);

@@ -1,5 +1,13 @@
 2013-01-11	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Removed dependency from CommandLineOptionsBase. Used instead an attribute named
+      ParserStateAttribute mapped on a property of type IParserState (provides get
+      accessor to let the library creates a default instance for you.
+  * Some minor refactoring (private methods, parameters name changed).
+  * Version incremented to 1.9.4.99 Beta.
+
+2013-01-11	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Manually merged contribution by github user rkayman (Robert Kayman) that extend use of
       MultiLineTextAttribute (and hence derived types).
   * Version incremented to 1.9.4.97 Beta.

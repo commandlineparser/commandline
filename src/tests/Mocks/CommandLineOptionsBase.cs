@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: CommandLine.cs
+// Command Line Library: OptionsBase.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -26,16 +26,17 @@
 // THE SOFTWARE.
 //
 #endregion
-namespace CommandLine
+
+namespace CommandLine.Tests.Mocks
 {
-    #pragma warning disable 1591
-    public static class ThisLibrary
+    // Please do not confuse this type whith old one with the old CommandLine.CommandLineOptionsBase.
+    // Here is defined for unit tests compatibility.
+    // Take it as an example: to receive parser state just declare a property of type IParserState
+    // and decorate it with ParserStateAttribute. If you want that the parser creates the instance,
+    // you must supply the set accessor.
+    public class CommandLineOptionsBase
     {
-        public const string Title = "CommandLine.dll";
-        public const string Copyright = "Copyright (C) 2005 - 2013 Giacomo Stelluti Scala";
-        public const string Version = "1.9.4.99";
-        public const string ReleaseType = "beta";
-        public const string InformationalVersion = Version;
+        [ParserState]
+        public IParserState LastParserState { get; set; }
     }
-    #pragma warning restore 1591
 }

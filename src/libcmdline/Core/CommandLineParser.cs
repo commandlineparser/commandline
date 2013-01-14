@@ -27,10 +27,7 @@
 //
 #endregion
 #region Preprocessor Directives
-// Comment this line if you want disable support for verb commands.
-#define CMDLINE_VERBS
-// Preprocessor directives for enabling/disabling extensions,
-// don't operate on the following symbols, but on previous ones.
+// Do not change symbol definitions in sources. Configure it when building.
 #define CMDLINE_OPEN_PARSER     // opens CommandLineParser type
 #define CMDLINE_OPEN_OPTIONINFO // opens OptionInfo type
 #if !CMDLINE_VERBS
@@ -180,15 +177,15 @@ namespace CommandLine
                     ArgumentParser parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
                     if (parser != null)
                     {
-                        ParserState result = parser.Parse(arguments, optionMap, options);
-                        if ((result & ParserState.Failure) == ParserState.Failure)
+                        Internal.ParserState result = parser.Parse(arguments, optionMap, options);
+                        if ((result & Internal.ParserState.Failure) == Internal.ParserState.Failure)
                         {
-                            SetPostParsingStateIfNeeded(options, parser.PostParsingState);
+                            SetParserStateIfNeeded(options, parser.PostParsingState);
                             hadError = true;
                             continue;
                         }
 
-                        if ((result & ParserState.MoveOnNextElement) == ParserState.MoveOnNextElement)
+                        if ((result & Internal.ParserState.MoveOnNextElement) == Internal.ParserState.MoveOnNextElement)
                             arguments.MoveNext();
                     }
                     else if (target.IsValueListDefined)
@@ -232,12 +229,24 @@ namespace CommandLine
             return false;
         }
 
-        private static void SetPostParsingStateIfNeeded(object options, IEnumerable<ParsingError> state)
+        private static void SetParserStateIfNeeded(object options, IEnumerable<ParsingError> errors)
         {
-            var commandLineOptionsBase = options as CommandLineOptionsBase;
-            if (commandLineOptionsBase != null)
+            var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
+            if (list.Count == 0)
             {
-                (commandLineOptionsBase).InternalLastPostParsingState.Errors.AddRange(state);
+                return;
+            }
+            var property = list[0].Left;
+            // Developers are entitled to provide their implementation and instance
+            if (property.GetValue(options, null) == null)
+            {
+                // Otherwise the parser will the default one
+                property.SetValue(options, new CommandLine.ParserState(), null);
+            }
+            var parserState = (IParserState) property.GetValue(options, null);
+            foreach (var error in errors)
+            {
+                parserState.Errors.Add(error);
             }
         }
 

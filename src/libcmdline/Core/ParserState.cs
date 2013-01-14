@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: PostParsingState.cs
+// Command Line Library: ParserState.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -43,9 +43,9 @@ namespace CommandLine
     /// <summary>
     /// Models a type that records the parser state afeter parsing.
     /// </summary>
-    public sealed class PostParsingState
+    public sealed class ParserState : IParserState
     {
-        internal PostParsingState()
+        internal ParserState()
         {
             Errors = new List<ParsingError>();
         }
@@ -56,6 +56,6 @@ namespace CommandLine
         /// <value>
         /// Parsing errors.
         /// </value>
-        public List<ParsingError> Errors { get; private set; }
+        public IList<ParsingError> Errors { get; private set; }
     }
 }

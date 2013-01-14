@@ -46,7 +46,7 @@ namespace CommandLine.Internal
             _ignoreUnkwnownArguments = ignoreUnkwnownArguments;
         }
 
-        public override ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
+        public override Internal.ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
         {
             IArgumentEnumerator group = new OneCharStringEnumerator(argumentEnumerator.Current.Substring(1));
             while (group.MoveNext())
@@ -54,7 +54,7 @@ namespace CommandLine.Internal
                 var option = map[group.Current];
                 if (option == null)
                 {
-                    return _ignoreUnkwnownArguments ? ParserState.MoveOnNextElement : ParserState.Failure;
+                    return _ignoreUnkwnownArguments ? Internal.ParserState.MoveOnNextElement : Internal.ParserState.Failure;
                 }
                 option.IsDefined = true;
 
@@ -94,7 +94,7 @@ namespace CommandLine.Internal
 
                     if (!argumentEnumerator.IsLast && !ArgumentParser.IsInputValue(argumentEnumerator.Next))
                     {
-                        return ParserState.Failure;
+                        return Internal.ParserState.Failure;
                     }
                     else
                     {
@@ -123,15 +123,15 @@ namespace CommandLine.Internal
 
                 if (!@group.IsLast && map[@group.Next] == null)
                 {
-                    return ParserState.Failure;
+                    return Internal.ParserState.Failure;
                 }
                 if (!option.SetValue(true, options))
                 {
-                    return ParserState.Failure;
+                    return Internal.ParserState.Failure;
                 }
             }
 
-            return ParserState.Success;
+            return Internal.ParserState.Success;
         }
 
         private readonly bool _ignoreUnkwnownArguments;

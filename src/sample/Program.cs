@@ -53,7 +53,7 @@ namespace SampleApp
             Accuracy
         }
 
-        private sealed class Options : CommandLineOptionsBase
+        private sealed class Options //: CommandLineOptionsBase (<- this is not required anymore for receive errors)
         {
             #region Standard Option Attribute
             [Option('r', "read", Required = true, HelpText = "Input file with data to process.")]
@@ -90,6 +90,9 @@ namespace SampleApp
             #endregion
 
             #region Help Screen
+            [ParserState]
+            public IParserState LastParserState { get; set; }
+
             [HelpOption]
             public string GetUsage()
             {

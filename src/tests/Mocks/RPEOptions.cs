@@ -18,7 +18,7 @@ namespace CommandLine.Tests.Mocks
         [HelpOption]
         public virtual string GetUsage()
         {
-            if (LastPostParsingState.Errors.Count > 0)
+            if (LastParserState.Errors.Count > 0)
             {
                 return new HelpText().RenderParsingErrorsText(this, 0);
             }

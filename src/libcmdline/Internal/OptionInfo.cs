@@ -27,10 +27,7 @@
 //
 #endregion
 #region Preprocessor Directives
-// Comment this line if you want disable support for verb commands.
-#define CMDLINE_VERBS
-// Preprocessor directives for enabling/disabling extensions,
-// don't operate on the following symbols, but on previous ones.
+// Do not change symbol definitions in sources. Configure it when building.
 #define CMDLINE_OPEN_PARSER     // opens CommandLineParser type
 #define CMDLINE_OPEN_OPTIONINFO // opens OptionInfo type
 #if !CMDLINE_VERBS

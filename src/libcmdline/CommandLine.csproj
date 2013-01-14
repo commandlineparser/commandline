@@ -36,7 +36,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UNIT_TESTS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNIT_TESTS; CMDLINE_VERBS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\CommandLine.XML</DocumentationFile>
@@ -45,7 +45,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;CMDLINE_VERBS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\CommandLine.XML</DocumentationFile>
@@ -54,7 +54,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugTests|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\DebugTests\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UNIT_TESTS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNIT_TESTS; CMDLINE_VERBS</DefineConstants>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <Optimize>false</Optimize>
@@ -79,15 +79,16 @@
     <Compile Include="Attributes\OptionArrayAttribute.cs" />
     <Compile Include="Attributes\HelpOptionAttribute.cs" />
     <Compile Include="Attributes\OptionListAttribute.cs" />
+    <Compile Include="Attributes\ParserStateAttribute.cs" />
     <Compile Include="Attributes\ValueListAttribute.cs" />
     <Compile Include="Core\CommandLineParser.cs" />
+    <Compile Include="Core\IParserState.cs" />
     <Compile Include="Verbs\CommandLineParser.cs" />
     <Compile Include="Core\BadOptionInfo.cs" />
     <Compile Include="Core\ParsingError.cs" />
-    <Compile Include="Core\PostParsingState.cs" />
+    <Compile Include="Core\ParserState.cs" />
     <Compile Include="Core\ICommandLineParser.cs" />
     <Compile Include="Core\CommandLineParserException.cs" />
-    <Compile Include="Core\CommandLineOptionsBase.cs" />
     <Compile Include="Internal\Assumes.cs" />
     <Compile Include="Internal\StringUtil.cs" />
     <Compile Include="Internal\ReflectionUtil.cs" />

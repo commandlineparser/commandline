@@ -77,14 +77,14 @@
     <Compile Include="..\libcmdline\attributes\OptionListAttribute.cs">
       <Link>Library\Attributes\OptionListAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Attributes\ParserStateAttribute.cs">
+      <Link>Library\Attributes\ParserStateAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\attributes\ValueListAttribute.cs">
       <Link>Library\Attributes\ValueListAttribute.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\core\BadOptionInfo.cs">
       <Link>Library\Core\BadOptionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\core\CommandLineOptionsBase.cs">
-      <Link>Library\Core\CommandLineOptionsBase.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\core\CommandLineParser.cs">
       <Link>Library\Core\CommandLineParser.cs</Link>
@@ -98,11 +98,14 @@
     <Compile Include="..\libcmdline\core\ICommandLineParser.cs">
       <Link>Library\Core\ICommandLineParser.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Core\IParserState.cs">
+      <Link>Library\Core\IParserState.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\ParserState.cs">
+      <Link>Library\Core\ParserState.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\core\ParsingError.cs">
       <Link>Library\Core\ParsingError.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\core\PostParsingState.cs">
-      <Link>Library\Core\PostParsingState.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\internal\ArgumentParser.cs">
       <Link>Library\Internal\ArgumentParser.cs</Link>

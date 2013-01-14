@@ -27,10 +27,7 @@
 //
 #endregion
 #region Preprocessor Directives
-// Comment this line if you want disable support for verb commands.
-// Here the symbol is provided for unit tests convenience, if you don't need
-// this feature please exclude this file from your source tree.
-#define CMDLINE_VERBS
+// Do not change symbol definitions in sources. Configure it when building.
 #endregion
 #if CMDLINE_VERBS
 #region Using Directives
@@ -40,7 +37,7 @@ using System.Reflection;
 using CommandLine.Internal;
 #endregion
 //
-// Needs CMDLINE_VERBS preprocessor directive uncommented in CommandLine.cs.
+// Needs CMDLINE_VERBS preprocessor directive defined at compile time.
 //
 namespace CommandLine
 {

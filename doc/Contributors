@@ -1,0 +1,64 @@
+Contributions Guidelines for Command Line Parser Library
+Giacomo Stelluti Scala (gsscoder@gmail.com)
+Last Mod.: 2013-01-13
+
+Premise
+These are suggestions don't be stuck to send pull requests just because you think that something written here is not perfectly followed. It is possible (or better is almost certain) that also the writer of this document violates some rule... but he tries to adhere!
+The project tree includes also two ReSharper files, but it's not guaranteed they are up to date.
+
+Code Formatting
+- No tabs (\t), use for 4 spaces instead.
+- Don't overuse spaces:
+    void Method(param1, param2, param3) -> OK
+    void Method ( param1, param2, param3 ) -> TOO SPACES!
+- Align with one indentation:
+    if (lonlongstuff1 == longlongstuff2 || (longlongstuff3 > 0 &&
+        longlongstuff4 < 0)) -> OK
+    if (lonlongstuff1 == longlongstuff2 || (longlongstuff3 > 0 &&
+                                            longlongstuff4 < 0)) -> TOO INDENTATION!
+
+Coding Style
+- Adhere to .NET Framework Coding Guidelines (http://msdn.microsoft.com/en-us/library/ms229042.aspx);
+  except for private non static members, prefix these with underscore ('_').
+- Use guard clause instead of nesting in too levels (with else clauses):
+// OK
+int Method(string arg1, string arg2, string arg3)
+{
+    if (arg1 == null)
+    {
+        return 0;
+    }
+    if (arg2 == arg3)
+    {
+        return 1;
+    }
+    return arg1 + arg2 + arg3;
+}
+// TOO NESTING!
+int Method(string arg1, string arg2, string arg3)
+{
+    if (arg1 != null)
+    {
+        if (arg2 != arg3)
+        {
+            return arg1 + arg2 + arg3;
+        }
+        else
+        {
+            return 1;
+        }  
+    }
+    else
+    {
+        return 0
+    }
+}
+
+Unit Tests
+Personally 99% of times I write the unit tests before the desidered modification (TDD). Anyway please submit changes along with at least one unit test (this is also useful to let me understand what the change impacts).
+
+Breaking Changes
+Please discuss any important modification or something that breaks the Public API.
+
+Not covered here
+You can take existing code as a model or write me.

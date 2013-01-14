@@ -426,7 +426,7 @@ namespace CommandLine.Text.Tests
           {
             new CommandLineParser(new CommandLineParserSettings(false,  false, writer)).ParseArguments(new string[0], options, writer);
 
-            options.InternalLastPostParsingState.Errors.Should().Count.Exactly(2);
+            options.LastParserState.Errors.Should().Count.Exactly(2);
           }
         }
         #endregion
