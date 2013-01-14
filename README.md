@@ -32,8 +32,9 @@ To start:
   - [VB.NET Template](https://github.com/gsscoder/commandline/blob/master/src/templates/VBNetTemplate/Program.vb)
 
 Public API:
- - Version 1.9.4.91: short name of an option must be defined as character (System.Char).
- - Version 1.9.4.99: removed dependency from CommandLineOptionsBase, introduced [ParseStateAttribute](https://github.com/gsscoder/commandline/blob/master/src/sample/Program.cs).
+---
+  - Version 1.9.4.91: short name of an option must be defined as character (System.Char).
+  - Version 1.9.4.99: removed dependency from CommandLineOptionsBase, introduced [ParseStateAttribute](https://github.com/gsscoder/commandline/blob/master/src/sample/Program.cs).
 
 Verb Commands:
 Since introduction of verb commands is a very new feature, templates and sample application are not updated to illustrate it. Please refer to unit tests code for learn how to [define](https://github.com/gsscoder/commandline/blob/master/src/tests/Mocks/OptionsWithVerbsHelp.cs), how to [respond](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/VerbsFixture.cs) and how they [relate to help subsystem](https://github.com/gsscoder/commandline/blob/master/src/tests/Text/VerbsHelpTextFixture.cs). Give a look also at this [blog article](http://gsscoder.blogspot.it/2013/01/command-line-parser-library-verb.html).
