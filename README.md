@@ -46,7 +46,7 @@ The project is and well suited to be included in your application. If you don't 
 Create a class to receive parsed values:
 
 ```csharp
-    class Options : CommandLineOptionsBase {
+    class Options {
       [Option('r', "read", Required = true,
         HelpText = "Input file to be processed.")]
       public string InputFile { get; set; }
@@ -54,6 +54,9 @@ Create a class to receive parsed values:
       [Option('v', "verbose", DefaultValue = true,
         HelpText = "Prints all messages to standard output.")]
       public bool Verbose { get; set; }
+
+      [ParserState]
+      public IParserState { get; set; }
 
       [HelpOption]
       public string GetUsage() {
