@@ -80,6 +80,19 @@ namespace CommandLine
         }
 
         /// <summary>
+        /// Gets or sets mapped property meta value.
+        /// </summary>
+        public virtual string MetaValue
+        {
+            get { return _metaValue; }
+            set
+            {
+                _metaValue = value;
+                _hasMetaValue = !string.IsNullOrEmpty(_metaValue);
+            }
+        }
+
+        /// <summary>
         /// A short description of this command line option. Usually a sentence summary. 
         /// </summary>
         public string HelpText { get; set; }
@@ -99,8 +112,15 @@ namespace CommandLine
             get { return _hasDefaultValue; }
         }
 
+        internal bool HasMetaValue
+        {
+            get { return _hasMetaValue; }
+        }
+
         private char? _shortName;
         private object _defaultValue;
         private bool _hasDefaultValue;
+        private string _metaValue;
+        private bool _hasMetaValue;
     }
 }

@@ -56,26 +56,27 @@ namespace SampleApp
         private sealed class Options //: CommandLineOptionsBase (<- this is not required anymore for receive errors)
         {
             #region Standard Option Attribute
-            [Option('r', "read", Required = true, HelpText = "Input file with data to process.")]
+            [Option('r', "read", MetaValue = "FILE", Required = true, HelpText = "Input file with data to process.")]
             public string InputFile {get; set;}
 
-            [Option('w', "write", HelpText = "Output file with processed data (otherwise standard output).")]
+            [Option('w', "write", MetaValue = "FILE", HelpText = "Output FILE with processed data (otherwise standard output).")]
             public string OutputFile { get; set; }
 
             [Option("calculate", HelpText = "Add results in bottom of tabular data.")]
             public bool Calculate { get; set; }
 
-            [Option('v', HelpText = "Verbose level. Range: from 0 to 2.")]
+            [Option('v', MetaValue = "INT", HelpText = "Verbose level. Range: from 0 to 2.")]
             public int? VerboseLevel { get; set; }
              
             [Option("i", HelpText = "If file has errors don't stop processing.")]
             public bool IgnoreErrors { get; set; }
 
-            [Option('j', "jump", DefaultValue = 0, HelpText = "Data processing start offset.")]
+            [Option('j', "jump", MetaValue = "INT", DefaultValue = 0, HelpText = "Data processing start offset.")]
             public double StartOffset { get; set; }
 
             [Option("optimize", HelpText = "Optimize for Speed|Accuracy.")]
             public OptimizeFor Optimization {get;set;}
+          
             #endregion
 
             #region Specialized Option Attribute
@@ -164,11 +165,10 @@ namespace SampleApp
 #endif
             var options = new Options();
             var parser = new CommandLineParser(new CommandLineParserSettings(Console.Error));
-            if (!parser.ParseArguments(args, options))
-                Environment.Exit(1);
+            if (!parser.ParseArguments(args, options))            
+                Environment.Exit(1);            
 
-            DoCoreTask(options);
-
+            DoCoreTask(options);           
             Environment.Exit(0);
         }
 
@@ -235,7 +235,7 @@ namespace SampleApp
             //f3.AutoBuildWithRenderParsingErrorsHelper();
             //var f4 = new OptionArrayAttributeParsingFixture();
             //f4.ParseTwoUIntConsecutiveArray();
-            CommandLineParserFixture f5 = new CommandLineParserFixture();
+            //CommandLineParserFixture f5 = new CommandLineParserFixture();
             //f5.ParseNegativeIntegerValue();
             //f5.ParseNegativeIntegerValue_InputStyle4();
             //f5.ParseNegativeFloatingPointValue_InputStyle4();

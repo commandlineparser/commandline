@@ -54,6 +54,15 @@ namespace CommandLine.Text.Tests
             public string FileName { get; set; }
         }
 
+        class MockOptionsWithMetaValue
+        {
+            [Option('v', "verbose", HelpText = "Comment extensively every operation.")]
+            public bool Verbose { get; set; }
+
+            [Option('i', "input-file", MetaValue="FILE", Required = true, HelpText = "Specify input FILE to be processed.")]
+            public string FileName { get; set; }
+        }
+
         class MockOptionsWithDescription
         {
             [Option('v', "verbose", HelpText = "Comment extensively every operation.")]
@@ -152,6 +161,17 @@ namespace CommandLine.Text.Tests
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             lines[lines.Length - 2].Should().Equal("This is a first post-options line.");
             lines[lines.Length - 1].Should().Equal("This is a second post-options line.");
+        }
+
+        [Test]
+        public void MetaValue()
+        {
+            var local = new HelpText("Meta Value.");
+            local.AddOptions(new MockOptionsWithMetaValue());
+
+            string help = local.ToString();
+            string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            lines[lines.Length - 2].Should().Equal("  i FILE, input-file=FILE    Required. Specify input FILE to be processed.");
         }
 
         [Test]
