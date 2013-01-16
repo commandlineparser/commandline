@@ -777,7 +777,7 @@ namespace CommandLine.Text
         private StringBuilder _optionsHelp;
         private readonly StringBuilder _postOptionsHelp;
         private readonly BaseSentenceBuilder _sentenceBuilder;
-        private const string DefaultRequiredWord = "Required.";       
+        private const string DefaultRequiredWord = "Required.";
         private bool _addDashesToOption;
     }
 }

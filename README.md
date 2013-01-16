@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.4.107 Beta for CLR.
+Command Line Parser Library 1.9.4.109 Beta for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
@@ -11,6 +11,7 @@ Compatibility:
  
 News:
 ---
+  - Merged pull request #44 from @dbaileychess (Derek Bailey) that adds ``BaseOptionAttribute::MetaKey`` similar to python [argparse](http://docs.python.org/2/library/argparse.html#module-argparse).
   - Implemented [strict parsing](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/StrictFixture.cs) (see issue #32 by @nemec).
   - Removed recently added #define directives.
   - Removed dependency from CommandLineOptionsBase; use ParserStateAttributed and IParserState.
@@ -38,6 +39,7 @@ Public API:
   - Version 1.9.4.91: Breaking, short name of an option must be defined as character (``System.Char``). Non breaking, added support for verbs.
   - Version 1.9.4.99: Breaking, removed dependency from ``CommandLineOptionsBase``, introduced [ParseStateAttribute](https://github.com/gsscoder/commandline/blob/master/src/sample/Program.cs).
   - Version 1.9.4.107: Non breaking, implemented [strict parsing](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/StrictFixture.cs) (see issue #32).
+  - Version 1.9.4.109: Non breaking, pull request #44.
 
 Verb Commands:
 Since introduction of verb commands is a very new feature, templates and sample application are not updated to illustrate it. Please refer to unit tests code for learn how to [define](https://github.com/gsscoder/commandline/blob/master/src/tests/Mocks/OptionsWithVerbsHelp.cs), how to [respond](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/VerbsFixture.cs) and how they [relate to help subsystem](https://github.com/gsscoder/commandline/blob/master/src/tests/Text/VerbsHelpTextFixture.cs). Give a look also at this [blog article](http://gsscoder.blogspot.it/2013/01/command-line-parser-library-verb.html).

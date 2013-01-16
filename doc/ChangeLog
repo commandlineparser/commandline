@@ -1,5 +1,11 @@
 2013-01-16	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Merged pull request #44 from @dbaileychess (Derek Bailey) that adds MetaKey to BaseOptionAttribute
+      (similar to python argparse).
+  * Version incremented to 1.9.4.109 Beta.
+
+2013-01-16	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Implemented 'strict parsing' as required by contributor Dan Nemec (github nemec) in issue #32.
   * Defined message for some internal (developers eyes only) exceptions and placed in class
       CommandLine.Internal.SR (simulating but without real resources).
