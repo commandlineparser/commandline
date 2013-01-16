@@ -1,3 +1,9 @@
+2013-01-16	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Removed recently added #define directives.
+  * Project tree reorgranized (removed Verbs dir).
+  * Version incremented to 1.9.4.101 Beta.
+
 2013-01-11	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Removed dependency from CommandLineOptionsBase. Used instead an attribute named

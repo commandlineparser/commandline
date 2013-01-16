@@ -68,6 +68,9 @@
     <Compile Include="..\libcmdline\attributes\HelpOptionAttribute.cs">
       <Link>Library\Attributes\HelpOptionAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Attributes\HelpVerbOptionAttribute.cs">
+      <Link>Library\Attributes\HelpVerbOptionAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\attributes\OptionArrayAttribute.cs">
       <Link>Library\Attributes\OptionArrayAttribute.cs</Link>
     </Compile>
@@ -83,11 +86,17 @@
     <Compile Include="..\libcmdline\attributes\ValueListAttribute.cs">
       <Link>Library\Attributes\ValueListAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Attributes\VerbOptionAttribute.cs">
+      <Link>Library\Attributes\VerbOptionAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\core\BadOptionInfo.cs">
       <Link>Library\Core\BadOptionInfo.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\core\CommandLineParser.cs">
       <Link>Library\Core\CommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\CommandLineParser.Verbs.cs">
+      <Link>Library\Core\CommandLineParser.Verbs.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\core\CommandLineParserException.cs">
       <Link>Library\Core\CommandLineParserException.cs</Link>
@@ -127,6 +136,9 @@
     </Compile>
     <Compile Include="..\libcmdline\internal\OptionInfo.cs">
       <Link>Library\Internal\OptionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\OptionInfo.Verbs.cs">
+      <Link>Library\Internal\OptionInfo.Verbs.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\internal\OptionMap.cs">
       <Link>Library\Internal\OptionMap.cs</Link>
@@ -181,18 +193,6 @@
     </Compile>
     <Compile Include="..\libcmdline\text\MultiLineTextAttribute.cs">
       <Link>Library\Text\MultiLineTextAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\verbs\CommandLineParser.cs">
-      <Link>Library\Verbs\CommandLineParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\verbs\HelpVerbOptionAttribute.cs">
-      <Link>Library\Verbs\HelpVerbOptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\verbs\OptionInfo.cs">
-      <Link>Library\Verbs\OptionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\verbs\VerbOptionAttribute.cs">
-      <Link>Library\Verbs\VerbOptionAttribute.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

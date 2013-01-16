@@ -15,7 +15,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;UNIT_TESTS; UNIT_TESTS_VERBS; CMDLINE_VERBS</DefineConstants>
+    <DefineConstants>DEBUG;UNIT_TESTS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -27,7 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <DefineConstants>UNIT_TESTS; UNIT_TESTS_VERBS; CMDLINE_VERBS</DefineConstants>
+    <DefineConstants>UNIT_TESTS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">
@@ -46,6 +46,9 @@
     <Compile Include="..\libcmdline\Attributes\HelpOptionAttribute.cs">
       <Link>Library\Attributes\HelpOptionAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Attributes\HelpVerbOptionAttribute.cs">
+      <Link>Library\Attributes\HelpVerbOptionAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\Attributes\OptionArrayAttribute.cs">
       <Link>Library\Attributes\OptionArrayAttribute.cs</Link>
     </Compile>
@@ -61,11 +64,17 @@
     <Compile Include="..\libcmdline\Attributes\ValueListAttribute.cs">
       <Link>Library\Attributes\ValueListAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Attributes\VerbOptionAttribute.cs">
+      <Link>Library\Attributes\VerbOptionAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\Core\BadOptionInfo.cs">
       <Link>Library\Core\BadOptionInfo.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Core\CommandLineParser.cs">
       <Link>Library\Core\CommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Core\CommandLineParser.Verbs.cs">
+      <Link>Library\Core\CommandLineParser.Verbs.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Core\CommandLineParserException.cs">
       <Link>Library\Core\CommandLineParserException.cs</Link>
@@ -105,6 +114,9 @@
     </Compile>
     <Compile Include="..\libcmdline\Internal\OptionInfo.cs">
       <Link>Library\Internal\OptionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\OptionInfo.Verbs.cs">
+      <Link>Library\Internal\OptionInfo.Verbs.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Internal\OptionMap.cs">
       <Link>Library\Internal\OptionMap.cs</Link>
@@ -159,18 +171,6 @@
     </Compile>
     <Compile Include="..\libcmdline\Text\MultiLineTextAttribute.cs">
       <Link>Library\Text\MultiLineTextAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Verbs\CommandLineParser.cs">
-      <Link>Library\Verbs\CommandLineParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Verbs\HelpVerbOptionAttribute.cs">
-      <Link>Library\Verbs\HelpVerbOptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Verbs\OptionInfo.cs">
-      <Link>Library\Verbs\OptionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Verbs\VerbOptionAttribute.cs">
-      <Link>Library\Verbs\VerbOptionAttribute.cs</Link>
     </Compile>
     <Compile Include="Mocks\CommandLineOptionsBase.cs" />
     <Compile Include="Mocks\OptionsWithVerbsHelp.cs" />

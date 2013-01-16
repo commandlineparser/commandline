@@ -26,15 +26,6 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Preprocessor Directives
-// Do not change symbol definitions in sources. Configure it when building.
-#define CMDLINE_OPEN_PARSER     // opens CommandLineParser type
-#define CMDLINE_OPEN_OPTIONINFO // opens OptionInfo type
-#if !CMDLINE_VERBS
-#undef CMDLINE_OPEN_PARSER
-#undef CMDLINE_OPEN_OPTIONINFO
-#endif
-#endregion
 #region Using Directives
 using System;
 using System.Collections.Generic;
@@ -48,11 +39,7 @@ namespace CommandLine
     /// Provides methods to parse command line arguments.
     /// Default implementation for <see cref="CommandLine.ICommandLineParser"/>.
     /// </summary>
-#if CMDLINE_OPEN_PARSER
     public partial class CommandLineParser : ICommandLineParser
-#else
-    public class CommandLineParser : ICommandLineParser
-#endif
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.CommandLineParser"/> class.
@@ -60,14 +47,12 @@ namespace CommandLine
         public CommandLineParser()
         {
             _settings = new CommandLineParserSettings();
-            InitializeDelagate();
         }
 
         // special constructor for singleton instance, parameter ignored
         private CommandLineParser(bool singleton)
         {
             _settings = new CommandLineParserSettings(false, false, Console.Error);
-            InitializeDelagate();
         }
 
         /// <summary>
@@ -79,7 +64,7 @@ namespace CommandLine
         public CommandLineParser(CommandLineParserSettings settings)
         {
             Assumes.NotNull(settings, "settings");
-            InitializeDelagate();
+            //InitializeDelagate();
             _settings = settings;
         }
 
@@ -131,15 +116,6 @@ namespace CommandLine
             return DoParseArguments(args, options);
         }
 
-        private void InitializeDelagate()
-        {
-#if !CMDLINE_VERBS
-            _doParseArguments = DoParseArgumentsCore;
-#else
-            _doParseArguments = DoParseArgumentsUsingVerbs;
-#endif
-        }
-
         private bool DoParseArguments(string[] args, object options)
         {
             var pair = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options);
@@ -148,7 +124,7 @@ namespace CommandLine
             if (pair != null && helpWriter != null)
             {
                 // If help can be handled is displayed if is requested or if parsing fails
-                if (ParseHelp(args, pair.Right) || !_doParseArguments(args, options))
+                if (ParseHelp(args, pair.Right) || !DoParseArgumentsUsingVerbs(args, options))
                 {
                     string helpText;
                     HelpOptionAttribute.InvokeMethod(options, pair, out helpText);
@@ -158,7 +134,7 @@ namespace CommandLine
                 return true;
             }
 
-            return _doParseArguments(args, options);
+            return DoParseArgumentsUsingVerbs(args, options);
         }
 
         private bool DoParseArgumentsCore(string[] args, object options)
@@ -252,7 +228,5 @@ namespace CommandLine
 
         private static readonly ICommandLineParser DefaultParser = new CommandLineParser(true);
         private readonly CommandLineParserSettings _settings;
-        private delegate bool DoParseArgumentsDelegate(string[] args, object options);
-        private DoParseArgumentsDelegate _doParseArguments;
     }
 }

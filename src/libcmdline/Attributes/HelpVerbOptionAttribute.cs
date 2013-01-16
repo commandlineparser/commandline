@@ -26,10 +26,6 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Preprocessor Directives
-// Do not change symbol definitions in sources. Configure it when building.
-#endregion
-#if CMDLINE_VERBS
 #region Using Directives
 using System;
 using System.Collections.Generic;
@@ -114,4 +110,3 @@ namespace CommandLine
         private const string DefaultHelpText = "Display more information on a specific command.";
     }
 }
-#endif

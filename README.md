@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.4.99 Beta for CLR.
+Command Line Parser Library 1.9.4.101 Beta for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
@@ -11,6 +11,7 @@ Compatibility:
  
 News:
 ---
+  - Removed recently added #define directives.
   - Removed dependency from CommandLineOptionsBase; use ParserStateAttributed and IParserState.
   - Short name of ordinary options is now defined as character.
   - Introduced support for verb commands (e.g. app verb1 --ordinary-option).
@@ -41,7 +42,7 @@ Since introduction of verb commands is a very new feature, templates and sample 
 
 Notes:
 ---
-The project is and well suited to be included in your application. If you don't merge it to your project tree, you must reference ```CommandLine.dll``` and import ```CommandLine``` and ```CommandLine.Text``` namespaces (or install via NuGet). The help text builder and its support types lives in ```CommandLine.Text``` namespace that is not coupled with the parser, so, if you don't need it, you can exclude it from your project. Anyway using ```HelpText``` class will avoid you a lot of repetitive coding. Finally also the new feature of verb commands con be excluded removing ```libcmdline/verb``` directory.
+The project is and well suited to be included in your application. If you don't merge it to your project tree, you must reference ```CommandLine.dll``` and import ```CommandLine``` and ```CommandLine.Text``` namespaces (or install via NuGet). The help text builder and its support types lives in ```CommandLine.Text``` namespace that is loosely coupled with the parser. However is good to know that ```HelpText``` class will avoid a lot of repetitive coding.
 
 Create a class to receive parsed values:
 

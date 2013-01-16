@@ -26,18 +26,12 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Preprocessor Directives
-// Do not change symbol definitions in sources. Configure it when building.
-#endregion
-#if CMDLINE_VERBS
 #region Using Directives
 using System;
 using System.Reflection;
 using CommandLine.Internal;
 #endregion
-//
-// Needs CMDLINE_VERBS preprocessor directive defined at compile time.
-//
+
 namespace CommandLine
 {
     partial class CommandLineParser
@@ -137,4 +131,3 @@ namespace CommandLine
         }
     }
 }
-#endif

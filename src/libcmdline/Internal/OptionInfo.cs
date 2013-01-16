@@ -26,15 +26,6 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Preprocessor Directives
-// Do not change symbol definitions in sources. Configure it when building.
-#define CMDLINE_OPEN_PARSER     // opens CommandLineParser type
-#define CMDLINE_OPEN_OPTIONINFO // opens OptionInfo type
-#if !CMDLINE_VERBS
-#undef CMDLINE_OPEN_PARSER
-#undef CMDLINE_OPEN_OPTIONINFO
-#endif
-#endregion
 #region Using Directives
 using System;
 using System.Collections.Generic;
@@ -49,11 +40,7 @@ using System.Threading;
 namespace CommandLine.Internal
 {
     [DebuggerDisplay("ShortName = {ShortName}, LongName = {LongName}")]
-#if CMDLINE_OPEN_OPTIONINFO
     internal sealed partial class OptionInfo
-#else
-    internal sealed class OptionInfo
-#endif
     {
         public OptionInfo(OptionAttribute attribute, PropertyInfo property)
         {

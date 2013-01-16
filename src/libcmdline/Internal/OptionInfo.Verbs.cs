@@ -26,19 +26,12 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Preprocessor Directives
-// Do not change symbol definitions in sources. Configure it when building.
-#endregion
-#if CMDLINE_VERBS
 #region Using Directives
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using CommandLine.Internal;
 #endregion
-//
-// Needs CMDLINE_VERBS preprocessor directive defined at compile time.
-//
+
 namespace CommandLine.Internal
 {
     partial class OptionInfo
@@ -103,4 +96,3 @@ namespace CommandLine.Internal
         private bool _hasParameterLessCtor;
     }
 }
-#endif
