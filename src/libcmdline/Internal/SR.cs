@@ -1,6 +1,6 @@
-#region License
+﻿#region License
 //
-// Command Line Library: Singleton.cs
+// Command Line Library: SR.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -26,40 +26,20 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using System.IO;
-using NUnit.Framework;
-using Should.Fluent;
-using CommandLine.Tests.Mocks;
-#endregion
-namespace CommandLine.Tests
+
+namespace CommandLine.Internal
 {
-    [TestFixture]
-    public class Singleton
+    // Culture / ResourceManager indipendent resources
+    // ReSharper disable InconsistentNaming
+    internal sealed class SR
     {
-        [Test]
-        public void ParseStringIntegerBoolOptions()
-        {
-            var options = new SimpleOptions();
-            bool result = CommandLineParser.Default.ParseArguments(
-                    new string[] { "-s", "another string", "-i100", "--switch" }, options);
+        private SR() {}
 
-            result.Should().Be.True();
-            options.StringValue.Should().Equal("another string");
-            options.IntegerValue.Should().Equal(100);
-            options.BooleanValue.Should().Be.True();
-            Console.WriteLine(options);
-        }
+        public static readonly string ArgumentNullException_ArgsStringArrayCannotBeNull = "The arguments string array cannot be null.";
 
-        [Test]
-        public void DefaultDoesntSupportMutuallyExclusiveOptions()
-        {
-            var options = new OptionsWithMultipleSet();
-            bool result = CommandLineParser.Default.ParseArguments(
-                new string[] { "-r1", "-g2", "-b3", "-h4", "-s5", "-v6" }, options);
-
-            result.Should().Be.True(); // enabling MutuallyExclusive option it would fails
-        }
+        public static readonly string ArgumentNullException_OptionsInstanceCannotBeNull = "The target options instance cannot be null.";
+     
+        public static readonly string ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull = "The command line parser settings instance cannot be null.";
     }
+    // ReSharper restore InconsistentNaming
 }

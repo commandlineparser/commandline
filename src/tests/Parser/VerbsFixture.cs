@@ -26,7 +26,6 @@
 // THE SOFTWARE.
 //
 #endregion
-#if UNIT_TESTS_VERBS
 #region Using Directives
 using System;
 using System.IO;
@@ -97,8 +96,5 @@ namespace CommandLine.Tests
             var helpText = testWriter.ToString();
             helpText.Should().Equal("help for: clone");
         }
-
-
     }
 }
-#endif

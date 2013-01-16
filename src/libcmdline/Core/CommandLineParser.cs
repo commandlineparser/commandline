@@ -63,8 +63,7 @@ namespace CommandLine
         /// aspects and behaviors of the parser.</param>
         public CommandLineParser(CommandLineParserSettings settings)
         {
-            Assumes.NotNull(settings, "settings");
-            //InitializeDelagate();
+            Assumes.NotNull(settings, "settings", SR.ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull);
             _settings = settings;
         }
 
@@ -88,8 +87,8 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
         public virtual bool ParseArguments(string[] args, object options)
         {
-            Assumes.NotNull(args, "args");
-            Assumes.NotNull(options, "options");
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
 
             return DoParseArguments(args, options);
         }
@@ -97,20 +96,20 @@ namespace CommandLine
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
         /// parameter instance's public fields decorated with appropriate attributes.
-        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.         
+        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.
         /// </summary>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An object's instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
         /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
         /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
-        /// <returns>True if parsing process succeed.</returns>
+        /// <returns>True if parsing process succeed</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
         public virtual bool ParseArguments(string[] args, object options, TextWriter helpWriter)
         {
-            Assumes.NotNull(args, "args");
-            Assumes.NotNull(options, "options");
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
 
             _settings.HelpWriter = helpWriter;
             return DoParseArguments(args, options);
@@ -185,7 +184,7 @@ namespace CommandLine
 
             for (int i = 0; i < args.Length; i++)
             {
-                if (helpOption.ShortName != null) //if (!string.IsNullOrEmpty(helpOption.ShortName))
+                if (helpOption.ShortName != null)
                 {
                     if (ArgumentParser.CompareShort(args[i], helpOption.ShortName, caseSensitive))
                     {

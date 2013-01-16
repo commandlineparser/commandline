@@ -1,6 +1,6 @@
-﻿#region License
+#region License
 //
-// Command Line Library: CommandLine.cs
+// Command Line Library: SimpleOptions.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -26,16 +26,15 @@
 // THE SOFTWARE.
 //
 #endregion
-namespace CommandLine
+
+namespace CommandLine.Tests.Mocks
 {
-    #pragma warning disable 1591
-    public static class ThisLibrary
+    class SimpleOptionsForStrict : SimpleOptions
     {
-        public const string Title = "CommandLine.dll";
-        public const string Copyright = "Copyright (C) 2005 - 2013 Giacomo Stelluti Scala";
-        public const string Version = "1.9.4.107";
-        public const string ReleaseType = "beta";
-        public const string InformationalVersion = Version;
-    }
-    #pragma warning restore 1591
+        [HelpOption]
+        public string GetUsage()
+        {
+            return "SimpleOptionsForStrict (user defined)";
+        }
+    } 
 }

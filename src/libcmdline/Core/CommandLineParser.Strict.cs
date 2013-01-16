@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: ICommandLineParser.cs
+// Command Line Library: CommandLineParser.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -28,49 +28,21 @@
 #endregion
 #region Using Directives
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Threading;
 using CommandLine.Internal;
+using CommandLine.Text;
+
 #endregion
 
 namespace CommandLine
 {
-    /// <summary>
-    /// Defines a basic interface to parse command line arguments.
-    /// </summary>
-    public interface ICommandLineParser
+    partial class CommandLineParser
     {
         /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes.
+        /// Default exit code (1) used by <see cref="CommandLine.CommandLineParser.ParseArgumentsStrict(string[],object)"/>
+        /// and <see cref="CommandLine.CommandLineParser.ParseArgumentsStrict(string[],object,TextWriter)"/> overloads.
         /// </summary>
-        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
-        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <returns>True if parsing process succeed.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArguments(string[] args, object options);
-
-        /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes.
-        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.         
-        /// </summary>
-        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
-        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
-        /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
-        /// <returns>True if parsing process succeed.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArguments(string[] args, object options, TextWriter helpWriter);
+        public const int DefaultExitCodeFail = 1;
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
@@ -83,7 +55,13 @@ namespace CommandLine
         /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArgumentsStrict(string[] args, object options);
+        public virtual bool ParseArgumentsStrict(string[] args, object options)
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+
+            return DoParseArgumentsStrict(args, options, DefaultExitCodeFail);
+        }
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
@@ -97,7 +75,13 @@ namespace CommandLine
         /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArgumentsStrict(string[] args, object options, int exitCode);
+        public virtual bool ParseArgumentsStrict(string[] args, object options, int exitCode)
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+
+            return DoParseArgumentsStrict(args, options, exitCode);
+        }
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
@@ -113,7 +97,15 @@ namespace CommandLine
         /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArgumentsStrict(string[] args, object options, TextWriter helpWriter);
+        public virtual bool ParseArgumentsStrict(string[] args, object options, TextWriter helpWriter)
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+
+            _settings.HelpWriter = helpWriter;
+
+            return DoParseArgumentsStrict(args, options, DefaultExitCodeFail);
+        }
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
@@ -130,6 +122,54 @@ namespace CommandLine
         /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArguments(string[] args, object options, TextWriter helpWriter, int exitCode);
+        public virtual bool ParseArguments(string[] args, object options, TextWriter helpWriter, int exitCode)
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+
+            _settings.HelpWriter = helpWriter;
+
+            return DoParseArgumentsStrict(args, options, exitCode);
+        }
+
+        private bool DoParseArgumentsStrict(string[] args, object options, int exitCode)
+        {
+            if (!DoParseArguments(args, options))
+            {
+                InvokeAutoBuildIfNeeded(options);
+#region Unit Tests Code
+#if !UNIT_TESTS
+                Environment.Exit(exitCode);
+#else
+                Console.WriteLine(string.Format("UNIT_TESTS symbol enabled.\n" +
+                    "Simulating 'Environment.Exit({0})'.", exitCode));
+                return false;
+#endif
+#endregion
+            }
+            return true;
+        }
+
+        private void InvokeAutoBuildIfNeeded(object options)
+        {
+            if (_settings.HelpWriter == null)
+            {
+                return;
+            }
+            var hasHelpOption = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options) != null;
+            var hasVerbHelpOption = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(options) != null;
+            if (hasHelpOption ||
+                hasVerbHelpOption)
+            {
+                // We do not need to anything
+                return;
+            }
+
+            var hasVerbs = ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(options).Count > 0;
+
+            // We print help text for the user
+            _settings.HelpWriter.Write(HelpText.AutoBuild(options,
+                current => HelpText.DefaultParsingErrorsHandler(options, current), hasVerbs));
+        }
     }
 }

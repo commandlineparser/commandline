@@ -1,6 +1,6 @@
-﻿#region License
+#region License
 //
-// Command Line Library: Pair.cs
+// Command Line Library: SingletonFixture.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -27,50 +27,39 @@
 //
 #endregion
 #region Using Directives
+using System;
+using System.IO;
+using NUnit.Framework;
+using Should.Fluent;
+using CommandLine.Tests.Mocks;
 #endregion
-
-namespace CommandLine.Internal
+namespace CommandLine.Tests
 {
-    internal sealed class Pair<TLeft, TRight>
-        where TLeft : class
-        where TRight : class
+    [TestFixture]
+    public class SingletonFixture
     {
-        public Pair(TLeft left, TRight right)
+        [Test]
+        public void ParseStringIntegerBoolOptions()
         {
-            _left = left;
-            _right = right;
+            var options = new SimpleOptions();
+            bool result = CommandLineParser.Default.ParseArguments(
+                    new string[] { "-s", "another string", "-i100", "--switch" }, options);
+
+            result.Should().Be.True();
+            options.StringValue.Should().Equal("another string");
+            options.IntegerValue.Should().Equal(100);
+            options.BooleanValue.Should().Be.True();
+            Console.WriteLine(options);
         }
 
-        public TLeft Left
+        [Test]
+        public void DefaultDoesntSupportMutuallyExclusiveOptions()
         {
-            get { return _left; }
+            var options = new OptionsWithMultipleSet();
+            bool result = CommandLineParser.Default.ParseArguments(
+                new string[] { "-r1", "-g2", "-b3", "-h4", "-s5", "-v6" }, options);
+
+            result.Should().Be.True(); // enabling MutuallyExclusive option it would fails
         }
-
-        public TRight Right
-        {
-            get { return _right; }
-        }
-
-        public override int GetHashCode()
-        {
-            int leftHash = (_left == null ? 0 : _left.GetHashCode());
-            int rightHash = (_right == null ? 0 : _right.GetHashCode());
-
-            return leftHash ^ rightHash;
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as Pair<TLeft, TRight>;
-
-            if (other == null)
-            {
-                return false;
-            }
-            return Equals(_left, other._left) && Equals(_right, other._right);
-        }
-
-        private readonly TLeft _left;
-        private readonly TRight _right;
     }
 }

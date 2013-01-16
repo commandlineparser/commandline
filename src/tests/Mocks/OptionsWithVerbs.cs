@@ -26,12 +26,8 @@
 // THE SOFTWARE.
 //
 #endregion
-#if UNIT_TESTS_VERBS
 #region Using Directives
 using System.Collections.Generic;
-using System.ComponentModel;
-using CommandLine.Text;
-
 #endregion
 
 namespace CommandLine.Tests.Mocks
@@ -107,5 +103,21 @@ namespace CommandLine.Tests.Mocks
             return "help for: " + verb;
         }
     }
+
+    internal class OptionsWithVerbsNoHelp
+    {
+        public OptionsWithVerbsNoHelp()
+        {
+            CommitVerb = new CommitSubOptions();
+        }
+
+        [VerbOption("add", HelpText = "Add file contents to the index.")]
+        public AddSubOptions AddVerb { get; set; }
+
+        [VerbOption("commit", HelpText = "Record changes to the repository.")]
+        public CommitSubOptions CommitVerb { get; set; }
+
+        [VerbOption("clone", HelpText = "Clone a repository into a new directory.")]
+        public CloneSubOptions CloneVerb { get; set; }
+    }
 }
-#endif

@@ -82,7 +82,12 @@
     <Compile Include="Attributes\ParserStateAttribute.cs" />
     <Compile Include="Attributes\ValueListAttribute.cs" />
     <Compile Include="Core\CommandLineParser.cs" />
-    <Compile Include="Core\CommandLineParser.Verbs.cs" />
+    <Compile Include="Core\CommandLineParser.Strict.cs">
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\CommandLineParser.Verbs.cs">
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Core\IParserState.cs" />
     <Compile Include="Core\BadOptionInfo.cs" />
     <Compile Include="Core\ParsingError.cs" />
@@ -90,6 +95,7 @@
     <Compile Include="Core\ICommandLineParser.cs" />
     <Compile Include="Core\CommandLineParserException.cs" />
     <Compile Include="Internal\Assumes.cs" />
+    <Compile Include="Internal\SR.cs" />
     <Compile Include="Internal\StringUtil.cs" />
     <Compile Include="Internal\ReflectionUtil.cs" />
     <Compile Include="Internal\Pair.cs" />
@@ -97,7 +103,9 @@
     <Compile Include="Internal\LongOptionParser.cs" />
     <Compile Include="Internal\OptionGroupParser.cs" />
     <Compile Include="Internal\OptionInfo.cs" />
-    <Compile Include="Internal\OptionInfo.Verbs.cs" />
+    <Compile Include="Internal\OptionInfo.Verbs.cs">
+      <DependentUpon>OptionInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Internal\OptionMap.cs" />
     <Compile Include="Internal\OneCharStringEnumerator.cs" />
     <Compile Include="Internal\StringArrayEnumerator.cs" />
@@ -132,5 +140,8 @@
   <ItemGroup>
     <None Include="CommandLine.snk" />
   </ItemGroup>
-  <ItemGroup />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

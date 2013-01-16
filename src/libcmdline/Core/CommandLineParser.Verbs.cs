@@ -81,6 +81,15 @@ namespace CommandLine
                 return false;
             }
             var verbOption = optionMap[args[0]];
+            // User invoked a bad verb name
+            if (verbOption == null)
+            {
+                if (helpInfo != null)
+                {
+                    DisplayHelpVerbText(options, helpInfo, null);
+                }
+                return false;
+            }
             if (verbOption.GetValue(options) == null)
             {
                 // Developer has not provided a default value and did not assign an instance

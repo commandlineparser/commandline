@@ -95,8 +95,13 @@
     <Compile Include="..\libcmdline\core\CommandLineParser.cs">
       <Link>Library\Core\CommandLineParser.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Core\CommandLineParser.Strict.cs">
+      <Link>Library\Core\CommandLineParser.Strict.cs</Link>
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\libcmdline\Core\CommandLineParser.Verbs.cs">
       <Link>Library\Core\CommandLineParser.Verbs.cs</Link>
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
     </Compile>
     <Compile Include="..\libcmdline\core\CommandLineParserException.cs">
       <Link>Library\Core\CommandLineParserException.cs</Link>
@@ -139,6 +144,7 @@
     </Compile>
     <Compile Include="..\libcmdline\Internal\OptionInfo.Verbs.cs">
       <Link>Library\Internal\OptionInfo.Verbs.cs</Link>
+      <DependentUpon>OptionInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="..\libcmdline\internal\OptionMap.cs">
       <Link>Library\Internal\OptionMap.cs</Link>
@@ -151,6 +157,9 @@
     </Compile>
     <Compile Include="..\libcmdline\internal\ReflectionUtil.cs">
       <Link>Library\Internal\ReflectionUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\SR.cs">
+      <Link>Library\Internal\SR.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\internal\StringArrayEnumerator.cs">
       <Link>Library\Internal\StringArrayEnumerator.cs</Link>

@@ -1,5 +1,14 @@
 2013-01-16	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Implemented 'strict parsing' as required by contributor Dan Nemec (github nemec) in issue #32.
+  * Defined message for some internal (developers eyes only) exceptions and placed in class
+      CommandLine.Internal.SR (simulating but without real resources).
+  * Fixed some verb commands issues.
+  * Added unit tests for 'strict parsing'.
+  * Version incremented to 1.9.4.107 Beta.
+
+2013-01-16	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Removed recently added #define directives.
   * Project tree reorgranized (removed Verbs dir).
   * Version incremented to 1.9.4.101 Beta.

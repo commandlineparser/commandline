@@ -26,12 +26,9 @@
 // THE SOFTWARE.
 //
 #endregion
-#if UNIT_TESTS_VERBS
 #region Using Directives
 using System.Collections.Generic;
-using System.ComponentModel;
 using CommandLine.Text;
-
 #endregion
 
 namespace CommandLine.Tests.Mocks
@@ -106,4 +103,3 @@ namespace CommandLine.Tests.Mocks
         }
     }
 }
-#endif
