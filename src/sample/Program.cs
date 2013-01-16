@@ -165,14 +165,10 @@ namespace SampleApp
 #endif
             var options = new Options();
             var parser = new CommandLineParser(new CommandLineParserSettings(Console.Error));
-            if (!parser.ParseArguments(args, options))
-            {
-                Console.ReadKey();
-                Environment.Exit(1);
-            }
+            if (!parser.ParseArguments(args, options))            
+                Environment.Exit(1);            
 
-            DoCoreTask(options);
-            Console.ReadKey();
+            DoCoreTask(options);           
             Environment.Exit(0);
         }
 
@@ -239,7 +235,7 @@ namespace SampleApp
             //f3.AutoBuildWithRenderParsingErrorsHelper();
             //var f4 = new OptionArrayAttributeParsingFixture();
             //f4.ParseTwoUIntConsecutiveArray();
-            CommandLineParserFixture f5 = new CommandLineParserFixture();
+            //CommandLineParserFixture f5 = new CommandLineParserFixture();
             //f5.ParseNegativeIntegerValue();
             //f5.ParseNegativeIntegerValue_InputStyle4();
             //f5.ParseNegativeFloatingPointValue_InputStyle4();
