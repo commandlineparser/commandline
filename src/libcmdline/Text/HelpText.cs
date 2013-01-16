@@ -417,9 +417,9 @@ namespace CommandLine.Text
 
             int maxLength = GetMaxLength(optionList);
             _optionsHelp = new StringBuilder(BuilderCapacity);
-            int remainingSpace = maximumLength - (maxLength + 6);
+            int remainingSpace = maximumLength - (maxLength + 6);        
             foreach (BaseOptionAttribute option in optionList)
-            {
+            {               
                 AddOption(requiredWord, maxLength, option, remainingSpace);
             }
         }
@@ -501,11 +501,17 @@ namespace CommandLine.Text
                 }
 
                 optionName.AppendFormat("{0}", option.ShortName);
+                
+                if (option.HasMetaValue)
+                {
+                    optionName.AppendFormat(" {0}", option.MetaValue);
+                }
 
                 if (option.HasLongName)
                 {
                     optionName.Append(", ");
                 }
+
             }
 
             if (option.HasLongName)
@@ -516,6 +522,11 @@ namespace CommandLine.Text
                 }
 
                 optionName.AppendFormat("{0}", option.LongName);
+
+                if (option.HasMetaValue)
+                {
+                    optionName.AppendFormat("={0}", option.MetaValue);
+                }
             }
 
             if (optionName.Length < maxLength)
@@ -528,6 +539,10 @@ namespace CommandLine.Text
             }
 
             _optionsHelp.Append("    ");
+            if (option.HasDefaultValue)
+            {
+                option.HelpText = String.Format("(Default: {0}) ", option.DefaultValue) + option.HelpText;
+            }
             if (option.Required)
             {
                 option.HelpText = String.Format("{0} ", requiredWord) + option.HelpText;
@@ -704,6 +719,12 @@ namespace CommandLine.Text
                 int optionLength = 0;
                 bool hasShort = option.HasShortName;
                 bool hasLong = option.HasLongName;
+                int metaLength = 0;
+                if (option.HasMetaValue)
+                {
+                    metaLength = option.MetaValue.Length + 1;
+                }
+
                 if (hasShort)
                 {
                     ++optionLength;
@@ -711,6 +732,7 @@ namespace CommandLine.Text
                     {
                         ++optionLength;
                     }
+                    optionLength += metaLength;
                 }
                 if (hasLong)
                 {
@@ -719,7 +741,8 @@ namespace CommandLine.Text
                     {
                         optionLength += 2;
                     }
-                }
+                    optionLength += metaLength;
+                } 
                 if (hasShort && hasLong)
                 {
                     optionLength += 2; // ", "
@@ -754,7 +777,7 @@ namespace CommandLine.Text
         private StringBuilder _optionsHelp;
         private readonly StringBuilder _postOptionsHelp;
         private readonly BaseSentenceBuilder _sentenceBuilder;
-        private const string DefaultRequiredWord = "Required.";
+        private const string DefaultRequiredWord = "Required.";       
         private bool _addDashesToOption;
     }
 }
