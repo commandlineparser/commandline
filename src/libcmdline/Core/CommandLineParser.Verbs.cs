@@ -96,7 +96,7 @@ namespace CommandLine
             }
             var optionMap = OptionInfo.CreateMap(options, verbs, _settings);
             // Read the verb from command line arguments
-            if (TryParseHelpVerb(args, options, helpInfo))
+            if (TryParseHelpVerb(args, options, helpInfo, optionMap))
             {
                 // Since user requested help, parsing is considered a fail
                 return false;
@@ -130,7 +130,7 @@ namespace CommandLine
             return verbResult;
         }
 
-        private bool TryParseHelpVerb(string[] args, object options, Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo)
+        private bool TryParseHelpVerb(string[] args, object options, Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo, OptionMap optionMap)
         {
             var helpWriter = _settings.HelpWriter;
             if (helpInfo != null && helpWriter != null)
@@ -139,6 +139,18 @@ namespace CommandLine
                 {
                     // User explicitly requested help
                     var verb = args.Length > 1 ? args[1] : null;
+                    if (verb != null)
+                    {
+                        var verbOption = optionMap[verb];
+                        if (verbOption != null)
+                        {
+                            if (verbOption.GetValue(options) == null)
+                            {
+                                // We need to create an instance also to render help
+                                verbOption.CreateInstance(options);
+                            }
+                        }
+                    }
                     DisplayHelpVerbText(options, helpInfo, verb);
                     return true;
                 }

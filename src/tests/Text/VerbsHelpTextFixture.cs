@@ -75,6 +75,22 @@ namespace CommandLine.Tests.Text
             lines[7].Trim().Should().Equal("-q, --quiet       Suppress summary message.");
         }
 
+        #region https://github.com/gsscoder/commandline/issues/45
+        [Test]
+        public void RequestingHelpOfParticularVerbWithoutInstanceShouldWork()
+        {
+            var options = new OptionsWithVerbsHelp();
+            var testWriter = new StringWriter();
+            Result = Parser.ParseArguments(new string[] {"help", "add"}, options, testWriter);
+
+            ResultShouldBeFalse();
+
+            var helpText = testWriter.ToString();
+            Console.WriteLine(helpText);
+            var lines = helpText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        }
+        #endregion
+
         private void DoCoreTestForIndex(string[] args)
         {
             var options = new OptionsWithVerbsHelp();
