@@ -63,7 +63,7 @@ Create a class to receive parsed values:
       public bool Verbose { get; set; }
 
       [ParserState]
-      public IParserState { get; set; }
+      public IParserState LastParserState { get; set; }
 
       [HelpOption]
       public string GetUsage() {
