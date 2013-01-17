@@ -1,3 +1,9 @@
+2013-01-17	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * CommandLineParserSettings now implements IDisposable (it owns a TextWriter).
+  * CommandLineParser now implements IDisposable (it owns CommandLineParserSettings that now is dispsable).
+  * Version incremented to 1.9.4.111 Beta.
+
 2013-01-16	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Merged pull request #44 from @dbaileychess (Derek Bailey) that adds MetaKey to BaseOptionAttribute

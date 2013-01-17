@@ -43,7 +43,7 @@ namespace CommandLine
     /// <summary>
     /// Specifies a set of features to configure a <see cref="CommandLine.CommandLineParser"/> behavior.
     /// </summary>
-    public sealed class CommandLineParserSettings
+    public sealed class CommandLineParserSettings : IDisposable
     {
         private const bool CaseSensitiveDefault = true;
 
@@ -165,9 +165,35 @@ namespace CommandLine
         /// </remarks>
         public bool IgnoreUnknownArguments { internal get; set; }
 
+        public void Dispose()
+        {
+            Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (HelpWriter != null)
+                {
+                    HelpWriter.Dispose();
+                }
+                _disposed = true;
+            }
+        }
+
         internal StringComparison StringComparison
         {
             get { return CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase; }
         }
+
+        ~CommandLineParserSettings()
+        {
+            Dispose(false);
+        }
+
+        private bool _disposed;
     }
 }

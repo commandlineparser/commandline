@@ -39,7 +39,7 @@ namespace CommandLine
     /// Provides methods to parse command line arguments.
     /// Default implementation for <see cref="CommandLine.ICommandLineParser"/>.
     /// </summary>
-    public partial class CommandLineParser : ICommandLineParser
+    public partial class CommandLineParser : ICommandLineParser, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.CommandLineParser"/> class.
@@ -225,6 +225,28 @@ namespace CommandLine
             }
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                _settings.Dispose();
+                _disposed = true;
+            }
+        }
+
+        ~CommandLineParser()
+        {
+            Dispose(false);
+        }
+
+        private bool _disposed;
         private static readonly ICommandLineParser DefaultParser = new CommandLineParser(true);
         private readonly CommandLineParserSettings _settings;
     }
