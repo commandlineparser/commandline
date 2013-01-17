@@ -56,6 +56,27 @@ namespace CommandLine
             return found ? pair.Left.GetValue(target, null) : target;
         }
 
+        /// <summary>
+        /// Determines if a particular verb option was invoked. This is a convenience helper method,
+        /// do not refer to it to know if parsing occurred. If the verb command was invoked and the
+        /// parser failed, it will return true.
+        /// Use this method only in a verbs scenario, when parsing succeeded.
+        /// </summary>
+        /// <param name='verb'>Verb option to compare.</param>
+        /// <returns>True if the specified verb option is the one invoked by the user.</returns>
+        public bool WasVerbOptionInvoked(string verb)
+        {
+            if (string.IsNullOrEmpty(verb) || (verb.Length > 0 && verb[0] == '-'))
+            {
+                return false;
+            }
+            if (_args == null || _args.Length < 1)
+            {
+                return false;
+            }
+            return string.Compare(_args[0], verb, _settings.StringComparison) == 0;
+        }
+
         private bool DoParseArgumentsUsingVerbs(string[] args, object options)
         {
             var verbs = ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(options);
@@ -136,7 +157,10 @@ namespace CommandLine
             {
                 HelpVerbOptionAttribute.InvokeMethod(options, helpInfo, verb, out helpText);
             }
-            _settings.HelpWriter.Write(helpText);
+            if (_settings.HelpWriter != null)
+            {
+                _settings.HelpWriter.Write(helpText);
+            }
         }
     }
 }

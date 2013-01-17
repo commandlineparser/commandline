@@ -120,6 +120,9 @@ namespace CommandLine
             var pair = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options);
             var helpWriter = _settings.HelpWriter;
 
+            // Keep a local reference for helper methods
+            _args = args;
+
             if (pair != null && helpWriter != null)
             {
                 // If help can be handled is displayed if is requested or if parsing fails
@@ -246,6 +249,7 @@ namespace CommandLine
             Dispose(false);
         }
 
+        private string[] _args;
         private bool _disposed;
         private static readonly ICommandLineParser DefaultParser = new CommandLineParser(true);
         private readonly CommandLineParserSettings _settings;

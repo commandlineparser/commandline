@@ -46,7 +46,12 @@ namespace CommandLine.Tests
             options.AddVerb.Should().Be.Null();
 
             Result = Parser.ParseArguments(new string[] {"add", "-p", "untracked.bin"} , options);
+
             ResultShouldBeTrue();
+
+            Parser.WasVerbOptionInvoked("add").Should().Be.True();
+            Parser.WasVerbOptionInvoked("commit").Should().Be.False();
+            Parser.WasVerbOptionInvoked("clone").Should().Be.False();
 
             // Parser has built instance for us
             options.AddVerb.Should().Not.Be.Null();
@@ -64,7 +69,12 @@ namespace CommandLine.Tests
             options.CommitVerb.CreationProof = proof;
 
             Result = Parser.ParseArguments(new string[] { "commit", "--amend" }, options);
+
             ResultShouldBeTrue();
+
+            Parser.WasVerbOptionInvoked("add").Should().Be.False();
+            Parser.WasVerbOptionInvoked("commit").Should().Be.True();
+            Parser.WasVerbOptionInvoked("clone").Should().Be.False();
 
             // Check if the instance is the one provider by us (not by the parser)
             options.CommitVerb.CreationProof.Should().Equal(proof);
@@ -80,6 +90,10 @@ namespace CommandLine.Tests
 
             ResultShouldBeFalse();
 
+            Parser.WasVerbOptionInvoked("add").Should().Be.False();
+            Parser.WasVerbOptionInvoked("commit").Should().Be.False();
+            Parser.WasVerbOptionInvoked("clone").Should().Be.False();
+
             var helpText = testWriter.ToString();
             helpText.Should().Equal("verbs help index");
         }
@@ -93,8 +107,54 @@ namespace CommandLine.Tests
 
             ResultShouldBeFalse();
 
+            Parser.WasVerbOptionInvoked("add").Should().Be.False();
+            Parser.WasVerbOptionInvoked("commit").Should().Be.False();
+            // The following returns true because also if the parser fail 'clone' was invoked.
+            Parser.WasVerbOptionInvoked("clone").Should().Be.True();
+
             var helpText = testWriter.ToString();
             helpText.Should().Equal("help for: clone");
+        }
+
+        [Test]
+        public void WasVerbOptionInvokedReturnsFalseWithEmptyArguments()
+        {
+            var options = new OptionsWithVerbs();
+            Result = Parser.ParseArguments(new string[] {}, options);
+
+            ResultShouldBeFalse();
+
+            Parser.WasVerbOptionInvoked("add").Should().Be.False();
+            Parser.WasVerbOptionInvoked("commit").Should().Be.False();
+            Parser.WasVerbOptionInvoked("clone").Should().Be.False();
+        }
+
+        [Test]
+        public void WasVerbOptionInvokedReturnsFalseWithNullOrEmptyVerb()
+        {
+            var options = new OptionsWithVerbs();
+            Result = Parser.ParseArguments(new string[] {"commit", "--amend"}, options);
+
+            ResultShouldBeTrue();
+
+            Parser.WasVerbOptionInvoked(null).Should().Be.False();
+            Parser.WasVerbOptionInvoked("").Should().Be.False();
+        }
+
+        [Test]
+        public void WasVerbOptionInvokedReturnsFalseWithOrdinaryOptions()
+        {
+            var options = new OptionsWithVerbs();
+            Result = Parser.ParseArguments(new string[] {"commit", "--amend"}, options);
+
+            ResultShouldBeTrue();
+
+            Parser.WasVerbOptionInvoked("--commit").Should().Be.False();
+            Parser.WasVerbOptionInvoked("-commit").Should().Be.False(); // <- pure fantasy
+            Parser.WasVerbOptionInvoked("-c").Should().Be.False();
+            Parser.WasVerbOptionInvoked("---commit").Should().Be.False(); // <- pure fantasy
+            Parser.WasVerbOptionInvoked("--amend").Should().Be.False();
+            Parser.WasVerbOptionInvoked("-a").Should().Be.False();
         }
     }
 }

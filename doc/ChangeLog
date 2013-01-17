@@ -1,5 +1,10 @@
 2013-01-17	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Added CommandLineParser::WasVerbOptionInvoked to check for selected verb in a more clean way.
+  * Version incremented to 1.9.4.113 Beta.
+
+2013-01-17	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * CommandLineParserSettings now implements IDisposable (it owns a TextWriter).
   * CommandLineParser now implements IDisposable (it owns CommandLineParserSettings that now is dispsable).
   * Version incremented to 1.9.4.111 Beta.

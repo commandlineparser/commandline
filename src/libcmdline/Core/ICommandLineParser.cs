@@ -131,5 +131,15 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
         bool ParseArguments(string[] args, object options, TextWriter helpWriter, int exitCode);
+
+        /// <summary>
+        /// Determines if a particular verb option was invoked. This is a convenience helper method,
+        /// do not refer to it to know if parsing occurred. If the verb command was invoked and the
+        /// parser failed, it will return true.
+        /// Use this method only in a verbs scenario, when parsing succeeded.
+        /// </summary>
+        /// <param name='verb'>Verb option to compare.</param>
+        /// <returns>True if the specified verb option is the one invoked by the user.</returns>
+        bool WasVerbOptionInvoked(string verb);
     }
 }
