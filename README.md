@@ -43,7 +43,7 @@ Public API:
   - Version 1.9.4.107: Non breaking, implemented [strict parsing](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/StrictFixture.cs) (see issue #32).
   - Version 1.9.4.109: Non breaking, pull request #44.
   - Version 1.9.4.111: Non breaking, ``CommandLineParserSettings``, ``CommandLineParser`` implements ``IDisposable``.
-  - Version 1.9.4.113: Added ``CommandLineParser::WasVerbOptionInvoked`` helper method.
+  - Version 1.9.4.113: Non breaking, added ``CommandLineParser::WasVerbOptionInvoked`` helper method.
 
 Verb Commands:
 Since introduction of verb commands is a very new feature, templates and sample application are not updated to illustrate it. Please refer this [wiki section](https://github.com/gsscoder/commandline/wiki/Verb-Commands) and unit tests code to learn how to [define](https://github.com/gsscoder/commandline/blob/master/src/tests/Mocks/OptionsWithVerbsHelp.cs), how to [respond](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/VerbsFixture.cs) and how they [relate to help subsystem](https://github.com/gsscoder/commandline/blob/master/src/tests/Text/VerbsHelpTextFixture.cs). Give a look also at this [blog article](http://gsscoder.blogspot.it/2013/01/command-line-parser-library-verb.html).
