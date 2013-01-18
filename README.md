@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.4.115 Beta for CLR.
+Command Line Parser Library 1.9.4.117 Beta for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
@@ -11,6 +11,7 @@ Compatibility:
  
 News:
 ---
+  - ``SR.string[.cs]`` managed with tools/invariantstr.exe ([Invariant String Tool](https://github.com/gsscoder/invariantstrtool)).
   - Added ``CommandLineParser::WasVerbOptionInvoked`` helper method (also in ``ICommandLineParser``).
   - ``CommandLineParserSettings``, ``CommandLineParser`` are now correctly disposable.
   - Merged pull request #44 from @dbaileychess (Derek Bailey) that adds ``BaseOptionAttribute::MetaKey`` similar to python [argparse](http://docs.python.org/2/library/argparse.html#module-argparse).

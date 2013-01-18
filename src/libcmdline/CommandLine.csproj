@@ -95,7 +95,9 @@
     <Compile Include="Core\ICommandLineParser.cs" />
     <Compile Include="Core\CommandLineParserException.cs" />
     <Compile Include="Internal\Assumes.cs" />
-    <Compile Include="Internal\SR.cs" />
+    <Compile Include="Internal\SR.strings.cs">
+        <DependentUpon>SR.strings</DependentUpon>
+    </Compile>
     <Compile Include="Internal\StringUtil.cs" />
     <Compile Include="Internal\ReflectionUtil.cs" />
     <Compile Include="Internal\Pair.cs" />
@@ -139,6 +141,7 @@
   -->
   <ItemGroup>
     <None Include="CommandLine.snk" />
+    <None Include="Internal\SR.strings" />
   </ItemGroup>
   <PropertyGroup>
     <PreBuildEvent>

@@ -136,8 +136,8 @@
     <Compile Include="..\libcmdline\Internal\ReflectionUtil.cs">
       <Link>Library\Internal\ReflectionUtil.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Internal\SR.cs">
-      <Link>Library\Internal\SR.cs</Link>
+    <Compile Include="..\libcmdline\Internal\SR.strings.cs">
+      <Link>Library\Internal\SR.strings.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Internal\StringArrayEnumerator.cs">
       <Link>Library\Internal\StringArrayEnumerator.cs</Link>

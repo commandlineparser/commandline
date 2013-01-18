@@ -1,5 +1,10 @@
 2013-01-17	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * SR.string[.cs] managed with tools/invariantstr.exe (https://github.com/gsscoder/invariantstrtool).
+  * Version incremented to 1.9.4.117 Beta.
+
+2013-01-17	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Fixed issue #45 reported by @mizipzor (Alexander Fast).
   * Version incremented to 1.9.4.115 Beta.
 
