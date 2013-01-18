@@ -1,3 +1,9 @@
+2013-01-18	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Added first draft of Rakefile.rb to source tree root.
+  * Dropped unmantained NAnt stuff.
+  * Added correct NUnit version in tools dir (NuGet -> NUnit.Runners do not work!).
+
 2013-01-17	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * SR.string[.cs] managed with tools/invariantstr.exe (https://github.com/gsscoder/invariantstrtool).

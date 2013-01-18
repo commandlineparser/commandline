@@ -2,16 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "src\sample\SampleApp.csproj", "{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "src\libcmdline\CommandLine.csproj", "{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "src\tests\CommandLine.Tests.csproj", "{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}"
 EndProject
@@ -34,39 +26,18 @@ Global
 		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.DebugTests|Any CPU.Build.0 = Debug|Any CPU
 		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.DebugTests|Any CPU.ActiveCfg = DebugTests|Any CPU
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.DebugTests|Any CPU.Build.0 = DebugTests|Any CPU
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.DebugTests|Any CPU.ActiveCfg = Debug|x86
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|Any CPU.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\sample\SampleApp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
-		$1.inheritsSet = null
-		$1.scope = text/x-csharp
-		$0.CSharpFormattingPolicy = $2
-		$2.inheritsSet = Mono
-		$2.inheritsScope = text/x-csharp
-		$2.scope = text/x-csharp
-		$0.TextStylePolicy = $3
-		$3.FileWidth = 120
-		$3.RemoveTrailingWhitespace = True
-		$3.inheritsSet = VisualStudio
-		$3.inheritsScope = text/plain
-		$3.scope = text/plain
-		$0.StandardHeader = $4
-		$4.Text = 
-		$4.inheritsSet = Apache2License
-		$0.VersionControlPolicy = $5
-		$5.inheritsSet = Mono
-		$0.ChangeLogPolicy = $6
-		$6.UpdateMode = None
-		$6.MessageStyle = $7
-		$7.LineAlign = 0
-		$6.inheritsSet = Mono
+		$1.FileWidth = 120
+		$1.TabsToSpaces = False
+		$1.inheritsSet = VisualStudio
+		$1.inheritsScope = text/plain
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

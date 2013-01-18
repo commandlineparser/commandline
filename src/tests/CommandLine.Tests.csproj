@@ -37,7 +37,6 @@
       <HintPath>..\..\packages\ShouldFluent.1.1.12.0\lib\Should.Fluent.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\libcmdline\Attributes\BaseOptionAttribute.cs">

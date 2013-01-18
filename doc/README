@@ -3,7 +3,7 @@ Command Line Parser Library
 Project Author/Coordinator: Giacomo Stelluti Scala
 Main Contributor(s): Steven Evans, Kevin Moore, Dan Nemec (nemec), Alexander Fast (mizipzor)
 --------------------------------------------------------------------------------------------
-Version 1.9.4.113 Beta (*3)
+Version 1.9.4.117 Beta (*1)
 Latest Update: 17-01-2013
 
 Git home:
@@ -18,48 +18,16 @@ http://catb.org/~esr/writings/taoup/html/ch10s05.html.
 
 More info on:
 [QUICKSTART] http://commandline.codeplex.com/wikipage?title=Quickstart&referringTitle=Documentation
-[GUIDE] http://commandline.codeplex.com/documentation (*4)
+[GUIDE] http://commandline.codeplex.com/documentation (*2)
 [BLOG] http://gsscoder.blogspot.com/
   
-Build:
-READ THIS FIRST:
-From version 1.9.0.3 Beta (*3) NAnt script still exists but It's not supported (or tested) anymore.
-Unix/Mac:
-./configure
-make
-Windows:
-Use any compatible IDE.
----------------------------------------------------------------------------------------
-[WIN/NET] From version 1.6.0.5 (stable) the code use some C# 3.0 features (still
-targeting .NET 2.0); to successfully compile the project you need to modify the NAnt
-configuration file (NAnt.exe.config). Seek the <frameworks> node and add (e.g. after
-net-2.0 definition) the content of NAnt.exe.config.part located in
-{libroot}/doc/config folder.
-[LINUX/MONO] When you compile with NAnt under Linux be sure to have a version of Mono
-which supports C# 3.0 like 2.1 or higher (but I suggest you Mono 2.4).
----------------------------------------------------------------------------------------
-If you use NAnt (*2) (http://nant.sourceforge.net/), you should copy (*1) your
-  nunit.framework.dll
-to the {libroot}/lib subdirectory (located in the root directory of the library).
-Unit Tests are compatible from NUnit 2.2.0.
-Change current directory to {libroot}/nant.
-Production Release:
-	nant build
-Debug+Tests Release:
-	nant tests
-Mono users must use 
-	nant {target}
-If you still have problems try adding -t:net-3.5 (or -t:mono-3.5 under Linux) between
-nant command and target string.
-You will find binaries in {libroot}/nant/build.out; warning each run will overwrite
-the previous.
+Build (requires Ruby):
+gem install rake
+gem install albacore
+rake
 	
 Unit Tests:
-To run unit tests you should copy (*1)
-	{libroot}/lib/nunit.framework.dll
-in the build output directory
-(created from NUnit build script -> {libroot}/nant/default.build)
-	{libroot}/nant/build.out.
+rake test
 
 Documentation:
 From version 1.9.0.3 Beta CHM HelpFile was removed from {libroot}/doc.
@@ -105,15 +73,9 @@ Enjoy,
   
 ---------------------------------------------------------------------------------------
 [NOTES]
-*1) Under Linux/Mono you can use the nunit.framework.dll stored in the GAC,
-using GAC Extraction Utility (http://sourceforge.net/projects/gac-get/);
-see also: http://gsscoder.blogspot.com/2007/08/gac-extraction-utility-for-mono.html.
-
-*2) I use NAnt 0.90 (Build 0.90.3780.0; release; 08/05/2010).
-
-*3) In a production environment you should use a 'stable' version, an 'rc' (release
+*1) In a production environment you should use a 'stable' version, an 'rc' (release
 candidate) or an advanced 'beta' (a 'beta' published for a long time and stated quite stable).
 
-*4) Full documentation is currently under construction. Please refer to Quickstart
+*2) Full documentation is currently under construction. Please refer to Quickstart
 guide and informations published starting from the project's home.
 ---------------------------------------------------------------------------------------

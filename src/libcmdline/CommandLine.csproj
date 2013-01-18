@@ -70,8 +70,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\BaseOptionAttribute.cs" />
@@ -96,7 +94,7 @@
     <Compile Include="Core\CommandLineParserException.cs" />
     <Compile Include="Internal\Assumes.cs" />
     <Compile Include="Internal\SR.strings.cs">
-        <DependentUpon>SR.strings</DependentUpon>
+      <DependentUpon>SR.strings</DependentUpon>
     </Compile>
     <Compile Include="Internal\StringUtil.cs" />
     <Compile Include="Internal\ReflectionUtil.cs" />
