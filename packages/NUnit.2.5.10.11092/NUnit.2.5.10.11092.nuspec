@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NUnit</id>
+    <version>2.5.10.11092</version>
+    <title>NUnit</title>
+    <authors>Charlie Poole</authors>
+    <owners>Charlie Poole</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NUnit is a unit-testing framework for all .Net languages. Initially ported from JUnit, the current production release, version 2.5, is the sixth major release of this xUnit based unit testing tool for Microsoft .NET.</description>
+    <summary>NUnit is a unit-testing framework for all .Net languages. Initially ported from JUnit, the current production release, version 2.5, is the sixth major release of this xUnit based unit testing tool for Microsoft .NET.</summary>
+    <references>
+      <reference file="nunit.framework.dll" />
+      <reference file="nunit.mocks.dll" />
+      <reference file="pnunit.framework.dll" />
+    </references>
+  </metadata>
+</package>

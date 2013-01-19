@@ -55,7 +55,7 @@ task :build => :clean do |b|
 end
 
 task :test => :build do
-  nunit = invoke_runtime("tools/NUnit.2.5.10.11092/nunit-console.exe")
+  nunit = invoke_runtime("packages/NUnit.2.5.10.11092/tools/nunit-console.exe")
   sh "#{nunit} -labels #{OUTPUT_DIR}/CommandLine.Tests.dll"
 end
 

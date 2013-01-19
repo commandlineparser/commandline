@@ -25,7 +25,13 @@ News:
 
 To build:
 ---
-MonoDevelop or Visual Studio.
+You can use still use MonoDevelop or Visual Studio, but the project can aslo be built using Ruby [Rake](http://rake.rubyforge.org/) with a script that depends on [Albacore](https://github.com/derickbailey/Albacore).
+```
+$ gem install albacore
+$ git clone https://github.com/gsscoder/commandline.git CommandLine
+$ cd CommandLine
+$ rake
+```
 
 To install:
 ---
