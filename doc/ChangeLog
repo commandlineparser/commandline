@@ -1,5 +1,6 @@
 2013-01-19	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Updated SR.strings.cs and tools/invariantstr.exe.
   * Used correct NUnit version from NuGet (removed from tools dir).
   * Updated Rakefile.rb.
 
