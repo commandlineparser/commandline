@@ -65,6 +65,6 @@ task :clean do
   FileUtils.rm_rf "src/libcmdline/obj"
   FileUtils.rm_rf "src/tests/bin"
   FileUtils.rm_rf "src/tests/obj"
-  FileUtils.rm_rf "src/sample/bin"
-  FileUtils.rm_rf "src/sample/obj"
+  FileUtils.rm_rf "src/demo/bin"
+  FileUtils.rm_rf "src/demo/obj"
 end
