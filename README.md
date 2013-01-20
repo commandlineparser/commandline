@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.4.119 Beta for CLR.
+Command Line Parser Library 1.9.4.121 Beta for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
@@ -11,6 +11,8 @@ Compatibility:
  
 News:
 ---
+  - Removed synchronization from ``OptionInfo`` and ``TargetWrapper`` (parsing should occur in one thread;
+      if not, synchronization must be provided by developer not by the library).
   - Source in Core dir (public types) placed in tree root.
   - Project SampleApp renamed to CommandLine.Demo.
   - ``SR.string[.cs]`` managed with tools/invariantstr.exe ([Invariant String Tool](https://github.com/gsscoder/invariantstrtool)).

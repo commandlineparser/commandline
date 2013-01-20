@@ -112,11 +112,8 @@ namespace CommandLine.Internal
             {
                 try
                 {
-                    lock (_setValueLock)
-                    {
-                        array.SetValue(Convert.ChangeType(values[i], elementType, Thread.CurrentThread.CurrentCulture), i);
+                    array.SetValue(Convert.ChangeType(values[i], elementType, Thread.CurrentThread.CurrentCulture), i);
                         _property.SetValue(options, array, null);
-                    }
                 }
                 catch (FormatException)
                 {
@@ -132,17 +129,11 @@ namespace CommandLine.Internal
             {
                 if (_property.PropertyType.IsEnum)
                 {
-                    lock (_setValueLock)
-                    {
-                        _property.SetValue(options, Enum.Parse(_property.PropertyType, value, true), null);
-                    }
+                    _property.SetValue(options, Enum.Parse(_property.PropertyType, value, true), null);
                 }
                 else
                 {
-                    lock (_setValueLock)
-                    {
-                        _property.SetValue(options, Convert.ChangeType(value, _property.PropertyType, Thread.CurrentThread.CurrentCulture), null);
-                    }
+                    _property.SetValue(options, Convert.ChangeType(value, _property.PropertyType, Thread.CurrentThread.CurrentCulture), null);
                 }
             }
             catch (InvalidCastException) { return false; } // Convert.ChangeType
@@ -157,10 +148,7 @@ namespace CommandLine.Internal
             var nc = new NullableConverter(_property.PropertyType);
             try
             {
-                lock (_setValueLock)
-                {
-                    _property.SetValue(options, nc.ConvertFromString(null, Thread.CurrentThread.CurrentCulture, value), null);
-                }
+                _property.SetValue(options, nc.ConvertFromString(null, Thread.CurrentThread.CurrentCulture, value), null);
             }
             // the FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException,
             // so we've catch directly System.Exception
@@ -173,42 +161,33 @@ namespace CommandLine.Internal
 
         public bool SetValue(bool value, object options)
         {
-            lock (_setValueLock)
-            {
-                _property.SetValue(options, value, null);
-                return true;
-            }
+            _property.SetValue(options, value, null);
+            return true;
         }
 
         private bool SetValueList(string value, object options)
         {
-            lock (_setValueLock)
+            _property.SetValue(options, new List<string>(), null);
+            var fieldRef = (IList<string>)_property.GetValue(options, null);
+            var values = value.Split(((OptionListAttribute)_attribute).Separator);
+            for (int i = 0; i < values.Length; i++)
             {
-                _property.SetValue(options, new List<string>(), null);
-                var fieldRef = (IList<string>)_property.GetValue(options, null);
-                var values = value.Split(((OptionListAttribute)_attribute).Separator);
-                for (int i = 0; i < values.Length; i++)
-                {
-                    fieldRef.Add(values[i]);
-                }
-                return true;
+                fieldRef.Add(values[i]);
             }
+            return true;
         }
 
         public void SetDefault(object options)
         {
             if (_hasDefaultValue)
             {
-                lock (_setValueLock)
+                try
                 {
-                    try
-                    {
-                        _property.SetValue(options, _defaultValue, null);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new CommandLineParserException("Bad default value.", e);
-                    }
+                    _property.SetValue(options, _defaultValue, null);
+                }
+                catch (Exception e)
+                {
+                    throw new CommandLineParserException("Bad default value.", e);
                 }
             }
         }
@@ -281,6 +260,5 @@ namespace CommandLine.Internal
         private readonly string _mutuallyExclusiveSet;
         private readonly object _defaultValue;
         private readonly bool _hasDefaultValue;
-        private readonly object _setValueLock = new object();
     }
 }

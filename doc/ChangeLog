@@ -1,5 +1,12 @@
 2013-01-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Removed synchronization from OptionInfo and TargetWrapper: elaboration occurs in
+      one method call (::ParseArguments) and should not be divided across threads.
+      If yes, synchronization must be provided by developer not by the library.
+  * Version incremented to 1.9.4.121 Beta.
+
+2013-01-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Source in Core dir (public types) placed in tree root.
   * Project SampleApp renamed to CommandLine.Demo (+ minor refactoring,
       better comments).

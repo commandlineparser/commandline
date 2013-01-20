@@ -41,33 +41,24 @@ namespace CommandLine.Internal
             get { return _hasParameterLessCtor; }
             set
             {
-                lock (_setValueLock)
-                {
-                    _hasParameterLessCtor = value;
-                }
+                _hasParameterLessCtor = value;
             }
         }
 
         public object GetValue(object target)
-        {
-            lock (_setValueLock)
-            {
-                return _property.GetValue(target, null);
-            }
+        {          
+            return _property.GetValue(target, null);
         }
 
         public void CreateInstance(object target)
         {
-            lock (_setValueLock)
+            try
             {
-                try
-                {
-                    _property.SetValue(target, Activator.CreateInstance(_property.PropertyType), null);
-                }
-                catch (Exception e)
-                {
-                    throw new CommandLineParserException("Instance defined for verb command could not be created.", e);
-                }
+                _property.SetValue(target, Activator.CreateInstance(_property.PropertyType), null);
+            }
+            catch (Exception e)
+            {
+                throw new CommandLineParserException("Instance defined for verb command could not be created.", e);
             }
         }
 

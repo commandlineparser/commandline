@@ -59,10 +59,7 @@ namespace CommandLine.Internal
             {
                 return false;
             }
-            lock (this)
-            {
-                _valueList.Add(item);
-            }
+            _valueList.Add(item);
             return true;
         }
 
