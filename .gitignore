@@ -1,7 +1,7 @@
 src/libcmdline/bin/*
 src/libcmdline/obj
-src/sample/bin/*
-src/sample/obj
+src/demo/bin/*
+src/demo/obj
 src/tests/bin/*
 src/tests/obj
 src/templates/CSharpTemplate/bin/*
