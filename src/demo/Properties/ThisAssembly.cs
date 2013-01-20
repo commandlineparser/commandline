@@ -28,7 +28,7 @@
 
 static class ThisAssembly
 {
-    internal const string Title = "SampleApp.exe";
+    internal const string Title = "DemoApp.exe";
     internal const string Copyright = CommandLine.ThisLibrary.Copyright;
     internal const string Version = CommandLine.ThisLibrary.Version;
     internal const string InformationalVersion = "1.9";

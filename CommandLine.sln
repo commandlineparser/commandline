@@ -1,17 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "src\sample\SampleApp.csproj", "{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "src\libcmdline\CommandLine.csproj", "{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "src\tests\CommandLine.Tests.csproj", "{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Demo", "src\demo\CommandLine.Demo.csproj", "{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		DebugTests|Any CPU = DebugTests|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -27,11 +29,18 @@ Global
 		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|Any CPU.Build.0 = Debug|x86
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|x86.ActiveCfg = Debug|x86
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|x86.Build.0 = Debug|x86
 		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.DebugTests|Any CPU.ActiveCfg = Debug|x86
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.DebugTests|Any CPU.Build.0 = Debug|x86
 		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|Any CPU.ActiveCfg = Release|x86
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|Any CPU.Build.0 = Release|x86
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|x86.ActiveCfg = Release|x86
+		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = src\sample\SampleApp.csproj
+		StartupItem = src\demo\CommandLine.Demo.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.FileWidth = 120

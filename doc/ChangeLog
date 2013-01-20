@@ -1,3 +1,10 @@
+2013-01-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Source in Core dir (public types) placed in tree root.
+  * Project SampleApp renamed to CommandLine.Demo (+ minor refactoring,
+      better comments).
+  * Version incremented to 1.9.4.119 Beta.
+
 2013-01-19	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Updated SR.strings.cs and tools/invariantstr.exe.

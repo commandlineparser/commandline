@@ -79,19 +79,6 @@
     <Compile Include="Attributes\OptionListAttribute.cs" />
     <Compile Include="Attributes\ParserStateAttribute.cs" />
     <Compile Include="Attributes\ValueListAttribute.cs" />
-    <Compile Include="Core\CommandLineParser.cs" />
-    <Compile Include="Core\CommandLineParser.Strict.cs">
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Core\CommandLineParser.Verbs.cs">
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Core\IParserState.cs" />
-    <Compile Include="Core\BadOptionInfo.cs" />
-    <Compile Include="Core\ParsingError.cs" />
-    <Compile Include="Core\ParserState.cs" />
-    <Compile Include="Core\ICommandLineParser.cs" />
-    <Compile Include="Core\CommandLineParserException.cs" />
     <Compile Include="Internal\Assumes.cs" />
     <Compile Include="Internal\SR.strings.cs">
       <DependentUpon>SR.strings</DependentUpon>
@@ -115,7 +102,6 @@
     <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Text\HelpText.cs" />
-    <Compile Include="Core\CommandLineParserSettings.cs" />
     <Compile Include="Properties\ThisLibrary.cs" />
     <Compile Include="Text\BaseSentenceBuilder.cs" />
     <Compile Include="Text\EnglishSentenceBuilder.cs" />
@@ -128,6 +114,20 @@
     <Compile Include="Text\FormatOptionHelpTextEventArgs.cs" />
     <Compile Include="Attributes\HelpVerbOptionAttribute.cs" />
     <Compile Include="Attributes\VerbOptionAttribute.cs" />
+    <Compile Include="BadOptionInfo.cs" />
+    <Compile Include="CommandLineParser.cs" />
+    <Compile Include="CommandLineParser.Strict.cs">
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CommandLineParser.Verbs.cs">
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CommandLineParserException.cs" />
+    <Compile Include="CommandLineParserSettings.cs" />
+    <Compile Include="ICommandLineParser.cs" />
+    <Compile Include="IParserState.cs" />
+    <Compile Include="ParserState.cs" />
+    <Compile Include="ParsingError.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

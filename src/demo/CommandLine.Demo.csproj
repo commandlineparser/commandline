@@ -8,7 +8,7 @@
     <ProjectGuid>{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>SampleApp</RootNamespace>
-    <AssemblyName>SampleApp</AssemblyName>
+    <AssemblyName>DemoApp</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -116,38 +116,6 @@
     <Compile Include="..\libcmdline\Text\MultiLineTextAttribute.cs">
       <Link>Library\Text\MultiLineTextAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Core\BadOptionInfo.cs">
-      <Link>Library\Core\BadOptionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParser.cs">
-      <Link>Library\Core\CommandLineParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParser.Strict.cs">
-      <Link>Library\Core\CommandLineParser.Strict.cs</Link>
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParser.Verbs.cs">
-      <Link>Library\Core\CommandLineParser.Verbs.cs</Link>
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParserException.cs">
-      <Link>Library\Core\CommandLineParserException.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParserSettings.cs">
-      <Link>Library\Core\CommandLineParserSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\ICommandLineParser.cs">
-      <Link>Library\Core\ICommandLineParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\IParserState.cs">
-      <Link>Library\Core\IParserState.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\ParserState.cs">
-      <Link>Library\Core\ParserState.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\ParsingError.cs">
-      <Link>Library\Core\ParsingError.cs</Link>
-    </Compile>
     <Compile Include="..\libcmdline\Attributes\BaseOptionAttribute.cs">
       <Link>Library\Attributes\BaseOptionAttribute.cs</Link>
     </Compile>
@@ -177,6 +145,41 @@
     </Compile>
     <Compile Include="..\libcmdline\Properties\ThisLibrary.cs">
       <Link>Library\ThisLibrary.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\BadOptionInfo.cs">
+      <Link>Library\BadOptionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParser.cs">
+      <Link>Library\CommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParser.Strict.cs">
+      <Link>Library\CommandLineParser.Strict.cs</Link>
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParser.Verbs.cs">
+      <Link>Library\CommandLineParser.Verbs.cs</Link>
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParserException.cs">
+      <Link>Library\CommandLineParserException.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParserSettings.cs">
+      <Link>Library\CommandLineParserSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\ICommandLineParser.cs">
+      <Link>Library\ICommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\IParserState.cs">
+      <Link>Library\IParserState.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\ParserState.cs">
+      <Link>Library\ParserState.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\ParsingError.cs">
+      <Link>Library\ParsingError.cs</Link>
+    </Compile>
+    <Compile Include="Program.Options.cs">
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

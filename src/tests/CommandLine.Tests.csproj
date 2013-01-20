@@ -30,22 +30,19 @@
     <DefineConstants>UNIT_TESTS</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.mocks, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
-    </Reference>
-    <Reference Include="pnunit.framework, Version=1.0.4109.34242, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="Should.Fluent">
       <HintPath>..\..\packages\ShouldFluent.1.1.12.0\lib\Should.Fluent.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.mocks">
+      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="pnunit.framework">
+      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\libcmdline\Attributes\BaseOptionAttribute.cs">
@@ -74,38 +71,6 @@
     </Compile>
     <Compile Include="..\libcmdline\Attributes\VerbOptionAttribute.cs">
       <Link>Library\Attributes\VerbOptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\BadOptionInfo.cs">
-      <Link>Library\Core\BadOptionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParser.cs">
-      <Link>Library\Core\CommandLineParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParser.Strict.cs">
-      <Link>Library\Core\CommandLineParser.Strict.cs</Link>
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParser.Verbs.cs">
-      <Link>Library\Core\CommandLineParser.Strict.cs</Link>
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParserException.cs">
-      <Link>Library\Core\CommandLineParserException.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\CommandLineParserSettings.cs">
-      <Link>Library\Core\CommandLineParserSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\ICommandLineParser.cs">
-      <Link>Library\Core\ICommandLineParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\IParserState.cs">
-      <Link>Library\Core\IParserState.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\ParserState.cs">
-      <Link>Library\Core\ParserState.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Core\ParsingError.cs">
-      <Link>Library\Core\ParsingError.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Internal\ArgumentParser.cs">
       <Link>Library\Internal\ArgumentParser.cs</Link>
@@ -246,6 +211,38 @@
     <Compile Include="Mocks\OptionsForPlugInScenario.cs" />
     <Compile Include="Mocks\OptionsWithUIntArray.cs" />
     <Compile Include="Text\MultiLineTextAttributeFixture.cs" />
+    <Compile Include="..\libcmdline\BadOptionInfo.cs">
+      <Link>Library\BadOptionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParser.cs">
+      <Link>Library\CommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParser.Strict.cs">
+      <Link>Library\CommandLineParser.Strict.cs</Link>
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParser.Verbs.cs">
+      <Link>Library\CommandLineParser.Verbs.cs</Link>
+      <DependentUpon>CommandLineParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParserException.cs">
+      <Link>Library\CommandLineParserException.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\CommandLineParserSettings.cs">
+      <Link>Library\CommandLineParserSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\ICommandLineParser.cs">
+      <Link>Library\ICommandLineParser.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\IParserState.cs">
+      <Link>Library\IParserState.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\ParserState.cs">
+      <Link>Library\ParserState.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\ParsingError.cs">
+      <Link>Library\ParsingError.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

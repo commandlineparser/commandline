@@ -40,124 +40,16 @@ using CommandLine.Text.Tests;
 #endif
 #endregion
 
-namespace SampleApp
+namespace CommandLine.Demo
 {
-    sealed class Program
+    sealed partial class Program
     {
         private static readonly HeadingInfo _headingInfo = new HeadingInfo("sampleapp", "1.8");
-
-        private enum OptimizeFor
-        {
-            Unspecified,
-            Speed,
-            Accuracy
-        }
-
-        private sealed class Options //: CommandLineOptionsBase (<- this is not required anymore for receive errors)
-        {
-            #region Standard Option Attribute
-            [Option('r', "read", MetaValue = "FILE", Required = true, HelpText = "Input file with data to process.")]
-            public string InputFile {get; set;}
-
-            [Option('w', "write", MetaValue = "FILE", HelpText = "Output FILE with processed data (otherwise standard output).")]
-            public string OutputFile { get; set; }
-
-            [Option("calculate", HelpText = "Add results in bottom of tabular data.")]
-            public bool Calculate { get; set; }
-
-            [Option('v', MetaValue = "INT", HelpText = "Verbose level. Range: from 0 to 2.")]
-            public int? VerboseLevel { get; set; }
-             
-            [Option("i", HelpText = "If file has errors don't stop processing.")]
-            public bool IgnoreErrors { get; set; }
-
-            [Option('j', "jump", MetaValue = "INT", DefaultValue = 0, HelpText = "Data processing start offset.")]
-            public double StartOffset { get; set; }
-
-            [Option("optimize", HelpText = "Optimize for Speed|Accuracy.")]
-            public OptimizeFor Optimization {get;set;}
-          
-            #endregion
-
-            #region Specialized Option Attribute
-            [ValueList(typeof(List<string>))]
-            [DefaultValue(null)]
-            public IList<string> DefinitionFiles { get; set; }
-
-            [OptionList('o', "operators", Separator = ';', HelpText = "Operators included in processing (+;-;...)." +
-                " Separate each operator with a semicolon." + " Do not include spaces between operators and separator.")]
-            [DefaultValue(null)]
-            public IList<string> AllowedOperators { get; set; }
-            #endregion
-
-            #region Help Screen
-            [ParserState]
-            public IParserState LastParserState { get; set; }
-
-            [HelpOption]
-            public string GetUsage()
-            {
-                return HelpText.AutoBuild(this, (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
-            }
-
-            /*
-            [HelpOption]
-            public string GetUsage()
-            {
-                return HelpText.AutoBuild(this, delegate(HelpText current) {
-                    if (this.LastPostParsingState.Errors.Count > 0)
-                    {
-                        var errors = current.RenderParsingErrorsText(this, 2); // indent with two spaces
-                        if (!string.IsNullOrEmpty(errors))
-                        {
-                            current.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
-                            current.AddPreOptionsLine(errors);
-                        }
-                    }
-                });
-            }
-            */
-
-            /*
-            [HelpOption]
-            public string GetUsage()
-            {
-                var help = new HelpText { Heading = Program._headingInfo,
-                    Copyright = new CopyrightInfo("Giacomo Stelluti Scala", 2005, 2012),
-                    AdditionalNewLineAfterOption = true,
-                    AddDashesToOption = true
-                };
-                this.HandleParsingErrorsInHelp(help);
-                help.AddPreOptionsLine("This is free software. You may redistribute copies of it under the terms of");
-                help.AddPreOptionsLine("the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
-                help.AddPreOptionsLine("Usage: SampleApp -rMyData.in -wMyData.out --calculate");
-                help.AddPreOptionsLine(string.Format("       SampleApp -rMyData.in -i -j{0} file0.def file1.def", 9.7));
-                help.AddPreOptionsLine("       SampleApp -rMath.xml -wReport.bin -o *;/;+;-");
-                help.AddOptions(this);
-
-                return help;
-            }
-
-            private void HandleParsingErrorsInHelp(HelpText help)
-            {
-                if (this.LastPostParsingState.Errors.Count > 0)
-                {
-                    var errors = help.RenderParsingErrorsText(this, 2); // indent with two spaces
-                    if (!string.IsNullOrEmpty(errors))
-                    {
-                        help.AddPreOptionsLine(string.Concat(Environment.NewLine, "ERROR(S):"));
-                        help.AddPreOptionsLine(errors);
-                    }
-                }
-            }
-            */
-            #endregion
-        }
 
         /// <summary>
         /// Application's Entry Point.
         /// </summary>
-        /// <param name="args">Command Line Arguments splitted by the System.</param>
+        /// <param name="args">Command line arguments splitted by the system.</param>
         private static void Main(string[] args)
         {
 #if EXEC_TESTS
