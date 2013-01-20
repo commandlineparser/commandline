@@ -29,12 +29,13 @@
 #region Using Directives
 using System;
 using System.IO;
+using CommandLine.Tests;
 using CommandLine.Tests.Mocks;
 using NUnit.Framework;
 using Should.Fluent;
 #endregion
 
-namespace CommandLine.Tests.Text
+namespace CommandLine.Text.Tests
 {
     [TestFixture]
     public class VerbsHelpTextFixture : CommandLineParserBaseFixture

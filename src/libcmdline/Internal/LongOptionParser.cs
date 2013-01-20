@@ -39,7 +39,7 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal sealed class LongOptionParser : ArgumentParser
+    sealed class LongOptionParser : ArgumentParser
     {
         public LongOptionParser(bool ignoreUnkwnownArguments)
         {

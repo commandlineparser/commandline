@@ -73,7 +73,7 @@ namespace CommandLine
         /// </summary>
         public int MaximumElements { get; set; }
 
-        internal Type ConcreteType { get { return _concreteType; } }
+        public Type ConcreteType { get { return _concreteType; } }
 
         internal static IList<string> GetReference(object target)
         {

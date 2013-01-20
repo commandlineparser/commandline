@@ -75,8 +75,8 @@ namespace CommandLine.Internal
                     };
                 if (!optionInfo.HasParameterLessCtor && verb.Left.GetValue(target, null) == null)
                 {
-                    throw new CommandLineParserException(string.Format("Type {0} must have a parameterless constructor or" +
-                        " be already initialized to be used as a verb command.", verb.Left.PropertyType));
+                    throw new CommandLineParserException("Type {0} must have a parameterless constructor or" +
+                        " be already initialized to be used as a verb command.".FormatInvariant(verb.Left.PropertyType));
                 }
                 map[verb.Right.UniqueName] = optionInfo;
             }

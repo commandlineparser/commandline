@@ -39,7 +39,7 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal static class ReflectionUtil
+    static class ReflectionUtil
     {
         public static IList<Pair<PropertyInfo, TAttribute>> RetrievePropertyList<TAttribute>(object target)
                 where TAttribute : Attribute

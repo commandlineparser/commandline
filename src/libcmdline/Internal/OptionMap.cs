@@ -39,7 +39,7 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal sealed class OptionMap
+    sealed class OptionMap
     {
         private sealed class MutuallyExclusiveInfo
         {

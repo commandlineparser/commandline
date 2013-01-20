@@ -28,13 +28,10 @@
 #endregion
 #region Using Directives
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using CommandLine.Internal;
 #endregion
-//
-// Needs CMDLINE_VERBS preprocessor directive defined at compile time.
-//
+
 namespace CommandLine
 {
     /// <summary>
@@ -91,9 +88,9 @@ namespace CommandLine
             var method = helpInfo.Left;
             if (!CheckMethodSignature(method))
             {
-                throw new MemberAccessException(string.Format(
+                throw new MemberAccessException(
                     "{0} has an incorrect signature. " +
-                    "Help verb command requires a method that accepts and returns a string.", method.Name));
+                    "Help verb command requires a method that accepts and returns a string.".FormatInvariant(method.Name));
             }
             text = (string) method.Invoke(target, new object[] {verb});
         }

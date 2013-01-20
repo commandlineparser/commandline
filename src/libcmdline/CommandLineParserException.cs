@@ -44,23 +44,23 @@ namespace CommandLine
     /// This exception is thrown when a generic parsing error occurs.
     /// </summary>
     [Serializable]
-    public sealed class CommandLineParserException : Exception
+    public class CommandLineParserException : Exception
     {
-        internal CommandLineParserException()
+        public CommandLineParserException()
         {
         }
 
-        internal CommandLineParserException(string message)
+        public CommandLineParserException(string message)
             : base(message)
         {
         }
 
-        internal CommandLineParserException(string message, Exception innerException)
+        public CommandLineParserException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
-        internal CommandLineParserException(SerializationInfo info, StreamingContext context)
+        protected CommandLineParserException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

@@ -39,7 +39,7 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal static class Assumes
+    static class Assumes
     {
         public static void NotNull<T>(T value, string paramName)
             where T : class

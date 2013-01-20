@@ -49,25 +49,6 @@ namespace CommandLine.Text
         public event EventHandler<FormatOptionHelpTextEventArgs> FormatOptionHelpText;
 
         /// <summary>
-        /// Message type enumeration.
-        /// </summary>
-        public enum MessageEnum : short
-        {
-            /// <summary>
-            /// Parsing error due to a violation of the format of an option value.
-            /// </summary>
-            ParsingErrorViolatesFormat,
-            /// <summary>
-            /// Parsing error due to a violation of mandatory option.
-            /// </summary>
-            ParsingErrorViolatesRequired,
-            /// <summary>
-            /// Parsing error due to a violation of the mutual exclusiveness of two or more option.
-            /// </summary>
-            ParsingErrorViolatesExclusiveness
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class.
         /// </summary>
         public HelpText()
@@ -212,8 +193,21 @@ namespace CommandLine.Text
         /// </returns>
         /// <param name='options'>The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
         /// <param name='errDelegate'>A delegate used to customize the text block for reporting parsing errors.</param>
-        /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise (default) it outputs options.</param>
-        public static HelpText AutoBuild(object options, HandleParsingErrorsDelegate errDelegate, bool verbsIndex = false)
+        public static HelpText AutoBuild(object options, ParsingErrorsHandler errDelegate)
+        {
+            return AutoBuild(options, errDelegate, false);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults.
+        /// </summary>
+        /// <returns>
+        /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
+        /// </returns>
+        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name='errDelegate'>A delegate used to customize the text block for reporting parsing errors.</param>
+        /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
+        public static HelpText AutoBuild(object options, ParsingErrorsHandler errDelegate, bool verbsIndex)
         {
             var auto = new HelpText {
                 Heading = HeadingInfo.Default,
@@ -282,6 +276,7 @@ namespace CommandLine.Text
         /// </summary>
         public string Heading
         {
+            get { return _heading; }
             set
             {
                 Assumes.NotNullOrEmpty(value, "value");
@@ -295,6 +290,7 @@ namespace CommandLine.Text
         /// </summary>
         public string Copyright
         {
+            get { return _heading; }
             set
             {
                 Assumes.NotNullOrEmpty(value, "value");
@@ -447,7 +443,7 @@ namespace CommandLine.Text
             foreach (var e in parserState.Errors)
             {
                 var line = new StringBuilder();
-                line.Append(StringUtil.Spaces(indent));
+                line.Append(indent.Spaces());
                 if (e.BadOption.ShortName != null)
                 {
                     line.Append('-');
@@ -541,11 +537,11 @@ namespace CommandLine.Text
             _optionsHelp.Append("    ");
             if (option.HasDefaultValue)
             {
-                option.HelpText = String.Format("(Default: {0}) ", option.DefaultValue) + option.HelpText;
+                option.HelpText = "(Default: {0}) ".FormatLocal(option.DefaultValue) + option.HelpText;
             }
             if (option.Required)
             {
-                option.HelpText = String.Format("{0} ", requiredWord) + option.HelpText;
+                option.HelpText = "{0} ".FormatInvariant(requiredWord) + option.HelpText;
             }
 
             var e = new FormatOptionHelpTextEventArgs(option);

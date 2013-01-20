@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: MultiLineTextAttribute.cs
+// Command Line Library: MultilineTextAttribute.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -37,26 +37,26 @@ namespace CommandLine.Text
     /// <summary>
     /// Provides base properties for creating an attribute, used to define multiple lines of text.
     /// </summary>
-    public abstract class MultiLineTextAttribute : Attribute
+    public abstract class MultilineTextAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.MultiLineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
         /// using one line of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
-        protected MultiLineTextAttribute(string line1)
+        protected MultilineTextAttribute(string line1)
         {
             Assumes.NotNullOrEmpty(line1, "line1");
             _line1 = line1;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.MultiLineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
         /// using two lines of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
         /// <param name="line2">The second line of text.</param>
-        protected MultiLineTextAttribute(string line1, string line2)
+        protected MultilineTextAttribute(string line1, string line2)
             : this(line1)
         {
             Assumes.NotNullOrEmpty(line2, "line2");
@@ -64,13 +64,13 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.MultiLineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
         /// using three lines of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
         /// <param name="line2">The second line of text.</param>
         /// <param name="line3">The third line of text.</param>
-        protected MultiLineTextAttribute(string line1, string line2, string line3)
+        protected MultilineTextAttribute(string line1, string line2, string line3)
             : this(line1, line2)
         {
             Assumes.NotNullOrEmpty(line3, "line3");
@@ -78,14 +78,14 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.MultiLineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
         /// using four lines of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
         /// <param name="line2">The second line of text.</param>
         /// <param name="line3">The third line of text.</param>
         /// <param name="line4">The fourth line of text.</param>
-        protected MultiLineTextAttribute(string line1, string line2, string line3, string line4)
+        protected MultilineTextAttribute(string line1, string line2, string line3, string line4)
             : this(line1, line2, line3)
         {
             Assumes.NotNullOrEmpty(line4, "line4");
@@ -93,7 +93,7 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.MultiLineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
         /// using five lines of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
@@ -101,7 +101,7 @@ namespace CommandLine.Text
         /// <param name="line3">The third line of text.</param>
         /// <param name="line4">The fourth line of text.</param>
         /// <param name="line5">The fifth line of text.</param>
-        protected MultiLineTextAttribute(string line1, string line2, string line3, string line4, string line5)
+        protected MultilineTextAttribute(string line1, string line2, string line3, string line4, string line5)
             : this(line1, line2, line3, line4)
         {
             Assumes.NotNullOrEmpty(line5, "line5");
@@ -136,10 +136,10 @@ namespace CommandLine.Text
         /// </summary>
         /// <returns>The last index of line of the non-blank line.
         /// </returns>
-        /// <param name='strArray'>The string array to process.</param>
-        protected virtual int GetLastLineWithText(string[] strArray)
+        /// <param name='value'>The string array to process.</param>
+        protected virtual int GetLastLineWithText(string[] value)
         {
-            int index = Array.FindLastIndex(strArray, (str) => { return !string.IsNullOrEmpty(str); });
+            int index = Array.FindLastIndex(value, (str) => { return !string.IsNullOrEmpty(str); });
 
             // remember FindLastIndex returns zero-based index
             return index + 1;
@@ -162,6 +162,16 @@ namespace CommandLine.Text
                 return value.ToString();
             }
         }
+
+        public string Line1 { get { return _line1; } }
+
+        public string Line2 { get { return _line2; } }
+
+        public string Line3 { get { return _line3; } }
+
+        public string Line4 { get { return _line4; } }
+
+        public string Line5 { get { return _line5; } }
 
         private readonly string _line1;
         private readonly string _line2;

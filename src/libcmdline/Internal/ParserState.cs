@@ -33,7 +33,7 @@ using System;
 namespace CommandLine.Internal
 {
     [Flags]
-    internal enum ParserState : ushort
+    enum ParserState : ushort
     {
         Success = 0x01,
         Failure = 0x02,

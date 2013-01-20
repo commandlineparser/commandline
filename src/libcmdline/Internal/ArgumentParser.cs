@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -39,7 +40,7 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal abstract class ArgumentParser
+    abstract class ArgumentParser
     {
         protected ArgumentParser()
         {
@@ -57,8 +58,8 @@ namespace CommandLine.Internal
 
         public static ArgumentParser Create(string argument, bool ignoreUnknownArguments = false)
         {
-            if (StringUtil.IsNumeric(argument)) { return null; }
-            if (argument.Equals("-", StringComparison.InvariantCulture)) { return null; }
+            if (argument.IsNumeric()) { return null; }
+            if (string.CompareOrdinal(argument, "-") == 0) { return null; }
             if (argument[0] == '-' && argument[1] == '-')
             {
                 return new LongOptionParser(ignoreUnknownArguments);
@@ -72,10 +73,10 @@ namespace CommandLine.Internal
 
         public static bool IsInputValue(string argument)
         {
-            if (StringUtil.IsNumeric(argument)) { return true; }
+            if (argument.IsNumeric()) { return true; }
             if (argument.Length > 0)
             {
-                return argument.Equals("-", StringComparison.InvariantCulture) || argument[0] != '-';
+                return string.CompareOrdinal(argument, "-") == 0 || argument[0] != '-';
             }
             return true;
         }
@@ -99,12 +100,18 @@ namespace CommandLine.Internal
 
         public static bool CompareShort(string argument, char? option, bool caseSensitive)
         {
-            return string.Compare(argument, string.Concat("-", new string(option.Value, 1)), !caseSensitive) == 0;
+            var completeShortName = string.Concat("-", new string(option.Value, 1));
+
+            return string.Compare(argument, completeShortName,
+                caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         public static bool CompareLong(string argument, string option, bool caseSensitive)
         {
-            return string.Compare(argument, "--" + option, !caseSensitive) == 0;
+            var completeLongName = string.Concat("--", option);
+
+            return string.Compare(argument, completeLongName,
+                caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         protected static Internal.ParserState BooleanToParserState(bool value)

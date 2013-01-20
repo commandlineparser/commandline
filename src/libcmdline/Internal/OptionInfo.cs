@@ -31,16 +31,17 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Threading;
 #endregion
 
 namespace CommandLine.Internal
 {
+
+    [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.")]
     [DebuggerDisplay("ShortName = {ShortName}, LongName = {LongName}")]
-    internal sealed partial class OptionInfo
+    sealed partial class OptionInfo
     {
         public OptionInfo(OptionAttribute attribute, PropertyInfo property)
         {
@@ -150,8 +151,8 @@ namespace CommandLine.Internal
             {
                 _property.SetValue(options, nc.ConvertFromString(null, Thread.CurrentThread.CurrentCulture, value), null);
             }
-            // the FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException,
-            // so we've catch directly System.Exception
+            // FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException,
+            // so we've to catch directly System.Exception
             catch (Exception)
             {
                 return false;

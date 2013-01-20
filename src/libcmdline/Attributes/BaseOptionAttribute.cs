@@ -48,7 +48,7 @@ namespace CommandLine
             {
                 //if (value != null && value.Length > 1)
                 //    throw new ArgumentException("ShortName length must be 1 character or null.");
-                if (value != null && (StringUtil.IsWhiteSpace(value.Value) || StringUtil.IsLineTerminator(value.Value)))
+                if (value != null && (value.Value.IsWhiteSpace() || value.Value.IsLineTerminator()))
                 {
                     throw new ArgumentException("ShortName with whitespace or line terminator character is not allowed.");
                 }

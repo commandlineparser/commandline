@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FxCopProject Version="10.0" Name="My FxCop Project">
+ <ProjectOptions>
+  <SharedProject>True</SharedProject>
+  <Stylesheet Apply="False">$(FxCopDir)\Xml\FxCopReport.xsl</Stylesheet>
+  <SaveMessages>
+   <Project Status="Active, Excluded, Good, Noise" NewOnly="False" />
+   <Report Status="Active, Good, Noise" NewOnly="False" />
+  </SaveMessages>
+  <ProjectFile Compress="True" DefaultTargetCheck="True" DefaultRuleCheck="True" SaveByRuleGroup="" Deterministic="True" />
+  <EnableMultithreadedLoad>True</EnableMultithreadedLoad>
+  <EnableMultithreadedAnalysis>True</EnableMultithreadedAnalysis>
+  <SourceLookup>True</SourceLookup>
+  <AnalysisExceptionsThreshold>10</AnalysisExceptionsThreshold>
+  <RuleExceptionsThreshold>1</RuleExceptionsThreshold>
+  <Spelling Locale="en-US" />
+  <OverrideRuleVisibilities>False</OverrideRuleVisibilities>
+  <CustomDictionaries SearchFxCopDir="True" SearchUserProfile="True" SearchProjectDir="True" />
+  <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
+  <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
+  <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
+ </ProjectOptions>
+ <Targets>
+  <Target Name="$(ProjectDir)/src/libcmdline/bin/Release/CommandLine.dll" Analyze="True" AnalyzeAllChildren="True" />
+ </Targets>
+ <Rules>
+  <RuleFiles>
+   <RuleFile Name="$(FxCopDir)\Rules\DesignRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\GlobalizationRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\InteroperabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\MobilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\NamingRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PerformanceRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\PortabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\SecurityTransparencyRules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\UsageRules.dll" Enabled="True" AllRulesEnabled="True" />
+  </RuleFiles>
+  <Groups />
+  <Settings />
+ </Rules>
+ <FxCopReport Version="10.0">
+  <Targets>
+   <Target Name="$(ProjectDir)/src/libcmdline/bin/Release/CommandLine.dll">
+    <Modules>
+     <Module Name="commandline.dll">
+      <Namespaces>
+       <Namespace Name="CommandLine">
+        <Types>
+         <Type Name="CommandLineParser">
+          <Members>
+           <Member Name="#.ctor(System.Boolean)">
+            <Messages>
+             <Message Id="singleton" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2013-01-20 13:57:34Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>'singleton'</Item>
+               <Item>'CommandLineParser.CommandLineParser(bool)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetVerbOptionsInstanceByName(System.String,System.Object,System.Boolean&amp;)">
+            <Messages>
+             <Message Id="2#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'found'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="OptionAttribute">
+          <Messages>
+           <Message TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813" Created="2013-01-20 13:57:34Z">
+            <Issue>
+             <Item>'OptionAttribute'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#.ctor(System.Char)">
+            <Messages>
+             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'OptionAttribute.OptionAttribute(char)'</Item>
+               <Item>&#xD;&#xA;&#xD;&#xA;OptionAttribute..ctor(Char)&#xD;&#xA;BaseOptionAttribute.set_ShortName(Nullable&lt;Char&gt;):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#.ctor(System.Char,System.String)">
+            <Messages>
+             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'OptionAttribute.OptionAttribute(char, string)'</Item>
+               <Item>&#xD;&#xA;&#xD;&#xA;OptionAttribute..ctor(Char, String)&#xD;&#xA;BaseOptionAttribute.set_ShortName(Nullable&lt;Char&gt;):Void</Item>
+              </Issue>
+              <Issue>
+               <Item>'OptionAttribute.OptionAttribute(char, string)'</Item>
+               <Item>&#xD;&#xA;&#xD;&#xA;OptionAttribute..ctor(Char, String)&#xD;&#xA;BaseOptionAttribute.set_ShortName(Nullable&lt;Char&gt;):Void&#xD;&#xA;BaseOptionAttribute.set_LongName(String):Void&#xD;&#xA;BaseOptionAttribute.get_ShortName():Nullable&lt;Char&gt;</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="OptionListAttribute">
+          <Messages>
+           <Message TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019" Status="Excluded" Created="2013-01-20 13:57:34Z" FixCategory="Breaking">
+            <Issue Name="RemoveSetter">
+             <Item>'OptionListAttribute.Separator'</Item>
+             <Item>'separator'</Item>
+            </Issue>
+            <Notes>
+             <User Name="vmuser">
+              <Note Id="0" />
+             </User>
+            </Notes>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#.ctor(System.Char,System.String)">
+            <Messages>
+             <Message Id="shortName" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2013-01-20 13:57:34Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'shortName'</Item>
+               <Item>'OptionListAttribute.OptionListAttribute(char, string)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="CommandLine.Internal">
+        <Types>
+         <Type Name="Assumes">
+          <Members>
+           <Member Name="#NotNullOrEmpty(System.String,System.String,System.String)">
+            <Messages>
+             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'Assumes.NotNullOrEmpty(string, string, string)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#NotZeroLength`1(!!0[],System.String,System.String)">
+            <Messages>
+             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'Assumes.NotZeroLength&lt;T&gt;(T[], string, string)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="OneCharStringEnumerator">
+          <Members>
+           <Member Name="#Reset()">
+            <Messages>
+             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'OneCharStringEnumerator.Reset()'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="OptionInfo">
+          <Members>
+           <Member Name="#HelpText">
+            <Accessors>
+             <Accessor Name="#get_HelpText()">
+              <Messages>
+               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
+                <Issue>
+                 <Item>'OptionInfo.HelpText.get()'</Item>
+                </Issue>
+               </Message>
+              </Messages>
+             </Accessor>
+            </Accessors>
+           </Member>
+           <Member Name="#NameWithSwitch">
+            <Accessors>
+             <Accessor Name="#get_NameWithSwitch()">
+              <Messages>
+               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
+                <Issue>
+                 <Item>'OptionInfo.NameWithSwitch.get()'</Item>
+                </Issue>
+               </Message>
+              </Messages>
+             </Accessor>
+            </Accessors>
+           </Member>
+           <Member Name="#SetNullableValue(System.String,System.Object)">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Excluded" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'OptionInfo.SetNullableValue(string, object)'</Item>
+               <Item>'Exception'</Item>
+              </Issue>
+              <Notes>
+               <User Name="vmuser">
+                <Note Id="1" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="StringArrayEnumerator">
+          <Members>
+           <Member Name="#Reset()">
+            <Messages>
+             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'StringArrayEnumerator.Reset()'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="CommandLine.Text">
+        <Types>
+         <Type Name="CopyrightInfo">
+          <Members>
+           <Member Name="#.ctor(System.Boolean,System.String,System.Int32[])">
+            <Messages>
+             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'CopyrightInfo.CopyrightInfo(bool, string, params int[])'</Item>
+               <Item>&#xD;&#xA;&#xD;&#xA;CopyrightInfo..ctor(Boolean, String, Int32[])&#xD;&#xA;CopyrightInfo.get_CopyrightWord():String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="HelpText">
+          <Members>
+           <Member Name="#.ctor(System.String,System.String,System.Object)">
+            <Messages>
+             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-20 13:57:34Z">
+              <Issue>
+               <Item>'HelpText.HelpText(string, string, object)'</Item>
+               <Item>&#xD;&#xA;&#xD;&#xA;HelpText..ctor(String, String, Object)&#xD;&#xA;HelpText.AddOptions(Object):Void&#xD;&#xA;HelpText.AddOptions(Object, String):Void&#xD;&#xA;HelpText.AddOptions(Object, String, Int32):Void&#xD;&#xA;HelpText.AddOption(String, Int32, BaseOptionAttribute, Int32):Void&#xD;&#xA;HelpText.OnFormatOptionHelpText(FormatOptionHelpTextEventArgs):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+  </Targets>
+  <Notes>
+   <User Name="vmuser">
+    <Note Id="0" Modified="2013-01-20 14:49:13Z">The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char.</Note>
+    <Note Id="1" Modified="2013-01-20 16:14:59Z">FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.</Note>
+   </User>
+  </Notes>
+  <Rules>
+   <Rule TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021">
+    <Resolution Name="Default">Consider a design that does not require that {0} be an out parameter.</Resolution>
+   </Rule>
+   <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
+    <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>
+   </Rule>
+   <Rule TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813">
+    <Resolution Name="Default">Seal {0}, if possible.</Resolution>
+   </Rule>
+   <Rule TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019">
+    <Resolution Name="RemoveSetter">Remove the property setter from {0} or reduce its accessibility because it corresponds to positional argument {1}.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214">
+    <Resolution Name="Default">{0} contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: {1}</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+    <Resolution Name="Default">Modify {0} to catch a more specific exception than {1} or rethrow the exception.</Resolution>
+   </Rule>
+   <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
+    <Resolution Name="Default">Parameter {0} of {1} is never used. Remove the parameter or use it in the method body.</Resolution>
+   </Rule>
+  </Rules>
+ </FxCopReport>
+</FxCopProject>

@@ -1,5 +1,28 @@
 2013-01-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Types renamed to comply naming rules (FxCop CA1711):
+    - (breaking) HandleParsingErrorsDelegate to ParsingErrorsHandler.
+    - (breaking) MultiLineTextAttribute to MultilineTextAttribute.
+  * HelpText::AutoBuild removed default parameter, created overload (FxCop CA1026).
+  * HelpText::MessageEnum removed as no more used.
+  * VerbOptionAttribute made sealed as it should be from begin(FxCop CA1813).
+  * Added property getter to (FxCop CA1044):
+    - HelpText::Copyright
+    - HelpText::Heading
+    - CommandLineParserSettings::* (internal -> public)
+  * Added property getter to (FxCop CA1019):
+    - MultilineTextAttribute
+    - ValueListAttribute (::ConcreteType, internal -> public).
+  * Attributes AssemblyLicenseAttribute and AssemblyUsageAttribute set to ComVisible=false
+    as the entire assembly(FxCop CA1405).
+  * StringUtil -> StringExtensions, we can use extension method because the required
+      compatibility is C# 3.0 compiler.
+  * Fixed disposable pattern implementation in CommandLineParser and CommandLineParserSettings.
+  * CommandLineParserException no more sealed and externally creatable.
+  * Version incremented to 1.9.4.123 Beta.
+
+2013-01-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Removed synchronization from OptionInfo and TargetWrapper: elaboration occurs in
       one method call (::ParseArguments) and should not be divided across threads.
       If yes, synchronization must be provided by developer not by the library.

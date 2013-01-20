@@ -36,8 +36,8 @@ namespace CommandLine.Text
     /// <summary>
     /// Models a multiline assembly usage text.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, Inherited = false), ComVisible(true)]
-    public sealed class AssemblyUsageAttribute : MultiLineTextAttribute
+    [AttributeUsage(AttributeTargets.Assembly, Inherited = false), ComVisible(false)]
+    public sealed class AssemblyUsageAttribute : MultilineTextAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyUsageAttribute"/> class

@@ -26,12 +26,16 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+#endregion
 
 namespace CommandLine
 {
     /// <summary>
     /// Models an option that can accept multiple values as separated arguments.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class OptionArrayAttribute : OptionAttribute
     {
         /// <summary>

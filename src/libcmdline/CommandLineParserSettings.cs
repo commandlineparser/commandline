@@ -138,19 +138,19 @@ namespace CommandLine
         /// Gets or sets the case comparison behavior.
         /// Default is set to true.
         /// </summary>
-        public bool CaseSensitive { internal get; set; }
+        public bool CaseSensitive { get; set; }
 
         /// <summary>
         /// Gets or sets the mutually exclusive behavior.
         /// Default is set to false.
         /// </summary>
-        public bool MutuallyExclusive { internal get; set; }
+        public bool MutuallyExclusive { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="System.IO.TextWriter"/> used for help method output.
         /// Setting this property to null, will disable help screen.
         /// </summary>
-        public TextWriter HelpWriter { internal get; set; }
+        public TextWriter HelpWriter { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating if the parser shall move on to the next argument and ignore the given argument if it
@@ -163,7 +163,7 @@ namespace CommandLine
         /// This allows fragmented version class parsing, useful for project with addon where addons also requires command line arguments but
         /// when these are unknown by the main program at build time.
         /// </remarks>
-        public bool IgnoreUnknownArguments { internal get; set; }
+        public bool IgnoreUnknownArguments { get; set; }
 
         public void Dispose()
         {
@@ -174,11 +174,17 @@ namespace CommandLine
 
         private void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
             {
                 if (HelpWriter != null)
                 {
                     HelpWriter.Dispose();
+                    HelpWriter = null;
                 }
                 _disposed = true;
             }

@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -39,20 +40,33 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal static class StringUtil
+    /// <summary>
+    /// Utility extension methods for strings and characters.
+    /// </summary>
+    static class StringExtensions
     {
-        public static string Spaces(int count)
+        public static string Spaces(this int value)
         {
-            return new string(' ', count);
+            return new string(' ', value);
         }
 
-        public static bool IsNumeric(string value)
+        public static bool IsNumeric(this string value)
         {
             decimal temporary;
             return decimal.TryParse(value, out temporary);
         }
 
-        public static bool IsWhiteSpace(char c)
+        public static string FormatInvariant(this string value, params object[] arguments)
+        {
+            return string.Format(CultureInfo.InvariantCulture, value, arguments);
+        }
+
+        public static string FormatLocal(this string value, params object[] arguments)
+        {
+            return string.Format(CultureInfo.CurrentCulture, value, arguments);
+        }
+
+        public static bool IsWhiteSpace(this char c)
         {
             switch (c)
             {
@@ -69,7 +83,7 @@ namespace CommandLine.Internal
             }
         }
 
-        public static bool IsLineTerminator(char c)
+        public static bool IsLineTerminator(this char c)
         {
             switch (c)
             {

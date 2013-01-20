@@ -36,8 +36,8 @@ namespace CommandLine.Text
     /// <summary>
     /// Models a multiline assembly license text.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly, Inherited = false), ComVisible(true)]
-    public sealed class AssemblyLicenseAttribute : MultiLineTextAttribute
+    [AttributeUsage(AttributeTargets.Assembly, Inherited = false), ComVisible(false)]
+    public sealed class AssemblyLicenseAttribute : MultilineTextAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class

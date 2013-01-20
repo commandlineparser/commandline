@@ -79,13 +79,13 @@
     <Compile Include="Attributes\OptionListAttribute.cs" />
     <Compile Include="Attributes\ParserStateAttribute.cs" />
     <Compile Include="Attributes\ValueListAttribute.cs" />
-    <Compile Include="Internal\Assumes.cs" />
+    <Compile Include="Utils\Assumes.cs" />
     <Compile Include="Internal\SR.strings.cs">
       <DependentUpon>SR.strings</DependentUpon>
     </Compile>
-    <Compile Include="Internal\StringUtil.cs" />
+    <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="Internal\ReflectionUtil.cs" />
-    <Compile Include="Internal\Pair.cs" />
+    <Compile Include="Utils\Pair.cs" />
     <Compile Include="Internal\TargetWrapper.cs" />
     <Compile Include="Internal\LongOptionParser.cs" />
     <Compile Include="Internal\OptionGroupParser.cs" />
@@ -107,10 +107,10 @@
     <Compile Include="Text\EnglishSentenceBuilder.cs" />
     <Compile Include="Text\CopyrightInfo.cs" />
     <Compile Include="Text\HeadingInfo.cs" />
-    <Compile Include="Text\MultiLineTextAttribute.cs" />
-    <Compile Include="Text\AssemblyLicenseAttribute.cs" />
-    <Compile Include="Text\AssemblyUsageAttribute.cs" />
-    <Compile Include="Text\HandleParsingErrorsDelegate.cs" />
+    <Compile Include="Text\Attributes\MultiLineTextAttribute.cs" />
+    <Compile Include="Text\Attributes\AssemblyLicenseAttribute.cs" />
+    <Compile Include="Text\Attributes\AssemblyUsageAttribute.cs" />
+    <Compile Include="Text\ParsingErrorsHandler.cs" />
     <Compile Include="Text\FormatOptionHelpTextEventArgs.cs" />
     <Compile Include="Attributes\HelpVerbOptionAttribute.cs" />
     <Compile Include="Attributes\VerbOptionAttribute.cs" />
@@ -141,6 +141,7 @@
     <None Include="CommandLine.snk" />
     <None Include="Internal\SR.strings" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>

@@ -39,7 +39,7 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal sealed class OneCharStringEnumerator : IArgumentEnumerator
+    sealed class OneCharStringEnumerator : IArgumentEnumerator
     {
         public OneCharStringEnumerator(string value)
         {

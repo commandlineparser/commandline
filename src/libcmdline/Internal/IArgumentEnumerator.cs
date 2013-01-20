@@ -39,7 +39,7 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal interface IArgumentEnumerator
+    interface IArgumentEnumerator
     {
         string GetRemainingFromNext();
 

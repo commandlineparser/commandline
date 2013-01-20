@@ -39,7 +39,7 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal class TargetWrapper
+    sealed class TargetWrapper
     {
         public TargetWrapper(object target)
         {

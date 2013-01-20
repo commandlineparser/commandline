@@ -39,7 +39,7 @@ using System.Threading;
 
 namespace CommandLine.Internal
 {
-    internal sealed class OptionGroupParser : ArgumentParser
+    sealed class OptionGroupParser : ArgumentParser
     {
         public OptionGroupParser(bool ignoreUnkwnownArguments)
         {

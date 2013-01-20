@@ -237,9 +237,16 @@ namespace CommandLine
 
         private void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (_disposed)
             {
-                _settings.Dispose();
+                return;
+            }
+            if (disposing)
+            {
+                if (_settings != null)
+                {
+                    _settings.Dispose();
+                }
                 _disposed = true;
             }
         }

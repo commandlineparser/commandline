@@ -75,9 +75,6 @@
     <Compile Include="..\libcmdline\Internal\ArgumentParser.cs">
       <Link>Library\Internal\ArgumentParser.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Internal\Assumes.cs">
-      <Link>Library\Internal\Assumes.cs</Link>
-    </Compile>
     <Compile Include="..\libcmdline\Internal\IArgumentEnumerator.cs">
       <Link>Library\Internal\IArgumentEnumerator.cs</Link>
     </Compile>
@@ -100,9 +97,6 @@
     <Compile Include="..\libcmdline\Internal\OptionMap.cs">
       <Link>Library\Internal\OptionMap.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Internal\Pair.cs">
-      <Link>Library\Internal\Pair.cs</Link>
-    </Compile>
     <Compile Include="..\libcmdline\Internal\ParserState.cs">
       <Link>Library\Internal\ParserState.cs</Link>
     </Compile>
@@ -115,20 +109,20 @@
     <Compile Include="..\libcmdline\Internal\StringArrayEnumerator.cs">
       <Link>Library\Internal\StringArrayEnumerator.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Internal\StringUtil.cs">
-      <Link>Library\Internal\StringUtil.cs</Link>
-    </Compile>
     <Compile Include="..\libcmdline\Internal\TargetWrapper.cs">
       <Link>Library\Internal\TargetWrapper.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Properties\ThisLibrary.cs">
       <Link>Library\ThisLibrary.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Text\AssemblyLicenseAttribute.cs">
-      <Link>Library\Text\AssemblyLicenseAttribute.cs</Link>
+    <Compile Include="..\libcmdline\Text\Attributes\AssemblyLicenseAttribute.cs">
+      <Link>Library\Text\Attributes\AssemblyLicenseAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Text\AssemblyUsageAttribute.cs">
-      <Link>Library\Text\AssemblyUsageAttribute.cs</Link>
+    <Compile Include="..\libcmdline\Text\Attributes\AssemblyUsageAttribute.cs">
+      <Link>Library\Text\Attributes\AssemblyUsageAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Text\Attributes\MultiLineTextAttribute.cs">
+      <Link>Library\Text\Attributes\MultiLineTextAttribute.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Text\BaseSentenceBuilder.cs">
       <Link>Library\Text\BaseSentenceBuilder.cs</Link>
@@ -142,17 +136,23 @@
     <Compile Include="..\libcmdline\Text\FormatOptionHelpTextEventArgs.cs">
       <Link>Library\Text\FormatOptionHelpTextEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Text\HandleParsingErrorsDelegate.cs">
-      <Link>Library\Text\HandleParsingErrorsDelegate.cs</Link>
-    </Compile>
     <Compile Include="..\libcmdline\Text\HeadingInfo.cs">
       <Link>Library\Text\HeadingInfo.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Text\HelpText.cs">
       <Link>Library\Text\HelpText.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Text\MultiLineTextAttribute.cs">
-      <Link>Library\Text\MultiLineTextAttribute.cs</Link>
+    <Compile Include="..\libcmdline\Text\ParsingErrorsHandler.cs">
+      <Link>Library\Text\ParsingErrorsHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Utils\Assumes.cs">
+      <Link>Library\Utils\Assumes.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Utils\Pair.cs">
+      <Link>Library\Utils\Pair.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Utils\StringExtensions.cs">
+      <Link>Library\Utils\StringExtensions.cs</Link>
     </Compile>
     <Compile Include="Mocks\CommandLineOptionsBase.cs" />
     <Compile Include="Mocks\SimpleOptionsForStrict.cs" />
