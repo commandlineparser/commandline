@@ -42,12 +42,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyInformationalVersion(ThisAssembly.InformationalVersion)]
 [assembly: NeutralResourcesLanguage("en-US")]
 [assembly: AssemblyCulture("")]
-//[assembly: InternalsVisibleTo("CommandLine.Tests, PublicKey=" +
-//  "00240000048000009400000006020000002400005253413100040000010001005f2d4ad015120a" +
-//  "16600c77de58ee16abbf200b4fa10bb2a5f4a3e56d50cd79da7b18aae7eb1419407383ff12a4a9" +
-//  "60f35c47e367c85634b6e7ec6318fdd0064a88bf35701728045e07626397295c34c7a8699abed4" +
-//  "2821814aa2166b0632d8cd3a013396ad2a11f950b20022c20d4e801fd21dca3fc2c3a23280df12" +
-//  "6cf214bf")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 #else

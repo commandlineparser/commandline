@@ -1,3 +1,7 @@
+2013-01-22	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * CommandLine.snk regenerated, the current prevented the build process.
+
 2013-01-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Types renamed to comply naming rules (FxCop CA1711):
