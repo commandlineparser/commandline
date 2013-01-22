@@ -30,23 +30,21 @@
 using System;
 using CommandLine.Internal;
 #endregion
-//
-// Needs CMDLINE_VERBS preprocessor directive defined at compile time.
-//
+
 namespace CommandLine
 {
     /// <summary>
     /// Models a verb command specification.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class VerbOptionAttribute : OptionAttribute
+    public sealed class VerbOptionAttribute : BaseOptionAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.VerbOptionAttribute"/> class.
         /// </summary>
         /// <param name="longName">The long name of the verb command.</param>
         public VerbOptionAttribute(string longName)
-            : base(longName)
+            : base(null, longName)
         {
             Assumes.NotNullOrEmpty(longName, "longName");
         }
@@ -57,7 +55,7 @@ namespace CommandLine
         public override char? ShortName
         {
             get { return null; }
-            internal set {}
+            internal set { throw new InvalidOperationException(SR.InvalidOperationException_DoNotUseShortNameForVerbCommands); }
         }
 
         /// <summary>
@@ -66,7 +64,7 @@ namespace CommandLine
         public override bool Required
         {
             get { return false; }
-            set {}
+            set { throw new InvalidOperationException(SR.InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands); }
         }
     }
 }

@@ -28,6 +28,7 @@
 #endregion
 #region Using Directives
 using System;
+using System.Diagnostics;
 using CommandLine.Internal;
 #endregion
 
@@ -38,28 +39,69 @@ namespace CommandLine
     /// </summary>
     public abstract class BaseOptionAttribute : Attribute
     {
+        internal const string DefaultMutuallyExclusiveSet = "Default";
+
+        protected BaseOptionAttribute(char shortName, string longName)
+        {
+            _shortName = shortName;
+            if (_shortName.Value.IsWhiteSpace() || _shortName.Value.IsLineTerminator())
+            {
+                throw new ArgumentException(SR.ArgumentException_NoWhiteSpaceOrLineTerminatorInShortName, "shortName");
+            }
+            UniqueName = new string(shortName, 1);
+            LongName = longName;
+        }
+
+        protected BaseOptionAttribute(char? shortName, string longName)
+        {
+            _shortName = shortName;
+            if (_shortName != null)
+            {
+                if (_shortName.Value.IsWhiteSpace() || _shortName.Value.IsLineTerminator())
+                {
+                    throw new ArgumentException(SR.ArgumentException_NoWhiteSpaceOrLineTerminatorInShortName, "shortName");
+                }
+                UniqueName = new string(_shortName.Value, 1);
+            }
+            LongName = longName;
+            if (UniqueName != null)
+            {
+                return;
+            }
+            if (LongName == null)
+            {
+                throw new ArgumentNullException("longName", SR.ArgumentNullException_LongNameCannotBeNullWhenShortNameIsUndefined);
+            }
+            UniqueName = LongName;
+        }
+
         /// <summary>
         /// Short name of this command line option. You can use only one character.
         /// </summary>
         public virtual char? ShortName
         {
             get { return _shortName; }
-            internal set
-            {
-                //if (value != null && value.Length > 1)
-                //    throw new ArgumentException("ShortName length must be 1 character or null.");
-                if (value != null && (value.Value.IsWhiteSpace() || value.Value.IsLineTerminator()))
-                {
-                    throw new ArgumentException("ShortName with whitespace or line terminator character is not allowed.");
-                }
-                _shortName = value;
-            }
+            internal set { _shortName = value; }
         }
 
         /// <summary>
         /// Long name of this command line option. This name is usually a single english word.
         /// </summary>
         public string LongName { get; internal set; }
+
+        internal string UniqueName { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the option's mutually exclusive set.
+        /// </summary>
+        public string MutuallyExclusiveSet
+        {
+            get { return _mutuallyExclusiveSet; }
+            set
+            {
+                _mutuallyExclusiveSet = string.IsNullOrEmpty(value) ? DefaultMutuallyExclusiveSet : value;
+            }
+        }
 
         /// <summary>
         /// True if this command line option is required.
@@ -75,7 +117,7 @@ namespace CommandLine
             set
             {
                 _defaultValue = value;
-                _hasDefaultValue = true;
+                HasDefaultValue = true;
             }
         }
 
@@ -107,10 +149,7 @@ namespace CommandLine
             get { return !string.IsNullOrEmpty(LongName); }
         }
 
-        internal bool HasDefaultValue
-        {
-            get { return _hasDefaultValue; }
-        }
+        internal bool HasDefaultValue { get; private set; }
 
         internal bool HasMetaValue
         {
@@ -119,8 +158,8 @@ namespace CommandLine
 
         private char? _shortName;
         private object _defaultValue;
-        private bool _hasDefaultValue;
         private string _metaValue;
         private bool _hasMetaValue;
+        private string _mutuallyExclusiveSet;
     }
 }

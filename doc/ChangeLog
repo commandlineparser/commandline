@@ -1,5 +1,14 @@
 2013-01-22	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Refactored BaseOptionAttribute to avoid virtual member call in ctor in OptionAttribute (FxCop CA2214).
+  * OptionArrayAttribute and OptionListAttribute inherits directly from BaseOptionAttribute. This allows to
+      make OptionAttribute sealed (FxCop CA1813).
+  * Also VerbOptionAttribute derives now from BaseOptionAttribute.
+  * OptionInfo, OptionMap, ReflectionUtil modified to work directly with BaseOptionAttribute.
+  * Version incremented to 1.9.4.127 Beta.
+
+2013-01-22	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Added solution folder "Files" to CommandLine.sln.
   * OptionMap constructor is now private. Instance is now created by two factory methods '::Create()'
       derived by 'OptionInfo::CreateMap()'.

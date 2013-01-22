@@ -59,9 +59,8 @@ namespace CommandLine
         /// </summary>
         /// <param name="shortName">The short name of the option.</param>
         public HelpOptionAttribute(char shortName)
+            : base(shortName, null)
         {
-            ShortName = shortName;
-            LongName = null;
             HelpText = DefaultHelpText;
         }
 
@@ -71,9 +70,8 @@ namespace CommandLine
         /// </summary>
         /// <param name="longName">The long name of the option or null if not used.</param>
         public HelpOptionAttribute(string longName)
+            : base(null, longName)
         {
-            ShortName = null;
-            LongName = longName;
             HelpText = DefaultHelpText;
         }
 
@@ -84,9 +82,8 @@ namespace CommandLine
         /// <param name="shortName">The short name of the option.</param>
         /// <param name="longName">The long name of the option or null if not used.</param>
         public HelpOptionAttribute(char shortName, string longName)
+            : base(shortName, longName)
         {
-            ShortName = shortName;
-            LongName = longName;
             HelpText = DefaultHelpText;
         }
 

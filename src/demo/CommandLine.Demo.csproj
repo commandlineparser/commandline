@@ -182,7 +182,6 @@
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
   <ItemGroup>
     <None Include="..\libcmdline\Internal\SR.strings">
       <Link>Library\Internal\SR.strings</Link>

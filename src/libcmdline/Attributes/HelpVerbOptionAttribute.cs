@@ -58,8 +58,8 @@ namespace CommandLine
         /// </summary>
         /// <param name="longName"></param>
         public HelpVerbOptionAttribute(string longName)
+            : base(null, longName)
         {
-            LongName = longName;
             HelpText = DefaultHelpText;
         }
 
@@ -89,8 +89,7 @@ namespace CommandLine
             if (!CheckMethodSignature(method))
             {
                 throw new MemberAccessException(
-                    "{0} has an incorrect signature. " +
-                    "Help verb command requires a method that accepts and returns a string.".FormatInvariant(method.Name));
+                    SR.MemberAccessException_BadSignatureForHelpVerbOptionAttribute.FormatInvariant(method.Name));
             }
             text = (string) method.Invoke(target, new object[] {verb});
         }

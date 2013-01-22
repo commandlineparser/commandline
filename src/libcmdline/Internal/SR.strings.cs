@@ -18,5 +18,10 @@ namespace CommandLine.Internal
         public const string ArgumentNullException_AttributeCannotBeNull = "The attribute is mandatory.";
         public const string ArgumentNullException_PropertyCannotBeNull = "The property is mandatory.";
         public const string CommandLineParserException_CannotCreateInstanceForVerbCommand = "Instance defined for verb command could not be created.";
+        public const string ArgumentException_NoWhiteSpaceOrLineTerminatorInShortName = "shortName with whitespace or line terminator character is not allowed.";
+        public const string ArgumentNullException_LongNameCannotBeNullWhenShortNameIsUndefined = "The option must have short, long name or both.";
+        public const string MemberAccessException_BadSignatureForHelpVerbOptionAttribute = "{0} has an incorrect signature. Help verb command requires a method that accepts and returns a string.";
+        public const string InvalidOperationException_DoNotUseShortNameForVerbCommands = "Verb commands do not support short name by design.";
+        public const string InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands = "Verb commands cannot be mandatory since are mutually exclusive by design.";
     }
 }

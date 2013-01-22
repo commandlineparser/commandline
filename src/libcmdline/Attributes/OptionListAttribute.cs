@@ -41,19 +41,25 @@ namespace CommandLine
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char.")]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class OptionListAttribute : OptionAttribute
+    public sealed class OptionListAttribute : BaseOptionAttribute
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.OptionListAttribute"/> class.
         /// </summary>
         /// <param name="shortName">The short name of the option.</param>
-        public OptionListAttribute(char shortName) : base(shortName) { }
+        public OptionListAttribute(char shortName)
+            : base(shortName, null)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.OptionListAttribute"/> class.
         /// </summary>
         /// <param name="longName">The long name of the option or null if not used.</param>
-        public OptionListAttribute(string longName) : base(longName) { }
+        public OptionListAttribute(string longName)
+            : base(null, longName)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.OptionListAttribute"/> class.
@@ -61,7 +67,7 @@ namespace CommandLine
         /// <param name="shortName">The short name of the option.</param>
         /// <param name="longName">The long name of the option or null if not used.</param>
         public OptionListAttribute(char shortName, string longName)
-            : base(longName)
+            : base(shortName, longName)
         {
             Separator = ':';
         }

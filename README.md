@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.4.125 Beta for CLR.
+Command Line Parser Library 1.9.4.127 Beta for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
@@ -53,6 +53,7 @@ Public API:
   - Version 1.9.4.111: Non breaking, ``CommandLineParserSettings``, ``CommandLineParser`` implements ``IDisposable``.
   - Version 1.9.4.113: Non breaking, added ``CommandLineParser::WasVerbOptionInvoked`` helper method.
   - Version 1.9.4.123: Breaking, ``HandleParsingErrorsDelegate`` renamed to ``ParsingErrorsHandler``, ``MultiLineTextAttribute`` renamed to ``MultilineTextAttribute``. Non breaking, refactoring (see ChangeLog).
+  - Version 1.9.4.127: 'Partially' non breaking, ``OptionAttribute`` is now sealed. ``OptionArrayAttribute`` and ``OptionListAttribute`` derives from ``BaseOptionAttribute`` (update your custom types too).
 
 Verb Commands:
 ---

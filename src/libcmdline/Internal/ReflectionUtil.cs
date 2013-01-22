@@ -150,7 +150,7 @@ namespace CommandLine.Internal
         }
 
         public static Pair<PropertyInfo, TAttribute> RetrieveOptionProperty<TAttribute>(object target, string uniqueName)
-                where TAttribute : OptionAttribute
+                where TAttribute : BaseOptionAttribute
         {
             Pair<PropertyInfo, TAttribute> found = null;
             if (target == null) { return null; }

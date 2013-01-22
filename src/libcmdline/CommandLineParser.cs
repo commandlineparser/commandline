@@ -29,6 +29,7 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using CommandLine.Internal;
 #endregion
@@ -39,6 +40,8 @@ namespace CommandLine
     /// Provides methods to parse command line arguments.
     /// Default implementation for <see cref="CommandLine.ICommandLineParser"/>.
     /// </summary>
+
+    [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "singleton", Justification = "The constructor that accepts a boolean is designed to support default singleton, the parameter is ignored.")]
     public partial class CommandLineParser : ICommandLineParser, IDisposable
     {
         /// <summary>

@@ -51,11 +51,16 @@
           <Members>
            <Member Name="#.ctor(System.Boolean)">
             <Messages>
-             <Message Id="singleton" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2013-01-20 13:57:34Z" FixCategory="NonBreaking">
+             <Message Id="singleton" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Excluded" Created="2013-01-20 13:57:34Z" FixCategory="NonBreaking">
               <Issue>
                <Item>'singleton'</Item>
                <Item>'CommandLineParser.CommandLineParser(bool)'</Item>
               </Issue>
+              <Notes>
+               <User Name="vmuser">
+                <Note Id="2" />
+               </User>
+              </Notes>
              </Message>
             </Messages>
            </Member>
@@ -64,41 +69,6 @@
              <Message Id="2#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Created="2013-01-20 13:57:34Z">
               <Issue>
                <Item>'found'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="OptionAttribute">
-          <Messages>
-           <Message TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813" Created="2013-01-20 13:57:34Z">
-            <Issue>
-             <Item>'OptionAttribute'</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="#.ctor(System.Char)">
-            <Messages>
-             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-20 13:57:34Z">
-              <Issue>
-               <Item>'OptionAttribute.OptionAttribute(char)'</Item>
-               <Item>&#xD;&#xA;&#xD;&#xA;OptionAttribute..ctor(Char)&#xD;&#xA;BaseOptionAttribute.set_ShortName(Nullable&lt;Char&gt;):Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#.ctor(System.Char,System.String)">
-            <Messages>
-             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-20 13:57:34Z">
-              <Issue>
-               <Item>'OptionAttribute.OptionAttribute(char, string)'</Item>
-               <Item>&#xD;&#xA;&#xD;&#xA;OptionAttribute..ctor(Char, String)&#xD;&#xA;BaseOptionAttribute.set_ShortName(Nullable&lt;Char&gt;):Void</Item>
-              </Issue>
-              <Issue>
-               <Item>'OptionAttribute.OptionAttribute(char, string)'</Item>
-               <Item>&#xD;&#xA;&#xD;&#xA;OptionAttribute..ctor(Char, String)&#xD;&#xA;BaseOptionAttribute.set_ShortName(Nullable&lt;Char&gt;):Void&#xD;&#xA;BaseOptionAttribute.set_LongName(String):Void&#xD;&#xA;BaseOptionAttribute.get_ShortName():Nullable&lt;Char&gt;</Item>
               </Issue>
              </Message>
             </Messages>
@@ -119,18 +89,6 @@
             </Notes>
            </Message>
           </Messages>
-          <Members>
-           <Member Name="#.ctor(System.Char,System.String)">
-            <Messages>
-             <Message Id="shortName" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2013-01-20 13:57:34Z" FixCategory="DependsOnFix">
-              <Issue>
-               <Item>'shortName'</Item>
-               <Item>'OptionListAttribute.OptionListAttribute(char, string)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
          </Type>
         </Types>
        </Namespace>
@@ -272,6 +230,7 @@
    <User Name="vmuser">
     <Note Id="0" Modified="2013-01-20 14:49:13Z">The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char.</Note>
     <Note Id="1" Modified="2013-01-20 16:14:59Z">FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.</Note>
+    <Note Id="2" Modified="2013-01-22 20:28:56Z">The constructor that accepts a boolean is designed to support default singleton, the parameter is ignored.</Note>
    </User>
   </Notes>
   <Rules>
@@ -280,9 +239,6 @@
    </Rule>
    <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
     <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>
-   </Rule>
-   <Rule TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813">
-    <Resolution Name="Default">Seal {0}, if possible.</Resolution>
    </Rule>
    <Rule TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019">
     <Resolution Name="RemoveSetter">Remove the property setter from {0} or reduce its accessibility because it corresponds to positional argument {1}.</Resolution>

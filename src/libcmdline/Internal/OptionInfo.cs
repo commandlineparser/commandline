@@ -43,7 +43,7 @@ namespace CommandLine.Internal
     [DebuggerDisplay("ShortName = {ShortName}, LongName = {LongName}")]
     sealed class OptionInfo
     {
-        public OptionInfo(OptionAttribute attribute, PropertyInfo property)
+        public OptionInfo(BaseOptionAttribute attribute, PropertyInfo property)
         {
             if (attribute == null)
             {
@@ -252,7 +252,7 @@ namespace CommandLine.Internal
             }
         }
 
-        private readonly OptionAttribute _attribute;
+        private readonly BaseOptionAttribute _attribute;
         private readonly PropertyInfo _property;
         private readonly bool _required;
         private readonly string _helpText;

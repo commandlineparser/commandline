@@ -39,15 +39,13 @@ namespace CommandLine.Tests
         class CustomOptionAttribute : BaseOptionAttribute
         {
             public CustomOptionAttribute(string longName)
+                : base(null, longName)
             {
-                ShortName = null;
-                LongName = longName;
             }
 
             public CustomOptionAttribute(char shortName, string longName)
+                : base(shortName, longName)
             {
-                ShortName = shortName;
-                LongName = longName;
             }
         }
 
@@ -81,28 +79,28 @@ namespace CommandLine.Tests
 
         #region API change 01
         [Test]
-        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "ShortName with whitespace or line terminator character is not allowed.")]
+        [ExpectedException(typeof(ArgumentException))]
         public void ShortNameWithLineTerminatorThrowsException()
         {
             new OptionAttribute('\n');
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "ShortName with whitespace or line terminator character is not allowed.")]
+        [ExpectedException(typeof(ArgumentException))]
         public void ShortNameWithLineTerminatorThrowsException_2()
         {
             new OptionAttribute('\r');
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "ShortName with whitespace or line terminator character is not allowed.")]
+        [ExpectedException(typeof(ArgumentException))]
         public void ShortNameWithWhiteSpaceThrowsException()
         {
             new OptionAttribute(' ');
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "ShortName with whitespace or line terminator character is not allowed.")]
+        [ExpectedException(typeof(ArgumentException))]
         public void ShortNameWithWhiteSpaceThrowsException_2()
         {
             new OptionAttribute('\t');

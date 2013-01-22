@@ -37,19 +37,15 @@ namespace CommandLine
     /// Models an option specification.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public class OptionAttribute : BaseOptionAttribute
+    public sealed class OptionAttribute : BaseOptionAttribute
     {
-        internal const string DefaultMutuallyExclusiveSet = "Default";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.OptionAttribute"/> class.
         /// </summary>
         /// <param name="shortName">The short name of the option..</param>
         public OptionAttribute(char shortName)
+            : base(shortName, null)
         {
-            _uniqueName = new string(shortName, 1);
-            ShortName = shortName;
-            LongName = null;
         }
 
         /// <summary>
@@ -57,10 +53,8 @@ namespace CommandLine
         /// </summary>
         /// <param name="longName">The long name of the option.</param>
         public OptionAttribute(string longName)
+            : base(null, longName)
         {
-            _uniqueName = longName;
-            ShortName = null;
-            LongName = longName;
         }
 
         /// <summary>
@@ -69,21 +63,8 @@ namespace CommandLine
         /// <param name="shortName">The short name of the option.</param>
         /// <param name="longName">The long name of the option or null if not used.</param>
         public OptionAttribute(char shortName, string longName)
+            : base(shortName, longName)
         {
-            ShortName = shortName;
-            LongName = longName;
-            if (ShortName != null)
-            {
-                _uniqueName = new string(shortName, 1);
-            }
-            else if (!string.IsNullOrEmpty(longName))
-            {
-                _uniqueName = longName;
-            }
-            if (_uniqueName == null)
-            {
-                throw new InvalidOperationException();
-            }
         }
 
 #if UNIT_TESTS
@@ -92,32 +73,5 @@ namespace CommandLine
             return new OptionInfo(base.ShortName, base.LongName);
         }
 #endif
-
-        internal string UniqueName
-        {
-            get { return _uniqueName; }
-        }
-
-        /// <summary>
-        /// Gets or sets the option's mutually exclusive set.
-        /// </summary>
-        public string MutuallyExclusiveSet
-        {
-            get { return _mutuallyExclusiveSet; }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    _mutuallyExclusiveSet = OptionAttribute.DefaultMutuallyExclusiveSet;
-                }
-                else
-                {
-                    _mutuallyExclusiveSet = value;
-                }
-            }
-        }
-
-        private readonly string _uniqueName;
-        private string _mutuallyExclusiveSet;
     }
 }

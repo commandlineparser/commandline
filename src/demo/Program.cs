@@ -107,6 +107,7 @@ namespace CommandLine.Demo
             //OptionArrayAttributeParsingFixture f = new OptionArrayAttributeParsingFixture();
             //ArgumentParserFixture f2 = new ArgumentParserFixture();
             //HelpTextFixture f3 = new HelpTextFixture();
+            //AttributesFixture f6 = new AttributesFixture();
             //f.ParseStringArrayOptionUsingShortName();
             //f.ParseStringArrayOptionUsingShortNameWithValueAdjacent();
             //f.ParseStringArrayOptionUsingLongName();
@@ -131,7 +132,8 @@ namespace CommandLine.Demo
             //f5.ParseNegativeIntegerValue();
             //f5.ParseNegativeIntegerValue_InputStyle4();
             //f5.ParseNegativeFloatingPointValue_InputStyle4();
-            f5.PassingLongValueToIntegerOptionMustFailGracefully();
+            //f5.PassingLongValueToIntegerOptionMustFailGracefully();
+            //f6.AllOptionsAllowOneCharacterInShortName();
             Console.Write("press any key");
             Console.ReadKey();
             Environment.Exit(1);

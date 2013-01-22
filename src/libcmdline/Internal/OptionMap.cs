@@ -79,7 +79,7 @@ namespace CommandLine.Internal
 
         public static OptionMap Create(object target, CommandLineParserSettings settings)
         {
-            var list = ReflectionUtil.RetrievePropertyList<OptionAttribute>(target);
+            var list = ReflectionUtil.RetrievePropertyList<BaseOptionAttribute>(target);
             if (list == null)
             {
                 return null;
