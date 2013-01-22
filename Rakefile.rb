@@ -1,6 +1,6 @@
 PRODUCT = "Command Line Parser Library"
 DESCRIPTION = "Command Line Parser Library allows CLR applications to define a syntax for parsing command line arguments."
-VERSION = "1.9.4.119"
+VERSION = "1.9.4.125"
 COPYRIGHT = "Copyright (c) 2005 - 2013 Giacomo Stelluti Scala"
 LICENSE_URL = "https://raw.github.com/gsscoder/commandline/master/doc/LICENSE"
 PROJECT_URL = "https://github.com/gsscoder/commandline"
@@ -36,6 +36,8 @@ CONFIGURATION = "Release"
 BUILD_DIR = File.expand_path("build")
 OUTPUT_DIR = "#{BUILD_DIR}/out"
 BIN_DIR = "#{BUILD_DIR}/bin"
+SOURCE_DIR = File.expand_path("src")
+LIB_DIR = "#{SOURCE_DIR}/libcmdline"
 
 msbuild :build_msbuild do |b|
   b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
@@ -57,6 +59,11 @@ end
 task :test => :build do
   nunit = invoke_runtime("packages/NUnit.2.5.10.11092/tools/nunit-console.exe")
   sh "#{nunit} -labels #{OUTPUT_DIR}/CommandLine.Tests.dll"
+end
+
+task :strings do
+  invstrtool = invoke_runtime("tools/invariantstr.exe")
+  sh "#{invstrtool} -i #{LIB_DIR}/Internal/SR.strings -n CommandLine.Internal"
 end
 
 task :clean do

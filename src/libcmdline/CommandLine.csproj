@@ -83,6 +83,7 @@
     <Compile Include="Internal\SR.strings.cs">
       <DependentUpon>SR.strings</DependentUpon>
     </Compile>
+    <Compile Include="Utils\SwitchExtensions.cs" />
     <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="Internal\ReflectionUtil.cs" />
     <Compile Include="Utils\Pair.cs" />
@@ -90,9 +91,6 @@
     <Compile Include="Internal\LongOptionParser.cs" />
     <Compile Include="Internal\OptionGroupParser.cs" />
     <Compile Include="Internal\OptionInfo.cs" />
-    <Compile Include="Internal\OptionInfo.Verbs.cs">
-      <DependentUpon>OptionInfo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Internal\OptionMap.cs" />
     <Compile Include="Internal\OneCharStringEnumerator.cs" />
     <Compile Include="Internal\StringArrayEnumerator.cs" />

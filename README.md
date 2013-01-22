@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.4.123 Beta for CLR.
+Command Line Parser Library 1.9.4.125 Beta for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
@@ -11,6 +11,8 @@ Compatibility:
  
 News: 
 ---
+  - Added ``strings`` task to Rakefile used to regenerate ``SR.strings.cs``.
+  - Internal refactoring on ``OptionMap`` and ``OptionInfo``.
   - Refactoring in respect of FxCop rules (see ChangeLog). ``HandleParsingErrorsDelegate`` renamed to ``ParsingErrorsHandler``, ``MultiLineTextAttribute`` renamed to ``MultilineTextAttribute``.
   - Removed synchronization from ``OptionInfo`` and ``TargetWrapper`` (parsing should occur in one thread;
       if not, synchronization must be provided by developer not by the library).
@@ -21,12 +23,6 @@ News:
   - ``CommandLineParserSettings``, ``CommandLineParser`` are now correctly disposable.
   - Merged pull request #44 from @dbaileychess (Derek Bailey) that adds ``BaseOptionAttribute::MetaKey`` similar to python [argparse](http://docs.python.org/2/library/argparse.html#module-argparse).
   - Implemented [strict parsing](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/StrictFixture.cs) (see issue #32 by @nemec).
-  - Removed recently added ``#define`` directives.
-  - Removed dependency from ``CommandLineOptionsBase``; use ``ParserStateAttributed`` and ``IParserState``.
-  - Short name of ordinary options is now defined as character.
-  - Introduced support for verb commands (e.g. ``app verb1 --ordinary-option``).
-  - Internal refactoring and code reorganization for better maintainability.
-  - No member with public visibility was left without XML comments.
 
 To build:
 ---

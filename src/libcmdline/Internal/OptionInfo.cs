@@ -41,17 +41,17 @@ namespace CommandLine.Internal
 
     [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.")]
     [DebuggerDisplay("ShortName = {ShortName}, LongName = {LongName}")]
-    sealed partial class OptionInfo
+    sealed class OptionInfo
     {
         public OptionInfo(OptionAttribute attribute, PropertyInfo property)
         {
             if (attribute == null)
             {
-                throw new ArgumentNullException("attribute", "The attribute is mandatory");
+                throw new ArgumentNullException("attribute", SR.ArgumentNullException_AttributeCannotBeNull);
             }
             if (property == null)
             {
-                throw new ArgumentNullException("property", "The property is mandatory");
+                throw new ArgumentNullException("property", SR.ArgumentNullException_PropertyCannotBeNull);
             }
             _required = attribute.Required;
             _helpText = attribute.HelpText;
@@ -72,25 +72,6 @@ namespace CommandLine.Internal
         }
 #endif
 
-        public static OptionMap CreateMap(object target, CommandLineParserSettings settings)
-        {
-            var list = ReflectionUtil.RetrievePropertyList<OptionAttribute>(target);
-            if (list == null)
-            {
-                return null;
-            }
-            var map = new OptionMap(list.Count, settings);
-            foreach (var pair in list)
-            {
-                if (pair.Left != null && pair.Right != null)
-                {
-                    map[pair.Right.UniqueName] = new OptionInfo(pair.Right, pair.Left);
-                }
-            }
-            map.RawOptions = target;
-            return map;
-        }
-
         public bool SetValue(string value, object options)
         {
             if (_attribute is OptionListAttribute)
@@ -106,8 +87,8 @@ namespace CommandLine.Internal
 
         public bool SetValue(IList<string> values, object options)
         {
-            Type elementType = _property.PropertyType.GetElementType();
-            Array array = Array.CreateInstance(elementType, values.Count);
+            var elementType = _property.PropertyType.GetElementType();
+            var array = Array.CreateInstance(elementType, values.Count);
 
             for (int i = 0; i < array.Length; i++)
             {
@@ -171,7 +152,7 @@ namespace CommandLine.Internal
             _property.SetValue(options, new List<string>(), null);
             var fieldRef = (IList<string>)_property.GetValue(options, null);
             var values = value.Split(((OptionListAttribute)_attribute).Separator);
-            for (int i = 0; i < values.Length; i++)
+            for (var i = 0; i < values.Length; i++)
             {
                 fieldRef.Add(values[i]);
             }
@@ -209,9 +190,9 @@ namespace CommandLine.Internal
             {
                 if (_longName != null)
                 {
-                    return string.Concat("--", _longName);
+                    return _longName.ToOption();
                 }
-                return string.Concat("-", _shortName);
+                return _shortName.ToOption();
             }
         }
 
@@ -250,6 +231,25 @@ namespace CommandLine.Internal
         public bool HasBothNames
         {
             get { return (_shortName != null && _longName != null); }
+        }
+
+        public bool HasParameterLessCtor { get; set; }
+
+        public object GetValue(object target)
+        {
+            return _property.GetValue(target, null);
+        }
+
+        public void CreateInstance(object target)
+        {
+            try
+            {
+                _property.SetValue(target, Activator.CreateInstance(_property.PropertyType), null);
+            }
+            catch (Exception e)
+            {
+                throw new CommandLineParserException(SR.CommandLineParserException_CannotCreateInstanceForVerbCommand, e);
+            }
         }
 
         private readonly OptionAttribute _attribute;

@@ -1,5 +1,14 @@
 2013-01-22	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Added solution folder "Files" to CommandLine.sln.
+  * OptionMap constructor is now private. Instance is now created by two factory methods '::Create()'
+      derived by 'OptionInfo::CreateMap()'.
+  * OptionInfo.verbs.cs merged with OptionInfo.cs
+  * Added rake task 'strings' to regenerate SR.string.cs from SR.string.
+  * Version incremented to 1.9.4.125 Beta.
+
+2013-01-22	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * CommandLine.snk regenerated, the current prevented the build process.
 
 2013-01-20	Giacomo Stelluti Scala	<gsscoder@gmail.com>

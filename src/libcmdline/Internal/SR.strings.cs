@@ -15,5 +15,8 @@ namespace CommandLine.Internal
         public const string ArgumentNullException_ArgsStringArrayCannotBeNull = "The arguments string array cannot be null.";
         public const string ArgumentNullException_OptionsInstanceCannotBeNull = "The target options instance cannot be null.";
         public const string ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull = "The command line parser settings instance cannot be null.";
+        public const string ArgumentNullException_AttributeCannotBeNull = "The attribute is mandatory.";
+        public const string ArgumentNullException_PropertyCannotBeNull = "The property is mandatory.";
+        public const string CommandLineParserException_CannotCreateInstanceForVerbCommand = "Instance defined for verb command could not be created.";
     }
 }

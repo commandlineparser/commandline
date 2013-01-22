@@ -142,7 +142,7 @@ namespace CommandLine
         private bool DoParseArgumentsCore(string[] args, object options)
         {
             bool hadError = false;
-            var optionMap = OptionInfo.CreateMap(options, _settings);
+            var optionMap = OptionMap.Create(options, _settings);
             optionMap.SetDefaults();
             var target = new TargetWrapper(options);
 
@@ -152,7 +152,7 @@ namespace CommandLine
                 string argument = arguments.Current;
                 if (!string.IsNullOrEmpty(argument))
                 {
-                    ArgumentParser parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
+                    var parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
                     if (parser != null)
                     {
                         Internal.ParserState result = parser.Parse(arguments, optionMap, options);
@@ -164,7 +164,9 @@ namespace CommandLine
                         }
 
                         if ((result & Internal.ParserState.MoveOnNextElement) == Internal.ParserState.MoveOnNextElement)
+                        {
                             arguments.MoveNext();
+                        }
                     }
                     else if (target.IsValueListDefined)
                     {

@@ -59,25 +59,63 @@ namespace CommandLine.Internal
             private int _count;
         }
 
-        public OptionMap(int capacity, CommandLineParserSettings settings)
+#if !UNIT_TESTS
+        private OptionMap(int capacity, CommandLineParserSettings settings)
+#else
+        public OptionMap(int capacity, CommandLineParserSettings settings) 
+#endif
         {
             _settings = settings;
 
-            IEqualityComparer<string> comparer;
-            if (_settings.CaseSensitive)
-            {
-                comparer = StringComparer.Ordinal;
-            }
-            else
-            {
-                comparer = StringComparer.OrdinalIgnoreCase;
-            }
+            IEqualityComparer<string> comparer =
+                _settings.CaseSensitive ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase;
             _names = new Dictionary<string, string>(capacity, comparer);
             _map = new Dictionary<string, OptionInfo>(capacity * 2, comparer);
             if (_settings.MutuallyExclusive)
             {
                 _mutuallyExclusiveSetMap = new Dictionary<string, MutuallyExclusiveInfo>(capacity, StringComparer.OrdinalIgnoreCase);
             }
+        }
+
+        public static OptionMap Create(object target, CommandLineParserSettings settings)
+        {
+            var list = ReflectionUtil.RetrievePropertyList<OptionAttribute>(target);
+            if (list == null)
+            {
+                return null;
+            }
+            var map = new OptionMap(list.Count, settings);
+            foreach (var pair in list)
+            {
+                if (pair.Left != null && pair.Right != null)
+                {
+                    map[pair.Right.UniqueName] = new OptionInfo(pair.Right, pair.Left);
+                }
+            }
+            map.RawOptions = target;
+            return map;
+        }
+
+        public static OptionMap Create(object target,
+            IList<Pair<PropertyInfo, VerbOptionAttribute>> verbs, CommandLineParserSettings settings)
+        {
+            var map = new OptionMap(verbs.Count, settings);
+            foreach (var verb in verbs)
+            {
+                var optionInfo = new OptionInfo(verb.Right, verb.Left)
+                {
+                    HasParameterLessCtor = verb.Left.PropertyType.GetConstructor(Type.EmptyTypes) != null
+
+                };
+                if (!optionInfo.HasParameterLessCtor && verb.Left.GetValue(target, null) == null)
+                {
+                    throw new CommandLineParserException("Type {0} must have a parameterless constructor or" +
+                        " be already initialized to be used as a verb command.".FormatInvariant(verb.Left.PropertyType));
+                }
+                map[verb.Right.UniqueName] = optionInfo;
+            }
+            map.RawOptions = target;
+            return map;
         }
 
         public OptionInfo this[string key]
@@ -146,14 +184,14 @@ namespace CommandLine.Internal
             {
                 return true;
             }
-            foreach (OptionInfo option in _map.Values)
+            foreach (var option in _map.Values)
             {
                 if (option.IsDefined && option.MutuallyExclusiveSet != null)
                 {
                     BuildMutuallyExclusiveMap(option);
                 }
             }
-            foreach (MutuallyExclusiveInfo info in _mutuallyExclusiveSetMap.Values)
+            foreach (var info in _mutuallyExclusiveSetMap.Values)
             {
                 if (info.Occurrence > 1)
                 {
@@ -193,13 +231,13 @@ namespace CommandLine.Internal
                 return;
             }
             var error = new ParsingError
-            {
-                BadOption =
                 {
-                    ShortName = option.ShortName,
-                    LongName = option.LongName
-                }
-            };
+                    BadOption =
+                        {
+                            ShortName = option.ShortName,
+                            LongName = option.LongName
+                        }
+                };
             if (required != null) { error.ViolatesRequired = required.Value; }
             if (mutualExclusiveness != null) { error.ViolatesMutualExclusiveness = mutualExclusiveness.Value; }
             parserState.Errors.Add(error);

@@ -55,6 +55,9 @@
     <Compile Include="..\libcmdline\Utils\StringExtensions.cs">
       <Link>Library\Utils\StringExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Utils\SwitchExtensions.cs">
+      <Link>Library\Utils\SwitchExtensions.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
@@ -75,10 +78,6 @@
     </Compile>
     <Compile Include="..\libcmdline\Internal\OptionInfo.cs">
       <Link>Library\Internal\OptionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\OptionInfo.Verbs.cs">
-      <Link>Library\Internal\OptionInfo.Verbs.cs</Link>
-      <DependentUpon>OptionInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="..\libcmdline\Internal\OptionMap.cs">
       <Link>Library\Internal\OptionMap.cs</Link>

@@ -7,6 +7,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "src\te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Demo", "src\demo\CommandLine.Demo.csproj", "{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{4F498B61-A7BC-4B32-9ACB-901D4F50659B}"
+	ProjectSection(SolutionItems) = preProject
+		CommandLine.FxCop = CommandLine.FxCop
+		Rakefile.rb = Rakefile.rb
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{CC062800-4709-4A04-8A0D-DD972C1BFFC5}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\CommandLine.nuspec = nuget\CommandLine.nuspec
+		nuget\readme.txt = nuget\readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{18282A82-E36C-4938-8397-C0A1166983BA}"
+	ProjectSection(SolutionItems) = preProject
+		doc\ChangeLog = doc\ChangeLog
+		doc\LICENSE = doc\LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +68,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CC062800-4709-4A04-8A0D-DD972C1BFFC5} = {4F498B61-A7BC-4B32-9ACB-901D4F50659B}
+		{18282A82-E36C-4938-8397-C0A1166983BA} = {4F498B61-A7BC-4B32-9ACB-901D4F50659B}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\demo\CommandLine.Demo.csproj

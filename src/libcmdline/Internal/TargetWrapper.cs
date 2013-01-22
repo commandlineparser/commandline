@@ -41,6 +41,8 @@ namespace CommandLine.Internal
 {
     sealed class TargetWrapper
     {
+        private TargetWrapper() {}
+
         public TargetWrapper(object target)
         {
             _target = target;

@@ -59,12 +59,12 @@ namespace CommandLine.Internal
         public static ArgumentParser Create(string argument, bool ignoreUnknownArguments = false)
         {
             if (argument.IsNumeric()) { return null; }
-            if (string.CompareOrdinal(argument, "-") == 0) { return null; }
-            if (argument[0] == '-' && argument[1] == '-')
+            if (argument.IsDash()) { return null; }
+            if (argument.IsLongOption())
             {
                 return new LongOptionParser(ignoreUnknownArguments);
             }
-            if (argument[0] == '-')
+            if (argument.IsShortOption())
             {
                 return new OptionGroupParser(ignoreUnknownArguments);
             }
@@ -76,7 +76,7 @@ namespace CommandLine.Internal
             if (argument.IsNumeric()) { return true; }
             if (argument.Length > 0)
             {
-                return string.CompareOrdinal(argument, "-") == 0 || argument[0] != '-';
+                return argument.IsDash() || !argument.IsShortOption();
             }
             return true;
         }
@@ -100,17 +100,13 @@ namespace CommandLine.Internal
 
         public static bool CompareShort(string argument, char? option, bool caseSensitive)
         {
-            var completeShortName = string.Concat("-", new string(option.Value, 1));
-
-            return string.Compare(argument, completeShortName,
+            return string.Compare(argument, option.ToOption(),
                 caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         public static bool CompareLong(string argument, string option, bool caseSensitive)
         {
-            var completeLongName = string.Concat("--", option);
-
-            return string.Compare(argument, completeLongName,
+            return string.Compare(argument, option.ToOption(),
                 caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 

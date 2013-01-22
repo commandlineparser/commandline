@@ -94,7 +94,7 @@ namespace CommandLine
                 }
                 return false;
             }
-            var optionMap = OptionInfo.CreateMap(options, verbs, _settings);
+            var optionMap = OptionMap.Create(options, verbs, _settings);
             // Read the verb from command line arguments
             if (TryParseHelpVerb(args, options, helpInfo, optionMap))
             {
