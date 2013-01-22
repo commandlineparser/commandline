@@ -39,7 +39,6 @@ namespace CommandLine
     /// Must be applied to a field compatible with an <see cref="System.Collections.Generic.IList&lt;T&gt;"/> interface
     /// of <see cref="System.String"/> instances.
     /// </summary>
-    [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char.")]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class OptionListAttribute : BaseOptionAttribute
     {
@@ -87,6 +86,8 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets the values separator character.
         /// </summary>
-        public char Separator { get; set; }
+        public char Separator { get;
+            [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char.")]
+            set; }
     }
 }

@@ -37,9 +37,7 @@ using System.Threading;
 #endregion
 
 namespace CommandLine.Internal
-{
-
-    [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.")]
+{ 
     [DebuggerDisplay("ShortName = {ShortName}, LongName = {LongName}")]
     sealed class OptionInfo
     {
@@ -125,6 +123,7 @@ namespace CommandLine.Internal
             return true;
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.")]
         private bool SetNullableValue(string value, object options)
         {
             var nc = new NullableConverter(_property.PropertyType);

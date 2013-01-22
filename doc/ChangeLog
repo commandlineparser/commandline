@@ -1,5 +1,9 @@
 2013-01-22	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * FxCop SuppressMessage attributes placed in right place (near source of issue).
+
+2013-01-22	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Refactored BaseOptionAttribute to avoid virtual member call in ctor in OptionAttribute (FxCop CA2214).
   * OptionArrayAttribute and OptionListAttribute inherits directly from BaseOptionAttribute. This allows to
       make OptionAttribute sealed (FxCop CA1813).
