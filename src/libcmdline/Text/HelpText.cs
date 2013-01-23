@@ -413,9 +413,9 @@ namespace CommandLine.Text
 
             int maxLength = GetMaxLength(optionList);
             _optionsHelp = new StringBuilder(BuilderCapacity);
-            int remainingSpace = maximumLength - (maxLength + 6);        
+            int remainingSpace = maximumLength - (maxLength + 6);
             foreach (BaseOptionAttribute option in optionList)
-            {               
+            {
                 AddOption(requiredWord, maxLength, option, remainingSpace);
             }
         }

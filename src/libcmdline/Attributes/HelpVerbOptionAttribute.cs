@@ -69,7 +69,7 @@ namespace CommandLine
         public override char? ShortName
         {
             get { return null; }
-            internal set { throw new InvalidOperationException("Help verb command do not support short name by design."); }
+            internal set { throw new InvalidOperationException(SR.InvalidOperationException_DoNotUseShortNameForVerbCommands); }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace CommandLine
         public override bool Required
         {
             get { return false; }
-            set { throw new InvalidOperationException("Help verb command cannot be mandatory by design."); }
+            set { throw new InvalidOperationException(SR.InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands); }
         }
 
         internal static void InvokeMethod(object target,

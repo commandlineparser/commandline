@@ -31,7 +31,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Reflection;
 using CommandLine.Internal;
+using CommandLine.Text;
+
 #endregion
 
 namespace CommandLine
@@ -40,7 +43,7 @@ namespace CommandLine
     /// Provides methods to parse command line arguments.
     /// Default implementation for <see cref="CommandLine.ICommandLineParser"/>.
     /// </summary>
-    public partial class CommandLineParser : ICommandLineParser, IDisposable
+    public class CommandLineParser : ICommandLineParser, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.CommandLineParser"/> class.
@@ -145,7 +148,7 @@ namespace CommandLine
             bool hadError = false;
             var optionMap = OptionMap.Create(options, _settings);
             optionMap.SetDefaults();
-            var target = new TargetWrapper(options);
+            var target = new Target(options);
 
             IArgumentEnumerator arguments = new StringArrayEnumerator(args);
             while (arguments.MoveNext())
@@ -156,15 +159,15 @@ namespace CommandLine
                     var parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
                     if (parser != null)
                     {
-                        Internal.ParserState result = parser.Parse(arguments, optionMap, options);
-                        if ((result & Internal.ParserState.Failure) == Internal.ParserState.Failure)
+                        PresentParserState result = parser.Parse(arguments, optionMap, options);
+                        if ((result & PresentParserState.Failure) == PresentParserState.Failure)
                         {
                             SetParserStateIfNeeded(options, parser.PostParsingState);
                             hadError = true;
                             continue;
                         }
 
-                        if ((result & Internal.ParserState.MoveOnNextElement) == Internal.ParserState.MoveOnNextElement)
+                        if ((result & PresentParserState.MoveOnNextElement) == PresentParserState.MoveOnNextElement)
                         {
                             arguments.MoveNext();
                         }
@@ -209,6 +212,283 @@ namespace CommandLine
 
             return false;
         }
+
+        #region Verb Commands
+        /// <summary>
+        /// This is an helper method designed to make the management of help for verb commands simple.
+        /// Use the method within the main class instance for the management of verb commands.
+        /// </summary>
+        /// <param name="verb">Verb command string or null.</param>
+        /// <param name="target">The main class instance for the management of verb commands.</param>
+        /// <param name="found">true if <paramref name="verb"/> was found in <paramref name="target"/>.</param>
+        /// <returns>The options instance for the verb command if <paramref name="found"/> is true, otherwise <paramref name="target"/>.</returns>
+        public static object GetVerbOptionsInstanceByName(string verb, object target, out bool found)
+        {
+            found = false;
+            if (string.IsNullOrEmpty(verb))
+            {
+                return target;
+            }
+            var pair = ReflectionUtil.RetrieveOptionProperty<VerbOptionAttribute>(target, verb);
+            found = pair != null;
+            return found ? pair.Left.GetValue(target, null) : target;
+        }
+
+        /// <summary>
+        /// Determines if a particular verb option was invoked. This is a convenience helper method,
+        /// do not refer to it to know if parsing occurred. If the verb command was invoked and the
+        /// parser failed, it will return true.
+        /// Use this method only in a verbs scenario, when parsing succeeded.
+        /// </summary>
+        /// <param name='verb'>Verb option to compare.</param>
+        /// <returns>True if the specified verb option is the one invoked by the user.</returns>
+        public bool WasVerbOptionInvoked(string verb)
+        {
+            if (string.IsNullOrEmpty(verb) || (verb.Length > 0 && verb[0] == '-'))
+            {
+                return false;
+            }
+            if (_args == null || _args.Length < 1)
+            {
+                return false;
+            }
+            return string.Compare(_args[0], verb, _settings.StringComparison) == 0;
+        }
+
+        private bool DoParseArgumentsUsingVerbs(string[] args, object options)
+        {
+            var verbs = ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(options);
+            if (verbs.Count == 0)
+            {
+                // No verbs defined, hence we can run default parsing subsystem
+                return DoParseArgumentsCore(args, options);
+            }
+            var helpInfo = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(options);
+            if (args.Length == 0)
+            {
+                if (helpInfo != null || _settings.HelpWriter != null)
+                {
+                    DisplayHelpVerbText(options, helpInfo, null);
+                }
+                return false;
+            }
+            var optionMap = OptionMap.Create(options, verbs, _settings);
+            // Read the verb from command line arguments
+            if (TryParseHelpVerb(args, options, helpInfo, optionMap))
+            {
+                // Since user requested help, parsing is considered a fail
+                return false;
+            }
+            var verbOption = optionMap[args[0]];
+            // User invoked a bad verb name
+            if (verbOption == null)
+            {
+                if (helpInfo != null)
+                {
+                    DisplayHelpVerbText(options, helpInfo, null);
+                }
+                return false;
+            }
+            if (verbOption.GetValue(options) == null)
+            {
+                // Developer has not provided a default value and did not assign an instance
+                verbOption.CreateInstance(options);
+            }
+            var verbArgs = new string[args.Length - 1];
+            if (args.Length > 1)
+            {
+                Array.Copy(args, 1, verbArgs, 0, args.Length - 1);
+            }
+            var verbResult = DoParseArgumentsCore(verbArgs, verbOption.GetValue(options));
+            if (!verbResult)
+            {
+                // Particular verb parsing failed, we try to print its help
+                DisplayHelpVerbText(options, helpInfo, args[0]);
+            }
+            return verbResult;
+        }
+
+        private bool TryParseHelpVerb(string[] args, object options, Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo, OptionMap optionMap)
+        {
+            var helpWriter = _settings.HelpWriter;
+            if (helpInfo != null && helpWriter != null)
+            {
+                if (string.Compare(args[0], helpInfo.Right.LongName, _settings.StringComparison) == 0)
+                {
+                    // User explicitly requested help
+                    var verb = args.Length > 1 ? args[1] : null;
+                    if (verb != null)
+                    {
+                        var verbOption = optionMap[verb];
+                        if (verbOption != null)
+                        {
+                            if (verbOption.GetValue(options) == null)
+                            {
+                                // We need to create an instance also to render help
+                                verbOption.CreateInstance(options);
+                            }
+                        }
+                    }
+                    DisplayHelpVerbText(options, helpInfo, verb);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void DisplayHelpVerbText(object options, Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo, string verb)
+        {
+            string helpText;
+            if (verb == null)
+            {
+                HelpVerbOptionAttribute.InvokeMethod(options, helpInfo, null, out helpText);
+            }
+            else
+            {
+                HelpVerbOptionAttribute.InvokeMethod(options, helpInfo, verb, out helpText);
+            }
+            if (_settings.HelpWriter != null)
+            {
+                _settings.HelpWriter.Write(helpText);
+            }
+        }
+        #endregion
+
+        #region Strict Parsing
+        /// <summary>
+        /// Default exit code (1) used by <see cref="CommandLine.CommandLineParser.ParseArgumentsStrict(string[],object)"/>
+        /// and <see cref="CommandLine.CommandLineParser.ParseArgumentsStrict(string[],object,TextWriter)"/> overloads.
+        /// </summary>
+        public const int DefaultExitCodeFail = 1;
+
+        /// <summary>
+        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
+        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
+        /// the process with <see cref="CommandLineParser.DefaultExitCodeFail"/>.
+        /// </summary>
+        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
+        /// <param name="options">An object's instance used to receive values.
+        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
+        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public virtual bool ParseArgumentsStrict(string[] args, object options)
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+
+            return DoParseArgumentsStrict(args, options, DefaultExitCodeFail);
+        }
+
+        /// <summary>
+        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
+        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
+        /// the process with <paramref name="exitCode"/>
+        /// </summary>
+        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
+        /// <param name="options">An object's instance used to receive values.
+        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
+        /// <param name="exitCode">The exit code to use when quitting the application. It should be greater than zero.</param>
+        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public virtual bool ParseArgumentsStrict(string[] args, object options, int exitCode)
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+
+            return DoParseArgumentsStrict(args, options, exitCode);
+        }
+
+        /// <summary>
+        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
+        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
+        /// the process with <see cref="CommandLineParser.DefaultExitCodeFail"/>.
+        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.
+        /// </summary>
+        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
+        /// <param name="options">An object's instance used to receive values.
+        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
+        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
+        /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
+        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public virtual bool ParseArgumentsStrict(string[] args, object options, TextWriter helpWriter)
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+
+            _settings.HelpWriter = helpWriter;
+
+            return DoParseArgumentsStrict(args, options, DefaultExitCodeFail);
+        }
+
+        /// <summary>
+        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
+        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
+        /// the process with <paramref name="exitCode"/>
+        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.
+        /// </summary>
+        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
+        /// <param name="options">An object's instance used to receive values.
+        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
+        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
+        /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
+        /// <param name="exitCode">The exit code to use when quitting the application. It should be greater than zero.</param>
+        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        public virtual bool ParseArguments(string[] args, object options, TextWriter helpWriter, int exitCode)
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+
+            _settings.HelpWriter = helpWriter;
+
+            return DoParseArgumentsStrict(args, options, exitCode);
+        }
+
+        private bool DoParseArgumentsStrict(string[] args, object options, int exitCode)
+        {
+            if (!DoParseArguments(args, options))
+            {
+                InvokeAutoBuildIfNeeded(options);
+                #region Unit Tests Code
+#if !UNIT_TESTS
+                Environment.Exit(exitCode);
+#else
+                Console.WriteLine(string.Format("UNIT_TESTS symbol enabled.\n" +
+                    "Simulating 'Environment.Exit({0})'.", exitCode));
+                return false;
+#endif
+                #endregion
+            }
+            return true;
+        }
+
+        private void InvokeAutoBuildIfNeeded(object options)
+        {
+            if (_settings.HelpWriter == null)
+            {
+                return;
+            }
+            var hasHelpOption = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options) != null;
+            var hasVerbHelpOption = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(options) != null;
+            if (hasHelpOption ||
+                hasVerbHelpOption)
+            {
+                // We do not need to anything
+                return;
+            }
+
+            var hasVerbs = ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(options).Count > 0;
+
+            // We print help text for the user
+            _settings.HelpWriter.Write(HelpText.AutoBuild(options,
+                current => HelpText.DefaultParsingErrorsHandler(options, current), hasVerbs));
+        }
+        #endregion
 
         private static void SetParserStateIfNeeded(object options, IEnumerable<ParsingError> errors)
         {

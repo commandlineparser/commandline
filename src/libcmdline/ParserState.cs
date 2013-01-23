@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: ParserState.cs
+// Command Line Library: PresentParserState.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)

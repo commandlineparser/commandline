@@ -83,11 +83,12 @@
     <Compile Include="Internal\SR.strings.cs">
       <DependentUpon>SR.strings</DependentUpon>
     </Compile>
+    <Compile Include="Utils\ReflectionCache.cs" />
     <Compile Include="Utils\SwitchExtensions.cs" />
     <Compile Include="Utils\StringExtensions.cs" />
-    <Compile Include="Internal\ReflectionUtil.cs" />
+    <Compile Include="Utils\ReflectionUtil.cs" />
     <Compile Include="Utils\Pair.cs" />
-    <Compile Include="Internal\TargetWrapper.cs" />
+    <Compile Include="Internal\Target.cs" />
     <Compile Include="Internal\LongOptionParser.cs" />
     <Compile Include="Internal\OptionGroupParser.cs" />
     <Compile Include="Internal\OptionInfo.cs" />
@@ -96,7 +97,7 @@
     <Compile Include="Internal\StringArrayEnumerator.cs" />
     <Compile Include="Internal\ArgumentParser.cs" />
     <Compile Include="Internal\IArgumentEnumerator.cs" />
-    <Compile Include="Internal\ParserState.cs" />
+    <Compile Include="Internal\PresentParserState.cs" />
     <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Text\HelpText.cs" />
@@ -114,12 +115,6 @@
     <Compile Include="Attributes\VerbOptionAttribute.cs" />
     <Compile Include="BadOptionInfo.cs" />
     <Compile Include="CommandLineParser.cs" />
-    <Compile Include="CommandLineParser.Strict.cs">
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CommandLineParser.Verbs.cs">
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
-    </Compile>
     <Compile Include="CommandLineParserException.cs" />
     <Compile Include="CommandLineParserSettings.cs" />
     <Compile Include="ICommandLineParser.cs" />

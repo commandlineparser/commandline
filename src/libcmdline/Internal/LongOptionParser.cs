@@ -46,14 +46,14 @@ namespace CommandLine.Internal
             _ignoreUnkwnownArguments = ignoreUnkwnownArguments;
         }
 
-        public override Internal.ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
+        public override PresentParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
         {
             var parts = argumentEnumerator.Current.Substring(2).Split(new[] { '=' }, 2);
             var option = map[parts[0]];
             bool valueSetting;
             if (option == null)
             {
-                return _ignoreUnkwnownArguments ? Internal.ParserState.MoveOnNextElement : Internal.ParserState.Failure;
+                return _ignoreUnkwnownArguments ? PresentParserState.MoveOnNextElement : PresentParserState.Failure;
             }
             option.IsDefined = true;
 
@@ -63,7 +63,7 @@ namespace CommandLine.Internal
             {
                 if (parts.Length == 1 && (argumentEnumerator.IsLast || !ArgumentParser.IsInputValue(argumentEnumerator.Next)))
                 {
-                    return Internal.ParserState.Failure;
+                    return PresentParserState.Failure;
                 }
                 if (parts.Length == 2)
                 {
@@ -116,7 +116,7 @@ namespace CommandLine.Internal
 
             if (parts.Length == 2)
             {
-                return Internal.ParserState.Failure;
+                return PresentParserState.Failure;
             }
             valueSetting = option.SetValue(true, options);
             if (!valueSetting)

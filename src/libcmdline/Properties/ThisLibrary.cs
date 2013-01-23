@@ -33,7 +33,7 @@ namespace CommandLine
     {
         public const string Title = "CommandLine.dll";
         public const string Copyright = "Copyright (C) 2005 - 2013 Giacomo Stelluti Scala";
-        public const string Version = "1.9.4.127";
+        public const string Version = "1.9.4.131";
         public const string ReleaseType = "beta";
         public const string InformationalVersion = Version;
     }

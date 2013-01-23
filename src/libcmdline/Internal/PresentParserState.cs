@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: SR.cs
+// Command Line Library: ParserState.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -26,20 +26,18 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+#endregion
 
 namespace CommandLine.Internal
 {
-    // Culture / ResourceManager indipendent resources
-    // ReSharper disable InconsistentNaming
-    internal sealed class SR
+    [Flags]
+    enum PresentParserState : ushort
     {
-        private SR() {}
-
-        public static readonly string ArgumentNullException_ArgsStringArrayCannotBeNull = "The arguments string array cannot be null.";
-
-        public static readonly string ArgumentNullException_OptionsInstanceCannotBeNull = "The target options instance cannot be null.";
-     
-        public static readonly string ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull = "The command line parser settings instance cannot be null.";
+        Undefined = 0x00,
+        Success = 0x01,
+        Failure = 0x02,
+        MoveOnNextElement = 0x04
     }
-    // ReSharper restore InconsistentNaming
 }

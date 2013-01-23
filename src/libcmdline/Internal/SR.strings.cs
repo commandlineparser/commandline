@@ -23,5 +23,7 @@ namespace CommandLine.Internal
         public const string MemberAccessException_BadSignatureForHelpVerbOptionAttribute = "{0} has an incorrect signature. Help verb command requires a method that accepts and returns a string.";
         public const string InvalidOperationException_DoNotUseShortNameForVerbCommands = "Verb commands do not support short name by design.";
         public const string InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands = "Verb commands cannot be mandatory since are mutually exclusive by design.";
+        public const string CommandLineParserException_IncompatibleTypes = "The types are incompatible.";
+        public const string InvalidOperationException_CopyrightInfoRequiresAssemblyCopyrightAttributeOrAssemblyCompanyAttribute = "CopyrightInfo::Default requires that you define AssemblyCopyrightAttribute or AssemblyCompanyAttribute.";
     }
 }

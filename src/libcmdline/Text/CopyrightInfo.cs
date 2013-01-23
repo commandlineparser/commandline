@@ -206,7 +206,7 @@ namespace CommandLine.Text
                 {
                     return new CopyrightInfo(company.Company, DateTime.Now.Year);
                 }
-                throw new InvalidOperationException("CopyrightInfo::Default requires that you define AssemblyCopyrightAttribute or AssemblyCompanyAttribute.");
+                throw new InvalidOperationException(SR.InvalidOperationException_CopyrightInfoRequiresAssemblyCopyrightAttributeOrAssemblyCompanyAttribute);
             }
         }
 

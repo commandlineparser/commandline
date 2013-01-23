@@ -93,11 +93,8 @@
     <Compile Include="..\libcmdline\Internal\OptionMap.cs">
       <Link>Library\Internal\OptionMap.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Internal\ParserState.cs">
-      <Link>Library\Internal\ParserState.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\ReflectionUtil.cs">
-      <Link>Library\Internal\ReflectionUtil.cs</Link>
+    <Compile Include="..\libcmdline\Internal\PresentParserState.cs">
+      <Link>Library\Internal\PresentParserState.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Internal\SR.strings.cs">
       <Link>Library\Internal\SR.strings.cs</Link>
@@ -105,8 +102,8 @@
     <Compile Include="..\libcmdline\Internal\StringArrayEnumerator.cs">
       <Link>Library\Internal\StringArrayEnumerator.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Internal\TargetWrapper.cs">
-      <Link>Library\Internal\TargetWrapper.cs</Link>
+    <Compile Include="..\libcmdline\Internal\Target.cs">
+      <Link>Library\Internal\Target.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Properties\ThisLibrary.cs">
       <Link>Library\ThisLibrary.cs</Link>
@@ -146,6 +143,12 @@
     </Compile>
     <Compile Include="..\libcmdline\Utils\Pair.cs">
       <Link>Library\Utils\Pair.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Utils\ReflectionCache.cs">
+      <Link>Library\Utils\ReflectionCache.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Utils\ReflectionUtil.cs">
+      <Link>Library\Utils\ReflectionUtil.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Utils\StringExtensions.cs">
       <Link>Library\Utils\StringExtensions.cs</Link>
@@ -215,14 +218,6 @@
     </Compile>
     <Compile Include="..\libcmdline\CommandLineParser.cs">
       <Link>Library\CommandLineParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\CommandLineParser.Strict.cs">
-      <Link>Library\CommandLineParser.Strict.cs</Link>
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\libcmdline\CommandLineParser.Verbs.cs">
-      <Link>Library\CommandLineParser.Verbs.cs</Link>
-      <DependentUpon>CommandLineParser.cs</DependentUpon>
     </Compile>
     <Compile Include="..\libcmdline\CommandLineParserException.cs">
       <Link>Library\CommandLineParserException.cs</Link>

@@ -11,3 +11,5 @@ ArgumentNullException_LongNameCannotBeNullWhenShortNameIsUndefined = The option 
 MemberAccessException_BadSignatureForHelpVerbOptionAttribute = {0} has an incorrect signature. Help verb command requires a method that accepts and returns a string.
 InvalidOperationException_DoNotUseShortNameForVerbCommands = Verb commands do not support short name by design.
 InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands = Verb commands cannot be mandatory since are mutually exclusive by design.
+CommandLineParserException_IncompatibleTypes = The types are incompatible.
+InvalidOperationException_CopyrightInfoRequiresAssemblyCopyrightAttributeOrAssemblyCompanyAttribute = CopyrightInfo::Default requires that you define AssemblyCopyrightAttribute or AssemblyCompanyAttribute.

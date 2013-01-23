@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: ParserState.cs
+// Command Line Library: TargetWrapper.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -28,15 +28,45 @@
 #endregion
 #region Using Directives
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Threading;
 #endregion
 
 namespace CommandLine.Internal
 {
-    [Flags]
-    enum ParserState : ushort
+    sealed class Target
     {
-        Success = 0x01,
-        Failure = 0x02,
-        MoveOnNextElement = 0x04
+        private Target() {}
+
+        public Target(object target)
+        {
+            _target = target;
+            _valueListAttribute = ValueListAttribute.GetAttribute(_target);
+            if (IsValueListDefined)
+            {
+                _valueList = ValueListAttribute.GetReference(_target);
+            }
+        }
+
+        public bool IsValueListDefined { get { return _valueListAttribute != null; } }
+
+        public bool AddValueItemIfAllowed(string item)
+        {
+            if (_valueListAttribute.MaximumElements == 0 || _valueList.Count == _valueListAttribute.MaximumElements)
+            {
+                return false;
+            }
+            _valueList.Add(item);
+            return true;
+        }
+
+        private readonly object _target;
+        private readonly IList<string> _valueList;
+        private readonly ValueListAttribute _valueListAttribute;
     }
 }

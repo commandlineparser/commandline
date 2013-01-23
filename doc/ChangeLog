@@ -1,3 +1,15 @@
+2013-01-23	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * All CommandLineParser partials merged.
+  * ReflectionUtil now caches data using ReflectionCache.
+  * Version incremented to 1.9.4.131 Beta.
+
+2013-01-23	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Enum Internal.ParserState renamed to PresentParerState to avoid confusion with class ParserState.
+  * TargetWrapper renamed to Target.
+  * Version incremented to 1.9.4.129 Beta.
+
 2013-01-22	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * FxCop SuppressMessage attributes placed in right place (near source of issue).

@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: TargetWrapper.cs
+// Command Line Library: ReflectionUtil.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -29,44 +29,45 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Threading;
 #endregion
 
 namespace CommandLine.Internal
 {
-    sealed class TargetWrapper
+    sealed class ReflectionCache
     {
-        private TargetWrapper() {}
-
-        public TargetWrapper(object target)
+        private ReflectionCache()
         {
-            _target = target;
-            _vla = ValueListAttribute.GetAttribute(_target);
-            if (IsValueListDefined)
+            _cache = new Dictionary<Pair<Type, object>, WeakReference>();
+        }
+
+        static ReflectionCache()
+        {
+        }
+
+        public static ReflectionCache Instance { get { return Singleton; } }
+
+        private static readonly ReflectionCache Singleton = new ReflectionCache();
+
+        public object this[Pair<Type, object> key]
+        {
+            get
             {
-                _valueList = ValueListAttribute.GetReference(_target);
+                if (key == null)
+                {
+                    throw new ArgumentNullException("key");
+                }
+                return _cache.ContainsKey(key) ? _cache[key].Target : null;
+            }
+            set
+            {
+                if (key == null)
+                {
+                    throw new ArgumentNullException("key");
+                }
+                _cache[key] = new WeakReference(value);
             }
         }
 
-        public bool IsValueListDefined { get { return _vla != null; } }
-
-        public bool AddValueItemIfAllowed(string item)
-        {
-            if (_vla.MaximumElements == 0 || _valueList.Count == _vla.MaximumElements)
-            {
-                return false;
-            }
-            _valueList.Add(item);
-            return true;
-        }
-
-        private readonly object _target;
-        private readonly IList<string> _valueList;
-        private readonly ValueListAttribute _vla;
+        private readonly IDictionary<Pair<Type, object>, WeakReference> _cache;
     }
 }

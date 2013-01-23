@@ -47,7 +47,7 @@ namespace CommandLine.Internal
             PostParsingState = new List<ParsingError>();
         }
 
-        public abstract Internal.ParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options);
+        public abstract PresentParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options);
 
         public List<ParsingError> PostParsingState { get; private set; }
 
@@ -110,19 +110,19 @@ namespace CommandLine.Internal
                 caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 
-        protected static Internal.ParserState BooleanToParserState(bool value)
+        protected static PresentParserState BooleanToParserState(bool value)
         {
             return BooleanToParserState(value, false);
         }
 
-        protected static Internal.ParserState BooleanToParserState(bool value, bool addMoveNextIfTrue)
+        protected static PresentParserState BooleanToParserState(bool value, bool addMoveNextIfTrue)
         {
-            if (value && !addMoveNextIfTrue) { return Internal.ParserState.Success; }
+            if (value && !addMoveNextIfTrue) { return PresentParserState.Success; }
             if (value)
             {
-                return Internal.ParserState.Success | Internal.ParserState.MoveOnNextElement;
+                return PresentParserState.Success | PresentParserState.MoveOnNextElement;
             }
-            return Internal.ParserState.Failure;
+            return PresentParserState.Failure;
         }
 
         protected static void EnsureOptionAttributeIsArrayCompatible(OptionInfo option)

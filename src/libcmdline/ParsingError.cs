@@ -64,7 +64,6 @@ namespace CommandLine
         /// </value>
         public BadOptionInfo BadOption { get; private set; }
 
-
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="CommandLine.ParsingError"/> violates required.
         /// </summary>
