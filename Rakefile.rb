@@ -1,6 +1,7 @@
 PRODUCT = "Command Line Parser Library"
 DESCRIPTION = "Command Line Parser Library allows CLR applications to define a syntax for parsing command line arguments."
-VERSION = "1.9.4.125"
+INF_VERSION = "1.9"
+VERSION = INF_VERSION + ".4.131"
 COPYRIGHT = "Copyright (c) 2005 - 2013 Giacomo Stelluti Scala"
 LICENSE_URL = "https://raw.github.com/gsscoder/commandline/master/doc/LICENSE"
 PROJECT_URL = "https://github.com/gsscoder/commandline"
@@ -64,6 +65,16 @@ end
 task :strings do
   invstrtool = invoke_runtime("tools/invariantstr.exe")
   sh "#{invstrtool} -i #{LIB_DIR}/Internal/SR.strings -n CommandLine.Internal"
+end
+
+assemblyinfo :assemblyinfo do |a|
+  a.product_name = PRODUCT
+  #a.description = DESCRIPTION
+  a.version = a.file_version = VERSION
+  a.copyright = COPYRIGHT
+  a.custom_attributes :AssemblyInformationalVersion => INF_VERSION, :NeutralResourcesLanguage => "en-US"
+  a.output_file = "src/CommonAssemblyInfo.cs"
+  a.namespaces "System.Runtime.CompilerServices", "System.Resources"
 end
 
 task :clean do

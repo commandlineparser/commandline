@@ -32,12 +32,8 @@ using System.Runtime.InteropServices;
 using CommandLine.Text;
 #endregion
 
-[assembly: AssemblyTitle(ThisAssembly.Title)]
-[assembly: AssemblyProduct("Command Line Parsing Library")]
+[assembly: AssemblyTitle("demoapp.exe")]
 [assembly: AssemblyDescription("Sample Application for Command Line Library")]
-[assembly: AssemblyCopyright(ThisAssembly.Copyright)]
-[assembly: AssemblyVersion(ThisAssembly.Version)]
-[assembly: AssemblyInformationalVersionAttribute(ThisAssembly.InformationalVersion)]
 [assembly: AssemblyCulture("")]
 
 // here we're using new CommandLine.Text attributes

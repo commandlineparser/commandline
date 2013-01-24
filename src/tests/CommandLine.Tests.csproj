@@ -105,9 +105,6 @@
     <Compile Include="..\libcmdline\Internal\Target.cs">
       <Link>Library\Internal\Target.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Properties\ThisLibrary.cs">
-      <Link>Library\ThisLibrary.cs</Link>
-    </Compile>
     <Compile Include="..\libcmdline\Text\Attributes\AssemblyLicenseAttribute.cs">
       <Link>Library\Text\Attributes\AssemblyLicenseAttribute.cs</Link>
     </Compile>
@@ -202,7 +199,6 @@
     <Compile Include="Text\HelpTextFixture.cs" />
     <Compile Include="Text\VerbsHelpTextFixture.cs" />
     <Compile Include="Utility\ReflectionUtilFixture.cs" />
-    <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="Parser\SingletonFixture.cs" />
     <Compile Include="Mocks\SimpleOptionsWithDefaults.cs" />
     <Compile Include="Mocks\SimpleOptionsWithBadDefaults.cs" />
@@ -236,6 +232,9 @@
     </Compile>
     <Compile Include="..\libcmdline\ParsingError.cs">
       <Link>Library\ParsingError.cs</Link>
+    </Compile>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

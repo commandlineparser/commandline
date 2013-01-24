@@ -98,10 +98,8 @@
     <Compile Include="Internal\ArgumentParser.cs" />
     <Compile Include="Internal\IArgumentEnumerator.cs" />
     <Compile Include="Internal\PresentParserState.cs" />
-    <Compile Include="Properties\ThisAssembly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Text\HelpText.cs" />
-    <Compile Include="Properties\ThisLibrary.cs" />
     <Compile Include="Text\BaseSentenceBuilder.cs" />
     <Compile Include="Text\EnglishSentenceBuilder.cs" />
     <Compile Include="Text\CopyrightInfo.cs" />
@@ -121,6 +119,9 @@
     <Compile Include="IParserState.cs" />
     <Compile Include="ParserState.cs" />
     <Compile Include="ParsingError.cs" />
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

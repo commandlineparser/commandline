@@ -34,13 +34,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endregion
 
-[assembly: AssemblyTitle(ThisAssembly.Title)]
-[assembly: AssemblyProduct("Command Line Parsing Library")]
-[assembly: AssemblyDescription(ThisAssembly.Title)]
-[assembly: AssemblyCopyright(ThisAssembly.Copyright)]
-[assembly: AssemblyVersion(ThisAssembly.Version)]
-[assembly: AssemblyInformationalVersion(ThisAssembly.InformationalVersion)]
-[assembly: NeutralResourcesLanguage("en-US")]
+[assembly: AssemblyTitle("CommandLine.dll")]
+[assembly: AssemblyDescription("Command Line Parser Library allows CLR applications to define a syntax for parsing command line arguments.")]
 [assembly: AssemblyCulture("")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]

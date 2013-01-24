@@ -35,13 +35,8 @@ using System.Runtime.CompilerServices;
 using CommandLine.Text;
 #endregion
 
-[assembly: AssemblyTitle(_ThisAssembly.Title)]
-[assembly: AssemblyProduct("Command Line Parsing Library")]
-[assembly: AssemblyDescription(_ThisAssembly.Title)]
-[assembly: AssemblyCopyright(_ThisAssembly.Copyright)]
-[assembly: AssemblyVersion(_ThisAssembly.Version)]
-[assembly: AssemblyInformationalVersion(_ThisAssembly.InformationalVersion)]
-[assembly: NeutralResourcesLanguage("en-US")]
+[assembly: AssemblyTitle("CommandLine.Tests.dll")]
+[assembly: AssemblyDescription("Command Line Parser Library allows CLR applications to define a syntax for parsing command line arguments.")]
 [assembly: AssemblyCulture("")]
 
 [assembly: AssemblyLicense(
