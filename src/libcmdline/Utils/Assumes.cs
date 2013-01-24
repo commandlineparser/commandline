@@ -28,16 +28,9 @@
 #endregion
 #region Using Directives
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Threading;
 #endregion
 
-namespace CommandLine.Internal
+namespace CommandLine.Utils
 {
     static class Assumes
     {
@@ -67,13 +60,13 @@ namespace CommandLine.Internal
             }
         }
 
-        public static void NotNullOrEmpty(string value, string paramName, string message)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentException(message, paramName);
-            }
-        }
+        //public static void NotNullOrEmpty(string value, string paramName, string message)
+        //{
+        //    if (string.IsNullOrEmpty(value))
+        //    {
+        //        throw new ArgumentException(message, paramName);
+        //    }
+        //}
 
         public static void NotZeroLength<T>(T[] array, string paramName)
         {
@@ -82,12 +75,13 @@ namespace CommandLine.Internal
                 throw new ArgumentOutOfRangeException(paramName);
             }
         }
-        public static void NotZeroLength<T>(T[] array, string paramName, string message)
-        {
-            if (array.Length == 0)
-            {
-                throw new ArgumentOutOfRangeException(paramName, message);
-            }
-        }
+
+        //public static void NotZeroLength<T>(T[] array, string paramName, string message)
+        //{
+        //    if (array.Length == 0)
+        //    {
+        //        throw new ArgumentOutOfRangeException(paramName, message);
+        //    }
+        //}
     }
 }

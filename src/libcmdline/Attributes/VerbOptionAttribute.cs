@@ -29,6 +29,8 @@
 #region Using Directives
 using System;
 using CommandLine.Internal;
+using CommandLine.Utils;
+
 #endregion
 
 namespace CommandLine

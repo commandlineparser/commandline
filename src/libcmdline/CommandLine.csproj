@@ -79,6 +79,7 @@
     <Compile Include="Attributes\OptionListAttribute.cs" />
     <Compile Include="Attributes\ParserStateAttribute.cs" />
     <Compile Include="Attributes\ValueListAttribute.cs" />
+    <Compile Include="ParserContext.cs" />
     <Compile Include="Utils\Assumes.cs" />
     <Compile Include="Internal\SR.strings.cs">
       <DependentUpon>SR.strings</DependentUpon>
@@ -122,6 +123,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Utils\TargetExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

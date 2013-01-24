@@ -28,13 +28,7 @@
 #endregion
 #region Using Directives
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Threading;
+using CommandLine.Utils;
 #endregion
 
 namespace CommandLine.Internal
@@ -80,10 +74,10 @@ namespace CommandLine.Internal
             get { return _index == _endIndex - 1; }
         }
 
-        public void Reset()
-        {
-            _index = -1;
-        }
+        //public void Reset()
+        //{
+        //    _index = -1;
+        //}
 
         public bool MoveNext()
         {

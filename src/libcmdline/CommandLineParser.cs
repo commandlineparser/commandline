@@ -34,6 +34,7 @@ using System.IO;
 using System.Reflection;
 using CommandLine.Internal;
 using CommandLine.Text;
+using CommandLine.Utils;
 
 #endregion
 
@@ -54,7 +55,9 @@ namespace CommandLine
         }
 
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "singleton", Justification = "The constructor that accepts a boolean is designed to support default singleton, the parameter is ignored.")]
+        // ReSharper disable UnusedParameter.Local
         private CommandLineParser(bool singleton)
+        // ReSharper restore UnusedParameter.Local
         {
             _settings = new CommandLineParserSettings(false, false, Console.Error);
         }
@@ -124,13 +127,12 @@ namespace CommandLine
             var pair = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options);
             var helpWriter = _settings.HelpWriter;
 
-            // Keep a local reference for helper methods
-            _args = args;
+            _context = new ParserContext(args, options);
 
             if (pair != null && helpWriter != null)
             {
                 // If help can be handled is displayed if is requested or if parsing fails
-                if (ParseHelp(args, pair.Right) || !DoParseArgumentsUsingVerbs(args, options))
+                if (ParseHelp(args, pair.Right) || !DoParseArgumentsDispatcher(_context))
                 {
                     string helpText;
                     HelpOptionAttribute.InvokeMethod(options, pair, out helpText);
@@ -140,44 +142,52 @@ namespace CommandLine
                 return true;
             }
 
-            return DoParseArgumentsUsingVerbs(args, options);
+            return DoParseArgumentsDispatcher(_context);
         }
 
-        private bool DoParseArgumentsCore(string[] args, object options)
+        private bool DoParseArgumentsDispatcher(ParserContext context)
+        {
+            return context.Target.HasVerbs() ?
+                DoParseArgumentsVerbs(context) :
+                DoParseArgumentsCore(context);
+        }
+
+        private bool DoParseArgumentsCore(ParserContext context)
         {
             bool hadError = false;
-            var optionMap = OptionMap.Create(options, _settings);
+            var optionMap = OptionMap.Create(context.Target, _settings);
             optionMap.SetDefaults();
-            var target = new Target(options);
+            var target = new Target(context.Target);
 
-            IArgumentEnumerator arguments = new StringArrayEnumerator(args);
+            IArgumentEnumerator arguments = new StringArrayEnumerator(context.Arguments);
             while (arguments.MoveNext())
             {
-                string argument = arguments.Current;
-                if (!string.IsNullOrEmpty(argument))
+                var argument = arguments.Current;
+                if (string.IsNullOrEmpty(argument))
                 {
-                    var parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
-                    if (parser != null)
+                    continue;
+                }
+                var parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
+                if (parser != null)
+                {
+                    var result = parser.Parse(arguments, optionMap, context.Target);
+                    if ((result & PresentParserState.Failure) == PresentParserState.Failure)
                     {
-                        PresentParserState result = parser.Parse(arguments, optionMap, options);
-                        if ((result & PresentParserState.Failure) == PresentParserState.Failure)
-                        {
-                            SetParserStateIfNeeded(options, parser.PostParsingState);
-                            hadError = true;
-                            continue;
-                        }
-
-                        if ((result & PresentParserState.MoveOnNextElement) == PresentParserState.MoveOnNextElement)
-                        {
-                            arguments.MoveNext();
-                        }
+                        SetParserStateIfNeeded(context.Target, parser.PostParsingState);
+                        hadError = true;
+                        continue;
                     }
-                    else if (target.IsValueListDefined)
+
+                    if ((result & PresentParserState.MoveOnNextElement) == PresentParserState.MoveOnNextElement)
                     {
-                        if (!target.AddValueItemIfAllowed(argument))
-                        {
-                            hadError = true;
-                        }
+                        arguments.MoveNext();
+                    }
+                }
+                else if (target.IsValueListDefined)
+                {
+                    if (!target.AddValueItemIfAllowed(argument))
+                    {
+                        hadError = true;
                     }
                 }
             }
@@ -189,27 +199,25 @@ namespace CommandLine
 
         private bool ParseHelp(string[] args, HelpOptionAttribute helpOption)
         {
-            bool caseSensitive = _settings.CaseSensitive;
-
-            for (int i = 0; i < args.Length; i++)
+            var caseSensitive = _settings.CaseSensitive;
+            foreach (var arg in args)
             {
                 if (helpOption.ShortName != null)
                 {
-                    if (ArgumentParser.CompareShort(args[i], helpOption.ShortName, caseSensitive))
+                    if (ArgumentParser.CompareShort(arg, helpOption.ShortName, caseSensitive))
                     {
                         return true;
                     }
                 }
-
-                if (!string.IsNullOrEmpty(helpOption.LongName))
+                if (string.IsNullOrEmpty(helpOption.LongName))
                 {
-                    if (ArgumentParser.CompareLong(args[i], helpOption.LongName, caseSensitive))
-                    {
-                        return true;
-                    }
+                    continue;
+                }
+                if (ArgumentParser.CompareLong(arg, helpOption.LongName, caseSensitive))
+                {
+                    return true;
                 }
             }
-
             return false;
         }
 
@@ -248,62 +256,52 @@ namespace CommandLine
             {
                 return false;
             }
-            if (_args == null || _args.Length < 1)
+            if (!_context.HasAtLeastOneArgument())
             {
                 return false;
             }
-            return string.Compare(_args[0], verb, _settings.StringComparison) == 0;
+            return string.Compare(_context.FirstArgument, verb, _settings.StringComparison) == 0;
         }
 
-        private bool DoParseArgumentsUsingVerbs(string[] args, object options)
+        private bool DoParseArgumentsVerbs(ParserContext context)
         {
-            var verbs = ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(options);
-            if (verbs.Count == 0)
-            {
-                // No verbs defined, hence we can run default parsing subsystem
-                return DoParseArgumentsCore(args, options);
-            }
-            var helpInfo = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(options);
-            if (args.Length == 0)
+            var verbs = ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(context.Target);
+            var helpInfo = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(context.Target);
+            if (context.HasNoArguments())
             {
                 if (helpInfo != null || _settings.HelpWriter != null)
                 {
-                    DisplayHelpVerbText(options, helpInfo, null);
+                    DisplayHelpVerbText(context.Target, helpInfo, null);
                 }
                 return false;
             }
-            var optionMap = OptionMap.Create(options, verbs, _settings);
+            var optionMap = OptionMap.Create(context.Target, verbs, _settings);
             // Read the verb from command line arguments
-            if (TryParseHelpVerb(args, options, helpInfo, optionMap))
+            if (TryParseHelpVerb(context.Arguments, context.Target, helpInfo, optionMap))
             {
                 // Since user requested help, parsing is considered a fail
                 return false;
             }
-            var verbOption = optionMap[args[0]];
+            var verbOption = optionMap[context.FirstArgument];
             // User invoked a bad verb name
             if (verbOption == null)
             {
                 if (helpInfo != null)
                 {
-                    DisplayHelpVerbText(options, helpInfo, null);
+                    DisplayHelpVerbText(context.Target, helpInfo, null);
                 }
                 return false;
             }
-            if (verbOption.GetValue(options) == null)
+            if (verbOption.GetValue(context.Target) == null)
             {
                 // Developer has not provided a default value and did not assign an instance
-                verbOption.CreateInstance(options);
+                verbOption.CreateInstance(context.Target);
             }
-            var verbArgs = new string[args.Length - 1];
-            if (args.Length > 1)
-            {
-                Array.Copy(args, 1, verbArgs, 0, args.Length - 1);
-            }
-            var verbResult = DoParseArgumentsCore(verbArgs, verbOption.GetValue(options));
+            var verbResult = DoParseArgumentsCore(context.ToCoreInstance(verbOption));
             if (!verbResult)
             {
                 // Particular verb parsing failed, we try to print its help
-                DisplayHelpVerbText(options, helpInfo, args[0]);
+                DisplayHelpVerbText(context.Target, helpInfo, context.FirstArgument);
             }
             return verbResult;
         }
@@ -458,8 +456,8 @@ namespace CommandLine
 #if !UNIT_TESTS
                 Environment.Exit(exitCode);
 #else
-                Console.WriteLine(string.Format("UNIT_TESTS symbol enabled.\n" +
-                    "Simulating 'Environment.Exit({0})'.", exitCode));
+                Console.WriteLine("UNIT_TESTS symbol enabled.\n" +
+                    "Simulating 'Environment.Exit({0})'.", exitCode);
                 return false;
 #endif
                 #endregion
@@ -469,40 +467,31 @@ namespace CommandLine
 
         private void InvokeAutoBuildIfNeeded(object options)
         {
-            if (_settings.HelpWriter == null)
+            if (_settings.HelpWriter == null ||
+                options.HasHelp() ||
+                options.HasVerbHelp())
             {
                 return;
             }
-            var hasHelpOption = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options) != null;
-            var hasVerbHelpOption = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(options) != null;
-            if (hasHelpOption ||
-                hasVerbHelpOption)
-            {
-                // We do not need to anything
-                return;
-            }
-
-            var hasVerbs = ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(options).Count > 0;
 
             // We print help text for the user
             _settings.HelpWriter.Write(HelpText.AutoBuild(options,
-                current => HelpText.DefaultParsingErrorsHandler(options, current), hasVerbs));
+                current => HelpText.DefaultParsingErrorsHandler(options, current), options.HasVerbs()));
         }
         #endregion
 
         private static void SetParserStateIfNeeded(object options, IEnumerable<ParsingError> errors)
         {
-            var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
-            if (list.Count == 0)
+            if (!options.CanReceiveParserState())
             {
                 return;
             }
-            var property = list[0].Left;
+            var property = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options)[0].Left;
             // Developers are entitled to provide their implementation and instance
             if (property.GetValue(options, null) == null)
             {
                 // Otherwise the parser will the default one
-                property.SetValue(options, new CommandLine.ParserState(), null);
+                property.SetValue(options, new ParserState(), null);
             }
             var parserState = (IParserState) property.GetValue(options, null);
             foreach (var error in errors)
@@ -511,6 +500,9 @@ namespace CommandLine
             }
         }
 
+        /// <summary>
+        /// Frees resources owned by the instance.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -534,12 +526,15 @@ namespace CommandLine
             }
         }
 
+        /// <summary>
+        /// Class destructor.
+        /// </summary>
         ~CommandLineParser()
         {
             Dispose(false);
         }
 
-        private string[] _args;
+        private ParserContext _context;
         private bool _disposed;
         private static readonly ICommandLineParser DefaultParser = new CommandLineParser(true);
         private readonly CommandLineParserSettings _settings;

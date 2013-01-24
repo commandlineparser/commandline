@@ -1,5 +1,15 @@
 2013-01-24	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Sources in Utils dir moved to CommandLine.Utils namespace.
+  * Added type TargetExtensions to increase readability/reuse of code (now with ReflectionCache we can
+      query target instance without fear of performance loss).
+  * CommandLineParser refactored (also using new ParserContext type).
+  * Removed uncalled private code where detected by FxCop (CA1811).
+  * Minor generalized refactoring.
+  * Version incremented to 1.9.4.139 beta.
+
+2013-01-24	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * src/CommonAssemblyInfo.cs generated with Rakefile.rb.
 
 2013-01-23	Giacomo Stelluti Scala	<gsscoder@gmail.com>

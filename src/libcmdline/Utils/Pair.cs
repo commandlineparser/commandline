@@ -29,7 +29,7 @@
 #region Using Directives
 #endregion
 
-namespace CommandLine.Internal
+namespace CommandLine.Utils
 {
     sealed class Pair<TLeft, TRight>
         where TLeft : class

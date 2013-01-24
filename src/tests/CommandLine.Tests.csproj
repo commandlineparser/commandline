@@ -105,6 +105,9 @@
     <Compile Include="..\libcmdline\Internal\Target.cs">
       <Link>Library\Internal\Target.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\ParserContext.cs">
+      <Link>Library\ParserContext.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\Text\Attributes\AssemblyLicenseAttribute.cs">
       <Link>Library\Text\Attributes\AssemblyLicenseAttribute.cs</Link>
     </Compile>
@@ -152,6 +155,9 @@
     </Compile>
     <Compile Include="..\libcmdline\Utils\SwitchExtensions.cs">
       <Link>Library\Utils\SwitchExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Utils\TargetExtensions.cs">
+      <Link>Library\Utils\TargetExtensions.cs</Link>
     </Compile>
     <Compile Include="Mocks\CommandLineOptionsBase.cs" />
     <Compile Include="Mocks\SimpleOptionsForStrict.cs" />

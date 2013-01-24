@@ -32,6 +32,8 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using CommandLine.Internal;
+using CommandLine.Utils;
+
 #endregion
 
 namespace CommandLine.Text
@@ -67,7 +69,7 @@ namespace CommandLine.Text
         /// <param name="year">The year of coverage of copyright.</param>
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="author"/> is null or empty string.</exception>
         public CopyrightInfo(string author, int year)
-            : this(true, author, new int[] { year })
+            : this(true, author, new[] { year })
         {
         }
 
@@ -119,14 +121,7 @@ namespace CommandLine.Text
             var builder = new StringBuilder(_builderSize);
             builder.Append(CopyrightWord);
             builder.Append(' ');
-            if (_isSymbolUpper)
-            {
-                builder.Append(SymbolUpper);
-            }
-            else
-            {
-                builder.Append(SymbolLower);
-            }
+            builder.Append(_isSymbolUpper ? SymbolUpper : SymbolLower);
             builder.Append(' ');
             builder.Append(FormatYears(_years));
             builder.Append(' ');
@@ -171,14 +166,7 @@ namespace CommandLine.Text
                 int next = i + 1;
                 if (next < years.Length)
                 {
-                    if (years[next] - years[i] > 1)
-                    {
-                        yearsPart.Append(" - ");
-                    }
-                    else
-                    {
-                        yearsPart.Append(", ");
-                    }
+                    yearsPart.Append(years[next] - years[i] > 1 ? " - " : ", ");
                 }
             }
             return yearsPart.ToString();

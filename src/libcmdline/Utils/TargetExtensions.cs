@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: TargetWrapper.cs
+// Command Line Library: TargetExtensions.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -26,40 +26,29 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System.Collections.Generic;
-#endregion
 
-namespace CommandLine.Internal
+namespace CommandLine.Utils
 {
-    sealed class Target
+    static class TargetExtensions
     {
-        private Target() {}
-
-        public Target(object target)
+        public static bool HasVerbs(this object target)
         {
-            _target = target;
-            _valueListAttribute = ValueListAttribute.GetAttribute(_target);
-            if (IsValueListDefined)
-            {
-                _valueList = ValueListAttribute.GetReference(_target);
-            }
+            return ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(target).Count > 0;
         }
 
-        public bool IsValueListDefined { get { return _valueListAttribute != null; } }
-
-        public bool AddValueItemIfAllowed(string item)
+        public static bool HasHelp(this object target)
         {
-            if (_valueListAttribute.MaximumElements == 0 || _valueList.Count == _valueListAttribute.MaximumElements)
-            {
-                return false;
-            }
-            _valueList.Add(item);
-            return true;
+            return ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(target) != null;
         }
 
-        private readonly object _target;
-        private readonly IList<string> _valueList;
-        private readonly ValueListAttribute _valueListAttribute;
+        public static bool HasVerbHelp(this object target)
+        {
+            return ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(target) != null;
+        }
+
+        public static bool CanReceiveParserState(this object target)
+        {
+            return ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(target).Count > 0;
+        }
     }
 }

@@ -26,16 +26,6 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Threading;
-#endregion
 
 namespace CommandLine.Internal
 {

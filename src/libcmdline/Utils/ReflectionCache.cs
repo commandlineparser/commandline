@@ -29,9 +29,11 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
 #endregion
 
-namespace CommandLine.Internal
+namespace CommandLine.Utils
 {
     sealed class ReflectionCache
     {
@@ -40,6 +42,7 @@ namespace CommandLine.Internal
             _cache = new Dictionary<Pair<Type, object>, WeakReference>();
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Singleton, by design.")]
         static ReflectionCache()
         {
         }

@@ -3,8 +3,8 @@ Command Line Parser Library
 Project Author/Coordinator: Giacomo Stelluti Scala
 Main Contributor(s): Steven Evans, Kevin Moore, Dan Nemec (nemec), Alexander Fast (mizipzor)
 --------------------------------------------------------------------------------------------
-Version 1.9.4.131 Beta (*1)
-Latest Update: 23-01-2013
+Version 1.9.4.139 beta (*1)
+Latest Update: 24-01-2013
 
 Git home:
 https://github.com/gsscoder/commandline
@@ -20,7 +20,11 @@ More info on:
 [QUICKSTART] http://commandline.codeplex.com/wikipage?title=Quickstart&referringTitle=Documentation
 [GUIDE] http://commandline.codeplex.com/documentation (*2)
 [BLOG] http://gsscoder.blogspot.com/
-  
+
+Artifact regeneration:
+rake strings       -> src/libcmdline/Internal/SR.string.cs
+rake assemblyinfo  -> src/CommonAssemblyInfo.cs
+
 Build (requires Ruby):
 gem install rake
 gem install albacore

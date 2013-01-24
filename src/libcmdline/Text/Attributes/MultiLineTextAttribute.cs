@@ -29,7 +29,7 @@
 #region Using Directives
 using System;
 using System.Text;
-using CommandLine.Internal;
+using CommandLine.Utils;
 #endregion
 
 namespace CommandLine.Text
@@ -111,7 +111,7 @@ namespace CommandLine.Text
         internal void AddToHelpText(Action<string> action)
         {
             var strArray = new string[] {_line1, _line2, _line3, _line4, _line5};
-            Array.ForEach( strArray, (line) =>
+            Array.ForEach( strArray, line =>
             {
                 if (!string.IsNullOrEmpty(line)) { action( line ); }
             });
@@ -139,7 +139,7 @@ namespace CommandLine.Text
         /// <param name='value'>The string array to process.</param>
         protected virtual int GetLastLineWithText(string[] value)
         {
-            int index = Array.FindLastIndex(value, (str) => { return !string.IsNullOrEmpty(str); });
+            int index = Array.FindLastIndex(value, str => !string.IsNullOrEmpty(str));
 
             // remember FindLastIndex returns zero-based index
             return index + 1;
@@ -154,7 +154,7 @@ namespace CommandLine.Text
             get
             {
                 var value = new StringBuilder(string.Empty);
-                var strArray = new string[] { _line1, _line2, _line3, _line4, _line5 };
+                var strArray = new[] { _line1, _line2, _line3, _line4, _line5 };
                 for (int i = 0; i < GetLastLineWithText(strArray); i++)
                 {
                     value.AppendLine(strArray[i]);
@@ -163,14 +163,29 @@ namespace CommandLine.Text
             }
         }
 
+        /// <summary>
+        /// First line of text.
+        /// </summary>
         public string Line1 { get { return _line1; } }
 
+        /// <summary>
+        /// Second line of text
+        /// </summary>
         public string Line2 { get { return _line2; } }
 
+        /// <summary>
+        /// Third line of text.
+        /// </summary>
         public string Line3 { get { return _line3; } }
 
+        /// <summary>
+        /// Fourth line of text.
+        /// </summary>
         public string Line4 { get { return _line4; } }
 
+        /// <summary>
+        /// Fifth line of text.
+        /// </summary>
         public string Line5 { get { return _line5; } }
 
         private readonly string _line1;

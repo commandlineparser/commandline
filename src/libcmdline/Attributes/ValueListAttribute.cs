@@ -31,6 +31,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using CommandLine.Internal;
+using CommandLine.Utils;
+
 #endregion
 
 namespace CommandLine
@@ -73,6 +75,9 @@ namespace CommandLine
         /// </summary>
         public int MaximumElements { get; set; }
 
+        /// <summary>
+        /// Gets the concrete type specified during initialization.
+        /// </summary>
         public Type ConcreteType { get { return _concreteType; } }
 
         internal static IList<string> GetReference(object target)

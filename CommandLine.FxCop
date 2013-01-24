@@ -94,69 +94,8 @@
        </Namespace>
        <Namespace Name="CommandLine.Internal">
         <Types>
-         <Type Name="Assumes">
-          <Members>
-           <Member Name="#NotNullOrEmpty(System.String,System.String,System.String)">
-            <Messages>
-             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
-              <Issue>
-               <Item>'Assumes.NotNullOrEmpty(string, string, string)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#NotZeroLength`1(!!0[],System.String,System.String)">
-            <Messages>
-             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
-              <Issue>
-               <Item>'Assumes.NotZeroLength&lt;T&gt;(T[], string, string)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="OneCharStringEnumerator">
-          <Members>
-           <Member Name="#Reset()">
-            <Messages>
-             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
-              <Issue>
-               <Item>'OneCharStringEnumerator.Reset()'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="OptionInfo">
           <Members>
-           <Member Name="#HelpText">
-            <Accessors>
-             <Accessor Name="#get_HelpText()">
-              <Messages>
-               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
-                <Issue>
-                 <Item>'OptionInfo.HelpText.get()'</Item>
-                </Issue>
-               </Message>
-              </Messages>
-             </Accessor>
-            </Accessors>
-           </Member>
-           <Member Name="#NameWithSwitch">
-            <Accessors>
-             <Accessor Name="#get_NameWithSwitch()">
-              <Messages>
-               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
-                <Issue>
-                 <Item>'OptionInfo.NameWithSwitch.get()'</Item>
-                </Issue>
-               </Message>
-              </Messages>
-             </Accessor>
-            </Accessors>
-           </Member>
            <Member Name="#SetNullableValue(System.String,System.Object)">
             <Messages>
              <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Excluded" Created="2013-01-20 13:57:34Z">
@@ -169,19 +108,6 @@
                 <Note Id="1" />
                </User>
               </Notes>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="StringArrayEnumerator">
-          <Members>
-           <Member Name="#Reset()">
-            <Messages>
-             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2013-01-20 13:57:34Z">
-              <Issue>
-               <Item>'StringArrayEnumerator.Reset()'</Item>
-              </Issue>
              </Message>
             </Messages>
            </Member>
@@ -221,6 +147,29 @@
          </Type>
         </Types>
        </Namespace>
+       <Namespace Name="CommandLine.Utils">
+        <Types>
+         <Type Name="ReflectionCache">
+          <Members>
+           <Member Name="#.cctor()">
+            <Messages>
+             <Message TypeName="InitializeReferenceTypeStaticFieldsInline" Category="Microsoft.Performance" CheckId="CA1810" Status="Excluded" Created="2013-01-24 13:11:50Z">
+              <Issue>
+               <Item>'ReflectionCache'</Item>
+              </Issue>
+              <Notes>
+               <User Name="vmuser">
+                <Note Id="3" />
+                <Note Id="4" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
       </Namespaces>
      </Module>
     </Modules>
@@ -231,14 +180,13 @@
     <Note Id="0" Modified="2013-01-20 14:49:13Z">The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char.</Note>
     <Note Id="1" Modified="2013-01-20 16:14:59Z">FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.</Note>
     <Note Id="2" Modified="2013-01-22 20:28:56Z">The constructor that accepts a boolean is designed to support default singleton, the parameter is ignored.</Note>
+    <Note Id="3" Modified="2013-01-24 13:17:29Z">Singleton, by design.</Note>
+    <Note Id="4" Modified="2013-01-24 13:22:57Z">Singleton, by design.</Note>
    </User>
   </Notes>
   <Rules>
    <Rule TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021">
     <Resolution Name="Default">Consider a design that does not require that {0} be an out parameter.</Resolution>
-   </Rule>
-   <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
-    <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>
    </Rule>
    <Rule TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019">
     <Resolution Name="RemoveSetter">Remove the property setter from {0} or reduce its accessibility because it corresponds to positional argument {1}.</Resolution>
@@ -248,6 +196,9 @@
    </Rule>
    <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
     <Resolution Name="Default">Modify {0} to catch a more specific exception than {1} or rethrow the exception.</Resolution>
+   </Rule>
+   <Rule TypeName="InitializeReferenceTypeStaticFieldsInline" Category="Microsoft.Performance" CheckId="CA1810">
+    <Resolution Name="Default">Initialize all static fields in {0} when those fields are declared and remove the explicit static constructor.</Resolution>
    </Rule>
    <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
     <Resolution Name="Default">Parameter {0} of {1} is never used. Remove the parameter or use it in the method body.</Resolution>

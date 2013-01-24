@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using CommandLine.Utils;
 using NUnit.Framework;
 using Should.Fluent;
 using CommandLine.Text;

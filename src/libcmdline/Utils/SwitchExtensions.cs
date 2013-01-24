@@ -1,4 +1,4 @@
-﻿namespace CommandLine.Internal
+﻿namespace CommandLine.Utils
 {
     static class OptionExtensions
     {

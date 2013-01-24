@@ -32,7 +32,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CommandLine.Internal;
+using CommandLine.Utils;
 #endregion
 
 namespace CommandLine.Text
@@ -456,14 +456,9 @@ namespace CommandLine.Text
                     line.Append(e.BadOption.LongName);
                 }
                 line.Append(" ");
-                if (e.ViolatesRequired)
-                {
-                    line.Append(_sentenceBuilder.RequiredOptionMissingText);
-                }
-                else
-                {
-                    line.Append(_sentenceBuilder.OptionWord);
-                }
+                line.Append(e.ViolatesRequired ?
+                    _sentenceBuilder.RequiredOptionMissingText :
+                    _sentenceBuilder.OptionWord);
                 if (e.ViolatesFormat)
                 {
                     line.Append(" ");
@@ -525,14 +520,9 @@ namespace CommandLine.Text
                 }
             }
 
-            if (optionName.Length < maxLength)
-            {
-                _optionsHelp.Append(optionName.ToString().PadRight(maxLength));
-            }
-            else
-            {
-                _optionsHelp.Append(optionName.ToString());
-            }
+            _optionsHelp.Append(optionName.Length < maxLength ?
+                optionName.ToString().PadRight(maxLength) :
+                optionName.ToString());
 
             _optionsHelp.Append("    ");
             if (option.HasDefaultValue)

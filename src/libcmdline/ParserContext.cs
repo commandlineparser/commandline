@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: TargetWrapper.cs
+// Command Line Library: ParserContext.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -27,39 +27,52 @@
 //
 #endregion
 #region Using Directives
-using System.Collections.Generic;
+using System;
+using CommandLine.Internal;
 #endregion
 
-namespace CommandLine.Internal
+namespace CommandLine
 {
-    sealed class Target
+    /// <summary>
+    /// Models context in which parsing occurs.
+    /// </summary>
+    sealed class ParserContext
     {
-        private Target() {}
+        private ParserContext() {}
 
-        public Target(object target)
+        public ParserContext(string[] arguments, object target)
         {
-            _target = target;
-            _valueListAttribute = ValueListAttribute.GetAttribute(_target);
-            if (IsValueListDefined)
-            {
-                _valueList = ValueListAttribute.GetReference(_target);
-            }
+            Arguments = arguments;
+            Target = target;
         }
 
-        public bool IsValueListDefined { get { return _valueListAttribute != null; } }
-
-        public bool AddValueItemIfAllowed(string item)
+        public ParserContext ToCoreInstance(OptionInfo verbOption)
         {
-            if (_valueListAttribute.MaximumElements == 0 || _valueList.Count == _valueListAttribute.MaximumElements)
+            var newArguments = new string[Arguments.Length - 1];
+            if (Arguments.Length > 1)
             {
-                return false;
+                Array.Copy(Arguments, 1, newArguments, 0, Arguments.Length - 1);
             }
-            _valueList.Add(item);
-            return true;
+            return new ParserContext(newArguments, verbOption.GetValue(Target));
         }
 
-        private readonly object _target;
-        private readonly IList<string> _valueList;
-        private readonly ValueListAttribute _valueListAttribute;
+        public string[] Arguments { get; private set; }
+
+        public bool HasNoArguments()
+        {
+            return Arguments == null || Arguments.Length == 0;
+        }
+
+        public bool HasAtLeastOneArgument()
+        {
+            return !HasNoArguments() && Arguments.Length >= 1;
+        }
+
+        public string FirstArgument
+        {
+            get { return !HasNoArguments() ? Arguments[0] : null; }
+        }
+
+        public object Target { get; private set; }
     }
 }

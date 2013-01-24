@@ -34,6 +34,8 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Threading;
+using CommandLine.Utils;
+
 #endregion
 
 namespace CommandLine.Internal
@@ -52,7 +54,7 @@ namespace CommandLine.Internal
                 throw new ArgumentNullException("property", SR.ArgumentNullException_PropertyCannotBeNull);
             }
             _required = attribute.Required;
-            _helpText = attribute.HelpText;
+            //_helpText = attribute.HelpText;
             _shortName = attribute.ShortName;
             _longName = attribute.LongName;
             _mutuallyExclusiveSet = attribute.MutuallyExclusiveSet;
@@ -129,7 +131,9 @@ namespace CommandLine.Internal
             var nc = new NullableConverter(_property.PropertyType);
             try
             {
+                // ReSharper disable AssignNullToNotNullAttribute
                 _property.SetValue(options, nc.ConvertFromString(null, Thread.CurrentThread.CurrentCulture, value), null);
+                // ReSharper restore AssignNullToNotNullAttribute
             }
             // FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException,
             // so we've to catch directly System.Exception
@@ -151,9 +155,9 @@ namespace CommandLine.Internal
             _property.SetValue(options, new List<string>(), null);
             var fieldRef = (IList<string>)_property.GetValue(options, null);
             var values = value.Split(((OptionListAttribute)_attribute).Separator);
-            for (var i = 0; i < values.Length; i++)
+            foreach (var item in values)
             {
-                fieldRef.Add(values[i]);
+                fieldRef.Add(item);
             }
             return true;
         }
@@ -183,17 +187,17 @@ namespace CommandLine.Internal
             get { return _longName; }
         }
 
-        internal string NameWithSwitch
-        {
-            get
-            {
-                if (_longName != null)
-                {
-                    return _longName.ToOption();
-                }
-                return _shortName.ToOption();
-            }
-        }
+        //internal string NameWithSwitch
+        //{
+        //    get
+        //    {
+        //        if (_longName != null)
+        //        {
+        //            return _longName.ToOption();
+        //        }
+        //        return _shortName.ToOption();
+        //    }
+        //}
 
         public string MutuallyExclusiveSet
         {
@@ -205,10 +209,10 @@ namespace CommandLine.Internal
             get { return _required; }
         }
 
-        public string HelpText
-        {
-            get { return _helpText; }
-        }
+        //public string HelpText
+        //{
+        //    get { return _helpText; }
+        //}
 
         public bool IsBoolean
         {
@@ -254,7 +258,7 @@ namespace CommandLine.Internal
         private readonly BaseOptionAttribute _attribute;
         private readonly PropertyInfo _property;
         private readonly bool _required;
-        private readonly string _helpText;
+        //private readonly string _helpText;
         private readonly char? _shortName;
         private readonly string _longName;
         private readonly string _mutuallyExclusiveSet;

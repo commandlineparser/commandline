@@ -40,6 +40,9 @@
     <Compile Include="..\libcmdline\Internal\Target.cs">
       <Link>Library\Internal\Target.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\ParserContext.cs">
+      <Link>Library\ParserContext.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\ParserState.cs">
       <Link>Library\ParserState.cs</Link>
     </Compile>
@@ -72,6 +75,9 @@
     </Compile>
     <Compile Include="..\libcmdline\Utils\SwitchExtensions.cs">
       <Link>Library\Utils\SwitchExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Utils\TargetExtensions.cs">
+      <Link>Library\Utils\TargetExtensions.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

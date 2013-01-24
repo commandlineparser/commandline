@@ -31,7 +31,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using CommandLine.Internal;
+using CommandLine.Utils;
 #endregion
 
 namespace CommandLine.Text

@@ -28,14 +28,7 @@
 #endregion
 #region Using Directives
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Runtime.Serialization;
-using System.Threading;
-using CommandLine.Internal;
 #endregion
 
 namespace CommandLine
@@ -46,20 +39,41 @@ namespace CommandLine
     [Serializable]
     public class CommandLineParserException : Exception
     {
+        /// <summary>
+        /// Initializes a new instance of <see cref="CommandLineParserException"/>. The exception is thrown
+        /// when something unexpected occurs during the parsing process.
+        /// </summary>
         public CommandLineParserException()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="CommandLineParserException"/>. The exception is thrown
+        /// when something unexpected occurs during the parsing process.
+        /// </summary>
+        /// <param name="message">Error message string.</param>
         public CommandLineParserException(string message)
             : base(message)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="CommandLineParserException"/>. The exception is thrown
+        /// when something unexpected occurs during the parsing process.
+        /// </summary>
+        /// <param name="message">Error message string.</param>
+        /// <param name="innerException">Inner exception reference.</param>
         public CommandLineParserException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="CommandLineParserException"/> with serialized data. The exception is thrown
+        /// when something unexpected occurs during the parsing process.
+        /// </summary>
+        /// <param name="info">The object that holds the serialized object data.</param>
+        /// <param name="context">The contextual information about the source or destination.</param>
         protected CommandLineParserException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

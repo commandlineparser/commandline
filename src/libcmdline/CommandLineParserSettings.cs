@@ -28,14 +28,7 @@
 #endregion
 #region Using Directives
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Threading;
-using CommandLine.Internal;
 #endregion
 
 namespace CommandLine
@@ -165,6 +158,9 @@ namespace CommandLine
         /// </remarks>
         public bool IgnoreUnknownArguments { get; set; }
 
+        /// <summary>
+        /// Frees resources owned by the instance.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -195,6 +191,9 @@ namespace CommandLine
             get { return CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase; }
         }
 
+        /// <summary>
+        /// Class destructor.
+        /// </summary>
         ~CommandLineParserSettings()
         {
             Dispose(false);

@@ -29,12 +29,8 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Threading;
+using CommandLine.Utils;
 #endregion
 
 namespace CommandLine.Internal
@@ -144,7 +140,9 @@ namespace CommandLine.Internal
 
                 if (value.HasBothNames)
                 {
+                    // ReSharper disable PossibleInvalidOperationException
                     _names[value.LongName] = new string(value.ShortName.Value, 1);
+                    // ReSharper restore PossibleInvalidOperationException
                 }
             }
         }

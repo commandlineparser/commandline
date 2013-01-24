@@ -26,16 +26,6 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Threading;
-#endregion
 
 namespace CommandLine.Internal
 {
@@ -103,7 +93,7 @@ namespace CommandLine.Internal
                             valueSetting = option.SetValue(argumentEnumerator.Next, options);
                             if (!valueSetting)
                             {
-                                this.DefineOptionThatViolatesFormat(option);
+                                DefineOptionThatViolatesFormat(option);
                             }
                             return ArgumentParser.BooleanToParserState(valueSetting, true);
                         }

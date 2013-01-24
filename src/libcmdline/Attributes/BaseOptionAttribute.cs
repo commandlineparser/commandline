@@ -28,8 +28,8 @@
 #endregion
 #region Using Directives
 using System;
-using System.Diagnostics;
 using CommandLine.Internal;
+using CommandLine.Utils;
 #endregion
 
 namespace CommandLine
@@ -41,6 +41,12 @@ namespace CommandLine
     {
         internal const string DefaultMutuallyExclusiveSet = "Default";
 
+        /// <summary>
+        /// Create an instance of <see cref="BaseOptionAttribute"/> derived class, validating <paramref name="shortName"/>
+        /// and <paramref name="longName"/>.
+        /// </summary>
+        /// <param name="shortName">Short name of the option.</param>
+        /// <param name="longName">Long name of the option.</param>
         protected BaseOptionAttribute(char shortName, string longName)
         {
             _shortName = shortName;
@@ -52,6 +58,12 @@ namespace CommandLine
             LongName = longName;
         }
 
+        /// <summary>
+        /// Create an instance of <see cref="BaseOptionAttribute"/> derived class, validating <paramref name="shortName"/>
+        /// and <paramref name="longName"/>. This constructor accepts a nullable character as short name.
+        /// </summary>
+        /// <param name="shortName">Short name of the option.</param>
+        /// <param name="longName">Long name of the option.</param>
         protected BaseOptionAttribute(char? shortName, string longName)
         {
             _shortName = shortName;
