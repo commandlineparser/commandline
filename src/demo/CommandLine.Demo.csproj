@@ -34,11 +34,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\libcmdline\Attributes\ValueOptionAttribute.cs">
+      <Link>Library\Attributes\ValueOptionAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\Internal\PresentParserState.cs">
       <Link>Library\Internal\PresentParserState.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Internal\Target.cs">
-      <Link>Library\Internal\Target.cs</Link>
+    <Compile Include="..\libcmdline\Internal\PropertyWriter.cs">
+      <Link>Library\Internal\PropertyWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\libcmdline\Internal\ValueMapper.cs">
+      <Link>Library\Internal\ValueMapper.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\ParserContext.cs">
       <Link>Library\ParserContext.cs</Link>

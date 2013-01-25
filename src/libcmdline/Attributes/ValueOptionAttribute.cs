@@ -1,6 +1,6 @@
 ﻿#region License
 //
-// Command Line Library: TargetExtensions.cs
+// Command Line Library: ValueOptionAttribute.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -27,36 +27,21 @@
 //
 #endregion
 #region Using Directives
-using CommandLine.Internal;
+using System;
+using System.Collections.Generic;
+using System.Text;
 #endregion
 
-namespace CommandLine.Utils
+namespace CommandLine
 {
-    static class TargetExtensions
+    /// <summary>
+    /// Maps a single unnamed option to the target property. Values will be mapped in order of declaration.
+    /// This attribute takes precedence over <see cref="CommandLine.ValueListAttribute"/> with which
+    /// can coexist.
+    /// </summary>
+    /// <remarks>It can handle only scalar values. Do not apply to arrays or lists.</remarks>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public sealed class ValueOptionAttribute : Attribute
     {
-        public static bool HasVerbs(this object target)
-        {
-            return ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(target).Count > 0;
-        }
-
-        public static bool HasHelp(this object target)
-        {
-            return ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(target) != null;
-        }
-
-        public static bool HasVerbHelp(this object target)
-        {
-            return ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(target) != null;
-        }
-
-        public static bool CanReceiveParserState(this object target)
-        {
-            return ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(target).Count > 0;
-        }
-
-        public static ValueMapper CreateValueMapper(this object target)
-        {
-            return new ValueMapper(target);
-        }
     }
 }

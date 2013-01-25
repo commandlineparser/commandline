@@ -38,10 +38,6 @@ namespace CommandLine.Tests
 {
     public sealed class ValueListAttributeParsingFixture : CommandLineParserBaseFixture
     {
-        public ValueListAttributeParsingFixture() : base()
-        {
-        }
-
         [Test]
         public void ValueListAttributeIsolatesNonOptionValues()
         {
@@ -50,6 +46,7 @@ namespace CommandLine.Tests
                 new string[] { "--switch", "file1.ext", "file2.ext", "file3.ext", "-s", "out.ext" }, options);
 
             ResultShouldBeTrue();
+
             options.Items[0].Should().Equal("file1.ext");
             options.Items[1].Should().Equal("file2.ext");
             options.Items[2].Should().Equal("file3.ext");
@@ -65,6 +62,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "file.a", "file.b", "file.c" }, options);
 
             ResultShouldBeTrue();
+
             options.InputFilenames[0].Should().Equal("file.a");
             options.InputFilenames[1].Should().Equal("file.b");
             options.InputFilenames[2].Should().Equal("file.c");
@@ -90,6 +88,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { }, options);
 
             ResultShouldBeTrue();
+
             options.Junk.Should().Count.Zero();
             Console.WriteLine(options);
         }
@@ -100,6 +99,7 @@ namespace CommandLine.Tests
             var options = new OptionsWithValueListMaximumZero();
 
             Result = base.Parser.ParseArguments(new string[] { "some", "value" }, options);
+
             ResultShouldBeFalse();
         }
     }

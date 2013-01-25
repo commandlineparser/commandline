@@ -54,7 +54,6 @@ namespace CommandLine.Internal
                 throw new ArgumentNullException("property", SR.ArgumentNullException_PropertyCannotBeNull);
             }
             _required = attribute.Required;
-            //_helpText = attribute.HelpText;
             _shortName = attribute.ShortName;
             _longName = attribute.LongName;
             _mutuallyExclusiveSet = attribute.MutuallyExclusiveSet;
@@ -62,6 +61,7 @@ namespace CommandLine.Internal
             _hasDefaultValue = attribute.HasDefaultValue;
             _attribute = attribute;
             _property = property;
+            _propertyWriter = new PropertyWriter(_property);
         }
 
 #if UNIT_TESTS
@@ -80,9 +80,11 @@ namespace CommandLine.Internal
             }
             if (ReflectionUtil.IsNullableType(_property.PropertyType))
             {
-                return SetNullableValue(value, options);
+                //return SetNullableValue(value, options);
+                return _propertyWriter.WriteNullable(value, options);
             }
-            return SetValueScalar(value, options);
+            //return SetValueScalar(value, options);
+            return _propertyWriter.WriteScalar(value, options);
         }
 
         public bool SetValue(IList<string> values, object options)
@@ -101,45 +103,6 @@ namespace CommandLine.Internal
                 {
                     return false;
                 }
-            }
-            return true;
-        }
-
-        private bool SetValueScalar(string value, object options)
-        {
-            try
-            {
-                if (_property.PropertyType.IsEnum)
-                {
-                    _property.SetValue(options, Enum.Parse(_property.PropertyType, value, true), null);
-                }
-                else
-                {
-                    _property.SetValue(options, Convert.ChangeType(value, _property.PropertyType, Thread.CurrentThread.CurrentCulture), null);
-                }
-            }
-            catch (InvalidCastException) { return false; } // Convert.ChangeType
-            catch (FormatException) { return false; } // Convert.ChangeType
-            catch (ArgumentException) { return false; } // Enum.Parse
-            catch (OverflowException) { return false; } // Convert.ChangeType
-            return true;
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.")]
-        private bool SetNullableValue(string value, object options)
-        {
-            var nc = new NullableConverter(_property.PropertyType);
-            try
-            {
-                // ReSharper disable AssignNullToNotNullAttribute
-                _property.SetValue(options, nc.ConvertFromString(null, Thread.CurrentThread.CurrentCulture, value), null);
-                // ReSharper restore AssignNullToNotNullAttribute
-            }
-            // FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException,
-            // so we've to catch directly System.Exception
-            catch (Exception)
-            {
-                return false;
             }
             return true;
         }
@@ -187,18 +150,6 @@ namespace CommandLine.Internal
             get { return _longName; }
         }
 
-        //internal string NameWithSwitch
-        //{
-        //    get
-        //    {
-        //        if (_longName != null)
-        //        {
-        //            return _longName.ToOption();
-        //        }
-        //        return _shortName.ToOption();
-        //    }
-        //}
-
         public string MutuallyExclusiveSet
         {
             get { return _mutuallyExclusiveSet; }
@@ -208,11 +159,6 @@ namespace CommandLine.Internal
         {
             get { return _required; }
         }
-
-        //public string HelpText
-        //{
-        //    get { return _helpText; }
-        //}
 
         public bool IsBoolean
         {
@@ -257,8 +203,8 @@ namespace CommandLine.Internal
 
         private readonly BaseOptionAttribute _attribute;
         private readonly PropertyInfo _property;
+        private readonly PropertyWriter _propertyWriter;
         private readonly bool _required;
-        //private readonly string _helpText;
         private readonly char? _shortName;
         private readonly string _longName;
         private readonly string _mutuallyExclusiveSet;

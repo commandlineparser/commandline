@@ -1,6 +1,6 @@
-﻿#region License
+#region License
 //
-// Command Line Library: TargetExtensions.cs
+// Command Line Library: SimpleOptionsWithValueList.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -27,36 +27,21 @@
 //
 #endregion
 #region Using Directives
-using CommandLine.Internal;
+using System.Collections.Generic;
+using System.ComponentModel;
 #endregion
 
-namespace CommandLine.Utils
+namespace CommandLine.Tests.Mocks
 {
-    static class TargetExtensions
+    class SimpleOptionsWithValueOption : SimpleOptions
     {
-        public static bool HasVerbs(this object target)
-        {
-            return ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(target).Count > 0;
-        }
+        [ValueOption]
+        public string StringItem { get; set; }
 
-        public static bool HasHelp(this object target)
-        {
-            return ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(target) != null;
-        }
+        [ValueOption]
+        public int IntegerItem { get; set; }
 
-        public static bool HasVerbHelp(this object target)
-        {
-            return ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(target) != null;
-        }
-
-        public static bool CanReceiveParserState(this object target)
-        {
-            return ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(target).Count > 0;
-        }
-
-        public static ValueMapper CreateValueMapper(this object target)
-        {
-            return new ValueMapper(target);
-        }
+        [ValueOption]
+        public double? NullableDoubleItem { get; set; }
     }
 }

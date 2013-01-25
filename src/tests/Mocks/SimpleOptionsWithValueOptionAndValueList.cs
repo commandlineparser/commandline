@@ -1,6 +1,6 @@
-﻿#region License
+#region License
 //
-// Command Line Library: TargetWrapper.cs
+// Command Line Library: SimpleOptionsWithValueList.cs
 //
 // Author:
 //   Giacomo Stelluti Scala (gsscoder@gmail.com)
@@ -28,38 +28,23 @@
 #endregion
 #region Using Directives
 using System.Collections.Generic;
+using System.ComponentModel;
 #endregion
 
-namespace CommandLine.Internal
+namespace CommandLine.Tests.Mocks
 {
-    sealed class Target
+    class SimpleOptionsWithValueOptionAndValueList : SimpleOptions
     {
-        private Target() {}
+        [ValueOption]
+        public string StringItem { get; set; }
 
-        public Target(object target)
-        {
-            _target = target;
-            _valueListAttribute = ValueListAttribute.GetAttribute(_target);
-            if (IsValueListDefined)
-            {
-                _valueList = ValueListAttribute.GetReference(_target);
-            }
-        }
+        [ValueOption]
+        public int? NullableInteger { get; set; }
 
-        public bool IsValueListDefined { get { return _valueListAttribute != null; } }
+        [ValueList(typeof(List<string>))]
+        public IList<string> Items { get; set; }
 
-        public bool AddValueItemIfAllowed(string item)
-        {
-            if (_valueListAttribute.MaximumElements == 0 || _valueList.Count == _valueListAttribute.MaximumElements)
-            {
-                return false;
-            }
-            _valueList.Add(item);
-            return true;
-        }
-
-        private readonly object _target;
-        private readonly IList<string> _valueList;
-        private readonly ValueListAttribute _valueListAttribute;
+        [ValueOption]
+        public uint UnsignedIntegerItem { get; set; }
     }
 }

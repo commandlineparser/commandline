@@ -42,6 +42,7 @@ namespace CommandLine
     /// Must be applied to a field compatible with an <see cref="System.Collections.Generic.IList&lt;T&gt;"/> interface
     /// of <see cref="System.String"/> instances.
     /// </summary>
+    /// <remarks>To map individual values use instead <see cref="CommandLine.ValueOptionAttribute"/>.</remarks>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ValueListAttribute : Attribute
     {

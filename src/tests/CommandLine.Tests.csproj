@@ -69,6 +69,9 @@
     <Compile Include="..\libcmdline\Attributes\ValueListAttribute.cs">
       <Link>Library\Attributes\ValueListAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Attributes\ValueOptionAttribute.cs">
+      <Link>Library\Attributes\ValueOptionAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\Attributes\VerbOptionAttribute.cs">
       <Link>Library\Attributes\VerbOptionAttribute.cs</Link>
     </Compile>
@@ -96,14 +99,17 @@
     <Compile Include="..\libcmdline\Internal\PresentParserState.cs">
       <Link>Library\Internal\PresentParserState.cs</Link>
     </Compile>
+    <Compile Include="..\libcmdline\Internal\PropertyWriter.cs">
+      <Link>Library\Internal\PropertyWriter.cs</Link>
+    </Compile>
     <Compile Include="..\libcmdline\Internal\SR.strings.cs">
       <Link>Library\Internal\SR.strings.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\Internal\StringArrayEnumerator.cs">
       <Link>Library\Internal\StringArrayEnumerator.cs</Link>
     </Compile>
-    <Compile Include="..\libcmdline\Internal\Target.cs">
-      <Link>Library\Internal\Target.cs</Link>
+    <Compile Include="..\libcmdline\Internal\ValueMapper.cs">
+      <Link>Library\Internal\ValueMapper.cs</Link>
     </Compile>
     <Compile Include="..\libcmdline\ParserContext.cs">
       <Link>Library\ParserContext.cs</Link>
@@ -160,10 +166,13 @@
       <Link>Library\Utils\TargetExtensions.cs</Link>
     </Compile>
     <Compile Include="Mocks\CommandLineOptionsBase.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithValueOptionAndValueList.cs" />
+    <Compile Include="Mocks\SimpleOptionsWithValueOption.cs" />
     <Compile Include="Mocks\SimpleOptionsForStrict.cs" />
     <Compile Include="Mocks\OptionsWithVerbsHelp.cs" />
     <Compile Include="Mocks\OptionsWithVerbs.cs" />
     <Compile Include="Parser\StrictFixture.cs" />
+    <Compile Include="Parser\ValueOptionAttributeParsingFixture.cs" />
     <Compile Include="Parser\VerbsFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseFixture.cs" />
@@ -204,7 +213,6 @@
     <Compile Include="Text\HeadingInfoFixture.cs" />
     <Compile Include="Text\HelpTextFixture.cs" />
     <Compile Include="Text\VerbsHelpTextFixture.cs" />
-    <Compile Include="Utility\ReflectionUtilFixture.cs" />
     <Compile Include="Parser\SingletonFixture.cs" />
     <Compile Include="Mocks\SimpleOptionsWithDefaults.cs" />
     <Compile Include="Mocks\SimpleOptionsWithBadDefaults.cs" />
@@ -242,6 +250,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Utils\ReflectionUtilFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

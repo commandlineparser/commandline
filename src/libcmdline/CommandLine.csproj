@@ -79,6 +79,8 @@
     <Compile Include="Attributes\OptionListAttribute.cs" />
     <Compile Include="Attributes\ParserStateAttribute.cs" />
     <Compile Include="Attributes\ValueListAttribute.cs" />
+    <Compile Include="Attributes\ValueOptionAttribute.cs" />
+    <Compile Include="Internal\PropertyWriter.cs" />
     <Compile Include="ParserContext.cs" />
     <Compile Include="Utils\Assumes.cs" />
     <Compile Include="Internal\SR.strings.cs">
@@ -89,7 +91,7 @@
     <Compile Include="Utils\StringExtensions.cs" />
     <Compile Include="Utils\ReflectionUtil.cs" />
     <Compile Include="Utils\Pair.cs" />
-    <Compile Include="Internal\Target.cs" />
+    <Compile Include="Internal\ValueMapper.cs" />
     <Compile Include="Internal\LongOptionParser.cs" />
     <Compile Include="Internal\OptionGroupParser.cs" />
     <Compile Include="Internal\OptionInfo.cs" />

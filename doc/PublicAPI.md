@@ -1,0 +1,11 @@
+Public API Changes:
+---
+  - Version 1.9.4.91: Breaking, short name of an option must be defined as character (``System.Char``). Non breaking, added support for verbs.
+  - Version 1.9.4.99: Breaking, removed dependency from ``CommandLineOptionsBase``, introduced [ParseStateAttribute](https://github.com/gsscoder/commandline/blob/master/src/sample/Program.cs).
+  - Version 1.9.4.107: Non breaking, implemented [strict parsing](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/StrictFixture.cs) (see issue #32).
+  - Version 1.9.4.109: Non breaking, pull request #44.
+  - Version 1.9.4.111: Non breaking, ``CommandLineParserSettings``, ``CommandLineParser`` implements ``IDisposable``.
+  - Version 1.9.4.113: Non breaking, added ``CommandLineParser::WasVerbOptionInvoked`` helper method.
+  - Version 1.9.4.123: Breaking, ``HandleParsingErrorsDelegate`` renamed to ``ParsingErrorsHandler``, ``MultiLineTextAttribute`` renamed to ``MultilineTextAttribute``. Non breaking, refactoring (see ChangeLog).
+  - Version 1.9.4.127: 'Partially' non breaking, ``OptionAttribute`` is now sealed. ``OptionArrayAttribute`` and ``OptionListAttribute`` derives from ``BaseOptionAttribute`` (update your custom types too).
+  - Version 1.9.4.201: Non breaking, introduced ``ValueOptionAttribute`` enhancement of issue #23.

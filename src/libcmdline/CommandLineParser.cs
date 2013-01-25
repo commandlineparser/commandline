@@ -154,12 +154,12 @@ namespace CommandLine
 
         private bool DoParseArgumentsCore(ParserContext context)
         {
-            bool hadError = false;
+            var hadError = false;
             var optionMap = OptionMap.Create(context.Target, _settings);
             optionMap.SetDefaults();
-            var target = new Target(context.Target);
+            var valueMapper = context.Target.CreateValueMapper();
 
-            IArgumentEnumerator arguments = new StringArrayEnumerator(context.Arguments);
+            var arguments = new StringArrayEnumerator(context.Arguments);
             while (arguments.MoveNext())
             {
                 var argument = arguments.Current;
@@ -183,9 +183,9 @@ namespace CommandLine
                         arguments.MoveNext();
                     }
                 }
-                else if (target.IsValueListDefined)
+                else if (valueMapper.CanReceiveValues)
                 {
-                    if (!target.AddValueItemIfAllowed(argument))
+                    if (!valueMapper.MapValueItem(argument))
                     {
                         hadError = true;
                     }
