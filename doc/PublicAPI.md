@@ -8,4 +8,4 @@ Public API Changes:
   - Version 1.9.4.113: Non breaking, added ``CommandLineParser::WasVerbOptionInvoked`` helper method.
   - Version 1.9.4.123: Breaking, ``HandleParsingErrorsDelegate`` renamed to ``ParsingErrorsHandler``, ``MultiLineTextAttribute`` renamed to ``MultilineTextAttribute``. Non breaking, refactoring (see ChangeLog).
   - Version 1.9.4.127: 'Partially' non breaking, ``OptionAttribute`` is now sealed. ``OptionArrayAttribute`` and ``OptionListAttribute`` derives from ``BaseOptionAttribute`` (update your custom types too).
-  - Version 1.9.4.201: Non breaking, introduced ``ValueOptionAttribute`` enhancement of issue #23.
+  - Version 1.9.4.201: Non breaking, introduced ``ValueOptionAttribute`` enhancement of issue #33.
