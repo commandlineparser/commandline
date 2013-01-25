@@ -11,7 +11,7 @@ Compatibility:
  
 News: 
 ---
-  - Introduced ``ValueOptionAttribute`` enhancement of issue #23.
+  - Introduced ``ValueOptionAttribute`` enhancement of issue #33.
   - ``CommandLineParser`` refactored (also using new ``ParserContext`` type).
   - ``ReflectionUtil`` now caches data using ``ReflectionCache``.
   - Added ``strings`` task to Rakefile used to regenerate ``SR.strings.cs``.

@@ -1,6 +1,6 @@
 2013-01-25	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
-  * Implemented issue #23 (https://github.com/gsscoder/commandline/issues/33) that
+  * Implemented issue #33 (https://github.com/gsscoder/commandline/issues/33) that
       introduces ValueOptionAttribute.
   * Internal Target type renamed to ValueMapper.
   * OptionInfo property writing primitives refactored in PropertyWriter type.
