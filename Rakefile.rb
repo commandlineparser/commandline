@@ -8,7 +8,7 @@ PROJECT_URL = "https://github.com/gsscoder/commandline"
 
 require 'albacore'
 
-task :default => [:build, :test]
+task :default => [:build]
 
 if RUBY_VERSION =~ /^1\.8/
   class Dir
@@ -34,20 +34,33 @@ def invoke_runtime(cmd)
 end
 
 CONFIGURATION = "Release"
+CONFIGURATION_TESTS = "DebugTests"
 BUILD_DIR = File.expand_path("build")
 OUTPUT_DIR = "#{BUILD_DIR}/out"
-BIN_DIR = "#{BUILD_DIR}/bin"
+OUTPUT_DIR_TESTS = "#{OUTPUT_DIR}/tests"
 SOURCE_DIR = File.expand_path("src")
 LIB_DIR = "#{SOURCE_DIR}/libcmdline"
 
 msbuild :build_msbuild do |b|
   b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
   b.targets :Build
+  b.solution = "CommandLine.Dist.sln"
+end
+
+msbuild :build_msbuild_test do |b|
+  b.properties :configuration => CONFIGURATION_TESTS, "OutputPath" => OUTPUT_DIR_TESTS
+  b.targets :Build
   b.solution = "CommandLine.sln"
 end
 
 xbuild :build_xbuild do |b|
   b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
+  b.targets :Build
+  b.solution = "CommandLine.Dist.sln"
+end
+
+xbuild :build_xbuild_test do |b|
+  b.properties :configuration => CONFIGURATION_TESTS, "OutputPath" => OUTPUT_DIR_TESTS
   b.targets :Build
   b.solution = "CommandLine.sln"
 end
@@ -57,9 +70,14 @@ task :build => :clean do |b|
   Rake::Task[build_task].invoke
 end
 
-task :test => :build do
+task :build_test => :clean do |b|
+  build_task = is_nix() ? "build_xbuild_test" : "build_msbuild_test"
+  Rake::Task[build_task].invoke
+end
+
+task :test => :build_test do
   nunit = invoke_runtime("packages/NUnit.2.5.10.11092/tools/nunit-console.exe")
-  sh "#{nunit} -labels #{OUTPUT_DIR}/CommandLine.Tests.dll"
+  sh "#{nunit} -labels #{OUTPUT_DIR_TESTS}/CommandLine.Tests.dll"
 end
 
 task :strings do

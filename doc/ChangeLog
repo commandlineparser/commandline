@@ -1,4 +1,8 @@
-2013-01-26	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+2013-01-27	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Fixed an issue in Rakefile. Now 'test' task is separeted form 'build' (defualt).
+
+2013-01-27	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Thanks to github user @marcells, we can reference CommandLine.dll from CommandLine.Tests.dll
       keeping strong name.
