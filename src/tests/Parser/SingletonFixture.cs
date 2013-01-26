@@ -30,7 +30,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 namespace CommandLine.Tests
@@ -45,10 +45,10 @@ namespace CommandLine.Tests
             bool result = CommandLineParser.Default.ParseArguments(
                     new string[] { "-s", "another string", "-i100", "--switch" }, options);
 
-            result.Should().Be.True();
-            options.StringValue.Should().Equal("another string");
-            options.IntegerValue.Should().Equal(100);
-            options.BooleanValue.Should().Be.True();
+            result.Should().BeTrue();
+            options.StringValue.Should().Be("another string");
+            options.IntegerValue.Should().Be(100);
+            options.BooleanValue.Should().BeTrue();
             Console.WriteLine(options);
         }
 
@@ -59,7 +59,7 @@ namespace CommandLine.Tests
             bool result = CommandLineParser.Default.ParseArguments(
                 new string[] { "-r1", "-g2", "-b3", "-h4", "-s5", "-v6" }, options);
 
-            result.Should().Be.True(); // enabling MutuallyExclusive option it would fails
+            result.Should().BeTrue(); // enabling MutuallyExclusive option it would fails
         }
     }
 }

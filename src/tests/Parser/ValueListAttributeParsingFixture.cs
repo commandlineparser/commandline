@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
@@ -47,11 +47,11 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
 
-            options.Items[0].Should().Equal("file1.ext");
-            options.Items[1].Should().Equal("file2.ext");
-            options.Items[2].Should().Equal("file3.ext");
-            options.StringValue.Should().Equal("out.ext");
-            options.BooleanValue.Should().Be.True();
+            options.Items[0].Should().Be("file1.ext");
+            options.Items[1].Should().Be("file2.ext");
+            options.Items[2].Should().Be("file3.ext");
+            options.StringValue.Should().Be("out.ext");
+            options.BooleanValue.Should().BeTrue();
             Console.WriteLine(options);
         }
 
@@ -63,11 +63,11 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
 
-            options.InputFilenames[0].Should().Equal("file.a");
-            options.InputFilenames[1].Should().Equal("file.b");
-            options.InputFilenames[2].Should().Equal("file.c");
-            options.OutputFile.Should().Be.Null();
-            options.Overwrite.Should().Be.False();
+            options.InputFilenames[0].Should().Be("file.a");
+            options.InputFilenames[1].Should().Be("file.b");
+            options.InputFilenames[2].Should().Be("file.c");
+            options.OutputFile.Should().BeNull();
+            options.Overwrite.Should().BeFalse();
             Console.WriteLine(options);
         }
 
@@ -89,7 +89,7 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
 
-            options.Junk.Should().Count.Zero();
+            options.Junk.Should().HaveCount(n => n == 0);
             Console.WriteLine(options);
         }
 

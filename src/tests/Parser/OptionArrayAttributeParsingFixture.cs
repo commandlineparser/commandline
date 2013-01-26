@@ -32,7 +32,7 @@ using System.Globalization;
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
@@ -92,7 +92,7 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three" }, options.StringArrayValue);
-            options.StringValue.Should().Equal("after");
+            options.StringValue.Should().Be("after");
         }
 
         [Test]
@@ -102,7 +102,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-s", "before", "-z", "one", "two", "three" }, options);
 
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("before");
+            options.StringValue.Should().Be("before");
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three" }, options.StringArrayValue);
         }
 
@@ -114,10 +114,10 @@ namespace CommandLine.Tests
                 "-i", "191919", "-z", "one", "two", "three", "--switch", "--string=near" }, options);
 
             ResultShouldBeTrue();
-            options.IntegerValue.Should().Equal(191919);
+            options.IntegerValue.Should().Be(191919);
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three" }, options.StringArrayValue);
-            options.BooleanValue.Should().Be.True();
-            options.StringValue.Should().Equal("near");
+            options.BooleanValue.Should().BeTrue();
+            options.StringValue.Should().Be("near");
         }
 
         [Test]
@@ -128,10 +128,10 @@ namespace CommandLine.Tests
                 "-shere", "-i999", "--strarr=0", "1", "2", "3", "4", "5", "6", "7", "8", "9" , "--switch", "f1.xml", "f2.xml"}, options);
 
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("here");
-            options.IntegerValue.Should().Equal(999);
+            options.StringValue.Should().Be("here");
+            options.IntegerValue.Should().Be(999);
             base.ElementsShouldBeEqual(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, options.StringArrayValue);
-            options.BooleanValue.Should().Be.True();
+            options.BooleanValue.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "f1.xml", "f2.xml" }, options.Items);
         }
 
@@ -269,7 +269,7 @@ namespace CommandLine.Tests
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
-            options.StringValue.Should().Equal("after");
+            options.StringValue.Should().Be("after");
 
             options = new SimpleOptionsWithArray();
             Result = base.Parser.ParseArguments(new string[] {
@@ -280,7 +280,7 @@ namespace CommandLine.Tests
             }, options);
 
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("before");
+            options.StringValue.Should().Be("before");
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
@@ -296,7 +296,7 @@ namespace CommandLine.Tests
             ResultShouldBeTrue();
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
-            options.StringValue.Should().Equal("near-the-center");
+            options.StringValue.Should().Be("near-the-center");
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
 
             options = new SimpleOptionsWithArray();
@@ -310,12 +310,12 @@ namespace CommandLine.Tests
             }, options);
 
             ResultShouldBeTrue();
-            options.BooleanValue.Should().Be.True();
+            options.BooleanValue.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
-            options.IntegerValue.Should().Equal(1234);
+            options.IntegerValue.Should().Be(1234);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
-            options.StringValue.Should().Equal("I'm really playing with the parser!");
+            options.StringValue.Should().Be("I'm really playing with the parser!");
         }
 
         /****************************************************************************************************/
@@ -376,10 +376,10 @@ namespace CommandLine.Tests
             }, options);
 
             ResultShouldBeTrue();
-            options.SomeStringValue.Should().Equal("just a string");
+            options.SomeStringValue.Should().Be("just a string");
             base.ElementsShouldBeEqual(new uint[] {10, 20, 30, 40}, options.ArrayOne);
             base.ElementsShouldBeEqual(new uint[] {11, 22, 33, 44}, options.ArrayTwo);
-            options.SomeBooleanValue.Should().Be.True();
+            options.SomeBooleanValue.Should().BeTrue();
         }
 
         [Test]
@@ -394,10 +394,10 @@ namespace CommandLine.Tests
             }, options);
 
             ResultShouldBeTrue();
-            options.SomeStringValue.Should().Equal("just a string");
+            options.SomeStringValue.Should().Be("just a string");
             base.ElementsShouldBeEqual(new uint[] {10, 20, 30, 40}, options.ArrayOne);
             base.ElementsShouldBeEqual(new uint[] {11, 22, 33, 44}, options.ArrayTwo);
-            options.SomeBooleanValue.Should().Be.True();
+            options.SomeBooleanValue.Should().BeTrue();
         }
     }
 }

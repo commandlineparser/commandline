@@ -31,7 +31,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 #endregion
 
 namespace CommandLine.Text.Tests
@@ -77,7 +77,7 @@ namespace CommandLine.Text.Tests
         {
             var copyright = new CopyrightInfo(false, "Authors, Inc.", 2007);
 
-            copyright.ToString().Should().Equal("Copyright (c) 2007 Authors, Inc.");
+            copyright.ToString().Should().Be("Copyright (c) 2007 Authors, Inc.");
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace CommandLine.Text.Tests
         {
             var copyright = new CopyrightInfo(true, "X & Y Group", 2006, 2007);
 
-            copyright.ToString().Should().Equal("Copyright (C) 2006, 2007 X & Y Group");
+            copyright.ToString().Should().Be("Copyright (C) 2006, 2007 X & Y Group");
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace CommandLine.Text.Tests
         {
             var copyright = new CopyrightInfo("W & Z, Inc.", 2005, 2007);
 
-            copyright.ToString().Should().Equal("Copyright (C) 2005 - 2007 W & Z, Inc.");
+            copyright.ToString().Should().Be("Copyright (C) 2005 - 2007 W & Z, Inc.");
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace CommandLine.Text.Tests
         {
             var copyright = new CopyrightInfo("CommandLine, Ltd", 1999, 2003, 2004, 2007);
 
-            copyright.ToString().Should().Equal("Copyright (C) 1999 - 2003, 2004 - 2007 CommandLine, Ltd");
+            copyright.ToString().Should().Be("Copyright (C) 1999 - 2003, 2004 - 2007 CommandLine, Ltd");
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace CommandLine.Text.Tests
         {
             var info = new CopyleftInfo(true, "Free Company, Inc.", 96, 97, 98, 2005);
 
-            info.ToString().Should().Equal("Copyleft (C) '96, '97, '98, 2005 Free Company, Inc.");
+            info.ToString().Should().Be("Copyleft (C) '96, '97, '98, 2005 Free Company, Inc.");
         }
 
         #region #BUG0006
@@ -134,7 +134,7 @@ namespace CommandLine.Text.Tests
 
             for (int i=0; i<10; i++)
             {
-                info.ToString().Length.Should().Equal(37);
+                info.ToString().Length.Should().Be(37);
             }
         }
         #endregion

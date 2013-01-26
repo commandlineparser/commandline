@@ -32,7 +32,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
@@ -58,13 +58,13 @@ namespace CommandLine.Tests
 
         protected void ResultShouldBeTrue()
         {
-            Result.Should().Be.True();
+            Result.Should().BeTrue();
             Result = null;
         }
 
         protected void ResultShouldBeFalse()
         {
-            Result.Should().Be.False();
+            Result.Should().BeFalse();
             Result = null;
         }
 

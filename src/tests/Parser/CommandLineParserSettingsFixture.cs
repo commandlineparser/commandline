@@ -30,7 +30,7 @@
 using System.IO;
 using CommandLine.Tests.Mocks;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
@@ -47,8 +47,8 @@ namespace CommandLine.Tests
             
             bool success = parser.ParseArguments(new string[] {"--help"}, options);
 
-            success.Should().Be.False();
-            writer.ToString().Should().Equal("MockOptions::GetUsage()");
+            success.Should().BeFalse();
+            writer.ToString().Should().Be("MockOptions::GetUsage()");
         }
 
         [Test]
@@ -62,8 +62,8 @@ namespace CommandLine.Tests
 
             bool success = parser.ParseArguments(new string[] { "--help" }, options);
 
-            success.Should().Be.False();
-            writer.ToString().Should().Equal("MockOptions::GetUsage()");
+            success.Should().BeFalse();
+            writer.ToString().Should().Be("MockOptions::GetUsage()");
         }
 
         [Test]
@@ -75,8 +75,8 @@ namespace CommandLine.Tests
 
             bool success = parser.ParseArguments(new string[] { "--help" }, options, writer);
 
-            success.Should().Be.False();
-            writer.ToString().Should().Equal("MockOptions::GetUsage()");
+            success.Should().BeFalse();
+            writer.ToString().Should().Be("MockOptions::GetUsage()");
         }
     }
 }

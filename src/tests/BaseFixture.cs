@@ -29,7 +29,7 @@
 #region Using Directives
 using System.Collections.Generic;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
@@ -39,19 +39,19 @@ namespace CommandLine.Tests
     {
         protected void ElementsShouldBeEqual<T>(T[] expected, T[] actual)
         {
-            expected.Length.Should().Equal(actual.Length);
+            expected.Length.Should().Be(actual.Length);
             for (int i = 0; i < expected.Length; i++)
             {
-                expected[i].Should().Equal(actual[i]);
+                expected[i].Should().Be(actual[i]);
             }
         }
 
         protected void ElementsShouldBeEqual(string[] expected, IList<string> actual)
         {
-            expected.Length.Should().Equal(actual.Count);
+            expected.Length.Should().Be(actual.Count);
             for (int i = 0; i < expected.Length; i++)
             {
-                expected[i].Should().Equal(actual[i]);
+                expected[i].Should().Be(actual[i]);
             }
         }
     }

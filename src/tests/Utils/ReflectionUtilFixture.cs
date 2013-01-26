@@ -33,7 +33,7 @@ using System.ComponentModel;
 using System.Reflection;
 using CommandLine.Utils;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Text;
 using CommandLine.Internal;
 #endregion
@@ -118,16 +118,16 @@ namespace CommandLine.Tests
         {
             var list = ReflectionUtil.RetrievePropertyList<MockAttribute>(_target);
 
-            list.Should().Count.Exactly(2);
-            list[0].Left.Name.Should().Equal("StringField");
-            list[1].Left.Name.Should().Equal("BooleanField");
+            list.Should().HaveCount(n => n == 2);
+            list[0].Left.Name.Should().Be("StringField");
+            list[1].Left.Name.Should().Be("BooleanField");
 
             PrintFieldList<MockAttribute>(list);
 
             var anotherList = ReflectionUtil.RetrievePropertyList<AnotherMockAttribute>(_target);
 
-            anotherList.Should().Count.Exactly(1);
-            anotherList[0].Left.Name.Should().Equal("IntField");
+            anotherList.Should().HaveCount(n => n == 1);
+            anotherList[0].Left.Name.Should().Be("IntField");
 
             PrintFieldList<AnotherMockAttribute>(anotherList);
         }
@@ -137,8 +137,8 @@ namespace CommandLine.Tests
         {
             var pair = ReflectionUtil.RetrieveMethod<MockAttribute>(_target);
 
-            pair.Should().Not.Be.Null();
-            pair.Left.Name.Should().Equal("DoNothing");
+            pair.Should().NotBeNull();
+            pair.Left.Name.Should().Be("DoNothing");
         }
 
         [Test]
@@ -146,11 +146,11 @@ namespace CommandLine.Tests
         {
             var list = ReflectionUtil.RetrievePropertyAttributeList<MockWithValueAttribute>(new AnotherMockObject());
 
-            list.Should().Not.Be.Null();
-            list.Should().Count.Exactly(3);
-            list[0].StringValue.Should().Equal("applied to X");
-            list[1].StringValue.Should().Equal("applied to Y");
-            list[2].StringValue.Should().Equal("applied to Z");
+            list.Should().NotBeNull();
+            list.Should().HaveCount(n => n == 3);
+            list[0].StringValue.Should().Be("applied to X");
+            list[1].StringValue.Should().Be("applied to Y");
+            list[2].StringValue.Should().Be("applied to Z");
         }
 
         /*[Test]

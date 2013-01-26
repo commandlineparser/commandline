@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
@@ -50,13 +50,13 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-i", "99" }, options);
 
             ResultShouldBeTrue();
-            options.IntegerValue.Should().Equal(99);
+            options.IntegerValue.Should().Be(99);
 
             options = new NullableTypesOptions();
             Result = base.Parser.ParseArguments(new string[] { }, options);
 
             ResultShouldBeTrue();
-            options.IntegerValue.Should().Be.Null();
+            options.IntegerValue.Should().NotHaveValue();
         }
 
         [Test]
@@ -84,13 +84,13 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--enum=ReadWrite" }, options);
 
             ResultShouldBeTrue();
-            options.EnumValue.Should().Equal(FileAccess.ReadWrite);
+            options.EnumValue.Should().Be(FileAccess.ReadWrite);
 
             options = new NullableTypesOptions();
             Result = base.Parser.ParseArguments(new string[] { }, options);
 
             ResultShouldBeTrue();
-            options.EnumValue.Should().Be.Null();
+            options.EnumValue.Should().BeNull();
         }
 
         [Test]
@@ -118,13 +118,13 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-d9.999" }, options);
 
             ResultShouldBeTrue();
-            options.DoubleValue.Should().Equal(9.999);
+            options.DoubleValue.Should().Be(9.999);
 
             options = new NullableTypesOptions();
             Result = base.Parser.ParseArguments(new string[] { }, options);
 
             ResultShouldBeTrue();
-            options.DoubleValue.Should().Be.Null();
+            options.DoubleValue.Should().NotHaveValue();
         }
 
         [Test]
@@ -152,17 +152,17 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--string", "alone" }, options);
 
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("alone");
+            options.StringValue.Should().Be("alone");
 
             options = new NullableTypesOptions();
             Result = base.Parser.ParseArguments(
                 new string[] { "-d1.789", "--int", "10099", "-stogether", "--enum", "Read" }, options);
 
             ResultShouldBeTrue();
-            options.DoubleValue.Should().Equal(1.789D);
-            options.IntegerValue.Should().Equal(10099);
-            options.StringValue.Should().Equal("together");
-            options.EnumValue.Should().Equal(FileAccess.Read);
+            options.DoubleValue.Should().Be(1.789D);
+            options.IntegerValue.Should().Be(10099);
+            options.StringValue.Should().Be("together");
+            options.EnumValue.Should().Be(FileAccess.Read);
         }
 
     }

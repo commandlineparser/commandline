@@ -30,7 +30,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 #endregion
 
 namespace CommandLine.Text.Tests
@@ -44,12 +44,12 @@ namespace CommandLine.Text.Tests
             var hi = new HeadingInfo("myprog");
             string s = hi;
 
-            s.Should().Equal("myprog");
+            s.Should().Be("myprog");
 
             var sw = new StringWriter();
             hi.WriteMessage("a message", sw);
 
-            sw.ToString().Should().Equal("myprog: a message" + Environment.NewLine);
+            sw.ToString().Should().Be("myprog: a message" + Environment.NewLine);
         }
 
         [Test]
@@ -58,12 +58,12 @@ namespace CommandLine.Text.Tests
             var hi = new HeadingInfo("myecho", "2.5");
             string s = hi;
 
-            s.Should().Equal("myecho 2.5");
+            s.Should().Be("myecho 2.5");
 
             var sw = new StringWriter();
             hi.WriteMessage("hello unit-test", sw);
 
-            sw.ToString().Should().Equal("myecho: hello unit-test" + Environment.NewLine);
+            sw.ToString().Should().Be("myecho: hello unit-test" + Environment.NewLine);
         }
     }
 }

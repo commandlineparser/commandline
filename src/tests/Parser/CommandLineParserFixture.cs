@@ -33,7 +33,7 @@ using System.IO;
 using System.Threading;
 using CommandLine.Tests.Mocks;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
@@ -66,7 +66,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-s", "something" }, options);
             
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("something");
+            options.StringValue.Should().Be("something");
             Console.WriteLine(options);
         }
 
@@ -78,9 +78,9 @@ namespace CommandLine.Tests
                     new string[] { "-s", "another string", "-i100", "--switch" }, options);
 
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("another string");
-            options.IntegerValue.Should().Equal(100);
-            options.BooleanValue.Should().Be.True();
+            options.StringValue.Should().Be("another string");
+            options.IntegerValue.Should().Be(100);
+            options.BooleanValue.Should().BeTrue();
             Console.WriteLine(options);
         }
 
@@ -91,10 +91,10 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-ca", "-d65" }, options);
 
             ResultShouldBeTrue();
-            options.BooleanThree.Should().Be.True();
-            options.BooleanOne.Should().Be.True();
-            options.BooleanTwo.Should().Be.False();
-            options.NonBooleanValue.Should().Equal(65D);
+            options.BooleanThree.Should().BeTrue();
+            options.BooleanOne.Should().BeTrue();
+            options.BooleanTwo.Should().BeFalse();
+            options.NonBooleanValue.Should().Be(65D);
             Console.WriteLine(options);
         }
 
@@ -105,10 +105,10 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-b", "--double=9" }, options);
 
             ResultShouldBeTrue();
-            options.BooleanTwo.Should().Be.True();
-            options.BooleanOne.Should().Be.False();
-            options.BooleanThree.Should().Be.False();
-            options.NonBooleanValue.Should().Equal(9D);
+            options.BooleanTwo.Should().BeTrue();
+            options.BooleanOne.Should().BeFalse();
+            options.BooleanThree.Should().BeFalse();
+            options.NonBooleanValue.Should().Be(9D);
             Console.WriteLine(options);
         }
  
@@ -120,13 +120,13 @@ namespace CommandLine.Tests
                                 "-k", "string1:stringTwo:stringIII", "-s", "test-file.txt" }, options);
 
             ResultShouldBeTrue();
-            options.SearchKeywords[0].Should().Equal("string1");
+            options.SearchKeywords[0].Should().Be("string1");
             Console.WriteLine(options.SearchKeywords[0]);
-            options.SearchKeywords[1].Should().Equal("stringTwo");
+            options.SearchKeywords[1].Should().Be("stringTwo");
             Console.WriteLine(options.SearchKeywords[1]);
-            options.SearchKeywords[2].Should().Equal("stringIII");
+            options.SearchKeywords[2].Should().Be("stringIII");
             Console.WriteLine(options.SearchKeywords[2]);
-            options.StringValue.Should().Equal("test-file.txt");
+            options.StringValue.Should().Be("test-file.txt");
             Console.WriteLine(options.StringValue);
         }
 
@@ -150,8 +150,8 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-s", "data.bin", "-a", "ReadWrite" }, options);
 
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("data.bin");
-            options.FileAccess.Should().Equal(FileAccess.ReadWrite);
+            options.StringValue.Should().Be("data.bin");
+            options.FileAccess.Should().Be(FileAccess.ReadWrite);
             Console.WriteLine(options);
         }
 
@@ -164,7 +164,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-d", "10,986" }, options);
 
             ResultShouldBeTrue();
-            options.DoubleValue.Should().Equal(10.986D);
+            options.DoubleValue.Should().Be(10.986D);
 
             Thread.CurrentThread.CurrentCulture = actualCulture;
         }
@@ -178,7 +178,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--n-double", "12,32982" }, options);
 
             ResultShouldBeTrue();
-            options.NullableDoubleValue.Should().Equal(12.32982D);
+            options.NullableDoubleValue.Should().Be(12.32982D);
 
             Thread.CurrentThread.CurrentCulture = actualCulture;
         }
@@ -190,21 +190,21 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] {}, options);
 
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("str");
-            options.IntegerValue.Should().Equal(9);
-            options.BooleanValue.Should().Be.True();
+            options.StringValue.Should().Be("str");
+            options.IntegerValue.Should().Be(9);
+            options.BooleanValue.Should().BeTrue();
         }
 
         [Test]
         public void ParseOptionsWithDefaultArray()
         {
             var options = new SimpleOptionsWithDefaultArray();
-            Result = base.Parser.ParseArguments(new string[] { "-y", "4", "5", "6" }, options);
+            Result = base.Parser.ParseArguments(new [] { "-y", "4", "5", "6" }, options);
 
             ResultShouldBeTrue();
-            options.StringArrayValue.Should().Equal(new string[] { "a", "b", "c" });
-            options.IntegerArrayValue.Should().Equal(new int[] { 4, 5, 6 });
-            options.DoubleArrayValue.Should().Equal(new double[] { 1.1, 2.2, 3.3 });
+            options.StringArrayValue.Should().Equal(new [] { "a", "b", "c" });
+            options.IntegerArrayValue.Should().Equal(new [] { 4, 5, 6 });
+            options.DoubleArrayValue.Should().Equal(new [] { 1.1, 2.2, 3.3 });
         }
 
         [Test]
@@ -244,8 +244,8 @@ namespace CommandLine.Tests
             Result = local.ParseArguments(new string[] { "-a", "alfa", "--beta-OPTION", "beta" }, options);
 
             ResultShouldBeTrue();
-            options.AlfaValue.Should().Equal("alfa");
-            options.BetaValue.Should().Equal("beta");
+            options.AlfaValue.Should().Be("alfa");
+            options.BetaValue.Should().Be("beta");
         }
 
         [Test]
@@ -266,8 +266,8 @@ namespace CommandLine.Tests
             Result = local.ParseArguments(new string[] { "-A", "alfa", "--Beta-Option", "beta" }, options);
 
             ResultShouldBeTrue();
-            options.AlfaValue.Should().Equal("alfa");
-            options.BetaValue.Should().Equal("beta");
+            options.AlfaValue.Should().Be("alfa");
+            options.BetaValue.Should().Be("beta");
         }
         #endregion
 
@@ -344,7 +344,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--string", "-" }, options);
 
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("-");
+            options.StringValue.Should().Be("-");
         }
 
         [Test]
@@ -354,10 +354,10 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-sparser.xml", "-", "--switch" }, options);
 
             ResultShouldBeTrue();
-            options.StringValue.Should().Equal("parser.xml");
-            options.BooleanValue.Should().Be.True();
-            options.Items.Count.Should().Equal(1);
-            options.Items[0].Should().Equal("-");
+            options.StringValue.Should().Be("parser.xml");
+            options.BooleanValue.Should().BeTrue();
+            options.Items.Count.Should().Be(1);
+            options.Items[0].Should().Be("-");
         }
         #endregion
 
@@ -369,7 +369,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-i", "-4096" }, options);
 
             ResultShouldBeTrue();
-            options.IntegerValue.Should().Equal(-4096);
+            options.IntegerValue.Should().Be(-4096);
         }
 
         public void ParseNegativeIntegerValue_InputStyle2()
@@ -378,7 +378,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-i-4096" }, options);
 
             ResultShouldBeTrue();
-            options.IntegerValue.Should().Equal(-4096);
+            options.IntegerValue.Should().Be(-4096);
         }
 
         public void ParseNegativeIntegerValue_InputStyle3()
@@ -387,7 +387,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--int", "-4096" }, options);
 
             ResultShouldBeTrue();
-            options.IntegerValue.Should().Equal(-4096);
+            options.IntegerValue.Should().Be(-4096);
         }
 
         public void ParseNegativeIntegerValue_InputStyle4()
@@ -396,7 +396,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--int=-4096" }, options);
 
             ResultShouldBeTrue();
-            options.IntegerValue.Should().Equal(-4096);
+            options.IntegerValue.Should().Be(-4096);
         }
 
 
@@ -407,7 +407,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-d", "-4096.1024" }, options);
 
             ResultShouldBeTrue();
-            options.DoubleValue.Should().Equal(-4096.1024D);
+            options.DoubleValue.Should().Be(-4096.1024D);
         }
 
         [Test]
@@ -417,7 +417,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-d-4096.1024" }, options);
 
             ResultShouldBeTrue();
-            options.DoubleValue.Should().Equal(-4096.1024D);
+            options.DoubleValue.Should().Be(-4096.1024D);
         }
 
         [Test]
@@ -427,7 +427,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--double", "-4096.1024" }, options);
 
             ResultShouldBeTrue();
-            options.DoubleValue.Should().Equal(-4096.1024D);
+            options.DoubleValue.Should().Be(-4096.1024D);
         }
 
         [Test]
@@ -437,7 +437,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--double=-4096.1024" }, options);
 
             ResultShouldBeTrue();
-            options.DoubleValue.Should().Equal(-4096.1024D);
+            options.DoubleValue.Should().Be(-4096.1024D);
         }
         #endregion
 

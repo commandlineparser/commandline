@@ -31,10 +31,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using CommandLine.Tests.Mocks;
+using CommandLine.Utils;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 
 #endregion
 
@@ -43,6 +45,12 @@ namespace CommandLine.Tests
     [TestFixture]
     public sealed class StrictFixture : CommandLineParserBaseFixture
     {
+        public override void CreateInstance()
+        {
+            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            base.CreateInstance();
+        }
+
         [Test]
         public void ParseStrictBadInputFailsAndExits()
         {
@@ -57,11 +65,11 @@ namespace CommandLine.Tests
             Console.WriteLine(helpText);
             var lines = helpText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             // Did we really produced all help?
-            lines.Should().Count.Exactly(8);
+            lines.Should().HaveCount(n => n == 8);
             // Verify just significant output
-            lines[5].Trim().Should().Equal("-s, --string");
-            lines[6].Trim().Should().Equal("-i");
-            lines[7].Trim().Should().Equal("--switch");
+            lines[5].Trim().Should().Be("-s, --string");
+            lines[6].Trim().Should().Be("-i");
+            lines[7].Trim().Should().Be("--switch");
         }
 
         [Test]
@@ -78,9 +86,9 @@ namespace CommandLine.Tests
             Console.WriteLine(helpText);
             var lines = helpText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             // Did we really called user help method?
-            lines.Should().Count.Exactly(1);
+            lines.Should().HaveCount(n => n == 1);
             // Verify just significant output
-            lines[0].Trim().Should().Equal("SimpleOptionsForStrict (user defined)");
+            lines[0].Trim().Should().Be("SimpleOptionsForStrict (user defined)");
         }
 
         [Test]
@@ -97,11 +105,11 @@ namespace CommandLine.Tests
             Console.WriteLine(helpText);
             var lines = helpText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             // Did we really produced all help?
-            lines.Should().Count.Exactly(8);
+            lines.Should().HaveCount(n => n == 8);
             // Verify just significant output
-            lines[5].Trim().Should().Equal("add       Add file contents to the index.");
-            lines[6].Trim().Should().Equal("commit    Record changes to the repository.");
-            lines[7].Trim().Should().Equal("clone     Clone a repository into a new directory.");
+            lines[5].Trim().Should().Be("add       Add file contents to the index.");
+            lines[6].Trim().Should().Be("commit    Record changes to the repository.");
+            lines[7].Trim().Should().Be("clone     Clone a repository into a new directory.");
         }
 
         [Test]
@@ -118,9 +126,9 @@ namespace CommandLine.Tests
             Console.WriteLine(helpText);
             var lines = helpText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             // Did we really produced all help?
-            lines.Should().Count.Exactly(1);
+            lines.Should().HaveCount(n => n == 1);
             // Verify just significant output
-            lines[0].Trim().Should().Equal("verbs help index");
+            lines[0].Trim().Should().Be("verbs help index");
         }
     }
 }

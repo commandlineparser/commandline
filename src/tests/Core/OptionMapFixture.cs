@@ -29,7 +29,7 @@
 #region Using Directives
 using System.Collections.Generic;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine;
 using CommandLine.Internal;
 #endregion
@@ -110,23 +110,23 @@ namespace CommandLine.Tests
         [Test]
         public void ManageOptions()
         {
-            _omBuilder.Options[0].Should().Be.SameAs(_optionMap[_omBuilder.Names[0]]);
-            _omBuilder.Options[1].Should().Be.SameAs(_optionMap[_omBuilder.Names[1]]);
-            _omBuilder.Options[2].Should().Be.SameAs(_optionMap[_omBuilder.Names[2]]);
+            _omBuilder.Options[0].Should().BeSameAs(_optionMap[_omBuilder.Names[0]]);
+            _omBuilder.Options[1].Should().BeSameAs(_optionMap[_omBuilder.Names[1]]);
+            _omBuilder.Options[2].Should().BeSameAs(_optionMap[_omBuilder.Names[2]]);
         }
 
         [Test]
         public void RetrieveNotExistentShortOption()
         {
             var shortOi = _optionMap["y"];
-            shortOi.Should().Be.Null();
+            shortOi.Should().BeNull();
         }
 
         [Test]
         public void RetrieveNotExistentLongOption()
         {
             var longOi = _optionMap["nomorebugshere"];
-            longOi.Should().Be.Null();
+            longOi.Should().BeNull();
         }
 
         private static OptionMap CreateMap (ref OptionMap map, IDictionary<string, OptionInfo> optionCache)

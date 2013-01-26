@@ -35,7 +35,7 @@ using System.IO;
 using System.Text;
 using System.Globalization;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
@@ -159,8 +159,8 @@ namespace CommandLine.Text.Tests
             string help = local.ToString();
 
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[lines.Length - 2].Should().Equal("This is a first post-options line.");
-            lines[lines.Length - 1].Should().Equal("This is a second post-options line.");
+            lines[lines.Length - 2].Should().Be("This is a first post-options line.");
+            lines[lines.Length - 1].Should().Be("This is a second post-options line.");
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace CommandLine.Text.Tests
 
             string help = local.ToString();
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[lines.Length - 2].Should().Equal("  i FILE, input-file=FILE    Required. Specify input FILE to be processed.");
+            lines[lines.Length - 2].Should().Be("  i FILE, input-file=FILE    Required. Specify input FILE to be processed.");
         }
 
         [Test]
@@ -182,12 +182,12 @@ namespace CommandLine.Text.Tests
             string help = _helpText.ToString();
 
             string[] lines = help.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
-            lines[2].Should().Equal("  v, verbose    This is the description"); //"The first line should have the arguments and the start of the Help Text.");
+            lines[2].Should().Be("  v, verbose    This is the description"); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
-            lines[3].Should().Equal("                of the verbosity to ");
-            lines[4].Should().Equal("                test out the wrapping ");
-            lines[5].Should().Equal("                capabilities of the ");
-            lines[6].Should().Equal("                Help Text.");
+            lines[3].Should().Be("                of the verbosity to ");
+            lines[4].Should().Be("                test out the wrapping ");
+            lines[5].Should().Be("                capabilities of the ");
+            lines[6].Should().Be("                Help Text.");
         }
 
         [Test]
@@ -198,12 +198,12 @@ namespace CommandLine.Text.Tests
             string help = _helpText.ToString();
 
             string[] lines = help.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[2].Should().Equal("  v, verbose    Before ");
-            lines[3].Should().Equal("                012345678901234567890123");
-            lines[4].Should().Equal("                After");
-            lines[5].Should().Equal("  input-file    Before ");
-            lines[6].Should().Equal("                012345678901234567890123");
-            lines[7].Should().Equal("                456789 After");
+            lines[2].Should().Be("  v, verbose    Before ");
+            lines[3].Should().Be("                012345678901234567890123");
+            lines[4].Should().Be("                After");
+            lines[5].Should().Be("  input-file    Before ");
+            lines[6].Should().Be("                012345678901234567890123");
+            lines[7].Should().Be("                456789 After");
         }
 
         [Test]
@@ -218,12 +218,12 @@ namespace CommandLine.Text.Tests
             string help = local.ToString();
 
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[1].Should().Equal("Before ");
-            lines[2].Should().Equal("0123456789012345678901234567890123456789");
-            lines[3].Should().Equal("012 After");
-            lines[lines.Length - 3].Should().Equal("Before ");
-            lines[lines.Length - 2].Should().Equal("0123456789012345678901234567890123456789");
-            lines[lines.Length - 1].Should().Equal(" After");
+            lines[1].Should().Be("Before ");
+            lines[2].Should().Be("0123456789012345678901234567890123456789");
+            lines[3].Should().Be("012 After");
+            lines[lines.Length - 3].Should().Be("Before ");
+            lines[lines.Length - 2].Should().Be("0123456789012345678901234567890123456789");
+            lines[lines.Length - 1].Should().Be(" After");
         }
 
         [Test]
@@ -240,11 +240,11 @@ namespace CommandLine.Text.Tests
             Console.WriteLine(help);
 
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[0].Should().Equal("Customizing Test.");
-            lines[1].Should().Equal("Pre-Options.");
-            lines[3].Should().Equal("  v, verbose       Kommentar umfassend Operationen.");
-            lines[4].Should().Equal("  i, input-file    Erforderlich. Gibt den Eingang an zu bearbeitenden Datei.");
-            lines[6].Should().Equal("Post-Options.");
+            lines[0].Should().Be("Customizing Test.");
+            lines[1].Should().Be("Pre-Options.");
+            lines[3].Should().Be("  v, verbose       Kommentar umfassend Operationen.");
+            lines[4].Should().Be("  i, input-file    Erforderlich. Gibt den Eingang an zu bearbeitenden Datei.");
+            lines[6].Should().Be("Post-Options.");
         }
 
         [Test]
@@ -263,11 +263,11 @@ namespace CommandLine.Text.Tests
             Console.WriteLine(help);
 
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[0].Should().Equal("Parameterless Constructor Test.");
-            lines[1].Should().Equal(string.Format(CultureInfo.InvariantCulture, "Copyright (C) {0} Author", year));
-            lines[2].Should().Equal("Pre-Options.");
-            lines[4].Should().Equal("  s, something    Input something here.");
-            lines[6].Should().Equal("Post-Options.");
+            lines[0].Should().Be("Parameterless Constructor Test.");
+            lines[1].Should().Be(string.Format(CultureInfo.InvariantCulture, "Copyright (C) {0} Author", year));
+            lines[2].Should().Be("Pre-Options.");
+            lines[4].Should().Be("  s, something    Input something here.");
+            lines[6].Should().Be("Post-Options.");
         }
 
         [Test]
@@ -285,7 +285,7 @@ namespace CommandLine.Text.Tests
             Console.WriteLine(help);
             
             string[] lines = help.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[3].Should().Equal("  -s, --something    Input something here.");
+            lines[3].Should().Be("  -s, --something    Input something here.");
         }
 
         [Test]
@@ -293,7 +293,7 @@ namespace CommandLine.Text.Tests
         {
             var local = new HelpText();
 
-            local.ToString().Should().Equal("");
+            local.ToString().Should().Be("");
         }
 
         [Test]
@@ -305,7 +305,7 @@ namespace CommandLine.Text.Tests
                 MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
             var result = parser.ParseArguments(new string[] {"--option-b", "hello", "-cWORLD"}, options);
 
-            result.Should().Be.False();
+            result.Should().BeFalse();
 
             var outsw = sw.ToString();
 
@@ -313,9 +313,9 @@ namespace CommandLine.Text.Tests
 
             var lines = outsw.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
-            lines[0].Should().Equal("--option-b option violates format.");
-            lines[1].Should().Equal("-c/--option-c option violates format.");
-            lines[2].Should().Equal("-a required option is missing.");
+            lines[0].Should().Be("--option-b option violates format.");
+            lines[1].Should().Be("-c/--option-c option violates format.");
+            lines[2].Should().Be("-a required option is missing.");
         }
 
         /*
@@ -390,7 +390,7 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(Console.Out)).ParseArguments(
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "abc" }, options);
 
-            result.Should().Be.False();
+            result.Should().BeFalse();
         }
 
         [Test]
@@ -401,7 +401,7 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(Console.Out)).ParseArguments(
                 new string[] { "-j0" }, options);
 
-            result.Should().Be.False();
+            result.Should().BeFalse();
         }
 
         [Test]
@@ -412,7 +412,7 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(Console.Out)).ParseArguments(
                 new string[] { "-i0" }, options);
 
-            result.Should().Be.False();
+            result.Should().BeFalse();
         }
 
         [Test]
@@ -423,7 +423,7 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(true, true, Console.Out)).ParseArguments(
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "0", "-ap" }, options);
 
-            result.Should().Be.False();
+            result.Should().BeFalse();
         }
         
         [Test]
@@ -434,7 +434,7 @@ namespace CommandLine.Text.Tests
             bool result = new CommandLineParser(new CommandLineParserSettings(true, true, Console.Out)).ParseArguments(
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "zero", "-pa" }, options);
 
-            result.Should().Be.False();
+            result.Should().BeFalse();
         }
 
 
@@ -446,7 +446,7 @@ namespace CommandLine.Text.Tests
           {
             new CommandLineParser(new CommandLineParserSettings(false,  false, writer)).ParseArguments(new string[0], options, writer);
 
-            options.LastParserState.Errors.Should().Count.Exactly(2);
+            options.LastParserState.Errors.Should().HaveCount(n => n == 2);
           }
         }
         #endregion

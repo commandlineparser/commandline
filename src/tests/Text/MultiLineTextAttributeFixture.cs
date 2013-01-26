@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 #endregion
 
 namespace CommandLine.Text.Tests
@@ -45,12 +45,12 @@ namespace CommandLine.Text.Tests
 		{
 			IEnumerable<AssemblyLicenseAttribute> licenseAttributes = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyLicenseAttribute), false) as AssemblyLicenseAttribute[];
 
-			licenseAttributes.Count().Should().Equal(1);
+            licenseAttributes.Count().Should().Be(1);
 
 			string license = licenseAttributes.Single().Value;
 			string[] lines = license.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-			lines[0].Should().Equal(@"This is free software. You may redistribute copies of it under the terms of");
-			lines[1].Should().Equal(@"the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
+			lines[0].Should().Be(@"This is free software. You may redistribute copies of it under the terms of");
+			lines[1].Should().Be(@"the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
 		}
 
 		[Test]
@@ -58,8 +58,8 @@ namespace CommandLine.Text.Tests
 		{
 			IEnumerable<AssemblyUsageAttribute> usageAttributes = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyUsageAttribute), false) as AssemblyUsageAttribute[];
 
-			usageAttributes.Count().Should().Equal(1);
-			usageAttributes.Single().Value.Should().Equal(@"[no usage, this is a dll]" + Environment.NewLine);
+            usageAttributes.Count().Should().Be(1);
+			usageAttributes.Single().Value.Should().Be(@"[no usage, this is a dll]" + Environment.NewLine);
 		}
 	}
 }

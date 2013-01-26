@@ -28,7 +28,7 @@
 #endregion
 #region Using Directives
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Internal;
 #endregion
 
@@ -48,21 +48,21 @@ namespace CommandLine.Tests
             IArgumentEnumerator e = new StringArrayEnumerator(values);
             e.MoveNext();
 
-            e.Current.Should().Equal(valueOne);
-            e.Next.Should().Equal(valueTwo);
-            e.IsLast.Should().Be.False();
+            e.Current.Should().Be(valueOne);
+            e.Next.Should().Be(valueTwo);
+            e.IsLast.Should().BeFalse();
             
             e.MoveNext();
             
-            e.Current.Should().Equal(valueTwo);
-            e.Next.Should().Equal(valueThree);
-            e.IsLast.Should().Be.False();
+            e.Current.Should().Be(valueTwo);
+            e.Next.Should().Be(valueThree);
+            e.IsLast.Should().BeFalse();
             
             e.MoveNext();
             
-            e.Current.Should().Equal(valueThree);
-            e.Next.Should().Be.Null();
-            e.IsLast.Should().Be.True();
+            e.Current.Should().Be(valueThree);
+            e.Next.Should().BeNull();
+            e.IsLast.Should().BeTrue();
         }
 
         [Test]
@@ -71,29 +71,29 @@ namespace CommandLine.Tests
             IArgumentEnumerator e = new OneCharStringEnumerator("abcd");
             e.MoveNext();
 
-            e.Current.Should().Equal("a");
-            e.Next.Should().Equal("b");
-            e.GetRemainingFromNext().Should().Equal("bcd");
-            e.IsLast.Should().Be.False();
+            e.Current.Should().Be("a");
+            e.Next.Should().Be("b");
+            e.GetRemainingFromNext().Should().Be("bcd");
+            e.IsLast.Should().BeFalse();
             
             e.MoveNext();
             
-            e.Current.Should().Equal("b");
-            e.Next.Should().Equal("c");
-            e.GetRemainingFromNext().Should().Equal("cd");
-            e.IsLast.Should().Be.False();
+            e.Current.Should().Be("b");
+            e.Next.Should().Be("c");
+            e.GetRemainingFromNext().Should().Be("cd");
+            e.IsLast.Should().BeFalse();
             
             e.MoveNext();
             
-            e.Current.Should().Equal("c");
-            e.Next.Should().Equal("d");
-            e.GetRemainingFromNext().Should().Equal("d");
-            e.IsLast.Should().Be.False();
+            e.Current.Should().Be("c");
+            e.Next.Should().Be("d");
+            e.GetRemainingFromNext().Should().Be("d");
+            e.IsLast.Should().BeFalse();
             
             e.MoveNext();
             
-            e.Current.Should().Equal("d");
-            e.IsLast.Should().Be.True();
+            e.Current.Should().Be("d");
+            e.IsLast.Should().BeTrue();
         }
     }
 }

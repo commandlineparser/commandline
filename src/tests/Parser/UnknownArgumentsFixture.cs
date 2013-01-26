@@ -30,7 +30,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
@@ -48,15 +48,15 @@ namespace CommandLine.Tests
                 IgnoreUnknownArguments = true, CaseSensitive = true });
             var result1 = parser.ParseArguments(args, appOptions);
 
-            result1.Should().Be.True();
-            appOptions.PlugInName.Should().Equal("addonX");
+            result1.Should().BeTrue();
+            appOptions.PlugInName.Should().Be("addonX");
 
             var plugInXOptions = new OptionsOfPlugInX();
             var result2 = parser.ParseArguments(args, plugInXOptions);
 
-            result2.Should().Be.True();
-            plugInXOptions.InputFileName.Should().Equal("input.dat");
-            plugInXOptions.ReadOffset.Should().Equal(10L);
+            result2.Should().BeTrue();
+            plugInXOptions.InputFileName.Should().Be("input.dat");
+            plugInXOptions.ReadOffset.Should().Be(10L);
         }
     }
 }

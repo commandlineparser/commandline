@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using CommandLine.Tests.Mocks;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 
 namespace CommandLine.Tests
 {
@@ -23,11 +23,11 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
 
-            options.BooleanValue.Should().Be.True();
-            options.StringItem.Should().Equal("file.ext");
-            options.IntegerItem.Should().Equal(1000);
-            options.NullableDoubleItem.Should().Equal(0.1234D);
-            options.StringValue.Should().Equal("out.ext");
+            options.BooleanValue.Should().BeTrue();
+            options.StringItem.Should().Be("file.ext");
+            options.IntegerItem.Should().Be(1000);
+            options.NullableDoubleItem.Should().Be(0.1234D);
+            options.StringValue.Should().Be("out.ext");
         }
         
         [Test]
@@ -39,10 +39,10 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
 
-            options.BooleanValue.Should().Be.True();
-            options.StringItem.Should().Be.Null();
-            options.IntegerItem.Should().Equal(0);
-            options.NullableDoubleItem.Should().Be.Null();
+            options.BooleanValue.Should().BeTrue();
+            options.StringItem.Should().BeNull();
+            options.IntegerItem.Should().Be(0);
+            options.NullableDoubleItem.Should().NotHaveValue();
         }
 
         [Test]
@@ -54,12 +54,12 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
 
-            options.StringItem.Should().Equal("ofvalueoption");
-            options.NullableInteger.Should().Equal(-1234);
-            options.UnsignedIntegerItem.Should().Equal(4321U);
-            options.Items[0].Should().Equal("forvaluelist1");
-            options.Items[1].Should().Equal("forvaluelist2");
-            options.Items[2].Should().Equal("forvaluelist3");
+            options.StringItem.Should().Be("ofvalueoption");
+            options.NullableInteger.Should().Be(-1234);
+            options.UnsignedIntegerItem.Should().Be(4321U);
+            options.Items[0].Should().Be("forvaluelist1");
+            options.Items[1].Should().Be("forvaluelist2");
+            options.Items[2].Should().Be("forvaluelist3");
         }
 
         [Test]

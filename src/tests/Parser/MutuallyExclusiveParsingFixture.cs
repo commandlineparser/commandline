@@ -28,7 +28,7 @@
 #endregion
 #region Using Directives
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
@@ -50,7 +50,7 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml" }, options);
 
             ResultShouldBeTrue();
-            options.FileName.Should().Equal("mystuff.xml");
+            options.FileName.Should().Be("mystuff.xml");
         }
 
         [Test]
@@ -69,8 +69,8 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml", "-v" }, options);
             
             ResultShouldBeTrue();
-            options.FileName.Should().Equal("mystuff.xml");
-            options.Verbose.Should().Equal(true);
+            options.FileName.Should().Be("mystuff.xml");
+            options.Verbose.Should().Be(true);
         }
 
         [Test]
@@ -80,8 +80,8 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
             ResultShouldBeTrue();
-            options.Green.Should().Equal((byte) 167);
-            options.Hue.Should().Equal((short) 205);
+            options.Green.Should().Be((byte)167);
+            options.Hue.Should().Be((short)205);
         }
 
         [Test]
@@ -109,9 +109,9 @@ namespace CommandLine.Tests
             Result = base.Parser.ParseArguments(new string[] { "-g100", "-h200", "-cRgbColorSet" }, options);
             
             ResultShouldBeTrue();
-            options.Green.Should().Equal((byte) 100);
-            options.Hue.Should().Equal((short) 200);
-            options.DefaultColorSet.Should().Equal(ColorSet.RgbColorSet);
+            options.Green.Should().Be((byte)100);
+            options.Hue.Should().Be((short)200);
+            options.DefaultColorSet.Should().Be(ColorSet.RgbColorSet);
         }
     }
 }

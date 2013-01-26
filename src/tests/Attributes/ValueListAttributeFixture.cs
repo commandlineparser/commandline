@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
@@ -82,8 +82,8 @@ namespace CommandLine.Tests
             var options = new MockOptions();
 
             IList<string> values = ValueListAttribute.GetReference(options);
-            values.Should().Not.Be.Null();
-            values.GetType().Should().Equal(typeof(List<string>));
+            values.Should().NotBeNull();
+            values.GetType().Should().Be(typeof(List<string>));
         }
 
         [Test]

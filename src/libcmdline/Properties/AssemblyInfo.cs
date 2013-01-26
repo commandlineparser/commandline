@@ -29,12 +29,19 @@
 #region Using Directives
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endregion
 
 [assembly: AssemblyTitle("CommandLine.dll")]
 [assembly: AssemblyDescription("Command Line Parser Library allows CLR applications to define a syntax for parsing command line arguments.")]
 [assembly: AssemblyCulture("")]
+[assembly: InternalsVisibleTo("CommandLine.Tests, PublicKey=" +
+    "00240000048000009400000006020000002400005253413100040000010001000bf5a5553b4857" +
+    "02b1eab63601bf8e4dce95f709b02aa8359f91fa50861870a9890ffb2f2ed32e80afceb8f83a54" +
+    "5169a05d18db95f6250f1c8073e90d8f3ff9cf7c4df48e58f4d6f0937e78a466bae12ecb3c70ec" +
+    "c1dc4b680c937a0530dc99623cfc2c0a8ca56237f8ccae2403768d64fc4c0146d0a74d81f61030" +
+    "749d1fb8")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 #else

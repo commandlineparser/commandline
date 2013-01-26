@@ -1,3 +1,10 @@
+2013-01-26	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * Thanks to github user @marcells, we can reference CommandLine.dll from CommandLine.Tests.dll
+      keeping strong name.
+  * Used Fluent Assertions  (http://nuget.org/packages/FluentAssertions/) because signed.
+  * Version incremented to 1.9.4.203 beta.
+
 2013-01-25	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Implemented issue #33 (https://github.com/gsscoder/commandline/issues/33) that
@@ -5,7 +12,7 @@
   * Internal Target type renamed to ValueMapper.
   * OptionInfo property writing primitives refactored in PropertyWriter type.
   * Added ValueOptionAttributeParsingFixture and new mock types.
-  * Version incremented to 1.9.4.201 beta.  
+  * Version incremented to 1.9.4.201 beta.
 
 2013-01-24	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 

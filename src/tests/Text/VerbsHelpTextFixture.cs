@@ -29,10 +29,12 @@
 #region Using Directives
 using System;
 using System.IO;
+using System.Reflection;
 using CommandLine.Tests;
 using CommandLine.Tests.Mocks;
+using CommandLine.Utils;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 #endregion
 
 namespace CommandLine.Text.Tests
@@ -40,6 +42,12 @@ namespace CommandLine.Text.Tests
     [TestFixture]
     public class VerbsHelpTextFixture : CommandLineParserBaseFixture
     {
+        public override void CreateInstance()
+        {
+            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            base.CreateInstance();
+        }
+
         [Test]
         public void FailedParsingPrintsHelpIndex()
         {
@@ -71,9 +79,9 @@ namespace CommandLine.Text.Tests
             Console.WriteLine(helpText);
             var lines = helpText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             // Verify just significant output
-            lines[5].Trim().Should().Equal("--no-hardlinks    Optimize the cloning process from a repository on a local");
-            lines[6].Trim().Should().Equal("filesystem by copying files.");
-            lines[7].Trim().Should().Equal("-q, --quiet       Suppress summary message.");
+            lines[5].Trim().Should().Be("--no-hardlinks    Optimize the cloning process from a repository on a local");
+            lines[6].Trim().Should().Be("filesystem by copying files.");
+            lines[7].Trim().Should().Be("-q, --quiet       Suppress summary message.");
         }
 
         #region https://github.com/gsscoder/commandline/issues/45
@@ -104,9 +112,9 @@ namespace CommandLine.Text.Tests
             Console.WriteLine(helpText);
             var lines = helpText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             // Verify just significant output
-            lines[5].Trim().Should().Equal("add       Add file contents to the index.");
-            lines[6].Trim().Should().Equal("commit    Record changes to the repository.");
-            lines[7].Trim().Should().Equal("clone     Clone a repository into a new directory.");
+            lines[5].Trim().Should().Be("add       Add file contents to the index.");
+            lines[6].Trim().Should().Be("commit    Record changes to the repository.");
+            lines[7].Trim().Should().Be("clone     Clone a repository into a new directory.");
         }
     }
 }

@@ -29,9 +29,15 @@
     <ConsolePause>false</ConsolePause>
     <DefineConstants>UNIT_TESTS</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>CommandLine.Tests.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Should.Fluent">
-      <HintPath>..\..\packages\ShouldFluent.1.1.12.0\lib\Should.Fluent.dll</HintPath>
+    <Reference Include="FluentAssertions">
+      <HintPath>..\..\packages\FluentAssertions.2.0.0.1\lib\net40\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="nunit.framework">
@@ -40,131 +46,10 @@
     <Reference Include="nunit.mocks">
       <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
     </Reference>
-    <Reference Include="pnunit.framework">
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\libcmdline\Attributes\BaseOptionAttribute.cs">
-      <Link>Library\Attributes\BaseOptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Attributes\HelpOptionAttribute.cs">
-      <Link>Library\Attributes\HelpOptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Attributes\HelpVerbOptionAttribute.cs">
-      <Link>Library\Attributes\HelpVerbOptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Attributes\OptionArrayAttribute.cs">
-      <Link>Library\Attributes\OptionArrayAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Attributes\OptionAttribute.cs">
-      <Link>Library\Attributes\OptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Attributes\OptionListAttribute.cs">
-      <Link>Library\Attributes\OptionListAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Attributes\ParserStateAttribute.cs">
-      <Link>Library\Attributes\ParserStateAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Attributes\ValueListAttribute.cs">
-      <Link>Library\Attributes\ValueListAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Attributes\ValueOptionAttribute.cs">
-      <Link>Library\Attributes\ValueOptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Attributes\VerbOptionAttribute.cs">
-      <Link>Library\Attributes\VerbOptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\ArgumentParser.cs">
-      <Link>Library\Internal\ArgumentParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\IArgumentEnumerator.cs">
-      <Link>Library\Internal\IArgumentEnumerator.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\LongOptionParser.cs">
-      <Link>Library\Internal\LongOptionParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\OneCharStringEnumerator.cs">
-      <Link>Library\Internal\OneCharStringEnumerator.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\OptionGroupParser.cs">
-      <Link>Library\Internal\OptionGroupParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\OptionInfo.cs">
-      <Link>Library\Internal\OptionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\OptionMap.cs">
-      <Link>Library\Internal\OptionMap.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\PresentParserState.cs">
-      <Link>Library\Internal\PresentParserState.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\PropertyWriter.cs">
-      <Link>Library\Internal\PropertyWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\SR.strings.cs">
-      <Link>Library\Internal\SR.strings.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\StringArrayEnumerator.cs">
-      <Link>Library\Internal\StringArrayEnumerator.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Internal\ValueMapper.cs">
-      <Link>Library\Internal\ValueMapper.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\ParserContext.cs">
-      <Link>Library\ParserContext.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\Attributes\AssemblyLicenseAttribute.cs">
-      <Link>Library\Text\Attributes\AssemblyLicenseAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\Attributes\AssemblyUsageAttribute.cs">
-      <Link>Library\Text\Attributes\AssemblyUsageAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\Attributes\MultiLineTextAttribute.cs">
-      <Link>Library\Text\Attributes\MultiLineTextAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\BaseSentenceBuilder.cs">
-      <Link>Library\Text\BaseSentenceBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\CopyrightInfo.cs">
-      <Link>Library\Text\CopyrightInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\EnglishSentenceBuilder.cs">
-      <Link>Library\Text\EnglishSentenceBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\FormatOptionHelpTextEventArgs.cs">
-      <Link>Library\Text\FormatOptionHelpTextEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\HeadingInfo.cs">
-      <Link>Library\Text\HeadingInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\HelpText.cs">
-      <Link>Library\Text\HelpText.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Text\ParsingErrorsHandler.cs">
-      <Link>Library\Text\ParsingErrorsHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Utils\Assumes.cs">
-      <Link>Library\Utils\Assumes.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Utils\Pair.cs">
-      <Link>Library\Utils\Pair.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Utils\ReflectionCache.cs">
-      <Link>Library\Utils\ReflectionCache.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Utils\ReflectionUtil.cs">
-      <Link>Library\Utils\ReflectionUtil.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Utils\StringExtensions.cs">
-      <Link>Library\Utils\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Utils\SwitchExtensions.cs">
-      <Link>Library\Utils\SwitchExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\Utils\TargetExtensions.cs">
-      <Link>Library\Utils\TargetExtensions.cs</Link>
-    </Compile>
     <Compile Include="Mocks\CommandLineOptionsBase.cs" />
     <Compile Include="Mocks\SimpleOptionsWithValueOptionAndValueList.cs" />
     <Compile Include="Mocks\SimpleOptionsWithValueOption.cs" />
@@ -223,37 +108,20 @@
     <Compile Include="Mocks\OptionsForPlugInScenario.cs" />
     <Compile Include="Mocks\OptionsWithUIntArray.cs" />
     <Compile Include="Text\MultiLineTextAttributeFixture.cs" />
-    <Compile Include="..\libcmdline\BadOptionInfo.cs">
-      <Link>Library\BadOptionInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\CommandLineParser.cs">
-      <Link>Library\CommandLineParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\CommandLineParserException.cs">
-      <Link>Library\CommandLineParserException.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\CommandLineParserSettings.cs">
-      <Link>Library\CommandLineParserSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\ICommandLineParser.cs">
-      <Link>Library\ICommandLineParser.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\IParserState.cs">
-      <Link>Library\IParserState.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\ParserState.cs">
-      <Link>Library\ParserState.cs</Link>
-    </Compile>
-    <Compile Include="..\libcmdline\ParsingError.cs">
-      <Link>Library\ParsingError.cs</Link>
-    </Compile>
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Utils\ReflectionUtilFixture.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CommandLine.Tests.snk" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libcmdline\CommandLine.csproj">
+      <Project>{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}</Project>
+      <Name>CommandLine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

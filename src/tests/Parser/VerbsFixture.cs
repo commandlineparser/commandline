@@ -30,7 +30,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using Should.Fluent;
+using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
@@ -43,21 +43,21 @@ namespace CommandLine.Tests
         public void ParseVerbsCreateInstance()
         {
             var options = new OptionsWithVerbs();
-            options.AddVerb.Should().Be.Null();
+            options.AddVerb.Should().BeNull();
 
             Result = Parser.ParseArguments(new string[] {"add", "-p", "untracked.bin"} , options);
 
             ResultShouldBeTrue();
 
-            Parser.WasVerbOptionInvoked("add").Should().Be.True();
-            Parser.WasVerbOptionInvoked("commit").Should().Be.False();
-            Parser.WasVerbOptionInvoked("clone").Should().Be.False();
+            Parser.WasVerbOptionInvoked("add").Should().BeTrue();
+            Parser.WasVerbOptionInvoked("commit").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("clone").Should().BeFalse();
 
             // Parser has built instance for us
-            options.AddVerb.Should().Not.Be.Null();
-            options.AddVerb.CreationProof.Should().Be.Null();
-            options.AddVerb.Patch.Should().Be.True();
-            options.AddVerb.FileName[0].Should().Equal("untracked.bin");
+            options.AddVerb.Should().NotBeNull();
+            options.AddVerb.CreationProof.Should().NotHaveValue();
+            options.AddVerb.Patch.Should().BeTrue();
+            options.AddVerb.FileName[0].Should().Be("untracked.bin");
         }
 
         [Test]
@@ -65,20 +65,20 @@ namespace CommandLine.Tests
         {
             var proof = new Random().Next(int.MaxValue);
             var options = new OptionsWithVerbs();
-            options.CommitVerb.Should().Not.Be.Null();
+            options.CommitVerb.Should().NotBeNull();
             options.CommitVerb.CreationProof = proof;
 
             Result = Parser.ParseArguments(new string[] { "commit", "--amend" }, options);
 
             ResultShouldBeTrue();
 
-            Parser.WasVerbOptionInvoked("add").Should().Be.False();
-            Parser.WasVerbOptionInvoked("commit").Should().Be.True();
-            Parser.WasVerbOptionInvoked("clone").Should().Be.False();
+            Parser.WasVerbOptionInvoked("add").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("commit").Should().BeTrue();
+            Parser.WasVerbOptionInvoked("clone").Should().BeFalse();
 
             // Check if the instance is the one provider by us (not by the parser)
-            options.CommitVerb.CreationProof.Should().Equal(proof);
-            options.CommitVerb.Amend.Should().Be.True();
+            options.CommitVerb.CreationProof.Should().Be(proof);
+            options.CommitVerb.Amend.Should().BeTrue();
         }
 
         [Test]
@@ -90,12 +90,12 @@ namespace CommandLine.Tests
 
             ResultShouldBeFalse();
 
-            Parser.WasVerbOptionInvoked("add").Should().Be.False();
-            Parser.WasVerbOptionInvoked("commit").Should().Be.False();
-            Parser.WasVerbOptionInvoked("clone").Should().Be.False();
+            Parser.WasVerbOptionInvoked("add").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("commit").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("clone").Should().BeFalse();
 
             var helpText = testWriter.ToString();
-            helpText.Should().Equal("verbs help index");
+            helpText.Should().Be("verbs help index");
         }
 
         [Test]
@@ -107,13 +107,13 @@ namespace CommandLine.Tests
 
             ResultShouldBeFalse();
 
-            Parser.WasVerbOptionInvoked("add").Should().Be.False();
-            Parser.WasVerbOptionInvoked("commit").Should().Be.False();
+            Parser.WasVerbOptionInvoked("add").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("commit").Should().BeFalse();
             // The following returns true because also if the parser fail 'clone' was invoked.
-            Parser.WasVerbOptionInvoked("clone").Should().Be.True();
+            Parser.WasVerbOptionInvoked("clone").Should().BeTrue();
 
             var helpText = testWriter.ToString();
-            helpText.Should().Equal("help for: clone");
+            helpText.Should().Be("help for: clone");
         }
 
         [Test]
@@ -124,9 +124,9 @@ namespace CommandLine.Tests
 
             ResultShouldBeFalse();
 
-            Parser.WasVerbOptionInvoked("add").Should().Be.False();
-            Parser.WasVerbOptionInvoked("commit").Should().Be.False();
-            Parser.WasVerbOptionInvoked("clone").Should().Be.False();
+            Parser.WasVerbOptionInvoked("add").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("commit").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("clone").Should().BeFalse();
         }
 
         [Test]
@@ -137,8 +137,8 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
 
-            Parser.WasVerbOptionInvoked(null).Should().Be.False();
-            Parser.WasVerbOptionInvoked("").Should().Be.False();
+            Parser.WasVerbOptionInvoked(null).Should().BeFalse();
+            Parser.WasVerbOptionInvoked("").Should().BeFalse();
         }
 
         [Test]
@@ -149,12 +149,12 @@ namespace CommandLine.Tests
 
             ResultShouldBeTrue();
 
-            Parser.WasVerbOptionInvoked("--commit").Should().Be.False();
-            Parser.WasVerbOptionInvoked("-commit").Should().Be.False(); // <- pure fantasy
-            Parser.WasVerbOptionInvoked("-c").Should().Be.False();
-            Parser.WasVerbOptionInvoked("---commit").Should().Be.False(); // <- pure fantasy
-            Parser.WasVerbOptionInvoked("--amend").Should().Be.False();
-            Parser.WasVerbOptionInvoked("-a").Should().Be.False();
+            Parser.WasVerbOptionInvoked("--commit").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("-commit").Should().BeFalse(); // <- pure fantasy
+            Parser.WasVerbOptionInvoked("-c").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("---commit").Should().BeFalse(); // <- pure fantasy
+            Parser.WasVerbOptionInvoked("--amend").Should().BeFalse();
+            Parser.WasVerbOptionInvoked("-a").Should().BeFalse();
         }
     }
 }
