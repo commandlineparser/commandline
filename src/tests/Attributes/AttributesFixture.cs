@@ -28,13 +28,13 @@
 #endregion
 #region Using Directives
 using System;
-using NUnit.Framework;
+using Xunit;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
-    public sealed class AttributesFixture
+    
+    public class AttributesFixture
     {
         class CustomOptionAttribute : BaseOptionAttribute
         {
@@ -51,25 +51,25 @@ namespace CommandLine.Tests
 
         #region #DGN0002
         // Impossible now! (see API change 00)
-        //[Test]
+        //[Fact]
         //[ExpectedException(typeof(ArgumentException))]
         //public void OptionShortNameCanNotExceedOneCharacter()
         //{
         //    new OptionAttribute("more-than-one-character", null);
         //}
-        //[Test]
+        //[Fact]
         //[ExpectedException(typeof(ArgumentException))]
         //public void OptionListShortNameCanNotExceedOneCharacter()
         //{
         //    new OptionListAttribute("same-as-above", null);
         //}
-        //[Test]
+        //[Fact]
         //[ExpectedException(typeof(ArgumentException))]
         //public void HelpOptionShortNameCanNotExceedOneCharacter()
         //{
         //    new HelpOptionAttribute("same-as-above-again", null);
         //}
-        //[Test]
+        //[Fact]
         //[ExpectedException(typeof(ArgumentException))]
         //public void ShortNameOfBaseOptionDerivedTypeCanNotExceedOneCharacter()
         //{
@@ -78,36 +78,36 @@ namespace CommandLine.Tests
         #endregion
 
         #region API change 01
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void ShortNameWithLineTerminatorThrowsException()
         {
-            new OptionAttribute('\n');
+            Assert.Throws<ArgumentException>(() =>
+                new OptionAttribute('\n'));
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void ShortNameWithLineTerminatorThrowsException_2()
         {
-            new OptionAttribute('\r');
+            Assert.Throws<ArgumentException>(() =>
+                new OptionAttribute('\r'));
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void ShortNameWithWhiteSpaceThrowsException()
         {
-            new OptionAttribute(' ');
+            Assert.Throws<ArgumentException>(() =>
+                new OptionAttribute(' '));
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void ShortNameWithWhiteSpaceThrowsException_2()
         {
-            new OptionAttribute('\t');
+            Assert.Throws<ArgumentException>(() =>
+                new OptionAttribute('\t'));
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void AllOptionsAllowOneCharacterInShortName()
         {
             new OptionAttribute('o', null);
@@ -116,7 +116,7 @@ namespace CommandLine.Tests
             new CustomOptionAttribute('c', null);
         }
 
-        [Test]
+        [Fact]
         public void AllOptionsAllowNullValueInShortName()
         {
             new OptionAttribute("option-attr");

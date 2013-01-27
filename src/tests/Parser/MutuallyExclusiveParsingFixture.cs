@@ -27,88 +27,88 @@
 //
 #endregion
 #region Using Directives
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
 {
-    public sealed class MutuallyExclusiveParsingFixture : CommandLineParserBaseFixture
+    public class MutuallyExclusiveParsingFixture : CommandLineParserBaseFixture
     {
-        public MutuallyExclusiveParsingFixture() : base() {}
-
-        public override void CreateInstance()
-        {
-            Parser = new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});
-        }
-
-        [Test]
+        [Fact]
         public void ParsingOneMutuallyExclusiveOptionSucceeds()
         {
             var options = new OptionsWithDefaultSet();
-            Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml" }, options);
+            var parser = new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});
+            var result = parser.ParseArguments(new string[] { "--file=mystuff.xml" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.FileName.Should().Be("mystuff.xml");
         }
 
-        [Test]
+        [Fact]
         public void ParsingTwoMutuallyExclusiveOptionsFails()
         {
+            var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
             var options = new OptionsWithDefaultSet();
-            Result = base.Parser.ParseArguments(new string[] { "-i", "1", "--file=mystuff.xml" }, options);
-            
-            ResultShouldBeFalse();
+            var result = parser.ParseArguments(new string[] { "-i", "1", "--file=mystuff.xml" }, options);
+
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void ParsingOneMutuallyExclusiveOptionWithAnotherOptionSucceeds()
         {
             var options = new OptionsWithDefaultSet();
-            Result = base.Parser.ParseArguments(new string[] { "--file=mystuff.xml", "-v" }, options);
+            var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
+            var result = parser.ParseArguments(new string[] { "--file=mystuff.xml", "-v" }, options);
             
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.FileName.Should().Be("mystuff.xml");
             options.Verbose.Should().Be(true);
         }
 
-        [Test]
+        [Fact]
         public void ParsingTwoMutuallyExclusiveOptionsInTwoSetSucceeds()
         {
             var options = new OptionsWithMultipleSet();
-            Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
+            var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
+            var result = parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.Green.Should().Be((byte)167);
             options.Hue.Should().Be((short)205);
         }
 
-        [Test]
+        [Fact]
         public void ParsingThreeMutuallyExclusiveOptionsInTwoSetFails()
         {
+            var parser = new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});
             var options = new OptionsWithMultipleSet();
-            Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205", "--saturation=37" }, options);
-            
-            ResultShouldBeFalse();
+            var result = parser.ParseArguments(new string[] { "-g167", "--hue", "205", "--saturation=37" }, options);
+
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void ParsingMutuallyExclusiveOptionsAndRequiredOptionFails()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
-            Result = base.Parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
+            var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
+            var result = parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void ParsingMutuallyExclusiveOptionsAndRequiredOptionSucceeds()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
-            Result = base.Parser.ParseArguments(new string[] { "-g100", "-h200", "-cRgbColorSet" }, options);
+            var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
+            var result = parser.ParseArguments(new string[] { "-g100", "-h200", "-cRgbColorSet" }, options);
             
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.Green.Should().Be((byte)100);
             options.Hue.Should().Be((short)200);
             options.DefaultColorSet.Should().Be(ColorSet.RgbColorSet);

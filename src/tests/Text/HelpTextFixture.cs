@@ -34,15 +34,14 @@ using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Globalization;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Text.Tests
 {
-    [TestFixture]
-    public sealed class HelpTextFixture
+    public class HelpTextFixture
     {
         #region Mock Objects
         class MockOptions
@@ -129,24 +128,17 @@ namespace CommandLine.Text.Tests
         }
         #endregion
 
-        private HelpText _helpText;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _helpText = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
-        }
-
-        [Test]
+        [Fact]
         public void AddAnEmptyPreOptionsLineIsAllowed()
         {
-            _helpText.AddPreOptionsLine(string.Empty);
+            var helpText = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
+            helpText.AddPreOptionsLine(string.Empty);
         }
 
         /// <summary>
         /// Ref.: #REQ0002
         /// </summary>
-        [Test]
+        [Fact]
         public void PostOptionsLinesFeatureAdded()
         {
             var local = new HelpText("Heading Info.");
@@ -163,7 +155,7 @@ namespace CommandLine.Text.Tests
             lines[lines.Length - 1].Should().Be("This is a second post-options line.");
         }
 
-        [Test]
+        [Fact]
         public void MetaValue()
         {
             var local = new HelpText("Meta Value.");
@@ -174,12 +166,13 @@ namespace CommandLine.Text.Tests
             lines[lines.Length - 2].Should().Be("  i FILE, input-file=FILE    Required. Specify input FILE to be processed.");
         }
 
-        [Test]
+        [Fact]
         public void WhenHelpTextIsLongerThanWidthItWillWrapAroundAsIfInAColumn()
         {
-            _helpText.MaximumDisplayWidth = 40;
-            _helpText.AddOptions(new MockOptionsWithLongDescription());
-            string help = _helpText.ToString();
+            var helpText = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
+            helpText.MaximumDisplayWidth = 40;
+            helpText.AddOptions(new MockOptionsWithLongDescription());
+            string help = helpText.ToString();
 
             string[] lines = help.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
             lines[2].Should().Be("  v, verbose    This is the description"); //"The first line should have the arguments and the start of the Help Text.");
@@ -190,12 +183,13 @@ namespace CommandLine.Text.Tests
             lines[6].Should().Be("                Help Text.");
         }
 
-        [Test]
+        [Fact]
         public void LongHelpTextWithoutSpaces()
         {
-            _helpText.MaximumDisplayWidth = 40;
-            _helpText.AddOptions(new MockOptionsWithLongDescriptionAndNoSpaces());
-            string help = _helpText.ToString();
+            var helpText = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
+            helpText.MaximumDisplayWidth = 40;
+            helpText.AddOptions(new MockOptionsWithLongDescriptionAndNoSpaces());
+            string help = helpText.ToString();
 
             string[] lines = help.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             lines[2].Should().Be("  v, verbose    Before ");
@@ -206,7 +200,7 @@ namespace CommandLine.Text.Tests
             lines[7].Should().Be("                456789 After");
         }
 
-        [Test]
+        [Fact]
         public void LongPreAndPostLinesWithoutSpaces()
         {
             var local = new HelpText("Heading Info.");
@@ -226,7 +220,7 @@ namespace CommandLine.Text.Tests
             lines[lines.Length - 1].Should().Be(" After");
         }
 
-        [Test]
+        [Fact]
         public void CustomizeOptionsFormat()
         {
             var local = new HelpText("Customizing Test.");
@@ -247,7 +241,7 @@ namespace CommandLine.Text.Tests
             lines[6].Should().Be("Post-Options.");
         }
 
-        [Test]
+        [Fact]
         public void InstancingWithParameterlessConstructor()
         {
             var year = DateTime.Now.Year;
@@ -270,7 +264,7 @@ namespace CommandLine.Text.Tests
             lines[6].Should().Be("Post-Options.");
         }
 
-        [Test]
+        [Fact]
         public void AddOptionsWithDashes()
         {
             var local = new HelpText {
@@ -288,7 +282,7 @@ namespace CommandLine.Text.Tests
             lines[3].Should().Be("  -s, --something    Input something here.");
         }
 
-        [Test]
+        [Fact]
         public void CreateBasicInstance()
         {
             var local = new HelpText();
@@ -296,7 +290,7 @@ namespace CommandLine.Text.Tests
             local.ToString().Should().Be("");
         }
 
-        [Test]
+        [Fact]
         public void InvokeRenderParsingErrorsText()
         {
             var sw = new StringWriter();
@@ -319,7 +313,7 @@ namespace CommandLine.Text.Tests
         }
 
         /*
-        [Test]
+        [Fact]
         public void AutoBuildWithRenderParsingErrorsHelper()
         {
             var sw = new StringWriter();
@@ -352,7 +346,7 @@ namespace CommandLine.Text.Tests
         }
 
 
-        [Test]
+        [Fact]
         public void AutoBuild()
         {
             var sw = new StringWriter();
@@ -382,7 +376,7 @@ namespace CommandLine.Text.Tests
         }*/
 
         #region Parsing Errors Subsystem Test, related to Help Text building
-        [Test]
+        [Fact]
         public void DetailedHelpWithBadFormat()
         {
             var options = new ComplexOptionsWithHelp();
@@ -393,7 +387,7 @@ namespace CommandLine.Text.Tests
             result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void DetailedHelpWithMissingRequired()
         {
             var options = new ComplexOptionsWithHelp();
@@ -404,7 +398,7 @@ namespace CommandLine.Text.Tests
             result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void DetailedHelpWithMissingRequiredAndBadFormat()
         {
             var options = new ComplexOptionsWithHelp();
@@ -415,7 +409,7 @@ namespace CommandLine.Text.Tests
             result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void DetailedHelpWithBadMutualExclusiveness()
         {
             var options = new ComplexOptionsWithHelp();
@@ -426,7 +420,7 @@ namespace CommandLine.Text.Tests
             result.Should().BeFalse();
         }
         
-        [Test]
+        [Fact]
         public void DetailedHelpWithBadFormatAndMutualExclusiveness()
         {
             var options = new ComplexOptionsWithHelp();
@@ -438,7 +432,7 @@ namespace CommandLine.Text.Tests
         }
 
 
-        [Test]
+        [Fact]
         public void MultipleRequiredFields_WithMoreThanOneRequiredFieldNotSpecified_ReportsAllMissingRequiredFields()
         {
           var options = new ComplexOptions();

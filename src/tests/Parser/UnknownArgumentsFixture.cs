@@ -29,17 +29,17 @@
 #region Using Directives
 using System;
 using System.IO;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
+    
     public class UnknownArgumentsFixture
     {
-        [Test]
+        [Fact]
         public void ParseValidUnknownArguments()
         {
             string[] args = { "--plugin", "addonX", "--filename", "input.dat" };

@@ -29,16 +29,16 @@
 #region Using Directives
 using System;
 using System.IO;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
 namespace CommandLine.Text.Tests
 {
-    [TestFixture]
-    public sealed class HeadingInfoFixture
+    
+    public class HeadingInfoFixture
     {
-        [Test]
+        [Fact]
         public void OnlyProgramName()
         {
             var hi = new HeadingInfo("myprog");
@@ -52,7 +52,7 @@ namespace CommandLine.Text.Tests
             sw.ToString().Should().Be("myprog: a message" + Environment.NewLine);
         }
 
-        [Test]
+        [Fact]
         public void ProgramNameAndVersion()
         {
             var hi = new HeadingInfo("myecho", "2.5");

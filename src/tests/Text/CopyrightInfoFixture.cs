@@ -30,14 +30,14 @@
 using System;
 using System.Globalization;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
 namespace CommandLine.Text.Tests
 {
-    [TestFixture]
-    public sealed class CopyrightInfoFixture
+    
+    public class CopyrightInfoFixture
     {
         #region Mock Objects
         private sealed class CopyleftInfo : CopyrightInfo
@@ -72,7 +72,7 @@ namespace CommandLine.Text.Tests
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void LowerSymbolOneYear()
         {
             var copyright = new CopyrightInfo(false, "Authors, Inc.", 2007);
@@ -80,7 +80,7 @@ namespace CommandLine.Text.Tests
             copyright.ToString().Should().Be("Copyright (c) 2007 Authors, Inc.");
         }
 
-        [Test]
+        [Fact]
         public void UpperSymbolTwoConsecutiveYears()
         {
             var copyright = new CopyrightInfo(true, "X & Y Group", 2006, 2007);
@@ -88,7 +88,7 @@ namespace CommandLine.Text.Tests
             copyright.ToString().Should().Be("Copyright (C) 2006, 2007 X & Y Group");
         }
 
-        [Test]
+        [Fact]
         public void DefaultSymbolTwoNonConsecutiveYears()
         {
             var copyright = new CopyrightInfo("W & Z, Inc.", 2005, 2007);
@@ -96,7 +96,7 @@ namespace CommandLine.Text.Tests
             copyright.ToString().Should().Be("Copyright (C) 2005 - 2007 W & Z, Inc.");
         }
 
-        [Test]
+        [Fact]
         public void DefaultSymbolSeveralYears()
         {
             var copyright = new CopyrightInfo("CommandLine, Ltd", 1999, 2003, 2004, 2007);
@@ -104,21 +104,21 @@ namespace CommandLine.Text.Tests
             copyright.ToString().Should().Be("Copyright (C) 1999 - 2003, 2004 - 2007 CommandLine, Ltd");
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [Fact]
         public void WillThrowExceptionIfAuthorIsNull()
         {
-            new CopyrightInfo(null, 2000);
+            Assert.Throws<ArgumentException>(
+                () => new CopyrightInfo(null, 2000));
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Fact]
         public void WillThrowExceptionIfNoYearsAreSupplied()
         {
-            new CopyrightInfo("Authors, Inc.");
+            Assert.Throws<ArgumentOutOfRangeException>(
+                () => new CopyrightInfo("Authors, Inc."));
         }
 
-        [Test]
+        [Fact]
         public void DerivedClass()
         {
             var info = new CopyleftInfo(true, "Free Company, Inc.", 96, 97, 98, 2005);
@@ -127,7 +127,7 @@ namespace CommandLine.Text.Tests
         }
 
         #region #BUG0006
-        [Test]
+        [Fact]
         public void ShouldNotGrowWhenConvertedToString()
         {
             var info = new CopyrightInfo ("ManOnTheMoon, Inc.", 2019);

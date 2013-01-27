@@ -35,31 +35,27 @@ using System.Reflection;
 using System.Text;
 using CommandLine.Tests.Mocks;
 using CommandLine.Utils;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
-    public sealed class StrictFixture : CommandLineParserBaseFixture
+    
+    public class StrictFixture : CommandLineParserBaseFixture
     {
-        public override void CreateInstance()
-        {
-            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            base.CreateInstance();
-        }
-
-        [Test]
+        [Fact]
         public void ParseStrictBadInputFailsAndExits()
         {
             var options = new SimpleOptions();
             var testWriter = new StringWriter();
 
-            Result = Parser.ParseArgumentsStrict(new string[] {"--bad", "--input"}, options, testWriter);
+            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArgumentsStrict(new string[] {"--bad", "--input"}, options, testWriter);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             var helpText = testWriter.ToString();
             Console.WriteLine(helpText);
@@ -72,15 +68,17 @@ namespace CommandLine.Tests
             lines[7].Trim().Should().Be("--switch");
         }
 
-        [Test]
+        [Fact]
         public void ParseStrictBadInputFailsAndExits_GetUsageDefined()
         {
             var options = new SimpleOptionsForStrict();
             var testWriter = new StringWriter();
 
-            Result = Parser.ParseArgumentsStrict(new string[] { "--bad", "--input" }, options, testWriter);
+            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArgumentsStrict(new string[] { "--bad", "--input" }, options, testWriter);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             var helpText = testWriter.ToString();
             Console.WriteLine(helpText);
@@ -91,15 +89,17 @@ namespace CommandLine.Tests
             lines[0].Trim().Should().Be("SimpleOptionsForStrict (user defined)");
         }
 
-        [Test]
+        [Fact]
         public void ParseStrictBadInputFailsAndExits_Verbs()
         {
             var options = new OptionsWithVerbsNoHelp();
             var testWriter = new StringWriter();
 
-            Result = Parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
+            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             var helpText = testWriter.ToString();
             Console.WriteLine(helpText);
@@ -112,15 +112,17 @@ namespace CommandLine.Tests
             lines[7].Trim().Should().Be("clone     Clone a repository into a new directory.");
         }
 
-        [Test]
+        [Fact]
         public void ParseStrictBadInputFailsAndExits_Verbs_GetUsageDefined()
         {
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
 
-            Result = Parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
+            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             var helpText = testWriter.ToString();
             Console.WriteLine(helpText);

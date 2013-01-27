@@ -31,12 +31,13 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Threading;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
 {
+    // TODO: This class (and derived) need to be refactored.
     public abstract class CommandLineParserBaseFixture : BaseFixture
     {
         protected CommandLineParserBaseFixture()
@@ -48,26 +49,29 @@ namespace CommandLine.Tests
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
         }
 
-        protected bool? Result { set; get; }
+        //protected bool? Result { set; get; }
 
-        [SetUp]
-        public virtual void CreateInstance()
-        {
-            Parser = new CommandLineParser();
-        }
+        //[SetUp]
+        //public virtual void CreateInstance()
+        //{
+        //    Parser = new CommandLineParser();
+        //}
 
-        protected void ResultShouldBeTrue()
-        {
-            Result.Should().BeTrue();
-            Result = null;
-        }
+        //protected void ResultShouldBeTrue()
+        //{
+        //    Result.Should().BeTrue();
+        //    Result = null;
+        //}
 
-        protected void ResultShouldBeFalse()
-        {
-            Result.Should().BeFalse();
-            Result = null;
-        }
+        //protected void ResultShouldBeFalse()
+        //{
+        //    Result.Should().BeFalse();
+        //    Result = null;
+        //}
 
-        protected ICommandLineParser Parser { get; set; }
+        //protected virtual ICommandLineParser Parser
+        //{
+        //    get { return new CommandLineParser(); }
+        //}
     }
 }

@@ -31,16 +31,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
 namespace CommandLine.Text.Tests
 {
-	[TestFixture]
-	public sealed class MultiLineTextAttributeFixture
+	
+	public class MultiLineTextAttributeFixture
 	{
-		[Test]
+		[Fact]
 		public void AssemblyLicenseShouldOfferReadOnlyPropertyNamedValue()
 		{
 			IEnumerable<AssemblyLicenseAttribute> licenseAttributes = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyLicenseAttribute), false) as AssemblyLicenseAttribute[];
@@ -53,7 +53,7 @@ namespace CommandLine.Text.Tests
 			lines[1].Should().Be(@"the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
 		}
 
-		[Test]
+		[Fact]
 		public void AssemblyUsageShouldOfferReadOnlyPropertyNamedValue()
 		{
 			IEnumerable<AssemblyUsageAttribute> usageAttributes = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyUsageAttribute), false) as AssemblyUsageAttribute[];

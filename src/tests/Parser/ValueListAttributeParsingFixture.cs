@@ -29,23 +29,24 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
 {
-    public sealed class ValueListAttributeParsingFixture : CommandLineParserBaseFixture
+    public class ValueListAttributeParsingFixture : CommandLineParserBaseFixture
     {
-        [Test]
+        [Fact]
         public void ValueListAttributeIsolatesNonOptionValues()
         {
             var options = new SimpleOptionsWithValueList();
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                 new string[] { "--switch", "file1.ext", "file2.ext", "file3.ext", "-s", "out.ext" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
 
             options.Items[0].Should().Be("file1.ext");
             options.Items[1].Should().Be("file2.ext");
@@ -55,13 +56,14 @@ namespace CommandLine.Tests
             Console.WriteLine(options);
         }
 
-        [Test]
+        [Fact]
         public void ValueListWithMaxElemInsideBounds()
         {
             var options = new OptionsWithValueListMaximumThree();
-            Result = base.Parser.ParseArguments(new string[] { "file.a", "file.b", "file.c" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "file.a", "file.b", "file.c" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
 
             options.InputFilenames[0].Should().Be("file.a");
             options.InputFilenames[1].Should().Be("file.b");
@@ -71,36 +73,38 @@ namespace CommandLine.Tests
             Console.WriteLine(options);
         }
 
-        [Test]
+        [Fact]
         public void ValueListWithMaxElemOutsideBounds()
         {
             var options = new OptionsWithValueListMaximumThree();
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                     new string[] { "file.a", "file.b", "file.c", "file.d" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void ValueListWithMaxElemSetToZeroSucceeds()
         {
             var options = new OptionsWithValueListMaximumZero();
-            Result = base.Parser.ParseArguments(new string[] { }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
 
             options.Junk.Should().HaveCount(n => n == 0);
             Console.WriteLine(options);
         }
 
-        [Test]
+        [Fact]
         public void ValueListWithMaxElemSetToZeroFailes()
         {
             var options = new OptionsWithValueListMaximumZero();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "some", "value" }, options);
 
-            Result = base.Parser.ParseArguments(new string[] { "some", "value" }, options);
-
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
     }
 }

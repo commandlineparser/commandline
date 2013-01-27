@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
@@ -50,33 +50,33 @@ namespace CommandLine.Tests
         }
         #endregion
 
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void WillThrowExceptionIfConcreteTypeIsNull()
         {
-            new ValueListAttribute(null);
+            Assert.Throws<ArgumentNullException>(
+                () => new ValueListAttribute(null));
         }
 
-        [Test]
-        [ExpectedException(typeof(CommandLineParserException))]
+        [Fact]
         public void WillThrowExceptionIfConcreteTypeIsIncompatible()
         {
-            new ValueListAttribute(new List<object>().GetType());
+             Assert.Throws<CommandLineParserException>(
+                () => new ValueListAttribute(new List<object>().GetType()));
         }
 
-        [Test]
+        [Fact]
         public void ConcreteTypeIsGenericListOfString()
         {
             new ValueListAttribute(new List<string>().GetType());
         }
 
-        [Test]
+        [Fact]
         public void ConcreteTypeIsGenericListOfStringSubType()
         {
             new ValueListAttribute(new MockSpecializedList().GetType());
         }
 
-        [Test]
+        [Fact]
         public void GetGenericListOfStringInterfaceReference()
         {
             var options = new MockOptions();
@@ -86,7 +86,7 @@ namespace CommandLine.Tests
             values.GetType().Should().Be(typeof(List<string>));
         }
 
-        [Test]
+        [Fact]
         public void UseGenericListOfStringInterfaceReference()
         {
             var options = new MockOptions();

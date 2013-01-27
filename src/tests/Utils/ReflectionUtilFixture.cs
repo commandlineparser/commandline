@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using CommandLine.Utils;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using CommandLine.Text;
 using CommandLine.Internal;
@@ -40,7 +40,7 @@ using CommandLine.Internal;
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
+    
     public class ReflectionUtilFixture
     {
         #region Mock Objects
@@ -99,24 +99,12 @@ namespace CommandLine.Tests
         }
         #endregion
 
-        private static object _target;
 
-        [SetUp]
-        public void CreateInstance()
-        {
-            _target = new MockObject();
-        }
-
-        [TearDown]
-        public void ShutdownInstance()
-        {
-            _target = null;
-        }
-
-        [Test]
+        [Fact]
         public void GetFieldsByAttribute()
         {
-            var list = ReflectionUtil.RetrievePropertyList<MockAttribute>(_target);
+            var target = new MockObject();
+            var list = ReflectionUtil.RetrievePropertyList<MockAttribute>(target);
 
             list.Should().HaveCount(n => n == 2);
             list[0].Left.Name.Should().Be("StringField");
@@ -124,7 +112,7 @@ namespace CommandLine.Tests
 
             PrintFieldList<MockAttribute>(list);
 
-            var anotherList = ReflectionUtil.RetrievePropertyList<AnotherMockAttribute>(_target);
+            var anotherList = ReflectionUtil.RetrievePropertyList<AnotherMockAttribute>(target);
 
             anotherList.Should().HaveCount(n => n == 1);
             anotherList[0].Left.Name.Should().Be("IntField");
@@ -132,16 +120,17 @@ namespace CommandLine.Tests
             PrintFieldList<AnotherMockAttribute>(anotherList);
         }
 
-        [Test]
+        [Fact]
         public void GetMethodByAttribute()
         {
-            var pair = ReflectionUtil.RetrieveMethod<MockAttribute>(_target);
+            var target = new MockObject();
+            var pair = ReflectionUtil.RetrieveMethod<MockAttribute>(target);
 
             pair.Should().NotBeNull();
             pair.Left.Name.Should().Be("DoNothing");
         }
 
-        [Test]
+        [Fact]
         public void GetFieldsAttributeList()
         {
             var list = ReflectionUtil.RetrievePropertyAttributeList<MockWithValueAttribute>(new AnotherMockObject());
@@ -153,40 +142,11 @@ namespace CommandLine.Tests
             list[2].StringValue.Should().Be("applied to Z");
         }
 
-        /*[Test]
-        public void GetAssemblyTitleAttribute()
-        {
-            var attr = ReflectionUtil.GetAttribute<AssemblyTitleAttribute>();
-
-            Assert.IsNotNull(attr);
-            Assert.IsInstanceOf(typeof(AssemblyTitleAttribute), attr);
-        }*/
-
-        /*
-        [Test]
-        public void GetAssemblyVersionAttribute()
-        {
-            var attr = ReflectionUtil.GetAttribute<AssemblyVersionAttribute>();
-
-            Assert.IsNotNull(attr);
-            Assert.IsInstanceOf(typeof(AssemblyVersionAttribute), attr);
-        }
-        */
-
-        /*[Test]
-        public void GetAssemblyInformationalVersionAttribute()
-        {
-            var attr = ReflectionUtil.GetAttribute<AssemblyInformationalVersionAttribute>();
-
-            Assert.IsNotNull(attr);
-            Assert.IsInstanceOf(typeof(AssemblyInformationalVersionAttribute), attr);
-        }*/
-
         private static void PrintFieldList<TAttribute>(IList<Pair<PropertyInfo, TAttribute>> list)
                 where TAttribute : Attribute
         {
             Console.WriteLine("Attribute: {0}", list[0].Right.GetType());
-            foreach (Pair<PropertyInfo, TAttribute> pair in list)
+            foreach (var pair in list)
             {
                 Console.WriteLine("\tField: {0}", pair.Left.Name);
             }

@@ -28,13 +28,13 @@
 #endregion
 #region Using Directives
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
+    
     public abstract class BaseFixture
     {
         protected void ElementsShouldBeEqual<T>(T[] expected, T[] actual)

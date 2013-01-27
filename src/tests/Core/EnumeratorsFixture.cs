@@ -27,17 +27,17 @@
 //
 #endregion
 #region Using Directives
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using CommandLine.Internal;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
-    public sealed class EnumeratorsFixture
+    
+    public class EnumeratorsFixture
     {
-        [Test]
+        [Fact]
         public void StringIteration()
         {
             const string valueOne = "one";
@@ -65,7 +65,7 @@ namespace CommandLine.Tests
             e.IsLast.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void CharIteration()
         {
             IArgumentEnumerator e = new OneCharStringEnumerator("abcd");

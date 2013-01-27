@@ -29,16 +29,16 @@
 #region Using Directives
 using System.IO;
 using CommandLine.Tests.Mocks;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
-    public sealed class CommandLineParserSettingsFixture
+    
+    public class CommandLineParserSettingsFixture
     {
-        [Test]
+        [Fact]
         public void SettingHelpWriterUsingConstructor()
         {
             var writer = new StringWriter();
@@ -51,7 +51,7 @@ namespace CommandLine.Tests
             writer.ToString().Should().Be("MockOptions::GetUsage()");
         }
 
-        [Test]
+        [Fact]
         public void SettingHelpWriterUsingProperty()
         {
             var writer = new StringWriter();
@@ -66,7 +66,7 @@ namespace CommandLine.Tests
             writer.ToString().Should().Be("MockOptions::GetUsage()");
         }
 
-        [Test]
+        [Fact]
         public void SettingHelpWriterUsingArgument()
         {
             var writer = new StringWriter();

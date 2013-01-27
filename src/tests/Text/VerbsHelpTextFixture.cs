@@ -33,47 +33,43 @@ using System.Reflection;
 using CommandLine.Tests;
 using CommandLine.Tests.Mocks;
 using CommandLine.Utils;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
 namespace CommandLine.Text.Tests
 {
-    [TestFixture]
+    
     public class VerbsHelpTextFixture : CommandLineParserBaseFixture
     {
-        public override void CreateInstance()
-        {
-            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            base.CreateInstance();
-        }
-
-        [Test]
+        [Fact]
         public void FailedParsingPrintsHelpIndex()
         {
             DoCoreTestForIndex(new string[] {});
         }
 
-        [Test]
+        [Fact]
         public void RequestingHelpPrintsHelpIndex()
         {
             DoCoreTestForIndex(new string[] {"help"});
         }
 
-        [Test]
+        [Fact]
         public void RequestingBadHelpPrintsHelpIndex()
         {
             DoCoreTestForIndex(new string[] { "help", "undefined" });
         }
 
-        [Test]
+        [Fact]
         public void FailedVerbParsingPrintsParticularHelpScreen()
         {
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
-            Result = Parser.ParseArguments(new string[] { "clone", "--no_hardlinks" }, options, testWriter);
+            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "clone", "--no_hardlinks" }, options, testWriter);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             var helpText = testWriter.ToString();
             Console.WriteLine(helpText);
@@ -85,14 +81,16 @@ namespace CommandLine.Text.Tests
         }
 
         #region https://github.com/gsscoder/commandline/issues/45
-        [Test]
+        [Fact]
         public void RequestingHelpOfParticularVerbWithoutInstanceShouldWork()
         {
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
-            Result = Parser.ParseArguments(new string[] {"help", "add"}, options, testWriter);
+            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] {"help", "add"}, options, testWriter);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             var helpText = testWriter.ToString();
             Console.WriteLine(helpText);
@@ -104,9 +102,11 @@ namespace CommandLine.Text.Tests
         {
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
-            Result = Parser.ParseArguments(args, options, testWriter);
+            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(args, options, testWriter);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             var helpText = testWriter.ToString();
             Console.WriteLine(helpText);

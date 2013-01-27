@@ -29,16 +29,16 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using CommandLine.Internal;
 #endregion
 
 namespace CommandLine.Tests
 {
-    public sealed class ArgumentParserFixture : BaseFixture
+    public class ArgumentParserFixture : BaseFixture
     {
-        [Test]
+        [Fact]
         public void GetNextInputValues()
         {
             var ae = new StringArrayEnumerator(new string[] { "--optarr", "one", "two", "--plain", "3" });

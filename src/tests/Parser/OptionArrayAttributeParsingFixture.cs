@@ -31,103 +31,107 @@ using System.Globalization;
 #region Using Directives
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 using CommandLine.Tests.Mocks;
 #endregion
 
 namespace CommandLine.Tests
 {
-    public sealed class OptionArrayAttributeParsingFixture : CommandLineParserBaseFixture
+    public class OptionArrayAttributeParsingFixture : CommandLineParserBaseFixture
     {
-        public OptionArrayAttributeParsingFixture() : base()
-        {
-        }
-
-        [Test]
+        [Fact]
         public void ParseStringArrayOptionUsingShortName()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-z", "alfa", "beta", "gamma" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-z", "alfa", "beta", "gamma" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "alfa", "beta", "gamma" }, options.StringArrayValue);
         }
 
-        [Test]
+        [Fact]
         public void ParseStringArrayOptionUsingLongName()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "--strarr", "alfa", "beta", "gamma" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--strarr", "alfa", "beta", "gamma" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "alfa", "beta", "gamma" }, options.StringArrayValue);
         }
 
-        [Test]
+        [Fact]
         public void ParseStringArrayOptionUsingShortNameWithValueAdjacent()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-zapple", "kiwi" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-zapple", "kiwi" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "apple", "kiwi" }, options.StringArrayValue);
         }
 
-        [Test]
+        [Fact]
         public void ParseStringArrayOptionUsingLongNameWithEqualSign()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "--strarr=apple", "kiwi" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--strarr=apple", "kiwi" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "apple", "kiwi" }, options.StringArrayValue);
         }
 
-        [Test]
+        [Fact]
         public void ParseStringArrayOptionUsingShortNameAndStringOptionAfter()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-z", "one", "two", "three", "-s", "after" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-z", "one", "two", "three", "-s", "after" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three" }, options.StringArrayValue);
             options.StringValue.Should().Be("after");
         }
 
-        [Test]
+        [Fact]
         public void ParseStringArrayOptionUsingShortNameAndStringOptionBefore()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-s", "before", "-z", "one", "two", "three" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-s", "before", "-z", "one", "two", "three" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringValue.Should().Be("before");
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three" }, options.StringArrayValue);
         }
 
-        [Test]
+        [Fact]
         public void ParseStringArrayOptionUsingShortNameWithOptionsBeforeAndAfter()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] {
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] {
                 "-i", "191919", "-z", "one", "two", "three", "--switch", "--string=near" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.IntegerValue.Should().Be(191919);
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three" }, options.StringArrayValue);
             options.BooleanValue.Should().BeTrue();
             options.StringValue.Should().Be("near");
         }
 
-        [Test]
+        [Fact]
         public void ParseStringArrayOptionUsingLongNameWithValueList()
         {
             var options = new SimpleOptionsWithArrayAndValueList();
-            Result = base.Parser.ParseArguments(new string[] {
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] {
                 "-shere", "-i999", "--strarr=0", "1", "2", "3", "4", "5", "6", "7", "8", "9" , "--switch", "f1.xml", "f2.xml"}, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringValue.Should().Be("here");
             options.IntegerValue.Should().Be(999);
             base.ElementsShouldBeEqual(new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }, options.StringArrayValue);
@@ -135,172 +139,187 @@ namespace CommandLine.Tests
             base.ElementsShouldBeEqual(new string[] { "f1.xml", "f2.xml" }, options.Items);
         }
 
-        [Test]
+        [Fact]
         public void PassingNoValueToAStringArrayOptionFails()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-z" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-z" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "--strarr" }, options);
+            result = parser.ParseArguments(new string[] { "--strarr" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
         /****************************************************************************************************/
 
-        [Test]
+        [Fact]
         public void ParseIntegerArrayOptionUsingShortName()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-y", "1", "2", "3" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-y", "1", "2", "3" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3 }, options.IntegerArrayValue);
         }
 
-        [Test]
+        [Fact]
         public void PassingBadValueToAnIntegerArrayOptionFails()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-y", "one", "2", "3" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-y", "one", "2", "3" }, options);
 
-            ResultShouldBeFalse();
-
-            options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-yone", "2", "3" }, options);
-
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "--intarr", "1", "two", "3" }, options);
+            parser = new CommandLineParser();
+            result = parser.ParseArguments(new string[] { "-yone", "2", "3" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "--intarr=1", "2", "three" }, options);
+            parser = new CommandLineParser();
+            result = parser.ParseArguments(new string[] { "--intarr", "1", "two", "3" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
+
+            options = new SimpleOptionsWithArray();
+            parser = new CommandLineParser();
+            result = parser.ParseArguments(new string[] { "--intarr=1", "2", "three" }, options);
+
+            result.Should().BeFalse();
         }
 
 
-        [Test]
+        [Fact]
         public void PassingNoValueToAnIntegerArrayOptionFails()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-y" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-y" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "--intarr" }, options);
+            result = parser.ParseArguments(new string[] { "--intarr" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
         /****************************************************************************************************/
 
-        [Test]
+        [Fact]
         public void ParseDoubleArrayOptionUsingShortName()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-q", "0.1", "2.3", "0.9" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-q", "0.1", "2.3", "0.9" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new double[] { .1, 2.3, .9 }, options.DoubleArrayValue);
         }
 
         /****************************************************************************************************/
 
-        [Test]
+        [Fact]
         public void ParseDifferentArraysTogether_CombinationOne()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] {
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] {
                 "-z", "one", "two", "three", "four",
                 "-y", "1", "2", "3", "4",
                 "-q", "0.1", "0.2", "0.3", "0.4"
             }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
 
             options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] {
+            parser = new CommandLineParser();
+            result = parser.ParseArguments(new string[] {
                 "-y", "1", "2", "3", "4",
                 "-z", "one", "two", "three", "four",
                 "-q", "0.1", "0.2", "0.3", "0.4"
             }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
 
             options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] {
+            parser = new CommandLineParser();
+            result = parser.ParseArguments(new string[] {
                 "-q", "0.1", "0.2", "0.3", "0.4",
                 "-y", "1", "2", "3", "4",
                 "-z", "one", "two", "three", "four"
             }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
         }
 
-        [Test]
+        [Fact]
         public void ParseDifferentArraysTogether_CombinationTwo()
         {
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] {
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] {
                 "-z", "one", "two", "three", "four",
                 "-y", "1", "2", "3", "4",
                 "-q", "0.1", "0.2", "0.3", "0.4",
                 "--string=after"
             }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
             options.StringValue.Should().Be("after");
 
             options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] {
+            parser = new CommandLineParser();
+            result = parser.ParseArguments(new string[] {
                 "--string", "before",
                 "-y", "1", "2", "3", "4",
                 "-z", "one", "two", "three", "four",
                 "-q", "0.1", "0.2", "0.3", "0.4"
             }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringValue.Should().Be("before");
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
 
             options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] {
+            parser = new CommandLineParser();
+            result = parser.ParseArguments(new string[] {
                 "-q", "0.1", "0.2", "0.3", "0.4",
                 "-y", "1", "2", "3", "4",
                 "-s", "near-the-center",
                 "-z", "one", "two", "three", "four"
             }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new double[] { .1, .2, .3, .4 }, options.DoubleArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
             options.StringValue.Should().Be("near-the-center");
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
 
             options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] {
+            parser = new CommandLineParser();
+            result = parser.ParseArguments(new string[] {
                 "--switch",
                 "-z", "one", "two", "three", "four",
                 "-y", "1", "2", "3", "4",
@@ -309,7 +328,7 @@ namespace CommandLine.Tests
                 "--string", "I'm really playing with the parser!"
             }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.BooleanValue.Should().BeTrue();
             base.ElementsShouldBeEqual(new string[] { "one", "two", "three", "four" }, options.StringArrayValue);
             base.ElementsShouldBeEqual(new int[] { 1, 2, 3, 4 }, options.IntegerArrayValue);
@@ -320,43 +339,44 @@ namespace CommandLine.Tests
 
         /****************************************************************************************************/
 
-        [Test]
-        [ExpectedException(typeof(CommandLineParserException))]
+        [Fact]
         public void WillThrowExceptionIfOptionArrayAttributeBoundToStringWithShortName()
         {
-            base.Parser.ParseArguments(new string[] { "-v", "a", "b", "c" }, new SimpleOptionsWithBadOptionArray());
+            Assert.Throws<CommandLineParserException>(
+                () => new CommandLineParser().ParseArguments(new string[] { "-v", "a", "b", "c" }, new SimpleOptionsWithBadOptionArray()));
         }
 
-        [Test]
-        [ExpectedException(typeof(CommandLineParserException))]
+        [Fact]
         public void WillThrowExceptionIfOptionArrayAttributeBoundToStringWithLongName()
         {
-            base.Parser.ParseArguments(new string[] { "--bstrarr", "a", "b", "c" }, new SimpleOptionsWithBadOptionArray());
+            Assert.Throws<CommandLineParserException>(
+                () => new CommandLineParser().ParseArguments(new string[] { "--bstrarr", "a", "b", "c" }, new SimpleOptionsWithBadOptionArray()));
         }
 
-        [Test]
-        [ExpectedException(typeof(CommandLineParserException))]
+        [Fact]
         public void WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithShortName()
         {
-            base.Parser.ParseArguments(new string[] { "-w", "1", "2", "3" }, new SimpleOptionsWithBadOptionArray());
+            Assert.Throws<CommandLineParserException>(
+                () => new CommandLineParser().ParseArguments(new string[] { "-w", "1", "2", "3" }, new SimpleOptionsWithBadOptionArray()));
         }
 
-        [Test]
-        [ExpectedException(typeof(CommandLineParserException))]
+        [Fact]
         public void WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithLongName()
         {
-            base.Parser.ParseArguments(new string[] { "--bintarr", "1", "2", "3" }, new SimpleOptionsWithBadOptionArray());
+            Assert.Throws<CommandLineParserException>(
+                () => new CommandLineParser().ParseArguments(new string[] { "--bintarr", "1", "2", "3" }, new SimpleOptionsWithBadOptionArray()));
         }
 
-        [Test]
+        [Fact]
         public void ParseCultureSpecificNumber()
         {
             var actualCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
             var options = new SimpleOptionsWithArray();
-            Result = base.Parser.ParseArguments(new string[] { "-q", "1,2", "1,23", "1,234" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-q", "1,2", "1,23", "1,234" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             base.ElementsShouldBeEqual(new double[] { 1.2, 1.23, 1.234 }, options.DoubleArrayValue);
 
             Thread.CurrentThread.CurrentCulture = actualCulture;
@@ -364,36 +384,37 @@ namespace CommandLine.Tests
 
         /****************************************************************************************************/
 
-        [Test]
+        [Fact]
         public void ParseTwoUIntConsecutiveArray()
         {
             var options = new OptionsWithUIntArray();
-            Result = CommandLineParser.Default.ParseArguments(new string[] {
+            var parser = new CommandLineParser();
+            var result = CommandLineParser.Default.ParseArguments(new string[] {
                 "--somestr", "just a string",
                 "--arrayone", "10", "20", "30", "40",
                 "--arraytwo", "11", "22", "33", "44",
                 "--somebool"
             }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.SomeStringValue.Should().Be("just a string");
             base.ElementsShouldBeEqual(new uint[] {10, 20, 30, 40}, options.ArrayOne);
             base.ElementsShouldBeEqual(new uint[] {11, 22, 33, 44}, options.ArrayTwo);
             options.SomeBooleanValue.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void ParseTwoUIntConsecutiveArrayUsingShortNames()
         {
             var options = new OptionsWithUIntArray();
-            Result = CommandLineParser.Default.ParseArguments(new string[] {
+            var result = CommandLineParser.Default.ParseArguments(new string[] {
                 "-s", "just a string",
                 "-o", "10", "20", "30", "40",
                 "-t", "11", "22", "33", "44",
                 "-b"
             }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.SomeStringValue.Should().Be("just a string");
             base.ElementsShouldBeEqual(new uint[] {10, 20, 30, 40}, options.ArrayOne);
             base.ElementsShouldBeEqual(new uint[] {11, 22, 33, 44}, options.ArrayTwo);

@@ -11,20 +11,15 @@ Compatibility:
  
 News: 
 ---
+  - Started refactoring on test project (migrating from NUnit to Xunit).
   - Thanks to @marcells, we can reference CommandLine.dll from CommandLine.Tests.dll keeping strong name.
   - Introduced ``ValueOptionAttribute`` enhancement of issue #33.
   - ``CommandLineParser`` refactored (also using new ``ParserContext`` type).
   - ``ReflectionUtil`` now caches data using ``ReflectionCache``.
-  - Added ``strings`` task to Rakefile used to regenerate ``SR.strings.cs``.
   - Internal refactoring on ``OptionMap`` and ``OptionInfo``.
   - Refactoring in respect of FxCop rules (see ChangeLog). ``HandleParsingErrorsDelegate`` renamed to ``ParsingErrorsHandler``, ``MultiLineTextAttribute`` renamed to ``MultilineTextAttribute``.
   - Removed synchronization from ``OptionInfo`` and ``TargetWrapper`` (parsing should occur in one thread;
       if not, synchronization must be provided by developer not by the library).
-  - Source in Core dir (public types) placed in tree root.
-  - Project SampleApp renamed to CommandLine.Demo.
-  - ``SR.string[.cs]`` managed with tools/invariantstr.exe ([Invariant String Tool](https://github.com/gsscoder/invariantstrtool)).
-  - Added ``CommandLineParser::WasVerbOptionInvoked`` helper method (also in ``ICommandLineParser``).
-  - ``CommandLineParserSettings``, ``CommandLineParser`` are now correctly disposable.
   - Merged pull request #44 from @dbaileychess (Derek Bailey) that adds ``BaseOptionAttribute::MetaKey`` similar to python [argparse](http://docs.python.org/2/library/argparse.html#module-argparse).
   - Implemented [strict parsing](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/StrictFixture.cs) (see issue #32 by @nemec).
 

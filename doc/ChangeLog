@@ -1,5 +1,9 @@
 2013-01-27	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
+  * Started refactoring on test project (migrating from NUnit to Xunit).
+
+2013-01-27	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
   * Fixed an issue in Rakefile. Now 'test' task is separeted form 'build' (defualt).
 
 2013-01-27	Giacomo Stelluti Scala	<gsscoder@gmail.com>

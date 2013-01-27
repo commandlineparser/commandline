@@ -31,14 +31,14 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using CommandLine.Text;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
-    public sealed class HelpOptionAttributeFixture : CommandLineParserBaseFixture
+    
+    public class HelpOptionAttributeFixture : CommandLineParserBaseFixture
     {
         #region Mock Objects
         private class MockOptions
@@ -71,29 +71,29 @@ namespace CommandLine.Tests
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void CorrectInputNotActivatesHelp()
         {
             var options = new MockOptions();
             var writer = new StringWriter();
-
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                     new string[] { "-imath.xml", "-oresult.xml" }, options, writer);
 
-            ResultShouldBeTrue();;
+            result.Should().BeTrue();;
             writer.ToString().Length.Should().Be(0);
         }
 
-        [Test]
+        [Fact]
         public void BadInputActivatesHelp()
         {
             var options = new MockOptions();
             var writer = new StringWriter();
-
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                     new string[] { "math.xml", "-oresult.xml" }, options, writer);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             string helpText = writer.ToString();
             (helpText.Length > 0).Should().BeTrue();
@@ -101,16 +101,16 @@ namespace CommandLine.Tests
             Console.Write(helpText);
         }
 
-        [Test]
+        [Fact]
         public void ExplicitHelpActivation()
         {
             var options = new MockOptions();
             var writer = new StringWriter();
-
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                     new string[] { "--help" }, options, writer);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
 
             string helpText = writer.ToString();
             (helpText.Length > 0).Should().BeTrue();

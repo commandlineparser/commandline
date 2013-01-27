@@ -32,65 +32,63 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using CommandLine.Tests.Mocks;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
 {
-    [TestFixture]
-    public sealed class CommandLineParserFixture : CommandLineParserBaseFixture
+    public class CommandLineParserFixture : CommandLineParserBaseFixture
     {
-        public CommandLineParserFixture() : base()
-        {
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void WillThrowExceptionIfArgumentsArrayIsNull()
         {
-            base.Parser.ParseArguments(null, new SimpleOptions());
+            Assert.Throws<ArgumentNullException>(
+                () => new CommandLineParser().ParseArguments(null, new SimpleOptions()));
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Fact]
         public void WillThrowExceptionIfOptionsInstanceIsNull()
         {
-            base.Parser.ParseArguments(new string[] { }, null);
+            Assert.Throws<ArgumentNullException>(
+                () => new CommandLineParser().ParseArguments(new string[] {}, null));
         }
 
-        [Test]
+        [Fact]
         public void ParseStringOption()
         {
             var options = new SimpleOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-s", "something" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-s", "something" }, options);
             
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringValue.Should().Be("something");
             Console.WriteLine(options);
         }
 
-        [Test]
+        [Fact]
         public void ParseStringIntegerBoolOptions()
         {
             var options = new SimpleOptions();
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                     new string[] { "-s", "another string", "-i100", "--switch" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringValue.Should().Be("another string");
             options.IntegerValue.Should().Be(100);
             options.BooleanValue.Should().BeTrue();
             Console.WriteLine(options);
         }
 
-        [Test]
+        [Fact]
         public void ParseShortAdjacentOptions()
         {
             var options = new BooleanSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-ca", "-d65" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-ca", "-d65" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.BooleanThree.Should().BeTrue();
             options.BooleanOne.Should().BeTrue();
             options.BooleanTwo.Should().BeFalse();
@@ -98,13 +96,14 @@ namespace CommandLine.Tests
             Console.WriteLine(options);
         }
 
-        [Test]
+        [Fact]
         public void ParseShortLongOptions()
         {
             var options = new BooleanSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-b", "--double=9" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-b", "--double=9" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.BooleanTwo.Should().BeTrue();
             options.BooleanOne.Should().BeFalse();
             options.BooleanThree.Should().BeFalse();
@@ -112,14 +111,15 @@ namespace CommandLine.Tests
             Console.WriteLine(options);
         }
  
-        [Test]
+        [Fact]
         public void ParseOptionList()
         {
             var options = new SimpleOptionsWithOptionList();
-            Result = base.Parser.ParseArguments(new string[] {
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] {
                                 "-k", "string1:stringTwo:stringIII", "-s", "test-file.txt" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.SearchKeywords[0].Should().Be("string1");
             Console.WriteLine(options.SearchKeywords[0]);
             options.SearchKeywords[1].Should().Be("stringTwo");
@@ -131,229 +131,244 @@ namespace CommandLine.Tests
         }
 
         #region #BUG0000
-        [Test]
+        [Fact]
         public void ShortOptionRefusesEqualToken()
         {
             var options = new SimpleOptions();
-
-            Result = base.Parser.ParseArguments(new string[] { "-i=10" }, options);
-            ResultShouldBeFalse();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-i=10" }, options);
+            result.Should().BeFalse();
             Console.WriteLine(options);
         }
         #endregion
 
-        [Test]
+        [Fact]
         public void ParseEnumOptions()
         {
             var options = new SimpleOptionsWithEnum();
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-s", "data.bin", "-a", "ReadWrite" }, options);
 
-            Result = base.Parser.ParseArguments(new string[] { "-s", "data.bin", "-a", "ReadWrite" }, options);
-
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringValue.Should().Be("data.bin");
             options.FileAccess.Should().Be(FileAccess.ReadWrite);
             Console.WriteLine(options);
         }
 
-        [Test]
+        [Fact]
         public void ParseCultureSpecificNumber()
         {
             var actualCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-d", "10,986" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-d", "10,986" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.DoubleValue.Should().Be(10.986D);
 
             Thread.CurrentThread.CurrentCulture = actualCulture;
         }
 
-        [Test]
+        [Fact]
         public void ParseCultureSpecificNullableNumber()
         {
             var actualCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--n-double", "12,32982" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--n-double", "12,32982" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.NullableDoubleValue.Should().Be(12.32982D);
 
             Thread.CurrentThread.CurrentCulture = actualCulture;
         }
 
-        [Test]
+        [Fact]
         public void ParseOptionsWithDefaults()
         {
             var options = new SimpleOptionsWithDefaults();
-            Result = base.Parser.ParseArguments(new string[] {}, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] {}, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringValue.Should().Be("str");
             options.IntegerValue.Should().Be(9);
             options.BooleanValue.Should().BeTrue();
         }
 
-        [Test]
+        [Fact]
         public void ParseOptionsWithDefaultArray()
         {
             var options = new SimpleOptionsWithDefaultArray();
-            Result = base.Parser.ParseArguments(new [] { "-y", "4", "5", "6" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new [] { "-y", "4", "5", "6" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringArrayValue.Should().Equal(new [] { "a", "b", "c" });
             options.IntegerArrayValue.Should().Equal(new [] { 4, 5, 6 });
             options.DoubleArrayValue.Should().Equal(new [] { 1.1, 2.2, 3.3 });
         }
 
-        [Test]
-        [ExpectedException(typeof(CommandLineParserException))]
+        [Fact]
         public void ParseOptionsWithBadDefaults()
         {
             var options = new SimpleOptionsWithBadDefaults();
-            base.Parser.ParseArguments(new string[] {}, options);
+            Assert.Throws<CommandLineParserException>(
+                () => new CommandLineParser().ParseArguments(new string[] {}, options));
         }
 
         #region #BUG0002
-        [Test]
+        [Fact]
         public void ParsingNonExistentShortOptionFailsWithoutThrowingAnException()
         {
             var options = new SimpleOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-x" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-x" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void ParsingNonExistentLongOptionFailsWithoutThrowingAnException()
         {
             var options = new SimpleOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--extend" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--extend" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
         #endregion
 
         #region #REQ0000
-        [Test]
+        [Fact]
         public void DefaultParsingIsCaseSensitive()
         {
-            ICommandLineParser local = new CommandLineParser();
+            var parser = new CommandLineParser();
             var options = new MixedCaseOptions();
-            Result = local.ParseArguments(new string[] { "-a", "alfa", "--beta-OPTION", "beta" }, options);
+            var result = parser.ParseArguments(new string[] { "-a", "alfa", "--beta-OPTION", "beta" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.AlfaValue.Should().Be("alfa");
             options.BetaValue.Should().Be("beta");
         }
 
-        [Test]
+        [Fact]
         public void UsingWrongCaseWithDefaultFails()
         {
-            ICommandLineParser local = new CommandLineParser();
+            var parser = new CommandLineParser();
             var options = new MixedCaseOptions();
-            Result = local.ParseArguments(new string[] { "-A", "alfa", "--Beta-Option", "beta" }, options);
+            var result = parser.ParseArguments(new string[] { "-A", "alfa", "--Beta-Option", "beta" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void DisablingCaseSensitive()
         {
-            ICommandLineParser local = new CommandLineParser(new CommandLineParserSettings(false)); //Ref.: #DGN0001
+            var parser = new CommandLineParser(new CommandLineParserSettings(false)); //Ref.: #DGN0001
             var options = new MixedCaseOptions();
-            Result = local.ParseArguments(new string[] { "-A", "alfa", "--Beta-Option", "beta" }, options);
+            var result = parser.ParseArguments(new string[] { "-A", "alfa", "--Beta-Option", "beta" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.AlfaValue.Should().Be("alfa");
             options.BetaValue.Should().Be("beta");
         }
         #endregion
 
         #region #BUG0003
-        [Test]
+        [Fact]
         public void PassingNoValueToAStringTypeLongOptionFails()
         {
             var options = new SimpleOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--string" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--string" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingNoValueToAByteTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--byte" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--byte" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingNoValueToAShortTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--short" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--short" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingNoValueToAnIntegerTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--int" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--int" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingNoValueToALongTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--long" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--long" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingNoValueToAFloatTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--float" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--float" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingNoValueToADoubleTypeLongOptionFails()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--double" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--double" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
         #endregion
 
         #region #REQ0001
-        [Test]
+        [Fact]
         public void AllowSingleDashAsOptionInputValue()
         {
             var options = new SimpleOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--string", "-" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--string", "-" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringValue.Should().Be("-");
         }
 
-        [Test]
+        [Fact]
         public void AllowSingleDashAsNonOptionValue()
         {
             var options = new SimpleOptionsWithValueList();
-            Result = base.Parser.ParseArguments(new string[] { "-sparser.xml", "-", "--switch" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-sparser.xml", "-", "--switch" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.StringValue.Should().Be("parser.xml");
             options.BooleanValue.Should().BeTrue();
             options.Items.Count.Should().Be(1);
@@ -362,129 +377,142 @@ namespace CommandLine.Tests
         #endregion
 
         #region #BUG0004
-        [Test]
+        [Fact]
         public void ParseNegativeIntegerValue()
         {
             var options = new SimpleOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-i", "-4096" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-i", "-4096" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.IntegerValue.Should().Be(-4096);
         }
 
         public void ParseNegativeIntegerValue_InputStyle2()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-i-4096" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-i-4096" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.IntegerValue.Should().Be(-4096);
         }
 
         public void ParseNegativeIntegerValue_InputStyle3()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--int", "-4096" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--int", "-4096" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.IntegerValue.Should().Be(-4096);
         }
 
         public void ParseNegativeIntegerValue_InputStyle4()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--int=-4096" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--int=-4096" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.IntegerValue.Should().Be(-4096);
         }
 
 
-        [Test]
+        [Fact]
         public void ParseNegativeFloatingPointValue()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-d", "-4096.1024" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-d", "-4096.1024" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.DoubleValue.Should().Be(-4096.1024D);
         }
 
-        [Test]
+        [Fact]
         public void ParseNegativeFloatingPointValue_InputStyle2()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-d-4096.1024" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-d-4096.1024" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.DoubleValue.Should().Be(-4096.1024D);
         }
 
-        [Test]
+        [Fact]
         public void ParseNegativeFloatingPointValue_InputStyle3()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--double", "-4096.1024" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--double", "-4096.1024" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.DoubleValue.Should().Be(-4096.1024D);
         }
 
-        [Test]
+        [Fact]
         public void ParseNegativeFloatingPointValue_InputStyle4()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "--double=-4096.1024" }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "--double=-4096.1024" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
             options.DoubleValue.Should().Be(-4096.1024D);
         }
         #endregion
 
         #region #BUG0005
-        [Test]
+        [Fact]
         public void PassingShortValueToByteOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-b", short.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-b", short.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingIntegerValueToShortOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-s", int.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-s", int.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingLongValueToIntegerOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-i", long.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-i", long.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingFloatValueToLongOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-l", float.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-l", float.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
 
-        [Test]
+        [Fact]
         public void PassingDoubleValueToFloatOptionMustFailGracefully()
         {
             var options = new NumberSetOptions();
-            Result = base.Parser.ParseArguments(new string[] { "-f", double.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(new string[] { "-f", double.MaxValue.ToString(CultureInfo.InvariantCulture) }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
         #endregion
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommandLine.Tests.Mocks;
-using NUnit.Framework;
+using Xunit;
 using FluentAssertions;
 
 namespace CommandLine.Tests
@@ -11,17 +11,18 @@ namespace CommandLine.Tests
     /// <summary>
     /// [Enhancement] https://github.com/gsscoder/commandline/issues/33
     /// </summary>
-    [TestFixture]
-    public sealed class ValueOptionAttributeParsingFixture : CommandLineParserBaseFixture
+    
+    public class ValueOptionAttributeParsingFixture : CommandLineParserBaseFixture
     {
-        [Test]
+        [Fact]
         public void ValueOptionAttributeIsolatesNonOptionValues()
         {
             var options = new SimpleOptionsWithValueOption();
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                 new string[] { "--switch", "file.ext", "1000", "0.1234", "-s", "out.ext" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
 
             options.BooleanValue.Should().BeTrue();
             options.StringItem.Should().Be("file.ext");
@@ -30,14 +31,15 @@ namespace CommandLine.Tests
             options.StringValue.Should().Be("out.ext");
         }
         
-        [Test]
+        [Fact]
         public void ValueOptionAttributeValuesAreNotMandatory()
         {
             var options = new SimpleOptionsWithValueOption();
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                 new string[] { "--switch" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
 
             options.BooleanValue.Should().BeTrue();
             options.StringItem.Should().BeNull();
@@ -45,14 +47,15 @@ namespace CommandLine.Tests
             options.NullableDoubleItem.Should().NotHaveValue();
         }
 
-        [Test]
+        [Fact]
         public void ValueOptionTakesPrecedenceOnValueListRegardlessDeclarationOrder()
         {
             var options = new SimpleOptionsWithValueOptionAndValueList();
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                 new string[] { "ofvalueoption", "-1234", "4321", "forvaluelist1", "forvaluelist2", "forvaluelist3" }, options);
 
-            ResultShouldBeTrue();
+            result.Should().BeTrue();
 
             options.StringItem.Should().Be("ofvalueoption");
             options.NullableInteger.Should().Be(-1234);
@@ -62,14 +65,15 @@ namespace CommandLine.Tests
             options.Items[2].Should().Be("forvaluelist3");
         }
 
-        [Test]
+        [Fact]
         public void BetweenValueOptionsOrderMatters()
         {
             var options = new SimpleOptionsWithValueOptionAndValueList();
-            Result = base.Parser.ParseArguments(
+            var parser = new CommandLineParser();
+            var result = parser.ParseArguments(
                 new string[] { "4321", "ofvalueoption", "-1234", "forvaluelist1", "forvaluelist2", "forvaluelist3" }, options);
 
-            ResultShouldBeFalse();
+            result.Should().BeFalse();
         }
     }
 }
