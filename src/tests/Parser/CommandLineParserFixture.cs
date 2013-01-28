@@ -41,21 +41,21 @@ namespace CommandLine.Tests
     public class CommandLineParserFixture : CommandLineParserBaseFixture
     {
         [Fact]
-        public void WillThrowExceptionIfArgumentsArrayIsNull()
+        public void Will_throw_exception_if_arguments_array_is_null()
         {
             Assert.Throws<ArgumentNullException>(
                 () => new CommandLineParser().ParseArguments(null, new SimpleOptions()));
         }
 
         [Fact]
-        public void WillThrowExceptionIfOptionsInstanceIsNull()
+        public void Will_throw_exception_if_options_instance_is_null()
         {
             Assert.Throws<ArgumentNullException>(
                 () => new CommandLineParser().ParseArguments(new string[] {}, null));
         }
 
         [Fact]
-        public void ParseStringOption()
+        public void Parse_string_option()
         {
             var options = new SimpleOptions();
             var parser = new CommandLineParser();
@@ -67,7 +67,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStringIntegerBoolOptions()
+        public void Parse_string_integer_bool_options()
         {
             var options = new SimpleOptions();
             var parser = new CommandLineParser();
@@ -82,7 +82,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseShortAdjacentOptions()
+        public void Parse_short_adjacent_options()
         {
             var options = new BooleanSetOptions();
             var parser = new CommandLineParser();
@@ -97,7 +97,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseShortLongOptions()
+        public void Parse_short_long_options()
         {
             var options = new BooleanSetOptions();
             var parser = new CommandLineParser();
@@ -112,7 +112,7 @@ namespace CommandLine.Tests
         }
  
         [Fact]
-        public void ParseOptionList()
+        public void Parse_option_list()
         {
             var options = new SimpleOptionsWithOptionList();
             var parser = new CommandLineParser();
@@ -132,7 +132,7 @@ namespace CommandLine.Tests
 
         #region #BUG0000
         [Fact]
-        public void ShortOptionRefusesEqualToken()
+        public void Short_option_refuses_equal_token()
         {
             var options = new SimpleOptions();
             var parser = new CommandLineParser();
@@ -143,7 +143,7 @@ namespace CommandLine.Tests
         #endregion
 
         [Fact]
-        public void ParseEnumOptions()
+        public void Parse_enum_options()
         {
             var options = new SimpleOptionsWithEnum();
             var parser = new CommandLineParser();
@@ -156,7 +156,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseCultureSpecificNumber()
+        public void Parse_culture_specific_number()
         {
             var actualCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
@@ -171,7 +171,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseCultureSpecificNullableNumber()
+        public void Parse_culture_specific_nullable_number()
         {
             var actualCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
@@ -186,7 +186,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseOptionsWithDefaults()
+        public void Parse_options_with_defaults()
         {
             var options = new SimpleOptionsWithDefaults();
             var parser = new CommandLineParser();
@@ -199,7 +199,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseOptionsWithDefaultArray()
+        public void Parse_options_with_default_array()
         {
             var options = new SimpleOptionsWithDefaultArray();
             var parser = new CommandLineParser();
@@ -212,7 +212,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseOptionsWithBadDefaults()
+        public void Parse_options_with_bad_defaults()
         {
             var options = new SimpleOptionsWithBadDefaults();
             Assert.Throws<CommandLineParserException>(
@@ -221,7 +221,7 @@ namespace CommandLine.Tests
 
         #region #BUG0002
         [Fact]
-        public void ParsingNonExistentShortOptionFailsWithoutThrowingAnException()
+        public void Parsing_non_existent_short_option_fails_without_throwing_an_exception()
         {
             var options = new SimpleOptions();
             var parser = new CommandLineParser();
@@ -231,7 +231,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParsingNonExistentLongOptionFailsWithoutThrowingAnException()
+        public void Parsing_non_existent_long_option_fails_without_throwing_an_exception()
         {
             var options = new SimpleOptions();
             var parser = new CommandLineParser();
@@ -243,7 +243,7 @@ namespace CommandLine.Tests
 
         #region #REQ0000
         [Fact]
-        public void DefaultParsingIsCaseSensitive()
+        public void Default_parsing_is_case_sensitive()
         {
             var parser = new CommandLineParser();
             var options = new MixedCaseOptions();
@@ -255,7 +255,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void UsingWrongCaseWithDefaultFails()
+        public void Using_wrong_case_with_default_fails()
         {
             var parser = new CommandLineParser();
             var options = new MixedCaseOptions();
@@ -265,7 +265,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void DisablingCaseSensitive()
+        public void Disabling_case_sensitive()
         {
             var parser = new CommandLineParser(new CommandLineParserSettings(false)); //Ref.: #DGN0001
             var options = new MixedCaseOptions();
@@ -279,7 +279,7 @@ namespace CommandLine.Tests
 
         #region #BUG0003
         [Fact]
-        public void PassingNoValueToAStringTypeLongOptionFails()
+        public void Passing_no_value_to_a_string_type_long_option_fails()
         {
             var options = new SimpleOptions();
             var parser = new CommandLineParser();
@@ -289,7 +289,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToAByteTypeLongOptionFails()
+        public void Passing_no_value_to_a_byte_type_long_option_fails()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -299,7 +299,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToAShortTypeLongOptionFails()
+        public void Passing_no_value_to_a_short_type_long_option_fails()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -309,7 +309,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToAnIntegerTypeLongOptionFails()
+        public void Passing_no_value_to_an_integer_type_long_option_fails()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -319,7 +319,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToALongTypeLongOptionFails()
+        public void Passing_no_value_to_a_long_type_long_option_fails()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -329,7 +329,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToAFloatTypeLongOptionFails()
+        public void Passing_no_value_to_a_float_type_long_option_fails()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -339,7 +339,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToADoubleTypeLongOptionFails()
+        public void Passing_no_value_to_a_double_type_long_option_fails()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -351,7 +351,7 @@ namespace CommandLine.Tests
 
         #region #REQ0001
         [Fact]
-        public void AllowSingleDashAsOptionInputValue()
+        public void Allow_single_dash_as_option_input_value()
         {
             var options = new SimpleOptions();
             var parser = new CommandLineParser();
@@ -362,7 +362,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void AllowSingleDashAsNonOptionValue()
+        public void Allow_single_dash_as_non_option_value()
         {
             var options = new SimpleOptionsWithValueList();
             var parser = new CommandLineParser();
@@ -378,7 +378,7 @@ namespace CommandLine.Tests
 
         #region #BUG0004
         [Fact]
-        public void ParseNegativeIntegerValue()
+        public void Parse_negative_integer_value()
         {
             var options = new SimpleOptions();
             var parser = new CommandLineParser();
@@ -420,7 +420,7 @@ namespace CommandLine.Tests
 
 
         [Fact]
-        public void ParseNegativeFloatingPointValue()
+        public void Parse_negative_floating_point_value()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -431,7 +431,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseNegativeFloatingPointValue_InputStyle2()
+        public void Parse_negative_floating_point_value_input_style2()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -442,7 +442,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseNegativeFloatingPointValue_InputStyle3()
+        public void Parse_negative_floating_point_value_input_style3()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -453,7 +453,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseNegativeFloatingPointValue_InputStyle4()
+        public void Parse_negative_floating_point_value_input_style4()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -466,7 +466,7 @@ namespace CommandLine.Tests
 
         #region #BUG0005
         [Fact]
-        public void PassingShortValueToByteOptionMustFailGracefully()
+        public void Passing_short_value_to_byte_option_must_fail_gracefully()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -476,7 +476,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingIntegerValueToShortOptionMustFailGracefully()
+        public void Passing_integer_value_to_short_option_must_fail_gracefully()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -486,7 +486,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingLongValueToIntegerOptionMustFailGracefully()
+        public void Passing_long_value_to_integer_option_must_fail_gracefully()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -496,7 +496,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingFloatValueToLongOptionMustFailGracefully()
+        public void Passing_float_value_to_long_option_must_fail_gracefully()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -506,7 +506,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingDoubleValueToFloatOptionMustFailGracefully()
+        public void Passing_double_value_to_float_option_must_fail_gracefully()
         {
             var options = new NumberSetOptions();
             var parser = new CommandLineParser();
@@ -517,3 +517,4 @@ namespace CommandLine.Tests
         #endregion
     }
 }
+

@@ -39,12 +39,8 @@ namespace CommandLine.Tests
 {
     public class NullableTypesParsingFixture : CommandLineParserBaseFixture
     {
-        public NullableTypesParsingFixture() : base()
-        {
-        }
-
         [Fact]
-        public void ParseNullableIntegerOption()
+        public void Parse_nullable_integer_option()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -62,7 +58,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingBadValueToANullableIntegerOptionFails()
+        public void Passing_bad_value_to_a_nullable_integer_option_fails()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -72,7 +68,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToANullableIntegerOptionFails()
+        public void Passing_no_value_to_a_nullable_integer_option_fails()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -82,7 +78,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseNullableEnumerationOption()
+        public void Parse_nullable_enumeration_option()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -100,7 +96,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingBadValueToANullableEnumerationOptionFails()
+        public void Passing_bad_value_to_a_nullable_enumeration_option_fails()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -110,7 +106,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToANullableEnumerationOptionFails()
+        public void Passing_no_value_to_a_nullable_enumeration_option_fails()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -120,7 +116,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseNullableDoubleOption()
+        public void Parse_nullable_double_option()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -138,7 +134,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingBadValueToANullableDoubleOptionFails()
+        public void Passing_bad_value_to_a_nullable_double_option_fails()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -148,7 +144,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToANullableDoubleOptionFails()
+        public void Passing_no_value_to_a_nullable_double_option_fails()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -158,7 +154,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStringOptionAndNullableValueTypes()
+        public void Parse_string_option_and_nullable_value_types()
         {
             var options = new NullableTypesOptions();
             var parser = new CommandLineParser();
@@ -181,3 +177,4 @@ namespace CommandLine.Tests
 
     }
 }
+

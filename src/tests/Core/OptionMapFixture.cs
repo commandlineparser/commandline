@@ -89,7 +89,7 @@ namespace CommandLine.Tests
         #endregion
 
         [Fact]
-        public void ManageOptions()
+        public void Manage_options()
         {
             var omBuilder = new OptionMapBuilder(3);
             omBuilder.AppendOption('p', "pretend");
@@ -147,3 +147,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

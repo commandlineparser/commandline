@@ -40,7 +40,7 @@ namespace CommandLine.Tests
     public class UnknownArgumentsFixture
     {
         [Fact]
-        public void ParseValidUnknownArguments()
+        public void Parse_valid_unknown_arguments()
         {
             string[] args = { "--plugin", "addonX", "--filename", "input.dat" };
             var appOptions = new OptionsForAppWithPlugIns();
@@ -60,3 +60,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

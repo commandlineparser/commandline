@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +15,7 @@ namespace CommandLine.Tests
     public class ValueOptionAttributeParsingFixture : CommandLineParserBaseFixture
     {
         [Fact]
-        public void ValueOptionAttributeIsolatesNonOptionValues()
+        public void Value_option_attribute_isolates_non_option_values()
         {
             var options = new SimpleOptionsWithValueOption();
             var parser = new CommandLineParser();
@@ -32,7 +32,7 @@ namespace CommandLine.Tests
         }
         
         [Fact]
-        public void ValueOptionAttributeValuesAreNotMandatory()
+        public void Value_option_attribute_values_are_not_mandatory()
         {
             var options = new SimpleOptionsWithValueOption();
             var parser = new CommandLineParser();
@@ -48,7 +48,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ValueOptionTakesPrecedenceOnValueListRegardlessDeclarationOrder()
+        public void Value_option_takes_precedence_on_value_list_regardless_declaration_order()
         {
             var options = new SimpleOptionsWithValueOptionAndValueList();
             var parser = new CommandLineParser();
@@ -66,7 +66,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void BetweenValueOptionsOrderMatters()
+        public void Between_value_options_order_matters()
         {
             var options = new SimpleOptionsWithValueOptionAndValueList();
             var parser = new CommandLineParser();
@@ -77,3 +77,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

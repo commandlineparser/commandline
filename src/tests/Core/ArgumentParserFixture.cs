@@ -39,7 +39,7 @@ namespace CommandLine.Tests
     public class ArgumentParserFixture : BaseFixture
     {
         [Fact]
-        public void GetNextInputValues()
+        public void Get_next_input_values()
         {
             var ae = new StringArrayEnumerator(new string[] { "--optarr", "one", "two", "--plain", "3" });
 

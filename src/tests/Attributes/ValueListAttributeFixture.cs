@@ -51,33 +51,33 @@ namespace CommandLine.Tests
         #endregion
 
         [Fact]
-        public void WillThrowExceptionIfConcreteTypeIsNull()
+        public void Will_throw_exception_if_concrete_type_is_null()
         {
             Assert.Throws<ArgumentNullException>(
                 () => new ValueListAttribute(null));
         }
 
         [Fact]
-        public void WillThrowExceptionIfConcreteTypeIsIncompatible()
+        public void Will_throw_exception_if_concrete_type_is_incompatible()
         {
              Assert.Throws<CommandLineParserException>(
                 () => new ValueListAttribute(new List<object>().GetType()));
         }
 
         [Fact]
-        public void ConcreteTypeIsGenericListOfString()
+        public void Concrete_type_is_generic_list_of_string()
         {
             new ValueListAttribute(new List<string>().GetType());
         }
 
         [Fact]
-        public void ConcreteTypeIsGenericListOfStringSubType()
+        public void Concrete_type_is_generic_list_of_string_sub_type()
         {
             new ValueListAttribute(new MockSpecializedList().GetType());
         }
 
         [Fact]
-        public void GetGenericListOfStringInterfaceReference()
+        public void Get_generic_list_of_string_interface_reference()
         {
             var options = new MockOptions();
 
@@ -87,7 +87,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void UseGenericListOfStringInterfaceReference()
+        public void Use_generic_list_of_string_interface_reference()
         {
             var options = new MockOptions();
 

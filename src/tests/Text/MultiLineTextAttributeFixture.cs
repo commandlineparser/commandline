@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Command Line Library: MultiLineTextAttributeFixture.cs
 //
@@ -37,29 +37,30 @@ using FluentAssertions;
 
 namespace CommandLine.Text.Tests
 {
-	
-	public class MultiLineTextAttributeFixture
-	{
-		[Fact]
-		public void AssemblyLicenseShouldOfferReadOnlyPropertyNamedValue()
-		{
-			IEnumerable<AssemblyLicenseAttribute> licenseAttributes = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyLicenseAttribute), false) as AssemblyLicenseAttribute[];
+    
+    public class MultiLineTextAttributeFixture
+    {
+        [Fact]
+        public void Assembly_license_should_offer_read_only_property_named_value()
+        {
+            IEnumerable<AssemblyLicenseAttribute> licenseAttributes = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyLicenseAttribute), false) as AssemblyLicenseAttribute[];
 
             licenseAttributes.Count().Should().Be(1);
 
-			string license = licenseAttributes.Single().Value;
-			string[] lines = license.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-			lines[0].Should().Be(@"This is free software. You may redistribute copies of it under the terms of");
-			lines[1].Should().Be(@"the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
-		}
+            string license = licenseAttributes.Single().Value;
+            string[] lines = license.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            lines[0].Should().Be(@"This is free software. You may redistribute copies of it under the terms of");
+            lines[1].Should().Be(@"the MIT License <http://www.opensource.org/licenses/mit-license.php>.");
+        }
 
-		[Fact]
-		public void AssemblyUsageShouldOfferReadOnlyPropertyNamedValue()
-		{
-			IEnumerable<AssemblyUsageAttribute> usageAttributes = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyUsageAttribute), false) as AssemblyUsageAttribute[];
+        [Fact]
+        public void Assembly_usage_should_offer_read_only_property_named_value()
+        {
+            IEnumerable<AssemblyUsageAttribute> usageAttributes = this.GetType().Assembly.GetCustomAttributes(typeof(AssemblyUsageAttribute), false) as AssemblyUsageAttribute[];
 
             usageAttributes.Count().Should().Be(1);
-			usageAttributes.Single().Value.Should().Be(@"[no usage, this is a dll]" + Environment.NewLine);
-		}
-	}
+            usageAttributes.Single().Value.Should().Be(@"[no usage, this is a dll]" + Environment.NewLine);
+        }
+    }
 }
+

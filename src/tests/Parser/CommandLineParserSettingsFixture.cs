@@ -35,11 +35,10 @@ using FluentAssertions;
 
 namespace CommandLine.Tests
 {
-    
     public class CommandLineParserSettingsFixture
     {
         [Fact]
-        public void SettingHelpWriterUsingConstructor()
+        public void Setting_help_writer_using_constructor()
         {
             var writer = new StringWriter();
             ICommandLineParser parser = new CommandLineParser(new CommandLineParserSettings(writer));
@@ -52,7 +51,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void SettingHelpWriterUsingProperty()
+        public void Setting_help_writer_using_property()
         {
             var writer = new StringWriter();
             var settings = new CommandLineParserSettings();
@@ -67,7 +66,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void SettingHelpWriterUsingArgument()
+        public void Setting_help_writer_using_argument()
         {
             var writer = new StringWriter();
             ICommandLineParser parser = new CommandLineParser(new CommandLineParserSettings());
@@ -80,3 +79,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

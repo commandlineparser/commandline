@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Command Line Library: VerbsFixture.cs
 //
@@ -40,7 +40,7 @@ namespace CommandLine.Tests
     public class VerbsFixture : CommandLineParserBaseFixture
     {
         [Fact]
-        public void ParseVerbsCreateInstance()
+        public void Parse_verbs_create_instance()
         {
             var options = new OptionsWithVerbs();
             options.AddVerb.Should().BeNull();
@@ -62,7 +62,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseVerbsUsingInstance()
+        public void Parse_verbs_using_instance()
         {
             var proof = new Random().Next(int.MaxValue);
             var options = new OptionsWithVerbs();
@@ -84,7 +84,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void FailedParsingPrintsHelpIndex()
+        public void Failed_parsing_prints_help_index()
         {
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
@@ -103,7 +103,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void FailedVerbParsingPrintsParticularHelpScreen()
+        public void Failed_verb_parsing_prints_particular_help_screen()
         {
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
@@ -123,7 +123,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void WasVerbOptionInvokedReturnsFalseWithEmptyArguments()
+        public void Was_verb_option_invoked_returns_false_with_empty_arguments()
         {
             var options = new OptionsWithVerbs();
 
@@ -138,7 +138,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void WasVerbOptionInvokedReturnsFalseWithNullOrEmptyVerb()
+        public void Was_verb_option_invoked_returns_false_with_null_or_empty_verb()
         {
             var options = new OptionsWithVerbs();
 
@@ -152,7 +152,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void WasVerbOptionInvokedReturnsFalseWithOrdinaryOptions()
+        public void Was_verb_option_invoked_returns_false_with_ordinary_options()
         {
             var options = new OptionsWithVerbs();
 
@@ -170,3 +170,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

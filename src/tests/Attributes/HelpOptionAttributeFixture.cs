@@ -28,7 +28,6 @@
 #endregion
 #region Using Directives
 using System;
-using System.ComponentModel;
 using System.IO;
 using CommandLine.Text;
 using Xunit;
@@ -36,8 +35,7 @@ using FluentAssertions;
 #endregion
 
 namespace CommandLine.Tests
-{
-    
+{  
     public class HelpOptionAttributeFixture : CommandLineParserBaseFixture
     {
         #region Mock Objects
@@ -72,7 +70,7 @@ namespace CommandLine.Tests
         #endregion
 
         [Fact]
-        public void CorrectInputNotActivatesHelp()
+        public void Correct_input_not_activates_help()
         {
             var options = new MockOptions();
             var writer = new StringWriter();
@@ -85,7 +83,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void BadInputActivatesHelp()
+        public void Bad_input_activates_help()
         {
             var options = new MockOptions();
             var writer = new StringWriter();
@@ -102,7 +100,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ExplicitHelpActivation()
+        public void Explicit_help_activation()
         {
             var options = new MockOptions();
             var writer = new StringWriter();

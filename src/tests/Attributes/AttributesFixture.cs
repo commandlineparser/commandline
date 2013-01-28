@@ -33,7 +33,6 @@ using Xunit;
 
 namespace CommandLine.Tests
 {
-    
     public class AttributesFixture
     {
         class CustomOptionAttribute : BaseOptionAttribute
@@ -79,28 +78,28 @@ namespace CommandLine.Tests
 
         #region API change 01
         [Fact]
-        public void ShortNameWithLineTerminatorThrowsException()
+        public void Short_name_with_line_terminator_throws_exception()
         {
             Assert.Throws<ArgumentException>(() =>
                 new OptionAttribute('\n'));
         }
 
         [Fact]
-        public void ShortNameWithLineTerminatorThrowsException_2()
+        public void Short_name_with_line_terminator_throws_exception_2()
         {
             Assert.Throws<ArgumentException>(() =>
                 new OptionAttribute('\r'));
         }
 
         [Fact]
-        public void ShortNameWithWhiteSpaceThrowsException()
+        public void Short_name_with_white_space_throws_exception()
         {
             Assert.Throws<ArgumentException>(() =>
                 new OptionAttribute(' '));
         }
 
         [Fact]
-        public void ShortNameWithWhiteSpaceThrowsException_2()
+        public void Short_name_with_white_space_throws_exception_2()
         {
             Assert.Throws<ArgumentException>(() =>
                 new OptionAttribute('\t'));
@@ -108,7 +107,7 @@ namespace CommandLine.Tests
         #endregion
 
         [Fact]
-        public void AllOptionsAllowOneCharacterInShortName()
+        public void All_options_allow_one_character_in_short_name()
         {
             new OptionAttribute('o', null);
             new OptionListAttribute('l', null);
@@ -117,7 +116,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void AllOptionsAllowNullValueInShortName()
+        public void All_options_allow_null_value_in_short_name()
         {
             new OptionAttribute("option-attr");
             new OptionListAttribute("option-list-attr");

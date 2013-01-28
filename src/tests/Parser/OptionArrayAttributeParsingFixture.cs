@@ -41,7 +41,7 @@ namespace CommandLine.Tests
     public class OptionArrayAttributeParsingFixture : CommandLineParserBaseFixture
     {
         [Fact]
-        public void ParseStringArrayOptionUsingShortName()
+        public void Parse_string_array_option_using_short_name()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -52,7 +52,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStringArrayOptionUsingLongName()
+        public void Parse_string_array_option_using_long_name()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -63,7 +63,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStringArrayOptionUsingShortNameWithValueAdjacent()
+        public void Parse_string_array_option_using_short_name_with_value_adjacent()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -74,7 +74,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStringArrayOptionUsingLongNameWithEqualSign()
+        public void Parse_string_array_option_using_long_name_with_equal_sign()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -85,7 +85,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStringArrayOptionUsingShortNameAndStringOptionAfter()
+        public void Parse_string_array_option_using_short_name_and_string_option_after()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -97,7 +97,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStringArrayOptionUsingShortNameAndStringOptionBefore()
+        public void Parse_string_array_option_using_short_name_and_string_option_before()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -109,7 +109,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStringArrayOptionUsingShortNameWithOptionsBeforeAndAfter()
+        public void Parse_string_array_option_using_short_name_with_options_before_and_after()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -124,7 +124,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStringArrayOptionUsingLongNameWithValueList()
+        public void Parse_string_array_option_using_long_name_with_value_list()
         {
             var options = new SimpleOptionsWithArrayAndValueList();
             var parser = new CommandLineParser();
@@ -140,7 +140,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingNoValueToAStringArrayOptionFails()
+        public void Passing_no_value_to_a_string_array_option_fails()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -157,7 +157,7 @@ namespace CommandLine.Tests
         /****************************************************************************************************/
 
         [Fact]
-        public void ParseIntegerArrayOptionUsingShortName()
+        public void Parse_integer_array_option_using_short_name()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -168,7 +168,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void PassingBadValueToAnIntegerArrayOptionFails()
+        public void Passing_bad_value_to_an_integer_array_option_fails()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -197,7 +197,7 @@ namespace CommandLine.Tests
 
 
         [Fact]
-        public void PassingNoValueToAnIntegerArrayOptionFails()
+        public void Passing_no_value_to_an_integer_array_option_fails()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -214,7 +214,7 @@ namespace CommandLine.Tests
         /****************************************************************************************************/
 
         [Fact]
-        public void ParseDoubleArrayOptionUsingShortName()
+        public void Parse_double_array_option_using_short_name()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -227,7 +227,7 @@ namespace CommandLine.Tests
         /****************************************************************************************************/
 
         [Fact]
-        public void ParseDifferentArraysTogether_CombinationOne()
+        public void Parse_different_arrays_together__combination_one()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -270,7 +270,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseDifferentArraysTogether_CombinationTwo()
+        public void Parse_different_arrays_together__combination_two()
         {
             var options = new SimpleOptionsWithArray();
             var parser = new CommandLineParser();
@@ -340,35 +340,35 @@ namespace CommandLine.Tests
         /****************************************************************************************************/
 
         [Fact]
-        public void WillThrowExceptionIfOptionArrayAttributeBoundToStringWithShortName()
+        public void Will_throw_exception_if_option_array_attribute_bound_to_string_with_short_name()
         {
             Assert.Throws<CommandLineParserException>(
                 () => new CommandLineParser().ParseArguments(new string[] { "-v", "a", "b", "c" }, new SimpleOptionsWithBadOptionArray()));
         }
 
         [Fact]
-        public void WillThrowExceptionIfOptionArrayAttributeBoundToStringWithLongName()
+        public void Will_throw_exception_if_option_array_attribute_bound_to_string_with_long_name()
         {
             Assert.Throws<CommandLineParserException>(
                 () => new CommandLineParser().ParseArguments(new string[] { "--bstrarr", "a", "b", "c" }, new SimpleOptionsWithBadOptionArray()));
         }
 
         [Fact]
-        public void WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithShortName()
+        public void Will_throw_exception_if_option_array_attribute_bound_to_integer_with_short_name()
         {
             Assert.Throws<CommandLineParserException>(
                 () => new CommandLineParser().ParseArguments(new string[] { "-w", "1", "2", "3" }, new SimpleOptionsWithBadOptionArray()));
         }
 
         [Fact]
-        public void WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithLongName()
+        public void Will_throw_exception_if_option_array_attribute_bound_to_integer_with_long_name()
         {
             Assert.Throws<CommandLineParserException>(
                 () => new CommandLineParser().ParseArguments(new string[] { "--bintarr", "1", "2", "3" }, new SimpleOptionsWithBadOptionArray()));
         }
 
         [Fact]
-        public void ParseCultureSpecificNumber()
+        public void Parse_culture_specific_number()
         {
             var actualCulture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
@@ -385,7 +385,7 @@ namespace CommandLine.Tests
         /****************************************************************************************************/
 
         [Fact]
-        public void ParseTwoUIntConsecutiveArray()
+        public void Parse_two_uint_consecutive_array()
         {
             var options = new OptionsWithUIntArray();
             var parser = new CommandLineParser();
@@ -404,7 +404,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseTwoUIntConsecutiveArrayUsingShortNames()
+        public void Parse_two_uint_consecutive_array_using_short_names()
         {
             var options = new OptionsWithUIntArray();
             var result = CommandLineParser.Default.ParseArguments(new string[] {
@@ -422,3 +422,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

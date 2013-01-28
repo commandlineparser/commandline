@@ -39,7 +39,7 @@ namespace CommandLine.Text.Tests
     public class HeadingInfoFixture
     {
         [Fact]
-        public void OnlyProgramName()
+        public void Only_program_name()
         {
             var hi = new HeadingInfo("myprog");
             string s = hi;
@@ -53,7 +53,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void ProgramNameAndVersion()
+        public void Program_name_and_version()
         {
             var hi = new HeadingInfo("myecho", "2.5");
             string s = hi;
@@ -67,3 +67,4 @@ namespace CommandLine.Text.Tests
         }
     }
 }
+

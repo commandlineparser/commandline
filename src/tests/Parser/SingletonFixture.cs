@@ -39,7 +39,7 @@ namespace CommandLine.Tests
     public class SingletonFixture
     {
         [Fact]
-        public void ParseStringIntegerBoolOptions()
+        public void Parse_string_integer_bool_options()
         {
             var options = new SimpleOptions();
             bool result = CommandLineParser.Default.ParseArguments(
@@ -53,7 +53,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void DefaultDoesntSupportMutuallyExclusiveOptions()
+        public void Default_doesnt_support_mutually_exclusive_options()
         {
             var options = new OptionsWithMultipleSet();
             bool result = CommandLineParser.Default.ParseArguments(
@@ -63,3 +63,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

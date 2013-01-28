@@ -34,11 +34,10 @@ using CommandLine.Internal;
 
 namespace CommandLine.Tests
 {
-    
     public class EnumeratorsFixture
     {
         [Fact]
-        public void StringIteration()
+        public void String_iteration()
         {
             const string valueOne = "one";
             const string valueTwo = "two";
@@ -66,7 +65,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void CharIteration()
+        public void Char_iteration()
         {
             IArgumentEnumerator e = new OneCharStringEnumerator("abcd");
             e.MoveNext();

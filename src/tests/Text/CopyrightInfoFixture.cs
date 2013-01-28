@@ -73,7 +73,7 @@ namespace CommandLine.Text.Tests
         #endregion
 
         [Fact]
-        public void LowerSymbolOneYear()
+        public void Lower_symbol_one_year()
         {
             var copyright = new CopyrightInfo(false, "Authors, Inc.", 2007);
 
@@ -81,7 +81,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void UpperSymbolTwoConsecutiveYears()
+        public void Upper_symbol_two_consecutive_years()
         {
             var copyright = new CopyrightInfo(true, "X & Y Group", 2006, 2007);
 
@@ -89,7 +89,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void DefaultSymbolTwoNonConsecutiveYears()
+        public void Default_symbol_two_non_consecutive_years()
         {
             var copyright = new CopyrightInfo("W & Z, Inc.", 2005, 2007);
 
@@ -97,7 +97,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void DefaultSymbolSeveralYears()
+        public void Default_symbol_several_years()
         {
             var copyright = new CopyrightInfo("CommandLine, Ltd", 1999, 2003, 2004, 2007);
 
@@ -105,21 +105,21 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void WillThrowExceptionIfAuthorIsNull()
+        public void Will_throw_exception_if_author_is_null()
         {
             Assert.Throws<ArgumentException>(
                 () => new CopyrightInfo(null, 2000));
         }
 
         [Fact]
-        public void WillThrowExceptionIfNoYearsAreSupplied()
+        public void Will_throw_exception_if_no_years_are_supplied()
         {
             Assert.Throws<ArgumentOutOfRangeException>(
                 () => new CopyrightInfo("Authors, Inc."));
         }
 
         [Fact]
-        public void DerivedClass()
+        public void Derived_class()
         {
             var info = new CopyleftInfo(true, "Free Company, Inc.", 96, 97, 98, 2005);
 
@@ -128,7 +128,7 @@ namespace CommandLine.Text.Tests
 
         #region #BUG0006
         [Fact]
-        public void ShouldNotGrowWhenConvertedToString()
+        public void Should_not_grow_when_converted_to_string()
         {
             var info = new CopyrightInfo ("ManOnTheMoon, Inc.", 2019);
 
@@ -140,3 +140,4 @@ namespace CommandLine.Text.Tests
         #endregion
     }
 }
+

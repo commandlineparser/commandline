@@ -47,13 +47,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\AttributesFixture.cs" />
+    <Compile Include="Attributes\HelpOptionAttributeFixture.cs" />
+    <Compile Include="Attributes\ValueListAttributeFixture.cs" />
+    <Compile Include="Core\ArgumentParserFixture.cs" />
+    <Compile Include="Core\EnumeratorsFixture.cs" />
+    <Compile Include="Core\OptionMapFixture.cs" />
     <Compile Include="Mocks\CommandLineOptionsBase.cs" />
     <Compile Include="Mocks\SimpleOptionsWithValueOptionAndValueList.cs" />
     <Compile Include="Mocks\SimpleOptionsWithValueOption.cs" />
     <Compile Include="Mocks\SimpleOptionsForStrict.cs" />
     <Compile Include="Mocks\OptionsWithVerbsHelp.cs" />
     <Compile Include="Mocks\OptionsWithVerbs.cs" />
+    <Compile Include="Parser\CommandLineParserFixture.cs" />
+    <Compile Include="Parser\CommandLineParserSettingsFixture.cs" />
+    <Compile Include="Parser\MutuallyExclusiveParsingFixture.cs" />
+    <Compile Include="Parser\NullableTypesParsingFixture.cs" />
+    <Compile Include="Parser\OptionArrayAttributeParsingFixture.cs" />
+    <Compile Include="Parser\SingletonFixture.cs" />
     <Compile Include="Parser\StrictFixture.cs" />
+    <Compile Include="Parser\UnknownArgumentsFixture.cs" />
+    <Compile Include="Parser\ValueListAttributeParsingFixture.cs" />
     <Compile Include="Parser\ValueOptionAttributeParsingFixture.cs" />
     <Compile Include="Parser\VerbsFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,35 +93,21 @@
     <Compile Include="Mocks\SimpleOptionsWithHelpOption.cs" />
     <Compile Include="Mocks\SimpleOptionsWithOptionList.cs" />
     <Compile Include="Mocks\SimpleOptionsWithValueList.cs" />
-    <Compile Include="Attributes\AttributesFixture.cs" />
-    <Compile Include="Attributes\HelpOptionAttributeFixture.cs" />
-    <Compile Include="Attributes\ValueListAttributeFixture.cs" />
-    <Compile Include="Core\ArgumentParserFixture.cs" />
-    <Compile Include="Core\EnumeratorsFixture.cs" />
-    <Compile Include="Core\OptionMapFixture.cs" />
-    <Compile Include="Parser\CommandLineParserFixture.cs" />
-    <Compile Include="Parser\CommandLineParserSettingsFixture.cs" />
-    <Compile Include="Parser\MutuallyExclusiveParsingFixture.cs" />
-    <Compile Include="Parser\NullableTypesParsingFixture.cs" />
-    <Compile Include="Parser\OptionArrayAttributeParsingFixture.cs" />
-    <Compile Include="Parser\ValueListAttributeParsingFixture.cs" />
-    <Compile Include="Text\CopyrightInfoFixture.cs" />
-    <Compile Include="Text\HeadingInfoFixture.cs" />
-    <Compile Include="Text\HelpTextFixture.cs" />
-    <Compile Include="Text\VerbsHelpTextFixture.cs" />
-    <Compile Include="Parser\SingletonFixture.cs" />
     <Compile Include="Mocks\SimpleOptionsWithDefaults.cs" />
     <Compile Include="Mocks\SimpleOptionsWithBadDefaults.cs" />
     <Compile Include="Mocks\SimpleOptionsWithDefaultArray.cs" />
     <Compile Include="Mocks\RPEOptions.cs" />
     <Compile Include="Mocks\SimpleOptionsForAutoBuid.cs" />
-    <Compile Include="Parser\UnknownArgumentsFixture.cs" />
     <Compile Include="Mocks\OptionsForPlugInScenario.cs" />
     <Compile Include="Mocks\OptionsWithUIntArray.cs" />
-    <Compile Include="Text\MultiLineTextAttributeFixture.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Text\CopyrightInfoFixture.cs" />
+    <Compile Include="Text\HeadingInfoFixture.cs" />
+    <Compile Include="Text\HelpTextFixture.cs" />
+    <Compile Include="Text\MultiLineTextAttributeFixture.cs" />
+    <Compile Include="Text\VerbsHelpTextFixture.cs" />
     <Compile Include="Utils\ReflectionUtilFixture.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -120,5 +120,6 @@
       <Name>CommandLine</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

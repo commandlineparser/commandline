@@ -11,6 +11,7 @@ Compatibility:
  
 News: 
 ---
+  -  All names of test fixture methods changed to a new convention (using https://gist.github.com/4655503).
   - Started refactoring on test project (migrating from NUnit to Xunit).
   - Thanks to @marcells, we can reference CommandLine.dll from CommandLine.Tests.dll keeping strong name.
   - Introduced ``ValueOptionAttribute`` enhancement of issue #33.

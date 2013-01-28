@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Command Line Library: VerbsFixture.cs
 //
@@ -43,25 +43,25 @@ namespace CommandLine.Text.Tests
     public class VerbsHelpTextFixture : CommandLineParserBaseFixture
     {
         [Fact]
-        public void FailedParsingPrintsHelpIndex()
+        public void Failed_parsing_prints_help_index()
         {
             DoCoreTestForIndex(new string[] {});
         }
 
         [Fact]
-        public void RequestingHelpPrintsHelpIndex()
+        public void Requesting_help_prints_help_index()
         {
             DoCoreTestForIndex(new string[] {"help"});
         }
 
         [Fact]
-        public void RequestingBadHelpPrintsHelpIndex()
+        public void Requesting_bad_help_prints_help_index()
         {
             DoCoreTestForIndex(new string[] { "help", "undefined" });
         }
 
         [Fact]
-        public void FailedVerbParsingPrintsParticularHelpScreen()
+        public void Failed_verb_parsing_prints_particular_help_screen()
         {
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
@@ -82,7 +82,7 @@ namespace CommandLine.Text.Tests
 
         #region https://github.com/gsscoder/commandline/issues/45
         [Fact]
-        public void RequestingHelpOfParticularVerbWithoutInstanceShouldWork()
+        public void Requesting_help_of_particular_verb_without_instance_should_work()
         {
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
@@ -118,3 +118,4 @@ namespace CommandLine.Text.Tests
         }
     }
 }
+

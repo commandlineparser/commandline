@@ -129,7 +129,7 @@ namespace CommandLine.Text.Tests
         #endregion
 
         [Fact]
-        public void AddAnEmptyPreOptionsLineIsAllowed()
+        public void Add_an_empty_pre_options_line_is_allowed()
         {
             var helpText = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
             helpText.AddPreOptionsLine(string.Empty);
@@ -139,7 +139,7 @@ namespace CommandLine.Text.Tests
         /// Ref.: #REQ0002
         /// </summary>
         [Fact]
-        public void PostOptionsLinesFeatureAdded()
+        public void Post_options_lines_feature_added()
         {
             var local = new HelpText("Heading Info.");
             local.AddPreOptionsLine("This is a first pre-options line.");
@@ -156,7 +156,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void MetaValue()
+        public void Meta_value()
         {
             var local = new HelpText("Meta Value.");
             local.AddOptions(new MockOptionsWithMetaValue());
@@ -167,7 +167,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void WhenHelpTextIsLongerThanWidthItWillWrapAroundAsIfInAColumn()
+        public void When_help_text_is_longer_than_width_it_will_wrap_around_as_if_in_a_column()
         {
             var helpText = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
             helpText.MaximumDisplayWidth = 40;
@@ -184,7 +184,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void LongHelpTextWithoutSpaces()
+        public void Long_help_text_without_spaces()
         {
             var helpText = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
             helpText.MaximumDisplayWidth = 40;
@@ -201,7 +201,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void LongPreAndPostLinesWithoutSpaces()
+        public void Long_pre_and_post_lines_without_spaces()
         {
             var local = new HelpText("Heading Info.");
             local.MaximumDisplayWidth = 40;
@@ -221,7 +221,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void CustomizeOptionsFormat()
+        public void Customize_options_format()
         {
             var local = new HelpText("Customizing Test.");
             local.FormatOptionHelpText += new EventHandler<FormatOptionHelpTextEventArgs>(CustomizeOptionsFormat_FormatOptionHelpText);
@@ -242,7 +242,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void InstancingWithParameterlessConstructor()
+        public void Instancing_with_parameterless_constructor()
         {
             var year = DateTime.Now.Year;
             var local = new HelpText();
@@ -265,7 +265,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void AddOptionsWithDashes()
+        public void Add_options_with_dashes()
         {
             var local = new HelpText {
                 AddDashesToOption = true,
@@ -283,7 +283,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void CreateBasicInstance()
+        public void Create_basic_instance()
         {
             var local = new HelpText();
 
@@ -291,7 +291,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void InvokeRenderParsingErrorsText()
+        public void Invoke_render_parsing_errors_text()
         {
             var sw = new StringWriter();
             var options = new RPEOptions();
@@ -314,7 +314,7 @@ namespace CommandLine.Text.Tests
 
         /*
         [Fact]
-        public void AutoBuildWithRenderParsingErrorsHelper()
+        public void Auto_build_with_render_parsing_errors_helper()
         {
             var sw = new StringWriter();
             var options = new RPEOptionsForAutoBuild();
@@ -347,7 +347,7 @@ namespace CommandLine.Text.Tests
 
 
         [Fact]
-        public void AutoBuild()
+        public void Auto_build()
         {
             var sw = new StringWriter();
             var options = new SimpleOptionsForAutoBuid();
@@ -377,7 +377,7 @@ namespace CommandLine.Text.Tests
 
         #region Parsing Errors Subsystem Test, related to Help Text building
         [Fact]
-        public void DetailedHelpWithBadFormat()
+        public void Detailed_help_with_bad_format()
         {
             var options = new ComplexOptionsWithHelp();
 
@@ -388,7 +388,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void DetailedHelpWithMissingRequired()
+        public void Detailed_help_with_missing_required()
         {
             var options = new ComplexOptionsWithHelp();
 
@@ -399,7 +399,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void DetailedHelpWithMissingRequiredAndBadFormat()
+        public void Detailed_help_with_missing_required_and_bad_format()
         {
             var options = new ComplexOptionsWithHelp();
 
@@ -410,7 +410,7 @@ namespace CommandLine.Text.Tests
         }
 
         [Fact]
-        public void DetailedHelpWithBadMutualExclusiveness()
+        public void Detailed_help_with_bad_mutual_exclusiveness()
         {
             var options = new ComplexOptionsWithHelp();
 
@@ -421,7 +421,7 @@ namespace CommandLine.Text.Tests
         }
         
         [Fact]
-        public void DetailedHelpWithBadFormatAndMutualExclusiveness()
+        public void Detailed_help_with_bad_format_and_mutual_exclusiveness()
         {
             var options = new ComplexOptionsWithHelp();
 
@@ -433,7 +433,7 @@ namespace CommandLine.Text.Tests
 
 
         [Fact]
-        public void MultipleRequiredFields_WithMoreThanOneRequiredFieldNotSpecified_ReportsAllMissingRequiredFields()
+        public void Multiple_required_fields_with_more_than_one_required_field_not_specified_reports_all_missing_required_fields()
         {
           var options = new ComplexOptions();
           using (var writer = new StringWriter())
@@ -470,3 +470,4 @@ namespace CommandLine.Text.Tests
         }
     }
 }
+

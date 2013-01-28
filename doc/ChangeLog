@@ -1,3 +1,8 @@
+2013-01-28	Giacomo Stelluti Scala	<gsscoder@gmail.com>
+
+  * All name of test fixture methods changed to a new convention (e.g.: A_descriptive_assertion)
+      using https://gist.github.com/4655503.
+
 2013-01-27	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * Started refactoring on test project (migrating from NUnit to Xunit).

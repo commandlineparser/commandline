@@ -39,7 +39,7 @@ namespace CommandLine.Tests
     public class ValueListAttributeParsingFixture : CommandLineParserBaseFixture
     {
         [Fact]
-        public void ValueListAttributeIsolatesNonOptionValues()
+        public void Value_list_attribute_isolates_non_option_values()
         {
             var options = new SimpleOptionsWithValueList();
             var parser = new CommandLineParser();
@@ -57,7 +57,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ValueListWithMaxElemInsideBounds()
+        public void Value_list_with_max_elem_inside_bounds()
         {
             var options = new OptionsWithValueListMaximumThree();
             var parser = new CommandLineParser();
@@ -74,7 +74,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ValueListWithMaxElemOutsideBounds()
+        public void Value_list_with_max_elem_outside_bounds()
         {
             var options = new OptionsWithValueListMaximumThree();
             var parser = new CommandLineParser();
@@ -85,7 +85,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ValueListWithMaxElemSetToZeroSucceeds()
+        public void Value_list_with_max_elem_set_to_zero_succeeds()
         {
             var options = new OptionsWithValueListMaximumZero();
             var parser = new CommandLineParser();
@@ -98,7 +98,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ValueListWithMaxElemSetToZeroFailes()
+        public void Value_list_with_max_elem_set_to_zero_failes()
         {
             var options = new OptionsWithValueListMaximumZero();
             var parser = new CommandLineParser();
@@ -108,3 +108,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

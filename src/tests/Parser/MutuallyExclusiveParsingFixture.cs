@@ -37,7 +37,7 @@ namespace CommandLine.Tests
     public class MutuallyExclusiveParsingFixture : CommandLineParserBaseFixture
     {
         [Fact]
-        public void ParsingOneMutuallyExclusiveOptionSucceeds()
+        public void Parsing_one_mutually_exclusive_option_succeeds()
         {
             var options = new OptionsWithDefaultSet();
             var parser = new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});
@@ -48,7 +48,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParsingTwoMutuallyExclusiveOptionsFails()
+        public void Parsing_two_mutually_exclusive_options_fails()
         {
             var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
             var options = new OptionsWithDefaultSet();
@@ -58,7 +58,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParsingOneMutuallyExclusiveOptionWithAnotherOptionSucceeds()
+        public void Parsing_one_mutually_exclusive_option_with_another_option_succeeds()
         {
             var options = new OptionsWithDefaultSet();
             var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
@@ -70,7 +70,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParsingTwoMutuallyExclusiveOptionsInTwoSetSucceeds()
+        public void Parsing_two_mutually_exclusive_options_in_two_set_succeeds()
         {
             var options = new OptionsWithMultipleSet();
             var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
@@ -82,7 +82,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParsingThreeMutuallyExclusiveOptionsInTwoSetFails()
+        public void Parsing_three_mutually_exclusive_options_in_two_set_fails()
         {
             var parser = new CommandLineParser(new CommandLineParserSettings {MutuallyExclusive = true});
             var options = new OptionsWithMultipleSet();
@@ -92,7 +92,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParsingMutuallyExclusiveOptionsAndRequiredOptionFails()
+        public void Parsing_mutually_exclusive_options_and_required_option_fails()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
             var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
@@ -102,7 +102,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParsingMutuallyExclusiveOptionsAndRequiredOptionSucceeds()
+        public void Parsing_mutually_exclusive_options_and_required_option_succeeds()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
             var parser = new CommandLineParser(new CommandLineParserSettings { MutuallyExclusive = true });
@@ -115,3 +115,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

@@ -101,7 +101,7 @@ namespace CommandLine.Tests
 
 
         [Fact]
-        public void GetFieldsByAttribute()
+        public void Get_fields_by_attribute()
         {
             var target = new MockObject();
             var list = ReflectionUtil.RetrievePropertyList<MockAttribute>(target);
@@ -121,7 +121,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void GetMethodByAttribute()
+        public void Get_method_by_attribute()
         {
             var target = new MockObject();
             var pair = ReflectionUtil.RetrieveMethod<MockAttribute>(target);
@@ -131,7 +131,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void GetFieldsAttributeList()
+        public void Get_fields_attribute_list()
         {
             var list = ReflectionUtil.RetrievePropertyAttributeList<MockWithValueAttribute>(new AnotherMockObject());
 
@@ -153,3 +153,4 @@ namespace CommandLine.Tests
         }
     }
 }
+

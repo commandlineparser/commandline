@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Command Line Library: StrictFixture.cs
 //
@@ -46,7 +46,7 @@ namespace CommandLine.Tests
     public class StrictFixture : CommandLineParserBaseFixture
     {
         [Fact]
-        public void ParseStrictBadInputFailsAndExits()
+        public void Parse_strict_bad_input_fails_and_exits()
         {
             var options = new SimpleOptions();
             var testWriter = new StringWriter();
@@ -69,7 +69,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStrictBadInputFailsAndExits_GetUsageDefined()
+        public void Parse_strict_bad_input_fails_and_exits_when_get_usage_is_defined()
         {
             var options = new SimpleOptionsForStrict();
             var testWriter = new StringWriter();
@@ -90,7 +90,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStrictBadInputFailsAndExits_Verbs()
+        public void Parse_strict_bad_input_fails_and_exits_with_verbs()
         {
             var options = new OptionsWithVerbsNoHelp();
             var testWriter = new StringWriter();
@@ -113,7 +113,7 @@ namespace CommandLine.Tests
         }
 
         [Fact]
-        public void ParseStrictBadInputFailsAndExits_Verbs_GetUsageDefined()
+        public void Parse_strict_bad_input_fails_and_exits_with_verbs_when_get_usage_is_defined()
         {
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
@@ -134,3 +134,4 @@ namespace CommandLine.Tests
         }
     }
 }
+
