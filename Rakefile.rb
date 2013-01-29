@@ -1,14 +1,14 @@
 PRODUCT = "Command Line Parser Library"
 DESCRIPTION = "Command Line Parser Library allows CLR applications to define a syntax for parsing command line arguments."
 INF_VERSION = "1.9"
-VERSION = INF_VERSION + ".4.203"
+VERSION = INF_VERSION + ".4.205"
 COPYRIGHT = "Copyright (c) 2005 - 2013 Giacomo Stelluti Scala"
 LICENSE_URL = "https://raw.github.com/gsscoder/commandline/master/doc/LICENSE"
 PROJECT_URL = "https://github.com/gsscoder/commandline"
 
 require 'albacore'
 
-task :default => [:build]
+task :default => [:build, :test]
 
 if RUBY_VERSION =~ /^1\.8/
   class Dir
@@ -34,50 +34,38 @@ def invoke_runtime(cmd)
 end
 
 CONFIGURATION = "Release"
-CONFIGURATION_TESTS = "DebugTests"
 BUILD_DIR = File.expand_path("build")
 OUTPUT_DIR = "#{BUILD_DIR}/out"
-OUTPUT_DIR_TESTS = "#{OUTPUT_DIR}/tests"
 SOURCE_DIR = File.expand_path("src")
 LIB_DIR = "#{SOURCE_DIR}/libcmdline"
 
 msbuild :build_msbuild do |b|
   b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
   b.targets :Build
-  b.solution = "CommandLine.Dist.sln"
-end
-
-msbuild :build_msbuild_test do |b|
-  b.properties :configuration => CONFIGURATION_TESTS, "OutputPath" => OUTPUT_DIR_TESTS
-  b.targets :Build
   b.solution = "CommandLine.sln"
 end
 
-xbuild :build_xbuild do |b|
-  b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
-  b.targets :Build
-  b.solution = "CommandLine.Dist.sln"
-end
+#xbuild :build_xbuild do |b|
+#  b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
+#  b.targets :Build
+#  b.solution = "CommandLine.sln"
+#end
 
-xbuild :build_xbuild_test do |b|
-  b.properties :configuration => CONFIGURATION_TESTS, "OutputPath" => OUTPUT_DIR_TESTS
-  b.targets :Build
-  b.solution = "CommandLine.sln"
-end
+task :build_mdtool do
+  mdtool = "mdtool build -c:Debug CommandLine.sln"
+  sh "#{mdtool}"
+  FileUtils.mkdir_p "#{OUTPUT_DIR}"
+  FileUtils.cp_r Dir.glob("#{SOURCE_DIR}/tests/bin/Debug/*"), "#{OUTPUT_DIR}"
+end	
 
 task :build => :clean do |b|
-  build_task = is_nix() ? "build_xbuild" : "build_msbuild"
+  build_task = is_nix() ? "build_mdtool" : "build_msbuild"
   Rake::Task[build_task].invoke
 end
 
-task :build_test => :clean do |b|
-  build_task = is_nix() ? "build_xbuild_test" : "build_msbuild_test"
-  Rake::Task[build_task].invoke
-end
-
-task :test => :build_test do
-  nunit = invoke_runtime("packages/NUnit.2.5.10.11092/tools/nunit-console.exe")
-  sh "#{nunit} -labels #{OUTPUT_DIR_TESTS}/CommandLine.Tests.dll"
+task :test => :build do
+  xunit = invoke_runtime("packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe")
+  sh "#{xunit} #{OUTPUT_DIR}/CommandLine.Tests.dll"
 end
 
 task :strings do

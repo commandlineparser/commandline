@@ -64,13 +64,14 @@ namespace CommandLine.Internal
             _propertyWriter = new PropertyWriter(_property);
         }
 
-#if UNIT_TESTS
+        /// <summary>
+        /// Alternate constructor for testing purpose.
+        /// </summary>
         internal OptionInfo(char? shortName, string longName)
         {
             _shortName = shortName;
             _longName = longName;
         }
-#endif
 
         public bool SetValue(string value, object options)
         {

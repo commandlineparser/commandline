@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.4.203 beta for CLR.
+Command Line Parser Library 1.9.4.205 beta for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
@@ -11,7 +11,8 @@ Compatibility:
  
 News: 
 ---
-  -  All names of test fixture methods changed to a new convention (using https://gist.github.com/4655503).
+  - Removed compilation symbol UNIT_TESTS and DebugTests configuration.
+  - All names of test fixture methods changed to a new convention (using https://gist.github.com/4655503).
   - Started refactoring on test project (migrating from NUnit to Xunit).
   - Thanks to @marcells, we can reference CommandLine.dll from CommandLine.Tests.dll keeping strong name.
   - Introduced ``ValueOptionAttribute`` enhancement of issue #33.

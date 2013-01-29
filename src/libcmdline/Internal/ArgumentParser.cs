@@ -74,12 +74,7 @@ namespace CommandLine.Internal
             }
             return true;
         }
-#if UNIT_TESTS
-        public static IList<string> PublicWrapperOfGetNextInputValues(IArgumentEnumerator ae)
-        {
-            return GetNextInputValues(ae);
-        }
-#endif
+
         protected static IList<string> GetNextInputValues(IArgumentEnumerator ae)
         {
             IList<string> list = new List<string>();
@@ -133,6 +128,14 @@ namespace CommandLine.Internal
             {
                 throw new CommandLineParserException();
             }
+        }
+        
+        /// <summary>
+        /// Helper method for testing purpose.
+        /// </summary>>
+        internal static IList<string> InternalWrapperOfGetNextInputValues(IArgumentEnumerator ae)
+        {
+            return GetNextInputValues(ae);
         }
     }
 }

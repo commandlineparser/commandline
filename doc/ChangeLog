@@ -1,3 +1,18 @@
+2013-01-29  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Better constructor chaining in CommandLineParserSettings.
+  * ReflectionUtil leaved open for testing also in Release build (I'll try to remove S symbol
+      in every part of the project).
+  * Removed conditional compylation symbol #UNIT_TESTS from OptionAttribute.cs.
+  * Removed conditional compylation symbol #UNIT_TESTS from ArgumentParser.cs.
+  * Removed conditional compylation symbol #UNIT_TESTS from OptionInfo.cs.  
+  * Used same key to sign both assemblies (main, tests).
+  * Removed DebugTests compilation target (tied to #UNIT_TESTS symbol).
+  * Added xunit.runners to solution.
+  * Removed CommandLine.Dist.sln, xbuild replaced by mdtool.
+  * Rakefile now build and test as whole.
+  * Version incremented to 1.9.4.205 beta.  
+  
 2013-01-28	Giacomo Stelluti Scala	<gsscoder@gmail.com>
 
   * All name of test fixture methods changed to a new convention (e.g.: A_descriptive_assertion)

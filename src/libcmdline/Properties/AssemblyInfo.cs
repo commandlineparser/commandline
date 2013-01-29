@@ -37,11 +37,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Command Line Parser Library allows CLR applications to define a syntax for parsing command line arguments.")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("CommandLine.Tests, PublicKey=" +
-    "00240000048000009400000006020000002400005253413100040000010001000bf5a5553b4857" +
-    "02b1eab63601bf8e4dce95f709b02aa8359f91fa50861870a9890ffb2f2ed32e80afceb8f83a54" +
-    "5169a05d18db95f6250f1c8073e90d8f3ff9cf7c4df48e58f4d6f0937e78a466bae12ecb3c70ec" +
-    "c1dc4b680c937a0530dc99623cfc2c0a8ca56237f8ccae2403768d64fc4c0146d0a74d81f61030" +
-    "749d1fb8")]
+    "002400000480000094000000060200000024000052534131000400000100010015eb7571d696c0" +
+    "75627830f9468969103bc35764467bdbccfc0850f2fbe6913ee233d5d7cf3bbcb870fd42e6a8cc" +
+    "846d706b5cef35389e5b90051991ee8b6ed73ee1e19f108e409be69af6219b2e31862405f4b8ba" +
+    "101662fbbb54ba92a35d97664fe65c90c2bebd07aef530b01b709be5ed01b7e4d67a6b01c8643e" +
+    "42a20fb4")]
 #if DEBUG
 [assembly: AssemblyConfiguration("Debug")]
 #else

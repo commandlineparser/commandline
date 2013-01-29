@@ -67,11 +67,12 @@ namespace CommandLine
         {
         }
 
-#if UNIT_TESTS
+        /// <summary>
+        /// Helper factory method for testing purpose.
+        /// </summary>
         internal OptionInfo CreateOptionInfo()
         {
             return new OptionInfo(base.ShortName, base.LongName);
         }
-#endif
     }
 }

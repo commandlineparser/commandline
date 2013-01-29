@@ -36,12 +36,11 @@ namespace CommandLine.Utils
 {
     static class ReflectionUtil
     {
-#if UNIT_TESTS
         static ReflectionUtil()
         {
             AssemblyFromWhichToPullInformation = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
         }
-#endif
+
         public static IList<Pair<PropertyInfo, TAttribute>> RetrievePropertyList<TAttribute>(object target)
                 where TAttribute : Attribute
         {
@@ -170,14 +169,10 @@ namespace CommandLine.Utils
             return (TAttribute)a[0];
         }
 
-#if !UNIT_TESTS
-        public static Assembly AssemblyFromWhichToPullInformation
-        {
-            get { return Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly(); }
-        }
-#else
+        /// <summary>
+        /// Setter provided for testing purpose.
+        /// </summary>
         public static Assembly AssemblyFromWhichToPullInformation { get; set; }
-#endif
 
         public static Pair<PropertyInfo, TAttribute> RetrieveOptionProperty<TAttribute>(object target, string uniqueName)
                 where TAttribute : BaseOptionAttribute

@@ -45,7 +45,7 @@ namespace CommandLine.Tests
 
             ae.MoveNext(); // skip first, working like in a real case
 
-            var items = ArgumentParser.PublicWrapperOfGetNextInputValues(ae);
+            var items = ArgumentParser.InternalWrapperOfGetNextInputValues(ae);
 
             base.ElementsShouldBeEqual(new string[] { "one", "two" }, items);
             ae.Current.Should().Be("two");

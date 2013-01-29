@@ -33,7 +33,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>CommandLine.Tests.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>CommandLine.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions">
@@ -111,7 +111,7 @@
     <Compile Include="Utils\ReflectionUtilFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CommandLine.Tests.snk" />
+    <None Include="CommandLine.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
