@@ -30,8 +30,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using CommandLine.Internal;
-using CommandLine.Utils;
+using CommandLine.Core;
+using CommandLine.Helpers;
 
 #endregion
 
@@ -64,7 +64,7 @@ namespace CommandLine
             if (concreteType == null) { throw new ArgumentNullException("concreteType"); }
             if (!typeof(IList<string>).IsAssignableFrom(concreteType))
             {
-                throw new CommandLineParserException(SR.CommandLineParserException_IncompatibleTypes);
+                throw new ParserException(SR.CommandLineParserException_IncompatibleTypes);
             }
             _concreteType = concreteType;
         }

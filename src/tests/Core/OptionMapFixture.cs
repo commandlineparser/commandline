@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using Xunit;
 using FluentAssertions;
 using CommandLine;
-using CommandLine.Internal;
+using CommandLine.Core;
 #endregion
 
 namespace CommandLine.Tests
@@ -48,7 +48,7 @@ namespace CommandLine.Tests
 
             public OptionMapBuilder(int capacity)
             {
-                _optionMap = new OptionMap(capacity, new CommandLineParserSettings(true));
+                _optionMap = new OptionMap(capacity, new ParserSettings(true));
                 _options = new List<OptionInfo>(capacity);
                 _names = new List<string>(capacity);
             }
@@ -121,7 +121,7 @@ namespace CommandLine.Tests
         {
             if (map == null)
             {
-                map = new OptionMap (3, new CommandLineParserSettings (true));
+                map = new OptionMap (3, new ParserSettings (true));
             }
 
             var attribute1 = new OptionAttribute('p', "pretend");

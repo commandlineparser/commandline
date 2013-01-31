@@ -59,8 +59,8 @@
     <Compile Include="Mocks\SimpleOptionsForStrict.cs" />
     <Compile Include="Mocks\OptionsWithVerbsHelp.cs" />
     <Compile Include="Mocks\OptionsWithVerbs.cs" />
-    <Compile Include="Parser\CommandLineParserFixture.cs" />
-    <Compile Include="Parser\CommandLineParserSettingsFixture.cs" />
+    <Compile Include="Parser\ParserFixture.cs" />
+    <Compile Include="Parser\ParserSettingsFixture.cs" />
     <Compile Include="Parser\MutuallyExclusiveParsingFixture.cs" />
     <Compile Include="Parser\NullableTypesParsingFixture.cs" />
     <Compile Include="Parser\OptionArrayAttributeParsingFixture.cs" />
@@ -72,7 +72,7 @@
     <Compile Include="Parser\VerbsFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BaseFixture.cs" />
-    <Compile Include="CommandLineParserBaseFixture.cs" />
+    <Compile Include="ParserBaseFixture.cs" />
     <Compile Include="DebugStringUtil.cs" />
     <Compile Include="Mocks\BooleanSetOptions.cs" />
     <Compile Include="Mocks\ComplexOptions.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="Text\HelpTextFixture.cs" />
     <Compile Include="Text\MultiLineTextAttributeFixture.cs" />
     <Compile Include="Text\VerbsHelpTextFixture.cs" />
-    <Compile Include="Utils\ReflectionUtilFixture.cs" />
+    <Compile Include="Helpers\ReflectionUtilFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CommandLine.snk" />

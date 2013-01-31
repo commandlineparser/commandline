@@ -37,7 +37,7 @@ using CommandLine.Tests.Mocks;
 namespace CommandLine.Tests
 {
     
-    public class VerbsFixture : CommandLineParserBaseFixture
+    public class VerbsFixture : ParserBaseFixture
     {
         [Fact]
         public void Parse_verbs_create_instance()
@@ -45,7 +45,7 @@ namespace CommandLine.Tests
             var options = new OptionsWithVerbs();
             options.AddVerb.Should().BeNull();
 
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] {"add", "-p", "untracked.bin"} , options);
 
             result.Should().BeTrue();
@@ -69,7 +69,7 @@ namespace CommandLine.Tests
             options.CommitVerb.Should().NotBeNull();
             options.CommitVerb.CreationProof = proof;
 
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] { "commit", "--amend" }, options);
 
             result.Should().BeTrue();
@@ -89,7 +89,7 @@ namespace CommandLine.Tests
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
 
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] {}, options, testWriter);
 
             result.Should().BeFalse();
@@ -108,7 +108,7 @@ namespace CommandLine.Tests
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
 
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] {"clone", "--no_hardlinks"}, options, testWriter);
 
             result.Should().BeFalse();
@@ -127,7 +127,7 @@ namespace CommandLine.Tests
         {
             var options = new OptionsWithVerbs();
 
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] {}, options);
 
             result.Should().BeFalse();
@@ -142,7 +142,7 @@ namespace CommandLine.Tests
         {
             var options = new OptionsWithVerbs();
 
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] {"commit", "--amend"}, options);
 
             result.Should().BeTrue();
@@ -156,7 +156,7 @@ namespace CommandLine.Tests
         {
             var options = new OptionsWithVerbs();
 
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] {"commit", "--amend"}, options);
 
             result.Should().BeTrue();

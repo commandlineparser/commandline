@@ -42,7 +42,7 @@ namespace CommandLine.Tests
         public void Parse_string_integer_bool_options()
         {
             var options = new SimpleOptions();
-            bool result = CommandLineParser.Default.ParseArguments(
+            bool result = Parser.Default.ParseArguments(
                     new string[] { "-s", "another string", "-i100", "--switch" }, options);
 
             result.Should().BeTrue();
@@ -56,7 +56,7 @@ namespace CommandLine.Tests
         public void Default_doesnt_support_mutually_exclusive_options()
         {
             var options = new OptionsWithMultipleSet();
-            bool result = CommandLineParser.Default.ParseArguments(
+            bool result = Parser.Default.ParseArguments(
                 new string[] { "-r1", "-g2", "-b3", "-h4", "-s5", "-v6" }, options);
 
             result.Should().BeTrue(); // enabling MutuallyExclusive option it would fails

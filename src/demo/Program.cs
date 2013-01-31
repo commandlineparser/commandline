@@ -56,11 +56,12 @@ namespace CommandLine.Demo
             RunATestForDebugging();
 #endif
             var options = new Options();
-            var parser = new CommandLineParser(new CommandLineParserSettings(Console.Error));
-            if (!parser.ParseArguments(args, options))            
-                Environment.Exit(1);            
-
-            DoCoreTask(options);           
+            var parser = new CommandLine.Parser(new ParserSettings(Console.Error));
+            if (!parser.ParseArguments(args, options))
+            {
+                Environment.Exit(1);
+            }
+            DoCoreTask(options);
             Environment.Exit(0);
         }
 
@@ -104,36 +105,8 @@ namespace CommandLine.Demo
 #if EXEC_TESTS
         private static void RunATestForDebugging()
         {
-            //OptionArrayAttributeParsingFixture f = new OptionArrayAttributeParsingFixture();
-            //ArgumentParserFixture f2 = new ArgumentParserFixture();
-            //HelpTextFixture f3 = new HelpTextFixture();
-            //AttributesFixture f6 = new AttributesFixture();
-            //f.ParseStringArrayOptionUsingShortName();
-            //f.ParseStringArrayOptionUsingShortNameWithValueAdjacent();
-            //f.ParseStringArrayOptionUsingLongName();
-            //f.ParseStringArrayOptionUsingLongNameWithEqualSign();
-            //f.ParseStringArrayOptionUsingShortNameAndStringOptionAfter();
-            //f.ParseStringArrayOptionUsingLongNameWithValueList();
-            //f.PassingBadValueToAnIntegerArrayOptionFails();
-            //f.WillThrowExceptionIfOptionArrayAttributeBoundToStringWithShortName();
-            //f.WillThrowExceptionIfOptionArrayAttributeBoundToIntegerWithShortName();
-            //f2.GetNextInputValues();
-            //f3.CustomizeOptionsFormat();
-            //f3.DetailedHelpWithBadFormatAndMutualExclusiveness();
-            //f3.DetailedHelpWithBadMutualExclusiveness();
-            //f3.DetailedHelpWithMissingRequired();
-            //f3.DetailedHelpWithBadFormat();
-            //f3.CreateBasicInstance();
-            //f3.InvokeRenderParsingErrorsText();
-            //f3.AutoBuildWithRenderParsingErrorsHelper();
-            //var f4 = new OptionArrayAttributeParsingFixture();
-            //f4.ParseTwoUIntConsecutiveArray();
-            //CommandLineParserFixture f5 = new CommandLineParserFixture();
-            //f5.ParseNegativeIntegerValue();
-            //f5.ParseNegativeIntegerValue_InputStyle4();
-            //f5.ParseNegativeFloatingPointValue_InputStyle4();
-            //f5.PassingLongValueToIntegerOptionMustFailGracefully();
-            //f6.AllOptionsAllowOneCharacterInShortName();
+            //var test = new {XYZ}Fixture();
+            //test.ExecUnitTestMethod("but set a breakpoint before!");
             Console.Write("press any key");
             Console.ReadKey();
             Environment.Exit(1);

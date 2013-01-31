@@ -36,13 +36,13 @@ using CommandLine.Tests.Mocks;
 
 namespace CommandLine.Tests
 {
-    public class ValueListAttributeParsingFixture : CommandLineParserBaseFixture
+    public class ValueListAttributeParsingFixture : ParserBaseFixture
     {
         [Fact]
         public void Value_list_attribute_isolates_non_option_values()
         {
             var options = new SimpleOptionsWithValueList();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(
                 new string[] { "--switch", "file1.ext", "file2.ext", "file3.ext", "-s", "out.ext" }, options);
 
@@ -60,7 +60,7 @@ namespace CommandLine.Tests
         public void Value_list_with_max_elem_inside_bounds()
         {
             var options = new OptionsWithValueListMaximumThree();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] { "file.a", "file.b", "file.c" }, options);
 
             result.Should().BeTrue();
@@ -77,7 +77,7 @@ namespace CommandLine.Tests
         public void Value_list_with_max_elem_outside_bounds()
         {
             var options = new OptionsWithValueListMaximumThree();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(
                     new string[] { "file.a", "file.b", "file.c", "file.d" }, options);
 
@@ -88,7 +88,7 @@ namespace CommandLine.Tests
         public void Value_list_with_max_elem_set_to_zero_succeeds()
         {
             var options = new OptionsWithValueListMaximumZero();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] { }, options);
 
             result.Should().BeTrue();
@@ -101,7 +101,7 @@ namespace CommandLine.Tests
         public void Value_list_with_max_elem_set_to_zero_failes()
         {
             var options = new OptionsWithValueListMaximumZero();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] { "some", "value" }, options);
 
             result.Should().BeFalse();

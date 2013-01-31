@@ -34,7 +34,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using CommandLine.Tests.Mocks;
-using CommandLine.Utils;
+using CommandLine.Helpers;
 using Xunit;
 using FluentAssertions;
 
@@ -43,7 +43,7 @@ using FluentAssertions;
 namespace CommandLine.Tests
 {
     
-    public class StrictFixture : CommandLineParserBaseFixture
+    public class StrictFixture : ParserBaseFixture
     {
         [Fact]
         public void Parse_strict_bad_input_fails_and_exits()
@@ -52,7 +52,7 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArgumentsStrict(new string[] {"--bad", "--input"}, options, testWriter);
 
             result.Should().BeFalse();
@@ -75,7 +75,7 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArgumentsStrict(new string[] { "--bad", "--input" }, options, testWriter);
 
             result.Should().BeFalse();
@@ -96,7 +96,7 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
 
             result.Should().BeFalse();
@@ -119,7 +119,7 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
 
             result.Should().BeFalse();

@@ -36,7 +36,7 @@ using FluentAssertions;
 
 namespace CommandLine.Tests
 {  
-    public class HelpOptionAttributeFixture : CommandLineParserBaseFixture
+    public class HelpOptionAttributeFixture : ParserBaseFixture
     {
         #region Mock Objects
         private class MockOptions
@@ -74,7 +74,7 @@ namespace CommandLine.Tests
         {
             var options = new MockOptions();
             var writer = new StringWriter();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(
                     new string[] { "-imath.xml", "-oresult.xml" }, options, writer);
 
@@ -87,7 +87,7 @@ namespace CommandLine.Tests
         {
             var options = new MockOptions();
             var writer = new StringWriter();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(
                     new string[] { "math.xml", "-oresult.xml" }, options, writer);
 
@@ -104,7 +104,7 @@ namespace CommandLine.Tests
         {
             var options = new MockOptions();
             var writer = new StringWriter();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(
                     new string[] { "--help" }, options, writer);
 

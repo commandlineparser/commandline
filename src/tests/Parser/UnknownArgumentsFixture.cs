@@ -44,7 +44,7 @@ namespace CommandLine.Tests
         {
             string[] args = { "--plugin", "addonX", "--filename", "input.dat" };
             var appOptions = new OptionsForAppWithPlugIns();
-            var parser = new CommandLineParser(new CommandLineParserSettings {
+            var parser = new Parser(new ParserSettings {
                 IgnoreUnknownArguments = true, CaseSensitive = true });
             var result1 = parser.ParseArguments(args, appOptions);
 

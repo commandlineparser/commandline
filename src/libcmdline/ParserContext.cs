@@ -28,7 +28,7 @@
 #endregion
 #region Using Directives
 using System;
-using CommandLine.Internal;
+using CommandLine.Core;
 #endregion
 
 namespace CommandLine

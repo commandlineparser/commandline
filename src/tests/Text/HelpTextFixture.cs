@@ -295,7 +295,7 @@ namespace CommandLine.Text.Tests
         {
             var sw = new StringWriter();
             var options = new RPEOptions();
-            var parser = new CommandLineParser(new CommandLineParserSettings {
+            var parser = new Parser(new ParserSettings {
                 MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
             var result = parser.ParseArguments(new string[] {"--option-b", "hello", "-cWORLD"}, options);
 
@@ -318,7 +318,7 @@ namespace CommandLine.Text.Tests
         {
             var sw = new StringWriter();
             var options = new RPEOptionsForAutoBuild();
-            var parser = new CommandLineParser(new CommandLineParserSettings {
+            var parser = new Parser(new ParserSettings {
                 MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
             var result = parser.ParseArguments(new string[] {"--option-b", "hello", "-cWORLD"}, options);
 
@@ -351,7 +351,7 @@ namespace CommandLine.Text.Tests
         {
             var sw = new StringWriter();
             var options = new SimpleOptionsForAutoBuid();
-            var parser = new CommandLineParser(new CommandLineParserSettings {
+            var parser = new Parser(new ParserSettings {
                 MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
             var result = parser.ParseArguments(new string[] {}, options);
 
@@ -381,7 +381,7 @@ namespace CommandLine.Text.Tests
         {
             var options = new ComplexOptionsWithHelp();
 
-            bool result = new CommandLineParser(new CommandLineParserSettings(Console.Out)).ParseArguments(
+            bool result = new Parser(new ParserSettings(Console.Out)).ParseArguments(
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "abc" }, options);
 
             result.Should().BeFalse();
@@ -392,7 +392,7 @@ namespace CommandLine.Text.Tests
         {
             var options = new ComplexOptionsWithHelp();
 
-            bool result = new CommandLineParser(new CommandLineParserSettings(Console.Out)).ParseArguments(
+            bool result = new Parser(new ParserSettings(Console.Out)).ParseArguments(
                 new string[] { "-j0" }, options);
 
             result.Should().BeFalse();
@@ -403,7 +403,7 @@ namespace CommandLine.Text.Tests
         {
             var options = new ComplexOptionsWithHelp();
 
-            bool result = new CommandLineParser(new CommandLineParserSettings(Console.Out)).ParseArguments(
+            bool result = new Parser(new ParserSettings(Console.Out)).ParseArguments(
                 new string[] { "-i0" }, options);
 
             result.Should().BeFalse();
@@ -414,7 +414,7 @@ namespace CommandLine.Text.Tests
         {
             var options = new ComplexOptionsWithHelp();
 
-            bool result = new CommandLineParser(new CommandLineParserSettings(true, true, Console.Out)).ParseArguments(
+            bool result = new Parser(new ParserSettings(true, true, Console.Out)).ParseArguments(
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "0", "-ap" }, options);
 
             result.Should().BeFalse();
@@ -425,7 +425,7 @@ namespace CommandLine.Text.Tests
         {
             var options = new ComplexOptionsWithHelp();
 
-            bool result = new CommandLineParser(new CommandLineParserSettings(true, true, Console.Out)).ParseArguments(
+            bool result = new Parser(new ParserSettings(true, true, Console.Out)).ParseArguments(
                 new string[] { "-iIN.FILE", "-oOUT.FILE", "--offset", "zero", "-pa" }, options);
 
             result.Should().BeFalse();
@@ -438,7 +438,7 @@ namespace CommandLine.Text.Tests
           var options = new ComplexOptions();
           using (var writer = new StringWriter())
           {
-            new CommandLineParser(new CommandLineParserSettings(false,  false, writer)).ParseArguments(new string[0], options, writer);
+            new Parser(new ParserSettings(false,  false, writer)).ParseArguments(new string[0], options, writer);
 
             options.LastParserState.Errors.Should().HaveCount(n => n == 2);
           }

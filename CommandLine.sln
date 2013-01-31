@@ -1,16 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "src\libcmdline\CommandLine.csproj", "{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "src\tests\CommandLine.Tests.csproj", "{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Demo", "src\demo\CommandLine.Demo.csproj", "{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{4F498B61-A7BC-4B32-9ACB-901D4F50659B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Welcome", ".Welcome", "{4F498B61-A7BC-4B32-9ACB-901D4F50659B}"
 	ProjectSection(SolutionItems) = preProject
-		CommandLine.FxCop = CommandLine.FxCop
-		Rakefile.rb = Rakefile.rb
+		doc\ChangeLog = doc\ChangeLog
+		doc\LICENSE = doc\LICENSE
+		doc\PublicAPI.md = doc\PublicAPI.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{CC062800-4709-4A04-8A0D-DD972C1BFFC5}"
@@ -19,16 +21,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{CC062800
 		nuget\readme.txt = nuget\readme.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{18282A82-E36C-4938-8397-C0A1166983BA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{18282A82-E36C-4938-8397-C0A1166983BA}"
 	ProjectSection(SolutionItems) = preProject
-		doc\ChangeLog = doc\ChangeLog
-		doc\LICENSE = doc\LICENSE
-		README.md = README.md
+		Rakefile.rb = Rakefile.rb
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{350E598F-50C7-45A2-83A6-346AF7D163F5}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Develop", "Develop", "{939BEBC0-CE70-4209-A991-0DA4E8F3B9AE}"
+	ProjectSection(SolutionItems) = preProject
+		CommandLine.FxCop = CommandLine.FxCop
 	EndProjectSection
 EndProject
 Global
@@ -64,8 +69,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CC062800-4709-4A04-8A0D-DD972C1BFFC5} = {4F498B61-A7BC-4B32-9ACB-901D4F50659B}
+		{939BEBC0-CE70-4209-A991-0DA4E8F3B9AE} = {4F498B61-A7BC-4B32-9ACB-901D4F50659B}
 		{18282A82-E36C-4938-8397-C0A1166983BA} = {4F498B61-A7BC-4B32-9ACB-901D4F50659B}
+		{CC062800-4709-4A04-8A0D-DD972C1BFFC5} = {939BEBC0-CE70-4209-A991-0DA4E8F3B9AE}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\demo\CommandLine.Demo.csproj

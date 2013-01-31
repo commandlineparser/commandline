@@ -29,7 +29,7 @@
 #region Using Directives
 using System;
 using System.Reflection;
-using CommandLine.Utils;
+using CommandLine.Helpers;
 #endregion
 
 namespace CommandLine

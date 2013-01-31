@@ -28,8 +28,8 @@
 #endregion
 #region Using Directives
 using System;
-using CommandLine.Internal;
-using CommandLine.Utils;
+using CommandLine.Core;
+using CommandLine.Helpers;
 
 #endregion
 

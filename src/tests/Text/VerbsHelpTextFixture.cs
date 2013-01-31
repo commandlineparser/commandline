@@ -32,7 +32,7 @@ using System.IO;
 using System.Reflection;
 using CommandLine.Tests;
 using CommandLine.Tests.Mocks;
-using CommandLine.Utils;
+using CommandLine.Helpers;
 using Xunit;
 using FluentAssertions;
 #endregion
@@ -40,7 +40,7 @@ using FluentAssertions;
 namespace CommandLine.Text.Tests
 {
     
-    public class VerbsHelpTextFixture : CommandLineParserBaseFixture
+    public class VerbsHelpTextFixture : ParserBaseFixture
     {
         [Fact]
         public void Failed_parsing_prints_help_index()
@@ -66,7 +66,7 @@ namespace CommandLine.Text.Tests
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] { "clone", "--no_hardlinks" }, options, testWriter);
 
             result.Should().BeFalse();
@@ -87,7 +87,7 @@ namespace CommandLine.Text.Tests
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(new string[] {"help", "add"}, options, testWriter);
 
             result.Should().BeFalse();
@@ -103,7 +103,7 @@ namespace CommandLine.Text.Tests
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new CommandLineParser();
+            var parser = new Parser();
             var result = parser.ParseArguments(args, options, testWriter);
 
             result.Should().BeFalse();

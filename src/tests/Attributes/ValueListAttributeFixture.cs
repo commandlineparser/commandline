@@ -60,7 +60,7 @@ namespace CommandLine.Tests
         [Fact]
         public void Will_throw_exception_if_concrete_type_is_incompatible()
         {
-             Assert.Throws<CommandLineParserException>(
+             Assert.Throws<ParserException>(
                 () => new ValueListAttribute(new List<object>().GetType()));
         }
 

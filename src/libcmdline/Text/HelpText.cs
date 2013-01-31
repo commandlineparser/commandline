@@ -32,7 +32,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CommandLine.Utils;
+using CommandLine.Extensions;
+using CommandLine.Helpers;
 #endregion
 
 namespace CommandLine.Text
@@ -142,7 +143,7 @@ namespace CommandLine.Text
         /// </summary>
         /// <param name="heading">A string with heading information or an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
         /// <param name="copyright">A string with copyright information or an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
-        /// <param name="options">The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name="options">The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         /// <exception cref="System.ArgumentException">Thrown when one or more parameters <paramref name="heading"/> are null or empty strings.</exception>
         public HelpText(string heading, string copyright, object options)
             : this()
@@ -163,7 +164,7 @@ namespace CommandLine.Text
         /// <param name="sentenceBuilder">A <see cref="BaseSentenceBuilder"/> instance.</param>
         /// <param name="heading">A string with heading information or an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
         /// <param name="copyright">A string with copyright information or an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
-        /// <param name="options">The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name="options">The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         /// <exception cref="System.ArgumentException">Thrown when one or more parameters <paramref name="heading"/> are null or empty strings.</exception>
         public HelpText(BaseSentenceBuilder sentenceBuilder, string heading, string copyright, object options)
             : this(heading, copyright, options)
@@ -179,7 +180,7 @@ namespace CommandLine.Text
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
-        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         public static HelpText AutoBuild(object options)
         {
             return AutoBuild(options, null);
@@ -191,7 +192,7 @@ namespace CommandLine.Text
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
-        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         /// <param name='errDelegate'>A delegate used to customize the text block for reporting parsing errors.</param>
         public static HelpText AutoBuild(object options, ParsingErrorsHandler errDelegate)
         {
@@ -204,7 +205,7 @@ namespace CommandLine.Text
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
-        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         /// <param name='errDelegate'>A delegate used to customize the text block for reporting parsing errors.</param>
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
         public static HelpText AutoBuild(object options, ParsingErrorsHandler errDelegate, bool verbsIndex)
@@ -363,7 +364,7 @@ namespace CommandLine.Text
         /// <summary>
         /// Adds a text block with options usage informations.
         /// </summary>
-        /// <param name="options">The instance that collected command line arguments parsed with <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name="options">The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>
         public void AddOptions(object options)
         {
@@ -373,7 +374,7 @@ namespace CommandLine.Text
         /// <summary>
         /// Adds a text block with options usage informations.
         /// </summary>
-        /// <param name="options">The instance that collected command line arguments parsed with the <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name="options">The instance that collected command line arguments parsed with the <see cref="Parser"/> class.</param>
         /// <param name="requiredWord">The word to use when the option is required.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="requiredWord"/> is null or empty string.</exception>
@@ -388,7 +389,7 @@ namespace CommandLine.Text
         /// <summary>
         /// Adds a text block with options usage informations.
         /// </summary>
-        /// <param name="options">The instance that collected command line arguments parsed with the <see cref="CommandLine.CommandLineParser"/> class.</param>
+        /// <param name="options">The instance that collected command line arguments parsed with the <see cref="Parser"/> class.</param>
         /// <param name="requiredWord">The word to use when the option is required.</param>
         /// <param name="maximumLength">The maximum length of the help documentation.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>

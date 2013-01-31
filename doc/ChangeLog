@@ -1,3 +1,16 @@
+2013-01-31  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Namespace '.Internal' renamed to '.Core'.
+  * Types with extension methods moved to new namespace Extensions (following my latest conventions).
+  * Utility types moved to new Helpers namespace.
+  * Text/Attributes moved to {root}/Attributes folder.
+  * CommandLineParser renamed to Parser (yes, I finally dit it!).
+      - ICommandLineParser -> IParser
+      - CommandLineParserSettings -> ParserSettings
+      - CommandLineParserException -> ParserException
+  * FxCop can scan Debug assembly (because now Debug == Release assembly).
+  * Version incremented to 1.9.4.207 beta.  
+
 2013-01-29  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Better constructor chaining in CommandLineParserSettings.

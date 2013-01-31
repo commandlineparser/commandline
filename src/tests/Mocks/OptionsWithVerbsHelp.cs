@@ -96,7 +96,7 @@ namespace CommandLine.Tests.Mocks
         public string GetUsage(string verb)
         {
             bool found;
-            var instance = (CommandLineOptionsBase) CommandLineParser.GetVerbOptionsInstanceByName(verb, this, out found);
+            var instance = (CommandLineOptionsBase) Parser.GetVerbOptionsInstanceByName(verb, this, out found);
             var verbsIndex = verb == null || !found;
             var target = verbsIndex ? this : instance;
             return HelpText.AutoBuild(target, current => HelpText.DefaultParsingErrorsHandler(target, current), verbsIndex);

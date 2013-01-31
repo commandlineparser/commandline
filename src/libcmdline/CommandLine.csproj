@@ -80,52 +80,52 @@
     <Compile Include="Attributes\ParserStateAttribute.cs" />
     <Compile Include="Attributes\ValueListAttribute.cs" />
     <Compile Include="Attributes\ValueOptionAttribute.cs" />
-    <Compile Include="Internal\PropertyWriter.cs" />
+    <Compile Include="Core\PropertyWriter.cs" />
     <Compile Include="ParserContext.cs" />
-    <Compile Include="Utils\Assumes.cs" />
-    <Compile Include="Internal\SR.strings.cs">
+    <Compile Include="Helpers\Assumes.cs" />
+    <Compile Include="Core\SR.strings.cs">
       <DependentUpon>SR.strings</DependentUpon>
     </Compile>
-    <Compile Include="Utils\ReflectionCache.cs" />
-    <Compile Include="Utils\SwitchExtensions.cs" />
-    <Compile Include="Utils\StringExtensions.cs" />
-    <Compile Include="Utils\ReflectionUtil.cs" />
-    <Compile Include="Utils\Pair.cs" />
-    <Compile Include="Internal\ValueMapper.cs" />
-    <Compile Include="Internal\LongOptionParser.cs" />
-    <Compile Include="Internal\OptionGroupParser.cs" />
-    <Compile Include="Internal\OptionInfo.cs" />
-    <Compile Include="Internal\OptionMap.cs" />
-    <Compile Include="Internal\OneCharStringEnumerator.cs" />
-    <Compile Include="Internal\StringArrayEnumerator.cs" />
-    <Compile Include="Internal\ArgumentParser.cs" />
-    <Compile Include="Internal\IArgumentEnumerator.cs" />
-    <Compile Include="Internal\PresentParserState.cs" />
+    <Compile Include="Helpers\ReflectionCache.cs" />
+    <Compile Include="Extensions\SwitchExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Helpers\ReflectionUtil.cs" />
+    <Compile Include="Helpers\Pair.cs" />
+    <Compile Include="Core\ValueMapper.cs" />
+    <Compile Include="Core\LongOptionParser.cs" />
+    <Compile Include="Core\OptionGroupParser.cs" />
+    <Compile Include="Core\OptionInfo.cs" />
+    <Compile Include="Core\OptionMap.cs" />
+    <Compile Include="Core\OneCharStringEnumerator.cs" />
+    <Compile Include="Core\StringArrayEnumerator.cs" />
+    <Compile Include="Core\ArgumentParser.cs" />
+    <Compile Include="Core\IArgumentEnumerator.cs" />
+    <Compile Include="Core\PresentParserState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Text\HelpText.cs" />
     <Compile Include="Text\BaseSentenceBuilder.cs" />
     <Compile Include="Text\EnglishSentenceBuilder.cs" />
     <Compile Include="Text\CopyrightInfo.cs" />
     <Compile Include="Text\HeadingInfo.cs" />
-    <Compile Include="Text\Attributes\MultiLineTextAttribute.cs" />
-    <Compile Include="Text\Attributes\AssemblyLicenseAttribute.cs" />
-    <Compile Include="Text\Attributes\AssemblyUsageAttribute.cs" />
+    <Compile Include="Attributes\MultiLineTextAttribute.cs" />
+    <Compile Include="Attributes\AssemblyLicenseAttribute.cs" />
+    <Compile Include="Attributes\AssemblyUsageAttribute.cs" />
     <Compile Include="Text\ParsingErrorsHandler.cs" />
     <Compile Include="Text\FormatOptionHelpTextEventArgs.cs" />
     <Compile Include="Attributes\HelpVerbOptionAttribute.cs" />
     <Compile Include="Attributes\VerbOptionAttribute.cs" />
     <Compile Include="BadOptionInfo.cs" />
-    <Compile Include="CommandLineParser.cs" />
-    <Compile Include="CommandLineParserException.cs" />
-    <Compile Include="CommandLineParserSettings.cs" />
-    <Compile Include="ICommandLineParser.cs" />
+    <Compile Include="Parser.cs" />
+    <Compile Include="ParserException.cs" />
+    <Compile Include="ParserSettings.cs" />
+    <Compile Include="IParser.cs" />
     <Compile Include="IParserState.cs" />
     <Compile Include="ParserState.cs" />
     <Compile Include="ParsingError.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Utils\TargetExtensions.cs" />
+    <Compile Include="Extensions\TargetExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -137,7 +137,7 @@
   -->
   <ItemGroup>
     <None Include="CommandLine.snk" />
-    <None Include="Internal\SR.strings" />
+    <None Include="Core\SR.strings" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

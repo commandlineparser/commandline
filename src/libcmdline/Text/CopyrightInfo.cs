@@ -31,8 +31,8 @@ using System;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
-using CommandLine.Internal;
-using CommandLine.Utils;
+using CommandLine.Core;
+using CommandLine.Helpers;
 
 #endregion
 

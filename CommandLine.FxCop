@@ -21,7 +21,7 @@
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
  </ProjectOptions>
  <Targets>
-  <Target Name="$(ProjectDir)/src/libcmdline/bin/Release/CommandLine.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/src/libcmdline/bin/Debug/CommandLine.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
@@ -41,7 +41,7 @@
  </Rules>
  <FxCopReport Version="10.0">
   <Targets>
-   <Target Name="$(ProjectDir)/src/libcmdline/bin/Release/CommandLine.dll">
+   <Target Name="$(ProjectDir)/src/libcmdline/bin/Debug/CommandLine.dll">
     <Modules>
      <Module Name="commandline.dll">
       <Namespaces>
@@ -51,14 +51,14 @@
           <Members>
            <Member Name="#.ctor(System.Boolean)">
             <Messages>
-             <Message Id="singleton" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Excluded" Created="2013-01-20 13:57:34Z" FixCategory="NonBreaking">
+             <Message Id="singleton" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Excluded" Created="2013-01-31 18:34:18Z" FixCategory="NonBreaking">
               <Issue>
                <Item>'singleton'</Item>
                <Item>'CommandLineParser.CommandLineParser(bool)'</Item>
               </Issue>
               <Notes>
                <User Name="vmuser">
-                <Note Id="2" />
+                <Note Id="1" />
                </User>
               </Notes>
              </Message>
@@ -66,10 +66,15 @@
            </Member>
            <Member Name="#GetVerbOptionsInstanceByName(System.String,System.Object,System.Boolean&amp;)">
             <Messages>
-             <Message Id="2#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Created="2013-01-20 13:57:34Z">
+             <Message Id="2#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Status="Excluded" Created="2013-01-31 18:34:18Z">
               <Issue>
                <Item>'found'</Item>
               </Issue>
+              <Notes>
+               <User Name="vmuser">
+                <Note Id="4" />
+               </User>
+              </Notes>
              </Message>
             </Messages>
            </Member>
@@ -77,14 +82,14 @@
          </Type>
          <Type Name="OptionListAttribute">
           <Messages>
-           <Message TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019" Status="Excluded" Created="2013-01-20 13:57:34Z" FixCategory="Breaking">
+           <Message TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019" Status="Excluded" Created="2013-01-31 18:34:18Z" FixCategory="Breaking">
             <Issue Name="RemoveSetter">
              <Item>'OptionListAttribute.Separator'</Item>
              <Item>'separator'</Item>
             </Issue>
             <Notes>
              <User Name="vmuser">
-              <Note Id="0" />
+              <Note Id="2" />
              </User>
             </Notes>
            </Message>
@@ -92,20 +97,42 @@
          </Type>
         </Types>
        </Namespace>
-       <Namespace Name="CommandLine.Internal">
+       <Namespace Name="CommandLine.Core">
         <Types>
-         <Type Name="OptionInfo">
+         <Type Name="PropertyWriter">
           <Members>
-           <Member Name="#SetNullableValue(System.String,System.Object)">
+           <Member Name="#WriteNullable(System.String,System.Object)">
             <Messages>
-             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Excluded" Created="2013-01-20 13:57:34Z">
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Excluded" Created="2013-01-31 18:34:18Z">
               <Issue>
-               <Item>'OptionInfo.SetNullableValue(string, object)'</Item>
+               <Item>'PropertyWriter.WriteNullable(string, object)'</Item>
                <Item>'Exception'</Item>
               </Issue>
               <Notes>
                <User Name="vmuser">
-                <Note Id="1" />
+                <Note Id="3" />
+               </User>
+              </Notes>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="CommandLine.Helpers">
+        <Types>
+         <Type Name="ReflectionCache">
+          <Members>
+           <Member Name="#.cctor()">
+            <Messages>
+             <Message TypeName="InitializeReferenceTypeStaticFieldsInline" Category="Microsoft.Performance" CheckId="CA1810" Status="Excluded" Created="2013-01-31 18:34:18Z">
+              <Issue>
+               <Item>'ReflectionCache'</Item>
+              </Issue>
+              <Notes>
+               <User Name="vmuser">
+                <Note Id="0" />
                </User>
               </Notes>
              </Message>
@@ -121,7 +148,7 @@
           <Members>
            <Member Name="#.ctor(System.Boolean,System.String,System.Int32[])">
             <Messages>
-             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-20 13:57:34Z">
+             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-31 18:34:18Z">
               <Issue>
                <Item>'CopyrightInfo.CopyrightInfo(bool, string, params int[])'</Item>
                <Item>&#xD;&#xA;&#xD;&#xA;CopyrightInfo..ctor(Boolean, String, Int32[])&#xD;&#xA;CopyrightInfo.get_CopyrightWord():String</Item>
@@ -135,34 +162,11 @@
           <Members>
            <Member Name="#.ctor(System.String,System.String,System.Object)">
             <Messages>
-             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-20 13:57:34Z">
+             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2013-01-31 18:34:18Z">
               <Issue>
                <Item>'HelpText.HelpText(string, string, object)'</Item>
                <Item>&#xD;&#xA;&#xD;&#xA;HelpText..ctor(String, String, Object)&#xD;&#xA;HelpText.AddOptions(Object):Void&#xD;&#xA;HelpText.AddOptions(Object, String):Void&#xD;&#xA;HelpText.AddOptions(Object, String, Int32):Void&#xD;&#xA;HelpText.AddOption(String, Int32, BaseOptionAttribute, Int32):Void&#xD;&#xA;HelpText.OnFormatOptionHelpText(FormatOptionHelpTextEventArgs):Void</Item>
               </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-        </Types>
-       </Namespace>
-       <Namespace Name="CommandLine.Utils">
-        <Types>
-         <Type Name="ReflectionCache">
-          <Members>
-           <Member Name="#.cctor()">
-            <Messages>
-             <Message TypeName="InitializeReferenceTypeStaticFieldsInline" Category="Microsoft.Performance" CheckId="CA1810" Status="Excluded" Created="2013-01-24 13:11:50Z">
-              <Issue>
-               <Item>'ReflectionCache'</Item>
-              </Issue>
-              <Notes>
-               <User Name="vmuser">
-                <Note Id="3" />
-                <Note Id="4" />
-               </User>
-              </Notes>
              </Message>
             </Messages>
            </Member>
@@ -177,11 +181,11 @@
   </Targets>
   <Notes>
    <User Name="vmuser">
-    <Note Id="0" Modified="2013-01-20 14:49:13Z">The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char.</Note>
-    <Note Id="1" Modified="2013-01-20 16:14:59Z">FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.</Note>
-    <Note Id="2" Modified="2013-01-22 20:28:56Z">The constructor that accepts a boolean is designed to support default singleton, the parameter is ignored.</Note>
-    <Note Id="3" Modified="2013-01-24 13:17:29Z">Singleton, by design.</Note>
-    <Note Id="4" Modified="2013-01-24 13:22:57Z">Singleton, by design.</Note>
+    <Note Id="0" Modified="2013-01-31 18:35:12Z">Singleton, by design.</Note>
+    <Note Id="1" Modified="2013-01-31 18:36:05Z">The constructor that accepts a boolean is designed to support default singleton, the parameter is ignored.</Note>
+    <Note Id="2" Modified="2013-01-31 18:37:19Z">The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char.</Note>
+    <Note Id="3" Modified="2013-01-31 18:38:22Z">FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.</Note>
+    <Note Id="4" Modified="2013-01-31 18:38:58Z">By design.</Note>
    </User>
   </Notes>
   <Rules>

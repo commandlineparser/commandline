@@ -29,8 +29,9 @@
 #region Using Directives
 using System;
 using System.Reflection;
-using CommandLine.Internal;
-using CommandLine.Utils;
+using CommandLine.Core;
+using CommandLine.Extensions;
+using CommandLine.Helpers;
 
 #endregion
 
