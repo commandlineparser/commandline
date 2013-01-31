@@ -59,6 +59,7 @@
     <Compile Include="Mocks\SimpleOptionsForStrict.cs" />
     <Compile Include="Mocks\OptionsWithVerbsHelp.cs" />
     <Compile Include="Mocks\OptionsWithVerbs.cs" />
+    <Compile Include="Parser\ParserConfiguratorFixture.cs" />
     <Compile Include="Parser\ParserFixture.cs" />
     <Compile Include="Parser\ParserSettingsFixture.cs" />
     <Compile Include="Parser\MutuallyExclusiveParsingFixture.cs" />

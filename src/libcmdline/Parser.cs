@@ -47,11 +47,22 @@ namespace CommandLine
     public class Parser : IParser, IDisposable
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Parser"/> class.
+        /// Initializes a new instance of the <see cref="CommandLine.Parser"/> class.
         /// </summary>
         public Parser()
         {
-            _settings = new ParserSettings();
+            Settings = new ParserSettings();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Parser"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration that should by used by the parser.</param>
+        public Parser(Action<ParserConfigurator> configuration)
+            : this()
+        {
+            var configurator = new ParserConfigurator(this);
+            configuration.Invoke(configurator);
         }
 
         // ReSharper disable UnusedParameter.Local
@@ -59,7 +70,7 @@ namespace CommandLine
         private Parser(bool singleton)
         // ReSharper restore UnusedParameter.Local
         {
-            _settings = new ParserSettings(false, false, Console.Error);
+            Settings = new ParserSettings(false, false, Console.Error);
         }
 
         /// <summary>
@@ -71,7 +82,7 @@ namespace CommandLine
         public Parser(ParserSettings settings)
         {
             Assumes.NotNull(settings, "settings", SR.ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull);
-            _settings = settings;
+            Settings = settings;
         }
 
         /// <summary>
@@ -80,6 +91,15 @@ namespace CommandLine
         public static IParser Default
         {
             get { return DefaultParser; }
+        }
+
+        /// <summary>
+        /// Gets the instance of <see cref="CommandLine.ParserSettings"/> in use.
+        /// </summary>
+        public ParserSettings Settings
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -118,14 +138,14 @@ namespace CommandLine
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
 
-            _settings.HelpWriter = helpWriter;
+            Settings.HelpWriter = helpWriter;
             return DoParseArguments(args, options);
         }
 
         private bool DoParseArguments(string[] args, object options)
         {
             var pair = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options);
-            var helpWriter = _settings.HelpWriter;
+            var helpWriter = Settings.HelpWriter;
 
             _context = new ParserContext(args, options);
 
@@ -155,7 +175,7 @@ namespace CommandLine
         private bool DoParseArgumentsCore(ParserContext context)
         {
             var hadError = false;
-            var optionMap = OptionMap.Create(context.Target, _settings);
+            var optionMap = OptionMap.Create(context.Target, Settings);
             optionMap.SetDefaults();
             var valueMapper = context.Target.CreateValueMapper();
 
@@ -167,7 +187,7 @@ namespace CommandLine
                 {
                     continue;
                 }
-                var parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
+                var parser = ArgumentParser.Create(argument, Settings.IgnoreUnknownArguments);
                 if (parser != null)
                 {
                     var result = parser.Parse(arguments, optionMap, context.Target);
@@ -199,7 +219,7 @@ namespace CommandLine
 
         private bool ParseHelp(string[] args, HelpOptionAttribute helpOption)
         {
-            var caseSensitive = _settings.CaseSensitive;
+            var caseSensitive = Settings.CaseSensitive;
             foreach (var arg in args)
             {
                 if (helpOption.ShortName != null)
@@ -261,7 +281,7 @@ namespace CommandLine
             {
                 return false;
             }
-            return string.Compare(_context.FirstArgument, verb, _settings.StringComparison) == 0;
+            return string.Compare(_context.FirstArgument, verb, Settings.StringComparison) == 0;
         }
 
         private bool DoParseArgumentsVerbs(ParserContext context)
@@ -270,13 +290,13 @@ namespace CommandLine
             var helpInfo = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(context.Target);
             if (context.HasNoArguments())
             {
-                if (helpInfo != null || _settings.HelpWriter != null)
+                if (helpInfo != null || Settings.HelpWriter != null)
                 {
                     DisplayHelpVerbText(context.Target, helpInfo, null);
                 }
                 return false;
             }
-            var optionMap = OptionMap.Create(context.Target, verbs, _settings);
+            var optionMap = OptionMap.Create(context.Target, verbs, Settings);
             // Read the verb from command line arguments
             if (TryParseHelpVerb(context.Arguments, context.Target, helpInfo, optionMap))
             {
@@ -309,10 +329,10 @@ namespace CommandLine
 
         private bool TryParseHelpVerb(string[] args, object options, Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo, OptionMap optionMap)
         {
-            var helpWriter = _settings.HelpWriter;
+            var helpWriter = Settings.HelpWriter;
             if (helpInfo != null && helpWriter != null)
             {
-                if (string.Compare(args[0], helpInfo.Right.LongName, _settings.StringComparison) == 0)
+                if (string.Compare(args[0], helpInfo.Right.LongName, Settings.StringComparison) == 0)
                 {
                     // User explicitly requested help
                     var verb = args.Length > 1 ? args[1] : null;
@@ -346,9 +366,9 @@ namespace CommandLine
             {
                 HelpVerbOptionAttribute.InvokeMethod(options, helpInfo, verb, out helpText);
             }
-            if (_settings.HelpWriter != null)
+            if (Settings.HelpWriter != null)
             {
-                _settings.HelpWriter.Write(helpText);
+                Settings.HelpWriter.Write(helpText);
             }
         }
         #endregion
@@ -418,7 +438,7 @@ namespace CommandLine
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
 
-            _settings.HelpWriter = helpWriter;
+            Settings.HelpWriter = helpWriter;
 
             return DoParseArgumentsStrict(args, options, DefaultExitCodeFail);
         }
@@ -443,7 +463,7 @@ namespace CommandLine
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
 
-            _settings.HelpWriter = helpWriter;
+            Settings.HelpWriter = helpWriter;
 
             return DoParseArgumentsStrict(args, options, exitCode);
         }
@@ -468,7 +488,7 @@ namespace CommandLine
 
         private void InvokeAutoBuildIfNeeded(object options)
         {
-            if (_settings.HelpWriter == null ||
+            if (Settings.HelpWriter == null ||
                 options.HasHelp() ||
                 options.HasVerbHelp())
             {
@@ -476,7 +496,7 @@ namespace CommandLine
             }
 
             // We print help text for the user
-            _settings.HelpWriter.Write(HelpText.AutoBuild(options,
+            Settings.HelpWriter.Write(HelpText.AutoBuild(options,
                 current => HelpText.DefaultParsingErrorsHandler(options, current), options.HasVerbs()));
         }
         #endregion
@@ -519,9 +539,9 @@ namespace CommandLine
             }
             if (disposing)
             {
-                if (_settings != null)
+                if (Settings != null)
                 {
-                    _settings.Dispose();
+                    Settings.Dispose();
                 }
                 _disposed = true;
             }
@@ -538,6 +558,5 @@ namespace CommandLine
         private ParserContext _context;
         private bool _disposed;
         private static readonly IParser DefaultParser = new Parser(true);
-        private readonly ParserSettings _settings;
     }
 }
