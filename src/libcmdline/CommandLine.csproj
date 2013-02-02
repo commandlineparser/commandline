@@ -112,7 +112,6 @@
     <Compile Include="Attributes\MultiLineTextAttribute.cs" />
     <Compile Include="Attributes\AssemblyLicenseAttribute.cs" />
     <Compile Include="Attributes\AssemblyUsageAttribute.cs" />
-    <Compile Include="Text\ParsingErrorsHandler.cs" />
     <Compile Include="Text\FormatOptionHelpTextEventArgs.cs" />
     <Compile Include="Attributes\HelpVerbOptionAttribute.cs" />
     <Compile Include="Attributes\VerbOptionAttribute.cs" />

@@ -194,7 +194,7 @@ namespace CommandLine.Text
         /// </returns>
         /// <param name='options'>The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         /// <param name='errDelegate'>A delegate used to customize the text block for reporting parsing errors.</param>
-        public static HelpText AutoBuild(object options, ParsingErrorsHandler errDelegate)
+        public static HelpText AutoBuild(object options, Action<HelpText> errDelegate)
         {
             return AutoBuild(options, errDelegate, false);
         }
@@ -208,7 +208,7 @@ namespace CommandLine.Text
         /// <param name='options'>The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         /// <param name='errDelegate'>A delegate used to customize the text block for reporting parsing errors.</param>
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
-        public static HelpText AutoBuild(object options, ParsingErrorsHandler errDelegate, bool verbsIndex)
+        public static HelpText AutoBuild(object options, Action<HelpText> errDelegate, bool verbsIndex)
         {
             var auto = new HelpText {
                 Heading = HeadingInfo.Default,

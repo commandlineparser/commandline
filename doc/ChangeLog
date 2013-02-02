@@ -1,3 +1,8 @@
+2013-02-02  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * ParsingErrorsHandler delegate replaced by Action<HelpText>.
+  * Version incremented to 1.9.4.211 beta.
+
 2013-01-31  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Added readonly property Settings of type ParserSettings to IParser, Parser.
