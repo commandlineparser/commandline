@@ -56,11 +56,10 @@ namespace CommandLine.Core
             private int _count;
         }
 
-#if !UNIT_TESTS
-        private OptionMap(int capacity, ParserSettings settings)
-#else
-        public OptionMap(int capacity, ParserSettings settings) 
-#endif
+        /// <summary>
+        /// Constructor used for testing purpose.
+        /// </summary>
+        internal OptionMap(int capacity, ParserSettings settings) 
         {
             _settings = settings;
 

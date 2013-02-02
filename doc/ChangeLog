@@ -1,6 +1,7 @@
 2013-02-02  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * ParsingErrorsHandler delegate replaced by Action<HelpText>.
+  * Fixed an issue with OptionMap test internal constructor.
   * Version incremented to 1.9.4.211 beta.
 
 2013-01-31  Giacomo Stelluti Scala  <gsscoder@gmail.com>
