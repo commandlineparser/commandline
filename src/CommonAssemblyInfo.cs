@@ -7,5 +7,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.9.4.209")]
 [assembly: AssemblyFileVersion("1.9.4.209")]
 
-[assembly: AssemblyInformationalVersion("1.9")]
+[assembly: AssemblyInformationalVersion("1.9.4.209-beta")]
 [assembly: NeutralResourcesLanguage("en-US")]

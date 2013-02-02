@@ -1,10 +1,27 @@
-Command Line Parser Library 1.9.3.34 Stable
--------------------------------------------
+Command Line Parser Library 1.9.4.209 Beta
+------------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
 
 Codeplex: http://commandline.codeplex.com/
 GitHub (Latest Sources, Updated Docs): https://github.com/gsscoder/commandline
+
+Upgrading from < 1.9.4.91 versions:
+-----------------------------------
+- Use System.Char for short name:
+  [Option('o', "my-option", DefaultValue=10, HelpText="This is an option!")]
+  public int MyOption { get; set; }
+- Receive parsing errors without CommandLineOptionsBase (removed):
+  public class Options {
+    [ParserState]
+    public IParserState LastParserState { get; set; }
+  }
+- Types rename:
+  MultiLineTextAttribute -> MultilineTextAttribute (first 'L' -> lowercase)
+  CommandLineParser -> Parser (suggestion: qualify with namespace -> CommandLine.Parser).
+  ICommandLineParser -> IParser
+  CommandLineParserSettings -> ParserSettings
+  CommandLineParserException -> ParserException
 
 Upgrading from 1.8.* versions:
 ------------------------------

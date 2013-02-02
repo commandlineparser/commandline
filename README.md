@@ -38,7 +38,8 @@ $ rake
 
 To install:
 ---
-  - NuGet way: ``Install-Package CommandLineParser``
+  - NuGet way (latest stable): ``Install-Package CommandLineParser``
+  - NuGet way (latest version): ``Install-Package CommandLineParser -pre``
   - XCOPY way: ``cp CommandLine/src/libcmdline/*.cs To/Your/Project/Dir``
 
 To start:
