@@ -120,4 +120,16 @@ namespace CommandLine.Tests.Mocks
         [VerbOption("clone", HelpText = "Clone a repository into a new directory.")]
         public CloneSubOptions CloneVerb { get; set; }
     }
+
+    class WithRequiredSubOptions
+    {
+        [Option('m', "must", Required = true)]
+        public string RequiredOption { get; set; }
+    }
+
+    class OptionsWithVerbsNoHelp2 : OptionsWithVerbsNoHelp
+    {
+        [VerbOption("with")]
+        public WithRequiredSubOptions WithRequired { get; set; }
+    }
 }

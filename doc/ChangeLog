@@ -1,3 +1,9 @@
+2013-02-06  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Solved an issue came out when solving https://github.com/gsscoder/commandline/issues/49
+      (see VerbsFixture.cs#172).
+  * Version incremented to 1.9.4.215 beta.
+
 2013-02-02  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * ParsingErrorsHandler delegate replaced by Action<HelpText>.

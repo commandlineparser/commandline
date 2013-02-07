@@ -319,7 +319,7 @@ namespace CommandLine
                 verbOption.CreateInstance(context.Target);
             }
             var verbResult = DoParseArgumentsCore(context.ToCoreInstance(verbOption));
-            if (!verbResult)
+            if (!verbResult && helpInfo != null)
             {
                 // Particular verb parsing failed, we try to print its help
                 DisplayHelpVerbText(context.Target, helpInfo, context.FirstArgument);

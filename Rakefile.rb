@@ -1,6 +1,6 @@
 PRODUCT = "Command Line Parser Library"
 DESCRIPTION = "Command Line Parser Library allows CLR applications to define a syntax for parsing command line arguments."
-VERSION = "1.9.4.209"
+VERSION = "1.9.4.215"
 INF_VERSION = VERSION + "-beta"
 COPYRIGHT = "Copyright (c) 2005 - 2013 Giacomo Stelluti Scala"
 LICENSE_URL = "https://raw.github.com/gsscoder/commandline/master/doc/LICENSE"
@@ -79,7 +79,7 @@ assemblyinfo :assemblyinfo do |a|
   a.version = a.file_version = VERSION
   a.copyright = COPYRIGHT
   a.custom_attributes :AssemblyInformationalVersion => INF_VERSION, :NeutralResourcesLanguage => "en-US"
-  a.output_file = "src/CommonAssemblyInfo.cs"
+  a.output_file = "src/SharedAssemblyInfo.cs"
   a.namespaces "System.Runtime.CompilerServices", "System.Resources"
 end
 

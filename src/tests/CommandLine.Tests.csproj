@@ -47,6 +47,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Attributes\AttributesFixture.cs" />
     <Compile Include="Attributes\HelpOptionAttributeFixture.cs" />
     <Compile Include="Attributes\ValueListAttributeFixture.cs" />
@@ -101,9 +104,6 @@
     <Compile Include="Mocks\SimpleOptionsForAutoBuid.cs" />
     <Compile Include="Mocks\OptionsForPlugInScenario.cs" />
     <Compile Include="Mocks\OptionsWithUIntArray.cs" />
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Text\CopyrightInfoFixture.cs" />
     <Compile Include="Text\HeadingInfoFixture.cs" />
     <Compile Include="Text\HelpTextFixture.cs" />

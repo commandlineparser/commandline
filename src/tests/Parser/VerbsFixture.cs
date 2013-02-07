@@ -168,6 +168,20 @@ namespace CommandLine.Tests
             parser.WasVerbOptionInvoked("--amend").Should().BeFalse();
             parser.WasVerbOptionInvoked("-a").Should().BeFalse();
         }
+
+        /// <summary>
+        /// Issue came out when solving https://github.com/gsscoder/commandline/issues/49.
+        /// </summary>
+        [Fact]
+        public void Should_fail_gracefully_when_no_getusage_is_defined()
+        {
+            var options = new OptionsWithVerbsNoHelp2();
+
+            var parser = new Parser();
+            var result = parser.ParseArguments(new[] {"with", "--must"}, options);
+
+            result.Should().BeFalse();
+        }
     }
 }
 
