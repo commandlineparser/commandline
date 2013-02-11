@@ -8,24 +8,21 @@ Compatibility:
   - C# 3.0+ compiler
   - .NET Framework 2.0+
   - Mono 2.1+ Profile
- 
-News: 
+
+At glance:
 ---
-  - Extracted interface ``IParserSettings`` from ``ParserSettings``; see [Public API](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md) document.
-  - Prefix ``CommandLine`` removed from main types to achieve name consistency between all library types.
-  - Removed compilation symbol UNIT_TESTS and DebugTests configuration.
-  - All names of test fixture methods changed to a new convention (using https://gist.github.com/4655503).
-  - Started refactoring on test project (migrating from NUnit to Xunit).
-  - Thanks to @marcells, we can reference CommandLine.dll from CommandLine.Tests.dll keeping strong name.
-  - Introduced ``ValueOptionAttribute`` enhancement of issue #33.
-  - ``CommandLineParser`` refactored (also using new ``ParserContext`` type).
-  - ``ReflectionUtil`` now caches data using ``ReflectionCache``.
-  - Internal refactoring on ``OptionMap`` and ``OptionInfo``.
-  - Refactoring in respect of FxCop rules (see ChangeLog). ``HandleParsingErrorsDelegate`` renamed to ``ParsingErrorsHandler``, ``MultiLineTextAttribute`` renamed to ``MultilineTextAttribute``.
-  - Removed synchronization from ``OptionInfo`` and ``TargetWrapper`` (parsing should occur in one thread;
-      if not, synchronization must be provided by developer not by the library).
-  - Merged pull request #44 from @dbaileychess (Derek Bailey) that adds ``BaseOptionAttribute::MetaKey`` similar to python [argparse](http://docs.python.org/2/library/argparse.html#module-argparse).
-  - Implemented [strict parsing](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/StrictFixture.cs) (see issue #32 by @nemec).
+  - One line parsing using default singleton: ``CommandLine.Parser.Default.ParseArguments(...)``.
+  - One line help screen generator: ``HelpText.AutoBuild(...)``.
+  - Map command line arguments to ``IList<string>``, arrays, enum or standard scalar types.
+  - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
+  - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Verb-Commands) as ``git commit -a``.
+  - Create parser instance using lambda expressions with __fluent builder__.
+
+To install:
+---
+  - NuGet way (latest stable): ``Install-Package CommandLineParser``
+  - NuGet way (latest version): ``Install-Package CommandLineParser -pre``
+  - XCOPY way: ``cp CommandLine/src/libcmdline/*.cs To/Your/Project/Dir``
 
 To build:
 ---
@@ -36,12 +33,6 @@ $ git clone https://github.com/gsscoder/commandline.git CommandLine
 $ cd CommandLine
 $ rake
 ```
-
-To install:
----
-  - NuGet way (latest stable): ``Install-Package CommandLineParser``
-  - NuGet way (latest version): ``Install-Package CommandLineParser -pre``
-  - XCOPY way: ``cp CommandLine/src/libcmdline/*.cs To/Your/Project/Dir``
 
 To start:
 ---
@@ -105,6 +96,24 @@ Resources for newcomers:
   - [Quickstart](https://github.com/gsscoder/commandline/wiki/Quickstart)
   - [Wiki](https://github.com/gsscoder/commandline/wiki)
   - [GNU getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html)
+
+Latest Changes: 
+---
+  - Extracted interface ``IParserSettings`` from ``ParserSettings``; see [Public API](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md) document.
+  - Prefix ``CommandLine`` removed from main types to achieve name consistency between all library types.
+  - Removed compilation symbol UNIT_TESTS and DebugTests configuration.
+  - All names of test fixture methods changed to a new convention (using https://gist.github.com/4655503).
+  - Started refactoring on test project (migrating from NUnit to Xunit).
+  - Thanks to @marcells, we can reference CommandLine.dll from CommandLine.Tests.dll keeping strong name.
+  - Introduced ``ValueOptionAttribute`` enhancement of issue #33.
+  - ``CommandLineParser`` refactored (also using new ``ParserContext`` type).
+  - ``ReflectionUtil`` now caches data using ``ReflectionCache``.
+  - Internal refactoring on ``OptionMap`` and ``OptionInfo``.
+  - Refactoring in respect of FxCop rules (see ChangeLog). ``HandleParsingErrorsDelegate`` renamed to ``ParsingErrorsHandler``, ``MultiLineTextAttribute`` renamed to ``MultilineTextAttribute``.
+  - Removed synchronization from ``OptionInfo`` and ``TargetWrapper`` (parsing should occur in one thread;
+      if not, synchronization must be provided by developer not by the library).
+  - Merged pull request #44 from @dbaileychess (Derek Bailey) that adds ``BaseOptionAttribute::MetaKey`` similar to python [argparse](http://docs.python.org/2/library/argparse.html#module-argparse).
+  - Implemented [strict parsing](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/StrictFixture.cs) (see issue #32 by @nemec).
 
 Contacts:
 ---
