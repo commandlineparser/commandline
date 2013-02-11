@@ -85,6 +85,7 @@
     <Compile Include="Attributes\ValueOptionAttribute.cs" />
     <Compile Include="Core\PropertyWriter.cs" />
     <Compile Include="IHideObjectMembers.cs" />
+    <Compile Include="IParserSettings.cs" />
     <Compile Include="ParserConfigurator.cs" />
     <Compile Include="ParserContext.cs" />
     <Compile Include="Helpers\Assumes.cs" />

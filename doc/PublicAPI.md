@@ -12,3 +12,4 @@ Public API Changes:
   - Version 1.9.4.207: Breaking: ``CommandLineParser``, ``ICommandLineParser``, ``CommandLineParserSettings``, ``CommandLineParserException`` renamed to ``Parser``, ``IParser``, ``ParserSettings``, ``ParserException`` as explained [here](https://github.com/gsscoder/commandline/issues/48).
   - Version 1.9.4.209: Non breaking, added fluent builder (``ParserConfigurator``, see issue #42).
   - Version 1.9.4.211: 'Partially' non breaking, ParsingErrorsHandler delegate replaced by Action<HelpText>.
+  - Version 1.9.4.217: Non breaking, Extracted interface ``IParserSettings`` from ``ParserSettings``. Changed consumers to depends on ``IParserSettings`` rather on concrete default implementation.

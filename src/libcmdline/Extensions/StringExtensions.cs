@@ -27,13 +27,14 @@
 //
 #endregion
 #region Using Directives
+using System;
 using System.Globalization;
 #endregion
 
 namespace CommandLine.Extensions
 {
     /// <summary>
-    /// Utility extension methods for strings and characters.
+    /// Utility extension methods for strings, characters and related types.
     /// </summary>
     static class StringExtensions
     {
@@ -88,6 +89,11 @@ namespace CommandLine.Extensions
                 default:
                     return false;
             }
+        }
+
+        public static StringComparison GetStringComparison(this IParserSettings settings)
+        {
+            return settings.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
         }
     }
 }

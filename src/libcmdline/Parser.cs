@@ -94,9 +94,9 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Gets the instance of <see cref="CommandLine.ParserSettings"/> in use.
+        /// Gets the instance that implements <see cref="CommandLine.IParserSettings"/> in use.
         /// </summary>
-        public ParserSettings Settings
+        public IParserSettings Settings
         {
             get;
             private set;
@@ -281,7 +281,7 @@ namespace CommandLine
             {
                 return false;
             }
-            return string.Compare(_context.FirstArgument, verb, Settings.StringComparison) == 0;
+            return string.Compare(_context.FirstArgument, verb, Settings.GetStringComparison()) == 0;
         }
 
         private bool DoParseArgumentsVerbs(ParserContext context)
@@ -332,7 +332,7 @@ namespace CommandLine
             var helpWriter = Settings.HelpWriter;
             if (helpInfo != null && helpWriter != null)
             {
-                if (string.Compare(args[0], helpInfo.Right.LongName, Settings.StringComparison) == 0)
+                if (string.Compare(args[0], helpInfo.Right.LongName, Settings.GetStringComparison()) == 0)
                 {
                     // User explicitly requested help
                     var verb = args.Length > 1 ? args[1] : null;

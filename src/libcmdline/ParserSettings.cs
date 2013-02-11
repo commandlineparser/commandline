@@ -34,9 +34,9 @@ using System.IO;
 namespace CommandLine
 {
     /// <summary>
-    /// Specifies a set of features to configure a <see cref="Parser"/> behavior.
+    /// Provides a default implementation for <see cref="CommandLine.IParserSettings"/>.
     /// </summary>
-    public sealed class ParserSettings : IDisposable
+    public sealed class ParserSettings : IParserSettings
     {
         private const bool CaseSensitiveDefault = true;
 
@@ -181,10 +181,10 @@ namespace CommandLine
             }
         }
 
-        internal StringComparison StringComparison
-        {
-            get { return CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase; }
-        }
+        //internal StringComparison StringComparison
+        //{
+        //    get { return CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase; }
+        //}
 
         /// <summary>
         /// Class destructor.

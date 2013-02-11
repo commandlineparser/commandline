@@ -59,7 +59,7 @@ namespace CommandLine.Core
         /// <summary>
         /// Constructor used for testing purpose.
         /// </summary>
-        internal OptionMap(int capacity, ParserSettings settings) 
+        internal OptionMap(int capacity, IParserSettings settings) 
         {
             _settings = settings;
 
@@ -73,7 +73,7 @@ namespace CommandLine.Core
             }
         }
 
-        public static OptionMap Create(object target, ParserSettings settings)
+        public static OptionMap Create(object target, IParserSettings settings)
         {
             var list = ReflectionUtil.RetrievePropertyList<BaseOptionAttribute>(target);
             if (list == null)
@@ -93,7 +93,7 @@ namespace CommandLine.Core
         }
 
         public static OptionMap Create(object target,
-            IList<Pair<PropertyInfo, VerbOptionAttribute>> verbs, ParserSettings settings)
+            IList<Pair<PropertyInfo, VerbOptionAttribute>> verbs, IParserSettings settings)
         {
             var map = new OptionMap(verbs.Count, settings);
             foreach (var verb in verbs)
@@ -241,7 +241,7 @@ namespace CommandLine.Core
             parserState.Errors.Add(error);
         }
 
-        private readonly ParserSettings _settings;
+        private readonly IParserSettings _settings;
         private readonly Dictionary<string, string> _names;
         private readonly Dictionary<string, OptionInfo> _map;
         private readonly Dictionary<string, MutuallyExclusiveInfo> _mutuallyExclusiveSetMap;
