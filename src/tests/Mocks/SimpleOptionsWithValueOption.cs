@@ -35,13 +35,13 @@ namespace CommandLine.Tests.Mocks
 {
     class SimpleOptionsWithValueOption : SimpleOptions
     {
-        [ValueOption]
+        [ValueOption(0)]
         public string StringItem { get; set; }
 
-        [ValueOption]
+        [ValueOption(0)]
         public int IntegerItem { get; set; }
 
-        [ValueOption]
+        [ValueOption(0)]
         public double? NullableDoubleItem { get; set; }
     }
 }

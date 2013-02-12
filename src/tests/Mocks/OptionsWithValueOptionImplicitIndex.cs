@@ -2,13 +2,13 @@
 {
     internal class OptionsWithValueOptionImplicitIndex
     {
-        [ValueOption]
+        [ValueOption(0)]
         public string A { get; set; }
 
-        [ValueOption]
+        [ValueOption(0)]
         public string B { get; set; }
 
-        [ValueOption]
+        [ValueOption(0)]
         public string C { get; set; }
     }
 }
