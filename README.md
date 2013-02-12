@@ -1,12 +1,11 @@
-Command Line Parser Library 1.9.4.217 beta for CLR.
+Command Line Parser Library 1.9.4.219 beta for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
 
 Compatibility:
 ---
-  - C# 3.0+ compiler
-  - .NET Framework 2.0+
+  - .NET Framework 3.5+
   - Mono 2.1+ Profile
 
 At glance:
@@ -99,6 +98,7 @@ Resources for newcomers:
 
 Latest Changes: 
 ---
+  - Merged pull request #52 from @mizipzor (Alexander Fast).
   - Extracted interface ``IParserSettings`` from ``ParserSettings``; see [Public API](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md) document.
   - Prefix ``CommandLine`` removed from main types to achieve name consistency between all library types.
   - Removed compilation symbol UNIT_TESTS and DebugTests configuration.

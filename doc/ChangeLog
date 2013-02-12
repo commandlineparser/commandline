@@ -1,5 +1,10 @@
 2013-02-11  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
+  * Consolidating pull request #52 by @mizipzor.
+  * Version incremented to 1.9.4.219 beta.
+
+2013-02-11  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
   * Defined IParserSettings. Now ParserSettings implements this interface.
   * IParser and Parser depends on IParserSettings rather on default implementation.
   * Version incremented to 1.9.4.217 beta.

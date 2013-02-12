@@ -56,6 +56,7 @@ namespace CommandLine
         /// Obsolete constructor, uses default index 0.
         /// Initializes a new instance of the <see cref="CommandLine.ValueOptionAttribute"/> class.
         /// </summary>
+        /// <remarks>In next Stable this constructor will be removed.</remarks>
         [Obsolete("Use explicit index instead.")]
         public ValueOptionAttribute() : this(0)
         {
