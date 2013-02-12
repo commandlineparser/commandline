@@ -43,5 +43,6 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ValueOptionAttribute : Attribute
     {
+        public int Index { get; set; }
     }
 }

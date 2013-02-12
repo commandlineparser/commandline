@@ -28,6 +28,7 @@
 #endregion
 #region Using Directives
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using CommandLine.Helpers;
 #endregion
@@ -89,7 +90,11 @@ namespace CommandLine.Core
 
         private void InitializeValueOption()
         {
-            _valueOptionAttributeList = ReflectionUtil.RetrievePropertyList<ValueOptionAttribute>(_target);
+            var list = ReflectionUtil.RetrievePropertyList<ValueOptionAttribute>(_target);
+
+            // default is index 0, so skip sorting if all have it
+            _valueOptionAttributeList = list.All(x => x.Right.Index == 0)
+                ? list : list.OrderBy(x => x.Right.Index).ToList();
         }
 
         private readonly object _target;
