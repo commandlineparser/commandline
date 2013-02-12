@@ -27,13 +27,8 @@
 //
 #endregion
 #region Using Directives
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using CommandLine.Helpers;
-
 #endregion
 
 namespace CommandLine

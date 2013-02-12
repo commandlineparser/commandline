@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using CommandLine.Extensions;
-using CommandLine.Helpers;
 #endregion
 
 namespace CommandLine.Core

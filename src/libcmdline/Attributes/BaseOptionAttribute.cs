@@ -30,7 +30,6 @@
 using System;
 using CommandLine.Core;
 using CommandLine.Extensions;
-using CommandLine.Helpers;
 #endregion
 
 namespace CommandLine

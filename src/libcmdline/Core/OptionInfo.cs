@@ -29,13 +29,10 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Threading;
 using CommandLine.Helpers;
-
 #endregion
 
 namespace CommandLine.Core

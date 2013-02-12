@@ -263,7 +263,7 @@ namespace CommandLine.Text
             if (!string.IsNullOrEmpty(errors))
             {
                 current.AddPreOptionsLine(string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText));
-                var lines = errors.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                var lines = errors.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 foreach (var line in lines)
                 {
                     current.AddPreOptionsLine(line);
@@ -602,18 +602,18 @@ namespace CommandLine.Text
             if (_preOptionsHelp.Length > 0)
             {
                 builder.Append(Environment.NewLine);
-                builder.Append(_preOptionsHelp.ToString());
+                builder.Append(_preOptionsHelp);
             }
             if (_optionsHelp != null && _optionsHelp.Length > 0)
             {
                 builder.Append(Environment.NewLine);
                 builder.Append(Environment.NewLine);
-                builder.Append(_optionsHelp.ToString());
+                builder.Append(_optionsHelp);
             }
             if (_postOptionsHelp.Length > 0)
             {
                 builder.Append(Environment.NewLine);
-                builder.Append(_postOptionsHelp.ToString());
+                builder.Append(_postOptionsHelp);
             }
 
             return builder.ToString();

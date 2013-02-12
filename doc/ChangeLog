@@ -1,4 +1,9 @@
-2013-02-11  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+2013-02-12  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Minor generalized internal refactoring.
+  * Version incremented to 1.9.4.221 beta.
+
+2013-02-12  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Consolidating pull request #52 by @mizipzor.
   * Version incremented to 1.9.4.219 beta.

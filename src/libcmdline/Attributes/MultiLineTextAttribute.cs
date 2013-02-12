@@ -110,7 +110,7 @@ namespace CommandLine.Text
 
         internal void AddToHelpText(Action<string> action)
         {
-            var strArray = new string[] {_line1, _line2, _line3, _line4, _line5};
+            var strArray = new[] {_line1, _line2, _line3, _line4, _line5};
             Array.ForEach( strArray, line =>
             {
                 if (!string.IsNullOrEmpty(line)) { action( line ); }

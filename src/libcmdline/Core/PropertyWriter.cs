@@ -54,14 +54,10 @@ namespace CommandLine.Core
         {
             try
             {
-                if (Property.PropertyType.IsEnum)
-                {
-                    Property.SetValue(target, Enum.Parse(Property.PropertyType, value, true), null);
-                }
-                else
-                {
-                    Property.SetValue(target, Convert.ChangeType(value, Property.PropertyType, Thread.CurrentThread.CurrentCulture), null);
-                }
+                Property.SetValue(target, Property.PropertyType.IsEnum ?
+                    Enum.Parse(Property.PropertyType, value, true) :
+                        Convert.ChangeType(value, Property.PropertyType,
+                            Thread.CurrentThread.CurrentCulture), null);
             }
             catch (InvalidCastException) { return false; } // Convert.ChangeType
             catch (FormatException) { return false; } // Convert.ChangeType

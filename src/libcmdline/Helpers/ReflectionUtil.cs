@@ -55,17 +55,19 @@ namespace CommandLine.Helpers
 
                     foreach (var property in propertiesInfo)
                     {
-                        if (property != null && (property.CanRead && property.CanWrite))
+                        if (property == null || (!property.CanRead || !property.CanWrite))
                         {
-                            var setMethod = property.GetSetMethod();
-                            if (setMethod != null && !setMethod.IsStatic)
-                            {
-                                var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
-                                if (attribute != null)
-                                {
-                                    list.Add(new Pair<PropertyInfo, TAttribute>(property, (TAttribute)attribute));
-                                }
-                            }
+                            continue;
+                        }
+                        var setMethod = property.GetSetMethod();
+                        if (setMethod == null || setMethod.IsStatic)
+                        {
+                            continue;
+                        }
+                        var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
+                        if (attribute != null)
+                        {
+                            list.Add(new Pair<PropertyInfo, TAttribute>(property, (TAttribute)attribute));
                         }
                     }
                 }
@@ -83,19 +85,20 @@ namespace CommandLine.Helpers
             if (cached == null)
             {
                 var info = target.GetType().GetMethods();
-                foreach (MethodInfo method in info)
+                foreach (var method in info)
                 {
-                    if (!method.IsStatic)
+                    if (method.IsStatic)
                     {
-                        Attribute attribute =
-                            Attribute.GetCustomAttribute(method, typeof(TAttribute), false);
-                        if (attribute != null)
-                        {
-                            var data = new Pair<MethodInfo, TAttribute>(method, (TAttribute) attribute);
-                            ReflectionCache.Instance[key] = data;
-                            return data;
-                        }
+                        continue;
                     }
+                    var attribute = Attribute.GetCustomAttribute(method, typeof(TAttribute), false);
+                    if (attribute == null)
+                    {
+                        continue;
+                    }
+                    var data = new Pair<MethodInfo, TAttribute>(method, (TAttribute) attribute);
+                    ReflectionCache.Instance[key] = data;
+                    return data;
                 }
                 return null;
             }
@@ -110,19 +113,20 @@ namespace CommandLine.Helpers
             if (cached == null)
             {
                 var info = target.GetType().GetMethods();
-                foreach (MethodInfo method in info)
+                foreach (var method in info)
                 {
-                    if (!method.IsStatic)
+                    if (method.IsStatic)
                     {
-                        Attribute attribute =
-                            Attribute.GetCustomAttribute(method, typeof(TAttribute), false);
-                        if (attribute != null)
-                        {
-                            var data = (TAttribute) attribute;
-                            ReflectionCache.Instance[key] = data;
-                            return data;
-                        }
+                        continue;
                     }
+                    var attribute = Attribute.GetCustomAttribute(method, typeof(TAttribute), false);
+                    if (attribute == null)
+                    {
+                        continue;
+                    }
+                    var data = (TAttribute) attribute;
+                    ReflectionCache.Instance[key] = data;
+                    return data;
                 }
                 return null;
             }
@@ -141,17 +145,19 @@ namespace CommandLine.Helpers
 
                 foreach (var property in info)
                 {
-                    if (property != null && (property.CanRead && property.CanWrite))
+                    if (property == null || (!property.CanRead || !property.CanWrite))
                     {
-                        var setMethod = property.GetSetMethod();
-                        if (setMethod != null && !setMethod.IsStatic)
-                        {
-                            var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
-                            if (attribute != null)
-                            {
-                                list.Add((TAttribute) attribute);
-                            }
-                        }
+                        continue;
+                    }
+                    var setMethod = property.GetSetMethod();
+                    if (setMethod == null || setMethod.IsStatic)
+                    {
+                        continue;
+                    }
+                    var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
+                    if (attribute != null)
+                    {
+                        list.Add((TAttribute) attribute);
                     }
                 }
                 ReflectionCache.Instance[key] = list;
@@ -163,7 +169,7 @@ namespace CommandLine.Helpers
         public static TAttribute GetAttribute<TAttribute>()
             where TAttribute : Attribute
         {
-            object[] a = AssemblyFromWhichToPullInformation.GetCustomAttributes(typeof(TAttribute), false);
+            var a = AssemblyFromWhichToPullInformation.GetCustomAttributes(typeof(TAttribute), false);
             if (a.Length <= 0) { return null; }
 
             return (TAttribute)a[0];
@@ -172,7 +178,7 @@ namespace CommandLine.Helpers
         /// <summary>
         /// Setter provided for testing purpose.
         /// </summary>
-        public static Assembly AssemblyFromWhichToPullInformation { get; set; }
+        public static Assembly AssemblyFromWhichToPullInformation { get; internal set; }
 
         public static Pair<PropertyInfo, TAttribute> RetrieveOptionProperty<TAttribute>(object target, string uniqueName)
                 where TAttribute : BaseOptionAttribute
@@ -181,7 +187,6 @@ namespace CommandLine.Helpers
             var cached = ReflectionCache.Instance[key];
             if (cached == null)
             {
-                Pair<PropertyInfo, TAttribute> found = null;
                 if (target == null)
                 {
                     return null;
@@ -190,21 +195,24 @@ namespace CommandLine.Helpers
 
                 foreach (var property in propertiesInfo)
                 {
-                    if (property != null && (property.CanRead && property.CanWrite))
+                    if (property == null || (!property.CanRead || !property.CanWrite))
                     {
-                        var setMethod = property.GetSetMethod();
-                        if (setMethod != null && !setMethod.IsStatic)
-                        {
-                            var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
-                            var optionAttr = (TAttribute) attribute;
-                            if (optionAttr != null && string.CompareOrdinal(uniqueName, optionAttr.UniqueName) == 0)
-                            {
-                                found = new Pair<PropertyInfo, TAttribute>(property, (TAttribute) attribute);
-                                ReflectionCache.Instance[key] = found;
-                                return found;
-                            }
-                        }
+                        continue;
                     }
+                    var setMethod = property.GetSetMethod();
+                    if (setMethod == null || setMethod.IsStatic)
+                    {
+                        continue;
+                    }
+                    var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
+                    var optionAttr = (TAttribute) attribute;
+                    if (optionAttr == null || string.CompareOrdinal(uniqueName, optionAttr.UniqueName) != 0)
+                    {
+                        continue;
+                    }
+                    var found = new Pair<PropertyInfo, TAttribute>(property, (TAttribute) attribute);
+                    ReflectionCache.Instance[key] = found;
+                    return found;
                 }
             }
             return (Pair<PropertyInfo, TAttribute>) cached;
