@@ -35,16 +35,16 @@ namespace CommandLine.Tests.Mocks
 {
     class SimpleOptionsWithValueOptionAndValueList : SimpleOptions
     {
-        [ValueOption]
+        [ValueOption(0)]
         public string StringItem { get; set; }
 
-        [ValueOption]
+        [ValueOption(0)]
         public int? NullableInteger { get; set; }
 
         [ValueList(typeof(List<string>))]
         public IList<string> Items { get; set; }
 
-        [ValueOption]
+        [ValueOption(0)]
         public uint UnsignedIntegerItem { get; set; }
     }
 }

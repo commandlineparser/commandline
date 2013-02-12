@@ -35,7 +35,7 @@ using System.Text;
 namespace CommandLine
 {
     /// <summary>
-    /// Maps a single unnamed option to the target property. Values will be mapped in order of declaration.
+    /// Maps a single unnamed option to the target property. Values will be mapped in order of Index.
     /// This attribute takes precedence over <see cref="CommandLine.ValueListAttribute"/> with which
     /// can coexist.
     /// </summary>
@@ -43,5 +43,32 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ValueOptionAttribute : Attribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.ValueOptionAttribute"/> class.
+        /// </summary>
+        /// <param name="index">The index of the option.</param>
+        public ValueOptionAttribute(int index)
+        {
+            _index = index;
+        }
+
+        /// <summary>
+        /// Obsolete constructor, uses default index 0.
+        /// Initializes a new instance of the <see cref="CommandLine.ValueOptionAttribute"/> class.
+        /// </summary>
+        [Obsolete("Use explicit index instead.")]
+        public ValueOptionAttribute() : this(0)
+        {
+        }
+
+        /// <summary>
+        /// The position this option has on the command line.
+        /// </summary>
+        public int Index
+        {
+            get { return _index; }
+        }
+
+        private readonly int _index;
     }
 }
