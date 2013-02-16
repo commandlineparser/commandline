@@ -3,6 +3,8 @@
   * Added ParsingCulture to IParserSettings.
   * PropertyWriter, OptionInfo and ValueMapper now accepts CultureInfo in constructor.
   * Changed a pair of tests to be compliant and verify.
+  * Default singleton parsing culture is CultureInfo.InvariantCulture.
+  * Version incremented to 1.9.4.225 beta.
 
 2013-02-12  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 

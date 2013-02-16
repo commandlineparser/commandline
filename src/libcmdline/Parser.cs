@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using CommandLine.Core;
@@ -70,7 +71,10 @@ namespace CommandLine
         private Parser(bool singleton)
         // ReSharper restore UnusedParameter.Local
         {
-            Settings = new ParserSettings(false, false, Console.Error);
+            Settings = new ParserSettings(false, false, Console.Error)
+                {
+                    ParsingCulture = CultureInfo.InvariantCulture
+                };
         }
 
         /// <summary>

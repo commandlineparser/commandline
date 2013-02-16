@@ -15,3 +15,4 @@ Public API Changes:
   - Version 1.9.4.217: Non breaking, Extracted interface ``IParserSettings`` from ``ParserSettings``. Changed consumers to depends on ``IParserSettings`` rather on concrete default implementation.
   - Version 1.9.4.219: Non breaking, ``ValueOption`` supports ``Index`` (Remarks: in next Dtable will mandatory).
   - Version 1.9.4.223: Non breaking, added ``IParserSettings::ParsingCulture`` and ``ParserConfigurator::UseCulture``.
+  - Version 1.9.4.225: Breaking, default singleton parsing culture is ``CultureInfo.InvariantCulture``; this is not general default only the one of default singleton.

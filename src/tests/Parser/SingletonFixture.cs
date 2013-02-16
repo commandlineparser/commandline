@@ -28,6 +28,7 @@
 #endregion
 #region Using Directives
 using System;
+using System.Globalization;
 using System.IO;
 using Xunit;
 using FluentAssertions;
@@ -60,6 +61,12 @@ namespace CommandLine.Tests
                 new string[] { "-r1", "-g2", "-b3", "-h4", "-s5", "-v6" }, options);
 
             result.Should().BeTrue(); // enabling MutuallyExclusive option it would fails
+        }
+
+        [Fact]
+        public void Default_parsing_culture_is_invariant()
+        {
+            Parser.Default.Settings.ParsingCulture.Should().Be(CultureInfo.InvariantCulture);
         }
     }
 }
