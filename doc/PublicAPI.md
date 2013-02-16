@@ -14,3 +14,4 @@ Public API Changes:
   - Version 1.9.4.211: 'Partially' non breaking, ParsingErrorsHandler delegate replaced by Action<HelpText>.
   - Version 1.9.4.217: Non breaking, Extracted interface ``IParserSettings`` from ``ParserSettings``. Changed consumers to depends on ``IParserSettings`` rather on concrete default implementation.
   - Version 1.9.4.219: Non breaking, ``ValueOption`` supports ``Index`` (Remarks: in next Dtable will mandatory).
+  - Version 1.9.4.223: Non breaking, added ``IParserSettings::ParsingCulture`` and ``ParserConfigurator::UseCulture``.

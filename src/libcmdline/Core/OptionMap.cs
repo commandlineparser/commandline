@@ -85,7 +85,7 @@ namespace CommandLine.Core
             {
                 if (pair.Left != null && pair.Right != null)
                 {
-                    map[pair.Right.UniqueName] = new OptionInfo(pair.Right, pair.Left);
+                    map[pair.Right.UniqueName] = new OptionInfo(pair.Right, pair.Left, settings.ParsingCulture);
                 }
             }
             map.RawOptions = target;
@@ -98,7 +98,7 @@ namespace CommandLine.Core
             var map = new OptionMap(verbs.Count, settings);
             foreach (var verb in verbs)
             {
-                var optionInfo = new OptionInfo(verb.Right, verb.Left)
+                var optionInfo = new OptionInfo(verb.Right, verb.Left, settings.ParsingCulture)
                 {
                     HasParameterLessCtor = verb.Left.PropertyType.GetConstructor(Type.EmptyTypes) != null
 

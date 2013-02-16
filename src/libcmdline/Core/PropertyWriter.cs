@@ -30,6 +30,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Reflection;
 using System.Threading;
 #endregion
@@ -41,10 +42,9 @@ namespace CommandLine.Core
     /// </summary>
     sealed class PropertyWriter
     {
-        private PropertyWriter() {}
-
-        public PropertyWriter(PropertyInfo property)
+        public PropertyWriter(PropertyInfo property, CultureInfo parsingCulture)
         {
+            _parsingCulture = parsingCulture;
             Property = property;
         }
 
@@ -57,7 +57,7 @@ namespace CommandLine.Core
                 Property.SetValue(target, Property.PropertyType.IsEnum ?
                     Enum.Parse(Property.PropertyType, value, true) :
                         Convert.ChangeType(value, Property.PropertyType,
-                            Thread.CurrentThread.CurrentCulture), null);
+                            _parsingCulture), null);
             }
             catch (InvalidCastException) { return false; } // Convert.ChangeType
             catch (FormatException) { return false; } // Convert.ChangeType
@@ -73,7 +73,7 @@ namespace CommandLine.Core
             try
             {
                 // ReSharper disable AssignNullToNotNullAttribute
-                Property.SetValue(target, nc.ConvertFromString(null, Thread.CurrentThread.CurrentCulture, value), null);
+                Property.SetValue(target, nc.ConvertFromString(null, _parsingCulture, value), null);
                 // ReSharper restore AssignNullToNotNullAttribute
             }
             // FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException,
@@ -84,5 +84,7 @@ namespace CommandLine.Core
             }
             return true;
         }
+
+        private readonly CultureInfo _parsingCulture;
     }
 }

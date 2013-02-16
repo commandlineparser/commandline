@@ -27,6 +27,7 @@
 //
 #endregion
 #region Using Directives
+using System.Globalization;
 using CommandLine.Core;
 using CommandLine.Helpers;
 
@@ -54,11 +55,6 @@ namespace CommandLine.Extensions
         public static bool CanReceiveParserState(this object target)
         {
             return ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(target).Count > 0;
-        }
-
-        public static ValueMapper CreateValueMapper(this object target)
-        {
-            return new ValueMapper(target);
         }
     }
 }

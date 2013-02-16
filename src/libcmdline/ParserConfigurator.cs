@@ -27,6 +27,7 @@
 //
 #endregion
 #region Using Directives
+using System.Globalization;
 using System.IO;
 using CommandLine.Helpers;
 #endregion
@@ -60,7 +61,7 @@ namespace CommandLine
         /// <summary>
         /// Configures the parser to use the provided instance of <see cref="TextWriter"/>.
         /// </summary>
-        /// <param name="helpWriter"></param>
+        /// <param name="helpWriter">The <see cref="System.IO.TextWriter"/> used for help method output.</param>
         /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
         public ParserConfigurator HelpWriter(TextWriter helpWriter)
         {
@@ -87,6 +88,20 @@ namespace CommandLine
         public ParserConfigurator IgnoreUnknownArguments()
         {
             _parser.Settings.IgnoreUnknownArguments = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Forces the parser to override default culture setting. 
+        /// </summary>
+        /// <param name="parsingCulture">The parsing culture to use</param>
+        /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
+        /// <remarks>
+        /// Default is CurrentCulture of <see cref="System.Threading.Thread.CurrentThread"/>.
+        /// </remarks>
+        public ParserConfigurator UseCulture(CultureInfo parsingCulture)
+        {
+            _parser.Settings.ParsingCulture = parsingCulture;
             return this;
         }
 

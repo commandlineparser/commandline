@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 namespace CommandLine
@@ -39,5 +40,13 @@ namespace CommandLine
         /// when these are unknown by the main program at build time.
         /// </remarks>
         bool IgnoreUnknownArguments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the culture used when parsing arguments to typed properties.
+        /// </summary>
+        /// <remarks>
+        /// Default is CurrentCulture of <see cref="System.Threading.Thread.CurrentThread"/>.
+        /// </remarks>
+        CultureInfo ParsingCulture { get; set; }
     }
 }

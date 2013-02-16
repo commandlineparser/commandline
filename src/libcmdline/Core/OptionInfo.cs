@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
 using System.Threading;
 using CommandLine.Helpers;
@@ -40,7 +41,7 @@ namespace CommandLine.Core
     [DebuggerDisplay("ShortName = {ShortName}, LongName = {LongName}")]
     sealed class OptionInfo
     {
-        public OptionInfo(BaseOptionAttribute attribute, PropertyInfo property)
+        public OptionInfo(BaseOptionAttribute attribute, PropertyInfo property, CultureInfo parsingCulture)
         {
             if (attribute == null)
             {
@@ -58,7 +59,8 @@ namespace CommandLine.Core
             _hasDefaultValue = attribute.HasDefaultValue;
             _attribute = attribute;
             _property = property;
-            _propertyWriter = new PropertyWriter(_property);
+            _parsingCulture = parsingCulture;
+            _propertyWriter = new PropertyWriter(_property, _parsingCulture);
         }
 
         /// <summary>
@@ -94,7 +96,7 @@ namespace CommandLine.Core
             {
                 try
                 {
-                    array.SetValue(Convert.ChangeType(values[i], elementType, Thread.CurrentThread.CurrentCulture), i);
+                    array.SetValue(Convert.ChangeType(values[i], elementType, _parsingCulture), i);
                         _property.SetValue(options, array, null);
                 }
                 catch (FormatException)
@@ -199,6 +201,7 @@ namespace CommandLine.Core
             }
         }
 
+        private readonly CultureInfo _parsingCulture;
         private readonly BaseOptionAttribute _attribute;
         private readonly PropertyInfo _property;
         private readonly PropertyWriter _propertyWriter;

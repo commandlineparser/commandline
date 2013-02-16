@@ -177,7 +177,7 @@ namespace CommandLine
             var hadError = false;
             var optionMap = OptionMap.Create(context.Target, Settings);
             optionMap.SetDefaults();
-            var valueMapper = context.Target.CreateValueMapper();
+            var valueMapper = new ValueMapper(context.Target, Settings.ParsingCulture);
 
             var arguments = new StringArrayEnumerator(context.Arguments);
             while (arguments.MoveNext())

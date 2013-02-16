@@ -28,6 +28,7 @@
 #endregion
 #region Using Directives
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using CommandLine.Helpers;
@@ -42,9 +43,10 @@ namespace CommandLine.Core
     {
         private ValueMapper() {}
 
-        public ValueMapper(object target)
+        public ValueMapper(object target, CultureInfo parsingCulture)
         {
             _target = target;
+            _parsingCulture = parsingCulture;
             InitializeValueList();
             InitializeValueOption();
         }
@@ -71,7 +73,7 @@ namespace CommandLine.Core
                 _valueOptionIndex < _valueOptionAttributeList.Count)
             {
                 var valueOption = _valueOptionAttributeList[_valueOptionIndex++];
-                var propertyWriter = new PropertyWriter(valueOption.Left);
+                var propertyWriter = new PropertyWriter(valueOption.Left, _parsingCulture);
                 return ReflectionUtil.IsNullableType(propertyWriter.Property.PropertyType) ?
                     propertyWriter.WriteNullable(item, _target) :
                     propertyWriter.WriteScalar(item, _target);
@@ -102,5 +104,6 @@ namespace CommandLine.Core
         private ValueListAttribute _valueListAttribute;
         private IList<Pair<PropertyInfo,ValueOptionAttribute>> _valueOptionAttributeList;
         private int _valueOptionIndex;
+        private readonly CultureInfo _parsingCulture;
     }
 }

@@ -158,16 +158,16 @@ namespace CommandLine.Tests
         [Fact]
         public void Parse_culture_specific_number()
         {
-            var actualCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
+            //var actualCulture = Thread.CurrentThread.CurrentCulture;
+            //Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
             var options = new NumberSetOptions();
-            var parser = new Parser();
+            var parser = new Parser(new ParserSettings { ParsingCulture = new CultureInfo("it-IT") });
             var result = parser.ParseArguments(new string[] { "-d", "10,986" }, options);
 
             result.Should().BeTrue();
             options.DoubleValue.Should().Be(10.986D);
 
-            Thread.CurrentThread.CurrentCulture = actualCulture;
+            //Thread.CurrentThread.CurrentCulture = actualCulture;
         }
 
         [Fact]

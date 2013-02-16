@@ -46,32 +46,16 @@ namespace CommandLine.Tests
             // that is compatible with en-US.
             // Following instructions prevent old tests from break.
             // New tests were added for verify new culture-specific support.
+            // ===From Version 1.9.4.223=======================================================
+            // REMARKS: you can set parsing culture using IParserSettings or configurator if
+            // Thread.CurrentThread.CurrentCulture default is not good for you
+            // NEVER do such thing in your code, here is for compatibility with
+            // legacy tests and will be refactored when possible.
+            // ================================================================================
+            // SUGGESTION: IParserSettings::ParsingCulture <- CultureInfo.InvariantCulture
+            // (will be default on next stable), specify in your application to use notations
+            // provided by such setting (e.g. decimal sep == '.')
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
         }
-
-        //protected bool? Result { set; get; }
-
-        //[SetUp]
-        //public virtual void CreateInstance()
-        //{
-        //    Parser = new Parser();
-        //}
-
-        //protected void ResultShouldBeTrue()
-        //{
-        //    Result.Should().BeTrue();
-        //    Result = null;
-        //}
-
-        //protected void ResultShouldBeFalse()
-        //{
-        //    Result.Should().BeFalse();
-        //    Result = null;
-        //}
-
-        //protected virtual IParser Parser
-        //{
-        //    get { return new Parser(); }
-        //}
     }
 }

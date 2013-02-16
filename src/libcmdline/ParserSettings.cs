@@ -28,7 +28,10 @@
 #endregion
 #region Using Directives
 using System;
+using System.Globalization;
 using System.IO;
+using System.Threading;
+
 #endregion
 
 namespace CommandLine
@@ -120,6 +123,7 @@ namespace CommandLine
             MutuallyExclusive = mutuallyExclusive;
             HelpWriter = helpWriter;
             IgnoreUnknownArguments = ignoreUnknownArguments;
+            ParsingCulture = Thread.CurrentThread.CurrentCulture;
         }
 
         /// <summary>
@@ -154,6 +158,14 @@ namespace CommandLine
         public bool IgnoreUnknownArguments { get; set; }
 
         /// <summary>
+        /// Gets or sets the culture used when parsing arguments to typed properties.
+        /// </summary>
+        /// <remarks>
+        /// Default is CurrentCulture of <see cref="System.Threading.Thread.CurrentThread"/>.
+        /// </remarks>
+        public CultureInfo ParsingCulture { get; set; }
+
+        /// <summary>
         /// Frees resources owned by the instance.
         /// </summary>
         public void Dispose()
@@ -180,11 +192,6 @@ namespace CommandLine
                 _disposed = true;
             }
         }
-
-        //internal StringComparison StringComparison
-        //{
-        //    get { return CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase; }
-        //}
 
         /// <summary>
         /// Class destructor.

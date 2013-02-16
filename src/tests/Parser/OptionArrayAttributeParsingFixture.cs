@@ -370,16 +370,16 @@ namespace CommandLine.Tests
         [Fact]
         public void Parse_culture_specific_number()
         {
-            var actualCulture = Thread.CurrentThread.CurrentCulture;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
+            //var actualCulture = Thread.CurrentThread.CurrentCulture;
+            ////Thread.CurrentThread.CurrentCulture = new CultureInfo("it-IT");
             var options = new SimpleOptionsWithArray();
-            var parser = new Parser();
+            var parser = new Parser(new ParserSettings { ParsingCulture = new CultureInfo("it-IT") });
             var result = parser.ParseArguments(new string[] { "-q", "1,2", "1,23", "1,234" }, options);
 
             result.Should().BeTrue();
             base.ElementsShouldBeEqual(new double[] { 1.2, 1.23, 1.234 }, options.DoubleArrayValue);
 
-            Thread.CurrentThread.CurrentCulture = actualCulture;
+            //Thread.CurrentThread.CurrentCulture = actualCulture;
         }
 
         /****************************************************************************************************/
