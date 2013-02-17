@@ -42,8 +42,7 @@ using CommandLine.Helpers;
 namespace CommandLine
 {
     /// <summary>
-    /// Provides methods to parse command line arguments.
-    /// Default implementation for <see cref="IParser"/>.
+    /// Provides methods to parse command line arguments. Default implementation for <see cref="CommandLine.IParser"/>.
     /// </summary>
     public class Parser : IParser, IDisposable
     {
@@ -462,7 +461,7 @@ namespace CommandLine
         /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        public virtual bool ParseArguments(string[] args, object options, TextWriter helpWriter, int exitCode)
+        public virtual bool ParseArgumentsStrict(string[] args, object options, TextWriter helpWriter, int exitCode)
         {
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);

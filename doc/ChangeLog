@@ -1,3 +1,8 @@
+2013-02-17  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Fix: a strict overload ParseArguments(string[],object,TextWriter,int) has wrong name (oops);
+      renamed ParseArgumentsStrict(string[],object,TextWriter,int).
+
 2013-02-16  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Added ParsingCulture to IParserSettings.

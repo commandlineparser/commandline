@@ -127,7 +127,7 @@ namespace CommandLine
         /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArguments(string[] args, object options, TextWriter helpWriter, int exitCode);
+        bool ParseArgumentsStrict(string[] args, object options, TextWriter helpWriter, int exitCode);
 
         /// <summary>
         /// Determines if a particular verb option was invoked. This is a convenience helper method,
