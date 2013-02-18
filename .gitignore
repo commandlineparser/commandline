@@ -18,3 +18,5 @@ src/tests/test-results/*
 *.DS_Store
 *.csproj.user
 TestResult.xml
+.nupkg
+*.old

@@ -1,3 +1,8 @@
+2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Added nuget_nuspec task to Rakefile.
+  * Added OptionInfo::ReceivedValue to solve an issue in OptionMap::EnforceRequiredRule (see issue #15).
+
 2013-02-17  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Fix: a strict overload ParseArguments(string[],object,TextWriter,int) has wrong name (oops);

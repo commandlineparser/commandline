@@ -515,6 +515,23 @@ namespace CommandLine.Tests
             result.Should().BeFalse();
         }
         #endregion
+
+        #region ISSUE#15
+        /// <summary>
+        /// https://github.com/gsscoder/commandline/issues/15
+        /// </summary>
+        [Fact]
+        public void Parser_should_report_missing_value()
+        {
+            var options = new ComplexOptions();
+            var parser = new Parser();
+            var result = parser.ParseArguments(new[] { "-i", "-o" }, options);
+
+            result.Should().BeFalse();
+
+            options.LastParserState.Errors.Count.Should().BeGreaterThan(0);
+        }
+        #endregion
     }
 }
 

@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.4.227 beta for CLR.
+Command Line Parser Library 1.9.4.229 beta for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __The search for the command line parser for your application is over, with this library you got a solid parsing API constantly updated since 2005.__
@@ -98,6 +98,7 @@ Resources for newcomers:
 
 Latest Changes: 
 ---
+  - Fixed issue #15. Added OptionInfo::ReceivedValue to solve an issue in OptionMap::EnforceRequiredRule.
   - A strict overload ``ParseArguments(string[],object,TextWriter,int)`` has wrong name, renamed ``ParseArgumentsStrict(...)``.
   - Default singleton parsing culture is CultureInfo.InvariantCulture.
   - Added ``IParserSettings::ParsingCulture`` and ``ParserConfigurator::UseCulture``.

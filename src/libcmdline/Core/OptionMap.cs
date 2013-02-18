@@ -164,10 +164,10 @@ namespace CommandLine.Core
 
         private bool EnforceRequiredRule()
         {
-            bool requiredRulesAllMet = true;
-            foreach (OptionInfo option in _map.Values)
+            var requiredRulesAllMet = true;
+            foreach (var option in _map.Values)
             {
-                if (option.Required && !option.IsDefined)
+                if (option.Required && !(option.IsDefined && option.ReceivedValue))
                 {
                     SetParserStateIfNeeded(RawOptions, option, true, null);
                     requiredRulesAllMet = false;

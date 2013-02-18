@@ -1,10 +1,10 @@
-Command Line Parser Library 1.9.4.209 Beta
+Command Line Parser Library 1.9.4.229 Beta
 ------------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
 
-Codeplex: http://commandline.codeplex.com/
 GitHub (Latest Sources, Updated Docs): https://github.com/gsscoder/commandline
+Codeplex (Binary Downloads): http://commandline.codeplex.com/
 
 Upgrading from < 1.9.4.91 versions:
 -----------------------------------

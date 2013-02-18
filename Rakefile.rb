@@ -1,8 +1,9 @@
 PRODUCT = "Command Line Parser Library"
-DESCRIPTION = "Command Line Parser Library allows CLR applications to define a syntax for parsing command line arguments."
-VERSION = "1.9.4.227"
+DESCRIPTION = "The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks."
+VERSION = "1.9.4.229"
 INF_VERSION = VERSION + "-beta"
-COPYRIGHT = "Copyright (c) 2005 - 2013 Giacomo Stelluti Scala"
+AUTHOR = "Giacomo Stelluti Scala"
+COPYRIGHT = "Copyright (c) 2005 - 2013 " + AUTHOR
 LICENSE_URL = "https://raw.github.com/gsscoder/commandline/master/doc/LICENSE"
 PROJECT_URL = "https://github.com/gsscoder/commandline"
 
@@ -25,6 +26,10 @@ def is_nix
   !RUBY_PLATFORM.match("linux|darwin").nil?
 end
 
+def to_win_path(nix_path)
+  nix_path.gsub("/", "\\")
+end
+
 def invoke_runtime(cmd)
   command = cmd
   if is_nix()
@@ -37,7 +42,11 @@ CONFIGURATION = "Release"
 BUILD_DIR = File.expand_path("build")
 OUTPUT_DIR = "#{BUILD_DIR}/out"
 SOURCE_DIR = File.expand_path("src")
+NUGET_DIR = File.expand_path("nuget")
 LIB_DIR = "#{SOURCE_DIR}/libcmdline"
+PJ_OUTPUT_DIR ="#{LIB_DIR}/bin/Release"
+LIB_ASM = "CommandLine.dll"
+LIB_XML = "CommandLine.xml"
 
 msbuild :build_msbuild do |b|
   b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
@@ -81,6 +90,27 @@ assemblyinfo :assemblyinfo do |a|
   a.custom_attributes :AssemblyInformationalVersion => INF_VERSION, :NeutralResourcesLanguage => "en-US"
   a.output_file = "src/SharedAssemblyInfo.cs"
   a.namespaces "System.Runtime.CompilerServices", "System.Resources"
+end
+
+nuspec :nuget_nuspec do |nuspec|
+     nuspec.id = "CommandLineParser"
+     nuspec.version = INF_VERSION.end_with?("stable") ? VERSION : INF_VERSION
+     nuspec.authors = AUTHOR
+     nuspec.owners = AUTHOR
+     nuspec.description = DESCRIPTION
+     nuspec.title = PRODUCT
+     nuspec.projectUrl = PROJECT_URL
+     nuspec.licenseUrl = LICENSE_URL
+     nuspec.requireLicenseAcceptance = "false"
+     nuspec.copyright = COPYRIGHT
+     nuspec.tags = "command line argument option parser parsing library syntax shell"
+     nuspec.iconUrl = "https://github.com/gsscoder/commandline/raw/master/art/CommandLine.png"
+
+     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/#{LIB_ASM}"), to_win_path("lib/#{LIB_ASM}")
+     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/#{LIB_XML}"), to_win_path("lib/#{LIB_XML}")
+     nuspec.file to_win_path("#{NUGET_DIR}/readme.txt"), "readme.txt"
+
+     nuspec.output_file = "#{NUGET_DIR}/CommandLine.nuspec"
 end
 
 task :clean do

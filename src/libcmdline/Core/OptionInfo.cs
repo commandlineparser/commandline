@@ -80,11 +80,9 @@ namespace CommandLine.Core
             }
             if (ReflectionUtil.IsNullableType(_property.PropertyType))
             {
-                //return SetNullableValue(value, options);
-                return _propertyWriter.WriteNullable(value, options);
+                return ReceivedValue = _propertyWriter.WriteNullable(value, options);
             }
-            //return SetValueScalar(value, options);
-            return _propertyWriter.WriteScalar(value, options);
+            return ReceivedValue = _propertyWriter.WriteScalar(value, options);
         }
 
         public bool SetValue(IList<string> values, object options)
@@ -104,13 +102,13 @@ namespace CommandLine.Core
                     return false;
                 }
             }
-            return true;
+            return ReceivedValue = true;
         }
 
         public bool SetValue(bool value, object options)
         {
             _property.SetValue(options, value, null);
-            return true;
+            return ReceivedValue = true;
         }
 
         private bool SetValueList(string value, object options)
@@ -122,7 +120,7 @@ namespace CommandLine.Core
             {
                 fieldRef.Add(item);
             }
-            return true;
+            return ReceivedValue = true;
         }
 
         public void SetDefault(object options)
@@ -176,6 +174,8 @@ namespace CommandLine.Core
         }
 
         public bool IsDefined { get; set; }
+
+        public bool ReceivedValue { get; private set; }
 
         public bool HasBothNames
         {
