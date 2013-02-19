@@ -52,7 +52,7 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser();
+            var parser = SetTestDelegate(new Parser());
             var result = parser.ParseArgumentsStrict(new string[] {"--bad", "--input"}, options, testWriter);
 
             result.Should().BeFalse();
@@ -75,7 +75,7 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser();
+            var parser = SetTestDelegate(new Parser());
             var result = parser.ParseArgumentsStrict(new string[] { "--bad", "--input" }, options, testWriter);
 
             result.Should().BeFalse();
@@ -96,7 +96,7 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser();
+            var parser = SetTestDelegate(new Parser());
             var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
 
             result.Should().BeFalse();
@@ -119,7 +119,7 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser();
+            var parser = SetTestDelegate(new Parser());
             var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
 
             result.Should().BeFalse();
@@ -131,6 +131,14 @@ namespace CommandLine.Tests
             lines.Should().HaveCount(n => n == 1);
             // Verify just significant output
             lines[0].Trim().Should().Be("verbs help index");
+        }
+
+        private static Parser SetTestDelegate(Parser parser)
+        {
+            parser.SetOnExit(code => Console.WriteLine(
+                "UNIT_TESTS symbol enabled.\nSimulating 'Environment.Exit({0})'.",
+                code));
+            return parser;
         }
     }
 }

@@ -20,3 +20,4 @@ src/tests/test-results/*
 TestResult.xml
 .nupkg
 *.old
+StyleCop.Cache
