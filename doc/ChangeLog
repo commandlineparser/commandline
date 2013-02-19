@@ -8,7 +8,7 @@
   * StyleCop: ParsingError, ParserException, BadOptionInfo, HelpText, HeadingInfo, FormatOptionHelpTextEventArgs,
       EnglishSentenceBuilder, CopyrightInfo, BaseSentenceBuilder.
   * StyleCop: ReflectionUtil, ReflectionCache, Pair, Assumes, ValueMapper, PropertyWriter, StringArrayEnumerator,
-       OptionMap.
+       OptionMap, OptionInfo, OptionGroupParser, OneCharStringEnumerator, LongOptionParser, ArgumentParser.
 
 
 2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>

@@ -29,17 +29,18 @@
 
 namespace CommandLine.Core
 {
-    interface IArgumentEnumerator
+    internal interface IArgumentEnumerator
     {
-        string GetRemainingFromNext();
+        string Current { get; }
 
         string Next { get; }
+
         bool IsLast { get; }
 
         bool MoveNext();
 
         bool MovePrevious();
 
-        string Current { get; }
+        string GetRemainingFromNext();
     }
 }

@@ -33,22 +33,34 @@ using CommandLine.Helpers;
 
 namespace CommandLine.Core
 {
-    sealed class OneCharStringEnumerator : IArgumentEnumerator
+    internal sealed class OneCharStringEnumerator : IArgumentEnumerator
     {
+        private readonly string data;
+        private string currentElement;
+        private int index;
+
         public OneCharStringEnumerator(string value)
         {
             Assumes.NotNullOrEmpty(value, "value");
-            _data = value;
-            _index = -1;
+            this.data = value;
+            this.index = -1;
         }
 
         public string Current
         {
             get
             {
-                if (_index == -1) { throw new InvalidOperationException(); }
-                if (_index >= _data.Length) { throw new InvalidOperationException(); }
-                return _currentElement;
+                if (this.index == -1)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                if (this.index >= this.data.Length)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                return this.currentElement;
             }
         }
 
@@ -56,46 +68,61 @@ namespace CommandLine.Core
         {
             get
             {
-                if (_index == -1) { throw new InvalidOperationException(); }
-                if (_index > _data.Length) { throw new InvalidOperationException(); }
-                if (IsLast) { return null; }
-                return _data.Substring(_index + 1, 1);
+                if (this.index == -1)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                if (this.index > this.data.Length)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                if (this.IsLast)
+                {
+                    return null;
+                }
+
+                return this.data.Substring(this.index + 1, 1);
             }
         }
 
         public bool IsLast
         {
-            get { return _index == _data.Length - 1; }
+            get { return this.index == this.data.Length - 1; }
         }
-
-        //public void Reset()
-        //{
-        //    _index = -1;
-        //}
 
         public bool MoveNext()
         {
-            if (_index < (_data.Length - 1))
+            if (this.index < (this.data.Length - 1))
             {
-                _index++;
-                _currentElement = _data.Substring(_index, 1);
+                this.index++;
+                this.currentElement = this.data.Substring(this.index, 1);
                 return true;
             }
-            _index = _data.Length;
+
+            this.index = this.data.Length;
             return false;
         }
 
         public string GetRemainingFromNext()
         {
-            if (_index == -1) { throw new InvalidOperationException(); }
-            if (_index > _data.Length) { throw new InvalidOperationException(); }
-            return _data.Substring(_index + 1);
+            if (this.index == -1)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (this.index > this.data.Length)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return this.data.Substring(this.index + 1);
         }
 
-        public bool MovePrevious() { throw new NotSupportedException(); }
-
-        private string _currentElement;
-        private int _index;
-        private readonly string _data;
+        public bool MovePrevious()
+        {
+            throw new NotSupportedException();
+        }
     }
 }

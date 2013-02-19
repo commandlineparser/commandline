@@ -34,58 +34,19 @@ using CommandLine.Extensions;
 
 namespace CommandLine.Core
 {
-    abstract class ArgumentParser
+    internal abstract class ArgumentParser
     {
         protected ArgumentParser()
         {
-            PostParsingState = new List<ParsingError>();
+            this.PostParsingState = new List<ParsingError>();
+        }
+
+        public List<ParsingError> PostParsingState
+        {
+            get; private set;
         }
 
         public abstract PresentParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options);
-
-        public List<ParsingError> PostParsingState { get; private set; }
-
-        protected void DefineOptionThatViolatesFormat(OptionInfo option)
-        {
-            PostParsingState.Add(new ParsingError(option.ShortName, option.LongName, true));
-        }
-
-        public static ArgumentParser Create(string argument, bool ignoreUnknownArguments = false)
-        {
-            if (argument.IsNumeric()) { return null; }
-            if (argument.IsDash()) { return null; }
-            if (argument.IsLongOption())
-            {
-                return new LongOptionParser(ignoreUnknownArguments);
-            }
-            if (argument.IsShortOption())
-            {
-                return new OptionGroupParser(ignoreUnknownArguments);
-            }
-            return null;
-        }
-
-        public static bool IsInputValue(string argument)
-        {
-            if (argument.IsNumeric()) { return true; }
-            if (argument.Length > 0)
-            {
-                return argument.IsDash() || !argument.IsShortOption();
-            }
-            return true;
-        }
-
-        protected static IList<string> GetNextInputValues(IArgumentEnumerator ae)
-        {
-            IList<string> list = new List<string>();
-            while (ae.MoveNext())
-            {
-                if (IsInputValue(ae.Current)) { list.Add(ae.Current); }
-                else { break; }
-            }
-            if (!ae.MovePrevious()) { throw new ParserException(); }
-            return list;
-        }
 
         public static bool CompareShort(string argument, char? option, bool caseSensitive)
         {
@@ -99,6 +60,80 @@ namespace CommandLine.Core
                 caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 
+        public static ArgumentParser Create(string argument, bool ignoreUnknownArguments = false)
+        {
+            if (argument.IsNumeric())
+            {
+                return null;
+            }
+
+            if (argument.IsDash())
+            {
+                return null;
+            }
+
+            if (argument.IsLongOption())
+            {
+                return new LongOptionParser(ignoreUnknownArguments);
+            }
+
+            if (argument.IsShortOption())
+            {
+                return new OptionGroupParser(ignoreUnknownArguments);
+            }
+
+            return null;
+        }
+
+        public static bool IsInputValue(string argument)
+        {
+            if (argument.IsNumeric())
+            {
+                return true;
+            }
+
+            if (argument.Length > 0)
+            {
+                return argument.IsDash() || !argument.IsShortOption();
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Helper method for testing purpose.
+        /// </summary>
+        /// <param name="ae">An argument enumerator instance.</param>
+        /// <returns>The next input value.</returns>
+        internal static IList<string> InternalWrapperOfGetNextInputValues(IArgumentEnumerator ae)
+        {
+            return GetNextInputValues(ae);
+        }
+
+        protected static IList<string> GetNextInputValues(IArgumentEnumerator ae)
+        {
+            IList<string> list = new List<string>();
+
+            while (ae.MoveNext())
+            {
+                if (IsInputValue(ae.Current))
+                {
+                    list.Add(ae.Current);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (!ae.MovePrevious())
+            {
+                throw new ParserException();
+            }
+
+            return list;
+        }
+
         protected static PresentParserState BooleanToParserState(bool value)
         {
             return BooleanToParserState(value, false);
@@ -106,11 +141,16 @@ namespace CommandLine.Core
 
         protected static PresentParserState BooleanToParserState(bool value, bool addMoveNextIfTrue)
         {
-            if (value && !addMoveNextIfTrue) { return PresentParserState.Success; }
+            if (value && !addMoveNextIfTrue)
+            {
+                return PresentParserState.Success;
+            }
+
             if (value)
             {
                 return PresentParserState.Success | PresentParserState.MoveOnNextElement;
             }
+
             return PresentParserState.Failure;
         }
 
@@ -129,13 +169,10 @@ namespace CommandLine.Core
                 throw new ParserException();
             }
         }
-        
-        /// <summary>
-        /// Helper method for testing purpose.
-        /// </summary>>
-        internal static IList<string> InternalWrapperOfGetNextInputValues(IArgumentEnumerator ae)
+
+        protected void DefineOptionThatViolatesFormat(OptionInfo option)
         {
-            return GetNextInputValues(ae);
+            this.PostParsingState.Add(new ParsingError(option.ShortName, option.LongName, true));
         }
     }
 }

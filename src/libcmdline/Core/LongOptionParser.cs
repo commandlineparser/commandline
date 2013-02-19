@@ -29,11 +29,13 @@
 
 namespace CommandLine.Core
 {
-    sealed class LongOptionParser : ArgumentParser
+    internal sealed class LongOptionParser : ArgumentParser
     {
+        private readonly bool ignoreUnkwnownArguments;
+
         public LongOptionParser(bool ignoreUnkwnownArguments)
         {
-            _ignoreUnkwnownArguments = ignoreUnkwnownArguments;
+            this.ignoreUnkwnownArguments = ignoreUnkwnownArguments;
         }
 
         public override PresentParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
@@ -43,8 +45,9 @@ namespace CommandLine.Core
             bool valueSetting;
             if (option == null)
             {
-                return _ignoreUnkwnownArguments ? PresentParserState.MoveOnNextElement : PresentParserState.Failure;
+                return this.ignoreUnkwnownArguments ? PresentParserState.MoveOnNextElement : PresentParserState.Failure;
             }
+
             option.IsDefined = true;
 
             ArgumentParser.EnsureOptionArrayAttributeIsNotBoundToScalar(option);
@@ -55,6 +58,7 @@ namespace CommandLine.Core
                 {
                     return PresentParserState.Failure;
                 }
+
                 if (parts.Length == 2)
                 {
                     if (!option.IsArray)
@@ -62,8 +66,9 @@ namespace CommandLine.Core
                         valueSetting = option.SetValue(parts[1], options);
                         if (!valueSetting)
                         {
-                            DefineOptionThatViolatesFormat(option);
+                            base.DefineOptionThatViolatesFormat(option);
                         }
+
                         return ArgumentParser.BooleanToParserState(valueSetting);
                     }
 
@@ -75,8 +80,9 @@ namespace CommandLine.Core
                     valueSetting = option.SetValue(items, options);
                     if (!valueSetting)
                     {
-                        DefineOptionThatViolatesFormat(option);
+                        base.DefineOptionThatViolatesFormat(option);
                     }
+
                     return ArgumentParser.BooleanToParserState(valueSetting);
                 }
                 else
@@ -86,8 +92,9 @@ namespace CommandLine.Core
                         valueSetting = option.SetValue(argumentEnumerator.Next, options);
                         if (!valueSetting)
                         {
-                            DefineOptionThatViolatesFormat(option);
+                            base.DefineOptionThatViolatesFormat(option);
                         }
+
                         return ArgumentParser.BooleanToParserState(valueSetting, true);
                     }
 
@@ -98,8 +105,9 @@ namespace CommandLine.Core
                     valueSetting = option.SetValue(items, options);
                     if (!valueSetting)
                     {
-                        DefineOptionThatViolatesFormat(option);
+                        base.DefineOptionThatViolatesFormat(option);
                     }
+
                     return ArgumentParser.BooleanToParserState(valueSetting);
                 }
             }
@@ -108,14 +116,14 @@ namespace CommandLine.Core
             {
                 return PresentParserState.Failure;
             }
+
             valueSetting = option.SetValue(true, options);
             if (!valueSetting)
             {
-                DefineOptionThatViolatesFormat(option);
+                base.DefineOptionThatViolatesFormat(option);
             }
+
             return ArgumentParser.BooleanToParserState(valueSetting);
         }
-
-        private readonly bool _ignoreUnkwnownArguments;
     }
 }
