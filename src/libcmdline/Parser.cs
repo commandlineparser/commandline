@@ -55,7 +55,7 @@ namespace CommandLine
         private static readonly IParser DefaultParser = new Parser(true);
         private ParserContext currentContext;
         private bool disposed;
-        private Action<int> onExit = code => Environment.Exit(code);
+        private Action<int> onExitDelegate = code => Environment.Exit(code);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Parser"/> class.
@@ -309,7 +309,7 @@ namespace CommandLine
         {
             // Sets unit testing hook.
 
-            this.onExit = action;
+            this.onExitDelegate = action;
         }
 
         private static void SetParserStateIfNeeded(object options, IEnumerable<ParsingError> errors)
@@ -342,10 +342,12 @@ namespace CommandLine
 
             this.currentContext = new ParserContext(args, options);
 
+            var parsingCallback = this.GetParsingCallback(this.currentContext);
+
             if (pair != null && helpWriter != null)
             {
                 // If help can be handled is displayed if is requested or if parsing fails
-                if (this.ParseHelp(args, pair.Right) || !this.DoParseArgumentsDispatcher(this.currentContext))
+                if (this.ParseHelp(args, pair.Right) || !parsingCallback())
                 {
                     string helpText;
                     HelpOptionAttribute.InvokeMethod(options, pair, out helpText);
@@ -356,14 +358,17 @@ namespace CommandLine
                 return true;
             }
 
-            return this.DoParseArgumentsDispatcher(this.currentContext);
+            return parsingCallback();
         }
 
-        private bool DoParseArgumentsDispatcher(ParserContext context)
+        private Func<bool> GetParsingCallback(ParserContext context)
         {
-            return context.Target.HasVerbs() ?
-                this.DoParseArgumentsVerbs(context) :
-                this.DoParseArgumentsCore(context);
+            if (context.Target.HasVerbs())
+            {
+                return () => this.DoParseArgumentsVerbs(context);
+            }
+
+            return () => this.DoParseArgumentsCore(context);
         }
 
         private bool DoParseArgumentsCore(ParserContext context)
@@ -527,7 +532,7 @@ namespace CommandLine
             {
                 this.InvokeAutoBuildIfNeeded(options);
 
-                this.onExit(exitCode);
+                this.onExitDelegate(exitCode);
                 return false;
             }
 
