@@ -35,7 +35,7 @@ using CommandLine.Helpers;
 
 namespace CommandLine.Extensions
 {
-    static class TargetExtensions
+    internal static class TargetExtensions
     {
         public static bool HasVerbs(this object target)
         {

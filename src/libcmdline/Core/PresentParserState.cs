@@ -33,7 +33,7 @@ using System;
 namespace CommandLine.Core
 {
     [Flags]
-    enum PresentParserState : ushort
+    internal enum PresentParserState : ushort
     {
         Undefined = 0x00,
         Success = 0x01,

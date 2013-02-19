@@ -29,7 +29,7 @@
 
 namespace CommandLine.Extensions
 {
-    static class OptionExtensions
+    internal static class OptionExtensions
     {
         public static string ToOption(this string value)
         {

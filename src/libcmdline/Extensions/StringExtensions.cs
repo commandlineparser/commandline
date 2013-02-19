@@ -36,7 +36,7 @@ namespace CommandLine.Extensions
     /// <summary>
     /// Utility extension methods for strings, characters and related types.
     /// </summary>
-    static class StringExtensions
+    internal static class StringExtensions
     {
         public static string Spaces(this int value)
         {

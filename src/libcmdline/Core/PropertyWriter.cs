@@ -40,12 +40,14 @@ namespace CommandLine.Core
     /// <summary>
     /// Encapsulates property writing primitives.
     /// </summary>
-    sealed class PropertyWriter
+    internal sealed class PropertyWriter
     {
+        private readonly CultureInfo parsingCulture;
+
         public PropertyWriter(PropertyInfo property, CultureInfo parsingCulture)
         {
-            _parsingCulture = parsingCulture;
-            Property = property;
+            this.parsingCulture = parsingCulture;
+            this.Property = property;
         }
 
         public PropertyInfo Property { get; private set; }
@@ -54,37 +56,48 @@ namespace CommandLine.Core
         {
             try
             {
-                Property.SetValue(target, Property.PropertyType.IsEnum ?
-                    Enum.Parse(Property.PropertyType, value, true) :
-                        Convert.ChangeType(value, Property.PropertyType,
-                            _parsingCulture), null);
+                this.Property.SetValue(
+                    target,
+                    this.Property.PropertyType.IsEnum ?
+                        Enum.Parse(this.Property.PropertyType, value, true) :
+                        Convert.ChangeType(value, this.Property.PropertyType, this.parsingCulture),
+                    null);
             }
-            catch (InvalidCastException) { return false; } // Convert.ChangeType
-            catch (FormatException) { return false; } // Convert.ChangeType
-            catch (ArgumentException) { return false; } // Enum.Parse
-            catch (OverflowException) { return false; } // Convert.ChangeType
-            return true;
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.")]
-        public bool WriteNullable(string value, object target)
-        {
-            var nc = new NullableConverter(Property.PropertyType);
-            try
+            catch (InvalidCastException)
             {
-                // ReSharper disable AssignNullToNotNullAttribute
-                Property.SetValue(target, nc.ConvertFromString(null, _parsingCulture, value), null);
-                // ReSharper restore AssignNullToNotNullAttribute
+                return false;
             }
-            // FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException,
-            // so we've to catch directly System.Exception
-            catch (Exception)
+            catch (FormatException)
+            {
+                return false;
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            catch (OverflowException)
             {
                 return false;
             }
             return true;
         }
 
-        private readonly CultureInfo _parsingCulture;
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception.")]
+        public bool WriteNullable(string value, object target)
+        {
+            var nc = new NullableConverter(this.Property.PropertyType);
+            try
+            {
+                this.Property.SetValue(target, nc.ConvertFromString(null, this.parsingCulture, value), null);
+            }
+
+            // FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

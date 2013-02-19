@@ -33,28 +33,36 @@ using CommandLine.Helpers;
 
 namespace CommandLine.Core
 {
-    sealed class StringArrayEnumerator : IArgumentEnumerator
+    internal sealed class StringArrayEnumerator : IArgumentEnumerator
     {
-        private readonly string[] _data;
-        private int _index;
-        private readonly int _endIndex;
+        private readonly int endIndex;
+        private readonly string[] data;
+        private int index;
 
         public StringArrayEnumerator(string[] value)
         {
             Assumes.NotNull(value, "value");
 
-            _data = value;
-            _index = -1;
-            _endIndex = value.Length;
+            this.data = value;
+            this.index = -1;
+            this.endIndex = value.Length;
         }
 
         public string Current
         {
             get
             {
-                if (_index == -1) { throw new InvalidOperationException(); }
-                if (_index >= _endIndex) { throw new InvalidOperationException(); }
-                return _data[_index];
+                if (this.index == -1)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                if (this.index >= this.endIndex)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                return this.data[this.index];
             }
         }
 
@@ -62,30 +70,38 @@ namespace CommandLine.Core
         {
             get
             {
-                if (_index == -1) { throw new InvalidOperationException(); }
-                if (_index > _endIndex) { throw new InvalidOperationException(); }
-                if (IsLast) { return null; }
-                return _data[_index + 1];
+                if (this.index == -1)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                if (this.index > this.endIndex)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                if (this.IsLast)
+                {
+                    return null;
+                }
+
+                return this.data[this.index + 1];
             }
         }
 
         public bool IsLast
         {
-            get { return _index == _endIndex - 1; }
+            get { return this.index == this.endIndex - 1; }
         }
-
-        //public void Reset()
-        //{
-        //    _index = -1;
-        //}
 
         public bool MoveNext()
         {
-            if (_index < _endIndex)
+            if (this.index < this.endIndex)
             {
-                _index++;
-                return _index < _endIndex;
+                this.index++;
+                return this.index < this.endIndex;
             }
+
             return false;
         }
 
@@ -96,15 +112,17 @@ namespace CommandLine.Core
 
         public bool MovePrevious()
         {
-            if (_index <= 0)
+            if (this.index <= 0)
             {
                 throw new InvalidOperationException();
             }
-            if (_index <= _endIndex)
+
+            if (this.index <= this.endIndex)
             {
-                _index--;
-                return _index <= _endIndex;
+                this.index--;
+                return this.index <= this.endIndex;
             }
+
             return false;
         }
     }
