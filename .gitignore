@@ -21,3 +21,4 @@ TestResult.xml
 .nupkg
 *.old
 StyleCop.Cache
+le-to-nix.sh

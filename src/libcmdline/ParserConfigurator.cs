@@ -39,13 +39,15 @@ namespace CommandLine
     /// </summary>
     public sealed class ParserConfigurator : IHideObjectMembers
     {
+        private readonly IParser parser;
+
         /// <summary>
         /// Initialize a new instance of <see cref="CommandLine.ParserConfigurator"/> class.
         /// </summary>
         /// <param name="parser">The <see cref="CommandLine.IParser"/> instance that should be configured.</param>
         public ParserConfigurator(IParser parser)
         {
-            _parser = parser;
+            this.parser = parser;
         }
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace CommandLine
         /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
         public ParserConfigurator NoCaseSensitive()
         {
-            _parser.Settings.CaseSensitive = false;
+            this.parser.Settings.CaseSensitive = false;
             return this;
         }
 
@@ -67,7 +69,7 @@ namespace CommandLine
         {
             Assumes.NotNull(helpWriter, "helpWriter");
 
-            _parser.Settings.HelpWriter = helpWriter;
+            this.parser.Settings.HelpWriter = helpWriter;
             return this;
         }
 
@@ -77,7 +79,7 @@ namespace CommandLine
         /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
         public ParserConfigurator EnableMutuallyExclusive()
         {
-            _parser.Settings.MutuallyExclusive = true;
+            this.parser.Settings.MutuallyExclusive = true;
             return this;
         }
 
@@ -87,7 +89,7 @@ namespace CommandLine
         /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
         public ParserConfigurator IgnoreUnknownArguments()
         {
-            _parser.Settings.IgnoreUnknownArguments = true;
+            this.parser.Settings.IgnoreUnknownArguments = true;
             return this;
         }
 
@@ -101,10 +103,8 @@ namespace CommandLine
         /// </remarks>
         public ParserConfigurator UseCulture(CultureInfo parsingCulture)
         {
-            _parser.Settings.ParsingCulture = parsingCulture;
+            this.parser.Settings.ParsingCulture = parsingCulture;
             return this;
         }
-
-        private readonly IParser _parser;
     }
 }

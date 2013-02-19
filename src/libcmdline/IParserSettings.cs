@@ -5,19 +5,18 @@ using System.IO;
 namespace CommandLine
 {
     /// <summary>
-    /// Defines an interface that specifies a set of features to configure the behaviour
+    /// Defines an interface that specifies a set of features to configure 
     /// of a type that implements <see cref="CommandLine.IParser"/>.
     /// </summary>
     public interface IParserSettings : IDisposable
     {
         /// <summary>
-        /// Gets or sets the case comparison behavior.
-        /// Default is set to true.
+        /// Gets or sets a value indicating whether perform case sensitive comparisons.
         /// </summary>
         bool CaseSensitive { get; set; }
 
         /// <summary>
-        /// Gets or sets the mutually exclusive behavior.
+        /// Gets or sets a value indicating whether set a mutually exclusive behavior.
         /// Default is set to false.
         /// </summary>
         bool MutuallyExclusive { get; set; }
@@ -29,14 +28,14 @@ namespace CommandLine
         TextWriter HelpWriter { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating if the parser shall move on to the next argument and ignore the given argument if it
+        /// Gets or sets a value indicating whether the parser shall move on to the next argument and ignore the given argument if it
         /// encounter an unknown arguments
         /// </summary>
         /// <value>
-        /// <c>true</c> to allow parsing the arguments with differents class options that do not have all the arguments.
+        /// <c>true</c> to allow parsing the arguments with different class options that do not have all the arguments.
         /// </value>
         /// <remarks>
-        /// This allows fragmented version class parsing, useful for project with addon where addons also requires command line arguments but
+        /// This allows fragmented version class parsing, useful for project with add-on where add-ons also requires command line arguments but
         /// when these are unknown by the main program at build time.
         /// </remarks>
         bool IgnoreUnknownArguments { get; set; }

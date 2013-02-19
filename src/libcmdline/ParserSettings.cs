@@ -43,6 +43,8 @@ namespace CommandLine
     {
         private const bool CaseSensitiveDefault = true;
 
+        private bool disposed;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
         /// </summary>
@@ -119,21 +121,28 @@ namespace CommandLine
         /// default <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
         public ParserSettings(bool caseSensitive, bool mutuallyExclusive, bool ignoreUnknownArguments, TextWriter helpWriter)
         {
-            CaseSensitive = caseSensitive;
-            MutuallyExclusive = mutuallyExclusive;
-            HelpWriter = helpWriter;
-            IgnoreUnknownArguments = ignoreUnknownArguments;
-            ParsingCulture = Thread.CurrentThread.CurrentCulture;
+            this.CaseSensitive = caseSensitive;
+            this.MutuallyExclusive = mutuallyExclusive;
+            this.HelpWriter = helpWriter;
+            this.IgnoreUnknownArguments = ignoreUnknownArguments;
+            this.ParsingCulture = Thread.CurrentThread.CurrentCulture;
         }
 
         /// <summary>
-        /// Gets or sets the case comparison behavior.
-        /// Default is set to true.
+        /// Finalizes an instance of the <see cref="CommandLine.ParserSettings"/> class.
+        /// </summary>
+        ~ParserSettings()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether perform case sensitive comparisons.
         /// </summary>
         public bool CaseSensitive { get; set; }
 
         /// <summary>
-        /// Gets or sets the mutually exclusive behavior.
+        /// Gets or sets a value indicating whether set a mutually exclusive behavior.
         /// Default is set to false.
         /// </summary>
         public bool MutuallyExclusive { get; set; }
@@ -145,14 +154,14 @@ namespace CommandLine
         public TextWriter HelpWriter { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating if the parser shall move on to the next argument and ignore the given argument if it
+        /// Gets or sets a value indicating whether the parser shall move on to the next argument and ignore the given argument if it
         /// encounter an unknown arguments
         /// </summary>
         /// <value>
-        /// <c>true</c> to allow parsing the arguments with differents class options that do not have all the arguments.
+        /// <c>true</c> to allow parsing the arguments with different class options that do not have all the arguments.
         /// </value>
         /// <remarks>
-        /// This allows fragmented version class parsing, useful for project with addon where addons also requires command line arguments but
+        /// This allows fragmented version class parsing, useful for project with add-on where add-ons also requires command line arguments but
         /// when these are unknown by the main program at build time.
         /// </remarks>
         public bool IgnoreUnknownArguments { get; set; }
@@ -170,37 +179,28 @@ namespace CommandLine
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
 
             GC.SuppressFinalize(this);
         }
 
         private void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                if (HelpWriter != null)
+                if (this.HelpWriter != null)
                 {
-                    HelpWriter.Dispose();
-                    HelpWriter = null;
+                    this.HelpWriter.Dispose();
+                    this.HelpWriter = null;
                 }
-                _disposed = true;
+
+                this.disposed = true;
             }
         }
-
-        /// <summary>
-        /// Class destructor.
-        /// </summary>
-        ~ParserSettings()
-        {
-            Dispose(false);
-        }
-
-        private bool _disposed;
     }
 }

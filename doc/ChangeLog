@@ -3,6 +3,7 @@
   * Trying to tatally complying to naming rules (see doc/Contributors).
   * Parser.cs passed to StyleCop (skipped secondary rules -> will complied as a whole).
   * Refactored unit test specific code in CommandLine.Parser with a delegates.
+  * StyleCop applied also to: ParserConfigurator, ParserContext, IParserSettings, ParserSettings, ParserState.
 
 2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 

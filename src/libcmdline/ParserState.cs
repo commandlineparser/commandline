@@ -33,13 +33,13 @@ using System.Collections.Generic;
 namespace CommandLine
 {
     /// <summary>
-    /// Models a type that records the parser state afeter parsing.
+    /// Models a type that records the parser state after parsing.
     /// </summary>
     public sealed class ParserState : IParserState
     {
         internal ParserState()
         {
-            Errors = new List<ParsingError>();
+            this.Errors = new List<ParsingError>();
         }
 
         /// <summary>
