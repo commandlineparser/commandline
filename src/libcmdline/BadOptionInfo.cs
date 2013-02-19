@@ -40,12 +40,12 @@ namespace CommandLine
 
         internal BadOptionInfo(char? shortName, string longName)
         {
-            ShortName = shortName;
-            LongName = longName;
+            this.ShortName = shortName;
+            this.LongName = longName;
         }
 
         /// <summary>
-        /// The short name of the option
+        /// Gets the short name of the option.
         /// </summary>
         /// <value>Returns the short name of the option.</value>
         public char? ShortName
@@ -55,7 +55,7 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// The long name of the option
+        /// Gets the long name of the option.
         /// </summary>
         /// <value>Returns the long name of the option.</value>
         public string LongName

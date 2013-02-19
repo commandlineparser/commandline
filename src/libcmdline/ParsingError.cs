@@ -36,13 +36,13 @@ namespace CommandLine
     {
         internal ParsingError()
         {
-            BadOption = new BadOptionInfo();
+            this.BadOption = new BadOptionInfo();
         }
 
         internal ParsingError(char? shortName, string longName, bool format)
         {
-            BadOption = new BadOptionInfo(shortName, longName);
-            ViolatesFormat = format;
+            this.BadOption = new BadOptionInfo(shortName, longName);
+            this.ViolatesFormat = format;
         }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace CommandLine
     public class ParserException : Exception
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ParserException"/>. The exception is thrown
+        /// Initializes a new instance of the <see cref="ParserException"/> class. The exception is thrown
         /// when something unexpected occurs during the parsing process.
         /// </summary>
         public ParserException()
@@ -48,7 +48,7 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ParserException"/>. The exception is thrown
+        /// Initializes a new instance of the <see cref="ParserException"/> class. The exception is thrown
         /// when something unexpected occurs during the parsing process.
         /// </summary>
         /// <param name="message">Error message string.</param>
@@ -58,7 +58,7 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ParserException"/>. The exception is thrown
+        /// Initializes a new instance of the <see cref="ParserException"/> class. The exception is thrown
         /// when something unexpected occurs during the parsing process.
         /// </summary>
         /// <param name="message">Error message string.</param>
@@ -69,7 +69,7 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ParserException"/> with serialized data. The exception is thrown
+        /// Initializes a new instance of the <see cref="ParserException"/> class. The exception is thrown
         /// when something unexpected occurs during the parsing process.
         /// </summary>
         /// <param name="info">The object that holds the serialized object data.</param>
