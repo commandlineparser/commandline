@@ -220,7 +220,7 @@ namespace CommandLine
             return !hadError;
         }
 
-        private bool ParseHelp(IEnumerable<string> args, HelpOptionAttribute helpOption)
+        private bool ParseHelp(string[] args, HelpOptionAttribute helpOption)
         {
             var caseSensitive = Settings.CaseSensitive;
             foreach (var arg in args)
