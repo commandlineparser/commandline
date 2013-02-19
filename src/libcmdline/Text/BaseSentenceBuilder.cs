@@ -35,15 +35,6 @@ namespace CommandLine.Text
     public abstract class BaseSentenceBuilder
     {
         /// <summary>
-        /// Creates the built in sentence builder.
-        /// </summary>
-        /// <returns>The built in sentence builder.</returns>
-        public static BaseSentenceBuilder CreateBuiltIn()
-        {
-            return new EnglishSentenceBuilder();
-        }
-
-        /// <summary>
         /// Gets a string containing word 'option'.
         /// </summary>
         /// <value>The word 'option'.</value>
@@ -78,5 +69,14 @@ namespace CommandLine.Text
         /// </summary>
         /// <value>The error heading text.</value>
         public abstract string ErrorsHeadingText { get; }
+
+        /// <summary>
+        /// Creates the built in sentence builder.
+        /// </summary>
+        /// <returns>The built in sentence builder.</returns>
+        public static BaseSentenceBuilder CreateBuiltIn()
+        {
+            return new EnglishSentenceBuilder();
+        }
     }
 }

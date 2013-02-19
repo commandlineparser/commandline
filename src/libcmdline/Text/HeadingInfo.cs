@@ -37,11 +37,14 @@ using CommandLine.Helpers;
 namespace CommandLine.Text
 {
     /// <summary>
-    /// Models the heading informations part of an help text.
+    /// Models the heading part of an help text.
     /// You can assign it where you assign any <see cref="System.String"/> instance.
     /// </summary>
     public class HeadingInfo
     {
+        private readonly string programName;
+        private readonly string version;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HeadingInfo"/> class
         /// specifying program name.
@@ -64,82 +67,13 @@ namespace CommandLine.Text
         {
             Assumes.NotNullOrEmpty(programName, "programName");
 
-            _programName = programName;
-            _version = version;
+            this.programName = programName;
+            this.version = version;
         }
 
-        /// <summary>
-        /// Returns the heading informations as a <see cref="System.String"/>.
-        /// </summary>
-        /// <returns>The <see cref="System.String"/> that contains the heading informations.</returns>
-        public override string ToString()
-        {
-            bool isVersionNull = string.IsNullOrEmpty(_version);
-            var builder = new StringBuilder(_programName.Length +
-                (!isVersionNull ? _version.Length + 1 : 0));
-            builder.Append(_programName);
-            if (!isVersionNull)
-            {
-                builder.Append(' ');
-                builder.Append(_version);
-            }
-            return builder.ToString();
-        }
 
         /// <summary>
-        /// Converts the heading informations to a <see cref="System.String"/>.
-        /// </summary>
-        /// <param name="info">This <see cref="CommandLine.Text.HeadingInfo"/> instance.</param>
-        /// <returns>The <see cref="System.String"/> that contains the heading informations.</returns>
-        public static implicit operator string(HeadingInfo info)
-        {
-            return info.ToString();
-        }
-
-        /// <summary>
-        /// Writes out a string and a new line using the program name specified in the constructor
-        /// and <paramref name="message"/> parameter.
-        /// </summary>
-        /// <param name="message">The <see cref="System.String"/> message to write.</param>
-        /// <param name="writer">The target <see cref="System.IO.TextWriter"/> derived type.</param>
-        /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="message"/> is null or empty string.</exception>
-        /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="writer"/> is null.</exception>
-        public void WriteMessage(string message, TextWriter writer)
-        {
-            Assumes.NotNullOrEmpty(message, "message");
-            Assumes.NotNull(writer, "writer");
-
-            var builder = new StringBuilder(_programName.Length + message.Length + 2);
-            builder.Append(_programName);
-            builder.Append(": ");
-            builder.Append(message);
-            writer.WriteLine(builder.ToString());
-        }
-
-        /// <summary>
-        /// Writes out a string and a new line using the program name specified in the constructor
-        /// and <paramref name="message"/> parameter to standard output stream.
-        /// </summary>
-        /// <param name="message">The <see cref="System.String"/> message to write.</param>
-        /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="message"/> is null or empty string.</exception>
-        public void WriteMessage(string message)
-        {
-            WriteMessage(message, Console.Out);
-        }
-
-        /// <summary>
-        /// Writes out a string and a new line using the program name specified in the constructor
-        /// and <paramref name="message"/> parameter to standard error stream.
-        /// </summary>
-        /// <param name="message">The <see cref="System.String"/> message to write.</param>
-        /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="message"/> is null or empty string.</exception>
-        public void WriteError(string message)
-        {
-            WriteMessage(message, Console.Error);
-        }
-
-        /// <summary>
-        /// The default heading information.
+        /// Gets the default heading instance.
         /// The title is retrieved from <see cref="AssemblyTitleAttribute"/>,
         /// or the assembly short name if its not defined.
         /// The version is retrieved from <see cref="AssemblyInformationalVersionAttribute"/>,
@@ -161,7 +95,75 @@ namespace CommandLine.Text
             }
         }
 
-        private readonly string _programName;
-        private readonly string _version;
+        /// <summary>
+        /// Converts the heading to a <see cref="System.String"/>.
+        /// </summary>
+        /// <param name="info">This <see cref="CommandLine.Text.HeadingInfo"/> instance.</param>
+        /// <returns>The <see cref="System.String"/> that contains the heading.</returns>
+        public static implicit operator string(HeadingInfo info)
+        {
+            return info.ToString();
+        }
+
+        /// <summary>
+        /// Returns the heading as a <see cref="System.String"/>.
+        /// </summary>
+        /// <returns>The <see cref="System.String"/> that contains the heading.</returns>
+        public override string ToString()
+        {
+            bool isVersionNull = string.IsNullOrEmpty(this.version);
+            var builder = new StringBuilder(this.programName.Length +
+                (!isVersionNull ? this.version.Length + 1 : 0));
+            builder.Append(this.programName);
+            if (!isVersionNull)
+            {
+                builder.Append(' ');
+                builder.Append(this.version);
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Writes out a string and a new line using the program name specified in the constructor
+        /// and <paramref name="message"/> parameter.
+        /// </summary>
+        /// <param name="message">The <see cref="System.String"/> message to write.</param>
+        /// <param name="writer">The target <see cref="System.IO.TextWriter"/> derived type.</param>
+        /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="message"/> is null or empty string.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="writer"/> is null.</exception>
+        public void WriteMessage(string message, TextWriter writer)
+        {
+            Assumes.NotNullOrEmpty(message, "message");
+            Assumes.NotNull(writer, "writer");
+
+            var builder = new StringBuilder(this.programName.Length + message.Length + 2);
+            builder.Append(this.programName);
+            builder.Append(": ");
+            builder.Append(message);
+            writer.WriteLine(builder.ToString());
+        }
+
+        /// <summary>
+        /// Writes out a string and a new line using the program name specified in the constructor
+        /// and <paramref name="message"/> parameter to standard output stream.
+        /// </summary>
+        /// <param name="message">The <see cref="System.String"/> message to write.</param>
+        /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="message"/> is null or empty string.</exception>
+        public void WriteMessage(string message)
+        {
+            this.WriteMessage(message, Console.Out);
+        }
+
+        /// <summary>
+        /// Writes out a string and a new line using the program name specified in the constructor
+        /// and <paramref name="message"/> parameter to standard error stream.
+        /// </summary>
+        /// <param name="message">The <see cref="System.String"/> message to write.</param>
+        /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="message"/> is null or empty string.</exception>
+        public void WriteError(string message)
+        {
+            this.WriteMessage(message, Console.Error);
+        }
     }
 }

@@ -37,7 +37,7 @@ namespace CommandLine.Text
     /// </summary>
     public class FormatOptionHelpTextEventArgs : EventArgs
     {
-        private readonly BaseOptionAttribute _option;
+        private readonly BaseOptionAttribute option;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.FormatOptionHelpTextEventArgs"/> class.
@@ -45,7 +45,7 @@ namespace CommandLine.Text
         /// <param name="option">Option to format.</param>
         public FormatOptionHelpTextEventArgs(BaseOptionAttribute option)
         {
-            _option = option;
+            this.option = option;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace CommandLine.Text
         {
             get
             {
-                return _option;
+                return this.option;
             }
         }
     }

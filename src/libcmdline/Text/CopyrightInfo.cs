@@ -39,27 +39,19 @@ using CommandLine.Helpers;
 namespace CommandLine.Text
 {
     /// <summary>
-    /// Models the copyright informations part of an help text.
+    /// Models the copyright part of an help text.
     /// You can assign it where you assign any <see cref="System.String"/> instance.
     /// </summary>
     public class CopyrightInfo
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class
-        /// with an assembly attribute, this overrides all formatting.
-        /// </summary>
-        /// <param name="attribute">The attribute which text to use.</param>
-        private CopyrightInfo(AssemblyCopyrightAttribute attribute)
-        {
-            _attribute = attribute;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class.
-        /// </summary>
-        protected CopyrightInfo()
-        {
-        }
+        private const string DefaultCopyrightWord = "Copyright";
+        private const string SymbolLower = "(c)";
+        private const string SymbolUpper = "(C)";
+        private readonly AssemblyCopyrightAttribute attribute;
+        private readonly bool isSymbolUpper;
+        private readonly int[] copyrightYears;
+        private readonly string author;
+        private readonly int builderSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class
@@ -75,10 +67,10 @@ namespace CommandLine.Text
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class
-        /// specifying author and years.
+        /// specifying author and copyrightYears.
         /// </summary>
         /// <param name="author">The company or person holding the copyright.</param>
-        /// <param name="years">The years of coverage of copyright.</param>
+        /// <param name="years">The copyrightYears of coverage of copyright.</param>
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="author"/> is null or empty string.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when parameter <paramref name="years"/> is not supplied.</exception>
         public CopyrightInfo(string author, params int[] years)
@@ -88,92 +80,44 @@ namespace CommandLine.Text
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class
-        /// specifying symbol case, author and years.
+        /// specifying symbol case, author and copyrightYears.
         /// </summary>
         /// <param name="isSymbolUpper">The case of the copyright symbol.</param>
         /// <param name="author">The company or person holding the copyright.</param>
-        /// <param name="years">The years of coverage of copyright.</param>
+        /// <param name="copyrightYears">The copyrightYears of coverage of copyright.</param>
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="author"/> is null or empty string.</exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when parameter <paramref name="years"/> is not supplied.</exception>
-        public CopyrightInfo(bool isSymbolUpper, string author, params int[] years)
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when parameter <paramref name="copyrightYears"/> is not supplied.</exception>
+        public CopyrightInfo(bool isSymbolUpper, string author, params int[] copyrightYears)
         {
             Assumes.NotNullOrEmpty(author, "author");
-            Assumes.NotZeroLength(years, "years");
+            Assumes.NotZeroLength(copyrightYears, "copyrightYears");
 
-            const int extraLength = 10;
-            _isSymbolUpper = isSymbolUpper;
-            _author = author;
-            _years = years;
-            _builderSize = CopyrightWord.Length + author.Length + (4 * years.Length) + extraLength;
+            const int ExtraLength = 10;
+            this.isSymbolUpper = isSymbolUpper;
+            this.author = author;
+            this.copyrightYears = copyrightYears;
+            this.builderSize = this.CopyrightWord.Length + author.Length + (4 * copyrightYears.Length) + ExtraLength;
         }
 
         /// <summary>
-        /// Returns the copyright informations as a <see cref="System.String"/>.
+        /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class.
         /// </summary>
-        /// <returns>The <see cref="System.String"/> that contains the copyright informations.</returns>
-        public override string ToString()
+        protected CopyrightInfo()
         {
-            if (_attribute != null)
-            {
-                return _attribute.Copyright;
-            }
-
-            var builder = new StringBuilder(_builderSize);
-            builder.Append(CopyrightWord);
-            builder.Append(' ');
-            builder.Append(_isSymbolUpper ? SymbolUpper : SymbolLower);
-            builder.Append(' ');
-            builder.Append(FormatYears(_years));
-            builder.Append(' ');
-            builder.Append(_author);
-            return builder.ToString();
         }
 
         /// <summary>
-        /// Converts the copyright informations to a <see cref="System.String"/>.
+        /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class
+        /// with an assembly attribute, this overrides all formatting.
         /// </summary>
-        /// <param name="info">This <see cref="CommandLine.Text.CopyrightInfo"/> instance.</param>
-        /// <returns>The <see cref="System.String"/> that contains the copyright informations.</returns>
-        public static implicit operator string(CopyrightInfo info)
+        /// <param name="attribute">The attribute which text to use.</param>
+        private CopyrightInfo(AssemblyCopyrightAttribute attribute)
         {
-            return info.ToString();
+            this.attribute = attribute;
         }
 
         /// <summary>
-        /// When overridden in a derived class, allows to specify a different copyright word.
-        /// </summary>
-        protected virtual string CopyrightWord
-        {
-            get { return DefaultCopyrightWord; }
-        }
-
-        /// <summary>
-        /// When overridden in a derived class, allows to specify a new algorithm to render copyright years
-        /// as a <see cref="System.String"/> instance.
-        /// </summary>
-        /// <param name="years">A <see cref="System.Int32"/> array of years.</param>
-        /// <returns>A <see cref="System.String"/> instance with copyright years.</returns>
-        protected virtual string FormatYears(int[] years)
-        {
-            if (years.Length == 1)
-            {
-                return years[0].ToString(CultureInfo.InvariantCulture);
-            }
-            var yearsPart = new StringBuilder(years.Length * 6);
-            for (int i = 0; i < years.Length; i++)
-            {
-                yearsPart.Append(years[i].ToString(CultureInfo.InvariantCulture));
-                int next = i + 1;
-                if (next < years.Length)
-                {
-                    yearsPart.Append(years[next] - years[i] > 1 ? " - " : ", ");
-                }
-            }
-            return yearsPart.ToString();
-        }
-
-        /// <summary>
-        /// The default copyright information.
+        /// Gets the default copyright information.
         /// Retrieved from <see cref="AssemblyCopyrightAttribute"/>, if it exists,
         /// otherwise it uses <see cref="AssemblyCompanyAttribute"/> as copyright holder with the current year.
         /// If neither exists it throws an <see cref="InvalidOperationException"/>.
@@ -188,23 +132,83 @@ namespace CommandLine.Text
                 {
                     return new CopyrightInfo(copyright);
                 }
+
                 // if no copyright attribute exist but a company attribute does, use it as copyright holder
                 var company = ReflectionUtil.GetAttribute<AssemblyCompanyAttribute>();
                 if (company != null)
                 {
                     return new CopyrightInfo(company.Company, DateTime.Now.Year);
                 }
+
                 throw new InvalidOperationException(SR.InvalidOperationException_CopyrightInfoRequiresAssemblyCopyrightAttributeOrAssemblyCompanyAttribute);
             }
         }
 
-        private readonly bool _isSymbolUpper;
-        private readonly int[] _years;
-        private readonly string _author;
-        private const string DefaultCopyrightWord = "Copyright";
-        private const string SymbolLower = "(c)";
-        private const string SymbolUpper = "(C)";
-        private readonly int _builderSize;
-        private readonly AssemblyCopyrightAttribute _attribute;
+        /// <summary>
+        /// Gets a different copyright word when overridden in a derived class.
+        /// </summary>
+        protected virtual string CopyrightWord
+        {
+            get { return DefaultCopyrightWord; }
+        }
+
+        /// <summary>
+        /// Converts the copyright instance to a <see cref="System.String"/>.
+        /// </summary>
+        /// <param name="info">This <see cref="CommandLine.Text.CopyrightInfo"/> instance.</param>
+        /// <returns>The <see cref="System.String"/> that contains the copyright.</returns>
+        public static implicit operator string(CopyrightInfo info)
+        {
+            return info.ToString();
+        }
+
+        /// <summary>
+        /// Returns the copyright as a <see cref="System.String"/>.
+        /// </summary>
+        /// <returns>The <see cref="System.String"/> that contains the copyright.</returns>
+        public override string ToString()
+        {
+            if (this.attribute != null)
+            {
+                return this.attribute.Copyright;
+            }
+
+            var builder = new StringBuilder(this.builderSize);
+            builder.Append(this.CopyrightWord);
+            builder.Append(' ');
+            builder.Append(this.isSymbolUpper ? SymbolUpper : SymbolLower);
+            builder.Append(' ');
+            builder.Append(this.FormatYears(this.copyrightYears));
+            builder.Append(' ');
+            builder.Append(this.author);
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// When overridden in a derived class, allows to specify a new algorithm to render copyright copyrightYears
+        /// as a <see cref="System.String"/> instance.
+        /// </summary>
+        /// <param name="years">A <see cref="System.Int32"/> array of copyrightYears.</param>
+        /// <returns>A <see cref="System.String"/> instance with copyright copyrightYears.</returns>
+        protected virtual string FormatYears(int[] years)
+        {
+            if (years.Length == 1)
+            {
+                return years[0].ToString(CultureInfo.InvariantCulture);
+            }
+
+            var yearsPart = new StringBuilder(years.Length * 6);
+            for (int i = 0; i < years.Length; i++)
+            {
+                yearsPart.Append(years[i].ToString(CultureInfo.InvariantCulture));
+                int next = i + 1;
+                if (next < years.Length)
+                {
+                    yearsPart.Append(years[next] - years[i] > 1 ? " - " : ", ");
+                }
+            }
+
+            return yearsPart.ToString();
+        }
     }
 }

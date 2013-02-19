@@ -42,8 +42,8 @@ namespace CommandLine.Text.Tests
         #region Mock Objects
         private sealed class CopyleftInfo : CopyrightInfo
         {
-            public CopyleftInfo(bool isSymbolUpper, string author, params int[] years)
-                : base(isSymbolUpper, author, years)
+            public CopyleftInfo(bool isSymbolUpper, string author, params int[] copyrightYears)
+                : base(isSymbolUpper, author, copyrightYears)
             {
             }
 

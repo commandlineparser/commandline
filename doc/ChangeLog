@@ -5,7 +5,9 @@
   * Refactored unit test specific code in CommandLine.Parser with a delegates.
   * StyleCop applied also to: ParserConfigurator, ParserContext, IParserSettings, ParserSettings, ParserState.
   * Parser.cs -> internal refactoring.
-  * StyleCop: ParsingError, ParserException, BadOptionInfo, HelpText.
+  * StyleCop: ParsingError, ParserException, BadOptionInfo, HelpText, HeadingInfo, FormatOptionHelpTextEventArgs,
+      EnglishSentenceBuilder, CopyrightInfo, BaseSentenceBuilder.
+
 
 2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
