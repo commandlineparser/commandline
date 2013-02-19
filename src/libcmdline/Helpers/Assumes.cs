@@ -32,7 +32,7 @@ using System;
 
 namespace CommandLine.Helpers
 {
-    static class Assumes
+    internal static class Assumes
     {
         public static void NotNull<T>(T value, string paramName)
             where T : class
@@ -60,14 +60,6 @@ namespace CommandLine.Helpers
             }
         }
 
-        //public static void NotNullOrEmpty(string value, string paramName, string message)
-        //{
-        //    if (string.IsNullOrEmpty(value))
-        //    {
-        //        throw new ArgumentException(message, paramName);
-        //    }
-        //}
-
         public static void NotZeroLength<T>(T[] array, string paramName)
         {
             if (array.Length == 0)
@@ -75,13 +67,5 @@ namespace CommandLine.Helpers
                 throw new ArgumentOutOfRangeException(paramName);
             }
         }
-
-        //public static void NotZeroLength<T>(T[] array, string paramName, string message)
-        //{
-        //    if (array.Length == 0)
-        //    {
-        //        throw new ArgumentOutOfRangeException(paramName, message);
-        //    }
-        //}
     }
 }

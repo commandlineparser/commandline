@@ -31,30 +31,33 @@
 
 namespace CommandLine.Helpers
 {
-    sealed class Pair<TLeft, TRight>
+    internal sealed class Pair<TLeft, TRight>
         where TLeft : class
         where TRight : class
     {
+        private readonly TLeft left;
+        private readonly TRight right;
+
         public Pair(TLeft left, TRight right)
         {
-            _left = left;
-            _right = right;
+            this.left = left;
+            this.right = right;
         }
 
         public TLeft Left
         {
-            get { return _left; }
+            get { return this.left; }
         }
 
         public TRight Right
         {
-            get { return _right; }
+            get { return this.right; }
         }
 
         public override int GetHashCode()
         {
-            int leftHash = (_left == null ? 0 : _left.GetHashCode());
-            int rightHash = (_right == null ? 0 : _right.GetHashCode());
+            int leftHash = this.left == null ? 0 : this.left.GetHashCode();
+            int rightHash = this.right == null ? 0 : this.right.GetHashCode();
 
             return leftHash ^ rightHash;
         }
@@ -67,10 +70,8 @@ namespace CommandLine.Helpers
             {
                 return false;
             }
-            return Equals(_left, other._left) && Equals(_right, other._right);
-        }
 
-        private readonly TLeft _left;
-        private readonly TRight _right;
+            return Equals(this.left, other.left) && Equals(this.right, other.right);
+        }
     }
 }

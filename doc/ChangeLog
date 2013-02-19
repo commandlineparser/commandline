@@ -7,6 +7,7 @@
   * Parser.cs -> internal refactoring.
   * StyleCop: ParsingError, ParserException, BadOptionInfo, HelpText, HeadingInfo, FormatOptionHelpTextEventArgs,
       EnglishSentenceBuilder, CopyrightInfo, BaseSentenceBuilder.
+  * StyleCop: ReflectionUtil, ReflectionCache, Pair, Assumes.
 
 
 2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>

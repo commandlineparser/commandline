@@ -34,19 +34,24 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CommandLine.Helpers
 {
-    sealed class ReflectionCache
+    internal sealed class ReflectionCache
     {
-        private ReflectionCache()
-        {
-            _cache = new Dictionary<Pair<Type, object>, WeakReference>();
-        }
+        private readonly IDictionary<Pair<Type, object>, WeakReference> cache;
 
         [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Singleton, by design.")]
         static ReflectionCache()
         {
         }
 
-        public static ReflectionCache Instance { get { return Singleton; } }
+        private ReflectionCache()
+        {
+            this.cache = new Dictionary<Pair<Type, object>, WeakReference>();
+        }
+
+        public static ReflectionCache Instance
+        {
+            get { return Singleton; }
+        }
 
         private static readonly ReflectionCache Singleton = new ReflectionCache();
 
@@ -58,18 +63,19 @@ namespace CommandLine.Helpers
                 {
                     throw new ArgumentNullException("key");
                 }
-                return _cache.ContainsKey(key) ? _cache[key].Target : null;
+
+                return this.cache.ContainsKey(key) ? this.cache[key].Target : null;
             }
+
             set
             {
                 if (key == null)
                 {
                     throw new ArgumentNullException("key");
                 }
-                _cache[key] = new WeakReference(value);
+
+                this.cache[key] = new WeakReference(value);
             }
         }
-
-        private readonly IDictionary<Pair<Type, object>, WeakReference> _cache;
     }
 }

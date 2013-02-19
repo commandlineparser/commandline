@@ -34,11 +34,19 @@ using System.Reflection;
 
 namespace CommandLine.Helpers
 {
-    static class ReflectionUtil
+    internal static class ReflectionUtil
     {
         static ReflectionUtil()
         {
             AssemblyFromWhichToPullInformation = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+        }
+
+        /// <summary>
+        /// Gets and sets the assembly from which to pull information. Setter provided for testing purpose.
+        /// </summary>
+        internal static Assembly AssemblyFromWhichToPullInformation
+        {
+            get; set;
         }
 
         public static IList<Pair<PropertyInfo, TAttribute>> RetrievePropertyList<TAttribute>(object target)
@@ -59,11 +67,13 @@ namespace CommandLine.Helpers
                         {
                             continue;
                         }
+
                         var setMethod = property.GetSetMethod();
                         if (setMethod == null || setMethod.IsStatic)
                         {
                             continue;
                         }
+
                         var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
                         if (attribute != null)
                         {
@@ -71,9 +81,11 @@ namespace CommandLine.Helpers
                         }
                     }
                 }
+
                 ReflectionCache.Instance[key] = list;
                 return list;
             }
+
             return (IList<Pair<PropertyInfo, TAttribute>>)cached;
         }
 
@@ -91,18 +103,22 @@ namespace CommandLine.Helpers
                     {
                         continue;
                     }
+
                     var attribute = Attribute.GetCustomAttribute(method, typeof(TAttribute), false);
                     if (attribute == null)
                     {
                         continue;
                     }
-                    var data = new Pair<MethodInfo, TAttribute>(method, (TAttribute) attribute);
+
+                    var data = new Pair<MethodInfo, TAttribute>(method, (TAttribute)attribute);
                     ReflectionCache.Instance[key] = data;
                     return data;
                 }
+
                 return null;
             }
-            return (Pair<MethodInfo, TAttribute>) cached;
+
+            return (Pair<MethodInfo, TAttribute>)cached;
         }
 
         public static TAttribute RetrieveMethodAttributeOnly<TAttribute>(object target)
@@ -119,18 +135,22 @@ namespace CommandLine.Helpers
                     {
                         continue;
                     }
+
                     var attribute = Attribute.GetCustomAttribute(method, typeof(TAttribute), false);
                     if (attribute == null)
                     {
                         continue;
                     }
-                    var data = (TAttribute) attribute;
+
+                    var data = (TAttribute)attribute;
                     ReflectionCache.Instance[key] = data;
                     return data;
                 }
+
                 return null;
             }
-            return (TAttribute) cached;
+
+            return (TAttribute)cached;
         }
 
         public static IList<TAttribute> RetrievePropertyAttributeList<TAttribute>(object target)
@@ -149,36 +169,38 @@ namespace CommandLine.Helpers
                     {
                         continue;
                     }
+
                     var setMethod = property.GetSetMethod();
                     if (setMethod == null || setMethod.IsStatic)
                     {
                         continue;
                     }
+
                     var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
                     if (attribute != null)
                     {
-                        list.Add((TAttribute) attribute);
+                        list.Add((TAttribute)attribute);
                     }
                 }
+
                 ReflectionCache.Instance[key] = list;
                 return list;
             }
-            return (IList<TAttribute>) cached;
+
+            return (IList<TAttribute>)cached;
         }
 
         public static TAttribute GetAttribute<TAttribute>()
             where TAttribute : Attribute
         {
             var a = AssemblyFromWhichToPullInformation.GetCustomAttributes(typeof(TAttribute), false);
-            if (a.Length <= 0) { return null; }
+            if (a.Length <= 0)
+            {
+                return null;
+            }
 
             return (TAttribute)a[0];
         }
-
-        /// <summary>
-        /// Setter provided for testing purpose.
-        /// </summary>
-        public static Assembly AssemblyFromWhichToPullInformation { get; internal set; }
 
         public static Pair<PropertyInfo, TAttribute> RetrieveOptionProperty<TAttribute>(object target, string uniqueName)
                 where TAttribute : BaseOptionAttribute
@@ -191,6 +213,7 @@ namespace CommandLine.Helpers
                 {
                     return null;
                 }
+
                 var propertiesInfo = target.GetType().GetProperties();
 
                 foreach (var property in propertiesInfo)
@@ -199,23 +222,27 @@ namespace CommandLine.Helpers
                     {
                         continue;
                     }
+
                     var setMethod = property.GetSetMethod();
                     if (setMethod == null || setMethod.IsStatic)
                     {
                         continue;
                     }
+
                     var attribute = Attribute.GetCustomAttribute(property, typeof(TAttribute), false);
-                    var optionAttr = (TAttribute) attribute;
+                    var optionAttr = (TAttribute)attribute;
                     if (optionAttr == null || string.CompareOrdinal(uniqueName, optionAttr.UniqueName) != 0)
                     {
                         continue;
                     }
-                    var found = new Pair<PropertyInfo, TAttribute>(property, (TAttribute) attribute);
+
+                    var found = new Pair<PropertyInfo, TAttribute>(property, (TAttribute)attribute);
                     ReflectionCache.Instance[key] = found;
                     return found;
                 }
             }
-            return (Pair<PropertyInfo, TAttribute>) cached;
+
+            return (Pair<PropertyInfo, TAttribute>)cached;
         }
 
         public static bool IsNullableType(Type type)
