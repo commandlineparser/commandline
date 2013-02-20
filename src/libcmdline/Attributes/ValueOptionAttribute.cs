@@ -41,13 +41,15 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ValueOptionAttribute : Attribute
     {
+        private readonly int index;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.ValueOptionAttribute"/> class.
         /// </summary>
         /// <param name="index">The index of the option.</param>
         public ValueOptionAttribute(int index)
         {
-            _index = index;
+            this.index = index;
         }
 
         /// <summary>
@@ -61,13 +63,11 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// The position this option has on the command line.
+        /// Gets the position this option has on the command line.
         /// </summary>
         public int Index
         {
-            get { return _index; }
+            get { return this.index; }
         }
-
-        private readonly int _index;
     }
 }

@@ -70,9 +70,10 @@ namespace CommandLine
         /// <summary>
         /// Helper factory method for testing purpose.
         /// </summary>
+        /// <returns>An <see cref="OptionInfo"/> instance.</returns>
         internal OptionInfo CreateOptionInfo()
         {
-            return new OptionInfo(base.ShortName, base.LongName);
+            return new OptionInfo(this.ShortName, this.LongName);
         }
     }
 }

@@ -46,12 +46,7 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ValueListAttribute : Attribute
     {
-        private readonly Type _concreteType;
-
-        private ValueListAttribute()
-        {
-            MaximumElements = -1;
-        }
+        private readonly Type concreteType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.ValueListAttribute"/> class.
@@ -61,12 +56,22 @@ namespace CommandLine
         public ValueListAttribute(Type concreteType)
             : this()
         {
-            if (concreteType == null) { throw new ArgumentNullException("concreteType"); }
+            if (concreteType == null)
+            {
+                throw new ArgumentNullException("concreteType");
+            }
+
             if (!typeof(IList<string>).IsAssignableFrom(concreteType))
             {
                 throw new ParserException(SR.CommandLineParserException_IncompatibleTypes);
             }
-            _concreteType = concreteType;
+
+            this.concreteType = concreteType;
+        }
+
+        private ValueListAttribute()
+        {
+            this.MaximumElements = -1;
         }
 
         /// <summary>
@@ -79,22 +84,38 @@ namespace CommandLine
         /// <summary>
         /// Gets the concrete type specified during initialization.
         /// </summary>
-        public Type ConcreteType { get { return _concreteType; } }
+        public Type ConcreteType
+        {
+            get { return this.concreteType; }
+        }
 
         internal static IList<string> GetReference(object target)
         {
             Type concreteType;
             var property = GetProperty(target, out concreteType);
-            if (property == null || concreteType == null) { return null; }
+            if (property == null || concreteType == null)
+            {
+                return null;
+            }
+
             property.SetValue(target, Activator.CreateInstance(concreteType), null);
+
             return (IList<string>)property.GetValue(target, null);
         }
 
         internal static ValueListAttribute GetAttribute(object target)
         {
             var list = ReflectionUtil.RetrievePropertyList<ValueListAttribute>(target);
-            if (list == null || list.Count == 0) { return null; }
-            if (list.Count > 1) { throw new InvalidOperationException(); }
+            if (list == null || list.Count == 0)
+            {
+                return null;
+            }
+
+            if (list.Count > 1)
+            {
+                throw new InvalidOperationException();
+            }
+
             var pairZero = list[0];
             return pairZero.Right;
         }
@@ -103,8 +124,16 @@ namespace CommandLine
         {
             concreteType = null;
             var list = ReflectionUtil.RetrievePropertyList<ValueListAttribute>(target);
-            if (list == null || list.Count == 0) { return null; }
-            if (list.Count > 1) { throw new InvalidOperationException(); }
+            if (list == null || list.Count == 0)
+            {
+                return null;
+            }
+
+            if (list.Count > 1)
+            {
+                throw new InvalidOperationException();
+            }
+
             var pairZero = list[0];
             concreteType = pairZero.Right.ConcreteType;
             return pairZero.Left;

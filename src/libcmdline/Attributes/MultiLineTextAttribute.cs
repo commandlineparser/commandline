@@ -39,19 +39,26 @@ namespace CommandLine.Text
     /// </summary>
     public abstract class MultilineTextAttribute : Attribute
     {
+        private readonly string line1;
+        private readonly string line2;
+        private readonly string line3;
+        private readonly string line4;
+        private readonly string line5;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> class. Used in derived type
         /// using one line of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
         protected MultilineTextAttribute(string line1)
         {
             Assumes.NotNullOrEmpty(line1, "line1");
-            _line1 = line1;
+
+            this.line1 = line1;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> class. Used in  type
         /// using two lines of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
@@ -60,11 +67,12 @@ namespace CommandLine.Text
             : this(line1)
         {
             Assumes.NotNullOrEmpty(line2, "line2");
-            _line2 = line2;
+
+            this.line2 = line2;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> class. Used in  type
         /// using three lines of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
@@ -74,11 +82,12 @@ namespace CommandLine.Text
             : this(line1, line2)
         {
             Assumes.NotNullOrEmpty(line3, "line3");
-            _line3 = line3;
+
+            this.line3 = line3;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> class. Used in type
         /// using four lines of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
@@ -89,11 +98,12 @@ namespace CommandLine.Text
             : this(line1, line2, line3)
         {
             Assumes.NotNullOrEmpty(line4, "line4");
-            _line4 = line4;
+
+            this.line4 = line4;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> derived type
+        /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> class. Used in type
         /// using five lines of text.
         /// </summary>
         /// <param name="line1">The first line of text.</param>
@@ -105,16 +115,82 @@ namespace CommandLine.Text
             : this(line1, line2, line3, line4)
         {
             Assumes.NotNullOrEmpty(line5, "line5");
-            _line5 = line5;
+
+            this.line5 = line5;
+        }
+
+        /// <summary>
+        /// Gets the all non-blank lines as string.
+        /// </summary>
+        /// <value>A string of all non-blank lines.</value>
+        public virtual string Value
+        {
+            get
+            {
+                var value = new StringBuilder(string.Empty);
+                var strArray = new[] { this.line1, this.line2, this.line3, this.line4, this.line5 };
+
+                for (int i = 0; i < this.GetLastLineWithText(strArray); i++)
+                {
+                    value.AppendLine(strArray[i]);
+                }
+
+                return value.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Gets the first line of text.
+        /// </summary>
+        public string Line1
+        {
+            get { return this.line1; }
+        }
+
+        /// <summary>
+        /// Gets the second line of text.
+        /// </summary>
+        public string Line2
+        {
+            get { return this.line2; }
+        }
+
+        /// <summary>
+        /// Gets third line of text.
+        /// </summary>
+        public string Line3
+        {
+            get { return this.line3; }
+        }
+
+        /// <summary>
+        /// Gets the fourth line of text.
+        /// </summary>
+        public string Line4
+        {
+            get { return this.line4; }
+        }
+
+        /// <summary>
+        /// Gets the fifth line of text.
+        /// </summary>
+        public string Line5
+        {
+            get { return this.line5; }
         }
 
         internal void AddToHelpText(Action<string> action)
         {
-            var strArray = new[] {_line1, _line2, _line3, _line4, _line5};
-            Array.ForEach( strArray, line =>
-            {
-                if (!string.IsNullOrEmpty(line)) { action( line ); }
-            });
+            var strArray = new[] { this.line1, this.line2, this.line3, this.line4, this.line5 };
+            Array.ForEach(
+                strArray,
+                line =>
+                {
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        action(line);
+                    }
+                });
         }
 
         internal void AddToHelpText(HelpText helpText, bool before)
@@ -123,11 +199,11 @@ namespace CommandLine.Text
             // so refactor common code and call with appropriate action
             if (before)
             {
-                AddToHelpText(helpText.AddPreOptionsLine);
+                this.AddToHelpText(helpText.AddPreOptionsLine);
             }
             else
             {
-                AddToHelpText(helpText.AddPostOptionsLine);
+                this.AddToHelpText(helpText.AddPostOptionsLine);
             }
         }
 
@@ -144,54 +220,5 @@ namespace CommandLine.Text
             // remember FindLastIndex returns zero-based index
             return index + 1;
         }
-
-        /// <summary>
-        /// Returns all non-blank lines as string.
-        /// </summary>
-        /// <value>A string of all non-blank lines.</value>
-        public virtual string Value
-        {
-            get
-            {
-                var value = new StringBuilder(string.Empty);
-                var strArray = new[] { _line1, _line2, _line3, _line4, _line5 };
-                for (int i = 0; i < GetLastLineWithText(strArray); i++)
-                {
-                    value.AppendLine(strArray[i]);
-                }
-                return value.ToString();
-            }
-        }
-
-        /// <summary>
-        /// First line of text.
-        /// </summary>
-        public string Line1 { get { return _line1; } }
-
-        /// <summary>
-        /// Second line of text
-        /// </summary>
-        public string Line2 { get { return _line2; } }
-
-        /// <summary>
-        /// Third line of text.
-        /// </summary>
-        public string Line3 { get { return _line3; } }
-
-        /// <summary>
-        /// Fourth line of text.
-        /// </summary>
-        public string Line4 { get { return _line4; } }
-
-        /// <summary>
-        /// Fifth line of text.
-        /// </summary>
-        public string Line5 { get { return _line5; } }
-
-        private readonly string _line1;
-        private readonly string _line2;
-        private readonly string _line3;
-        private readonly string _line4;
-        private readonly string _line5;
     }
 }
