@@ -141,7 +141,6 @@
     <None Include="CommandLine.snk" />
     <None Include="Core\SR.strings" />
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>

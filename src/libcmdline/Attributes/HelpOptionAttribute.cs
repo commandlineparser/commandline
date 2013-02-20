@@ -42,6 +42,8 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class HelpOptionAttribute : BaseOptionAttribute
     {
+        private const string DefaultHelpText = "Display this help screen.";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.HelpOptionAttribute"/> class.
         /// Although it is possible, it is strongly discouraged redefine the long name for this option
@@ -50,29 +52,35 @@ namespace CommandLine
         public HelpOptionAttribute()
             : this("help")
         {
-            HelpText = DefaultHelpText;
+            this.HelpText = DefaultHelpText;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.HelpOptionAttribute"/> class
-        /// with the specified short name. Use parameterless constructor instead.
+        /// with the specified short name. Use parameter less constructor instead.
         /// </summary>
         /// <param name="shortName">The short name of the option.</param>
+        /// <remarks>
+        /// It's highly not recommended change the way users invoke help. It may create confusion.
+        /// </remarks>
         public HelpOptionAttribute(char shortName)
             : base(shortName, null)
         {
-            HelpText = DefaultHelpText;
+            this.HelpText = DefaultHelpText;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.HelpOptionAttribute"/> class
-        /// with the specified long name. Use parameterless constructor instead.
+        /// with the specified long name. Use parameter less constructor instead.
         /// </summary>
         /// <param name="longName">The long name of the option or null if not used.</param>
+        /// <remarks>
+        /// It's highly not recommended change the way users invoke help. It may create confusion.
+        /// </remarks>
         public HelpOptionAttribute(string longName)
             : base(null, longName)
         {
-            HelpText = DefaultHelpText;
+            this.HelpText = DefaultHelpText;
         }
 
         /// <summary>
@@ -81,10 +89,13 @@ namespace CommandLine
         /// </summary>
         /// <param name="shortName">The short name of the option.</param>
         /// <param name="longName">The long name of the option or null if not used.</param>
+        /// <remarks>
+        /// It's highly not recommended change the way users invoke help. It may create confusion.
+        /// </remarks>
         public HelpOptionAttribute(char shortName, string longName)
             : base(shortName, longName)
         {
-            HelpText = DefaultHelpText;
+            this.HelpText = DefaultHelpText;
         }
 
         /// <summary>
@@ -98,12 +109,19 @@ namespace CommandLine
             set { throw new InvalidOperationException(); }
         }
 
-        internal static void InvokeMethod(object target,
-                Pair<MethodInfo, HelpOptionAttribute> pair, out string text)
+        internal static void InvokeMethod(
+            object target,
+            Pair<MethodInfo, HelpOptionAttribute> pair,
+            out string text)
         {
             text = null;
             var method = pair.Left;
-            if (!CheckMethodSignature(method)) { throw new MemberAccessException(); }
+            
+            if (!CheckMethodSignature(method))
+            {
+                throw new MemberAccessException();
+            }
+            
             text = (string)method.Invoke(target, null);
         }
 
@@ -111,7 +129,5 @@ namespace CommandLine
         {
             return value.ReturnType == typeof(string) && value.GetParameters().Length == 0;
         }
-
-        private const string DefaultHelpText = "Display this help screen.";
     }
 }

@@ -9,7 +9,7 @@
       EnglishSentenceBuilder, CopyrightInfo, BaseSentenceBuilder.
   * StyleCop: ReflectionUtil, ReflectionCache, Pair, Assumes, ValueMapper, PropertyWriter, StringArrayEnumerator,
        OptionMap, OptionInfo, OptionGroupParser, OneCharStringEnumerator, LongOptionParser, ArgumentParser.
-  * StyleCop: started Attributes ns.
+  * StyleCop: Attributes namespace (all important warnings solved).
 
 2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 

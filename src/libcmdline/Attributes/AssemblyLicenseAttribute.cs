@@ -48,6 +48,7 @@ namespace CommandLine.Text
             : base(line1)
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
         /// with two lines of text.
@@ -58,6 +59,7 @@ namespace CommandLine.Text
             : base(line1, line2)
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
         /// with three lines of text.
@@ -69,6 +71,7 @@ namespace CommandLine.Text
             : base(line1, line2, line3)
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
         /// with four lines of text.
@@ -81,6 +84,7 @@ namespace CommandLine.Text
             : base(line1, line2, line3, line4)
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
         /// with five lines of text.

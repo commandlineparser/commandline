@@ -44,6 +44,8 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class HelpVerbOptionAttribute : BaseOptionAttribute
     {
+        private const string DefaultHelpText = "Display more information on a specific command.";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.HelpVerbOptionAttribute"/> class.
         /// Although it is possible, it is strongly discouraged redefine the long name for this option
@@ -52,18 +54,21 @@ namespace CommandLine
         public HelpVerbOptionAttribute()
             : this("help")
         {
-            HelpText = DefaultHelpText;
+            this.HelpText = DefaultHelpText;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.HelpVerbOptionAttribute"/> class
-        /// with the specified long name. Use parameterless constructor instead.
+        /// with the specified long name. Use parameter less constructor instead.
         /// </summary>
-        /// <param name="longName"></param>
+        /// <param name="longName">Help verb option alternative name.</param>
+        /// <remarks>
+        /// It's highly not recommended change the way users invoke help. It may create confusion.
+        /// </remarks>
         public HelpVerbOptionAttribute(string longName)
             : base(null, longName)
         {
-            HelpText = DefaultHelpText;
+            this.HelpText = DefaultHelpText;
         }
 
         /// <summary>
@@ -84,8 +89,11 @@ namespace CommandLine
             set { throw new InvalidOperationException(SR.InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands); }
         }
 
-        internal static void InvokeMethod(object target,
-            Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo, string verb, out string text)
+        internal static void InvokeMethod(
+            object target,
+            Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo,
+            string verb,
+            out string text)
         {
             text = null;
             var method = helpInfo.Left;
@@ -94,7 +102,8 @@ namespace CommandLine
                 throw new MemberAccessException(
                     SR.MemberAccessException_BadSignatureForHelpVerbOptionAttribute.FormatInvariant(method.Name));
             }
-            text = (string) method.Invoke(target, new object[] {verb});
+
+            text = (string)method.Invoke(target, new object[] { verb });
         }
 
         private static bool CheckMethodSignature(MethodInfo value)
@@ -103,9 +112,8 @@ namespace CommandLine
             {
                 return value.GetParameters()[0].ParameterType == typeof(string);
             }
+
             return false;
         }
-
-        private const string DefaultHelpText = "Display more information on a specific command.";
     }
 }

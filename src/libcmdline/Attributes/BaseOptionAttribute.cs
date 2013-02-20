@@ -40,96 +40,118 @@ namespace CommandLine
     public abstract class BaseOptionAttribute : Attribute
     {
         internal const string DefaultMutuallyExclusiveSet = "Default";
+        private char? shortName;
+        private object defaultValue;
+        private string metaValue;
+        private bool hasMetaValue;
+        private string mutuallyExclusiveSet;
 
         /// <summary>
-        /// Create an instance of <see cref="BaseOptionAttribute"/> derived class, validating <paramref name="shortName"/>
-        /// and <paramref name="longName"/>.
+        /// Initializes a new instance of the <see cref="BaseOptionAttribute"/> class.
+        /// Validating <paramref name="shortName"/> and <paramref name="longName"/>.
         /// </summary>
         /// <param name="shortName">Short name of the option.</param>
         /// <param name="longName">Long name of the option.</param>
         protected BaseOptionAttribute(char shortName, string longName)
         {
-            _shortName = shortName;
-            if (_shortName.Value.IsWhiteSpace() || _shortName.Value.IsLineTerminator())
+            this.shortName = shortName;
+            if (this.shortName.Value.IsWhiteSpace() || this.shortName.Value.IsLineTerminator())
             {
                 throw new ArgumentException(SR.ArgumentException_NoWhiteSpaceOrLineTerminatorInShortName, "shortName");
             }
-            UniqueName = new string(shortName, 1);
-            LongName = longName;
+
+            this.UniqueName = new string(shortName, 1);
+            this.LongName = longName;
         }
 
         /// <summary>
-        /// Create an instance of <see cref="BaseOptionAttribute"/> derived class, validating <paramref name="shortName"/>
-        /// and <paramref name="longName"/>. This constructor accepts a nullable character as short name.
+        /// Initializes a new instance of the <see cref="BaseOptionAttribute"/> class. Validating <paramref name="shortName"/>
+        /// and <paramref name="longName"/>. This constructor accepts a <see cref="Nullable&lt;Char&gt;"/> as short name.
         /// </summary>
         /// <param name="shortName">Short name of the option.</param>
         /// <param name="longName">Long name of the option.</param>
         protected BaseOptionAttribute(char? shortName, string longName)
         {
-            _shortName = shortName;
-            if (_shortName != null)
+            this.shortName = shortName;
+            if (this.shortName != null)
             {
-                if (_shortName.Value.IsWhiteSpace() || _shortName.Value.IsLineTerminator())
+                if (this.shortName.Value.IsWhiteSpace() || this.shortName.Value.IsLineTerminator())
                 {
                     throw new ArgumentException(SR.ArgumentException_NoWhiteSpaceOrLineTerminatorInShortName, "shortName");
                 }
-                UniqueName = new string(_shortName.Value, 1);
+
+                this.UniqueName = new string(this.shortName.Value, 1);
             }
-            LongName = longName;
-            if (UniqueName != null)
+
+            this.LongName = longName;
+            if (this.UniqueName != null)
             {
                 return;
             }
-            if (LongName == null)
+
+            if (this.LongName == null)
             {
                 throw new ArgumentNullException("longName", SR.ArgumentNullException_LongNameCannotBeNullWhenShortNameIsUndefined);
             }
-            UniqueName = LongName;
+
+            this.UniqueName = this.LongName;
         }
 
         /// <summary>
-        /// Short name of this command line option. You can use only one character.
+        /// Gets a short name of this command line option. You can use only one character.
         /// </summary>
         public virtual char? ShortName
         {
-            get { return _shortName; }
-            internal set { _shortName = value; }
+            get { return this.shortName; }
+            internal set { this.shortName = value; }
         }
 
         /// <summary>
-        /// Long name of this command line option. This name is usually a single english word.
+        /// Gets long name of this command line option. This name is usually a single english word.
         /// </summary>
-        public string LongName { get; internal set; }
-
-        internal string UniqueName { get; private set; }
+        public string LongName
+        {
+            get; internal set;
+        }
 
         /// <summary>
         /// Gets or sets the option's mutually exclusive set.
         /// </summary>
         public string MutuallyExclusiveSet
         {
-            get { return _mutuallyExclusiveSet; }
+            get
+            {
+                return this.mutuallyExclusiveSet;
+            }
+
             set
             {
-                _mutuallyExclusiveSet = string.IsNullOrEmpty(value) ? DefaultMutuallyExclusiveSet : value;
+                this.mutuallyExclusiveSet = string.IsNullOrEmpty(value) ? DefaultMutuallyExclusiveSet : value;
             }
         }
 
         /// <summary>
-        /// True if this command line option is required.
+        /// Gets or sets a value indicating whether a command line option is required.
         /// </summary>
-        public virtual bool Required { get; set; }
+        public virtual bool Required
+        {
+            get; set;
+        }
 
         /// <summary>
         /// Gets or sets mapped property default value.
         /// </summary>
         public virtual object DefaultValue
         {
-            get { return _defaultValue; }
+            get
+            {
+                return this.defaultValue;
+            }
+
             set
             {
-                _defaultValue = value;
-                HasDefaultValue = true;
+                this.defaultValue = value;
+                this.HasDefaultValue = true;
             }
         }
 
@@ -138,40 +160,47 @@ namespace CommandLine
         /// </summary>
         public virtual string MetaValue
         {
-            get { return _metaValue; }
+            get
+            {
+                return this.metaValue;
+            }
+
             set
             {
-                _metaValue = value;
-                _hasMetaValue = !string.IsNullOrEmpty(_metaValue);
+                this.metaValue = value;
+                this.hasMetaValue = !string.IsNullOrEmpty(this.metaValue);
             }
         }
 
         /// <summary>
-        /// A short description of this command line option. Usually a sentence summary. 
+        /// Gets or sets a short description of this command line option. Usually a sentence summary. 
         /// </summary>
-        public string HelpText { get; set; }
+        public string HelpText
+        {
+            get; set;
+        }
+
+        internal string UniqueName
+        {
+            get;
+            private set;
+        }
 
         internal bool HasShortName
         {
-            get { return _shortName != null; }
+            get { return this.shortName != null; }
         }
 
         internal bool HasLongName
         {
-            get { return !string.IsNullOrEmpty(LongName); }
+            get { return !string.IsNullOrEmpty(this.LongName); }
         }
 
         internal bool HasDefaultValue { get; private set; }
 
         internal bool HasMetaValue
         {
-            get { return _hasMetaValue; }
+            get { return this.hasMetaValue; }
         }
-
-        private char? _shortName;
-        private object _defaultValue;
-        private string _metaValue;
-        private bool _hasMetaValue;
-        private string _mutuallyExclusiveSet;
     }
 }
