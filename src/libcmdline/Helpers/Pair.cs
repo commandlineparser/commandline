@@ -1,11 +1,7 @@
 ﻿#region License
-//
-// Command Line Library: Pair.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+// <copyright file="Pair.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +20,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-#endregion
-#region Using Directives
 #endregion
 
 namespace CommandLine.Helpers
@@ -71,7 +64,7 @@ namespace CommandLine.Helpers
                 return false;
             }
 
-            return Equals(this.left, other.left) && Equals(this.right, other.right);
+            return object.Equals(this.left, other.left) && object.Equals(this.right, other.right);
         }
     }
 }

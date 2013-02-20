@@ -1,11 +1,7 @@
 ﻿#region License
-//
-// Command Line Library: ReflectionUtil.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+// <copyright file="ReflectionUtil.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +20,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-#endregion
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 #endregion
 
 namespace CommandLine.Helpers
 {
+    #region Using Directives
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    #endregion
+
     internal static class ReflectionUtil
     {
         static ReflectionUtil()
@@ -42,7 +38,7 @@ namespace CommandLine.Helpers
         }
 
         /// <summary>
-        /// Gets and sets the assembly from which to pull information. Setter provided for testing purpose.
+        /// Gets or sets the assembly from which to pull information. Setter provided for testing purpose.
         /// </summary>
         internal static Assembly AssemblyFromWhichToPullInformation
         {

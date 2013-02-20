@@ -1,11 +1,7 @@
 ﻿#region License
-//
-// Command Line Library: ValueListAttribute.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+// <copyright file="ValueListAttribute.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +20,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-#endregion
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using CommandLine.Core;
-using CommandLine.Helpers;
-
 #endregion
 
 namespace CommandLine
 {
+    #region Using Directives
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using CommandLine.Core;
+    using CommandLine.Helpers;
+    #endregion
+
     /// <summary>
     /// Models a list of command line arguments that are not options.
     /// Must be applied to a field compatible with an <see cref="System.Collections.Generic.IList&lt;T&gt;"/> interface

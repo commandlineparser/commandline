@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="ParserContext.cs" company="Giacomo Stelluti Scala">
+// <copyright file="OptionExtensions.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -22,52 +22,33 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine
+namespace CommandLine.Extensions
 {
-    #region Using Directives
-    using System;
-    using CommandLine.Core;
-    #endregion
-
-    /// <summary>
-    /// Models context in which parsing occurs.
-    /// </summary>
-    internal sealed class ParserContext
+    internal static class OptionExtensions
     {
-        public ParserContext(string[] arguments, object target)
+        public static string ToOption(this string value)
         {
-            this.Arguments = arguments;
-            this.Target = target;
+            return string.Concat("--", value);
         }
 
-        public object Target { get; private set; }
-
-        public string[] Arguments { get; private set; }
-
-        public string FirstArgument
+        public static string ToOption(this char? value)
         {
-            get { return !this.HasNoArguments() ? this.Arguments[0] : null; }
+            return string.Concat("-", value);
         }
 
-        public ParserContext ToCoreInstance(OptionInfo verbOption)
+        public static bool IsDash(this string value)
         {
-            var newArguments = new string[this.Arguments.Length - 1];
-            if (this.Arguments.Length > 1)
-            {
-                Array.Copy(this.Arguments, 1, newArguments, 0, this.Arguments.Length - 1);
-            }
-
-            return new ParserContext(newArguments, verbOption.GetValue(this.Target));
+            return string.CompareOrdinal(value, "-") == 0;
         }
 
-        public bool HasNoArguments()
+        public static bool IsShortOption(this string value)
         {
-            return this.Arguments == null || this.Arguments.Length == 0;
+            return value[0] == '-';
         }
 
-        public bool HasAtLeastOneArgument()
+        public static bool IsLongOption(this string value)
         {
-            return !this.HasNoArguments() && this.Arguments.Length >= 1;
+            return value[0] == '-' && value[1] == '-';
         }
     }
 }

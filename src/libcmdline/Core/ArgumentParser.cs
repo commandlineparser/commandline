@@ -1,11 +1,7 @@
 ﻿#region License
-//
-// Command Line Library: CommandLine.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+// <copyright file="ArgumentParser.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +20,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
 #endregion
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using CommandLine.Extensions;
-#endregion
-
 namespace CommandLine.Core
 {
+    #region Using Directives
+    using System;
+    using System.Collections.Generic;
+    using CommandLine.Extensions;
+    #endregion
+
     internal abstract class ArgumentParser
     {
         protected ArgumentParser()
@@ -46,17 +41,19 @@ namespace CommandLine.Core
             get; private set;
         }
 
-        public abstract PresentParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options);
-
         public static bool CompareShort(string argument, char? option, bool caseSensitive)
         {
-            return string.Compare(argument, option.ToOption(),
+            return string.Compare(
+                argument,
+                option.ToOption(),
                 caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 
         public static bool CompareLong(string argument, string option, bool caseSensitive)
         {
-            return string.Compare(argument, option.ToOption(),
+            return string.Compare(
+                argument,
+                option.ToOption(),
                 caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 
@@ -99,6 +96,8 @@ namespace CommandLine.Core
 
             return true;
         }
+
+        public abstract PresentParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options);
 
         /// <summary>
         /// Helper method for testing purpose.

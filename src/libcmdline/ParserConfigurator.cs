@@ -1,11 +1,7 @@
 ﻿#region License
-//
-// Command Line Library: ParserConfigurator.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+// <copyright file="ParserConfigurator.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +20,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-#endregion
-#region Using Directives
-using System.Globalization;
-using System.IO;
-using CommandLine.Helpers;
 #endregion
 
 namespace CommandLine
 {
+    #region Using Directives
+    using System.Globalization;
+    using System.IO;
+    using CommandLine.Helpers;
+    #endregion
+
     /// <summary>
     /// Provides an API for configuring a <see cref="CommandLine.IParser"/> instance.
     /// </summary>
@@ -42,7 +38,7 @@ namespace CommandLine
         private readonly IParser parser;
 
         /// <summary>
-        /// Initialize a new instance of <see cref="CommandLine.ParserConfigurator"/> class.
+        /// Initializes a new instance of the <see cref="ParserConfigurator"/> class.
         /// </summary>
         /// <param name="parser">The <see cref="CommandLine.IParser"/> instance that should be configured.</param>
         public ParserConfigurator(IParser parser)

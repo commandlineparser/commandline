@@ -1,11 +1,7 @@
 ﻿#region License
-//
-// Command Line Library: OptionListAttribute.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+// <copyright file="OptionListAttribute.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +20,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-#endregion
-#region Using Directives
-using System;
-using System.Diagnostics.CodeAnalysis;
-
 #endregion
 
 namespace CommandLine
 {
+    #region Using Directives
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    #endregion
+
     /// <summary>
     /// Models an option that can accept multiple values.
     /// Must be applied to a field compatible with an <see cref="System.Collections.Generic.IList&lt;T&gt;"/> interface
@@ -68,7 +63,7 @@ namespace CommandLine
         public OptionListAttribute(char shortName, string longName)
             : base(shortName, longName)
         {
-            Separator = ':';
+            this.Separator = ':';
         }
 
         /// <summary>

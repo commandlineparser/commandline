@@ -1,11 +1,7 @@
 ﻿#region License
-//
-// Command Line Library: CommandLine.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+// <copyright file="OptionMap.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +20,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-#endregion
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using CommandLine;
-using CommandLine.Extensions;
-using CommandLine.Helpers;
 #endregion
 
 namespace CommandLine.Core
 {
+    #region Using Directives
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using CommandLine;
+    using CommandLine.Extensions;
+    using CommandLine.Helpers;
+    #endregion
+
     internal sealed class OptionMap
     {
         private readonly IParserSettings settings;

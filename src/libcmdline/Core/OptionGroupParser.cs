@@ -1,11 +1,7 @@
 ﻿#region License
-//
-// Command Line Library: CommandLine.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+// <copyright file="OptionGroupParser.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +20,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
 #endregion
 
 namespace CommandLine.Core
@@ -68,7 +63,7 @@ namespace CommandLine.Core
                             valueSetting = option.SetValue(group.GetRemainingFromNext(), options);
                             if (!valueSetting)
                             {
-                                base.DefineOptionThatViolatesFormat(option);
+                                this.DefineOptionThatViolatesFormat(option);
                             }
 
                             return ArgumentParser.BooleanToParserState(valueSetting);
@@ -82,8 +77,9 @@ namespace CommandLine.Core
                         valueSetting = option.SetValue(items, options);
                         if (!valueSetting)
                         {
-                            base.DefineOptionThatViolatesFormat(option);
+                            this.DefineOptionThatViolatesFormat(option);
                         }
+
                         return ArgumentParser.BooleanToParserState(valueSetting, true);
                     }
 
@@ -98,7 +94,7 @@ namespace CommandLine.Core
                             valueSetting = option.SetValue(argumentEnumerator.Next, options);
                             if (!valueSetting)
                             {
-                                base.DefineOptionThatViolatesFormat(option);
+                                this.DefineOptionThatViolatesFormat(option);
                             }
 
                             return ArgumentParser.BooleanToParserState(valueSetting, true);
@@ -111,7 +107,7 @@ namespace CommandLine.Core
                         valueSetting = option.SetValue(items, options);
                         if (!valueSetting)
                         {
-                            base.DefineOptionThatViolatesFormat(option);
+                            this.DefineOptionThatViolatesFormat(option);
                         }
 
                         return ArgumentParser.BooleanToParserState(valueSetting);
@@ -122,6 +118,7 @@ namespace CommandLine.Core
                 {
                     return PresentParserState.Failure;
                 }
+
                 if (!option.SetValue(true, options))
                 {
                     return PresentParserState.Failure;

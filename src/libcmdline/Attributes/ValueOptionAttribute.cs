@@ -1,11 +1,7 @@
 ﻿#region License
-//
-// Command Line Library: ValueOptionAttribute.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+// <copyright file="ValueOptionAttribute.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +20,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-#endregion
-#region Using Directives
-using System;
 #endregion
 
 namespace CommandLine
 {
+    #region Using Directives
+    using System;
+    #endregion
+
     /// <summary>
     /// Maps a single unnamed option to the target property. Values will be mapped in order of Index.
     /// This attribute takes precedence over <see cref="CommandLine.ValueListAttribute"/> with which

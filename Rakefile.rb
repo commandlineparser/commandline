@@ -89,7 +89,7 @@ assemblyinfo :assemblyinfo do |a|
   a.copyright = COPYRIGHT
   a.custom_attributes :AssemblyInformationalVersion => INF_VERSION, :NeutralResourcesLanguage => "en-US"
   a.output_file = "src/SharedAssemblyInfo.cs"
-  a.namespaces "System.Runtime.CompilerServices", "System.Resources"
+  a.namespaces "System.Resources"
 end
 
 nuspec :nuget_nuspec do |nuspec|

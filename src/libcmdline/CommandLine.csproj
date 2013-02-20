@@ -93,7 +93,7 @@
       <DependentUpon>SR.strings</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ReflectionCache.cs" />
-    <Compile Include="Extensions\SwitchExtensions.cs" />
+    <Compile Include="Extensions\OptionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\ReflectionUtil.cs" />
     <Compile Include="Helpers\Pair.cs" />

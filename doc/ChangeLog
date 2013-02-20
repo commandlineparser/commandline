@@ -10,6 +10,7 @@
   * StyleCop: ReflectionUtil, ReflectionCache, Pair, Assumes, ValueMapper, PropertyWriter, StringArrayEnumerator,
        OptionMap, OptionInfo, OptionGroupParser, OneCharStringEnumerator, LongOptionParser, ArgumentParser.
   * StyleCop: Attributes namespace (all important warnings solved).
+  * StyleCop: FULL COMPLIANT.
 
 2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
