@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine.Text
+namespace CommandLine
 {
     #region Using Directives
     using System;
@@ -36,7 +36,7 @@ namespace CommandLine.Text
     public sealed class AssemblyLicenseAttribute : MultilineTextAttribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// Initializes a new instance of the <see cref="CommandLine.AssemblyLicenseAttribute"/> class
         /// with one line of text.
         /// </summary>
         /// <param name="line1">First line of license text.</param>
@@ -46,7 +46,7 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// Initializes a new instance of the <see cref="CommandLine.AssemblyLicenseAttribute"/> class
         /// with two lines of text.
         /// </summary>
         /// <param name="line1">First line of license text.</param>
@@ -57,7 +57,7 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// Initializes a new instance of the <see cref="CommandLine.AssemblyLicenseAttribute"/> class
         /// with three lines of text.
         /// </summary>
         /// <param name="line1">First line of license text.</param>
@@ -69,7 +69,7 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// Initializes a new instance of the <see cref="CommandLine.AssemblyLicenseAttribute"/> class
         /// with four lines of text.
         /// </summary>
         /// <param name="line1">First line of license text.</param>
@@ -82,7 +82,7 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.AssemblyLicenseAttribute"/> class
+        /// Initializes a new instance of the <see cref="CommandLine.AssemblyLicenseAttribute"/> class
         /// with five lines of text.
         /// </summary>
         /// <param name="line1">First line of license text.</param>

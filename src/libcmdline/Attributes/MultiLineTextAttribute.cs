@@ -22,12 +22,14 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine.Text
+namespace CommandLine
 {
     #region Using Directives
     using System;
     using System.Text;
     using CommandLine.Helpers;
+    using CommandLine.Text;
+
     #endregion
 
     /// <summary>

@@ -29,6 +29,8 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+
+using CommandLine;
 using CommandLine.Text;
 #endregion
 
