@@ -50,6 +50,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Fakes\OptionsWithTwoArrays.cs" />
     <Compile Include="Unit\Attributes\AttributesFixture.cs" />
     <Compile Include="Unit\Attributes\HelpOptionAttributeFixture.cs" />
     <Compile Include="Unit\Attributes\OptionArrayAttributeFixture.cs" />
