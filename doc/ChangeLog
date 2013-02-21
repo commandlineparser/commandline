@@ -6,6 +6,7 @@
   * Fixed issue #6.
   * Using VSSTUDIO CodeAnalysis instead of FxCop.
   * CSharp and VB.NET template updated.
+  * Minor refactoring on HelpText.
 
 2013-02-19  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
