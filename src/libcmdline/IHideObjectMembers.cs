@@ -42,10 +42,10 @@ namespace CommandLine
         /// <summary>
         /// Hides the <see cref="Equals"/> method.
         /// </summary>
-        /// <param name="obj">The parameter is not used.</param>
+        /// <param name="value">The parameter is not used.</param>
         /// <returns>The return value is not used.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        bool Equals(object obj);
+        bool Equals(object value);
 
         /// <summary>
         /// Hides the <see cref="GetHashCode"/> method.
@@ -54,11 +54,14 @@ namespace CommandLine
         [EditorBrowsable(EditorBrowsableState.Never)]
         int GetHashCode();
 
+
         /// <summary>
         /// Hides the <see cref="GetType"/> method.
         /// </summary>
-        /// <returns>The return value is not used.</returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
+        /// <returns>The return value is not used.</returns> 
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "By design"),
+            SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "GetType", Justification = "By design"),
+            EditorBrowsable(EditorBrowsableState.Never)]
         Type GetType();
 
         /// <summary>

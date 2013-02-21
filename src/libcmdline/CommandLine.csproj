@@ -84,6 +84,7 @@
     <Compile Include="Attributes\ValueListAttribute.cs" />
     <Compile Include="Attributes\ValueOptionAttribute.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\PropertyWriter.cs" />
     <Compile Include="IHideObjectMembers.cs" />
     <Compile Include="IParserSettings.cs" />
@@ -140,6 +141,9 @@
   <ItemGroup>
     <None Include="CommandLine.snk" />
     <None Include="Infrastructure\SR.strings" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
   </ItemGroup>
   <PropertyGroup>
     <PreBuildEvent>
