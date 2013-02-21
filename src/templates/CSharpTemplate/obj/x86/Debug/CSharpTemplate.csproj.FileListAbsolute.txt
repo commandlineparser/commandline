@@ -1,0 +1,1 @@
+\\VBOXSVR\Projects_VM\CommandLine\src\templates\CSharpTemplate\bin\Debug\CSharpTemplate.exe.config

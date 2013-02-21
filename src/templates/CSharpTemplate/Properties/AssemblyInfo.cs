@@ -1,11 +1,7 @@
 #region License
-//
-// Your Project Name Here: AssemblyInfo.cs
-//
-// Author:
-//   Your Name Here (insert-your@email.here)
-//
-// Copyright (C) 2012 Your Name Here
+// <copyright file="Assembly.cs" company="Your name here">
+//   Copyright 2013 Your name here
+// </copyright>
 //
 // [License Body Here]
 #endregion

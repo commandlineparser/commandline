@@ -1,0 +1,85 @@
+Command Line Parser Library
+--------------------------------------------------------------------------------------------
+Project Author/Coordinator: Giacomo Stelluti Scala
+Main Contributor(s): Steven Evans, Kevin Moore, Dan Nemec (nemec), Alexander Fast (mizipzor)
+--------------------------------------------------------------------------------------------
+Version 1.9.5.3 rc0 (*1)
+Latest Update: 2013-02-21
+
+Git home:
+https://github.com/gsscoder/commandline
+
+General Info:
+This library allows command line arguments parsing.
+This work were inspired by the GNU LIBC getopt()/getopt_long() functions
+(check out: http://www.gnu.org/software/libc/manual/html_node/Getopt.html).
+Need a guide on option naming? Check this one:
+http://catb.org/~esr/writings/taoup/html/ch10s05.html.
+
+More info on:
+[QUICKSTART] http://commandline.codeplex.com/wikipage?title=Quickstart&referringTitle=Documentation
+[GUIDE] http://commandline.codeplex.com/documentation (*2)
+[BLOG] http://gsscoder.blogspot.com/
+
+Artifact regeneration:
+rake strings       -> src/libcmdline/Internal/SR.string.cs
+rake assemblyinfo  -> src/CommonAssemblyInfo.cs
+
+Build (requires Ruby):
+gem install rake
+gem install albacore
+rake
+	
+Unit Tests:
+rake test
+
+Documentation:
+From version 1.9.0.3 Beta CHM HelpFile was removed from {libroot}/doc.
+See online documentation section hosted on CodePlex project.
+
+Framework Compatibility:
+  - C# 3.0+ compiler
+  - .NET Framework 2.0+
+  - Mono 2.1+ Profile
+
+Development Environment:
+  - OS:
+        Ubuntu 12.04 Desktop (http://www.ubuntu.com/)
+        Mac OS X Lion (http://www.apple.com/osx/)
+        Microsoft Windows 7 (http://windows.microsoft.com/en-US/windows/home)
+  - IDE:
+        MonoDevelop (http://monodevelop.com/)
+        MS Visual Studio 2010|2012 (http://www.microsoft.com/visualstudio/eng/visual-studio-update)
+  - Code Analysis:
+        JetBrains ReSharper with Open Source License (http://www.jetbrains.com/resharper/)
+  - Version Control: 
+        Git (http://git-scm.com/)
+        msysgit (http://code.google.com/p/msysgit/)
+        SVN (http://subversion.tigris.org/)
+  - Other Tools:
+        TextMate (http://macromates.com/)
+        Scribes (http://scribes.sourceforge.net/)
+
+Test Environment:
+  - Mac OS X Lion
+  - Microsoft Windows 7
+  - Ubuntu 12.04
+
+Licence:
+  MIT License
+  http://www.opensource.org/licenses/mit-license.php
+
+Comments, bugs and other:
+  gsscoder@gmail.com
+
+Enjoy,
+  Giacomo Stelluti Scala
+  
+---------------------------------------------------------------------------------------
+[NOTES]
+*1) In a production environment you should use a 'stable' version, an 'rc' (release
+candidate) or an advanced 'beta' (a 'beta' published for a long time and stated quite stable).
+
+*2) Full documentation is currently under construction. Please refer to Quickstart
+guide and informations published starting from the project's home.
+---------------------------------------------------------------------------------------
