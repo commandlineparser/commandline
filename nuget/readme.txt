@@ -1,5 +1,5 @@
-Command Line Parser Library 1.9.4.229 Beta
-------------------------------------------
+Command Line Parser Library 1.9.4.229 rc0
+-----------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
 

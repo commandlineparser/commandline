@@ -25,5 +25,6 @@ namespace CommandLine.Core
         public const string InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands = "Verb commands cannot be mandatory since are mutually exclusive by design.";
         public const string CommandLineParserException_IncompatibleTypes = "The types are incompatible.";
         public const string InvalidOperationException_CopyrightInfoRequiresAssemblyCopyrightAttributeOrAssemblyCompanyAttribute = "CopyrightInfo::Default requires that you define AssemblyCopyrightAttribute or AssemblyCompanyAttribute.";
+        public const string ArgumentNullException_OnVerbDelegateCannotBeNull = "Delegate executed to capture verb command instance reference cannot be null.";
     }
 }

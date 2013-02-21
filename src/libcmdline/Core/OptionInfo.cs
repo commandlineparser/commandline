@@ -145,16 +145,22 @@ namespace CommandLine.Core
             return this.property.GetValue(target, null);
         }
 
-        public void CreateInstance(object target)
+        public object CreateInstance(object target)
         {
+            object instance = null;
+
             try
             {
-                this.property.SetValue(target, Activator.CreateInstance(this.property.PropertyType), null);
+                instance = Activator.CreateInstance(this.property.PropertyType);
+
+                this.property.SetValue(target, instance, null);
             }
             catch (Exception e)
             {
                 throw new ParserException(SR.CommandLineParserException_CannotCreateInstanceForVerbCommand, e);
             }
+
+            return instance;
         }
 
         public bool SetValue(string value, object options)

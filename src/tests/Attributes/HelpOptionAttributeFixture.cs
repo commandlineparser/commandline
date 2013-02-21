@@ -74,9 +74,9 @@ namespace CommandLine.Tests
         {
             var options = new MockOptions();
             var writer = new StringWriter();
-            var parser = new Parser();
+            var parser = new Parser(with => with.HelpWriter(writer));
             var result = parser.ParseArguments(
-                    new string[] { "-imath.xml", "-oresult.xml" }, options, writer);
+                    new string[] { "-imath.xml", "-oresult.xml" }, options);
 
             result.Should().BeTrue();;
             writer.ToString().Length.Should().Be(0);
@@ -87,9 +87,9 @@ namespace CommandLine.Tests
         {
             var options = new MockOptions();
             var writer = new StringWriter();
-            var parser = new Parser();
+            var parser = new Parser(with => with.HelpWriter(writer));
             var result = parser.ParseArguments(
-                    new string[] { "math.xml", "-oresult.xml" }, options, writer);
+                    new string[] { "math.xml", "-oresult.xml" }, options);
 
             result.Should().BeFalse();
 
@@ -104,9 +104,9 @@ namespace CommandLine.Tests
         {
             var options = new MockOptions();
             var writer = new StringWriter();
-            var parser = new Parser();
+            var parser = new Parser(with => with.HelpWriter(writer));
             var result = parser.ParseArguments(
-                    new string[] { "--help" }, options, writer);
+                    new string[] { "--help" }, options);
 
             result.Should().BeFalse();
 

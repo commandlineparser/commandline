@@ -263,7 +263,7 @@ namespace CommandLine.Text
         /// <param name='options'>The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         public static HelpText AutoBuild(object options)
         {
-            return AutoBuild(options, null);
+            return AutoBuild(options, (Action<HelpText>)null);
         }
 
         /// <summary>
@@ -322,6 +322,24 @@ namespace CommandLine.Text
             auto.AddOptions(options);
 
             return auto;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults,
+        /// for verb commands scenario.
+        /// </summary>
+        /// <returns>
+        /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
+        /// </returns>
+        /// <param name='options'>The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
+        /// <param name="verb">The verb command invoked.</param>
+        public static HelpText AutoBuild(object options, string verb)
+        {
+            bool found;
+            var instance = Parser.InternalGetVerbOptionsInstanceByName(verb, options, out found);
+            var verbsIndex = verb == null || !found;
+            var target = verbsIndex ? options : instance;
+            return HelpText.AutoBuild(target, current => HelpText.DefaultParsingErrorsHandler(target, current), verbsIndex);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.4.233 beta for CLR.
+Command Line Parser Library 1.9.5.0 rc0 for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __This library provides _hassle free_ command line parsing with a constantly updated API since 2005.__
@@ -10,7 +10,7 @@ Compatibility:
 
 At glance:
 ---
-  - One line parsing using default singleton: ``CommandLine.Parser.Default.ParseArguments(...)``.
+  - One line parsing using default singleton: ``CommandLine.Parser.Default.ParseArguments<T>(...)``.
   - One line help screen generator: ``HelpText.AutoBuild(...)``.
   - Map command line arguments to ``IList<string>``, arrays, enum or standard scalar types.
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
@@ -68,7 +68,7 @@ Create a class to receive parsed values:
       [HelpOption]
       public string GetUsage() {
         return HelpText.AutoBuild(this,
-        	(HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+          (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
       }
     }
 ```
@@ -87,7 +87,12 @@ Add few lines to your Main method:
 
 Acknowledgements:
 ---
-I want to thank all the people who in recent years have taken an interest in this project here on GitHub, on CodePlex and also those who contacted me directly. In particular Steven Evans for improving the help subsystem, Kevin Moore that has introduced a plugin friendly architecture and finally Dan Nemec that with its contribution has made possible the introduction of verb commands from version 1.9.4.91. Thanks also to JetBrains for providing an open source license for [ReSharper](http://www.jetbrains.com/resharper/).
+Thanks to JetBrains for providing an open source license for [ReSharper](http://www.jetbrains.com/resharper/).
+Main Contributors (alphabetical order):
+- Alexander Fast (@mizipzor)
+- Dan Nemec (@nemec)
+- Kevin Moore (@gimmemoore)
+- Steven Evans
 
 Resources for newcomers:
 ---
@@ -98,6 +103,7 @@ Resources for newcomers:
 
 Latest Changes: 
 ---
+  - Heavy refactoring on Public API (see this [this document](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md) and [ChangeLog](https://github.com/gsscoder/commandline/blob/master/doc/ChangeLog)).
   - StyleCop-ped!
   - Fixed issue #15. Added OptionInfo::ReceivedValue to solve an issue in OptionMap::EnforceRequiredRule.
   - A strict overload ``ParseArguments(string[],object,TextWriter,int)`` has wrong name, renamed ``ParseArgumentsStrict(...)``.

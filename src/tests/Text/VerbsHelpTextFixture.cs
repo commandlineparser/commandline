@@ -63,11 +63,19 @@ namespace CommandLine.Text.Tests
         [Fact]
         public void Failed_verb_parsing_prints_particular_help_screen()
         {
+            string invokedVerb = null;
+            object invokedVerbInstance = null;
+
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser();
-            var result = parser.ParseArguments(new string[] { "clone", "--no_hardlinks" }, options, testWriter);
+            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var result = parser.ParseArguments(new string[] { "clone", "--no_hardlinks" }, options,
+                (verb, subOptions) =>
+                    {
+                        invokedVerb = verb;
+                        invokedVerbInstance = subOptions;
+                    });
 
             result.Should().BeFalse();
 
@@ -78,23 +86,37 @@ namespace CommandLine.Text.Tests
             lines[5].Trim().Should().Be("--no-hardlinks    Optimize the cloning process from a repository on a local");
             lines[6].Trim().Should().Be("filesystem by copying files.");
             lines[7].Trim().Should().Be("-q, --quiet       Suppress summary message.");
+
+            invokedVerb.Should().Be("clone");
+            invokedVerbInstance.Should().Be(null);
         }
 
         #region https://github.com/gsscoder/commandline/issues/45
         [Fact]
         public void Requesting_help_of_particular_verb_without_instance_should_work()
         {
+            string invokedVerb = null;
+            object invokedVerbInstance = null;
+
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser();
-            var result = parser.ParseArguments(new string[] {"help", "add"}, options, testWriter);
+            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var result = parser.ParseArguments(new string[] {"help", "add"}, options,
+                (verb, subOptions) =>
+                    {
+                        invokedVerb = verb;
+                        invokedVerbInstance = subOptions;
+                    });
 
             result.Should().BeFalse();
 
             var helpText = testWriter.ToString();
             Console.WriteLine(helpText);
             var lines = helpText.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+            invokedVerb.Should().Be("help");
+            invokedVerbInstance.Should().Be(null);
         }
         #endregion
 
@@ -103,8 +125,11 @@ namespace CommandLine.Text.Tests
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser();
-            var result = parser.ParseArguments(args, options, testWriter);
+            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var result = parser.ParseArguments(args, options,
+                (verb, _) =>
+                    {
+                    });
 
             result.Should().BeFalse();
 
@@ -118,4 +143,3 @@ namespace CommandLine.Text.Tests
         }
     }
 }
-

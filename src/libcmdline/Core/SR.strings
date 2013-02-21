@@ -13,3 +13,4 @@ InvalidOperationException_DoNotUseShortNameForVerbCommands = Verb commands do no
 InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands = Verb commands cannot be mandatory since are mutually exclusive by design.
 CommandLineParserException_IncompatibleTypes = The types are incompatible.
 InvalidOperationException_CopyrightInfoRequiresAssemblyCopyrightAttributeOrAssemblyCompanyAttribute = CopyrightInfo::Default requires that you define AssemblyCopyrightAttribute or AssemblyCompanyAttribute.
+ArgumentNullException_OnVerbDelegateCannotBeNull = Delegate executed to capture verb command instance reference cannot be null.

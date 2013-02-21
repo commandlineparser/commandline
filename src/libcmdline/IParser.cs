@@ -25,7 +25,7 @@
 namespace CommandLine
 {
     #region Using Directives
-    using System.IO;
+    using System;
     #endregion
 
     /// <summary>
@@ -42,97 +42,62 @@ namespace CommandLine
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
         /// parameter instance's public fields decorated with appropriate attributes.
         /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
+        /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
         /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArguments(string[] args, object options);
+        bool ParseArguments<T>(string[] args, T options) where T : class;
 
         /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
+        /// Parses a <see cref="System.String"/> array of command line arguments with verb commands, setting values in <paramref name="options"/>
         /// parameter instance's public fields decorated with appropriate attributes.
-        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.         
+        /// This overload supports verb commands.
         /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
+        /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
-        /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
+        /// <param name="onVerbCommand">Delegate executed to capture verb command name and instance.</param>
         /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArguments(string[] args, object options, TextWriter helpWriter);
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="onVerbCommand"/> is null.</exception>
+        bool ParseArguments<T>(string[] args, T options, Action<string, object> onVerbCommand) where T : class;
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
-        /// the process with <see cref="Parser.DefaultExitCodeFail"/>.
+        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method invokes
+        /// the <paramref name="onFail"/> delegate, if null exits with <see cref="Parser.DefaultExitCodeFail"/>.
         /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An object's instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
+        /// <param name="onFail">The <see cref="Action"/> delegate executed when parsing fails.</param>
+        /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArgumentsStrict(string[] args, object options);
+        bool ParseArgumentsStrict<T>(string[] args, T options, Action onFail = null) where T : class;
 
         /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
-        /// the process with <paramref name="exitCode"/>
+        /// Parses a <see cref="System.String"/> array of command line arguments with verb commands, setting values in <paramref name="options"/>
+        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method invokes
+        /// the <paramref name="onFail"/> delegate, if null exits with <see cref="Parser.DefaultExitCodeFail"/>.
+        /// This overload supports verb commands.
         /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
+        /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <param name="exitCode">The exit code to use when quitting the application. It should be greater than zero.</param>
-        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
+        /// <param name="onVerbCommand">Delegate executed to capture verb command name and instance.</param>
+        /// <param name="onFail">The <see cref="Action"/> delegate executed when parsing fails.</param>
+        /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArgumentsStrict(string[] args, object options, int exitCode);
-
-        /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
-        /// the process with <see cref="Parser.DefaultExitCodeFail"/>.
-        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.
-        /// </summary>
-        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
-        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
-        /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
-        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArgumentsStrict(string[] args, object options, TextWriter helpWriter);
-
-        /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
-        /// the process with <paramref name="exitCode"/>
-        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.
-        /// </summary>
-        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
-        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
-        /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
-        /// <param name="exitCode">The exit code to use when quitting the application. It should be greater than zero.</param>
-        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArgumentsStrict(string[] args, object options, TextWriter helpWriter, int exitCode);
-
-        /// <summary>
-        /// Determines if a particular verb option was invoked. This is a convenience helper method,
-        /// do not refer to it to know if parsing occurred. If the verb command was invoked and the
-        /// parser failed, it will return true.
-        /// Use this method only in a verbs scenario, when parsing succeeded.
-        /// </summary>
-        /// <param name='verb'>Verb option to compare.</param>
-        /// <returns>True if the specified verb option is the one invoked by the user.</returns>
-        bool WasVerbOptionInvoked(string verb);
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="onVerbCommand"/> is null.</exception>
+        bool ParseArgumentsStrict<T>(string[] args, T options, Action<string, object> onVerbCommand, Action onFail = null) where T : class;
     }
 }

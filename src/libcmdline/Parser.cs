@@ -40,18 +40,15 @@ namespace CommandLine
     /// <summary>
     /// Provides methods to parse command line arguments. Default implementation for <see cref="CommandLine.IParser"/>.
     /// </summary>
-    public class Parser : IParser, IDisposable
+    public sealed class Parser : IParser, IDisposable
     {
         /// <summary>
-        /// Default exit code (1) used by <see cref="Parser.ParseArgumentsStrict(string[],object)"/>
-        /// and <see cref="Parser.ParseArgumentsStrict(string[],object,TextWriter)"/> overloads.
+        /// Default exit code (1) used by <see cref="Parser.ParseArgumentsStrict&lt;T&gt;(string[],T,Action)"/>
+        /// and <see cref="Parser.ParseArgumentsStrict&lt;T&gt;(string[],T,Action&lt;string,object&gt;,Action)"/> overloads.
         /// </summary>
         public const int DefaultExitCodeFail = 1;
-
         private static readonly IParser DefaultParser = new Parser(true);
-        private ParserContext currentContext;
         private bool disposed;
-        private Action<int> onExitDelegate = code => Environment.Exit(code);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Parser"/> class.
@@ -126,31 +123,25 @@ namespace CommandLine
         /// <param name="target">The main class instance for the management of verb commands.</param>
         /// <param name="found">true if <paramref name="verb"/> was found in <paramref name="target"/>.</param>
         /// <returns>The options instance for the verb command if <paramref name="found"/> is true, otherwise <paramref name="target"/>.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#", Justification = "By design.")]
+        [Obsolete("Use HelpText.AutoBuild(object,string) instead.")]
         public static object GetVerbOptionsInstanceByName(string verb, object target, out bool found)
         {
-            found = false;
-            if (string.IsNullOrEmpty(verb))
-            {
-                return target;
-            }
-
-            var pair = ReflectionUtil.RetrieveOptionProperty<VerbOptionAttribute>(target, verb);
-            found = pair != null;
-            return found ? pair.Left.GetValue(target, null) : target;
+            return InternalGetVerbOptionsInstanceByName(verb, target, out found);
         }
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
         /// parameter instance's public fields decorated with appropriate attributes.
         /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
+        /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
         /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        public virtual bool ParseArguments(string[] args, object options)
+        public bool ParseArguments<T>(string[] args, T options)
+            where T : class
         {
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
@@ -159,136 +150,121 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
+        /// Parses a <see cref="System.String"/> array of command line arguments with verb commands, setting values in <paramref name="options"/>
         /// parameter instance's public fields decorated with appropriate attributes.
-        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.
+        /// This overload supports verb commands.
         /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
+        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
+        /// <param name="options">An instance used to receive values.
+        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
+        /// <param name="onVerbCommand">Delegate executed to capture verb command name and instance.</param>
+        /// <returns>True if parsing process succeed.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="onVerbCommand"/> is null.</exception>
+        public bool ParseArguments<T>(string[] args, T options, Action<string, object> onVerbCommand)
+            where T : class
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+            Assumes.NotNull(options, "onVerbCommand", SR.ArgumentNullException_OnVerbDelegateCannotBeNull);
+
+            object verbInstance = null;
+
+            var context = new ParserContext(args, options);
+            var result = this.DoParseArgumentsVerbs(context, ref verbInstance);
+
+            onVerbCommand(context.FirstArgument ?? string.Empty, result ? verbInstance : null);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
+        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method invokes
+        /// the <paramref name="onFail"/> delegate, if null exits with <see cref="Parser.DefaultExitCodeFail"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An object's instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
-        /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
-        /// <returns>True if parsing process succeed</returns>
+        /// <param name="onFail">The <see cref="Action"/> delegate executed when parsing fails.</param>
+        /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        public virtual bool ParseArguments(string[] args, object options, TextWriter helpWriter)
+        public bool ParseArgumentsStrict<T>(string[] args, T options, Action onFail = null)
+            where T : class
         {
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
 
-            this.Settings.HelpWriter = helpWriter;
-            return this.DoParseArguments(args, options);
-        }
-
-        /// <summary>
-        /// Determines if a particular verb option was invoked. This is a convenience helper method,
-        /// do not refer to it to know if parsing occurred. If the verb command was invoked and the
-        /// parser failed, it will return true.
-        /// Use this method only in a verbs scenario, when parsing succeeded.
-        /// </summary>
-        /// <param name='verb'>Verb option to compare.</param>
-        /// <returns>True if the specified verb option is the one invoked by the user.</returns>
-        public bool WasVerbOptionInvoked(string verb)
-        {
-            if (string.IsNullOrEmpty(verb) || (verb.Length > 0 && verb[0] == '-'))
+            if (!this.DoParseArguments(args, options))
             {
+                this.InvokeAutoBuildIfNeeded(options);
+
+                if (onFail == null)
+                {
+                    Environment.Exit(DefaultExitCodeFail);
+                }
+                else
+                {
+                    onFail();
+                }
+
                 return false;
             }
 
-            if (!this.currentContext.HasAtLeastOneArgument())
+            return true;
+        }
+
+        /// <summary>
+        /// Parses a <see cref="System.String"/> array of command line arguments with verb commands, setting values in <paramref name="options"/>
+        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method invokes
+        /// the <paramref name="onFail"/> delegate, if null exits with <see cref="Parser.DefaultExitCodeFail"/>.
+        /// This overload supports verb commands.
+        /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
+        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
+        /// <param name="options">An instance used to receive values.
+        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
+        /// <param name="onVerbCommand">Delegate executed to capture verb command name and instance.</param>
+        /// <param name="onFail">The <see cref="Action"/> delegate executed when parsing fails.</param>
+        /// <returns>True if parsing process succeed.</returns>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="onVerbCommand"/> is null.</exception>
+        public bool ParseArgumentsStrict<T>(string[] args, T options, Action<string, object> onVerbCommand, Action onFail = null)
+            where T : class
+        {
+            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
+            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
+            Assumes.NotNull(options, "onVerbCommand", SR.ArgumentNullException_OnVerbDelegateCannotBeNull);
+
+            object verbInstance = null;
+
+            var context = new ParserContext(args, options);
+
+            if (!this.DoParseArgumentsVerbs(context, ref verbInstance))
             {
+                onVerbCommand(context.FirstArgument ?? string.Empty, null);
+
+                this.InvokeAutoBuildIfNeeded(options);
+
+                if (onFail == null)
+                {
+                    Environment.Exit(DefaultExitCodeFail);
+                }
+                else
+                {
+                    onFail();
+                }
+
                 return false;
             }
 
-            return string.Compare(this.currentContext.FirstArgument, verb, this.Settings.GetStringComparison()) == 0;
-        }
-
-        /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
-        /// the process with <see cref="Parser.DefaultExitCodeFail"/>.
-        /// </summary>
-        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
-        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        public virtual bool ParseArgumentsStrict(string[] args, object options)
-        {
-            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
-            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
-
-            return this.DoParseArgumentsStrict(args, options, DefaultExitCodeFail);
-        }
-
-        /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
-        /// the process with <paramref name="exitCode"/>
-        /// </summary>
-        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
-        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <param name="exitCode">The exit code to use when quitting the application. It should be greater than zero.</param>
-        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        public virtual bool ParseArgumentsStrict(string[] args, object options, int exitCode)
-        {
-            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
-            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
-
-            return this.DoParseArgumentsStrict(args, options, exitCode);
-        }
-
-        /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
-        /// the process with <see cref="Parser.DefaultExitCodeFail"/>.
-        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.
-        /// </summary>
-        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
-        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
-        /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
-        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        public virtual bool ParseArgumentsStrict(string[] args, object options, TextWriter helpWriter)
-        {
-            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
-            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
-
-            this.Settings.HelpWriter = helpWriter;
-
-            return this.DoParseArgumentsStrict(args, options, DefaultExitCodeFail);
-        }
-
-        /// <summary>
-        /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
-        /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method terminates
-        /// the process with <paramref name="exitCode"/>
-        /// This overload allows you to specify a <see cref="System.IO.TextWriter"/> derived instance for write text messages.
-        /// </summary>
-        /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
-        /// <param name="options">An object's instance used to receive values.
-        /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
-        /// <param name="helpWriter">Any instance derived from <see cref="System.IO.TextWriter"/>,
-        /// usually <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
-        /// <param name="exitCode">The exit code to use when quitting the application. It should be greater than zero.</param>
-        /// <returns>True if parsing process succeed, otherwise exits the application.</returns>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        public virtual bool ParseArgumentsStrict(string[] args, object options, TextWriter helpWriter, int exitCode)
-        {
-            Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
-            Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
-
-            this.Settings.HelpWriter = helpWriter;
-
-            return this.DoParseArgumentsStrict(args, options, exitCode);
+            onVerbCommand(context.FirstArgument ?? string.Empty, verbInstance);
+            return true;
         }
 
         /// <summary>
@@ -301,13 +277,18 @@ namespace CommandLine
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// Sets unit testing hook.
-        /// </summary>
-        /// <param name="action">The delegate used to replace the default one.</param>
-        internal void SetOnExit(Action<int> action)
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#", Justification = "By design.")]
+        internal static object InternalGetVerbOptionsInstanceByName(string verb, object target, out bool found)
         {
-            this.onExitDelegate = action;
+            found = false;
+            if (string.IsNullOrEmpty(verb))
+            {
+                return target;
+            }
+
+            var pair = ReflectionUtil.RetrieveOptionProperty<VerbOptionAttribute>(target, verb);
+            found = pair != null;
+            return found ? pair.Left.GetValue(target, null) : target;
         }
 
         private static void SetParserStateIfNeeded(object options, IEnumerable<ParsingError> errors)
@@ -338,14 +319,12 @@ namespace CommandLine
             var pair = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options);
             var helpWriter = this.Settings.HelpWriter;
 
-            this.currentContext = new ParserContext(args, options);
-
-            var parsingCallback = this.GetParsingCallback(this.currentContext);
+            var context = new ParserContext(args, options);
 
             if (pair != null && helpWriter != null)
             {
                 // If help can be handled is displayed if is requested or if parsing fails
-                if (this.ParseHelp(args, pair.Right) || !parsingCallback())
+                if (this.ParseHelp(args, pair.Right) || !this.DoParseArgumentsCore(context))
                 {
                     string helpText;
                     HelpOptionAttribute.InvokeMethod(options, pair, out helpText);
@@ -356,17 +335,7 @@ namespace CommandLine
                 return true;
             }
 
-            return parsingCallback();
-        }
-
-        private Func<bool> GetParsingCallback(ParserContext context)
-        {
-            if (context.Target.HasVerbs())
-            {
-                return () => this.DoParseArgumentsVerbs(context);
-            }
-
-            return () => this.DoParseArgumentsCore(context);
+            return this.DoParseArgumentsCore(context);
         }
 
         private bool DoParseArgumentsCore(ParserContext context)
@@ -415,34 +384,7 @@ namespace CommandLine
             return !hadError;
         }
 
-        private bool ParseHelp(string[] args, HelpOptionAttribute helpOption)
-        {
-            var caseSensitive = this.Settings.CaseSensitive;
-            foreach (var arg in args)
-            {
-                if (helpOption.ShortName != null)
-                {
-                    if (ArgumentParser.CompareShort(arg, helpOption.ShortName, caseSensitive))
-                    {
-                        return true;
-                    }
-                }
-
-                if (string.IsNullOrEmpty(helpOption.LongName))
-                {
-                    continue;
-                }
-
-                if (ArgumentParser.CompareLong(arg, helpOption.LongName, caseSensitive))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool DoParseArgumentsVerbs(ParserContext context)
+        private bool DoParseArgumentsVerbs(ParserContext context, ref object verbInstance)
         {
             var verbs = ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(context.Target);
             var helpInfo = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(context.Target);
@@ -478,10 +420,11 @@ namespace CommandLine
                 return false;
             }
 
-            if (verbOption.GetValue(context.Target) == null)
+            verbInstance = verbOption.GetValue(context.Target);
+            if (verbInstance == null)
             {
                 // Developer has not provided a default value and did not assign an instance
-                verbOption.CreateInstance(context.Target);
+                verbInstance = verbOption.CreateInstance(context.Target);
             }
 
             var verbResult = this.DoParseArgumentsCore(context.ToCoreInstance(verbOption));
@@ -492,6 +435,33 @@ namespace CommandLine
             }
 
             return verbResult;
+        }
+
+        private bool ParseHelp(string[] args, HelpOptionAttribute helpOption)
+        {
+            var caseSensitive = this.Settings.CaseSensitive;
+            foreach (var arg in args)
+            {
+                if (helpOption.ShortName != null)
+                {
+                    if (ArgumentParser.CompareShort(arg, helpOption.ShortName, caseSensitive))
+                    {
+                        return true;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(helpOption.LongName))
+                {
+                    continue;
+                }
+
+                if (ArgumentParser.CompareLong(arg, helpOption.LongName, caseSensitive))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool TryParseHelpVerb(string[] args, object options, Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo, OptionMap optionMap)
@@ -522,19 +492,6 @@ namespace CommandLine
             }
 
             return false;
-        }
-
-        private bool DoParseArgumentsStrict(string[] args, object options, int exitCode)
-        {
-            if (!this.DoParseArguments(args, options))
-            {
-                this.InvokeAutoBuildIfNeeded(options);
-
-                this.onExitDelegate(exitCode);
-                return false;
-            }
-
-            return true;
         }
 
         private void DisplayHelpVerbText(object options, Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo, string verb)

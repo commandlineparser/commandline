@@ -51,7 +51,7 @@ namespace CommandLine.Tests
         public void Will_throw_exception_if_options_instance_is_null()
         {
             Assert.Throws<ArgumentNullException>(
-                () => new Parser().ParseArguments(new string[] {}, null));
+                () => new Parser().ParseArguments<object>(new string[] {}, null));
         }
 
         [Fact]

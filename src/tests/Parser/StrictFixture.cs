@@ -52,8 +52,9 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = SetTestDelegate(new Parser());
-            var result = parser.ParseArgumentsStrict(new string[] {"--bad", "--input"}, options, testWriter);
+            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var result = parser.ParseArgumentsStrict(new string[] {"--bad", "--input"}, options,
+                () => Console.WriteLine("fake fail"));
 
             result.Should().BeFalse();
 
@@ -75,8 +76,9 @@ namespace CommandLine.Tests
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = SetTestDelegate(new Parser());
-            var result = parser.ParseArgumentsStrict(new string[] { "--bad", "--input" }, options, testWriter);
+            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var result = parser.ParseArgumentsStrict(new string[] { "--bad", "--input" }, options,
+                () => Console.WriteLine("fake fail"));
 
             result.Should().BeFalse();
 
@@ -92,12 +94,21 @@ namespace CommandLine.Tests
         [Fact]
         public void Parse_strict_bad_input_fails_and_exits_with_verbs()
         {
+            string invokedVerb = null;
+            object invokedVerbInstance = null;
+
             var options = new OptionsWithVerbsNoHelp();
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = SetTestDelegate(new Parser());
-            var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
+            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options,
+                (verb, subOptions) =>
+                {
+                    invokedVerb = verb;
+                    invokedVerbInstance = subOptions;
+                },
+                () => Console.WriteLine("fake fail"));
 
             result.Should().BeFalse();
 
@@ -110,17 +121,29 @@ namespace CommandLine.Tests
             lines[5].Trim().Should().Be("add       Add file contents to the index.");
             lines[6].Trim().Should().Be("commit    Record changes to the repository.");
             lines[7].Trim().Should().Be("clone     Clone a repository into a new directory.");
+
+            invokedVerb.Should().Be("bad");
+            invokedVerbInstance.Should().BeNull();
         }
 
         [Fact]
         public void Parse_strict_bad_input_fails_and_exits_with_verbs_when_get_usage_is_defined()
         {
+            string invokedVerb = null;
+            object invokedVerbInstance = null;
+
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = SetTestDelegate(new Parser());
-            var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options, testWriter);
+            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options,
+                (verb, subOptions) =>
+                {
+                    invokedVerb = verb;
+                    invokedVerbInstance = subOptions;
+                },
+                () => Console.WriteLine("fake fail"));
 
             result.Should().BeFalse();
 
@@ -131,15 +154,18 @@ namespace CommandLine.Tests
             lines.Should().HaveCount(n => n == 1);
             // Verify just significant output
             lines[0].Trim().Should().Be("verbs help index");
+
+            invokedVerb.Should().Be("bad");
+            invokedVerbInstance.Should().BeNull();
         }
 
-        private static Parser SetTestDelegate(Parser parser)
-        {
-            parser.SetOnExit(code => Console.WriteLine(
-                "UNIT_TESTS symbol enabled.\nSimulating 'Environment.Exit({0})'.",
-                code));
-            return parser;
-        }
+        //private static Parser SetTestDelegate(Parser parser)
+        //{
+        //    parser.SetOnExit(code => Console.WriteLine(
+        //        "UNIT_TESTS symbol enabled.\nSimulating 'Environment.Exit({0})'.",
+        //        code));
+        //    return parser;
+        //}
     }
 }
 

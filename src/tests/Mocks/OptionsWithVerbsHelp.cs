@@ -92,14 +92,17 @@ namespace CommandLine.Tests.Mocks
         [VerbOption("clone", HelpText = "Clone a repository into a new directory.")]
         public CloneSubOptionsHelp CloneVerb { get; set; }
 
+        public string InvokedVerb { get; set; }
+
         [HelpVerbOption]
         public string GetUsage(string verb)
         {
-            bool found;
-            var instance = (CommandLineOptionsBase) Parser.GetVerbOptionsInstanceByName(verb, this, out found);
-            var verbsIndex = verb == null || !found;
-            var target = verbsIndex ? this : instance;
-            return HelpText.AutoBuild(target, current => HelpText.DefaultParsingErrorsHandler(target, current), verbsIndex);
+            //bool found;
+            //var instance = (CommandLineOptionsBase)Parser.InternalGetVerbOptionsInstanceByName(verb, this, out found);
+            //var verbsIndex = verb == null || !found;
+            //var target = verbsIndex ? this : instance;
+            //return HelpText.AutoBuild(target, current => HelpText.DefaultParsingErrorsHandler(target, current), verbsIndex);
+            return HelpText.AutoBuild(this, verb);
         }
     }
 }

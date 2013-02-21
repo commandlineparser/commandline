@@ -435,13 +435,13 @@ namespace CommandLine.Text.Tests
         [Fact]
         public void Multiple_required_fields_with_more_than_one_required_field_not_specified_reports_all_missing_required_fields()
         {
-          var options = new ComplexOptions();
-          using (var writer = new StringWriter())
-          {
-            new Parser(new ParserSettings(false,  false, writer)).ParseArguments(new string[0], options, writer);
+            var options = new ComplexOptions();
+            using (var writer = new StringWriter())
+            {
+                new Parser(new ParserSettings(false,  false, writer)).ParseArguments(new string[0], options);
 
-            options.LastParserState.Errors.Should().HaveCount(n => n == 2);
-          }
+                options.LastParserState.Errors.Should().HaveCount(n => n == 2);
+            }
         }
         #endregion
 

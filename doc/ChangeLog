@@ -12,6 +12,20 @@
   * StyleCop: Attributes namespace (all important warnings solved).
   * StyleCop: FULL COMPLIANT.
   * Attributes in Text namespace moved to root namespace (issue #56).
+  * Parser class (made sealed):
+      - ALL bool ParseArguments(...) overload removed and replaced by:
+          bool ParseArguments<T>(string[] args, T options)  where T : class
+          bool ParseArguments<T>(string[] args, T options, Action<string,object> onVerbCommand) where T : class
+      - ALL bool ParseArgumentsStrict(...) overload removed and replaced by:
+          bool ParseArgumentsStrict<T>(string[] args, T options, Action onFail = null) where T : class
+          bool ParseArgumentsStrict<T>(string[] args, object options,  Action<string,object> onVerbCommand, Action onFail = null) where T : class
+      - bool WasVerbOptionInvoked(string verb) removed replaced by:
+          bool ParseArguments<T>(...,Action<string,object> onVerbCommand,...),
+          bool ParseArgumentsStrict<T>(...Action<string,object> onVerbCommand,...)
+      - static object GetVerbOptionsInstanceByName(string verb, object target, out bool found) marked obsolete
+          use HelpText::AutoBuild(object,string)
+  * HelpText class:
+      - added HelpText::AutoBuild(object,string)
 
 2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 

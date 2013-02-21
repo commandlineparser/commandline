@@ -65,18 +65,18 @@ namespace CommandLine.Tests
             writer.ToString().Should().Be("MockOptions::GetUsage()");
         }
 
-        [Fact]
-        public void Setting_help_writer_using_argument()
-        {
-            var writer = new StringWriter();
-            IParser parser = new Parser(new ParserSettings());
-            var options = new SimpleOptionsWithHelpOption();
+        //[Fact]
+        //public void Setting_help_writer_using_argument()
+        //{
+        //    var writer = new StringWriter();
+        //    IParser parser = new Parser(new ParserSettings());
+        //    var options = new SimpleOptionsWithHelpOption();
 
-            bool success = parser.ParseArguments(new string[] { "--help" }, options, writer);
+        //    bool success = parser.ParseArguments(new string[] { "--help" }, options, writer);
 
-            success.Should().BeFalse();
-            writer.ToString().Should().Be("MockOptions::GetUsage()");
-        }
+        //    success.Should().BeFalse();
+        //    writer.ToString().Should().Be("MockOptions::GetUsage()");
+        //}
     }
 }
 
