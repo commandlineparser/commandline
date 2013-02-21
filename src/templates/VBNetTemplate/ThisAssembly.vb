@@ -1,13 +1,9 @@
 ﻿#Region "License"
-''
-'' Your Project Name Here: ThisAssembly.vb
-''
-'' Author:
-''   Your Name Here (insert-your@email.here)
-''
-'' Copyright (C) 2012 Your Name Here
-''
-'' [License Body Here]
+'<copyright file="ThisAssembly.vb" company="Your name here">
+'   Copyright 2013 Your name here
+' </copyright>
+'
+' [License Body Here]
 #End Region
 
 Friend Class ThisAssembly
