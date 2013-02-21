@@ -29,7 +29,7 @@
 #region Using Directives
 using Xunit;
 using FluentAssertions;
-using CommandLine.Core;
+using CommandLine.Infrastructure;
 #endregion
 
 namespace CommandLine.Tests

@@ -1,7 +1,11 @@
-﻿#region License
-// <copyright file="PresentParserState.cs" company="Giacomo Stelluti Scala">
-//   Copyright 2015-2013 Giacomo Stelluti Scala
-// </copyright>
+#region License
+//
+// Command Line Library: ArgumentParserFixture.cs
+//
+// Author:
+//   Giacomo Stelluti Scala (gsscoder@gmail.com)
+//
+// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +24,31 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+//
+#endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using Xunit;
+using FluentAssertions;
+using CommandLine.Infrastructure;
 #endregion
 
-namespace CommandLine.Core
+namespace CommandLine.Tests
 {
-    #region Using Directives
-    using System;
-    #endregion
-
-    [Flags]
-    internal enum PresentParserState : ushort
+    public class ArgumentParserFixture : BaseFixture
     {
-        Undefined = 0x00,
-        Success = 0x01,
-        Failure = 0x02,
-        MoveOnNextElement = 0x04
+        [Fact]
+        public void Get_next_input_values()
+        {
+            var ae = new StringArrayEnumerator(new string[] { "--optarr", "one", "two", "--plain", "3" });
+
+            ae.MoveNext(); // skip first, working like in a real case
+
+            var items = ArgumentParser.InternalWrapperOfGetNextInputValues(ae);
+
+            base.ElementsShouldBeEqual(new string[] { "one", "two" }, items);
+            ae.Current.Should().Be("two");
+        }
     }
 }

@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine.Core
+namespace CommandLine.Infrastructure
 {
     #region Using Directives
     using System.Collections.Generic;

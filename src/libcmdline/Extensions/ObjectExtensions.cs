@@ -1,11 +1,7 @@
-#region License
-//
-// Command Line Library: ArgumentParserFixture.cs
-//
-// Author:
-//   Giacomo Stelluti Scala (gsscoder@gmail.com)
-//
-// Copyright (C) 2005 - 2013 Giacomo Stelluti Scala
+﻿#region License
+// <copyright file="ObjectExtensions.cs" company="Giacomo Stelluti Scala">
+//   Copyright 2015-2013 Giacomo Stelluti Scala
+// </copyright>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,31 +20,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
-#endregion
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using Xunit;
-using FluentAssertions;
-using CommandLine.Core;
 #endregion
 
-namespace CommandLine.Tests
+namespace CommandLine.Extensions
 {
-    public class ArgumentParserFixture : BaseFixture
+    #region Using Directives
+    using CommandLine.Helpers;
+    #endregion
+
+    /// <summary>
+    /// Utility extension methods for System.Object.
+    /// </summary>
+    internal static class ObjectExtensions
     {
-        [Fact]
-        public void Get_next_input_values()
+        public static bool HasVerbs(this object target)
         {
-            var ae = new StringArrayEnumerator(new string[] { "--optarr", "one", "two", "--plain", "3" });
+            return ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(target).Count > 0;
+        }
 
-            ae.MoveNext(); // skip first, working like in a real case
+        public static bool HasHelp(this object target)
+        {
+            return ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(target) != null;
+        }
 
-            var items = ArgumentParser.InternalWrapperOfGetNextInputValues(ae);
+        public static bool HasVerbHelp(this object target)
+        {
+            return ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(target) != null;
+        }
 
-            base.ElementsShouldBeEqual(new string[] { "one", "two" }, items);
-            ae.Current.Should().Be("two");
+        public static bool CanReceiveParserState(this object target)
+        {
+            return ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(target).Count > 0;
         }
     }
 }

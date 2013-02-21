@@ -28,8 +28,8 @@ namespace CommandLine
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using CommandLine.Core;
     using CommandLine.Helpers;
+    using CommandLine.Infrastructure;
     #endregion
 
     /// <summary>

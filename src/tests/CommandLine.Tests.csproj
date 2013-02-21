@@ -54,9 +54,9 @@
     <Compile Include="Attributes\HelpOptionAttributeFixture.cs" />
     <Compile Include="Attributes\ValueListAttributeFixture.cs" />
     <Compile Include="Attributes\ValueOptionAttributeFixture.cs" />
-    <Compile Include="Core\ArgumentParserFixture.cs" />
-    <Compile Include="Core\EnumeratorsFixture.cs" />
-    <Compile Include="Core\OptionMapFixture.cs" />
+    <Compile Include="Infrastructure\ArgumentParserFixture.cs" />
+    <Compile Include="Infrastructure\EnumeratorsFixture.cs" />
+    <Compile Include="Infrastructure\OptionMapFixture.cs" />
     <Compile Include="Mocks\CommandLineOptionsBase.cs" />
     <Compile Include="Mocks\OptionsWithValueOptionExplicitIndex.cs" />
     <Compile Include="Mocks\OptionsWithValueOptionImplicitIndex.cs" />

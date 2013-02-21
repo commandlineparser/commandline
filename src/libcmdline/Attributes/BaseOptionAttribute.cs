@@ -26,8 +26,8 @@ namespace CommandLine
 {
     #region Using Directives
     using System;
-    using CommandLine.Core;
     using CommandLine.Extensions;
+    using CommandLine.Infrastructure;
     #endregion
 
     /// <summary>

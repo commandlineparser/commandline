@@ -21,7 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-namespace CommandLine.Core
+
+namespace CommandLine.Infrastructure
 {
     #region Using Directives
     using System;

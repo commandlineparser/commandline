@@ -30,7 +30,7 @@ namespace CommandLine.Extensions
     #endregion
 
     /// <summary>
-    /// Utility extension methods for strings, characters and related types.
+    /// Utility extension methods for System.String.
     /// </summary>
     internal static class StringExtensions
     {
@@ -55,36 +55,29 @@ namespace CommandLine.Extensions
             return string.Format(CultureInfo.CurrentCulture, value, arguments);
         }
 
-        public static bool IsWhiteSpace(this char c)
+        public static string ToOption(this string value)
         {
-            switch (c)
-            {
-                // Regular
-                case '\f':
-                case '\v':
-                case ' ':
-                case '\t':
-                    return true;
-
-                // Unicode
-                default:
-                    return c > 127 && char.IsWhiteSpace(c);
-            }
+            return string.Concat("--", value);
         }
 
-        public static bool IsLineTerminator(this char c)
+        public static string ToOption(this char? value)
         {
-            switch (c)
-            {
-                case '\xD':
-                case '\xA':
-                case '\x2028':
-                case '\x2029':
-                    return true;
+            return string.Concat("-", value);
+        }
 
-                default:
-                    return false;
-            }
+        public static bool IsDash(this string value)
+        {
+            return string.CompareOrdinal(value, "-") == 0;
+        }
+
+        public static bool IsShortOption(this string value)
+        {
+            return value[0] == '-';
+        }
+
+        public static bool IsLongOption(this string value)
+        {
+            return value[0] == '-' && value[1] == '-';
         }
 
         public static StringComparison GetStringComparison(this IParserSettings settings)

@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="IArgumentEnumerator.cs" company="Giacomo Stelluti Scala">
+// <copyright file="CharExtensions.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -22,20 +22,48 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine.Core
+namespace CommandLine.Extensions
 {
-    internal interface IArgumentEnumerator
+    #region Using Directives
+    using System;
+    using System.Globalization;
+    #endregion
+
+    /// <summary>
+    /// Utility extension methods for System.Char.
+    /// </summary>
+    internal static class CharExtensions
     {
-        string Current { get; }
+        public static bool IsWhiteSpace(this char c)
+        {
+            switch (c)
+            {
+                // Regular
+                case '\f':
+                case '\v':
+                case ' ':
+                case '\t':
+                    return true;
 
-        string Next { get; }
+                // Unicode
+                default:
+                    return c > 127 && char.IsWhiteSpace(c);
+            }
+        }
 
-        bool IsLast { get; }
+        public static bool IsLineTerminator(this char c)
+        {
+            switch (c)
+            {
+                case '\xD':
+                case '\xA':
+                case '\x2028':
+                case '\x2029':
+                    return true;
 
-        bool MoveNext();
-
-        bool MovePrevious();
-
-        string GetRemainingFromNext();
+                default:
+                    return false;
+            }
+        }
     }
 }

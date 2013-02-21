@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CommandLine.Core
+namespace CommandLine.Infrastructure
 {
     internal static class SR
     {

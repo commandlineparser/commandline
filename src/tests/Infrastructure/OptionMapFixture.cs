@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using Xunit;
 using FluentAssertions;
 using CommandLine;
-using CommandLine.Core;
+using CommandLine.Infrastructure;
 #endregion
 
 namespace CommandLine.Tests

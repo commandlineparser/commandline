@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine.Core
+namespace CommandLine.Infrastructure
 {
     internal sealed class OptionGroupParser : ArgumentParser
     {

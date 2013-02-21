@@ -29,8 +29,8 @@ namespace CommandLine.Text
     using System.Globalization;
     using System.Reflection;
     using System.Text;
-    using CommandLine.Core;
     using CommandLine.Helpers;
+    using CommandLine.Infrastructure;
     #endregion
 
     /// <summary>

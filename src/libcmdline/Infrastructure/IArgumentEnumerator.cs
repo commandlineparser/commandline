@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="OptionExtensions.cs" company="Giacomo Stelluti Scala">
+// <copyright file="IArgumentEnumerator.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -22,33 +22,20 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine.Extensions
+namespace CommandLine.Infrastructure
 {
-    internal static class OptionExtensions
+    internal interface IArgumentEnumerator
     {
-        public static string ToOption(this string value)
-        {
-            return string.Concat("--", value);
-        }
+        string Current { get; }
 
-        public static string ToOption(this char? value)
-        {
-            return string.Concat("-", value);
-        }
+        string Next { get; }
 
-        public static bool IsDash(this string value)
-        {
-            return string.CompareOrdinal(value, "-") == 0;
-        }
+        bool IsLast { get; }
 
-        public static bool IsShortOption(this string value)
-        {
-            return value[0] == '-';
-        }
+        bool MoveNext();
 
-        public static bool IsLongOption(this string value)
-        {
-            return value[0] == '-' && value[1] == '-';
-        }
+        bool MovePrevious();
+
+        string GetRemainingFromNext();
     }
 }

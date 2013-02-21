@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="StringArrayEnumerator.cs" company="Giacomo Stelluti Scala">
+// <copyright file="OneCharStringEnumerator.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -22,26 +22,24 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine.Core
+namespace CommandLine.Infrastructure
 {
     #region Using Directives
     using System;
     using CommandLine.Helpers;
     #endregion
 
-    internal sealed class StringArrayEnumerator : IArgumentEnumerator
+    internal sealed class OneCharStringEnumerator : IArgumentEnumerator
     {
-        private readonly int endIndex;
-        private readonly string[] data;
+        private readonly string data;
+        private string currentElement;
         private int index;
 
-        public StringArrayEnumerator(string[] value)
+        public OneCharStringEnumerator(string value)
         {
-            Assumes.NotNull(value, "value");
-
+            Assumes.NotNullOrEmpty(value, "value");
             this.data = value;
             this.index = -1;
-            this.endIndex = value.Length;
         }
 
         public string Current
@@ -53,12 +51,12 @@ namespace CommandLine.Core
                     throw new InvalidOperationException();
                 }
 
-                if (this.index >= this.endIndex)
+                if (this.index >= this.data.Length)
                 {
                     throw new InvalidOperationException();
                 }
 
-                return this.data[this.index];
+                return this.currentElement;
             }
         }
 
@@ -71,7 +69,7 @@ namespace CommandLine.Core
                     throw new InvalidOperationException();
                 }
 
-                if (this.index > this.endIndex)
+                if (this.index > this.data.Length)
                 {
                     throw new InvalidOperationException();
                 }
@@ -81,45 +79,46 @@ namespace CommandLine.Core
                     return null;
                 }
 
-                return this.data[this.index + 1];
+                return this.data.Substring(this.index + 1, 1);
             }
         }
 
         public bool IsLast
         {
-            get { return this.index == this.endIndex - 1; }
+            get { return this.index == this.data.Length - 1; }
         }
 
         public bool MoveNext()
         {
-            if (this.index < this.endIndex)
+            if (this.index < (this.data.Length - 1))
             {
                 this.index++;
-                return this.index < this.endIndex;
+                this.currentElement = this.data.Substring(this.index, 1);
+                return true;
             }
 
+            this.index = this.data.Length;
             return false;
         }
 
         public string GetRemainingFromNext()
         {
-            throw new NotSupportedException();
-        }
-
-        public bool MovePrevious()
-        {
-            if (this.index <= 0)
+            if (this.index == -1)
             {
                 throw new InvalidOperationException();
             }
 
-            if (this.index <= this.endIndex)
+            if (this.index > this.data.Length)
             {
-                this.index--;
-                return this.index <= this.endIndex;
+                throw new InvalidOperationException();
             }
 
-            return false;
+            return this.data.Substring(this.index + 1);
+        }
+
+        public bool MovePrevious()
+        {
+            throw new NotSupportedException();
         }
     }
 }

@@ -29,11 +29,10 @@ namespace CommandLine
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
-    using System.IO;
     using System.Reflection;
-    using CommandLine.Core;
     using CommandLine.Extensions;
     using CommandLine.Helpers;
+    using CommandLine.Infrastructure;
     using CommandLine.Text;
     #endregion
 

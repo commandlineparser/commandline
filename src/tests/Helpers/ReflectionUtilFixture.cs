@@ -35,7 +35,7 @@ using CommandLine.Helpers;
 using Xunit;
 using FluentAssertions;
 using CommandLine.Text;
-using CommandLine.Core;
+using CommandLine.Infrastructure;
 #endregion
 
 namespace CommandLine.Tests

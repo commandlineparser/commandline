@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="TargetExtensions.cs" company="Giacomo Stelluti Scala">
+// <copyright file="PresentParserState.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -22,32 +22,18 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine.Extensions
+namespace CommandLine.Infrastructure
 {
     #region Using Directives
-    using CommandLine.Helpers;
+    using System;
     #endregion
 
-    internal static class TargetExtensions
+    [Flags]
+    internal enum PresentParserState : ushort
     {
-        public static bool HasVerbs(this object target)
-        {
-            return ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(target).Count > 0;
-        }
-
-        public static bool HasHelp(this object target)
-        {
-            return ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(target) != null;
-        }
-
-        public static bool HasVerbHelp(this object target)
-        {
-            return ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(target) != null;
-        }
-
-        public static bool CanReceiveParserState(this object target)
-        {
-            return ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(target).Count > 0;
-        }
+        Undefined = 0x00,
+        Success = 0x01,
+        Failure = 0x02,
+        MoveOnNextElement = 0x04
     }
 }

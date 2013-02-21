@@ -26,6 +26,8 @@
           use HelpText::AutoBuild(object,string)
   * HelpText class:
       - added HelpText::AutoBuild(object,string)
+  * Namespace Core renamed Infrastructure.
+  * Extensions methods refacored in one class per group.
 
 2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
