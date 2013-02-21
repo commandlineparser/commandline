@@ -146,6 +146,7 @@ namespace CommandLine.Text
         /// <param name="copyright">A string with copyright or an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
         /// <param name="options">The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         /// <exception cref="System.ArgumentException">Thrown when one or more parameters <paramref name="heading"/> are null or empty strings.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "When DoAddOptions is called with fireEvent=false virtual member is not called")]
         public HelpText(string heading, string copyright, object options)
             : this()
         {
@@ -155,7 +156,7 @@ namespace CommandLine.Text
 
             this.heading = heading;
             this.copyright = copyright;
-            this.AddOptions(options);
+            this.DoAddOptions(options, DefaultRequiredWord, this.MaximumDisplayWidth, fireEvent: false);
         }
 
         /// <summary>
@@ -442,26 +443,7 @@ namespace CommandLine.Text
             Assumes.NotNull(options, "options");
             Assumes.NotNullOrEmpty(requiredWord, "requiredWord");
 
-            var optionList = ReflectionUtil.RetrievePropertyAttributeList<BaseOptionAttribute>(options);
-            var optionHelp = ReflectionUtil.RetrieveMethodAttributeOnly<HelpOptionAttribute>(options);
-
-            if (optionHelp != null)
-            {
-                optionList.Add(optionHelp);
-            }
-
-            if (optionList.Count == 0)
-            {
-                return;
-            }
-
-            int maxLength = this.GetMaxLength(optionList);
-            this.optionsHelp = new StringBuilder(BuilderCapacity);
-            int remainingSpace = maximumLength - (maxLength + 6);
-            foreach (BaseOptionAttribute option in optionList)
-            {
-                this.AddOption(requiredWord, maxLength, option, remainingSpace);
-            }
+            this.DoAddOptions(options, requiredWord, maximumLength);
         }
 
         /// <summary>
@@ -657,12 +639,36 @@ namespace CommandLine.Text
             builder.Append(value);
         }
 
+        private void DoAddOptions(object options, string requiredWord, int maximumLength, bool fireEvent = true)
+        {
+            var optionList = ReflectionUtil.RetrievePropertyAttributeList<BaseOptionAttribute>(options);
+            var optionHelp = ReflectionUtil.RetrieveMethodAttributeOnly<HelpOptionAttribute>(options);
+
+            if (optionHelp != null)
+            {
+                optionList.Add(optionHelp);
+            }
+
+            if (optionList.Count == 0)
+            {
+                return;
+            }
+
+            int maxLength = this.GetMaxLength(optionList);
+            this.optionsHelp = new StringBuilder(BuilderCapacity);
+            int remainingSpace = maximumLength - (maxLength + 6);
+            foreach (BaseOptionAttribute option in optionList)
+            {
+                this.AddOption(requiredWord, maxLength, option, remainingSpace, fireEvent);
+            }
+        }
+
         private void AddPreOptionsLine(string value, int maximumLength)
         {
             AddLine(this.preOptionsHelp, value, maximumLength);
         }
 
-        private void AddOption(string requiredWord, int maxLength, BaseOptionAttribute option, int widthOfHelpText)
+        private void AddOption(string requiredWord, int maxLength, BaseOptionAttribute option, int widthOfHelpText, bool fireEvent = true)
         {
             this.optionsHelp.Append("  ");
             var optionName = new StringBuilder(maxLength);
@@ -716,9 +722,12 @@ namespace CommandLine.Text
                 option.HelpText = "{0} ".FormatInvariant(requiredWord) + option.HelpText;
             }
 
-            var e = new FormatOptionHelpTextEventArgs(option);
-            this.OnFormatOptionHelpText(e);
-            option.HelpText = e.Option.HelpText;
+            if (fireEvent)
+            {
+                var e = new FormatOptionHelpTextEventArgs(option);
+                this.OnFormatOptionHelpText(e);
+                option.HelpText = e.Option.HelpText;
+            }
 
             if (!string.IsNullOrEmpty(option.HelpText))
             {

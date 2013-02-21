@@ -91,7 +91,7 @@ namespace CommandLine.Text
             this.isSymbolUpper = isSymbolUpper;
             this.author = author;
             this.copyrightYears = copyrightYears;
-            this.builderSize = this.CopyrightWord.Length + author.Length + (4 * copyrightYears.Length) + ExtraLength;
+            this.builderSize = 12 + author.Length + (4 * copyrightYears.Length) + ExtraLength;
         }
 
         /// <summary>

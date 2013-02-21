@@ -26,6 +26,7 @@
           use HelpText::AutoBuild(object,string)
   * HelpText class:
       - added HelpText::AutoBuild(object,string)
+      - internal refactoring to safely suppress a CodeAnalysis warning.
   * Namespace Core renamed Infrastructure.
   * Extensions methods refacored in one class per group.
   * Fixed issue #6.

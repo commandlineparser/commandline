@@ -54,7 +54,6 @@ namespace CommandLine
         [EditorBrowsable(EditorBrowsableState.Never)]
         int GetHashCode();
 
-
         /// <summary>
         /// Hides the <see cref="GetType"/> method.
         /// </summary>
