@@ -29,6 +29,7 @@
   * Namespace Core renamed Infrastructure.
   * Extensions methods refacored in one class per group.
   * Fixed issue #6.
+  * Using VSSTUDIO CodeAnalysis instead of FxCop.
 
 2013-02-18  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
