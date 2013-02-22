@@ -42,21 +42,19 @@ namespace CommandLine
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
         /// parameter instance's public fields decorated with appropriate attributes.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
         /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArguments<T>(string[] args, T options) where T : class;
+        bool ParseArguments(string[] args, object options);
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments with verb commands, setting values in <paramref name="options"/>
         /// parameter instance's public fields decorated with appropriate attributes.
         /// This overload supports verb commands.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
@@ -65,14 +63,13 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="onVerbCommand"/> is null.</exception>
-        bool ParseArguments<T>(string[] args, T options, Action<string, object> onVerbCommand) where T : class;
+        bool ParseArguments(string[] args, object options, Action<string, object> onVerbCommand);
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
         /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method invokes
         /// the <paramref name="onFail"/> delegate, if null exits with <see cref="Parser.DefaultExitCodeFail"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An object's instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
@@ -80,7 +77,7 @@ namespace CommandLine
         /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        bool ParseArgumentsStrict<T>(string[] args, T options, Action onFail = null) where T : class;
+        bool ParseArgumentsStrict(string[] args, object options, Action onFail = null);
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments with verb commands, setting values in <paramref name="options"/>
@@ -88,7 +85,6 @@ namespace CommandLine
         /// the <paramref name="onFail"/> delegate, if null exits with <see cref="Parser.DefaultExitCodeFail"/>.
         /// This overload supports verb commands.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
@@ -98,6 +94,6 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="onVerbCommand"/> is null.</exception>
-        bool ParseArgumentsStrict<T>(string[] args, T options, Action<string, object> onVerbCommand, Action onFail = null) where T : class;
+        bool ParseArgumentsStrict(string[] args, object options, Action<string, object> onVerbCommand, Action onFail = null);
     }
 }

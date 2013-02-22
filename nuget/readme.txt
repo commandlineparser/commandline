@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.5.0 rc0
+Command Line Parser Library 1.9.6.1 rc1
 ---------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
@@ -6,14 +6,14 @@ Giacomo Stelluti Scala
 GitHub (Latest Sources, Updated Docs): https://github.com/gsscoder/commandline
 Codeplex (Binary Downloads): http://commandline.codeplex.com/
 
-Upgrading from < 1.9.5.0 rc0:
+Upgrading from < 1.9.6.1 rc1:
 -----------------------------
 Now CommandLine.Parser is defiend as:
 interface CommandLine.IParser {
-  bool ParseArguments<T>(string[] args, T options) where T : class;
-  bool ParseArguments<T>(string[] args, T options, Action<string, object> onVerbCommand) where T : class;
-  bool ParseArgumentsStrict<T>(string[] args, T options, Action onFail = null) where T : class;
-  bool ParseArgumentsStrict<T>(string[] args, T options, Action<string, object> onVerbCommand, Action onFail = null) where T : class;
+  bool ParseArguments(string[] args, object options);
+  bool ParseArguments(string[] args, object options, Action<string, object> onVerbCommand);
+  bool ParseArgumentsStrict(string[] args, object options, Action onFail = null);
+  bool ParseArgumentsStrict(string[] args, object options, Action<string, object> onVerbCommand, Action onFail = null);
 }
 Please refer to wiki (https://github.com/gsscoder/commandline/wiki).
 For help screen in verb command scenario use new HelpText::AutoBuild(object,string).

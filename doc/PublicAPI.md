@@ -17,4 +17,5 @@ Public API Changes:
   - Version 1.9.4.223: Non breaking, added ``IParserSettings::ParsingCulture`` and ``ParserConfigurator::UseCulture``.
   - Version 1.9.4.225: Breaking, default singleton parsing culture is ``CultureInfo.InvariantCulture``; this is not general default only the one of default singleton.
   - Version 1.9.4.223: 'Partially' non breaking, all attributes are now in root namespace.
-  - Version 1.9.5.0:  Breaking (in some cases), removed ``IParser::ParseArguments`` overloads (see ChangeLog); removed ``::WasVerbOptionInvoked``; use new  ``HelpText::AutoBuild(object,string)`` instead of obsolete ``::GetVerbOptionsInstanceByName``.
+  - Version 1.9.5.0: Breaking (in some cases), removed ``IParser::ParseArguments`` overloads (see ChangeLog); removed ``::WasVerbOptionInvoked``; use new  ``HelpText::AutoBuild(object,string)`` instead of obsolete ``::GetVerbOptionsInstanceByName``.
+  - Version 1.9.6.1: Non breaking (if implicit syntax), reverting back genericity from IParser.

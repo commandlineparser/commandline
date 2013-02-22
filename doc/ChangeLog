@@ -1,3 +1,7 @@
+2013-02-22  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
+
+  * Reverting back genericity from IParser.
+
 2013-02-21  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 
   * HelpText, internal refactoring to safely suppress a CodeAnalysis warning.

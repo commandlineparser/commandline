@@ -42,8 +42,8 @@ namespace CommandLine
     public sealed class Parser : IParser, IDisposable
     {
         /// <summary>
-        /// Default exit code (1) used by <see cref="Parser.ParseArgumentsStrict&lt;T&gt;(string[],T,Action)"/>
-        /// and <see cref="Parser.ParseArgumentsStrict&lt;T&gt;(string[],T,Action&lt;string,object&gt;,Action)"/> overloads.
+        /// Default exit code (1) used by <see cref="Parser.ParseArgumentsStrict(string[],object,Action)"/>
+        /// and <see cref="Parser.ParseArgumentsStrict(string[],object,Action&lt;string,object&gt;,Action)"/> overloads.
         /// </summary>
         public const int DefaultExitCodeFail = 1;
         private static readonly IParser DefaultParser = new Parser(true);
@@ -132,15 +132,13 @@ namespace CommandLine
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>
         /// parameter instance's public fields decorated with appropriate attributes.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
         /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        public bool ParseArguments<T>(string[] args, T options)
-            where T : class
+        public bool ParseArguments(string[] args, object options)
         {
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
@@ -153,7 +151,6 @@ namespace CommandLine
         /// parameter instance's public fields decorated with appropriate attributes.
         /// This overload supports verb commands.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
@@ -162,8 +159,7 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="onVerbCommand"/> is null.</exception>
-        public bool ParseArguments<T>(string[] args, T options, Action<string, object> onVerbCommand)
-            where T : class
+        public bool ParseArguments(string[] args, object options, Action<string, object> onVerbCommand)
         {
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
@@ -184,7 +180,6 @@ namespace CommandLine
         /// parameter instance's public fields decorated with appropriate attributes. If parsing fails, the method invokes
         /// the <paramref name="onFail"/> delegate, if null exits with <see cref="Parser.DefaultExitCodeFail"/>.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An object's instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
@@ -192,8 +187,7 @@ namespace CommandLine
         /// <returns>True if parsing process succeed.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
-        public bool ParseArgumentsStrict<T>(string[] args, T options, Action onFail = null)
-            where T : class
+        public bool ParseArgumentsStrict(string[] args, object options, Action onFail = null)
         {
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
@@ -223,7 +217,6 @@ namespace CommandLine
         /// the <paramref name="onFail"/> delegate, if null exits with <see cref="Parser.DefaultExitCodeFail"/>.
         /// This overload supports verb commands.
         /// </summary>
-        /// <typeparam name="T">Type of <paramref name="options"/> instance.</typeparam>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments.</param>
         /// <param name="options">An instance used to receive values.
         /// Parsing rules are defined using <see cref="CommandLine.BaseOptionAttribute"/> derived types.</param>
@@ -233,8 +226,7 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="args"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="options"/> is null.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="onVerbCommand"/> is null.</exception>
-        public bool ParseArgumentsStrict<T>(string[] args, T options, Action<string, object> onVerbCommand, Action onFail = null)
-            where T : class
+        public bool ParseArgumentsStrict(string[] args, object options, Action<string, object> onVerbCommand, Action onFail = null)
         {
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
