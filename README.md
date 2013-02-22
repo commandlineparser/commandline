@@ -10,7 +10,7 @@ Compatibility:
 
 At glance:
 ---
-  - One line parsing using default singleton: ``CommandLine.Parser.Default.ParseArguments<T>(...)``.
+  - One line parsing using default singleton: ``CommandLine.Parser.Default.ParseArguments(...)``.
   - One line help screen generator: ``HelpText.AutoBuild(...)``.
   - Map command line arguments to ``IList<string>``, arrays, enum or standard scalar types.
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
