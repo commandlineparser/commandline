@@ -50,7 +50,7 @@ Notes:
 ---
 The project is and well suited to be included in your application. If you don't merge it to your project tree, you must reference ``CommandLine.dll`` and import ``CommandLine`` and ``CommandLine.Text`` namespaces (or install via NuGet). The help text builder and its support types lives in ``CommandLine.Text`` namespace that is loosely coupled with the parser. However is good to know that ``HelpText`` class will avoid a lot of repetitive coding.
 
-Create a class to receive parsed values:
+Define a class to receive parsed values:
 
 ```csharp
 class Options {
@@ -73,13 +73,13 @@ class Options {
 }
 ```
 
-Add few lines to your Main method:
+Consume them:
 
 ```csharp
 static void Main(string[] args) {
   var options = new Options();
   if (CommandLine.Parser.Default.ParseArguments(args, options)) {
-    // Consume values here
+    // Values are available here
     if (options.Verbose) Console.WriteLine("Filename: {0}", options.InputFile);
   }
 }
