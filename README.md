@@ -53,36 +53,36 @@ The project is and well suited to be included in your application. If you don't 
 Create a class to receive parsed values:
 
 ```csharp
-    class Options {
-      [Option('r', "read", Required = true,
-        HelpText = "Input file to be processed.")]
-      public string InputFile { get; set; }
+class Options {
+  [Option('r', "read", Required = true,
+  HelpText = "Input file to be processed.")]
+  public string InputFile { get; set; }
     
-      [Option('v', "verbose", DefaultValue = true,
-        HelpText = "Prints all messages to standard output.")]
-      public bool Verbose { get; set; }
+  [Option('v', "verbose", DefaultValue = true,
+  HelpText = "Prints all messages to standard output.")]
+  public bool Verbose { get; set; }
 
-      [ParserState]
-      public IParserState LastParserState { get; set; }
+  [ParserState]
+  public IParserState LastParserState { get; set; }
 
-      [HelpOption]
-      public string GetUsage() {
-        return HelpText.AutoBuild(this,
-          (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
-      }
-    }
+  [HelpOption]
+  public string GetUsage() {
+    return HelpText.AutoBuild(this,
+      (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+  }
+}
 ```
 
 Add few lines to your Main method:
 
 ```csharp
-    static void Main(string[] args) {
-      var options = new Options();
-      if (CommandLine.Parser.Default.ParseArguments(args, options)) {
-        // Consume values here
-        if (options.Verbose) Console.WriteLine("Filename: {0}", options.InputFile);
-      }
-    }
+static void Main(string[] args) {
+  var options = new Options();
+  if (CommandLine.Parser.Default.ParseArguments(args, options)) {
+    // Consume values here
+    if (options.Verbose) Console.WriteLine("Filename: {0}", options.InputFile);
+  }
+}
 ```
 
 Acknowledgements:
