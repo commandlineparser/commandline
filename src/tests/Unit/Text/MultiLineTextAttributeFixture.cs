@@ -25,18 +25,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-#region Using Directives
-using CommandLine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Xunit;
-using FluentAssertions;
-#endregion
 
 namespace CommandLine.Tests.Unit.Text
 {
+    #region Using Directives
+    using CommandLine;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using Xunit;
+    using FluentAssertions;
+    #endregion
     
     public class MultiLineTextAttributeFixture
     {

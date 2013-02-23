@@ -26,19 +26,20 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using System.IO;
-using System.Reflection;
-using CommandLine.Tests;
-using CommandLine.Tests.Fakes;
-using CommandLine.Helpers;
-using Xunit;
-using FluentAssertions;
-#endregion
 
 namespace CommandLine.Tests.Unit.Text
 {
+    #region Using Directives
+    using System;
+    using System.IO;
+    using System.Reflection;
+    using CommandLine.Tests;
+    using CommandLine.Tests.Fakes;
+    using CommandLine.Helpers;
+    using Xunit;
+    using FluentAssertions;
+    #endregion
+
     public class VerbsHelpTextFixture : ParserBaseFixture
     {
         [Fact]

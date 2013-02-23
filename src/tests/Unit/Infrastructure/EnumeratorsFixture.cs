@@ -26,14 +26,15 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using Xunit;
-using FluentAssertions;
-using CommandLine.Infrastructure;
-#endregion
 
 namespace CommandLine.Tests.Unit.Infrastructure
 {
+    #region Using Directives
+    using Xunit;
+    using FluentAssertions;
+    using CommandLine.Infrastructure;
+    #endregion
+
     public class EnumeratorsFixture
     {
         [Fact]

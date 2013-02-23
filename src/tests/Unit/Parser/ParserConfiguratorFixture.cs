@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Xunit;
-using FluentAssertions;
-
-namespace CommandLine.Tests.Unit
+﻿namespace CommandLine.Tests.Unit
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using Xunit;
+    using FluentAssertions;
+
     public class ParserConfiguratorFixture
     {
         [Fact]

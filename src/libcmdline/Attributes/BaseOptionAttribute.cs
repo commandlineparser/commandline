@@ -42,6 +42,10 @@ namespace CommandLine
         private bool hasMetaValue;
         private string mutuallyExclusiveSet;
 
+        protected BaseOptionAttribute()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseOptionAttribute"/> class.
         /// Validating <paramref name="shortName"/> and <paramref name="longName"/>.
@@ -192,11 +196,19 @@ namespace CommandLine
             get { return !string.IsNullOrEmpty(this.LongName); }
         }
 
-        internal bool HasDefaultValue { get; private set; }
+        internal bool HasDefaultValue
+        {
+            get; private set;
+        }
 
         internal bool HasMetaValue
         {
             get { return this.hasMetaValue; }
+        }
+
+        internal bool AutoLongName
+        {
+            get; set;
         }
     }
 }

@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.6.1 rc1 for CLR.
+Command Line Parser Library 1.9.61.1 rc1 for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __This library provides _hassle free_ command line parsing with a constantly updated API since 2005.__
@@ -16,6 +16,7 @@ At glance:
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
   - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Verb-Commands) as ``git commit -a``.
   - Create parser instance using lambda expressions with __fluent builder__.
+  - Most features apply with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
 
 To install:
 ---
@@ -55,11 +56,12 @@ Define a class to receive parsed values:
 ```csharp
 class Options {
   [Option('r', "read", Required = true,
-  HelpText = "Input file to be processed.")]
+    HelpText = "Input file to be processed.")]
   public string InputFile { get; set; }
     
-  [Option('v', "verbose", DefaultValue = true,
-  HelpText = "Prints all messages to standard output.")]
+  // omitting long name, default --verbose
+  [Option(DefaultValue = true,
+    HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
 
   [ParserState]
@@ -103,27 +105,9 @@ Resources for newcomers:
 
 Latest Changes: 
 ---
+  - Implemented enhancement of issue #57 suggested by @bluesan.
   - Fixed issue #6.
   - Heavy refactoring on Public API (see this [this document](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md) and [ChangeLog](https://github.com/gsscoder/commandline/blob/master/doc/ChangeLog)).
-  - StyleCop-ped!
-  - Fixed issue #15. Added OptionInfo::ReceivedValue to solve an issue in OptionMap::EnforceRequiredRule.
-  - A strict overload ``ParseArguments(string[],object,TextWriter,int)`` has wrong name, renamed ``ParseArgumentsStrict(...)``.
-  - Default singleton parsing culture is CultureInfo.InvariantCulture.
-  - Added ``IParserSettings::ParsingCulture`` and ``ParserConfigurator::UseCulture``.
-  - Merged pull request #52 from @mizipzor (Alexander Fast).
-  - Extracted interface ``IParserSettings`` from ``ParserSettings``; see [Public API](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md) document.
-  - Prefix ``CommandLine`` removed from main types to achieve name consistency between all library types.
-  - All names of test fixture methods changed to a new convention (using https://gist.github.com/4655503).
-  - Started refactoring on test project (migrating from NUnit to Xunit).
-  - Thanks to @marcells, we can reference CommandLine.dll from CommandLine.Tests.dll keeping strong name.
-  - Introduced ``ValueOptionAttribute`` enhancement of issue #33.
-  - ``CommandLineParser`` refactored (also using new ``ParserContext`` type).
-  - ``ReflectionUtil`` now caches data using ``ReflectionCache``.
-  - Refactoring in respect of FxCop rules (see ChangeLog). ``HandleParsingErrorsDelegate`` renamed to ``ParsingErrorsHandler``, ``MultiLineTextAttribute`` renamed to ``MultilineTextAttribute``.
-  - Removed synchronization from ``OptionInfo`` and ``TargetWrapper`` (parsing should occur in one thread;
-      if not, synchronization must be provided by developer not by the library).
-  - Merged pull request #44 from @dbaileychess (Derek Bailey) that adds ``BaseOptionAttribute::MetaKey`` similar to python [argparse](http://docs.python.org/2/library/argparse.html#module-argparse).
-  - Implemented [strict parsing](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/StrictFixture.cs) (see issue #32 by @nemec).
 
 Contacts:
 ---

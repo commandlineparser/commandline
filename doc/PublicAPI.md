@@ -19,3 +19,4 @@ Public API Changes:
   - Version 1.9.4.223: 'Partially' non breaking, all attributes are now in root namespace.
   - Version 1.9.5.0: Breaking (in some cases), removed ``IParser::ParseArguments`` overloads (see ChangeLog); removed ``::WasVerbOptionInvoked``; use new  ``HelpText::AutoBuild(object,string)`` instead of obsolete ``::GetVerbOptionsInstanceByName``.
   - Version 1.9.6.1: Non breaking (if implicit syntax), reverting back genericity from IParser.
+  - Version 1.9.61.1: Non breaking, omitting longname default -> property name lower case.

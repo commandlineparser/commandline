@@ -4,7 +4,7 @@ using CommandLine.Text;
 
 namespace CommandLine.Tests.Fakes
 {
-    public class RPEOptions : CommandLineOptionsBase
+    public class OptionsForErrorsScenario : CommandLineOptionsBase
     {
         [Option('a', null, Required = true, HelpText = "This string option is defined A.")]
         public string OptionA { get; set; }
@@ -26,7 +26,7 @@ namespace CommandLine.Tests.Fakes
         }
     }
 
-    public class RPEOptionsForAutoBuild : RPEOptions
+    public class RPEOptionsForAutoBuild : OptionsForErrorsScenario
     {
         [HelpOption]
         public override string GetUsage ()

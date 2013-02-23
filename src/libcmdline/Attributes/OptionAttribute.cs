@@ -35,6 +35,11 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class OptionAttribute : BaseOptionAttribute
     {
+        public OptionAttribute()
+        {
+            this.AutoLongName = true;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.OptionAttribute"/> class.
         /// </summary>

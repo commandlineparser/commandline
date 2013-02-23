@@ -26,17 +26,17 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using System.Globalization;
-using System.Text;
-using Xunit;
-using FluentAssertions;
-#endregion
 
 namespace CommandLine.Tests.Unit.Text
 {
+    #region Using Directives
+    using System;
+    using System.Globalization;
+    using System.Text;
+    using Xunit;
+    using FluentAssertions;
     using CommandLine.Text;
+    #endregion
 
     public class CopyrightInfoFixture
     {

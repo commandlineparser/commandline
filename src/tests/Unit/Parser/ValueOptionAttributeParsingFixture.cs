@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CommandLine.Tests.Fakes;
-using Xunit;
-using FluentAssertions;
-
 namespace CommandLine.Tests.Unit
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using CommandLine.Tests.Fakes;
+    using Xunit;
+    using FluentAssertions;
+
     /// <summary>
     /// [Enhancement] https://github.com/gsscoder/commandline/issues/33
     /// </summary>

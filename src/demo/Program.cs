@@ -27,21 +27,22 @@
 //
 #endregion
 //#define EXEC_TESTS
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using CommandLine;
-using CommandLine.Text;
-#if EXEC_TESTS
-using CommandLine.Tests;
-using CommandLine.Text.Tests;
-#endif
-#endregion
 
 namespace CommandLine.Demo
 {
+    #region Using Directives
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Text;
+    using CommandLine;
+    using CommandLine.Text;
+    #if EXEC_TESTS
+    using CommandLine.Tests;
+    using CommandLine.Text.Tests;
+    #endif
+    #endregion
+
     sealed partial class Program
     {
         private static readonly HeadingInfo _headingInfo = new HeadingInfo("sampleapp", "1.8");

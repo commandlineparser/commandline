@@ -26,16 +26,17 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using System.IO;
-using CommandLine.Text;
-using Xunit;
-using FluentAssertions;
-#endregion
 
 namespace CommandLine.Tests.Unit.Attributes
-{  
+{
+    #region Using Directives
+    using System;
+    using System.IO;
+    using CommandLine.Text;
+    using Xunit;
+    using FluentAssertions;
+    #endregion
+
     public class HelpOptionAttributeFixture : ParserBaseFixture
     {
         #region Mock Objects

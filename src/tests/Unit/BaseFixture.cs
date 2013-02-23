@@ -26,14 +26,14 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System.Collections.Generic;
-using Xunit;
-using FluentAssertions;
-#endregion
 
 namespace CommandLine.Tests.Unit
 {
+    #region Using Directives
+    using System.Collections.Generic;
+    using Xunit;
+    using FluentAssertions;
+    #endregion
     
     public abstract class BaseFixture
     {

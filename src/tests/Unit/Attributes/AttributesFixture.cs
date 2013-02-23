@@ -26,13 +26,14 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using Xunit;
-#endregion
 
 namespace CommandLine.Tests.Unit.Attributes
 {
+    #region Using Directives
+    using System;
+    using Xunit;
+    #endregion
+
     public class AttributesFixture
     {
         class CustomOptionAttribute : BaseOptionAttribute

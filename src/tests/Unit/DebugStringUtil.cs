@@ -26,15 +26,16 @@
 // THE SOFTWARE.
 //
 #endregion
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-#endregion
 
 namespace CommandLine.Tests.Unit
 {
+    #region Using Directives
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.Text;
+    #endregion
+
     static class DebugStringUtil
     {
         public static string ConvertOptionsToString(object instance)

@@ -27,21 +27,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-#region Using Directives
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Text;
-using System.Globalization;
-using Xunit;
-using FluentAssertions;
-using CommandLine.Tests.Fakes;
-#endregion
 
 namespace CommandLine.Tests.Unit.Text
 {
+    #region Using Directives
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.IO;
+    using System.Text;
+    using System.Globalization;
+    using Xunit;
+    using FluentAssertions;
+    using CommandLine.Tests.Fakes;
     using CommandLine.Text;
+    #endregion
 
     public class HelpTextFixture
     {
@@ -296,7 +296,7 @@ namespace CommandLine.Tests.Unit.Text
         public void Invoke_render_parsing_errors_text()
         {
             var sw = new StringWriter();
-            var options = new RPEOptions();
+            var options = new OptionsForErrorsScenario();
             var parser = new Parser(new ParserSettings {
                 MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
             var result = parser.ParseArguments(new string[] {"--option-b", "hello", "-cWORLD"}, options);

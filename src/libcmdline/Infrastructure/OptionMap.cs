@@ -115,7 +115,18 @@ namespace CommandLine.Infrastructure
             {
                 if (pair.Left != null && pair.Right != null)
                 {
-                    map[pair.Right.UniqueName] = new OptionInfo(pair.Right, pair.Left, settings.ParsingCulture);
+                    string uniqueName;
+                    if (pair.Right.AutoLongName)
+                    {
+                        uniqueName = pair.Left.Name.ToLowerInvariant();
+                        pair.Right.LongName = uniqueName;
+                    }
+                    else
+                    {
+                        uniqueName = pair.Right.UniqueName;
+                    }
+
+                    map[uniqueName] = new OptionInfo(pair.Right, pair.Left, settings.ParsingCulture);
                 }
             }
 

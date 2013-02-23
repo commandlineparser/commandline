@@ -50,10 +50,12 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Fakes\OptionsWithImplicitLongName.cs" />
     <Compile Include="Fakes\OptionsWithTwoArrays.cs" />
     <Compile Include="Unit\Attributes\AttributesFixture.cs" />
     <Compile Include="Unit\Attributes\HelpOptionAttributeFixture.cs" />
     <Compile Include="Unit\Attributes\OptionArrayAttributeFixture.cs" />
+    <Compile Include="Unit\Attributes\OptionAttributeFixture.cs" />
     <Compile Include="Unit\Attributes\ValueListAttributeFixture.cs" />
     <Compile Include="Unit\Attributes\ValueOptionAttributeFixture.cs" />
     <Compile Include="Unit\Infrastructure\ArgumentParserFixture.cs" />
@@ -105,7 +107,7 @@
     <Compile Include="Fakes\SimpleOptionsWithDefaults.cs" />
     <Compile Include="Fakes\SimpleOptionsWithBadDefaults.cs" />
     <Compile Include="Fakes\SimpleOptionsWithDefaultArray.cs" />
-    <Compile Include="Fakes\RPEOptions.cs" />
+    <Compile Include="Fakes\OptionsForErrorsScenario.cs" />
     <Compile Include="Fakes\SimpleOptionsForAutoBuid.cs" />
     <Compile Include="Fakes\OptionsForPlugInScenario.cs" />
     <Compile Include="Fakes\OptionsWithUIntArray.cs" />
