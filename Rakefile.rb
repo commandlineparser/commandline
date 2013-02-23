@@ -1,7 +1,7 @@
 PRODUCT = "Command Line Parser Library"
 DESCRIPTION = "The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks."
-VERSION = "1.9.61.1"
-INF_VERSION = "1.9.61-rc1"
+VERSION = "1.9.62.1"
+INF_VERSION = "1.9.62-rc1"
 AUTHOR = "Giacomo Stelluti Scala"
 COPYRIGHT = "Copyright (c) 2005 - 2013 " + AUTHOR
 LICENSE_URL = "https://raw.github.com/gsscoder/commandline/master/doc/LICENSE"

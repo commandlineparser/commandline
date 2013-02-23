@@ -106,7 +106,7 @@ namespace CommandLine.Tests.Unit
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
 
-            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArguments(new string[] {}, options,
                 (verb, subOptions) =>
                 {
@@ -132,7 +132,7 @@ namespace CommandLine.Tests.Unit
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
 
-            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArguments(new string[] {"clone", "--no_hardlinks"}, options,
                 (verb, subOptions) =>
                 {

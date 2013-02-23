@@ -51,7 +51,7 @@ namespace CommandLine.Tests.Unit
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArgumentsStrict(new string[] {"--bad", "--input"}, options,
                 () => Console.WriteLine("fake fail"));
 
@@ -75,7 +75,7 @@ namespace CommandLine.Tests.Unit
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArgumentsStrict(new string[] { "--bad", "--input" }, options,
                 () => Console.WriteLine("fake fail"));
 
@@ -100,7 +100,7 @@ namespace CommandLine.Tests.Unit
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options,
                 (verb, subOptions) =>
                 {
@@ -135,7 +135,7 @@ namespace CommandLine.Tests.Unit
             var testWriter = new StringWriter();
 
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options,
                 (verb, subOptions) =>
                 {

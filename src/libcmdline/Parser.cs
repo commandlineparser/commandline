@@ -39,7 +39,7 @@ namespace CommandLine
     /// <summary>
     /// Provides methods to parse command line arguments. Default implementation for <see cref="CommandLine.IParser"/>.
     /// </summary>
-    public sealed class Parser : IParser, IDisposable
+    public sealed partial class Parser : IParser, IDisposable
     {
         /// <summary>
         /// Default exit code (1) used by <see cref="Parser.ParseArgumentsStrict(string[],object,Action)"/>

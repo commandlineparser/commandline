@@ -88,7 +88,9 @@
     <Compile Include="Infrastructure\PropertyWriter.cs" />
     <Compile Include="IHideObjectMembers.cs" />
     <Compile Include="IParserSettings.cs" />
-    <Compile Include="ParserConfigurator.cs" />
+    <Compile Include="ParserConfigurator.cs">
+      <DependentUpon>Parser.cs</DependentUpon>
+    </Compile>
     <Compile Include="ParserContext.cs" />
     <Compile Include="Helpers\Assumes.cs" />
     <Compile Include="Infrastructure\SR.strings.cs">

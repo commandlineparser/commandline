@@ -31,76 +31,82 @@ namespace CommandLine
     #endregion
 
     /// <summary>
-    /// Provides an API for configuring a <see cref="CommandLine.IParser"/> instance.
+    /// Provides methods to parse command line arguments. Default implementation for <see cref="CommandLine.IParser"/>.
     /// </summary>
-    public sealed class ParserConfigurator : IHideObjectMembers
+    public partial class Parser
     {
-        private readonly IParser parser;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParserConfigurator"/> class.
+        /// Provides an API for configuring a <see cref="CommandLine.IParser"/> instance.
         /// </summary>
-        /// <param name="parser">The <see cref="CommandLine.IParser"/> instance that should be configured.</param>
-        public ParserConfigurator(IParser parser)
+        public sealed class ParserConfigurator : IHideObjectMembers
         {
-            this.parser = parser;
-        }
+            private readonly IParser parser;
 
-        /// <summary>
-        /// Configures the parser to not be case sensitive.
-        /// </summary>
-        /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
-        public ParserConfigurator NoCaseSensitive()
-        {
-            this.parser.Settings.CaseSensitive = false;
-            return this;
-        }
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ParserConfigurator"/> class.
+            /// </summary>
+            /// <param name="parser">The <see cref="CommandLine.IParser"/> instance that should be configured.</param>
+            public ParserConfigurator(IParser parser)
+            {
+                this.parser = parser;
+            }
 
-        /// <summary>
-        /// Configures the parser to use the provided instance of <see cref="TextWriter"/>.
-        /// </summary>
-        /// <param name="helpWriter">The <see cref="System.IO.TextWriter"/> used for help method output.</param>
-        /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
-        public ParserConfigurator HelpWriter(TextWriter helpWriter)
-        {
-            Assumes.NotNull(helpWriter, "helpWriter");
+            /// <summary>
+            /// Configures the parser to not be case sensitive.
+            /// </summary>
+            /// <returns>A reference to the current <see cref="ParserConfigurator"/>.</returns>
+            public ParserConfigurator NoCaseSensitive()
+            {
+                this.parser.Settings.CaseSensitive = false;
+                return this;
+            }
 
-            this.parser.Settings.HelpWriter = helpWriter;
-            return this;
-        }
+            /// <summary>
+            /// Configures the parser to use the provided instance of <see cref="TextWriter"/>.
+            /// </summary>
+            /// <param name="helpWriter">The <see cref="System.IO.TextWriter"/> used for help method output.</param>
+            /// <returns>A reference to the current <see cref="ParserConfigurator"/>.</returns>
+            public ParserConfigurator UseHelpWriter(TextWriter helpWriter)
+            {
+                Assumes.NotNull(helpWriter, "helpWriter");
 
-        /// <summary>
-        /// Enables the parser to handle mutually exclusive options.
-        /// </summary>
-        /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
-        public ParserConfigurator EnableMutuallyExclusive()
-        {
-            this.parser.Settings.MutuallyExclusive = true;
-            return this;
-        }
+                this.parser.Settings.HelpWriter = helpWriter;
+                return this;
+            }
 
-        /// <summary>
-        /// Enables the parser to handle unknown arguments for plug-in scenario.
-        /// </summary>
-        /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
-        public ParserConfigurator IgnoreUnknownArguments()
-        {
-            this.parser.Settings.IgnoreUnknownArguments = true;
-            return this;
-        }
+            /// <summary>
+            /// Enables the parser to handle mutually exclusive options.
+            /// </summary>
+            /// <returns>A reference to the current <see cref="ParserConfigurator"/>.</returns>
+            public ParserConfigurator EnableMutuallyExclusive()
+            {
+                this.parser.Settings.MutuallyExclusive = true;
+                return this;
+            }
 
-        /// <summary>
-        /// Forces the parser to override default culture setting. 
-        /// </summary>
-        /// <param name="parsingCulture">The parsing culture to use</param>
-        /// <returns>A reference to the current <see cref="CommandLine.ParserConfigurator"/>.</returns>
-        /// <remarks>
-        /// Default is CurrentCulture of <see cref="System.Threading.Thread.CurrentThread"/>.
-        /// </remarks>
-        public ParserConfigurator UseCulture(CultureInfo parsingCulture)
-        {
-            this.parser.Settings.ParsingCulture = parsingCulture;
-            return this;
+            /// <summary>
+            /// Enables the parser to handle unknown arguments for plug-in scenario.
+            /// </summary>
+            /// <returns>A reference to the current <see cref="ParserConfigurator"/>.</returns>
+            public ParserConfigurator IgnoreUnknownArguments()
+            {
+                this.parser.Settings.IgnoreUnknownArguments = true;
+                return this;
+            }
+
+            /// <summary>
+            /// Forces the parser to override default culture setting. 
+            /// </summary>
+            /// <param name="parsingCulture">The parsing culture to use</param>
+            /// <returns>A reference to the current <see cref="ParserConfigurator"/>.</returns>
+            /// <remarks>
+            /// Default is CurrentCulture of <see cref="System.Threading.Thread.CurrentThread"/>.
+            /// </remarks>
+            public ParserConfigurator UseCulture(CultureInfo parsingCulture)
+            {
+                this.parser.Settings.ParsingCulture = parsingCulture;
+                return this;
+            }
         }
     }
 }

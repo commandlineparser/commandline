@@ -321,7 +321,7 @@ namespace CommandLine.Tests.Unit.Text
             var sw = new StringWriter();
             var options = new RPEOptionsForAutoBuild();
             var parser = new Parser(new ParserSettings {
-                MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
+                MutuallyExclusive = true, CaseSensitive = true, UseHelpWriter = sw});
             var result = parser.ParseArguments(new string[] {"--option-b", "hello", "-cWORLD"}, options);
 
             Assert.IsFalse(result);
@@ -354,7 +354,7 @@ namespace CommandLine.Tests.Unit.Text
             var sw = new StringWriter();
             var options = new SimpleOptionsForAutoBuid();
             var parser = new Parser(new ParserSettings {
-                MutuallyExclusive = true, CaseSensitive = true, HelpWriter = sw});
+                MutuallyExclusive = true, CaseSensitive = true, UseHelpWriter = sw});
             var result = parser.ParseArguments(new string[] {}, options);
 
             Assert.IsFalse(result);

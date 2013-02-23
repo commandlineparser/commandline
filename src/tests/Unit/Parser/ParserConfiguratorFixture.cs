@@ -19,7 +19,7 @@
             var parser = new CommandLine.Parser(with =>
                 {
                     with.NoCaseSensitive();
-                    with.HelpWriter(helpWriter);
+                    with.UseHelpWriter(helpWriter);
                     with.EnableMutuallyExclusive();
                     with.IgnoreUnknownArguments();
                     with.UseCulture(new CultureInfo("ja-JP"));

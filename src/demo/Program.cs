@@ -45,7 +45,7 @@ namespace CommandLine.Demo
 
     sealed partial class Program
     {
-        private static readonly HeadingInfo _headingInfo = new HeadingInfo("sampleapp", "1.8");
+        private static readonly HeadingInfo HeadingInfo = new HeadingInfo("sampleapp", "1.8");
 
         /// <summary>
         /// Application's Entry Point.
@@ -57,48 +57,63 @@ namespace CommandLine.Demo
             RunATestForDebugging();
 #endif
             var options = new Options();
-            var parser = new CommandLine.Parser(new ParserSettings(Console.Error));
-            if (!parser.ParseArguments(args, options))
+            var parser = new CommandLine.Parser(with => with.UseHelpWriter(Console.Error));
+
+            if (parser.ParseArgumentsStrict(args, options, () => Environment.Exit(-2)))
             {
-                Environment.Exit(1);
+                Run(options);
             }
-            DoCoreTask(options);
-            Environment.Exit(0);
         }
 
-        private static void DoCoreTask(Options options)
+        private static void Run(Options options)
         {
             if (options.VerboseLevel == null)
+            {
                 Console.WriteLine("verbose [off]");
+            }
             else
-                Console.WriteLine("verbose [on]: {0}", (options.VerboseLevel < 0 || options.VerboseLevel > 2) ? "#invalid value#" : options.VerboseLevel.ToString());
+            {
+                Console.WriteLine(
+                    "verbose [on]: {0}",
+                    options.VerboseLevel < 0 || options.VerboseLevel > 2 ? "#invalid value#" : options.VerboseLevel.ToString());
+            }
+
             Console.WriteLine();
             Console.WriteLine("input file: {0} ...", options.InputFile);
+
             foreach (string defFile in options.DefinitionFiles)
             {
                 Console.WriteLine("  using definition file: {0}", defFile);
             }
+
             Console.WriteLine("  start offset: {0}", options.StartOffset);
             Console.WriteLine("  tabular data computation: {0}", options.Calculate.ToString().ToLowerInvariant());
             Console.WriteLine("  on errors: {0}", options.IgnoreErrors ? "continue" : "stop processing");
             Console.WriteLine("  optimize for: {0}", options.Optimization.ToString().ToLowerInvariant());
+
             if (options.AllowedOperators != null)
             {
                 var builder = new StringBuilder();
                 builder.Append("  allowed operators: ");
+
                 foreach (string op in options.AllowedOperators)
                 {
                     builder.Append(op);
                     builder.Append(", ");
                 }
+
                 Console.WriteLine(builder.Remove(builder.Length - 2, 2).ToString());
             }
+
             Console.WriteLine();
+
             if (!string.IsNullOrEmpty(options.OutputFile))
-                _headingInfo.WriteMessage(string.Format("writing elaborated data: {0} ...", options.OutputFile));
+            {
+                HeadingInfo.WriteMessage(string.Format("writing elaborated data: {0} ...", options.OutputFile));
+            }
             else
             {
-                _headingInfo.WriteMessage("elaborated data:");
+                HeadingInfo.WriteMessage("elaborated data:");
                 Console.WriteLine("[...]");
             }
         }

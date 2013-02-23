@@ -42,6 +42,9 @@ namespace CommandLine
         private bool hasMetaValue;
         private string mutuallyExclusiveSet;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseOptionAttribute"/> class.
+        /// </summary>
         protected BaseOptionAttribute()
         {
         }

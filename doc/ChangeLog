@@ -1,6 +1,8 @@
 2013-02-23  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 
   * When omitting longName default is property name (lower case) as issue #57.
+  * ParserConfigurator made nested type of Parser.
+  * ParserConfigurator::HelpWriter(TextWriter) renamed to ParserConfigurator::UseHelpWriter(...).
 
 2013-02-22  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 

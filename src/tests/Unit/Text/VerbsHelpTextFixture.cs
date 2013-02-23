@@ -69,7 +69,7 @@ namespace CommandLine.Tests.Unit.Text
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArguments(new string[] { "clone", "--no_hardlinks" }, options,
                 (verb, subOptions) =>
                     {
@@ -101,7 +101,7 @@ namespace CommandLine.Tests.Unit.Text
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArguments(new string[] {"help", "add"}, options,
                 (verb, subOptions) =>
                     {
@@ -125,7 +125,7 @@ namespace CommandLine.Tests.Unit.Text
             var options = new OptionsWithVerbsHelp();
             var testWriter = new StringWriter();
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
-            var parser = new Parser(with => with.HelpWriter(testWriter));
+            var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArguments(args, options,
                 (verb, _) =>
                     {
