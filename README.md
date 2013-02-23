@@ -16,7 +16,7 @@ At glance:
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
   - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Verb-Commands) as ``git commit -a``.
   - Create parser instance using lambda expressions with __fluent builder__.
-  - Most features apply with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
+  - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
 
 To install:
 ---
