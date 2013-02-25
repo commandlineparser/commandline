@@ -54,18 +54,25 @@ msbuild :build_msbuild do |b|
   b.solution = "CommandLine.sln"
 end
 
-#xbuild :build_xbuild do |b|
-#  b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
-#  b.targets :Build
-#  b.solution = "CommandLine.sln"
-#end
-
 task :build_mdtool do
-  mdtool = "mdtool build -c:Debug CommandLine.sln"
+  mdtool = "mdtool build -c:#{CONFIGURATION} CommandLine.sln"
   sh "#{mdtool}"
   FileUtils.mkdir_p "#{OUTPUT_DIR}"
-  FileUtils.cp_r Dir.glob("#{SOURCE_DIR}/tests/bin/Debug/*"), "#{OUTPUT_DIR}"
-end	
+  FileUtils.cp_r Dir.glob("#{SOURCE_DIR}/tests/bin/#{CONFIGURATION}/*"), "#{OUTPUT_DIR}"
+end
+
+#task :build35_mdtool do
+#  mdtool = "mdtool build -c:#{CONFIGURATION} src/libcmdline/CommandLine35.csproj"
+#  sh "#{mdtool}"
+#  FileUtils.mkdir_p "#{OUTPUT_DIR}/NET35"
+#  FileUtils.cp_r Dir.glob("#{SOURCE_DIR}/tests/bin/#{CONFIGURATION}/NET35/*"), "#{OUTPUT_DIR}/NET35"
+#end
+
+ msbuild :build35_msbuild do |b|
+  b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
+  b.targets :Build
+  b.solution = "src/libcmdline/CommandLine35.csproj"
+end
 
 task :build => :clean do |b|
   build_task = is_nix() ? "build_mdtool" : "build_msbuild"
