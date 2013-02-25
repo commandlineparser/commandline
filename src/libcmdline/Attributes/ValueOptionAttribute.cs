@@ -48,16 +48,6 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Obsolete constructor, uses default _index 0.
-        /// Initializes a new instance of the <see cref="CommandLine.ValueOptionAttribute"/> class.
-        /// </summary>
-        /// <remarks>In next Stable this constructor will be removed.</remarks>
-        [Obsolete("Use explicit _index instead.")]
-        public ValueOptionAttribute() : this(0)
-        {
-        }
-
-        /// <summary>
         /// Gets the position this option has on the command line.
         /// </summary>
         public int Index

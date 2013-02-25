@@ -83,9 +83,9 @@ namespace CommandLine
         private Parser(bool singleton)
         {
             Settings = new ParserSettings(false, false, Console.Error)
-            {
-                ParsingCulture = CultureInfo.InvariantCulture
-            };
+                {
+                    ParsingCulture = CultureInfo.InvariantCulture
+                };
         }
 
         /// <summary>
@@ -111,20 +111,6 @@ namespace CommandLine
         {
             get;
             private set;
-        }
-
-        /// <summary>
-        /// This is an helper method designed to make the management of help for verb commands simple.
-        /// Use the method within the main class instance for the management of verb commands.
-        /// </summary>
-        /// <param name="verb">Verb command string or null.</param>
-        /// <param name="target">The main class instance for the management of verb commands.</param>
-        /// <param name="found">true if <paramref name="verb"/> was found in <paramref name="target"/>.</param>
-        /// <returns>The options instance for the verb command if <paramref name="found"/> is true, otherwise <paramref name="target"/>.</returns>
-        [Obsolete("Use HelpText.AutoBuild(object,string) instead.")]
-        public static object GetVerbOptionsInstanceByName(string verb, object target, out bool found)
-        {
-            return InternalGetVerbOptionsInstanceByName(verb, target, out found);
         }
 
         /// <summary>
