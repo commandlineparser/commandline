@@ -76,6 +76,7 @@ namespace CommandLine
         public Parser(ParserSettings settings)
         {
             Assumes.NotNull(settings, "settings", SR.ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull);
+
             Settings = settings;
         }
 
@@ -284,6 +285,7 @@ namespace CommandLine
             }
 
             var parserState = (IParserState)property.GetValue(options, null);
+
             foreach (var error in errors)
             {
                 parserState.Errors.Add(error);
