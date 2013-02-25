@@ -4,6 +4,8 @@
   * tools/invariantstrtool.exe replaced by T4 template (project removed from GitHub).
   * Removed superfluous abstraction.
   * Removing IParserSettings, other superfluous abstraction.
+  * Applied KISS (keep it simple, stupid): removed nested ParserConfigurator in favor of
+      Parser(Action<ParserSettings>) new CommandLine.Parser ctor.
 
 2013-02-23  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 

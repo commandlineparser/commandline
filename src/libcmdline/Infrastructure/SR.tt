@@ -30,7 +30,7 @@ while ((line = reader.ReadLine()) != null)
        continue;
     }
 #>
-        public const string <#= parts[0] #> = "<#= parts[1] #>";
+        public const string <#= parts[0].Trim() #> = "<#= parts[1].Trim() #>";
 <#
 }
 #>

@@ -36,12 +36,10 @@ using CommandLine.Text;
 
 namespace CommandLine
 {
-    using System.IO;
-
     /// <summary>
     /// Provides methods to parse command line arguments. Default implementation for <see cref="CommandLine.IParser"/>.
     /// </summary>
-    public sealed partial class Parser : IParser, IDisposable
+    public sealed class Parser : IParser, IDisposable
     {
         /// <summary>
         /// Default exit code (1) used by <see cref="Parser.ParseArgumentsStrict(string[],object,Action)"/>
@@ -49,7 +47,7 @@ namespace CommandLine
         /// </summary>
         public const int DefaultExitCodeFail = 1;
         private static readonly IParser DefaultParser = new Parser(true);
-        private ParserSettings _settings;
+        private readonly ParserSettings _settings;
         private bool _disposed;
 
         /// <summary>
@@ -61,36 +59,43 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Parser"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration that should by used by the parser.</param>
-        public Parser(Action<ParserConfigurator> configuration)
-            : this()
-        {
-            var configurator = new ParserConfigurator(this);
-            configuration.Invoke(configurator);
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Parser"/> class,
         /// configurable with a <see cref="ParserSettings"/> object.
         /// </summary>
         /// <param name="settings">The <see cref="ParserSettings"/> object is used to configure
         /// aspects and behaviors of the parser.</param>
+        [Obsolete("Use constructor that accepts Action<ParserSettings>.")]
         public Parser(ParserSettings settings)
         {
             Assumes.NotNull(settings, "settings", SR.ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull);
 
-            Settings = settings;
+            _settings = settings;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Parser"/> class,
+        /// configurable with <see cref="ParserSettings"/> using a delegate.
+        /// </summary>
+        /// <param name="settings">The <see cref="Action&lt;ParserSettings&gt;"/> object used to configure
+        /// aspects and behaviors of the parser.</param>
+        public Parser(Action<ParserSettings> settings)
+            : this()
+        {
+            Assumes.NotNull(settings, "settings", SR.ArgumentNullException_CommandLineParserSettingsDelegateCannotBeNull);
+
+            settings.Invoke(_settings);
         }
 
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "singleton", Justification = "The constructor that accepts a boolean is designed to support default singleton, the parameter is ignored")]
         private Parser(bool singleton)
-        {
-            Settings = new ParserSettings(false, false, Console.Error)
+            : this(with =>
                 {
-                    ParsingCulture = CultureInfo.InvariantCulture
-                };
+                    with.CaseSensitive = false;
+                    with.MutuallyExclusive = false;
+                    with.HelpWriter = Console.Error;
+                    with.ParsingCulture = CultureInfo.InvariantCulture;
+                })
+        {
         }
 
         /// <summary>
@@ -115,7 +120,6 @@ namespace CommandLine
         public ParserSettings Settings
         {
             get { return _settings; }
-            internal set { _settings = value; }
         }
 
         /// <summary>

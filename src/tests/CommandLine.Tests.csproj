@@ -71,7 +71,6 @@
     <Compile Include="Fakes\SimpleOptionsForStrict.cs" />
     <Compile Include="Fakes\OptionsWithVerbsHelp.cs" />
     <Compile Include="Fakes\OptionsWithVerbs.cs" />
-    <Compile Include="Unit\Parser\ParserConfiguratorFixture.cs" />
     <Compile Include="Unit\Parser\ParserFixture.cs" />
     <Compile Include="Unit\Parser\ParserSettingsFixture.cs" />
     <Compile Include="Unit\Parser\MutuallyExclusiveParsingFixture.cs" />

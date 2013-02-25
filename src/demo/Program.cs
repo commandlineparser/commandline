@@ -58,7 +58,7 @@ namespace CommandLine.Demo
             RunATestForDebugging();
 #endif
             var options = new Options();
-            var parser = new CommandLine.Parser(with => with.UseHelpWriter(Console.Error));
+            var parser = new CommandLine.Parser(with => with.HelpWriter = Console.Error);
 
             if (parser.ParseArgumentsStrict(args, options, () => Environment.Exit(-2)))
             {

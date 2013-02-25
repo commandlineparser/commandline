@@ -12,3 +12,4 @@ InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands = Verb command
 CommandLineParserException_IncompatibleTypes = The types are incompatible.
 InvalidOperationException_CopyrightInfoRequiresAssemblyCopyrightAttributeOrAssemblyCompanyAttribute = CopyrightInfo::Default requires that you define AssemblyCopyrightAttribute or AssemblyCompanyAttribute.
 ArgumentNullException_OnVerbDelegateCannotBeNull = Delegate executed to capture verb command instance reference cannot be null.
+ArgumentNullException_CommandLineParserSettingsDelegateCannotBeNull = The command line parser settings delegate cannot be null.
