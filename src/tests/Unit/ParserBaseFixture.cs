@@ -26,18 +26,17 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+using System.Globalization;
+using System.IO;
+using System.Threading;
+using Xunit;
+using FluentAssertions;
+#endregion
 
 namespace CommandLine.Tests.Unit
 {
-    #region Using Directives
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Threading;
-    using Xunit;
-    using FluentAssertions;
-    #endregion
-
     // TODO: This class (and derived) need to be refactored.
     public abstract class ParserBaseFixture : BaseFixture
     {

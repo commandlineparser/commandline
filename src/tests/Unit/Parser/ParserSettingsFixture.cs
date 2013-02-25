@@ -26,16 +26,15 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System.IO;
+using CommandLine.Tests.Fakes;
+using Xunit;
+using FluentAssertions;
+#endregion
 
 namespace CommandLine.Tests.Unit
 {
-    #region Using Directives
-    using System.IO;
-    using CommandLine.Tests.Fakes;
-    using Xunit;
-    using FluentAssertions;
-    #endregion
-
     public class ParserSettingsFixture
     {
         [Fact]

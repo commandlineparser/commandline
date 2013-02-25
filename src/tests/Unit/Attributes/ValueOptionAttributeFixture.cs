@@ -1,9 +1,9 @@
-﻿namespace CommandLine.Tests.Unit.Attributes
-{
-    using CommandLine.Tests.Fakes;
-    using FluentAssertions;
-    using Xunit;
+﻿using CommandLine.Tests.Fakes;
+using FluentAssertions;
+using Xunit;
 
+namespace CommandLine.Tests.Unit.Attributes
+{
     public class ValueOptionAttributeFixture : BaseFixture
     {
         [Fact]

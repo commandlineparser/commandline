@@ -27,22 +27,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Text;
+using System.Globalization;
+using Xunit;
+using FluentAssertions;
+using CommandLine.Tests.Fakes;
+using CommandLine.Text;
+#endregion
 
 namespace CommandLine.Tests.Unit.Text
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.IO;
-    using System.Text;
-    using System.Globalization;
-    using Xunit;
-    using FluentAssertions;
-    using CommandLine.Tests.Fakes;
-    using CommandLine.Text;
-    #endregion
-
     public class HelpTextFixture
     {
         #region Mock Objects

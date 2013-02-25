@@ -26,20 +26,18 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using CommandLine.Helpers;
+using Xunit;
+using FluentAssertions;
+#endregion
 
 namespace CommandLine.Tests.Unit.Helpers
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Reflection;
-    using CommandLine.Helpers;
-    using Xunit;
-    using FluentAssertions;
-    using CommandLine.Text;
-    using CommandLine.Infrastructure;
-    #endregion
+
 
     public class ReflectionUtilFixture
     {

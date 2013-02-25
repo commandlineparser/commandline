@@ -26,17 +26,16 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using Xunit;
+using FluentAssertions;
+#endregion
 
 namespace CommandLine.Tests.Unit.Attributes
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using Xunit;
-    using FluentAssertions;
-    #endregion
-
     public class ValueListAttributeFixture : BaseFixture
     {
         #region Mock Objects

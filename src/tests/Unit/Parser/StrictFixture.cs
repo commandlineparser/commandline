@@ -26,22 +26,21 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using CommandLine.Tests.Fakes;
+using CommandLine.Helpers;
+using Xunit;
+using FluentAssertions;
+#endregion
 
 namespace CommandLine.Tests.Unit
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using CommandLine.Tests.Fakes;
-    using CommandLine.Helpers;
-    using Xunit;
-    using FluentAssertions;
-    #endregion
-    
     public class StrictFixture : ParserBaseFixture
     {
         [Fact]

@@ -26,7 +26,6 @@
 // THE SOFTWARE.
 //
 #endregion
-
 using System;
 using System.ComponentModel;
 

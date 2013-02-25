@@ -1,13 +1,13 @@
-﻿namespace CommandLine.Tests.Unit.Attributes
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using Xunit;
-    using CommandLine.Tests.Fakes;
-    using FluentAssertions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Xunit;
+using CommandLine.Tests.Fakes;
+using FluentAssertions;
 
+namespace CommandLine.Tests.Unit.Attributes
+{
     public class OptionArrayAttributeFixture
     {
         /// <summary>

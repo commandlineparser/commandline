@@ -26,12 +26,12 @@
 // THE SOFTWARE.
 //
 #endregion
-
 using System.ComponentModel;
+using CommandLine.Tests.Unit;
 
 namespace CommandLine.Tests.Fakes
 {
-    using CommandLine.Tests.Unit;
+
 
     public class ComplexOptions : CommandLineOptionsBase
     {

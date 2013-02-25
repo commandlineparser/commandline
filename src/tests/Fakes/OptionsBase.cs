@@ -26,11 +26,10 @@
 // THE SOFTWARE.
 //
 #endregion
+using CommandLine.Tests.Unit;
 
 namespace CommandLine.Tests.Fakes
 {
-    using CommandLine.Tests.Unit;
-
     abstract class OptionsBase
     {
         public override string ToString()

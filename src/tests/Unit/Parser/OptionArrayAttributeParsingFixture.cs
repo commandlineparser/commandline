@@ -28,17 +28,16 @@
 using System.Threading;
 using System.Globalization;
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using Xunit;
+using FluentAssertions;
+using CommandLine.Tests.Fakes;
+#endregion
 
 namespace CommandLine.Tests.Unit
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using Xunit;
-    using FluentAssertions;
-    using CommandLine.Tests.Fakes;
-    #endregion
-
     public class OptionArrayAttributeParsingFixture : ParserBaseFixture
     {
         [Fact]

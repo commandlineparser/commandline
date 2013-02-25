@@ -26,17 +26,16 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using Xunit;
+using FluentAssertions;
+using CommandLine.Tests.Fakes;
+#endregion
 
 namespace CommandLine.Tests.Unit
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using Xunit;
-    using FluentAssertions;
-    using CommandLine.Tests.Fakes;
-    #endregion
-
     public class ValueListAttributeParsingFixture : ParserBaseFixture
     {
         [Fact]

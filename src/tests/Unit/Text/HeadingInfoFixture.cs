@@ -26,17 +26,16 @@
 // THE SOFTWARE.
 //
 #endregion
+#region Using Directives
+using System;
+using System.IO;
+using Xunit;
+using FluentAssertions;
+using CommandLine.Text;
+#endregion
 
 namespace CommandLine.Tests.Unit.Text
 {
-    #region Using Directives
-    using System;
-    using System.IO;
-    using Xunit;
-    using FluentAssertions;
-    using CommandLine.Text;
-    #endregion
-
     public class HeadingInfoFixture
     {
         [Fact]

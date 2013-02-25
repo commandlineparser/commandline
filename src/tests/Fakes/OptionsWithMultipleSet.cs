@@ -27,8 +27,6 @@
 //
 #endregion
 
-using System.ComponentModel;
-
 namespace CommandLine.Tests.Fakes
 {
     class OptionsWithMultipleSet
