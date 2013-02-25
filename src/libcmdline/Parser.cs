@@ -26,8 +26,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using CommandLine.Extensions;
 using CommandLine.Helpers;
 using CommandLine.Infrastructure;
@@ -36,6 +36,8 @@ using CommandLine.Text;
 
 namespace CommandLine
 {
+    using System.IO;
+
     /// <summary>
     /// Provides methods to parse command line arguments. Default implementation for <see cref="CommandLine.IParser"/>.
     /// </summary>
@@ -290,6 +292,11 @@ namespace CommandLine
             }
         }
 
+        private static StringComparison GetStringComparison(IParserSettings settings)
+        {
+            return settings.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
+        }
+
         private bool DoParseArguments(string[] args, object options)
         {
             var pair = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options);
@@ -443,10 +450,10 @@ namespace CommandLine
             var helpWriter = Settings.HelpWriter;
             if (helpInfo != null && helpWriter != null)
             {
-                if (string.Compare(args[0], helpInfo.Right.LongName, Settings.GetStringComparison()) == 0)
+                if (string.Compare(args[0], helpInfo.Right.LongName, GetStringComparison(Settings)) == 0)
                 {
                     // User explicitly requested help
-                    var verb = args.Length > 1 ? args[1] : null;
+                    var verb = args.FirstOrDefault();
                     if (verb != null)
                     {
                         var verbOption = optionMap[verb];
@@ -496,10 +503,11 @@ namespace CommandLine
             }
 
             // We print help text for the user
-            Settings.HelpWriter.Write(HelpText.AutoBuild(
-                options,
-                current => HelpText.DefaultParsingErrorsHandler(options, current),
-                options.HasVerbs()));
+            Settings.HelpWriter.Write(
+                HelpText.AutoBuild(
+                    options,
+                    current => HelpText.DefaultParsingErrorsHandler(options, current),
+                    options.HasVerbs()));
         }
 
         private void Dispose(bool disposing)

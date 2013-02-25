@@ -78,10 +78,5 @@ namespace CommandLine.Extensions
         {
             return value[0] == '-' && value[1] == '-';
         }
-
-        public static StringComparison GetStringComparison(this IParserSettings settings)
-        {
-            return settings.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
-        }
     }
 }
