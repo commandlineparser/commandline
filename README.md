@@ -105,7 +105,7 @@ Resources for newcomers:
 
 Latest Changes: 
 ---
-  - Implemented enhancement of issue #57 suggested by @bluesan.
+  - Implemented enhancement of issue #57 suggested by @bluesean.
   - Fixed issue #6.
   - Heavy refactoring on Public API (see this [this document](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md) and [ChangeLog](https://github.com/gsscoder/commandline/blob/master/doc/ChangeLog)).
 
