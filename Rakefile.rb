@@ -69,7 +69,7 @@ end
 #end
 
  msbuild :build35_msbuild do |b|
-  b.properties :configuration => CONFIGURATION, "OutputPath" => OUTPUT_DIR
+  b.properties :configuration => CONFIGURATION, "OutputPath" => "#{OUTPUT_DIR}/NET35"
   b.targets :Build
   b.solution = "src/libcmdline/CommandLine35.csproj"
 end
