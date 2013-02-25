@@ -31,9 +31,9 @@ using System.Threading;
 namespace CommandLine
 {
     /// <summary>
-    /// Provides a default implementation for <see cref="CommandLine.IParserSettings"/>.
+    /// Provides settings for <see cref="CommandLine.Parser"/>.
     /// </summary>
-    public sealed class ParserSettings : IParserSettings
+    public sealed class ParserSettings
     {
         private const bool CaseSensitiveDefault = true;
 

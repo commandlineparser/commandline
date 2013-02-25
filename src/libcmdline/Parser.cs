@@ -49,6 +49,7 @@ namespace CommandLine
         /// </summary>
         public const int DefaultExitCodeFail = 1;
         private static readonly IParser DefaultParser = new Parser(true);
+        private ParserSettings _settings;
         private bool _disposed;
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace CommandLine
         /// </summary>
         public Parser()
         {
-            Settings = new ParserSettings();
+            _settings = new ParserSettings();
         }
 
         /// <summary>
@@ -109,12 +110,12 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Gets the instance that implements <see cref="CommandLine.IParserSettings"/> in use.
+        /// Gets the instance that implements <see cref="CommandLine.ParserSettings"/> in use.
         /// </summary>
-        public IParserSettings Settings
+        public ParserSettings Settings
         {
-            get;
-            private set;
+            get { return _settings; }
+            internal set { _settings = value; }
         }
 
         /// <summary>
@@ -292,7 +293,7 @@ namespace CommandLine
             }
         }
 
-        private static StringComparison GetStringComparison(IParserSettings settings)
+        private static StringComparison GetStringComparison(ParserSettings settings)
         {
             return settings.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
         }
@@ -300,7 +301,7 @@ namespace CommandLine
         private bool DoParseArguments(string[] args, object options)
         {
             var pair = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options);
-            var helpWriter = Settings.HelpWriter;
+            var helpWriter = _settings.HelpWriter;
 
             if (pair != null && helpWriter != null)
             {
@@ -322,9 +323,9 @@ namespace CommandLine
         private bool DoParseArgumentsCore(string[] args, object options)
         {
             var hadError = false;
-            var optionMap = OptionMap.Create(options, Settings);
+            var optionMap = OptionMap.Create(options, _settings);
             optionMap.SetDefaults();
-            var valueMapper = new ValueMapper(options, Settings.ParsingCulture);
+            var valueMapper = new ValueMapper(options, _settings.ParsingCulture);
 
             var arguments = new StringArrayEnumerator(args);
             while (arguments.MoveNext())
@@ -335,7 +336,7 @@ namespace CommandLine
                     continue;
                 }
 
-                var parser = ArgumentParser.Create(argument, Settings.IgnoreUnknownArguments);
+                var parser = ArgumentParser.Create(argument, _settings.IgnoreUnknownArguments);
                 if (parser != null)
                 {
                     var result = parser.Parse(arguments, optionMap, options);
@@ -371,7 +372,7 @@ namespace CommandLine
             var helpInfo = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(options);
             if (args.Length == 0)
             {
-                if (helpInfo != null || Settings.HelpWriter != null)
+                if (helpInfo != null || _settings.HelpWriter != null)
                 {
                     DisplayHelpVerbText(options, helpInfo, null);
                 }
@@ -379,7 +380,7 @@ namespace CommandLine
                 return false;
             }
 
-            var optionMap = OptionMap.Create(options, verbs, Settings);
+            var optionMap = OptionMap.Create(options, verbs, _settings);
 
             // Read the verb from command line arguments
             if (TryParseHelpVerb(args, options, helpInfo, optionMap))
@@ -420,7 +421,7 @@ namespace CommandLine
 
         private bool ParseHelp(string[] args, HelpOptionAttribute helpOption)
         {
-            var caseSensitive = Settings.CaseSensitive;
+            var caseSensitive = _settings.CaseSensitive;
             foreach (var arg in args)
             {
                 if (helpOption.ShortName != null)
@@ -447,10 +448,10 @@ namespace CommandLine
 
         private bool TryParseHelpVerb(string[] args, object options, Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo, OptionMap optionMap)
         {
-            var helpWriter = Settings.HelpWriter;
+            var helpWriter = _settings.HelpWriter;
             if (helpInfo != null && helpWriter != null)
             {
-                if (string.Compare(args[0], helpInfo.Right.LongName, GetStringComparison(Settings)) == 0)
+                if (string.Compare(args[0], helpInfo.Right.LongName, GetStringComparison(_settings)) == 0)
                 {
                     // User explicitly requested help
                     var verb = args.FirstOrDefault();
@@ -487,15 +488,15 @@ namespace CommandLine
                 HelpVerbOptionAttribute.InvokeMethod(options, helpInfo, verb, out helpText);
             }
 
-            if (Settings.HelpWriter != null)
+            if (_settings.HelpWriter != null)
             {
-                Settings.HelpWriter.Write(helpText);
+                _settings.HelpWriter.Write(helpText);
             }
         }
 
         private void InvokeAutoBuildIfNeeded(object options)
         {
-            if (Settings.HelpWriter == null ||
+            if (_settings.HelpWriter == null ||
                 options.HasHelp() ||
                 options.HasVerbHelp())
             {
@@ -503,7 +504,7 @@ namespace CommandLine
             }
 
             // We print help text for the user
-            Settings.HelpWriter.Write(
+            _settings.HelpWriter.Write(
                 HelpText.AutoBuild(
                     options,
                     current => HelpText.DefaultParsingErrorsHandler(options, current),
@@ -519,9 +520,9 @@ namespace CommandLine
 
             if (disposing)
             {
-                if (Settings != null)
+                if (_settings != null)
                 {
-                    Settings.Dispose();
+                    _settings.Dispose();
                 }
 
                 _disposed = true;

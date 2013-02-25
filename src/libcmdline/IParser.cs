@@ -33,9 +33,9 @@ namespace CommandLine
     public interface IParser
     {
         /// <summary>
-        /// Gets the instance that implements <see cref="CommandLine.IParserSettings"/> in use.
+        /// Gets the <see cref="CommandLine.ParserSettings"/> instance in use.
         /// </summary>
-        IParserSettings Settings { get; }
+        ParserSettings Settings { get; }
 
         /// <summary>
         /// Parses a <see cref="System.String"/> array of command line arguments, setting values in <paramref name="options"/>

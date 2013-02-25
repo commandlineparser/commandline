@@ -82,7 +82,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SR.tt</DependentUpon>
     </Compile>
-    <Compile Include="IParserSettings.cs" />
     <Compile Include="ParserConfigurator.cs">
       <DependentUpon>Parser.cs</DependentUpon>
     </Compile>

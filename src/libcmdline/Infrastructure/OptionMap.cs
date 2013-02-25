@@ -34,7 +34,7 @@ namespace CommandLine.Infrastructure
 {
     internal sealed class OptionMap
     {
-        private readonly IParserSettings _settings;
+        private readonly ParserSettings _settings;
         private readonly Dictionary<string, string> _names;
         private readonly Dictionary<string, OptionInfo> _map;
         private readonly Dictionary<string, MutuallyExclusiveInfo> _mutuallyExclusiveSetMap;
@@ -45,7 +45,7 @@ namespace CommandLine.Infrastructure
         /// </summary>
         /// <param name="capacity">Initial internal capacity.</param>
         /// <param name="settings">Parser settings instance.</param>
-        internal OptionMap(int capacity, IParserSettings settings) 
+        internal OptionMap(int capacity, ParserSettings settings) 
         {
             _settings = settings;
 
@@ -100,7 +100,7 @@ namespace CommandLine.Infrastructure
             }
         }
 
-        public static OptionMap Create(object target, IParserSettings settings)
+        public static OptionMap Create(object target, ParserSettings settings)
         {
             var list = ReflectionUtil.RetrievePropertyList<BaseOptionAttribute>(target);
             if (list == null)
@@ -136,7 +136,7 @@ namespace CommandLine.Infrastructure
         public static OptionMap Create(
             object target,
             IList<Pair<PropertyInfo, VerbOptionAttribute>> verbs,
-            IParserSettings settings)
+            ParserSettings settings)
         {
             var map = new OptionMap(verbs.Count, settings);
 

@@ -3,6 +3,7 @@
   * Reverted same StyleCop default (see doc/Contribution).
   * tools/invariantstrtool.exe replaced by T4 template (project removed from GitHub).
   * Removed superfluous abstraction.
+  * Removing IParserSettings, other superfluous abstraction.
 
 2013-02-23  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 
