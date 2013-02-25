@@ -8,6 +8,7 @@ src/templates/CSharpTemplate/bin/*
 src/templates/CSharpTemplate/obj 
 src/templates/VBNetTemplate/bin/*
 src/templates/VBNetTemplate/obj
+packages
 *.suo
 *.userprefs
 *~
@@ -21,4 +22,3 @@ TestResult.xml
 *.nupkg
 *.old
 StyleCop.Cache
-le-to-nix.sh
