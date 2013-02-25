@@ -37,16 +37,16 @@ using CommandLine.Text;
 namespace CommandLine
 {
     /// <summary>
-    /// Provides methods to parse command line arguments. Default implementation for <see cref="CommandLine.IParser"/>.
+    /// Provides methods to parse command line arguments.
     /// </summary>
-    public sealed class Parser : IParser, IDisposable
+    public sealed class Parser : IDisposable
     {
         /// <summary>
         /// Default exit code (1) used by <see cref="Parser.ParseArgumentsStrict(string[],object,Action)"/>
         /// and <see cref="Parser.ParseArgumentsStrict(string[],object,Action&lt;string,object&gt;,Action)"/> overloads.
         /// </summary>
         public const int DefaultExitCodeFail = 1;
-        private static readonly IParser DefaultParser = new Parser(true);
+        private static readonly Parser DefaultParser = new Parser(true);
         private readonly ParserSettings _settings;
         private bool _disposed;
 
@@ -109,7 +109,7 @@ namespace CommandLine
         /// <summary>
         /// Gets the singleton instance created with basic defaults.
         /// </summary>
-        public static IParser Default
+        public static Parser Default
         {
             get { return DefaultParser; }
         }

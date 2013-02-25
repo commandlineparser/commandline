@@ -21,3 +21,4 @@ Public API Changes:
   - Version 1.9.6.1: Non breaking (if implicit syntax), reverting back genericity from IParser.
   - Version 1.9.61.1: Non breaking, omitting longname default -> property name lower case.
   - Version 1.9.62.2: 'Partially' breaking, ``IParserConfigurator`` made nested type of Parser; ``ParserConfigurator::HelpWriter(...)`` renamed to ``ParserConfigurator::UseHelpWriter(...)``.
+  - Version 1.9.69.1: Breaking (in some cases), removed ``IParser``,  ``IParserSettings`` and ``ParserConfigurator``.

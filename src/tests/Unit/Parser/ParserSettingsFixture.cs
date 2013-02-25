@@ -41,7 +41,7 @@ namespace CommandLine.Tests.Unit
         public void Setting_help_writer_using_constructor()
         {
             var writer = new StringWriter();
-            IParser parser = new Parser(new ParserSettings(writer));
+            var parser = new Parser(new ParserSettings(writer));
             var options = new SimpleOptionsWithHelpOption();
             
             bool success = parser.ParseArguments(new string[] {"--help"}, options);
@@ -56,7 +56,7 @@ namespace CommandLine.Tests.Unit
             var writer = new StringWriter();
             var settings = new ParserSettings();
             settings.HelpWriter = writer;
-            IParser parser = new Parser(settings);
+            var parser = new Parser(settings);
             var options = new SimpleOptionsWithHelpOption();
 
             bool success = parser.ParseArguments(new string[] { "--help" }, options);

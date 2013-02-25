@@ -6,6 +6,7 @@
   * Removing IParserSettings, other superfluous abstraction.
   * Applied KISS (keep it simple, stupid): removed nested ParserConfigurator in favor of
       Parser(Action<ParserSettings>) new CommandLine.Parser ctor.
+  * Second KISS, removed IParser.
 
 2013-02-23  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 
