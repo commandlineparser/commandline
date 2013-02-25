@@ -126,7 +126,7 @@ namespace CommandLine.Tests.Unit.Text
             ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
             var parser = new Parser(with => with.UseHelpWriter(testWriter));
             var result = parser.ParseArguments(args, options,
-                (verb, _) =>
+                (_, __) =>
                     {
                     });
 

@@ -86,7 +86,6 @@
     <Compile Include="ParserConfigurator.cs">
       <DependentUpon>Parser.cs</DependentUpon>
     </Compile>
-    <Compile Include="ParserContext.cs" />
     <Compile Include="Helpers\Assumes.cs" />
     <Compile Include="Helpers\ReflectionCache.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
