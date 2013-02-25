@@ -77,11 +77,6 @@ task :test => :build do
   sh "#{xunit} #{OUTPUT_DIR}/CommandLine.Tests.dll"
 end
 
-task :strings do
-  invstrtool = invoke_runtime("tools/invariantstr.exe")
-  sh "#{invstrtool} -i #{LIB_DIR}/Internal/SR.strings -n CommandLine.Internal"
-end
-
 assemblyinfo :assemblyinfo do |a|
   a.product_name = PRODUCT
   #a.description = DESCRIPTION

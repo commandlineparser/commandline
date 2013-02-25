@@ -1,6 +1,4 @@
-﻿# Culture / ResourceManager indipendent resources
-
-ArgumentNullException_ArgsStringArrayCannotBeNull = The arguments string array cannot be null.
+﻿ArgumentNullException_ArgsStringArrayCannotBeNull = The arguments string array cannot be null.
 ArgumentNullException_OptionsInstanceCannotBeNull = The target options instance cannot be null.
 ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull = The command line parser settings instance cannot be null.
 ArgumentNullException_AttributeCannotBeNull = The attribute is mandatory.
