@@ -21,14 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Runtime.Serialization;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using System.Runtime.Serialization;
-    #endregion
-
     /// <summary>
     /// This exception is thrown when a generic parsing error occurs.
     /// </summary>

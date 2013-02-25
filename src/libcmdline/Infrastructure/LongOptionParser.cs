@@ -26,11 +26,11 @@ namespace CommandLine.Infrastructure
 {
     internal sealed class LongOptionParser : ArgumentParser
     {
-        private readonly bool ignoreUnkwnownArguments;
+        private readonly bool _ignoreUnkwnownArguments;
 
         public LongOptionParser(bool ignoreUnkwnownArguments)
         {
-            this.ignoreUnkwnownArguments = ignoreUnkwnownArguments;
+            _ignoreUnkwnownArguments = ignoreUnkwnownArguments;
         }
 
         public override PresentParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
@@ -40,7 +40,7 @@ namespace CommandLine.Infrastructure
             bool valueSetting;
             if (option == null)
             {
-                return this.ignoreUnkwnownArguments ? PresentParserState.MoveOnNextElement : PresentParserState.Failure;
+                return _ignoreUnkwnownArguments ? PresentParserState.MoveOnNextElement : PresentParserState.Failure;
             }
 
             option.IsDefined = true;
@@ -61,7 +61,7 @@ namespace CommandLine.Infrastructure
                         valueSetting = option.SetValue(parts[1], options);
                         if (!valueSetting)
                         {
-                            this.DefineOptionThatViolatesFormat(option);
+                            DefineOptionThatViolatesFormat(option);
                         }
 
                         return ArgumentParser.BooleanToParserState(valueSetting);
@@ -75,7 +75,7 @@ namespace CommandLine.Infrastructure
                     valueSetting = option.SetValue(items, options);
                     if (!valueSetting)
                     {
-                        this.DefineOptionThatViolatesFormat(option);
+                        DefineOptionThatViolatesFormat(option);
                     }
 
                     return ArgumentParser.BooleanToParserState(valueSetting);
@@ -87,7 +87,7 @@ namespace CommandLine.Infrastructure
                         valueSetting = option.SetValue(argumentEnumerator.Next, options);
                         if (!valueSetting)
                         {
-                            this.DefineOptionThatViolatesFormat(option);
+                            DefineOptionThatViolatesFormat(option);
                         }
 
                         return ArgumentParser.BooleanToParserState(valueSetting, true);
@@ -100,7 +100,7 @@ namespace CommandLine.Infrastructure
                     valueSetting = option.SetValue(items, options);
                     if (!valueSetting)
                     {
-                        this.DefineOptionThatViolatesFormat(option);
+                        DefineOptionThatViolatesFormat(option);
                     }
 
                     return ArgumentParser.BooleanToParserState(valueSetting);
@@ -115,7 +115,7 @@ namespace CommandLine.Infrastructure
             valueSetting = option.SetValue(true, options);
             if (!valueSetting)
             {
-                this.DefineOptionThatViolatesFormat(option);
+                DefineOptionThatViolatesFormat(option);
             }
 
             return ArgumentParser.BooleanToParserState(valueSetting);

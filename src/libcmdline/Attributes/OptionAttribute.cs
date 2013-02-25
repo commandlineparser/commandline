@@ -21,14 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using CommandLine.Infrastructure;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using CommandLine.Infrastructure;
-    #endregion
-
     /// <summary>
     /// Models an option specification.
     /// </summary>
@@ -41,7 +40,7 @@ namespace CommandLine
         /// </summary>
         public OptionAttribute()
         {
-            this.AutoLongName = true;
+            AutoLongName = true;
         }
 
         /// <summary>
@@ -78,7 +77,7 @@ namespace CommandLine
         /// <returns>An <see cref="OptionInfo"/> instance.</returns>
         internal OptionInfo CreateOptionInfo()
         {
-            return new OptionInfo(this.ShortName, this.LongName);
+            return new OptionInfo(ShortName, LongName);
         }
     }
 }

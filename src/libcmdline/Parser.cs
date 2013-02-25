@@ -21,21 +21,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Reflection;
+using CommandLine.Extensions;
+using CommandLine.Helpers;
+using CommandLine.Infrastructure;
+using CommandLine.Text;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Reflection;
-    using CommandLine.Extensions;
-    using CommandLine.Helpers;
-    using CommandLine.Infrastructure;
-    using CommandLine.Text;
-    #endregion
-
     /// <summary>
     /// Provides methods to parse command line arguments. Default implementation for <see cref="CommandLine.IParser"/>.
     /// </summary>
@@ -47,14 +46,14 @@ namespace CommandLine
         /// </summary>
         public const int DefaultExitCodeFail = 1;
         private static readonly IParser DefaultParser = new Parser(true);
-        private bool disposed;
+        private bool _disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Parser"/> class.
         /// </summary>
         public Parser()
         {
-            this.Settings = new ParserSettings();
+            Settings = new ParserSettings();
         }
 
         /// <summary>
@@ -77,13 +76,13 @@ namespace CommandLine
         public Parser(ParserSettings settings)
         {
             Assumes.NotNull(settings, "settings", SR.ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull);
-            this.Settings = settings;
+            Settings = settings;
         }
 
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "singleton", Justification = "The constructor that accepts a boolean is designed to support default singleton, the parameter is ignored")]
         private Parser(bool singleton)
         {
-            this.Settings = new ParserSettings(false, false, Console.Error)
+            Settings = new ParserSettings(false, false, Console.Error)
             {
                 ParsingCulture = CultureInfo.InvariantCulture
             };
@@ -94,7 +93,7 @@ namespace CommandLine
         /// </summary>
         ~Parser()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         /// <summary>
@@ -143,7 +142,7 @@ namespace CommandLine
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
 
-            return this.DoParseArguments(args, options);
+            return DoParseArguments(args, options);
         }
 
         /// <summary>
@@ -168,7 +167,7 @@ namespace CommandLine
             object verbInstance = null;
 
             var context = new ParserContext(args, options);
-            var result = this.DoParseArgumentsVerbs(context, ref verbInstance);
+            var result = DoParseArgumentsVerbs(context, ref verbInstance);
 
             onVerbCommand(context.FirstArgument ?? string.Empty, result ? verbInstance : null);
 
@@ -192,9 +191,9 @@ namespace CommandLine
             Assumes.NotNull(args, "args", SR.ArgumentNullException_ArgsStringArrayCannotBeNull);
             Assumes.NotNull(options, "options", SR.ArgumentNullException_OptionsInstanceCannotBeNull);
 
-            if (!this.DoParseArguments(args, options))
+            if (!DoParseArguments(args, options))
             {
-                this.InvokeAutoBuildIfNeeded(options);
+                InvokeAutoBuildIfNeeded(options);
 
                 if (onFail == null)
                 {
@@ -236,11 +235,11 @@ namespace CommandLine
 
             var context = new ParserContext(args, options);
 
-            if (!this.DoParseArgumentsVerbs(context, ref verbInstance))
+            if (!DoParseArgumentsVerbs(context, ref verbInstance))
             {
                 onVerbCommand(context.FirstArgument ?? string.Empty, null);
 
-                this.InvokeAutoBuildIfNeeded(options);
+                InvokeAutoBuildIfNeeded(options);
 
                 if (onFail == null)
                 {
@@ -263,7 +262,7 @@ namespace CommandLine
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
 
             GC.SuppressFinalize(this);
         }
@@ -308,14 +307,14 @@ namespace CommandLine
         private bool DoParseArguments(string[] args, object options)
         {
             var pair = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options);
-            var helpWriter = this.Settings.HelpWriter;
+            var helpWriter = Settings.HelpWriter;
 
             var context = new ParserContext(args, options);
 
             if (pair != null && helpWriter != null)
             {
                 // If help can be handled is displayed if is requested or if parsing fails
-                if (this.ParseHelp(args, pair.Right) || !this.DoParseArgumentsCore(context))
+                if (ParseHelp(args, pair.Right) || !DoParseArgumentsCore(context))
                 {
                     string helpText;
                     HelpOptionAttribute.InvokeMethod(options, pair, out helpText);
@@ -326,15 +325,15 @@ namespace CommandLine
                 return true;
             }
 
-            return this.DoParseArgumentsCore(context);
+            return DoParseArgumentsCore(context);
         }
 
         private bool DoParseArgumentsCore(ParserContext context)
         {
             var hadError = false;
-            var optionMap = OptionMap.Create(context.Target, this.Settings);
+            var optionMap = OptionMap.Create(context.Target, Settings);
             optionMap.SetDefaults();
-            var valueMapper = new ValueMapper(context.Target, this.Settings.ParsingCulture);
+            var valueMapper = new ValueMapper(context.Target, Settings.ParsingCulture);
 
             var arguments = new StringArrayEnumerator(context.Arguments);
             while (arguments.MoveNext())
@@ -345,7 +344,7 @@ namespace CommandLine
                     continue;
                 }
 
-                var parser = ArgumentParser.Create(argument, this.Settings.IgnoreUnknownArguments);
+                var parser = ArgumentParser.Create(argument, Settings.IgnoreUnknownArguments);
                 if (parser != null)
                 {
                     var result = parser.Parse(arguments, optionMap, context.Target);
@@ -381,18 +380,18 @@ namespace CommandLine
             var helpInfo = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(context.Target);
             if (context.HasNoArguments())
             {
-                if (helpInfo != null || this.Settings.HelpWriter != null)
+                if (helpInfo != null || Settings.HelpWriter != null)
                 {
-                    this.DisplayHelpVerbText(context.Target, helpInfo, null);
+                    DisplayHelpVerbText(context.Target, helpInfo, null);
                 }
 
                 return false;
             }
 
-            var optionMap = OptionMap.Create(context.Target, verbs, this.Settings);
+            var optionMap = OptionMap.Create(context.Target, verbs, Settings);
 
             // Read the verb from command line arguments
-            if (this.TryParseHelpVerb(context.Arguments, context.Target, helpInfo, optionMap))
+            if (TryParseHelpVerb(context.Arguments, context.Target, helpInfo, optionMap))
             {
                 // Since user requested help, parsing is considered a fail
                 return false;
@@ -405,7 +404,7 @@ namespace CommandLine
             {
                 if (helpInfo != null)
                 {
-                    this.DisplayHelpVerbText(context.Target, helpInfo, null);
+                    DisplayHelpVerbText(context.Target, helpInfo, null);
                 }
 
                 return false;
@@ -418,11 +417,11 @@ namespace CommandLine
                 verbInstance = verbOption.CreateInstance(context.Target);
             }
 
-            var verbResult = this.DoParseArgumentsCore(context.ToCoreInstance(verbOption));
+            var verbResult = DoParseArgumentsCore(context.ToCoreInstance(verbOption));
             if (!verbResult && helpInfo != null)
             {
                 // Particular verb parsing failed, we try to print its help
-                this.DisplayHelpVerbText(context.Target, helpInfo, context.FirstArgument);
+                DisplayHelpVerbText(context.Target, helpInfo, context.FirstArgument);
             }
 
             return verbResult;
@@ -430,7 +429,7 @@ namespace CommandLine
 
         private bool ParseHelp(string[] args, HelpOptionAttribute helpOption)
         {
-            var caseSensitive = this.Settings.CaseSensitive;
+            var caseSensitive = Settings.CaseSensitive;
             foreach (var arg in args)
             {
                 if (helpOption.ShortName != null)
@@ -457,10 +456,10 @@ namespace CommandLine
 
         private bool TryParseHelpVerb(string[] args, object options, Pair<MethodInfo, HelpVerbOptionAttribute> helpInfo, OptionMap optionMap)
         {
-            var helpWriter = this.Settings.HelpWriter;
+            var helpWriter = Settings.HelpWriter;
             if (helpInfo != null && helpWriter != null)
             {
-                if (string.Compare(args[0], helpInfo.Right.LongName, this.Settings.GetStringComparison()) == 0)
+                if (string.Compare(args[0], helpInfo.Right.LongName, Settings.GetStringComparison()) == 0)
                 {
                     // User explicitly requested help
                     var verb = args.Length > 1 ? args[1] : null;
@@ -477,7 +476,7 @@ namespace CommandLine
                         }
                     }
 
-                    this.DisplayHelpVerbText(options, helpInfo, verb);
+                    DisplayHelpVerbText(options, helpInfo, verb);
                     return true;
                 }
             }
@@ -497,15 +496,15 @@ namespace CommandLine
                 HelpVerbOptionAttribute.InvokeMethod(options, helpInfo, verb, out helpText);
             }
 
-            if (this.Settings.HelpWriter != null)
+            if (Settings.HelpWriter != null)
             {
-                this.Settings.HelpWriter.Write(helpText);
+                Settings.HelpWriter.Write(helpText);
             }
         }
 
         private void InvokeAutoBuildIfNeeded(object options)
         {
-            if (this.Settings.HelpWriter == null ||
+            if (Settings.HelpWriter == null ||
                 options.HasHelp() ||
                 options.HasVerbHelp())
             {
@@ -513,7 +512,7 @@ namespace CommandLine
             }
 
             // We print help text for the user
-            this.Settings.HelpWriter.Write(HelpText.AutoBuild(
+            Settings.HelpWriter.Write(HelpText.AutoBuild(
                 options,
                 current => HelpText.DefaultParsingErrorsHandler(options, current),
                 options.HasVerbs()));
@@ -521,19 +520,19 @@ namespace CommandLine
 
         private void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (_disposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                if (this.Settings != null)
+                if (Settings != null)
                 {
-                    this.Settings.Dispose();
+                    Settings.Dispose();
                 }
 
-                this.disposed = true;
+                _disposed = true;
             }
         }
     }

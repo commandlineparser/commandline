@@ -21,13 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    #endregion
-
     /// <summary>
     /// Maps a single unnamed option to the target property. Values will be mapped in order of Index.
     /// This attribute takes precedence over <see cref="CommandLine.ValueListAttribute"/> with which
@@ -37,23 +36,23 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ValueOptionAttribute : Attribute
     {
-        private readonly int index;
+        private readonly int _index;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.ValueOptionAttribute"/> class.
         /// </summary>
-        /// <param name="index">The index of the option.</param>
+        /// <param name="index">The _index of the option.</param>
         public ValueOptionAttribute(int index)
         {
-            this.index = index;
+            _index = index;
         }
 
         /// <summary>
-        /// Obsolete constructor, uses default index 0.
+        /// Obsolete constructor, uses default _index 0.
         /// Initializes a new instance of the <see cref="CommandLine.ValueOptionAttribute"/> class.
         /// </summary>
         /// <remarks>In next Stable this constructor will be removed.</remarks>
-        [Obsolete("Use explicit index instead.")]
+        [Obsolete("Use explicit _index instead.")]
         public ValueOptionAttribute() : this(0)
         {
         }
@@ -63,7 +62,7 @@ namespace CommandLine
         /// </summary>
         public int Index
         {
-            get { return this.index; }
+            get { return _index; }
         }
     }
 }

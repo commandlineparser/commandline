@@ -21,15 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Reflection;
+using CommandLine.Helpers;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using System.Reflection;
-    using CommandLine.Helpers;
-    #endregion
-
     /// <summary>
     /// Indicates the instance method that must be invoked when it becomes necessary show your help screen.
     /// The method signature is an instance method with no parameters and <see cref="System.String"/>
@@ -48,7 +47,7 @@ namespace CommandLine
         public HelpOptionAttribute()
             : this("help")
         {
-            this.HelpText = DefaultHelpText;
+            HelpText = DefaultHelpText;
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace CommandLine
         public HelpOptionAttribute(char shortName)
             : base(shortName, null)
         {
-            this.HelpText = DefaultHelpText;
+            HelpText = DefaultHelpText;
         }
 
         /// <summary>
@@ -76,7 +75,7 @@ namespace CommandLine
         public HelpOptionAttribute(string longName)
             : base(null, longName)
         {
-            this.HelpText = DefaultHelpText;
+            HelpText = DefaultHelpText;
         }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace CommandLine
         public HelpOptionAttribute(char shortName, string longName)
             : base(shortName, longName)
         {
-            this.HelpText = DefaultHelpText;
+            HelpText = DefaultHelpText;
         }
 
         /// <summary>

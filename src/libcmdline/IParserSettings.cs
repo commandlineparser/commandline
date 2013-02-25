@@ -21,15 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Globalization;
+using System.IO;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using System.Globalization;
-    using System.IO;
-    #endregion
-
     /// <summary>
     /// Defines an interface that specifies a set of features to configure 
     /// of a type that implements <see cref="CommandLine.IParser"/>.

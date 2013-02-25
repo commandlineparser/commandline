@@ -21,14 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Diagnostics.CodeAnalysis;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    #endregion
-
     /// <summary>
     /// Models an option that can accept multiple values.
     /// Must be applied to a field compatible with an <see cref="System.Collections.Generic.IList&lt;T&gt;"/> interface
@@ -63,7 +62,7 @@ namespace CommandLine
         public OptionListAttribute(char shortName, string longName)
             : base(shortName, longName)
         {
-            this.Separator = ':';
+            Separator = ':';
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace CommandLine
         public OptionListAttribute(char shortName, string longName, char separator)
             : base(shortName, longName)
         {
-            this.Separator = separator;
+            Separator = separator;
         }
 
         /// <summary>

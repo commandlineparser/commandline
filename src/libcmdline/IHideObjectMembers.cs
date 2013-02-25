@@ -21,15 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
-    #endregion
-
     /// <summary>
     /// Helper interface used to hide the base <see cref="Object"/>  members from the fluent API to make it much cleaner 
     /// in Visual Studio intellisense.

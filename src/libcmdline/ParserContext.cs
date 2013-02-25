@@ -21,14 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using CommandLine.Infrastructure;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using CommandLine.Infrastructure;
-    #endregion
-
     /// <summary>
     /// Models context in which parsing occurs.
     /// </summary>
@@ -36,8 +35,8 @@ namespace CommandLine
     {
         public ParserContext(string[] arguments, object target)
         {
-            this.Arguments = arguments;
-            this.Target = target;
+            Arguments = arguments;
+            Target = target;
         }
 
         public object Target { get; private set; }
@@ -46,28 +45,28 @@ namespace CommandLine
 
         public string FirstArgument
         {
-            get { return !this.HasNoArguments() ? this.Arguments[0] : null; }
+            get { return !HasNoArguments() ? Arguments[0] : null; }
         }
 
         public ParserContext ToCoreInstance(OptionInfo verbOption)
         {
-            var newArguments = new string[this.Arguments.Length - 1];
-            if (this.Arguments.Length > 1)
+            var newArguments = new string[Arguments.Length - 1];
+            if (Arguments.Length > 1)
             {
-                Array.Copy(this.Arguments, 1, newArguments, 0, this.Arguments.Length - 1);
+                Array.Copy(Arguments, 1, newArguments, 0, Arguments.Length - 1);
             }
 
-            return new ParserContext(newArguments, verbOption.GetValue(this.Target));
+            return new ParserContext(newArguments, verbOption.GetValue(Target));
         }
 
         public bool HasNoArguments()
         {
-            return this.Arguments == null || this.Arguments.Length == 0;
+            return Arguments == null || Arguments.Length == 0;
         }
 
         public bool HasAtLeastOneArgument()
         {
-            return !this.HasNoArguments() && this.Arguments.Length >= 1;
+            return !HasNoArguments() && Arguments.Length >= 1;
         }
     }
 }

@@ -28,29 +28,29 @@ namespace CommandLine.Helpers
         where TLeft : class
         where TRight : class
     {
-        private readonly TLeft left;
-        private readonly TRight right;
+        private readonly TLeft _left;
+        private readonly TRight _right;
 
         public Pair(TLeft left, TRight right)
         {
-            this.left = left;
-            this.right = right;
+            _left = left;
+            _right = right;
         }
 
         public TLeft Left
         {
-            get { return this.left; }
+            get { return _left; }
         }
 
         public TRight Right
         {
-            get { return this.right; }
+            get { return _right; }
         }
 
         public override int GetHashCode()
         {
-            int leftHash = this.left == null ? 0 : this.left.GetHashCode();
-            int rightHash = this.right == null ? 0 : this.right.GetHashCode();
+            int leftHash = _left == null ? 0 : _left.GetHashCode();
+            int rightHash = _right == null ? 0 : _right.GetHashCode();
 
             return leftHash ^ rightHash;
         }
@@ -64,7 +64,7 @@ namespace CommandLine.Helpers
                 return false;
             }
 
-            return object.Equals(this.left, other.left) && object.Equals(this.right, other.right);
+            return object.Equals(_left, other._left) && object.Equals(_right, other._right);
         }
     }
 }

@@ -21,94 +21,93 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using CommandLine.Helpers;
+#endregion
 
 namespace CommandLine.Infrastructure
 {
-    #region Using Directives
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
-    using System.Reflection;
-    using CommandLine.Helpers;
-    #endregion
-
     /// <summary>
     /// Maps unnamed options to property using <see cref="CommandLine.ValueOptionAttribute"/> and <see cref="CommandLine.ValueListAttribute"/>.
     /// </summary>
     internal sealed class ValueMapper
     {
-        private readonly CultureInfo parsingCulture;
-        private readonly object target;
-        private IList<string> valueList;
-        private ValueListAttribute valueListAttribute;
-        private IList<Pair<PropertyInfo, ValueOptionAttribute>> valueOptionAttributeList;
-        private int valueOptionIndex;
+        private readonly CultureInfo _parsingCulture;
+        private readonly object _target;
+        private IList<string> _valueList;
+        private ValueListAttribute _valueListAttribute;
+        private IList<Pair<PropertyInfo, ValueOptionAttribute>> _valueOptionAttributeList;
+        private int _valueOptionIndex;
 
         public ValueMapper(object target, CultureInfo parsingCulture)
         {
-            this.target = target;
-            this.parsingCulture = parsingCulture;
-            this.InitializeValueList();
-            this.InitializeValueOption();
+            _target = target;
+            _parsingCulture = parsingCulture;
+            InitializeValueList();
+            InitializeValueOption();
         }
 
         public bool CanReceiveValues
         {
-            get { return this.IsValueListDefined || this.IsValueOptionDefined; }
+            get { return IsValueListDefined || IsValueOptionDefined; }
         }
 
         private bool IsValueListDefined
         {
-            get { return this.valueListAttribute != null; }
+            get { return _valueListAttribute != null; }
         }
 
         private bool IsValueOptionDefined
         {
-            get { return this.valueOptionAttributeList.Count > 0; }
+            get { return _valueOptionAttributeList.Count > 0; }
         }
 
         public bool MapValueItem(string item)
         {
-            if (this.IsValueOptionDefined &&
-                this.valueOptionIndex < this.valueOptionAttributeList.Count)
+            if (IsValueOptionDefined &&
+                _valueOptionIndex < _valueOptionAttributeList.Count)
             {
-                var valueOption = this.valueOptionAttributeList[this.valueOptionIndex++];
-                var propertyWriter = new PropertyWriter(valueOption.Left, this.parsingCulture);
+                var valueOption = _valueOptionAttributeList[_valueOptionIndex++];
+                var propertyWriter = new PropertyWriter(valueOption.Left, _parsingCulture);
                 return ReflectionUtil.IsNullableType(propertyWriter.Property.PropertyType) ?
-                    propertyWriter.WriteNullable(item, this.target) :
-                    propertyWriter.WriteScalar(item, this.target);
+                    propertyWriter.WriteNullable(item, _target) :
+                    propertyWriter.WriteScalar(item, _target);
             }
 
-            return this.IsValueListDefined && this.AddValueItem(item);
+            return IsValueListDefined && AddValueItem(item);
         }
 
         private bool AddValueItem(string item)
         {
-            if (this.valueListAttribute.MaximumElements == 0 ||
-                this.valueList.Count == this.valueListAttribute.MaximumElements)
+            if (_valueListAttribute.MaximumElements == 0 ||
+                _valueList.Count == _valueListAttribute.MaximumElements)
             {
                 return false;
             }
 
-            this.valueList.Add(item);
+            _valueList.Add(item);
             return true;
         }
 
         private void InitializeValueList()
         {
-            this.valueListAttribute = ValueListAttribute.GetAttribute(this.target);
-            if (this.IsValueListDefined)
+            _valueListAttribute = ValueListAttribute.GetAttribute(_target);
+            if (IsValueListDefined)
             {
-                this.valueList = ValueListAttribute.GetReference(this.target);
+                _valueList = ValueListAttribute.GetReference(_target);
             }
         }
 
         private void InitializeValueOption()
         {
-            var list = ReflectionUtil.RetrievePropertyList<ValueOptionAttribute>(this.target);
+            var list = ReflectionUtil.RetrievePropertyList<ValueOptionAttribute>(_target);
 
             // default is index 0, so skip sorting if all have it
-            this.valueOptionAttributeList = list.All(x => x.Right.Index == 0)
+            _valueOptionAttributeList = list.All(x => x.Right.Index == 0)
                 ? list : list.OrderBy(x => x.Right.Index).ToList();
         }
     }

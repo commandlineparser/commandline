@@ -21,18 +21,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Globalization;
+using System.Reflection;
+using System.Text;
+using CommandLine.Helpers;
+using CommandLine.Infrastructure;
+#endregion
 
 namespace CommandLine.Text
 {
-    #region Using Directives
-    using System;
-    using System.Globalization;
-    using System.Reflection;
-    using System.Text;
-    using CommandLine.Helpers;
-    using CommandLine.Infrastructure;
-    #endregion
-
     /// <summary>
     /// Models the copyright part of an help text.
     /// You can assign it where you assign any <see cref="System.String"/> instance.
@@ -42,11 +41,11 @@ namespace CommandLine.Text
         private const string DefaultCopyrightWord = "Copyright";
         private const string SymbolLower = "(c)";
         private const string SymbolUpper = "(C)";
-        private readonly AssemblyCopyrightAttribute attribute;
-        private readonly bool isSymbolUpper;
-        private readonly int[] copyrightYears;
-        private readonly string author;
-        private readonly int builderSize;
+        private readonly AssemblyCopyrightAttribute _attribute;
+        private readonly bool _isSymbolUpper;
+        private readonly int[] _copyrightYears;
+        private readonly string _author;
+        private readonly int _builderSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class
@@ -88,10 +87,10 @@ namespace CommandLine.Text
             Assumes.NotZeroLength(copyrightYears, "copyrightYears");
 
             const int ExtraLength = 10;
-            this.isSymbolUpper = isSymbolUpper;
-            this.author = author;
-            this.copyrightYears = copyrightYears;
-            this.builderSize = 12 + author.Length + (4 * copyrightYears.Length) + ExtraLength;
+            _isSymbolUpper = isSymbolUpper;
+            _author = author;
+            _copyrightYears = copyrightYears;
+            _builderSize = 12 + author.Length + (4 * copyrightYears.Length) + ExtraLength;
         }
 
         /// <summary>
@@ -108,7 +107,7 @@ namespace CommandLine.Text
         /// <param name="attribute">The attribute which text to use.</param>
         private CopyrightInfo(AssemblyCopyrightAttribute attribute)
         {
-            this.attribute = attribute;
+            _attribute = attribute;
         }
 
         /// <summary>
@@ -163,19 +162,19 @@ namespace CommandLine.Text
         /// <returns>The <see cref="System.String"/> that contains the copyright.</returns>
         public override string ToString()
         {
-            if (this.attribute != null)
+            if (_attribute != null)
             {
-                return this.attribute.Copyright;
+                return _attribute.Copyright;
             }
 
-            var builder = new StringBuilder(this.builderSize);
-            builder.Append(this.CopyrightWord);
+            var builder = new StringBuilder(_builderSize);
+            builder.Append(CopyrightWord);
             builder.Append(' ');
-            builder.Append(this.isSymbolUpper ? SymbolUpper : SymbolLower);
+            builder.Append(_isSymbolUpper ? SymbolUpper : SymbolLower);
             builder.Append(' ');
-            builder.Append(this.FormatYears(this.copyrightYears));
+            builder.Append(FormatYears(_copyrightYears));
             builder.Append(' ');
-            builder.Append(this.author);
+            builder.Append(_author);
             return builder.ToString();
         }
 

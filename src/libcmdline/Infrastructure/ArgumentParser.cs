@@ -21,20 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using CommandLine.Extensions;
+#endregion
 
 namespace CommandLine.Infrastructure
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using CommandLine.Extensions;
-    #endregion
-
     internal abstract class ArgumentParser
     {
         protected ArgumentParser()
         {
-            this.PostParsingState = new List<ParsingError>();
+            PostParsingState = new List<ParsingError>();
         }
 
         public List<ParsingError> PostParsingState
@@ -172,7 +171,7 @@ namespace CommandLine.Infrastructure
 
         protected void DefineOptionThatViolatesFormat(OptionInfo option)
         {
-            this.PostParsingState.Add(new ParsingError(option.ShortName, option.LongName, true));
+            PostParsingState.Add(new ParsingError(option.ShortName, option.LongName, true));
         }
     }
 }

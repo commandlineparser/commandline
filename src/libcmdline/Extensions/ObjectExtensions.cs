@@ -21,13 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using CommandLine.Helpers;
+#endregion
 
 namespace CommandLine.Extensions
 {
-    #region Using Directives
-    using CommandLine.Helpers;
-    #endregion
-
     /// <summary>
     /// Utility extension methods for System.Object.
     /// </summary>

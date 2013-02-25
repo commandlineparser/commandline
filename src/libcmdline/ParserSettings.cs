@@ -21,16 +21,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Globalization;
+using System.IO;
+using System.Threading;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Threading;
-    #endregion
-
     /// <summary>
     /// Provides a default implementation for <see cref="CommandLine.IParserSettings"/>.
     /// </summary>
@@ -38,7 +37,7 @@ namespace CommandLine
     {
         private const bool CaseSensitiveDefault = true;
 
-        private bool disposed;
+        private bool _disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
@@ -116,11 +115,11 @@ namespace CommandLine
         /// default <see cref="System.Console.Error"/>. Setting this argument to null, will disable help screen.</param>
         public ParserSettings(bool caseSensitive, bool mutuallyExclusive, bool ignoreUnknownArguments, TextWriter helpWriter)
         {
-            this.CaseSensitive = caseSensitive;
-            this.MutuallyExclusive = mutuallyExclusive;
-            this.HelpWriter = helpWriter;
-            this.IgnoreUnknownArguments = ignoreUnknownArguments;
-            this.ParsingCulture = Thread.CurrentThread.CurrentCulture;
+            CaseSensitive = caseSensitive;
+            MutuallyExclusive = mutuallyExclusive;
+            HelpWriter = helpWriter;
+            IgnoreUnknownArguments = ignoreUnknownArguments;
+            ParsingCulture = Thread.CurrentThread.CurrentCulture;
         }
 
         /// <summary>
@@ -128,7 +127,7 @@ namespace CommandLine
         /// </summary>
         ~ParserSettings()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         /// <summary>
@@ -174,27 +173,27 @@ namespace CommandLine
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
 
             GC.SuppressFinalize(this);
         }
 
         private void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (_disposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                if (this.HelpWriter != null)
+                if (HelpWriter != null)
                 {
-                    this.HelpWriter.Dispose();
-                    this.HelpWriter = null;
+                    HelpWriter.Dispose();
+                    HelpWriter = null;
                 }
 
-                this.disposed = true;
+                _disposed = true;
             }
         }
     }

@@ -21,26 +21,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using CommandLine.Extensions;
+using CommandLine.Infrastructure;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using CommandLine.Extensions;
-    using CommandLine.Infrastructure;
-    #endregion
-
     /// <summary>
     /// Provides base properties for creating an attribute, used to define rules for command line parsing.
     /// </summary>
     public abstract class BaseOptionAttribute : Attribute
     {
         internal const string DefaultMutuallyExclusiveSet = "Default";
-        private char? shortName;
-        private object defaultValue;
-        private string metaValue;
-        private bool hasMetaValue;
-        private string mutuallyExclusiveSet;
+        private char? _shortName;
+        private object _defaultValue;
+        private string _metaValue;
+        private bool _hasMetaValue;
+        private string _mutuallyExclusiveSet;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseOptionAttribute"/> class.
@@ -57,14 +56,14 @@ namespace CommandLine
         /// <param name="longName">Long name of the option.</param>
         protected BaseOptionAttribute(char shortName, string longName)
         {
-            this.shortName = shortName;
-            if (this.shortName.Value.IsWhiteSpace() || this.shortName.Value.IsLineTerminator())
+            _shortName = shortName;
+            if (_shortName.Value.IsWhiteSpace() || _shortName.Value.IsLineTerminator())
             {
                 throw new ArgumentException(SR.ArgumentException_NoWhiteSpaceOrLineTerminatorInShortName, "shortName");
             }
 
-            this.UniqueName = new string(shortName, 1);
-            this.LongName = longName;
+            UniqueName = new string(shortName, 1);
+            LongName = longName;
         }
 
         /// <summary>
@@ -75,29 +74,29 @@ namespace CommandLine
         /// <param name="longName">Long name of the option.</param>
         protected BaseOptionAttribute(char? shortName, string longName)
         {
-            this.shortName = shortName;
-            if (this.shortName != null)
+            _shortName = shortName;
+            if (_shortName != null)
             {
-                if (this.shortName.Value.IsWhiteSpace() || this.shortName.Value.IsLineTerminator())
+                if (_shortName.Value.IsWhiteSpace() || _shortName.Value.IsLineTerminator())
                 {
                     throw new ArgumentException(SR.ArgumentException_NoWhiteSpaceOrLineTerminatorInShortName, "shortName");
                 }
 
-                this.UniqueName = new string(this.shortName.Value, 1);
+                UniqueName = new string(_shortName.Value, 1);
             }
 
-            this.LongName = longName;
-            if (this.UniqueName != null)
+            LongName = longName;
+            if (UniqueName != null)
             {
                 return;
             }
 
-            if (this.LongName == null)
+            if (LongName == null)
             {
                 throw new ArgumentNullException("longName", SR.ArgumentNullException_LongNameCannotBeNullWhenShortNameIsUndefined);
             }
 
-            this.UniqueName = this.LongName;
+            UniqueName = LongName;
         }
 
         /// <summary>
@@ -105,8 +104,8 @@ namespace CommandLine
         /// </summary>
         public virtual char? ShortName
         {
-            get { return this.shortName; }
-            internal set { this.shortName = value; }
+            get { return _shortName; }
+            internal set { _shortName = value; }
         }
 
         /// <summary>
@@ -124,12 +123,12 @@ namespace CommandLine
         {
             get
             {
-                return this.mutuallyExclusiveSet;
+                return _mutuallyExclusiveSet;
             }
 
             set
             {
-                this.mutuallyExclusiveSet = string.IsNullOrEmpty(value) ? DefaultMutuallyExclusiveSet : value;
+                _mutuallyExclusiveSet = string.IsNullOrEmpty(value) ? DefaultMutuallyExclusiveSet : value;
             }
         }
 
@@ -148,13 +147,13 @@ namespace CommandLine
         {
             get
             {
-                return this.defaultValue;
+                return _defaultValue;
             }
 
             set
             {
-                this.defaultValue = value;
-                this.HasDefaultValue = true;
+                _defaultValue = value;
+                HasDefaultValue = true;
             }
         }
 
@@ -165,13 +164,13 @@ namespace CommandLine
         {
             get
             {
-                return this.metaValue;
+                return _metaValue;
             }
 
             set
             {
-                this.metaValue = value;
-                this.hasMetaValue = !string.IsNullOrEmpty(this.metaValue);
+                _metaValue = value;
+                _hasMetaValue = !string.IsNullOrEmpty(_metaValue);
             }
         }
 
@@ -191,12 +190,12 @@ namespace CommandLine
 
         internal bool HasShortName
         {
-            get { return this.shortName != null; }
+            get { return _shortName != null; }
         }
 
         internal bool HasLongName
         {
-            get { return !string.IsNullOrEmpty(this.LongName); }
+            get { return !string.IsNullOrEmpty(LongName); }
         }
 
         internal bool HasDefaultValue
@@ -206,7 +205,7 @@ namespace CommandLine
 
         internal bool HasMetaValue
         {
-            get { return this.hasMetaValue; }
+            get { return _hasMetaValue; }
         }
 
         internal bool AutoLongName

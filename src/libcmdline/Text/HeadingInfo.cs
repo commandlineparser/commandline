@@ -21,25 +21,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using CommandLine.Helpers;
+#endregion
 
 namespace CommandLine.Text
 {
-    #region Using Directives
-    using System;
-    using System.IO;
-    using System.Reflection;
-    using System.Text;
-    using CommandLine.Helpers;
-    #endregion
-
     /// <summary>
     /// Models the heading part of an help text.
     /// You can assign it where you assign any <see cref="System.String"/> instance.
     /// </summary>
     public class HeadingInfo
     {
-        private readonly string programName;
-        private readonly string version;
+        private readonly string _programName;
+        private readonly string _version;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HeadingInfo"/> class
@@ -63,8 +62,8 @@ namespace CommandLine.Text
         {
             Assumes.NotNullOrEmpty(programName, "programName");
 
-            this.programName = programName;
-            this.version = version;
+            _programName = programName;
+            _version = version;
         }
 
         /// <summary>
@@ -106,14 +105,14 @@ namespace CommandLine.Text
         /// <returns>The <see cref="System.String"/> that contains the heading.</returns>
         public override string ToString()
         {
-            bool isVersionNull = string.IsNullOrEmpty(this.version);
-            var builder = new StringBuilder(this.programName.Length +
-                (!isVersionNull ? this.version.Length + 1 : 0));
-            builder.Append(this.programName);
+            bool isVersionNull = string.IsNullOrEmpty(_version);
+            var builder = new StringBuilder(_programName.Length +
+                (!isVersionNull ? _version.Length + 1 : 0));
+            builder.Append(_programName);
             if (!isVersionNull)
             {
                 builder.Append(' ');
-                builder.Append(this.version);
+                builder.Append(_version);
             }
 
             return builder.ToString();
@@ -132,8 +131,8 @@ namespace CommandLine.Text
             Assumes.NotNullOrEmpty(message, "message");
             Assumes.NotNull(writer, "writer");
 
-            var builder = new StringBuilder(this.programName.Length + message.Length + 2);
-            builder.Append(this.programName);
+            var builder = new StringBuilder(_programName.Length + message.Length + 2);
+            builder.Append(_programName);
             builder.Append(": ");
             builder.Append(message);
             writer.WriteLine(builder.ToString());
@@ -147,7 +146,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="message"/> is null or empty string.</exception>
         public void WriteMessage(string message)
         {
-            this.WriteMessage(message, Console.Out);
+            WriteMessage(message, Console.Out);
         }
 
         /// <summary>
@@ -158,7 +157,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="message"/> is null or empty string.</exception>
         public void WriteError(string message)
         {
-            this.WriteMessage(message, Console.Error);
+            WriteMessage(message, Console.Error);
         }
     }
 }

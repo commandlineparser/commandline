@@ -21,13 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+#endregion
 
 namespace CommandLine.Infrastructure
 {
-    #region Using Directives
-    using System;
-    #endregion
-
     [Flags]
     internal enum PresentParserState : ushort
     {

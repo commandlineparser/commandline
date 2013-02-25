@@ -21,28 +21,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Reflection;
+#endregion
 
 namespace CommandLine.Infrastructure
 {
-    #region Using Directives
-    using System;
-    using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Reflection;
-    #endregion
-
     /// <summary>
     /// Encapsulates property writing primitives.
     /// </summary>
     internal sealed class PropertyWriter
     {
-        private readonly CultureInfo parsingCulture;
+        private readonly CultureInfo _parsingCulture;
 
         public PropertyWriter(PropertyInfo property, CultureInfo parsingCulture)
         {
-            this.parsingCulture = parsingCulture;
-            this.Property = property;
+            _parsingCulture = parsingCulture;
+            Property = property;
         }
 
         public PropertyInfo Property { get; private set; }
@@ -52,16 +51,16 @@ namespace CommandLine.Infrastructure
             try
             {
                 object propertyValue = null;
-                if (this.Property.PropertyType.IsEnum)
+                if (Property.PropertyType.IsEnum)
                 {
-                    propertyValue = Enum.Parse(this.Property.PropertyType, value, true);
+                    propertyValue = Enum.Parse(Property.PropertyType, value, true);
                 }
                 else
                 {
-                    propertyValue = Convert.ChangeType(value, this.Property.PropertyType, this.parsingCulture);
+                    propertyValue = Convert.ChangeType(value, Property.PropertyType, _parsingCulture);
                 }
 
-                this.Property.SetValue(target, propertyValue, null);
+                Property.SetValue(target, propertyValue, null);
             }
             catch (InvalidCastException)
             {
@@ -86,12 +85,12 @@ namespace CommandLine.Infrastructure
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception")]
         public bool WriteNullable(string value, object target)
         {
-            var nc = new NullableConverter(this.Property.PropertyType);
+            var nc = new NullableConverter(Property.PropertyType);
 
             // FormatException (thrown by ConvertFromString) is thrown as Exception.InnerException, so we've to catch directly System.Exception
             try
             {
-                this.Property.SetValue(target, nc.ConvertFromString(null, this.parsingCulture, value), null);
+                Property.SetValue(target, nc.ConvertFromString(null, _parsingCulture, value), null);
             }
             catch (Exception)
             {

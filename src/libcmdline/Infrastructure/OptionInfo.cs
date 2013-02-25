@@ -21,31 +21,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.Reflection;
+using CommandLine.Helpers;
+#endregion
 
 namespace CommandLine.Infrastructure
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.Reflection;
-    using CommandLine.Helpers;
-    #endregion
-
     [DebuggerDisplay("ShortName = {ShortName}, LongName = {LongName}")]
     internal sealed class OptionInfo
     {
-        private readonly CultureInfo parsingCulture;
-        private readonly BaseOptionAttribute attribute;
-        private readonly PropertyInfo property;
-        private readonly PropertyWriter propertyWriter;
-        private readonly bool required;
-        private readonly char? shortName;
-        private readonly string longName;
-        private readonly string mutuallyExclusiveSet;
-        private readonly object defaultValue;
-        private readonly bool hasDefaultValue;
+        private readonly CultureInfo _parsingCulture;
+        private readonly BaseOptionAttribute _attribute;
+        private readonly PropertyInfo _property;
+        private readonly PropertyWriter _propertyWriter;
+        private readonly bool _required;
+        private readonly char? _shortName;
+        private readonly string _longName;
+        private readonly string _mutuallyExclusiveSet;
+        private readonly object _defaultValue;
+        private readonly bool _hasDefaultValue;
 
         public OptionInfo(BaseOptionAttribute attribute, PropertyInfo property, CultureInfo parsingCulture)
         {
@@ -59,16 +58,16 @@ namespace CommandLine.Infrastructure
                 throw new ArgumentNullException("property", SR.ArgumentNullException_PropertyCannotBeNull);
             }
 
-            this.required = attribute.Required;
-            this.shortName = attribute.ShortName;
-            this.longName = attribute.LongName;
-            this.mutuallyExclusiveSet = attribute.MutuallyExclusiveSet;
-            this.defaultValue = attribute.DefaultValue;
-            this.hasDefaultValue = attribute.HasDefaultValue;
-            this.attribute = attribute;
-            this.property = property;
-            this.parsingCulture = parsingCulture;
-            this.propertyWriter = new PropertyWriter(this.property, this.parsingCulture);
+            _required = attribute.Required;
+            _shortName = attribute.ShortName;
+            _longName = attribute.LongName;
+            _mutuallyExclusiveSet = attribute.MutuallyExclusiveSet;
+            _defaultValue = attribute.DefaultValue;
+            _hasDefaultValue = attribute.HasDefaultValue;
+            _attribute = attribute;
+            _property = property;
+            _parsingCulture = parsingCulture;
+            _propertyWriter = new PropertyWriter(_property, _parsingCulture);
         }
 
         /// <summary>
@@ -78,43 +77,43 @@ namespace CommandLine.Infrastructure
         /// <param name="longName">Option long name.</param>
         internal OptionInfo(char? shortName, string longName)
         {
-            this.shortName = shortName;
-            this.longName = longName;
+            _shortName = shortName;
+            _longName = longName;
         }
 
         public char? ShortName
         {
-            get { return this.shortName; }
+            get { return _shortName; }
         }
 
         public string LongName
         {
-            get { return this.longName; }
+            get { return _longName; }
         }
 
         public string MutuallyExclusiveSet
         {
-            get { return this.mutuallyExclusiveSet; }
+            get { return _mutuallyExclusiveSet; }
         }
 
         public bool Required
         {
-            get { return this.required; }
+            get { return _required; }
         }
 
         public bool IsBoolean
         {
-            get { return this.property.PropertyType == typeof(bool); }
+            get { return _property.PropertyType == typeof(bool); }
         }
 
         public bool IsArray
         {
-            get { return this.property.PropertyType.IsArray; }
+            get { return _property.PropertyType.IsArray; }
         }
 
         public bool IsAttributeArrayCompatible
         {
-            get { return this.attribute is OptionArrayAttribute; }
+            get { return _attribute is OptionArrayAttribute; }
         }
 
         public bool IsDefined
@@ -131,7 +130,7 @@ namespace CommandLine.Infrastructure
         {
             get
             {
-                return this.shortName != null && this.longName != null;
+                return _shortName != null && _longName != null;
             }
         }
 
@@ -142,7 +141,7 @@ namespace CommandLine.Infrastructure
 
         public object GetValue(object target)
         {
-            return this.property.GetValue(target, null);
+            return _property.GetValue(target, null);
         }
 
         public object CreateInstance(object target)
@@ -151,9 +150,9 @@ namespace CommandLine.Infrastructure
 
             try
             {
-                instance = Activator.CreateInstance(this.property.PropertyType);
+                instance = Activator.CreateInstance(_property.PropertyType);
 
-                this.property.SetValue(target, instance, null);
+                _property.SetValue(target, instance, null);
             }
             catch (Exception e)
             {
@@ -165,30 +164,30 @@ namespace CommandLine.Infrastructure
 
         public bool SetValue(string value, object options)
         {
-            if (this.attribute is OptionListAttribute)
+            if (_attribute is OptionListAttribute)
             {
-                return this.SetValueList(value, options);
+                return SetValueList(value, options);
             }
 
-            if (ReflectionUtil.IsNullableType(this.property.PropertyType))
+            if (ReflectionUtil.IsNullableType(_property.PropertyType))
             {
-                return this.ReceivedValue = this.propertyWriter.WriteNullable(value, options);
+                return ReceivedValue = _propertyWriter.WriteNullable(value, options);
             }
 
-            return this.ReceivedValue = this.propertyWriter.WriteScalar(value, options);
+            return ReceivedValue = _propertyWriter.WriteScalar(value, options);
         }
 
         public bool SetValue(IList<string> values, object options)
         {
-            var elementType = this.property.PropertyType.GetElementType();
+            var elementType = _property.PropertyType.GetElementType();
             var array = Array.CreateInstance(elementType, values.Count);
 
             for (int i = 0; i < array.Length; i++)
             {
                 try
                 {
-                    array.SetValue(Convert.ChangeType(values[i], elementType, this.parsingCulture), i);
-                    this.property.SetValue(options, array, null);
+                    array.SetValue(Convert.ChangeType(values[i], elementType, _parsingCulture), i);
+                    _property.SetValue(options, array, null);
                 }
                 catch (FormatException)
                 {
@@ -196,22 +195,22 @@ namespace CommandLine.Infrastructure
                 }
             }
 
-            return this.ReceivedValue = true;
+            return ReceivedValue = true;
         }
 
         public bool SetValue(bool value, object options)
         {
-            this.property.SetValue(options, value, null);
-            return this.ReceivedValue = true;
+            _property.SetValue(options, value, null);
+            return ReceivedValue = true;
         }
 
         public void SetDefault(object options)
         {
-            if (this.hasDefaultValue)
+            if (_hasDefaultValue)
             {
                 try
                 {
-                    this.property.SetValue(options, this.defaultValue, null);
+                    _property.SetValue(options, _defaultValue, null);
                 }
                 catch (Exception e)
                 {
@@ -222,15 +221,15 @@ namespace CommandLine.Infrastructure
 
         private bool SetValueList(string value, object options)
         {
-            this.property.SetValue(options, new List<string>(), null);
-            var fieldRef = (IList<string>)this.property.GetValue(options, null);
-            var values = value.Split(((OptionListAttribute)this.attribute).Separator);
+            _property.SetValue(options, new List<string>(), null);
+            var fieldRef = (IList<string>)_property.GetValue(options, null);
+            var values = value.Split(((OptionListAttribute)_attribute).Separator);
             foreach (var item in values)
             {
                 fieldRef.Add(item);
             }
 
-            return this.ReceivedValue = true;
+            return ReceivedValue = true;
         }
     }
 }

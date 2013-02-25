@@ -26,11 +26,11 @@ namespace CommandLine.Infrastructure
 {
     internal sealed class OptionGroupParser : ArgumentParser
     {
-        private readonly bool ignoreUnkwnownArguments;
+        private readonly bool _ignoreUnkwnownArguments;
 
         public OptionGroupParser(bool ignoreUnkwnownArguments)
         {
-            this.ignoreUnkwnownArguments = ignoreUnkwnownArguments;
+            _ignoreUnkwnownArguments = ignoreUnkwnownArguments;
         }
 
         public override PresentParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
@@ -41,7 +41,7 @@ namespace CommandLine.Infrastructure
                 var option = map[group.Current];
                 if (option == null)
                 {
-                    return this.ignoreUnkwnownArguments ? PresentParserState.MoveOnNextElement : PresentParserState.Failure;
+                    return _ignoreUnkwnownArguments ? PresentParserState.MoveOnNextElement : PresentParserState.Failure;
                 }
 
                 option.IsDefined = true;
@@ -63,7 +63,7 @@ namespace CommandLine.Infrastructure
                             valueSetting = option.SetValue(group.GetRemainingFromNext(), options);
                             if (!valueSetting)
                             {
-                                this.DefineOptionThatViolatesFormat(option);
+                                DefineOptionThatViolatesFormat(option);
                             }
 
                             return ArgumentParser.BooleanToParserState(valueSetting);
@@ -77,7 +77,7 @@ namespace CommandLine.Infrastructure
                         valueSetting = option.SetValue(items, options);
                         if (!valueSetting)
                         {
-                            this.DefineOptionThatViolatesFormat(option);
+                            DefineOptionThatViolatesFormat(option);
                         }
 
                         return ArgumentParser.BooleanToParserState(valueSetting, true);
@@ -94,7 +94,7 @@ namespace CommandLine.Infrastructure
                             valueSetting = option.SetValue(argumentEnumerator.Next, options);
                             if (!valueSetting)
                             {
-                                this.DefineOptionThatViolatesFormat(option);
+                                DefineOptionThatViolatesFormat(option);
                             }
 
                             return ArgumentParser.BooleanToParserState(valueSetting, true);
@@ -107,7 +107,7 @@ namespace CommandLine.Infrastructure
                         valueSetting = option.SetValue(items, options);
                         if (!valueSetting)
                         {
-                            this.DefineOptionThatViolatesFormat(option);
+                            DefineOptionThatViolatesFormat(option);
                         }
 
                         return ArgumentParser.BooleanToParserState(valueSetting);

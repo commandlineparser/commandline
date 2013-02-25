@@ -21,27 +21,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Text;
+using CommandLine.Helpers;
+using CommandLine.Text;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using System.Text;
-    using CommandLine.Helpers;
-    using CommandLine.Text;
-
-    #endregion
-
     /// <summary>
     /// Provides base properties for creating an attribute, used to define multiple lines of text.
     /// </summary>
     public abstract class MultilineTextAttribute : Attribute
     {
-        private readonly string line1;
-        private readonly string line2;
-        private readonly string line3;
-        private readonly string line4;
-        private readonly string line5;
+        private readonly string _line1;
+        private readonly string _line2;
+        private readonly string _line3;
+        private readonly string _line4;
+        private readonly string _line5;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultilineTextAttribute"/> class. Used in derived type
@@ -52,7 +50,7 @@ namespace CommandLine
         {
             Assumes.NotNullOrEmpty(line1, "line1");
 
-            this.line1 = line1;
+            _line1 = line1;
         }
 
         /// <summary>
@@ -66,7 +64,7 @@ namespace CommandLine
         {
             Assumes.NotNullOrEmpty(line2, "line2");
 
-            this.line2 = line2;
+            _line2 = line2;
         }
 
         /// <summary>
@@ -81,7 +79,7 @@ namespace CommandLine
         {
             Assumes.NotNullOrEmpty(line3, "line3");
 
-            this.line3 = line3;
+            _line3 = line3;
         }
 
         /// <summary>
@@ -97,7 +95,7 @@ namespace CommandLine
         {
             Assumes.NotNullOrEmpty(line4, "line4");
 
-            this.line4 = line4;
+            _line4 = line4;
         }
 
         /// <summary>
@@ -114,7 +112,7 @@ namespace CommandLine
         {
             Assumes.NotNullOrEmpty(line5, "line5");
 
-            this.line5 = line5;
+            _line5 = line5;
         }
 
         /// <summary>
@@ -126,9 +124,9 @@ namespace CommandLine
             get
             {
                 var value = new StringBuilder(string.Empty);
-                var strArray = new[] { this.line1, this.line2, this.line3, this.line4, this.line5 };
+                var strArray = new[] { _line1, _line2, _line3, _line4, _line5 };
 
-                for (int i = 0; i < this.GetLastLineWithText(strArray); i++)
+                for (int i = 0; i < GetLastLineWithText(strArray); i++)
                 {
                     value.AppendLine(strArray[i]);
                 }
@@ -142,7 +140,7 @@ namespace CommandLine
         /// </summary>
         public string Line1
         {
-            get { return this.line1; }
+            get { return _line1; }
         }
 
         /// <summary>
@@ -150,7 +148,7 @@ namespace CommandLine
         /// </summary>
         public string Line2
         {
-            get { return this.line2; }
+            get { return _line2; }
         }
 
         /// <summary>
@@ -158,7 +156,7 @@ namespace CommandLine
         /// </summary>
         public string Line3
         {
-            get { return this.line3; }
+            get { return _line3; }
         }
 
         /// <summary>
@@ -166,7 +164,7 @@ namespace CommandLine
         /// </summary>
         public string Line4
         {
-            get { return this.line4; }
+            get { return _line4; }
         }
 
         /// <summary>
@@ -174,12 +172,12 @@ namespace CommandLine
         /// </summary>
         public string Line5
         {
-            get { return this.line5; }
+            get { return _line5; }
         }
 
         internal void AddToHelpText(Action<string> action)
         {
-            var strArray = new[] { this.line1, this.line2, this.line3, this.line4, this.line5 };
+            var strArray = new[] { _line1, _line2, _line3, _line4, _line5 };
             Array.ForEach(
                 strArray,
                 line =>
@@ -197,11 +195,11 @@ namespace CommandLine
             // so refactor common code and call with appropriate action
             if (before)
             {
-                this.AddToHelpText(helpText.AddPreOptionsLine);
+                AddToHelpText(helpText.AddPreOptionsLine);
             }
             else
             {
-                this.AddToHelpText(helpText.AddPostOptionsLine);
+                AddToHelpText(helpText.AddPostOptionsLine);
             }
         }
 

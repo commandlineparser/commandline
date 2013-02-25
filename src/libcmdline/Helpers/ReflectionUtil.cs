@@ -21,15 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+#endregion
 
 namespace CommandLine.Helpers
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    #endregion
-
     internal static class ReflectionUtil
     {
         static ReflectionUtil()

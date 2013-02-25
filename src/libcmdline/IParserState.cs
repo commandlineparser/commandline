@@ -21,13 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System.Collections.Generic;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System.Collections.Generic;
-    #endregion
-
     /// <summary>
     /// Represents the parser state.
     /// </summary>

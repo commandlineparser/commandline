@@ -40,7 +40,7 @@ namespace CommandLine
         /// </summary>
         public sealed class ParserConfigurator : IHideObjectMembers
         {
-            private readonly IParser parser;
+            private readonly IParser _parser;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="ParserConfigurator"/> class.
@@ -48,7 +48,7 @@ namespace CommandLine
             /// <param name="parser">The <see cref="CommandLine.IParser"/> instance that should be configured.</param>
             public ParserConfigurator(IParser parser)
             {
-                this.parser = parser;
+                _parser = parser;
             }
 
             /// <summary>
@@ -57,7 +57,7 @@ namespace CommandLine
             /// <returns>A reference to the current <see cref="ParserConfigurator"/>.</returns>
             public ParserConfigurator NoCaseSensitive()
             {
-                this.parser.Settings.CaseSensitive = false;
+                _parser.Settings.CaseSensitive = false;
                 return this;
             }
 
@@ -70,7 +70,7 @@ namespace CommandLine
             {
                 Assumes.NotNull(helpWriter, "helpWriter");
 
-                this.parser.Settings.HelpWriter = helpWriter;
+                _parser.Settings.HelpWriter = helpWriter;
                 return this;
             }
 
@@ -80,7 +80,7 @@ namespace CommandLine
             /// <returns>A reference to the current <see cref="ParserConfigurator"/>.</returns>
             public ParserConfigurator EnableMutuallyExclusive()
             {
-                this.parser.Settings.MutuallyExclusive = true;
+                _parser.Settings.MutuallyExclusive = true;
                 return this;
             }
 
@@ -90,7 +90,7 @@ namespace CommandLine
             /// <returns>A reference to the current <see cref="ParserConfigurator"/>.</returns>
             public ParserConfigurator IgnoreUnknownArguments()
             {
-                this.parser.Settings.IgnoreUnknownArguments = true;
+                _parser.Settings.IgnoreUnknownArguments = true;
                 return this;
             }
 
@@ -104,7 +104,7 @@ namespace CommandLine
             /// </remarks>
             public ParserConfigurator UseCulture(CultureInfo parsingCulture)
             {
-                this.parser.Settings.ParsingCulture = parsingCulture;
+                _parser.Settings.ParsingCulture = parsingCulture;
                 return this;
             }
         }

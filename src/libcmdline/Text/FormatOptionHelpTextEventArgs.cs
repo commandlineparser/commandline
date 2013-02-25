@@ -21,19 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+#endregion
 
 namespace CommandLine.Text
 {
-    #region Using Directives
-    using System;
-    #endregion
-
     /// <summary>
     /// Provides data for the FormatOptionHelpText event.
     /// </summary>
     public class FormatOptionHelpTextEventArgs : EventArgs
     {
-        private readonly BaseOptionAttribute option;
+        private readonly BaseOptionAttribute _option;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.FormatOptionHelpTextEventArgs"/> class.
@@ -41,7 +40,7 @@ namespace CommandLine.Text
         /// <param name="option">Option to format.</param>
         public FormatOptionHelpTextEventArgs(BaseOptionAttribute option)
         {
-            this.option = option;
+            _option = option;
         }
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace CommandLine.Text
         {
             get
             {
-                return this.option;
+                return _option;
             }
         }
     }

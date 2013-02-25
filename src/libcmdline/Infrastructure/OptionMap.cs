@@ -21,24 +21,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using CommandLine;
+using CommandLine.Extensions;
+using CommandLine.Helpers;
+#endregion
 
 namespace CommandLine.Infrastructure
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using CommandLine;
-    using CommandLine.Extensions;
-    using CommandLine.Helpers;
-    #endregion
-
     internal sealed class OptionMap
     {
-        private readonly IParserSettings settings;
-        private readonly Dictionary<string, string> names;
-        private readonly Dictionary<string, OptionInfo> map;
-        private readonly Dictionary<string, MutuallyExclusiveInfo> mutuallyExclusiveSetMap;
+        private readonly IParserSettings _settings;
+        private readonly Dictionary<string, string> _names;
+        private readonly Dictionary<string, OptionInfo> _map;
+        private readonly Dictionary<string, MutuallyExclusiveInfo> _mutuallyExclusiveSetMap;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="OptionMap"/> class.
@@ -48,16 +47,16 @@ namespace CommandLine.Infrastructure
         /// <param name="settings">Parser settings instance.</param>
         internal OptionMap(int capacity, IParserSettings settings) 
         {
-            this.settings = settings;
+            _settings = settings;
 
             IEqualityComparer<string> comparer =
-                this.settings.CaseSensitive ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase;
-            this.names = new Dictionary<string, string>(capacity, comparer);
-            this.map = new Dictionary<string, OptionInfo>(capacity * 2, comparer);
+                _settings.CaseSensitive ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase;
+            _names = new Dictionary<string, string>(capacity, comparer);
+            _map = new Dictionary<string, OptionInfo>(capacity * 2, comparer);
 
-            if (this.settings.MutuallyExclusive)
+            if (_settings.MutuallyExclusive)
             {
-                this.mutuallyExclusiveSetMap = new Dictionary<string, MutuallyExclusiveInfo>(capacity, StringComparer.OrdinalIgnoreCase);
+                _mutuallyExclusiveSetMap = new Dictionary<string, MutuallyExclusiveInfo>(capacity, StringComparer.OrdinalIgnoreCase);
             }
         }
 
@@ -72,16 +71,16 @@ namespace CommandLine.Infrastructure
             {
                 OptionInfo option = null;
 
-                if (this.map.ContainsKey(key))
+                if (_map.ContainsKey(key))
                 {
-                    option = this.map[key];
+                    option = _map[key];
                 }
                 else
                 {
-                    if (this.names.ContainsKey(key))
+                    if (_names.ContainsKey(key))
                     {
-                        var optionKey = this.names[key];
-                        option = this.map[optionKey];
+                        var optionKey = _names[key];
+                        option = _map[optionKey];
                     }
                 }
 
@@ -90,12 +89,12 @@ namespace CommandLine.Infrastructure
 
             set
             {
-                this.map[key] = value;
+                _map[key] = value;
 
                 if (value.HasBothNames)
                 {
                     // ReSharper disable PossibleInvalidOperationException
-                    this.names[value.LongName] = new string(value.ShortName.Value, 1);
+                    _names[value.LongName] = new string(value.ShortName.Value, 1);
                     // ReSharper restore PossibleInvalidOperationException
                 }
             }
@@ -163,14 +162,14 @@ namespace CommandLine.Infrastructure
 
         public bool EnforceRules()
         {
-            return this.EnforceMutuallyExclusiveMap() && this.EnforceRequiredRule();
+            return EnforceMutuallyExclusiveMap() && EnforceRequiredRule();
         }
 
         public void SetDefaults()
         {
-            foreach (OptionInfo option in this.map.Values)
+            foreach (OptionInfo option in _map.Values)
             {
-                option.SetDefault(this.RawOptions);
+                option.SetDefault(RawOptions);
             }
         }
 
@@ -222,11 +221,11 @@ namespace CommandLine.Infrastructure
         {
             var requiredRulesAllMet = true;
 
-            foreach (var option in this.map.Values)
+            foreach (var option in _map.Values)
             {
                 if (option.Required && !(option.IsDefined && option.ReceivedValue))
                 {
-                    SetParserStateIfNeeded(this.RawOptions, option, true, null);
+                    SetParserStateIfNeeded(RawOptions, option, true, null);
                     requiredRulesAllMet = false;
                 }
             }
@@ -236,24 +235,24 @@ namespace CommandLine.Infrastructure
 
         private bool EnforceMutuallyExclusiveMap()
         {
-            if (!this.settings.MutuallyExclusive)
+            if (!_settings.MutuallyExclusive)
             {
                 return true;
             }
 
-            foreach (var option in this.map.Values)
+            foreach (var option in _map.Values)
             {
                 if (option.IsDefined && option.MutuallyExclusiveSet != null)
                 {
-                    this.BuildMutuallyExclusiveMap(option);
+                    BuildMutuallyExclusiveMap(option);
                 }
             }
 
-            foreach (var info in this.mutuallyExclusiveSetMap.Values)
+            foreach (var info in _mutuallyExclusiveSetMap.Values)
             {
                 if (info.Occurrence > 1)
                 {
-                    SetParserStateIfNeeded(this.RawOptions, info.BadOption, null, true);
+                    SetParserStateIfNeeded(RawOptions, info.BadOption, null, true);
                     return false;
                 }
             }
@@ -264,12 +263,12 @@ namespace CommandLine.Infrastructure
         private void BuildMutuallyExclusiveMap(OptionInfo option)
         {
             var setName = option.MutuallyExclusiveSet;
-            if (!this.mutuallyExclusiveSetMap.ContainsKey(setName))
+            if (!_mutuallyExclusiveSetMap.ContainsKey(setName))
             {
-                this.mutuallyExclusiveSetMap.Add(setName, new MutuallyExclusiveInfo(option));
+                _mutuallyExclusiveSetMap.Add(setName, new MutuallyExclusiveInfo(option));
             }
 
-            this.mutuallyExclusiveSetMap[setName].IncrementOccurrence();
+            _mutuallyExclusiveSetMap[setName].IncrementOccurrence();
         }
   
         private sealed class MutuallyExclusiveInfo
@@ -278,19 +277,19 @@ namespace CommandLine.Infrastructure
 
             public MutuallyExclusiveInfo(OptionInfo option)
             {
-                this.BadOption = option;
+                BadOption = option;
             }
 
             public OptionInfo BadOption { get; private set; }
 
             public int Occurrence
             {
-                get { return this.count; }
+                get { return count; }
             }
 
             public void IncrementOccurrence()
             {
-                ++this.count;
+                ++count;
             }
         }
     }

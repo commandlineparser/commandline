@@ -21,17 +21,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using CommandLine.Helpers;
+using CommandLine.Infrastructure;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using CommandLine.Helpers;
-    using CommandLine.Infrastructure;
-    #endregion
-
     /// <summary>
     /// Models a list of command line arguments that are not options.
     /// Must be applied to a field compatible with an <see cref="System.Collections.Generic.IList&lt;T&gt;"/> interface
@@ -41,7 +40,7 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ValueListAttribute : Attribute
     {
-        private readonly Type concreteType;
+        private readonly Type _concreteType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.ValueListAttribute"/> class.
@@ -61,12 +60,12 @@ namespace CommandLine
                 throw new ParserException(SR.CommandLineParserException_IncompatibleTypes);
             }
 
-            this.concreteType = concreteType;
+            _concreteType = concreteType;
         }
 
         private ValueListAttribute()
         {
-            this.MaximumElements = -1;
+            MaximumElements = -1;
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace CommandLine
         /// </summary>
         public Type ConcreteType
         {
-            get { return this.concreteType; }
+            get { return _concreteType; }
         }
 
         internal static IList<string> GetReference(object target)

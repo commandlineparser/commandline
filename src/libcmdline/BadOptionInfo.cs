@@ -35,8 +35,8 @@ namespace CommandLine
 
         internal BadOptionInfo(char? shortName, string longName)
         {
-            this.ShortName = shortName;
-            this.LongName = longName;
+            ShortName = shortName;
+            LongName = longName;
         }
 
         /// <summary>

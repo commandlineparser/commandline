@@ -21,19 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+#endregion
 
 namespace CommandLine.Helpers
 {
-    #region Using Directives
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    #endregion
-
     internal sealed class ReflectionCache
     {
         private static readonly ReflectionCache Singleton;
-        private readonly IDictionary<Pair<Type, object>, WeakReference> cache;
+        private readonly IDictionary<Pair<Type, object>, WeakReference> _cache;
 
         [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Singleton, by design.")]
         static ReflectionCache()
@@ -43,7 +42,7 @@ namespace CommandLine.Helpers
 
         private ReflectionCache()
         {
-            this.cache = new Dictionary<Pair<Type, object>, WeakReference>();
+            _cache = new Dictionary<Pair<Type, object>, WeakReference>();
         }
 
         public static ReflectionCache Instance
@@ -60,7 +59,7 @@ namespace CommandLine.Helpers
                     throw new ArgumentNullException("key");
                 }
 
-                return this.cache.ContainsKey(key) ? this.cache[key].Target : null;
+                return _cache.ContainsKey(key) ? _cache[key].Target : null;
             }
 
             set
@@ -70,7 +69,7 @@ namespace CommandLine.Helpers
                     throw new ArgumentNullException("key");
                 }
 
-                this.cache[key] = new WeakReference(value);
+                _cache[key] = new WeakReference(value);
             }
         }
     }

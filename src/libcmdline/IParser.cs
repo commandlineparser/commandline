@@ -21,13 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    #endregion
-
     /// <summary>
     /// Defines a basic interface to parse command line arguments.
     /// </summary>

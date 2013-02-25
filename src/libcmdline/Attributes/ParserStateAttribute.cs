@@ -21,13 +21,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+#endregion
 
 namespace CommandLine
 {
-    #region Using Directives
-    using System;
-    #endregion
-
     /// <summary>
     /// Indicates that the property can receive an instance of type <see cref="CommandLine.IParserState"/>.
     /// </summary>

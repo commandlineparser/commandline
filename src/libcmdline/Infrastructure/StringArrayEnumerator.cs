@@ -21,44 +21,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
+#region Using Directives
+using System;
+using CommandLine.Helpers;
+#endregion
 
 namespace CommandLine.Infrastructure
 {
-    #region Using Directives
-    using System;
-    using CommandLine.Helpers;
-    #endregion
-
     internal sealed class StringArrayEnumerator : IArgumentEnumerator
     {
-        private readonly int endIndex;
-        private readonly string[] data;
-        private int index;
+        private readonly int _endIndex;
+        private readonly string[] _data;
+        private int _index;
 
         public StringArrayEnumerator(string[] value)
         {
             Assumes.NotNull(value, "value");
 
-            this.data = value;
-            this.index = -1;
-            this.endIndex = value.Length;
+            _data = value;
+            _index = -1;
+            _endIndex = value.Length;
         }
 
         public string Current
         {
             get
             {
-                if (this.index == -1)
+                if (_index == -1)
                 {
                     throw new InvalidOperationException();
                 }
 
-                if (this.index >= this.endIndex)
+                if (_index >= _endIndex)
                 {
                     throw new InvalidOperationException();
                 }
 
-                return this.data[this.index];
+                return _data[_index];
             }
         }
 
@@ -66,36 +65,36 @@ namespace CommandLine.Infrastructure
         {
             get
             {
-                if (this.index == -1)
+                if (_index == -1)
                 {
                     throw new InvalidOperationException();
                 }
 
-                if (this.index > this.endIndex)
+                if (_index > _endIndex)
                 {
                     throw new InvalidOperationException();
                 }
 
-                if (this.IsLast)
+                if (IsLast)
                 {
                     return null;
                 }
 
-                return this.data[this.index + 1];
+                return _data[_index + 1];
             }
         }
 
         public bool IsLast
         {
-            get { return this.index == this.endIndex - 1; }
+            get { return _index == _endIndex - 1; }
         }
 
         public bool MoveNext()
         {
-            if (this.index < this.endIndex)
+            if (_index < _endIndex)
             {
-                this.index++;
-                return this.index < this.endIndex;
+                _index++;
+                return _index < _endIndex;
             }
 
             return false;
@@ -108,15 +107,15 @@ namespace CommandLine.Infrastructure
 
         public bool MovePrevious()
         {
-            if (this.index <= 0)
+            if (_index <= 0)
             {
                 throw new InvalidOperationException();
             }
 
-            if (this.index <= this.endIndex)
+            if (_index <= _endIndex)
             {
-                this.index--;
-                return this.index <= this.endIndex;
+                _index--;
+                return _index <= _endIndex;
             }
 
             return false;
