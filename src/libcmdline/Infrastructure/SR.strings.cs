@@ -43,5 +43,9 @@ namespace CommandLine.Infrastructure
 
         public const string InvalidOperationException_ParserSettingsInstanceCanBeUsedOnce = "The command line parserSettings instance cannnot be used more than once.";
 
+        public const string InvalidOperationException_ParserStateInstanceCannotBeNotNull = "ParserState instance cannot be supplied.";
+
+        public const string InvalidOperationException_ParserStateInstanceBadApplied = "Cannot apply ParserStateAttribute to a property that does not implement IParserState or is not accessible.";
+
     }
 }

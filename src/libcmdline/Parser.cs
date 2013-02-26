@@ -288,18 +288,36 @@ namespace CommandLine
 
             var property = ReflectionHelper.RetrievePropertyList<ParserStateAttribute>(options)[0].Left;
 
-            // Developers are entitled to provide their implementation and instance
-            if (property.GetValue(options, null) == null)
+            var parserState = property.GetValue(options, null);
+            if (parserState != null)
             {
-                // Otherwise the parser will the default one
-                property.SetValue(options, new ParserState(), null);
+                if (!(parserState is IParserState))
+                {
+                    throw new InvalidOperationException(SR.InvalidOperationException_ParserStateInstanceBadApplied);
+                }
+
+                if (!(parserState is ParserState))
+                {
+                    throw new InvalidOperationException(SR.InvalidOperationException_ParserStateInstanceCannotBeNotNull);
+                }
+            }
+            else
+            {
+                try
+                {
+                    property.SetValue(options, new ParserState(), null);
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException(SR.InvalidOperationException_ParserStateInstanceBadApplied, ex);
+                }
             }
 
-            var parserState = (IParserState)property.GetValue(options, null);
+            var state = (IParserState)property.GetValue(options, null);
 
             foreach (var error in errors)
             {
-                parserState.Errors.Add(error);
+                state.Errors.Add(error);
             }
         }
 
@@ -392,10 +410,8 @@ namespace CommandLine
 
             var optionMap = OptionMap.Create(options, verbs, _settings);
 
-            // Read the verb from command line arguments
             if (TryParseHelpVerb(args, options, helpInfo, optionMap))
             {
-                // Since user requested help, parsing is considered a fail
                 return false;
             }
 

@@ -76,6 +76,7 @@
     <Compile Include="Unit\Parser\MutuallyExclusiveParsingFixture.cs" />
     <Compile Include="Unit\Parser\NullableTypesParsingFixture.cs" />
     <Compile Include="Unit\Parser\OptionArrayAttributeParsingFixture.cs" />
+    <Compile Include="Unit\Parser\ParserStateFixture.cs" />
     <Compile Include="Unit\Parser\SingletonFixture.cs" />
     <Compile Include="Unit\Parser\StrictFixture.cs" />
     <Compile Include="Unit\Parser\UnknownArgumentsFixture.cs" />

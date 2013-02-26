@@ -76,12 +76,12 @@
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\PopsicleSetter.cs" />
-    <Compile Include="Parsing\PropertyWriter.cs" />
     <Compile Include="Infrastructure\SR.strings.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SR.tt</DependentUpon>
     </Compile>
+    <Compile Include="Parsing\PropertyWriter.cs" />
     <Compile Include="Infrastructure\Assumes.cs" />
     <Compile Include="Infrastructure\ReflectionCache.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
