@@ -30,6 +30,8 @@ using System.Threading;
 
 namespace CommandLine
 {
+    using CommandLine.Helpers;
+
     /// <summary>
     /// Provides settings for <see cref="CommandLine.Parser"/>.
     /// </summary>
@@ -37,6 +39,11 @@ namespace CommandLine
     {
         private const bool CaseSensitiveDefault = true;
         private bool _disposed;
+        private bool _caseSensitive;
+        private bool _mutuallyExclusive;
+        private bool _ignoreUnknownArguments;
+        private TextWriter _helpWriter;
+        private CultureInfo _parsingCulture;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
@@ -134,19 +141,40 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets a value indicating whether perform case sensitive comparisons.
         /// </summary>
-        public bool CaseSensitive { get; set; }
+        public bool CaseSensitive
+        {
+            get { return _caseSensitive; }
+            set
+            {
+                PopsicleSetter.Set(Consumed, ref _caseSensitive, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether set a mutually exclusive behavior.
         /// Default is set to false.
         /// </summary>
-        public bool MutuallyExclusive { get; set; }
+        public bool MutuallyExclusive
+        {
+            get { return _mutuallyExclusive; }
+            set
+            {
+                PopsicleSetter.Set(Consumed, ref _mutuallyExclusive, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the <see cref="System.IO.TextWriter"/> used for help method output.
         /// Setting this property to null, will disable help screen.
         /// </summary>
-        public TextWriter HelpWriter { get; set; }
+        public TextWriter HelpWriter
+        {
+            get { return _helpWriter; }
+            set
+            {
+                PopsicleSetter.Set(Consumed, ref _helpWriter, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the parser shall move on to the next argument and ignore the given argument if it
@@ -159,7 +187,14 @@ namespace CommandLine
         /// This allows fragmented version class parsing, useful for project with add-on where add-ons also requires command line arguments but
         /// when these are unknown by the main program at build time.
         /// </remarks>
-        public bool IgnoreUnknownArguments { get; set; }
+        public bool IgnoreUnknownArguments
+        {
+            get { return _ignoreUnknownArguments; }
+            set
+            {
+                PopsicleSetter.Set(Consumed, ref _ignoreUnknownArguments, value);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the culture used when parsing arguments to typed properties.
@@ -167,7 +202,14 @@ namespace CommandLine
         /// <remarks>
         /// Default is CurrentCulture of <see cref="System.Threading.Thread.CurrentThread"/>.
         /// </remarks>
-        public CultureInfo ParsingCulture { get; set; }
+        public CultureInfo ParsingCulture
+        {
+            get { return _parsingCulture; }
+            set
+            {
+                PopsicleSetter.Set(Consumed, ref _parsingCulture, value);
+            }
+        }
 
         /// <summary>
         /// Frees resources owned by the instance.
@@ -188,10 +230,10 @@ namespace CommandLine
 
             if (disposing)
             {
-                if (HelpWriter != null)
+                if (_helpWriter != null)
                 {
-                    HelpWriter.Dispose();
-                    HelpWriter = null;
+                    _helpWriter.Dispose();
+                    _helpWriter = null;
                 }
 
                 _disposed = true;

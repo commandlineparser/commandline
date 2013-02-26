@@ -75,6 +75,7 @@
     <Compile Include="Attributes\ValueOptionAttribute.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\PopsicleSetter.cs" />
     <Compile Include="Infrastructure\PropertyWriter.cs" />
     <Compile Include="Infrastructure\SR.strings.cs">
       <AutoGen>True</AutoGen>
