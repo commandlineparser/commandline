@@ -1,6 +1,7 @@
 2013-02-26  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 
   * Reduced mutability of ParserSettings, instance can be used once.
+  * Internal refactoring.
 
 2013-02-25  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 

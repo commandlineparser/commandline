@@ -28,8 +28,8 @@ using System.Resources;
 
 [assembly: AssemblyProduct("Command Line Parser Library")]
 [assembly: AssemblyCopyright("Copyright (c) 2005 - 2013 Giacomo Stelluti Scala")]
-[assembly: AssemblyVersion("1.9.69.3")]
-[assembly: AssemblyFileVersion("1.9.69.3")]
+[assembly: AssemblyVersion("1.9.69.4")]
+[assembly: AssemblyFileVersion("1.9.69.4")]
 
-[assembly: AssemblyInformationalVersion("1.9.62-rc2")]
+[assembly: AssemblyInformationalVersion("1.9.69-rc2")]
 [assembly: NeutralResourcesLanguage("en-US")]
