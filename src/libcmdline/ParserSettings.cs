@@ -36,7 +36,6 @@ namespace CommandLine
     public sealed class ParserSettings
     {
         private const bool CaseSensitiveDefault = true;
-
         private bool _disposed;
 
         /// <summary>
@@ -130,6 +129,8 @@ namespace CommandLine
             Dispose(false);
         }
 
+        internal bool Consumed { get; set; }
+        
         /// <summary>
         /// Gets or sets a value indicating whether perform case sensitive comparisons.
         /// </summary>

@@ -35,6 +35,8 @@ using FluentAssertions;
 
 namespace CommandLine.Tests.Unit.Parser
 {
+    using System;
+
     public class ParserSettingsFixture
     {
         [Fact]
@@ -63,6 +65,18 @@ namespace CommandLine.Tests.Unit.Parser
 
             success.Should().BeFalse();
             writer.ToString().Should().Be("MockOptions::GetUsage()");
+        }
+
+        [Fact]
+        public void Setting_instance_is_not_reusable()
+        {
+            var settings = new ParserSettings(helpWriter: Console.Out);
+
+            var parser = new CommandLine.Parser(settings);
+
+            Assert.ThrowsDelegate act = () => { var parser2 = new CommandLine.Parser(settings); };
+
+            Assert.Throws<InvalidOperationException>(act);
         }
 
         //[Fact]

@@ -55,7 +55,7 @@ namespace CommandLine
         /// </summary>
         public Parser()
         {
-            _settings = new ParserSettings();
+            _settings = new ParserSettings { Consumed = true };
         }
 
         /// <summary>
@@ -68,22 +68,29 @@ namespace CommandLine
         public Parser(ParserSettings settings)
         {
             Assumes.NotNull(settings, "settings", SR.ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull);
+            
+            if (settings.Consumed)
+            {
+                throw new InvalidOperationException("ParserSettings instance cannnot be used more than once.");
+            }
 
             _settings = settings;
+            _settings.Consumed = true;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Parser"/> class,
         /// configurable with <see cref="ParserSettings"/> using a delegate.
         /// </summary>
-        /// <param name="settings">The <see cref="Action&lt;ParserSettings&gt;"/> object used to configure
+        /// <param name="configuration">The <see cref="Action&lt;ParserSettings&gt;"/> delegate used to configure
         /// aspects and behaviors of the parser.</param>
-        public Parser(Action<ParserSettings> settings)
-            : this()
+        public Parser(Action<ParserSettings> configuration)
         {
-            Assumes.NotNull(settings, "settings", SR.ArgumentNullException_CommandLineParserSettingsDelegateCannotBeNull);
+            Assumes.NotNull(configuration, "configuration", SR.ArgumentNullException_CommandLineParserSettingsDelegateCannotBeNull);
 
-            settings.Invoke(_settings);
+            _settings = new ParserSettings();
+            configuration.Invoke(Settings);
+            _settings.Consumed = true;
         }
 
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "singleton", Justification = "The constructor that accepts a boolean is designed to support default singleton, the parameter is ignored")]
