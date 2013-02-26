@@ -21,9 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-#region Using Directives
-using CommandLine.Infrastructure;
-#endregion
 
 namespace CommandLine.Parsing
 {
@@ -90,37 +87,35 @@ namespace CommandLine.Parsing
                     {
                         return PresentParserState.Failure;
                     }
-                    else
+
+                    if (!option.IsArray)
                     {
-                        if (!option.IsArray)
-                        {
-                            valueSetting = option.SetValue(argumentEnumerator.Next, options);
-                            if (!valueSetting)
-                            {
-                                DefineOptionThatViolatesFormat(option);
-                            }
-
-                            return ArgumentParser.BooleanToParserState(valueSetting, true);
-                        }
-
-                        ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
-
-                        var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
-
-                        valueSetting = option.SetValue(items, options);
+                        valueSetting = option.SetValue(argumentEnumerator.Next, options);
                         if (!valueSetting)
                         {
                             DefineOptionThatViolatesFormat(option);
                         }
 
-                        return ArgumentParser.BooleanToParserState(valueSetting);
+                        return ArgumentParser.BooleanToParserState(valueSetting, true);
                     }
+
+                    ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
+
+                    var moreItems = ArgumentParser.GetNextInputValues(argumentEnumerator);
+
+                    valueSetting = option.SetValue(moreItems, options);
+                    if (!valueSetting)
+                    {
+                        DefineOptionThatViolatesFormat(option);
+                    }
+
+                    return ArgumentParser.BooleanToParserState(valueSetting);
                 }
 
-                if (!@group.IsLast && map[@group.Next] == null)
-                {
-                    return PresentParserState.Failure;
-                }
+            if (!@group.IsLast && map[@group.Next] == null)
+            {
+                return PresentParserState.Failure;
+            }
 
                 if (!option.SetValue(true, options))
                 {

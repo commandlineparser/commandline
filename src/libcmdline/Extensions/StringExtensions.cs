@@ -22,7 +22,6 @@
 // THE SOFTWARE.
 #endregion
 #region Using Directives
-using System;
 using System.Globalization;
 #endregion
 

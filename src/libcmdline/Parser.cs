@@ -28,8 +28,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using CommandLine.Extensions;
-
 using CommandLine.Infrastructure;
 using CommandLine.Parsing;
 using CommandLine.Text;

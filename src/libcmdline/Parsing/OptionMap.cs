@@ -25,10 +25,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using CommandLine;
 using CommandLine.Extensions;
 using CommandLine.Infrastructure;
-
 #endregion
 
 namespace CommandLine.Parsing
@@ -274,7 +272,7 @@ namespace CommandLine.Parsing
   
         private sealed class MutuallyExclusiveInfo
         {
-            private int count;
+            private int _count;
 
             public MutuallyExclusiveInfo(OptionInfo option)
             {
@@ -285,12 +283,12 @@ namespace CommandLine.Parsing
 
             public int Occurrence
             {
-                get { return count; }
+                get { return this._count; }
             }
 
             public void IncrementOccurrence()
             {
-                ++count;
+                ++this._count;
             }
         }
     }

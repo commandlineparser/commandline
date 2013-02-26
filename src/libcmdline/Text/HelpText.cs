@@ -48,8 +48,8 @@ namespace CommandLine.Text
         private string _heading;
         private string _copyright;
         private bool _additionalNewLineAfterOption;
-        private StringBuilder optionsHelp;
-        private bool addDashesToOption;
+        private StringBuilder _optionsHelp;
+        private bool _addDashesToOption;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class.
@@ -234,8 +234,8 @@ namespace CommandLine.Text
         /// </summary>
         public bool AddDashesToOption
         {
-            get { return addDashesToOption; }
-            set { addDashesToOption = value; }
+            get { return this._addDashesToOption; }
+            set { this._addDashesToOption = value; }
         }
 
         /// <summary>
@@ -512,7 +512,7 @@ namespace CommandLine.Text
         {
             const int ExtraLength = 10;
             var builder = new StringBuilder(GetLength(_heading) + GetLength(_copyright) +
-                GetLength(_preOptionsHelp) + GetLength(optionsHelp) + ExtraLength);
+                GetLength(_preOptionsHelp) + GetLength(this._optionsHelp) + ExtraLength);
 
             builder.Append(_heading);
             if (!string.IsNullOrEmpty(_copyright))
@@ -527,11 +527,11 @@ namespace CommandLine.Text
                 builder.Append(_preOptionsHelp);
             }
 
-            if (optionsHelp != null && optionsHelp.Length > 0)
+            if (this._optionsHelp != null && this._optionsHelp.Length > 0)
             {
                 builder.Append(Environment.NewLine);
                 builder.Append(Environment.NewLine);
-                builder.Append(optionsHelp);
+                builder.Append(this._optionsHelp);
             }
 
             if (_postOptionsHelp.Length > 0)
@@ -642,7 +642,7 @@ namespace CommandLine.Text
             }
 
             int maxLength = GetMaxLength(optionList);
-            optionsHelp = new StringBuilder(BuilderCapacity);
+            this._optionsHelp = new StringBuilder(BuilderCapacity);
             int remainingSpace = maximumLength - (maxLength + 6);
             foreach (BaseOptionAttribute option in optionList)
             {
@@ -657,11 +657,11 @@ namespace CommandLine.Text
 
         private void AddOption(string requiredWord, int maxLength, BaseOptionAttribute option, int widthOfHelpText, bool fireEvent = true)
         {
-            optionsHelp.Append("  ");
+            this._optionsHelp.Append("  ");
             var optionName = new StringBuilder(maxLength);
             if (option.HasShortName)
             {
-                if (addDashesToOption)
+                if (this._addDashesToOption)
                 {
                     optionName.Append('-');
                 }
@@ -681,7 +681,7 @@ namespace CommandLine.Text
 
             if (option.HasLongName)
             {
-                if (addDashesToOption)
+                if (this._addDashesToOption)
                 {
                     optionName.Append("--");
                 }
@@ -694,11 +694,11 @@ namespace CommandLine.Text
                 }
             }
 
-            optionsHelp.Append(optionName.Length < maxLength ?
+            this._optionsHelp.Append(optionName.Length < maxLength ?
                 optionName.ToString().PadRight(maxLength) :
                 optionName.ToString());
 
-            optionsHelp.Append("    ");
+            this._optionsHelp.Append("    ");
             if (option.HasDefaultValue)
             {
                 option.HelpText = "(Default: {0}) ".FormatLocal(option.DefaultValue) + option.HelpText;
@@ -726,17 +726,17 @@ namespace CommandLine.Text
                     {
                         if (words[i].Length < (widthOfHelpText - wordBuffer))
                         {
-                            optionsHelp.Append(words[i]);
+                            this._optionsHelp.Append(words[i]);
                             wordBuffer += words[i].Length;
                             if ((widthOfHelpText - wordBuffer) > 1 && i != words.Length - 1)
                             {
-                                optionsHelp.Append(" ");
+                                this._optionsHelp.Append(" ");
                                 wordBuffer++;
                             }
                         }
                         else if (words[i].Length >= widthOfHelpText && wordBuffer == 0)
                         {
-                            optionsHelp.Append(words[i].Substring(0, widthOfHelpText));
+                            this._optionsHelp.Append(words[i].Substring(0, widthOfHelpText));
                             wordBuffer = widthOfHelpText;
                             break;
                         }
@@ -750,18 +750,18 @@ namespace CommandLine.Text
                         Math.Min(wordBuffer, option.HelpText.Length)).Trim();
                     if (option.HelpText.Length > 0)
                     {
-                        optionsHelp.Append(Environment.NewLine);
-                        optionsHelp.Append(new string(' ', maxLength + 6));
+                        this._optionsHelp.Append(Environment.NewLine);
+                        this._optionsHelp.Append(new string(' ', maxLength + 6));
                     }
                 }
                 while (option.HelpText.Length > widthOfHelpText);
             }
 
-            optionsHelp.Append(option.HelpText);
-            optionsHelp.Append(Environment.NewLine);
+            this._optionsHelp.Append(option.HelpText);
+            this._optionsHelp.Append(Environment.NewLine);
             if (_additionalNewLineAfterOption)
             {
-                optionsHelp.Append(Environment.NewLine);
+                this._optionsHelp.Append(Environment.NewLine);
             }
         }
 
