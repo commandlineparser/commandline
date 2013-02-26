@@ -15,7 +15,7 @@ namespace CommandLine.Infrastructure
 
         public const string ArgumentNullException_OptionsInstanceCannotBeNull = "The target options instance cannot be null.";
 
-        public const string ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull = "The command line parser settings instance cannot be null.";
+        public const string ArgumentNullException_ParserSettingsInstanceCannotBeNull = "The command line parser settings instance cannot be null.";
 
         public const string ArgumentNullException_AttributeCannotBeNull = "The attribute is mandatory.";
 
@@ -39,7 +39,9 @@ namespace CommandLine.Infrastructure
 
         public const string ArgumentNullException_OnVerbDelegateCannotBeNull = "Delegate executed to capture verb command instance reference cannot be null.";
 
-        public const string ArgumentNullException_CommandLineParserSettingsDelegateCannotBeNull = "The command line parser settings delegate cannot be null.";
+        public const string ArgumentNullException_ParserSettingsDelegateCannotBeNull = "The command line parser settings delegate cannot be null.";
+
+        public const string InvalidOperationException_ParserSettingsInstanceCanBeUsedOnce = "The command line parserSettings instance cannnot be used more than once.";
 
     }
 }

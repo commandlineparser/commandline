@@ -1,6 +1,6 @@
 ﻿ArgumentNullException_ArgsStringArrayCannotBeNull = The arguments string array cannot be null.
 ArgumentNullException_OptionsInstanceCannotBeNull = The target options instance cannot be null.
-ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull = The command line parser settings instance cannot be null.
+ArgumentNullException_ParserSettingsInstanceCannotBeNull = The command line parser settings instance cannot be null.
 ArgumentNullException_AttributeCannotBeNull = The attribute is mandatory.
 ArgumentNullException_PropertyCannotBeNull = The property is mandatory.
 CommandLineParserException_CannotCreateInstanceForVerbCommand = Instance defined for verb command could not be created.
@@ -12,4 +12,5 @@ InvalidOperationException_DoNotSetRequiredPropertyForVerbCommands = Verb command
 CommandLineParserException_IncompatibleTypes = The types are incompatible.
 InvalidOperationException_CopyrightInfoRequiresAssemblyCopyrightAttributeOrAssemblyCompanyAttribute = CopyrightInfo::Default requires that you define AssemblyCopyrightAttribute or AssemblyCompanyAttribute.
 ArgumentNullException_OnVerbDelegateCannotBeNull = Delegate executed to capture verb command instance reference cannot be null.
-ArgumentNullException_CommandLineParserSettingsDelegateCannotBeNull = The command line parser settings delegate cannot be null.
+ArgumentNullException_ParserSettingsDelegateCannotBeNull = The command line parser settings delegate cannot be null.
+InvalidOperationException_ParserSettingsInstanceCanBeUsedOnce = The command line parserSettings instance cannnot be used more than once.

@@ -67,11 +67,11 @@ namespace CommandLine
         [Obsolete("Use constructor that accepts Action<ParserSettings>.")]
         public Parser(ParserSettings settings)
         {
-            Assumes.NotNull(settings, "settings", SR.ArgumentNullException_CommandLineParserSettingsInstanceCannotBeNull);
+            Assumes.NotNull(settings, "settings", SR.ArgumentNullException_ParserSettingsInstanceCannotBeNull);
             
             if (settings.Consumed)
             {
-                throw new InvalidOperationException("ParserSettings instance cannnot be used more than once.");
+                throw new InvalidOperationException(SR.InvalidOperationException_ParserSettingsInstanceCanBeUsedOnce);
             }
 
             _settings = settings;
@@ -86,7 +86,7 @@ namespace CommandLine
         /// aspects and behaviors of the parser.</param>
         public Parser(Action<ParserSettings> configuration)
         {
-            Assumes.NotNull(configuration, "configuration", SR.ArgumentNullException_CommandLineParserSettingsDelegateCannotBeNull);
+            Assumes.NotNull(configuration, "configuration", SR.ArgumentNullException_ParserSettingsDelegateCannotBeNull);
 
             _settings = new ParserSettings();
             configuration.Invoke(Settings);
