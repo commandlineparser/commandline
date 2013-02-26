@@ -34,22 +34,22 @@ namespace CommandLine.Parsing
     {
         public static bool HasVerbs(this object target)
         {
-            return ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(target).Count > 0;
+            return ReflectionHelper.RetrievePropertyList<VerbOptionAttribute>(target).Count > 0;
         }
 
         public static bool HasHelp(this object target)
         {
-            return ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(target) != null;
+            return ReflectionHelper.RetrieveMethod<HelpOptionAttribute>(target) != null;
         }
 
         public static bool HasVerbHelp(this object target)
         {
-            return ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(target) != null;
+            return ReflectionHelper.RetrieveMethod<HelpVerbOptionAttribute>(target) != null;
         }
 
         public static bool CanReceiveParserState(this object target)
         {
-            return ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(target).Count > 0;
+            return ReflectionHelper.RetrievePropertyList<ParserStateAttribute>(target).Count > 0;
         }
     }
 }

@@ -121,14 +121,14 @@ namespace CommandLine.Text
             get
             {
                 // if an exact copyright string has been specified, it takes precedence
-                var copyright = ReflectionUtil.GetAttribute<AssemblyCopyrightAttribute>();
+                var copyright = ReflectionHelper.GetAttribute<AssemblyCopyrightAttribute>();
                 if (copyright != null)
                 {
                     return new CopyrightInfo(copyright);
                 }
 
                 // if no copyright attribute exist but a company attribute does, use it as copyright holder
-                var company = ReflectionUtil.GetAttribute<AssemblyCompanyAttribute>();
+                var company = ReflectionHelper.GetAttribute<AssemblyCompanyAttribute>();
                 if (company != null)
                 {
                     return new CopyrightInfo(company.Company, DateTime.Now.Year);

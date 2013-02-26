@@ -34,7 +34,7 @@ namespace CommandLine.Infrastructure
         private static readonly ReflectionCache Singleton;
         private readonly IDictionary<Pair<Type, object>, WeakReference> _cache;
 
-        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Singleton, by design.")]
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Singleton, by design")]
         static ReflectionCache()
         {
             Singleton = new ReflectionCache();

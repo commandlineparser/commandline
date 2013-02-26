@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="ReflectionUtil.cs" company="Giacomo Stelluti Scala">
+// <copyright file="ReflectionHelper.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -29,9 +29,9 @@ using System.Reflection;
 
 namespace CommandLine.Infrastructure
 {
-    internal static class ReflectionUtil
+    internal static class ReflectionHelper
     {
-        static ReflectionUtil()
+        static ReflectionHelper()
         {
             AssemblyFromWhichToPullInformation = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
         }

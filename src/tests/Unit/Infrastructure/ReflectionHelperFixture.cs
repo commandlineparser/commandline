@@ -37,7 +37,7 @@ using FluentAssertions;
 
 namespace CommandLine.Tests.Unit.Infrastructure
 {
-    public class ReflectionUtilFixture
+    public class ReflectionHelperFixture
     {
         #region Mock Objects
         private class MockAttribute : Attribute
@@ -95,12 +95,11 @@ namespace CommandLine.Tests.Unit.Infrastructure
         }
         #endregion
 
-
         [Fact]
         public void Get_fields_by_attribute()
         {
             var target = new MockObject();
-            var list = ReflectionUtil.RetrievePropertyList<MockAttribute>(target);
+            var list = ReflectionHelper.RetrievePropertyList<MockAttribute>(target);
 
             list.Should().HaveCount(n => n == 2);
             list[0].Left.Name.Should().Be("StringField");
@@ -108,7 +107,7 @@ namespace CommandLine.Tests.Unit.Infrastructure
 
             PrintFieldList<MockAttribute>(list);
 
-            var anotherList = ReflectionUtil.RetrievePropertyList<AnotherMockAttribute>(target);
+            var anotherList = ReflectionHelper.RetrievePropertyList<AnotherMockAttribute>(target);
 
             anotherList.Should().HaveCount(n => n == 1);
             anotherList[0].Left.Name.Should().Be("IntField");
@@ -120,7 +119,7 @@ namespace CommandLine.Tests.Unit.Infrastructure
         public void Get_method_by_attribute()
         {
             var target = new MockObject();
-            var pair = ReflectionUtil.RetrieveMethod<MockAttribute>(target);
+            var pair = ReflectionHelper.RetrieveMethod<MockAttribute>(target);
 
             pair.Should().NotBeNull();
             pair.Left.Name.Should().Be("DoNothing");
@@ -129,7 +128,7 @@ namespace CommandLine.Tests.Unit.Infrastructure
         [Fact]
         public void Get_fields_attribute_list()
         {
-            var list = ReflectionUtil.RetrievePropertyAttributeList<MockWithValueAttribute>(new AnotherMockObject());
+            var list = ReflectionHelper.RetrievePropertyAttributeList<MockWithValueAttribute>(new AnotherMockObject());
 
             list.Should().NotBeNull();
             list.Should().HaveCount(n => n == 3);

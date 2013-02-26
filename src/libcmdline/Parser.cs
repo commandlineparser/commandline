@@ -267,7 +267,7 @@ namespace CommandLine
             GC.SuppressFinalize(this);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#", Justification = "By design")]
         internal static object InternalGetVerbOptionsInstanceByName(string verb, object target, out bool found)
         {
             found = false;
@@ -276,7 +276,7 @@ namespace CommandLine
                 return target;
             }
 
-            var pair = ReflectionUtil.RetrieveOptionProperty<VerbOptionAttribute>(target, verb);
+            var pair = ReflectionHelper.RetrieveOptionProperty<VerbOptionAttribute>(target, verb);
             found = pair != null;
             return found ? pair.Left.GetValue(target, null) : target;
         }
@@ -288,7 +288,7 @@ namespace CommandLine
                 return;
             }
 
-            var property = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options)[0].Left;
+            var property = ReflectionHelper.RetrievePropertyList<ParserStateAttribute>(options)[0].Left;
 
             // Developers are entitled to provide their implementation and instance
             if (property.GetValue(options, null) == null)
@@ -312,7 +312,7 @@ namespace CommandLine
 
         private bool DoParseArguments(string[] args, object options)
         {
-            var pair = ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(options);
+            var pair = ReflectionHelper.RetrieveMethod<HelpOptionAttribute>(options);
             var helpWriter = _settings.HelpWriter;
 
             if (pair != null && helpWriter != null)
@@ -380,8 +380,8 @@ namespace CommandLine
 
         private bool DoParseArgumentsVerbs(string[] args, object options, ref object verbInstance)
         {
-            var verbs = ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(options);
-            var helpInfo = ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(options);
+            var verbs = ReflectionHelper.RetrievePropertyList<VerbOptionAttribute>(options);
+            var helpInfo = ReflectionHelper.RetrieveMethod<HelpVerbOptionAttribute>(options);
             if (args.Length == 0)
             {
                 if (helpInfo != null || _settings.HelpWriter != null)

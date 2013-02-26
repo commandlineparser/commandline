@@ -99,7 +99,7 @@ namespace CommandLine
 
         internal static ValueListAttribute GetAttribute(object target)
         {
-            var list = ReflectionUtil.RetrievePropertyList<ValueListAttribute>(target);
+            var list = ReflectionHelper.RetrievePropertyList<ValueListAttribute>(target);
             if (list == null || list.Count == 0)
             {
                 return null;
@@ -117,7 +117,7 @@ namespace CommandLine
         private static PropertyInfo GetProperty(object target, out Type concreteType)
         {
             concreteType = null;
-            var list = ReflectionUtil.RetrievePropertyList<ValueListAttribute>(target);
+            var list = ReflectionHelper.RetrievePropertyList<ValueListAttribute>(target);
             if (list == null || list.Count == 0)
             {
                 return null;

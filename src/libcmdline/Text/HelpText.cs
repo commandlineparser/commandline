@@ -288,20 +288,20 @@ namespace CommandLine.Text
 
             if (onError != null)
             {
-                var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
+                var list = ReflectionHelper.RetrievePropertyList<ParserStateAttribute>(options);
                 if (list != null)
                 {
                     onError(auto);
                 }
             }
 
-            var license = ReflectionUtil.GetAttribute<AssemblyLicenseAttribute>();
+            var license = ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>();
             if (license != null)
             {
                 license.AddToHelpText(auto, true);
             }
 
-            var usage = ReflectionUtil.GetAttribute<AssemblyUsageAttribute>();
+            var usage = ReflectionHelper.GetAttribute<AssemblyUsageAttribute>();
             if (usage != null)
             {
                 usage.AddToHelpText(auto, true);
@@ -338,7 +338,7 @@ namespace CommandLine.Text
         /// <param name="current">The <see cref="CommandLine.Text.HelpText"/> instance.</param>
         public static void DefaultParsingErrorsHandler(object options, HelpText current)
         {
-            var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
+            var list = ReflectionHelper.RetrievePropertyList<ParserStateAttribute>(options);
             if (list.Count == 0)
             {
                 return;
@@ -442,7 +442,7 @@ namespace CommandLine.Text
         /// <returns>The <see cref="System.String"/> that contains the parsing error message.</returns>
         public string RenderParsingErrorsText(object options, int indent)
         {
-            var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
+            var list = ReflectionHelper.RetrievePropertyList<ParserStateAttribute>(options);
             if (list.Count == 0)
             {
                 return string.Empty; // Or exception?
@@ -628,8 +628,8 @@ namespace CommandLine.Text
 
         private void DoAddOptions(object options, string requiredWord, int maximumLength, bool fireEvent = true)
         {
-            var optionList = ReflectionUtil.RetrievePropertyAttributeList<BaseOptionAttribute>(options);
-            var optionHelp = ReflectionUtil.RetrieveMethodAttributeOnly<HelpOptionAttribute>(options);
+            var optionList = ReflectionHelper.RetrievePropertyAttributeList<BaseOptionAttribute>(options);
+            var optionHelp = ReflectionHelper.RetrieveMethodAttributeOnly<HelpOptionAttribute>(options);
 
             if (optionHelp != null)
             {

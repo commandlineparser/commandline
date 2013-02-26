@@ -170,7 +170,7 @@ namespace CommandLine.Parsing
                 return SetValueList(value, options);
             }
 
-            if (ReflectionUtil.IsNullableType(_property.PropertyType))
+            if (ReflectionHelper.IsNullableType(_property.PropertyType))
             {
                 return ReceivedValue = _propertyWriter.WriteNullable(value, options);
             }

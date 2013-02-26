@@ -85,7 +85,7 @@
     <Compile Include="Infrastructure\Assumes.cs" />
     <Compile Include="Infrastructure\ReflectionCache.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Infrastructure\ReflectionUtil.cs" />
+    <Compile Include="Infrastructure\ReflectionHelper.cs" />
     <Compile Include="Infrastructure\Pair.cs" />
     <Compile Include="Parsing\TargetCapabilitiesExtensions.cs">
       <SubType>Code</SubType>

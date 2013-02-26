@@ -80,7 +80,7 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets the values separator character.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char.")]
+        [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "The char Separator property matches shortName char constructor argument because the ShortName property is defined in BaseOptionAttribute as nullable char")]
         public char Separator
         {
             get;

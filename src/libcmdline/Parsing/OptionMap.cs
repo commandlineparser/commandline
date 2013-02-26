@@ -103,7 +103,7 @@ namespace CommandLine.Parsing
 
         public static OptionMap Create(object target, ParserSettings settings)
         {
-            var list = ReflectionUtil.RetrievePropertyList<BaseOptionAttribute>(target);
+            var list = ReflectionHelper.RetrievePropertyList<BaseOptionAttribute>(target);
             if (list == null)
             {
                 return null;
@@ -176,7 +176,7 @@ namespace CommandLine.Parsing
 
         private static void SetParserStateIfNeeded(object options, OptionInfo option, bool? required, bool? mutualExclusiveness)
         {
-            var list = ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(options);
+            var list = ReflectionHelper.RetrievePropertyList<ParserStateAttribute>(options);
             if (list.Count == 0)
             {
                 return;

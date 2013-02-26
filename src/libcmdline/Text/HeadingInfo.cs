@@ -79,13 +79,13 @@ namespace CommandLine.Text
         {
             get
             {
-                var titleAttribute = ReflectionUtil.GetAttribute<AssemblyTitleAttribute>();
+                var titleAttribute = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>();
                 string title = titleAttribute == null
-                    ? ReflectionUtil.AssemblyFromWhichToPullInformation.GetName().Name
+                    ? ReflectionHelper.AssemblyFromWhichToPullInformation.GetName().Name
                     : Path.GetFileNameWithoutExtension(titleAttribute.Title);
-                var versionAttribute = ReflectionUtil.GetAttribute<AssemblyInformationalVersionAttribute>();
+                var versionAttribute = ReflectionHelper.GetAttribute<AssemblyInformationalVersionAttribute>();
                 string version = versionAttribute == null
-                    ? ReflectionUtil.AssemblyFromWhichToPullInformation.GetName().Version.ToString()
+                    ? ReflectionHelper.AssemblyFromWhichToPullInformation.GetName().Version.ToString()
                     : versionAttribute.InformationalVersion;
                 return new HeadingInfo(title, version);
             }

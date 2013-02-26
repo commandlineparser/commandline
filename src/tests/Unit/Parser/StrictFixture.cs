@@ -49,7 +49,7 @@ namespace CommandLine.Tests.Unit.Parser
             var options = new SimpleOptions();
             var testWriter = new StringWriter();
 
-            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            ReflectionHelper.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
             var parser = new CommandLine.Parser(with => with.HelpWriter = testWriter);
             var result = parser.ParseArgumentsStrict(new string[] {"--bad", "--input"}, options,
                 () => Console.WriteLine("fake fail"));
@@ -73,7 +73,7 @@ namespace CommandLine.Tests.Unit.Parser
             var options = new SimpleOptionsForStrict();
             var testWriter = new StringWriter();
 
-            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            ReflectionHelper.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
             var parser = new CommandLine.Parser(with => with.HelpWriter = testWriter);
             var result = parser.ParseArgumentsStrict(new string[] { "--bad", "--input" }, options,
                 () => Console.WriteLine("fake fail"));
@@ -98,7 +98,7 @@ namespace CommandLine.Tests.Unit.Parser
             var options = new OptionsWithVerbsNoHelp();
             var testWriter = new StringWriter();
 
-            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            ReflectionHelper.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
             var parser = new CommandLine.Parser(with => with.HelpWriter = testWriter);
             var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options,
                 (verb, subOptions) =>
@@ -133,7 +133,7 @@ namespace CommandLine.Tests.Unit.Parser
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
 
-            ReflectionUtil.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
+            ReflectionHelper.AssemblyFromWhichToPullInformation = Assembly.GetExecutingAssembly();
             var parser = new CommandLine.Parser(with => with.HelpWriter = testWriter);
             var result = parser.ParseArgumentsStrict(new string[] { "bad", "input" }, options,
                 (verb, subOptions) =>

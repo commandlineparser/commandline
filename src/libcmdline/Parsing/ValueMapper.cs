@@ -77,7 +77,7 @@ namespace CommandLine.Parsing
 
                 var propertyWriter = new PropertyWriter(valueOption.Left, _parsingCulture);
 
-                return ReflectionUtil.IsNullableType(propertyWriter.Property.PropertyType) ?
+                return ReflectionHelper.IsNullableType(propertyWriter.Property.PropertyType) ?
                     propertyWriter.WriteNullable(item, _target) :
                     propertyWriter.WriteScalar(item, _target);
             }
@@ -108,7 +108,7 @@ namespace CommandLine.Parsing
 
         private void InitializeValueOption()
         {
-            var list = ReflectionUtil.RetrievePropertyList<ValueOptionAttribute>(_target);
+            var list = ReflectionHelper.RetrievePropertyList<ValueOptionAttribute>(_target);
 
             // default is index 0, so skip sorting if all have it
             _valueOptionAttributeList = list.All(x => x.Right.Index == 0)
