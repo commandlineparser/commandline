@@ -25,7 +25,7 @@
 using System;
 using System.Reflection;
 using CommandLine.Extensions;
-using CommandLine.Helpers;
+
 using CommandLine.Infrastructure;
 #endregion
 

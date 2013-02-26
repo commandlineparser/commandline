@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using CommandLine.Extensions;
 #endregion
 
-namespace CommandLine.Infrastructure
+namespace CommandLine.Parsing
 {
     internal abstract class ArgumentParser
     {

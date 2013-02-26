@@ -27,10 +27,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using CommandLine;
 using CommandLine.Extensions;
-using CommandLine.Helpers;
+using CommandLine.Infrastructure;
+
 #endregion
 
-namespace CommandLine.Infrastructure
+namespace CommandLine.Parsing
 {
     internal sealed class OptionMap
     {

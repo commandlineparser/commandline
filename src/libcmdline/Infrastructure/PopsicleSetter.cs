@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="ObjectExtensions.cs" company="Giacomo Stelluti Scala">
+// <copyright file="PopsicleSetter.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -22,36 +22,21 @@
 // THE SOFTWARE.
 #endregion
 #region Using Directives
-
+using System;
 #endregion
 
-using CommandLine.Infrastructure;
-
-namespace CommandLine.Extensions
+namespace CommandLine.Infrastructure
 {
-    /// <summary>
-    /// Utility extension methods for System.Object.
-    /// </summary>
-    internal static class ObjectExtensions
+    internal static class PopsicleSetter
     {
-        public static bool HasVerbs(this object target)
+        public static void Set<T>(bool consumed, ref T field, T value)
         {
-            return ReflectionUtil.RetrievePropertyList<VerbOptionAttribute>(target).Count > 0;
-        }
+            if (consumed)
+            {
+                throw new InvalidOperationException();
+            }
 
-        public static bool HasHelp(this object target)
-        {
-            return ReflectionUtil.RetrieveMethod<HelpOptionAttribute>(target) != null;
-        }
-
-        public static bool HasVerbHelp(this object target)
-        {
-            return ReflectionUtil.RetrieveMethod<HelpVerbOptionAttribute>(target) != null;
-        }
-
-        public static bool CanReceiveParserState(this object target)
-        {
-            return ReflectionUtil.RetrievePropertyList<ParserStateAttribute>(target).Count > 0;
+            field = value;
         }
     }
 }

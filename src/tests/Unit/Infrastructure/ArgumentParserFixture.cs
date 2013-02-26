@@ -29,6 +29,9 @@
 #region Using Directives
 using System;
 using System.Collections.Generic;
+
+using CommandLine.Parsing;
+
 using Xunit;
 using FluentAssertions;
 using CommandLine.Infrastructure;

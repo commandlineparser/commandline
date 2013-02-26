@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="PresentParserState.cs" company="Giacomo Stelluti Scala">
+// <copyright file="Assumes.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -27,12 +27,40 @@ using System;
 
 namespace CommandLine.Infrastructure
 {
-    [Flags]
-    internal enum PresentParserState : ushort
+    internal static class Assumes
     {
-        Undefined = 0x00,
-        Success = 0x01,
-        Failure = 0x02,
-        MoveOnNextElement = 0x04
+        public static void NotNull<T>(T value, string paramName)
+            where T : class
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(paramName);
+            }
+        }
+
+        public static void NotNull<T>(T value, string paramName, string message)
+            where T : class
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(paramName, message);
+            }
+        }
+
+        public static void NotNullOrEmpty(string value, string paramName)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentException(paramName);
+            }
+        }
+
+        public static void NotZeroLength<T>(T[] array, string paramName)
+        {
+            if (array.Length == 0)
+            {
+                throw new ArgumentOutOfRangeException(paramName);
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 #endregion
 
-namespace CommandLine.Helpers
+namespace CommandLine.Infrastructure
 {
     internal sealed class ReflectionCache
     {

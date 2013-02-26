@@ -32,7 +32,7 @@ using System.IO;
 using System.Reflection;
 using CommandLine.Tests;
 using CommandLine.Tests.Fakes;
-using CommandLine.Helpers;
+using CommandLine.Infrastructure;
 using Xunit;
 using FluentAssertions;
 #endregion

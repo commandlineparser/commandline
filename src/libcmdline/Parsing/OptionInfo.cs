@@ -27,10 +27,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
-using CommandLine.Helpers;
+
+using CommandLine.Infrastructure;
 #endregion
 
-namespace CommandLine.Infrastructure
+namespace CommandLine.Parsing
 {
     [DebuggerDisplay("ShortName = {ShortName}, LongName = {LongName}")]
     internal sealed class OptionInfo

@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="Pair.cs" company="Giacomo Stelluti Scala">
+// <copyright file="IArgumentEnumerator.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -22,49 +22,20 @@
 // THE SOFTWARE.
 #endregion
 
-namespace CommandLine.Helpers
+namespace CommandLine.Parsing
 {
-    internal sealed class Pair<TLeft, TRight>
-        where TLeft : class
-        where TRight : class
+    internal interface IArgumentEnumerator
     {
-        private readonly TLeft _left;
-        private readonly TRight _right;
+        string Current { get; }
 
-        public Pair(TLeft left, TRight right)
-        {
-            _left = left;
-            _right = right;
-        }
+        string Next { get; }
 
-        public TLeft Left
-        {
-            get { return _left; }
-        }
+        bool IsLast { get; }
 
-        public TRight Right
-        {
-            get { return _right; }
-        }
+        bool MoveNext();
 
-        public override int GetHashCode()
-        {
-            int leftHash = _left == null ? 0 : _left.GetHashCode();
-            int rightHash = _right == null ? 0 : _right.GetHashCode();
+        bool MovePrevious();
 
-            return leftHash ^ rightHash;
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as Pair<TLeft, TRight>;
-
-            if (other == null)
-            {
-                return false;
-            }
-
-            return object.Equals(_left, other._left) && object.Equals(_right, other._right);
-        }
+        string GetRemainingFromNext();
     }
 }

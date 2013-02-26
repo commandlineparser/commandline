@@ -21,10 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #endregion
-#region Using Directives
-using System;
-using System.Globalization;
-#endregion
 
 namespace CommandLine.Extensions
 {

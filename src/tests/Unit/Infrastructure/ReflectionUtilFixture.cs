@@ -30,12 +30,12 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using CommandLine.Helpers;
+using CommandLine.Infrastructure;
 using Xunit;
 using FluentAssertions;
 #endregion
 
-namespace CommandLine.Tests.Unit.Helpers
+namespace CommandLine.Tests.Unit.Infrastructure
 {
     public class ReflectionUtilFixture
     {

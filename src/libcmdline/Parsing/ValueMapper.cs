@@ -26,10 +26,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using CommandLine.Helpers;
+
+using CommandLine.Infrastructure;
+
 #endregion
 
-namespace CommandLine.Infrastructure
+namespace CommandLine.Parsing
 {
     /// <summary>
     /// Maps unnamed options to property using <see cref="CommandLine.ValueOptionAttribute"/> and <see cref="CommandLine.ValueListAttribute"/>.
@@ -72,7 +74,9 @@ namespace CommandLine.Infrastructure
                 _valueOptionIndex < _valueOptionAttributeList.Count)
             {
                 var valueOption = _valueOptionAttributeList[_valueOptionIndex++];
+
                 var propertyWriter = new PropertyWriter(valueOption.Left, _parsingCulture);
+
                 return ReflectionUtil.IsNullableType(propertyWriter.Property.PropertyType) ?
                     propertyWriter.WriteNullable(item, _target) :
                     propertyWriter.WriteScalar(item, _target);

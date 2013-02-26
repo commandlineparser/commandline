@@ -29,8 +29,9 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using CommandLine.Extensions;
-using CommandLine.Helpers;
+
 using CommandLine.Infrastructure;
+using CommandLine.Parsing;
 using CommandLine.Text;
 #endregion
 

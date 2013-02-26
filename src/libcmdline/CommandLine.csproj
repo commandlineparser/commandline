@@ -75,28 +75,28 @@
     <Compile Include="Attributes\ValueOptionAttribute.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Helpers\PopsicleSetter.cs" />
-    <Compile Include="Infrastructure\PropertyWriter.cs" />
+    <Compile Include="Infrastructure\PopsicleSetter.cs" />
+    <Compile Include="Parsing\PropertyWriter.cs" />
     <Compile Include="Infrastructure\SR.strings.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SR.tt</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Assumes.cs" />
-    <Compile Include="Helpers\ReflectionCache.cs" />
+    <Compile Include="Infrastructure\Assumes.cs" />
+    <Compile Include="Infrastructure\ReflectionCache.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Helpers\ReflectionUtil.cs" />
-    <Compile Include="Helpers\Pair.cs" />
-    <Compile Include="Infrastructure\ValueMapper.cs" />
-    <Compile Include="Infrastructure\LongOptionParser.cs" />
-    <Compile Include="Infrastructure\OptionGroupParser.cs" />
-    <Compile Include="Infrastructure\OptionInfo.cs" />
-    <Compile Include="Infrastructure\OptionMap.cs" />
-    <Compile Include="Infrastructure\OneCharStringEnumerator.cs" />
-    <Compile Include="Infrastructure\StringArrayEnumerator.cs" />
-    <Compile Include="Infrastructure\ArgumentParser.cs" />
-    <Compile Include="Infrastructure\IArgumentEnumerator.cs" />
-    <Compile Include="Infrastructure\PresentParserState.cs" />
+    <Compile Include="Infrastructure\ReflectionUtil.cs" />
+    <Compile Include="Infrastructure\Pair.cs" />
+    <Compile Include="Parsing\ValueMapper.cs" />
+    <Compile Include="Parsing\LongOptionParser.cs" />
+    <Compile Include="Parsing\OptionGroupParser.cs" />
+    <Compile Include="Parsing\OptionInfo.cs" />
+    <Compile Include="Parsing\OptionMap.cs" />
+    <Compile Include="Parsing\OneCharStringEnumerator.cs" />
+    <Compile Include="Parsing\StringArrayEnumerator.cs" />
+    <Compile Include="Parsing\ArgumentParser.cs" />
+    <Compile Include="Parsing\IArgumentEnumerator.cs" />
+    <Compile Include="Parsing\PresentParserState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Text\HelpText.cs" />
     <Compile Include="Text\BaseSentenceBuilder.cs" />

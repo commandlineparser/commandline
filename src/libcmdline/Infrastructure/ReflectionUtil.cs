@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Reflection;
 #endregion
 
-namespace CommandLine.Helpers
+namespace CommandLine.Infrastructure
 {
     internal static class ReflectionUtil
     {

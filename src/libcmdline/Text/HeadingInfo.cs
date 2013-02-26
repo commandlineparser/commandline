@@ -26,7 +26,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using CommandLine.Helpers;
+
+using CommandLine.Infrastructure;
+
 #endregion
 
 namespace CommandLine.Text

@@ -34,7 +34,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using CommandLine.Tests.Fakes;
-using CommandLine.Helpers;
+using CommandLine.Infrastructure;
 using Xunit;
 using FluentAssertions;
 #endregion

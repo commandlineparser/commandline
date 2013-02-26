@@ -29,7 +29,7 @@ using System.Globalization;
 using System.Reflection;
 #endregion
 
-namespace CommandLine.Infrastructure
+namespace CommandLine.Parsing
 {
     /// <summary>
     /// Encapsulates property writing primitives.

@@ -23,7 +23,7 @@
 #endregion
 #region Using Directives
 using System;
-using CommandLine.Helpers;
+
 using CommandLine.Infrastructure;
 #endregion
 

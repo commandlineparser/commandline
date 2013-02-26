@@ -24,7 +24,9 @@
 #region Using Directives
 using System;
 using System.Reflection;
-using CommandLine.Helpers;
+
+using CommandLine.Infrastructure;
+
 #endregion
 
 namespace CommandLine

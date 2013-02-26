@@ -117,7 +117,7 @@
     <Compile Include="Unit\Text\HelpTextFixture.cs" />
     <Compile Include="Unit\Text\MultiLineTextAttributeFixture.cs" />
     <Compile Include="Unit\Text\VerbsHelpTextFixture.cs" />
-    <Compile Include="Unit\Helpers\ReflectionUtilFixture.cs" />
+    <Compile Include="Unit\Infrastructure\ReflectionUtilFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CommandLine.snk" />

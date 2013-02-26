@@ -26,7 +26,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using CommandLine.Extensions;
-using CommandLine.Helpers;
+using CommandLine.Infrastructure;
+
 #endregion
 
 namespace CommandLine.Text

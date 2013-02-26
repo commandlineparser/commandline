@@ -27,6 +27,9 @@
 //
 #endregion
 #region Using Directives
+
+using CommandLine.Parsing;
+
 using Xunit;
 using FluentAssertions;
 using CommandLine.Infrastructure;

@@ -23,10 +23,12 @@
 #endregion
 #region Using Directives
 using System;
-using CommandLine.Helpers;
+
+using CommandLine.Infrastructure;
+
 #endregion
 
-namespace CommandLine.Infrastructure
+namespace CommandLine.Parsing
 {
     internal sealed class OneCharStringEnumerator : IArgumentEnumerator
     {

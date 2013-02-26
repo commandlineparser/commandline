@@ -26,12 +26,11 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using CommandLine.Infrastructure;
 #endregion
 
 namespace CommandLine
 {
-    using CommandLine.Helpers;
-
     /// <summary>
     /// Provides settings for <see cref="CommandLine.Parser"/>.
     /// </summary>
@@ -135,15 +134,17 @@ namespace CommandLine
         {
             Dispose(false);
         }
-
-        internal bool Consumed { get; set; }
         
         /// <summary>
         /// Gets or sets a value indicating whether perform case sensitive comparisons.
         /// </summary>
         public bool CaseSensitive
         {
-            get { return _caseSensitive; }
+            get
+            {
+                return _caseSensitive;
+            }
+
             set
             {
                 PopsicleSetter.Set(Consumed, ref _caseSensitive, value);
@@ -156,7 +157,11 @@ namespace CommandLine
         /// </summary>
         public bool MutuallyExclusive
         {
-            get { return _mutuallyExclusive; }
+            get
+            {
+                return _mutuallyExclusive;
+            }
+
             set
             {
                 PopsicleSetter.Set(Consumed, ref _mutuallyExclusive, value);
@@ -169,7 +174,11 @@ namespace CommandLine
         /// </summary>
         public TextWriter HelpWriter
         {
-            get { return _helpWriter; }
+            get
+            {
+                return _helpWriter;
+            }
+
             set
             {
                 PopsicleSetter.Set(Consumed, ref _helpWriter, value);
@@ -189,7 +198,11 @@ namespace CommandLine
         /// </remarks>
         public bool IgnoreUnknownArguments
         {
-            get { return _ignoreUnknownArguments; }
+            get
+            {
+                return _ignoreUnknownArguments;
+            }
+
             set
             {
                 PopsicleSetter.Set(Consumed, ref _ignoreUnknownArguments, value);
@@ -204,12 +217,18 @@ namespace CommandLine
         /// </remarks>
         public CultureInfo ParsingCulture
         {
-            get { return _parsingCulture; }
+            get
+            {
+                return _parsingCulture;
+            }
+
             set
             {
                 PopsicleSetter.Set(Consumed, ref _parsingCulture, value);
             }
         }
+
+        internal bool Consumed { get; set; }
 
         /// <summary>
         /// Frees resources owned by the instance.
