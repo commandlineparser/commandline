@@ -33,7 +33,7 @@ using Xunit;
 using FluentAssertions;
 #endregion
 
-namespace CommandLine.Tests.Unit
+namespace CommandLine.Tests.Unit.Parser
 {
     public class ParserSettingsFixture
     {
@@ -41,7 +41,7 @@ namespace CommandLine.Tests.Unit
         public void Setting_help_writer_using_constructor()
         {
             var writer = new StringWriter();
-            var parser = new Parser(new ParserSettings(writer));
+            var parser = new CommandLine.Parser(new ParserSettings(writer));
             var options = new SimpleOptionsWithHelpOption();
             
             bool success = parser.ParseArguments(new string[] {"--help"}, options);
@@ -56,7 +56,7 @@ namespace CommandLine.Tests.Unit
             var writer = new StringWriter();
             var settings = new ParserSettings();
             settings.HelpWriter = writer;
-            var parser = new Parser(settings);
+            var parser = new CommandLine.Parser(settings);
             var options = new SimpleOptionsWithHelpOption();
 
             bool success = parser.ParseArguments(new string[] { "--help" }, options);
@@ -69,7 +69,7 @@ namespace CommandLine.Tests.Unit
         //public void Setting_help_writer_using_argument()
         //{
         //    var writer = new StringWriter();
-        //    IParser parser = new Parser(new ParserSettings());
+        //    IParser parser = new CommandLine.Parser(new ParserSettings());
         //    var options = new SimpleOptionsWithHelpOption();
 
         //    bool success = parser.ParseArguments(new string[] { "--help" }, options, writer);

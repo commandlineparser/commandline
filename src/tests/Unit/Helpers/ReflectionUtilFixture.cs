@@ -37,8 +37,6 @@ using FluentAssertions;
 
 namespace CommandLine.Tests.Unit.Helpers
 {
-
-
     public class ReflectionUtilFixture
     {
         #region Mock Objects

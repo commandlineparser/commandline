@@ -15,7 +15,7 @@ namespace CommandLine.Tests.Unit.Attributes
         {
             // Given
             var options = new OptionsWithImplicitLongName();
-            var parser = new Parser();
+            var parser = new CommandLine.Parser();
             var arguments = new[] {
                 "--download", "something",
                 "--up-load", "this",

@@ -11,7 +11,7 @@ namespace CommandLine.Tests.Unit.Attributes
         {
             var options = new OptionsWithValueOptionImplicitIndex();
             string[] args = "foo bar".Split();
-            Parser.Default.ParseArguments(args, options);
+            CommandLine.Parser.Default.ParseArguments(args, options);
             options.A.ShouldBeEquivalentTo("foo");
             options.B.ShouldBeEquivalentTo("bar");
             options.C.Should().BeNull();
@@ -22,7 +22,7 @@ namespace CommandLine.Tests.Unit.Attributes
         {
             var options = new OptionsWithValueOptionExplicitIndex();
             string[] args = "foo bar".Split();
-            Parser.Default.ParseArguments(args, options);
+            CommandLine.Parser.Default.ParseArguments(args, options);
             options.A.Should().BeNull();
             options.B.ShouldBeEquivalentTo("bar");
             options.C.ShouldBeEquivalentTo("foo");

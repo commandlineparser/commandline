@@ -35,7 +35,7 @@ using FluentAssertions;
 using CommandLine.Tests.Fakes;
 #endregion
 
-namespace CommandLine.Tests.Unit
+namespace CommandLine.Tests.Unit.Parser
 {
     public class SingletonFixture
     {
@@ -43,7 +43,7 @@ namespace CommandLine.Tests.Unit
         public void Parse_string_integer_bool_options()
         {
             var options = new SimpleOptions();
-            bool result = Parser.Default.ParseArguments(
+            bool result = CommandLine.Parser.Default.ParseArguments(
                     new string[] { "-s", "another string", "-i100", "--switch" }, options);
 
             result.Should().BeTrue();
@@ -57,7 +57,7 @@ namespace CommandLine.Tests.Unit
         public void Default_doesnt_support_mutually_exclusive_options()
         {
             var options = new OptionsWithMultipleSet();
-            bool result = Parser.Default.ParseArguments(
+            bool result = CommandLine.Parser.Default.ParseArguments(
                 new string[] { "-r1", "-g2", "-b3", "-h4", "-s5", "-v6" }, options);
 
             result.Should().BeTrue(); // enabling MutuallyExclusive option it would fails
@@ -66,7 +66,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public void Default_parsing_culture_is_invariant()
         {
-            Parser.Default.Settings.ParsingCulture.Should().Be(CultureInfo.InvariantCulture);
+            CommandLine.Parser.Default.Settings.ParsingCulture.Should().Be(CultureInfo.InvariantCulture);
         }
     }
 }

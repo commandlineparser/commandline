@@ -34,7 +34,7 @@ using FluentAssertions;
 using CommandLine.Tests.Fakes;
 #endregion
 
-namespace CommandLine.Tests.Unit
+namespace CommandLine.Tests.Unit.Parser
 {
     public class UnknownArgumentsFixture
     {
@@ -43,7 +43,8 @@ namespace CommandLine.Tests.Unit
         {
             string[] args = { "--plugin", "addonX", "--filename", "input.dat" };
             var appOptions = new OptionsForAppWithPlugIns();
-            var parser = new Parser(new ParserSettings {
+            var parser = new CommandLine.Parser(new ParserSettings
+            {
                 IgnoreUnknownArguments = true, CaseSensitive = true });
             var result1 = parser.ParseArguments(args, appOptions);
 

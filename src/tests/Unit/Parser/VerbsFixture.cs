@@ -34,7 +34,7 @@ using FluentAssertions;
 using CommandLine.Tests.Fakes;
 #endregion
 
-namespace CommandLine.Tests.Unit
+namespace CommandLine.Tests.Unit.Parser
 {
     public class VerbsFixture : ParserBaseFixture
     {
@@ -47,7 +47,7 @@ namespace CommandLine.Tests.Unit
             var options = new OptionsWithVerbs();
             options.AddVerb.Should().BeNull();
 
-            var parser = new Parser();
+            var parser = new CommandLine.Parser();
             var result = parser.ParseArguments(new string[] {"add", "-p", "untracked.bin"} , options,
                 (verb, subOptions) =>
                 {
@@ -78,7 +78,7 @@ namespace CommandLine.Tests.Unit
             options.CommitVerb.Should().NotBeNull();
             options.CommitVerb.CreationProof = proof;
 
-            var parser = new Parser();
+            var parser = new CommandLine.Parser();
             var result = parser.ParseArguments(new string[] { "commit", "--amend" }, options,
                 (verb, subOptions) =>
                 {
@@ -105,7 +105,7 @@ namespace CommandLine.Tests.Unit
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
 
-            var parser = new Parser(with => with.HelpWriter = testWriter);
+            var parser = new CommandLine.Parser(with => with.HelpWriter = testWriter);
             var result = parser.ParseArguments(new string[] {}, options,
                 (verb, subOptions) =>
                 {
@@ -131,7 +131,7 @@ namespace CommandLine.Tests.Unit
             var options = new OptionsWithVerbs();
             var testWriter = new StringWriter();
 
-            var parser = new Parser(with => with.HelpWriter = testWriter);
+            var parser = new CommandLine.Parser(with => with.HelpWriter = testWriter);
             var result = parser.ParseArguments(new string[] {"clone", "--no_hardlinks"}, options,
                 (verb, subOptions) =>
                 {
@@ -153,7 +153,7 @@ namespace CommandLine.Tests.Unit
         //{
         //    var options = new OptionsWithVerbs();
 
-        //    var parser = new Parser();
+        //    var parser = new CommandLine.Parser();
         //    var result = parser.ParseArguments(new string[] {}, options);
 
         //    result.Should().BeFalse();
@@ -168,7 +168,7 @@ namespace CommandLine.Tests.Unit
         //{
         //    var options = new OptionsWithVerbs();
 
-        //    var parser = new Parser();
+        //    var parser = new CommandLine.Parser();
         //    var result = parser.ParseArguments(new string[] {"commit", "--amend"}, options);
 
         //    result.Should().BeTrue();
@@ -182,7 +182,7 @@ namespace CommandLine.Tests.Unit
         //{
         //    var options = new OptionsWithVerbs();
 
-        //    var parser = new Parser();
+        //    var parser = new CommandLine.Parser();
         //    var result = parser.ParseArguments(new string[] {"commit", "--amend"}, options);
 
         //    result.Should().BeTrue();
@@ -206,7 +206,7 @@ namespace CommandLine.Tests.Unit
 
             var options = new OptionsWithVerbsNoHelp2();
 
-            var parser = new Parser();
+            var parser = new CommandLine.Parser();
             var result = parser.ParseArguments(new[] {"with", "--must"}, options,
                 (verb, subOptions) =>
                 {

@@ -32,7 +32,7 @@ using FluentAssertions;
 using CommandLine.Tests.Fakes;
 #endregion
 
-namespace CommandLine.Tests.Unit
+namespace CommandLine.Tests.Unit.Parser
 {
     public class MutuallyExclusiveParsingFixture : ParserBaseFixture
     {
@@ -40,7 +40,7 @@ namespace CommandLine.Tests.Unit
         public void Parsing_one_mutually_exclusive_option_succeeds()
         {
             var options = new OptionsWithDefaultSet();
-            var parser = new Parser(new ParserSettings {MutuallyExclusive = true});
+            var parser = new CommandLine.Parser(new ParserSettings {MutuallyExclusive = true});
             var result = parser.ParseArguments(new string[] { "--file=mystuff.xml" }, options);
 
             result.Should().BeTrue();
@@ -50,7 +50,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public void Parsing_two_mutually_exclusive_options_fails()
         {
-            var parser = new Parser(new ParserSettings { MutuallyExclusive = true });
+            var parser = new CommandLine.Parser(new ParserSettings { MutuallyExclusive = true });
             var options = new OptionsWithDefaultSet();
             var result = parser.ParseArguments(new string[] { "-i", "1", "--file=mystuff.xml" }, options);
 
@@ -61,7 +61,7 @@ namespace CommandLine.Tests.Unit
         public void Parsing_one_mutually_exclusive_option_with_another_option_succeeds()
         {
             var options = new OptionsWithDefaultSet();
-            var parser = new Parser(new ParserSettings { MutuallyExclusive = true });
+            var parser = new CommandLine.Parser(new ParserSettings { MutuallyExclusive = true });
             var result = parser.ParseArguments(new string[] { "--file=mystuff.xml", "-v" }, options);
             
             result.Should().BeTrue();
@@ -73,7 +73,7 @@ namespace CommandLine.Tests.Unit
         public void Parsing_two_mutually_exclusive_options_in_two_set_succeeds()
         {
             var options = new OptionsWithMultipleSet();
-            var parser = new Parser(new ParserSettings { MutuallyExclusive = true });
+            var parser = new CommandLine.Parser(new ParserSettings { MutuallyExclusive = true });
             var result = parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
             result.Should().BeTrue();
@@ -84,7 +84,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public void Parsing_three_mutually_exclusive_options_in_two_set_fails()
         {
-            var parser = new Parser(new ParserSettings {MutuallyExclusive = true});
+            var parser = new CommandLine.Parser(new ParserSettings {MutuallyExclusive = true});
             var options = new OptionsWithMultipleSet();
             var result = parser.ParseArguments(new string[] { "-g167", "--hue", "205", "--saturation=37" }, options);
 
@@ -95,7 +95,7 @@ namespace CommandLine.Tests.Unit
         public void Parsing_mutually_exclusive_options_and_required_option_fails()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
-            var parser = new Parser(new ParserSettings { MutuallyExclusive = true });
+            var parser = new CommandLine.Parser(new ParserSettings { MutuallyExclusive = true });
             var result = parser.ParseArguments(new string[] { "-g167", "--hue", "205" }, options);
             
             result.Should().BeFalse();
@@ -105,7 +105,7 @@ namespace CommandLine.Tests.Unit
         public void Parsing_mutually_exclusive_options_and_required_option_succeeds()
         {
             var options = new OptionsWithMultipleSetAndOneOption();
-            var parser = new Parser(new ParserSettings { MutuallyExclusive = true });
+            var parser = new CommandLine.Parser(new ParserSettings { MutuallyExclusive = true });
             var result = parser.ParseArguments(new string[] { "-g100", "-h200", "-cRgbColorSet" }, options);
             
             result.Should().BeTrue();

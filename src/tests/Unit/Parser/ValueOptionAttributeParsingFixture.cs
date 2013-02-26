@@ -6,7 +6,7 @@ using CommandLine.Tests.Fakes;
 using Xunit;
 using FluentAssertions;
 
-namespace CommandLine.Tests.Unit
+namespace CommandLine.Tests.Unit.Parser
 {
     /// <summary>
     /// [Enhancement] https://github.com/gsscoder/commandline/issues/33
@@ -17,7 +17,7 @@ namespace CommandLine.Tests.Unit
         public void Value_option_attribute_isolates_non_option_values()
         {
             var options = new SimpleOptionsWithValueOption();
-            var parser = new Parser();
+            var parser = new CommandLine.Parser();
             var result = parser.ParseArguments(
                 new string[] { "--switch", "file.ext", "1000", "0.1234", "-s", "out.ext" }, options);
 
@@ -34,7 +34,7 @@ namespace CommandLine.Tests.Unit
         public void Value_option_attribute_values_are_not_mandatory()
         {
             var options = new SimpleOptionsWithValueOption();
-            var parser = new Parser();
+            var parser = new CommandLine.Parser();
             var result = parser.ParseArguments(
                 new string[] { "--switch" }, options);
 
@@ -50,7 +50,7 @@ namespace CommandLine.Tests.Unit
         public void Value_option_takes_precedence_on_value_list_regardless_declaration_order()
         {
             var options = new SimpleOptionsWithValueOptionAndValueList();
-            var parser = new Parser();
+            var parser = new CommandLine.Parser();
             var result = parser.ParseArguments(
                 new string[] { "ofvalueoption", "-1234", "4321", "forvaluelist1", "forvaluelist2", "forvaluelist3" }, options);
 
@@ -68,7 +68,7 @@ namespace CommandLine.Tests.Unit
         public void Between_value_options_order_matters()
         {
             var options = new SimpleOptionsWithValueOptionAndValueList();
-            var parser = new Parser();
+            var parser = new CommandLine.Parser();
             var result = parser.ParseArguments(
                 new string[] { "4321", "ofvalueoption", "-1234", "forvaluelist1", "forvaluelist2", "forvaluelist3" }, options);
 

@@ -18,7 +18,7 @@ namespace CommandLine.Tests.Unit.Attributes
         {
             // Given
             var options = new OptionsWithTwoArrays();
-            var parser = new Parser();
+            var parser = new CommandLine.Parser();
             var argumets = new[] { "--source", @"d:/document.docx", "--output", @"d:/document.xlsx",
                     "--headers", "1", "2", "3", "4",              // first array
                     "--content", "5", "6", "7", "8", "--verbose"  // second array
