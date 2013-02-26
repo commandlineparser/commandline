@@ -1,5 +1,5 @@
 ﻿#region License
-// <copyright file="ObjectExtensions.cs" company="Giacomo Stelluti Scala">
+// <copyright file="TargetCapabilitiesExtensions.cs" company="Giacomo Stelluti Scala">
 //   Copyright 2015-2013 Giacomo Stelluti Scala
 // </copyright>
 //
@@ -22,17 +22,15 @@
 // THE SOFTWARE.
 #endregion
 #region Using Directives
-
+using CommandLine.Infrastructure;
 #endregion
 
-using CommandLine.Infrastructure;
-
-namespace CommandLine.Extensions
+namespace CommandLine.Parsing
 {
     /// <summary>
-    /// Utility extension methods for System.Object.
+    /// Utility extension methods for query target capabilities.
     /// </summary>
-    internal static class ObjectExtensions
+    internal static class TargetCapabilitiesExtensions
     {
         public static bool HasVerbs(this object target)
         {

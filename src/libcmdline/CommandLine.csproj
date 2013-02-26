@@ -87,6 +87,9 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Infrastructure\ReflectionUtil.cs" />
     <Compile Include="Infrastructure\Pair.cs" />
+    <Compile Include="Parsing\TargetCapabilitiesExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Parsing\ValueMapper.cs" />
     <Compile Include="Parsing\LongOptionParser.cs" />
     <Compile Include="Parsing\OptionGroupParser.cs" />
@@ -116,7 +119,6 @@
     <Compile Include="IParserState.cs" />
     <Compile Include="ParserState.cs" />
     <Compile Include="ParsingError.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
