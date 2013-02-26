@@ -35,10 +35,11 @@ namespace CommandLine.Parsing
 
         public override PresentParserState Parse(IArgumentEnumerator argumentEnumerator, OptionMap map, object options)
         {
-            IArgumentEnumerator group = new OneCharStringEnumerator(argumentEnumerator.Current.Substring(1));
-            while (group.MoveNext())
+            var optionGroup = new OneCharStringEnumerator(argumentEnumerator.Current.Substring(1));
+
+            while (optionGroup.MoveNext())
             {
-                var option = map[group.Current];
+                var option = map[optionGroup.Current];
                 if (option == null)
                 {
                     return _ignoreUnkwnownArguments ? PresentParserState.MoveOnNextElement : PresentParserState.Failure;
@@ -50,17 +51,17 @@ namespace CommandLine.Parsing
 
                 if (!option.IsBoolean)
                 {
-                    if (argumentEnumerator.IsLast && group.IsLast)
+                    if (argumentEnumerator.IsLast && optionGroup.IsLast)
                     {
                         return PresentParserState.Failure;
                     }
 
                     bool valueSetting;
-                    if (!group.IsLast)
+                    if (!optionGroup.IsLast)
                     {
                         if (!option.IsArray)
                         {
-                            valueSetting = option.SetValue(group.GetRemainingFromNext(), options);
+                            valueSetting = option.SetValue(optionGroup.GetRemainingFromNext(), options);
                             if (!valueSetting)
                             {
                                 DefineOptionThatViolatesFormat(option);
@@ -72,7 +73,7 @@ namespace CommandLine.Parsing
                         ArgumentParser.EnsureOptionAttributeIsArrayCompatible(option);
 
                         var items = ArgumentParser.GetNextInputValues(argumentEnumerator);
-                        items.Insert(0, @group.GetRemainingFromNext());
+                        items.Insert(0, optionGroup.GetRemainingFromNext());
 
                         valueSetting = option.SetValue(items, options);
                         if (!valueSetting)
@@ -112,10 +113,10 @@ namespace CommandLine.Parsing
                     return ArgumentParser.BooleanToParserState(valueSetting);
                 }
 
-            if (!@group.IsLast && map[@group.Next] == null)
-            {
-                return PresentParserState.Failure;
-            }
+                if (!optionGroup.IsLast && map[optionGroup.Next] == null)
+                {
+                    return PresentParserState.Failure;
+                }
 
                 if (!option.SetValue(true, options))
                 {

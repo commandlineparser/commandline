@@ -35,7 +35,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>CommandLine.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions">
@@ -120,7 +120,6 @@
     <Compile Include="Unit\Infrastructure\ReflectionHelperFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CommandLine.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

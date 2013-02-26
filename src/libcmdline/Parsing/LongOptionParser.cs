@@ -37,7 +37,7 @@ namespace CommandLine.Parsing
         {
             var parts = argumentEnumerator.Current.Substring(2).Split(new[] { '=' }, 2);
             var option = map[parts[0]];
-            bool valueSetting;
+
             if (option == null)
             {
                 return _ignoreUnkwnownArguments ? PresentParserState.MoveOnNextElement : PresentParserState.Failure;
@@ -46,6 +46,8 @@ namespace CommandLine.Parsing
             option.IsDefined = true;
 
             ArgumentParser.EnsureOptionArrayAttributeIsNotBoundToScalar(option);
+
+            bool valueSetting;
 
             if (!option.IsBoolean)
             {
