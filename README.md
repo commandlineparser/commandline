@@ -90,6 +90,7 @@ static void Main(string[] args) {
 Acknowledgements:
 ---
 Thanks to JetBrains for providing an open source license for [ReSharper](http://www.jetbrains.com/resharper/).
+
 Main Contributors (alphabetical order):
 - Alexander Fast (@mizipzor)
 - Dan Nemec (@nemec)
