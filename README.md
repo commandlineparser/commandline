@@ -22,7 +22,7 @@ To install:
 ---
   - NuGet way (latest stable): ``Install-Package CommandLineParser``
   - NuGet way (latest version): ``Install-Package CommandLineParser -pre``
-  - XCOPY way: ``cp CommandLine/src/libcmdline/*.cs To/Your/Project/Dir``
+  - XCOPY way: ``cp -r CommandLine/src/libcmdline To/Your/Project/Dir``
 
 To build:
 ---
