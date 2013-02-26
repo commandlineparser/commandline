@@ -2,6 +2,7 @@
 
   * Reduced mutability of ParserSettings, instance can be used once.
   * Internal refactoring.
+     - some particular System.String extensions moved to ArgumentParser as made private.
 
 2013-02-25  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 

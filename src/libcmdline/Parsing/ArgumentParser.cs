@@ -45,7 +45,7 @@ namespace CommandLine.Parsing
         {
             return string.Compare(
                 argument,
-                option.ToOption(),
+                ToOption(option),
                 caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 
@@ -53,7 +53,7 @@ namespace CommandLine.Parsing
         {
             return string.Compare(
                 argument,
-                option.ToOption(),
+                ToOption(option),
                 caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) == 0;
         }
 
@@ -64,17 +64,17 @@ namespace CommandLine.Parsing
                 return null;
             }
 
-            if (argument.IsDash())
+            if (IsDash(argument))
             {
                 return null;
             }
 
-            if (argument.IsLongOption())
+            if (IsLongOption(argument))
             {
                 return new LongOptionParser(ignoreUnknownArguments);
             }
 
-            if (argument.IsShortOption())
+            if (IsShortOption(argument))
             {
                 return new OptionGroupParser(ignoreUnknownArguments);
             }
@@ -91,7 +91,7 @@ namespace CommandLine.Parsing
 
             if (argument.Length > 0)
             {
-                return argument.IsDash() || !argument.IsShortOption();
+                return IsDash(argument) || !IsShortOption(argument);
             }
 
             return true;
@@ -172,6 +172,31 @@ namespace CommandLine.Parsing
         protected void DefineOptionThatViolatesFormat(OptionInfo option)
         {
             PostParsingState.Add(new ParsingError(option.ShortName, option.LongName, true));
+        }
+
+        private static string ToOption(string value)
+        {
+            return string.Concat("--", value);
+        }
+
+        private static string ToOption(char? value)
+        {
+            return string.Concat("-", value);
+        }
+
+        private static bool IsDash(string value)
+        {
+            return string.CompareOrdinal(value, "-") == 0;
+        }
+
+        private static bool IsShortOption(string value)
+        {
+            return value[0] == '-';
+        }
+
+        private static bool IsLongOption(string value)
+        {
+            return value[0] == '-' && value[1] == '-';
         }
     }
 }
