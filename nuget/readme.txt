@@ -1,15 +1,18 @@
-Command Line Parser Library 1.9.6.1 rc1
----------------------------------------
+Command Line Parser Library 1.9.7 stable
+----------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
 
 GitHub (Latest Sources, Updated Docs): https://github.com/gsscoder/commandline
 Codeplex (Binary Downloads): http://commandline.codeplex.com/
 
+Remarks:
+ - IParser and IParserSettings interface were removed.
+
 Upgrading from < 1.9.6.1 rc1:
 -----------------------------
 Now CommandLine.Parser is defiend as:
-interface CommandLine.IParser {
+interface CommandLine.Parser {
   bool ParseArguments(string[] args, object options);
   bool ParseArguments(string[] args, object options, Action<string, object> onVerbCommand);
   bool ParseArgumentsStrict(string[] args, object options, Action onFail = null);

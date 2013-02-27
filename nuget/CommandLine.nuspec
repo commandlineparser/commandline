@@ -16,8 +16,12 @@
         <tags>command line argument option parser parsing library syntax shell</tags>
     </metadata>
     <files>
-        <file src='P:\CommandLine\src\libcmdline\bin\Release\CommandLine.dll' target='lib\CommandLine.dll'/>
-        <file src='P:\CommandLine\src\libcmdline\bin\Release\CommandLine.xml' target='lib\CommandLine.xml'/>
-        <file src='P:\CommandLine\nuget\readme.txt' target='readme.txt'/>
+        <file src='C:\Projects\CommandLine\src\libcmdline\bin\Release\NET35\CommandLine.dll' target='lib\net35\CommandLine.dll'/>
+        <file src='C:\Projects\CommandLine\src\libcmdline\bin\Release\NET35\CommandLine.xml' target='lib\net35\CommandLine.xml'/>
+        <file src='C:\Projects\CommandLine\src\libcmdline\bin\Release\CommandLine.dll' target='lib\net40\CommandLine.dll'/>
+        <file src='C:\Projects\CommandLine\src\libcmdline\bin\Release\CommandLine.xml' target='lib\net40\CommandLine.xml'/>
+        <file src='C:\Projects\CommandLine\src\libcmdline\bin\Release\CommandLine.dll' target='lib\net45\CommandLine.dll'/>
+        <file src='C:\Projects\CommandLine\src\libcmdline\bin\Release\CommandLine.xml' target='lib\net45\CommandLine.xml'/>
+        <file src='C:\Projects\CommandLine\nuget\readme.txt' target='readme.txt'/>
     </files>
 </package>

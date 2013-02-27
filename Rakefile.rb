@@ -108,8 +108,12 @@ nuspec :nuget_nuspec do |nuspec|
      nuspec.tags = "command line argument option parser parsing library syntax shell"
      nuspec.iconUrl = "https://github.com/gsscoder/commandline/raw/master/art/CommandLine.png"
 
-     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/#{LIB_ASM}"), to_win_path("lib/#{LIB_ASM}")
-     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/#{LIB_XML}"), to_win_path("lib/#{LIB_XML}")
+     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/NET35/#{LIB_ASM}"), to_win_path("lib/net35/#{LIB_ASM}")
+     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/NET35/#{LIB_XML}"), to_win_path("lib/net35/#{LIB_XML}")
+     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/#{LIB_ASM}"), to_win_path("lib/net40/#{LIB_ASM}")
+     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/#{LIB_XML}"), to_win_path("lib/net40/#{LIB_XML}")
+     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/#{LIB_ASM}"), to_win_path("lib/net45/#{LIB_ASM}")
+     nuspec.file to_win_path("#{PJ_OUTPUT_DIR}/#{LIB_XML}"), to_win_path("lib/net45/#{LIB_XML}")     
      nuspec.file to_win_path("#{NUGET_DIR}/readme.txt"), "readme.txt"
 
      nuspec.output_file = "#{NUGET_DIR}/CommandLine.nuspec"
