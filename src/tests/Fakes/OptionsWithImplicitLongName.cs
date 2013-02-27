@@ -10,5 +10,8 @@
 
         [Option('b')]
         public int Bytes { get; set; }
+
+        [OptionArray]
+        public int[] Offsets { get; set; }
     }
 }

@@ -35,6 +35,15 @@ namespace CommandLine
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.OptionArrayAttribute"/> class.
+        /// The default long name will be inferred from target property.
+        /// </summary>
+        public OptionArrayAttribute()
+        {
+            AutoLongName = true;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.OptionArrayAttribute"/> class.
         /// </summary>
         /// <param name="shortName">The short name of the option.</param>
         public OptionArrayAttribute(char shortName)
