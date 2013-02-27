@@ -58,7 +58,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>CommandLine.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -131,7 +131,6 @@
   </Target>
   -->
   <ItemGroup>
-    <None Include="CommandLine.snk" />
     <None Include="Infrastructure\SR.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SR.strings.cs</LastGenOutput>
