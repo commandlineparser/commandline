@@ -32,7 +32,7 @@ using CommandLine.Infrastructure;
 namespace CommandLine
 {
     /// <summary>
-    /// Provides settings for <see cref="CommandLine.Parser"/>.
+    /// Provides settings for <see cref="CommandLine.Parser"/>. Once consumed cannot be reused.
     /// </summary>
     public sealed class ParserSettings
     {
