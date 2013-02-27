@@ -1,5 +1,5 @@
-Command Line Parser Library 1.9.7 stable
-----------------------------------------
+Command Line Parser Library 1.9.71.2 stable
+------------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
 
