@@ -1,4 +1,6 @@
-﻿namespace CommandLine.Tests.Fakes
+﻿using System.Collections.Generic;
+
+namespace CommandLine.Tests.Fakes
 {
     class OptionsWithImplicitLongName
     {
@@ -13,5 +15,8 @@
 
         [OptionArray]
         public int[] Offsets { get; set; }
+
+        [OptionList]
+        public IList<string> Segments { get; set; }
     }
 }

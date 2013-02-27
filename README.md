@@ -107,6 +107,7 @@ Resources for newcomers:
 Latest Changes: 
 ---
   - Promoted to stable.
+  - Implicit name is now available on ``OptionAttribute`` and ``OptionListAttribute``.
 
 Contacts:
 ---

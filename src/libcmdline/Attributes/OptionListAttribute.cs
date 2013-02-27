@@ -36,6 +36,19 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class OptionListAttribute : BaseOptionAttribute
     {
+        private const char DefaultSeparator = ':';
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.OptionListAttribute"/> class.
+        /// The default long name will be inferred from target property.
+        /// </summary>
+        public OptionListAttribute()
+        {
+            AutoLongName = true;
+
+            Separator = DefaultSeparator;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.OptionListAttribute"/> class.
         /// </summary>
@@ -62,7 +75,7 @@ namespace CommandLine
         public OptionListAttribute(char shortName, string longName)
             : base(shortName, longName)
         {
-            Separator = ':';
+            Separator = DefaultSeparator;
         }
 
         /// <summary>

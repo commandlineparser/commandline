@@ -1,3 +1,8 @@
+2013-02-27  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
+
+  * Implicit name is now available on OptionAttribute and OptionListAttribute
+      (added tests).
+
 2013-02-26  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
 
   * Reduced mutability of ParserSettings, instance can be used once.

@@ -58,6 +58,7 @@
     <Compile Include="Unit\Attributes\HelpOptionAttributeFixture.cs" />
     <Compile Include="Unit\Attributes\OptionArrayAttributeFixture.cs" />
     <Compile Include="Unit\Attributes\OptionAttributeFixture.cs" />
+    <Compile Include="Unit\Attributes\OptionListAttributeFixture.cs" />
     <Compile Include="Unit\Attributes\ValueListAttributeFixture.cs" />
     <Compile Include="Unit\Attributes\ValueOptionAttributeFixture.cs" />
     <Compile Include="Unit\Infrastructure\ArgumentParserFixture.cs" />
