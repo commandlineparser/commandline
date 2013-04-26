@@ -54,7 +54,7 @@ class Options {
   public bool Verbose { get; set; }
 
   [Value(0)]
-  public Offset { get; set;}
+  public int Offset { get; set;}
   }
 }
 ```
@@ -64,8 +64,7 @@ Consume them:
 ```csharp
 static void Main(string[] args) {
   var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
-  if (!result.Errors.Any())
-  {
+  if (!result.Errors.Any()) {
     // Values are available here
     if (result.Value.Verbose) Console.WriteLine("Filenames: {0}", string.Join(",", result.Value.InputFiles.ToArray()));
   }
