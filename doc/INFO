@@ -17,19 +17,10 @@ http://catb.org/~esr/writings/taoup/html/ch10s05.html.
 More info on:
 [QUICKSTART] http://commandline.codeplex.com/wikipage?title=Quickstart&referringTitle=Documentation
 [GUIDE] http://commandline.codeplex.com/documentation (*2)
-[BLOG] http://gsscoder.blogspot.com/
-
-Artifact regeneration:
-rake strings       -> src/libcmdline/Internal/SR.string.cs
-rake assemblyinfo  -> src/CommonAssemblyInfo.cs
+[BLOG] http://gsscoder.github.com/
 
 Build (requires Ruby):
-gem install rake
-gem install albacore
-rake
-	
-Unit Tests:
-rake test
+MonoDevelop or Visual Studio
 
 Documentation:
 From version 1.9.0.3 Beta CHM HelpFile was removed from {libroot}/doc.

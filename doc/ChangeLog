@@ -1,15 +1,19 @@
-2013-02-27  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
+2013-04-26    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Released pre-release of Version 2.0.
+
+2013-02-27  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Implicit name is now available on OptionAttribute and OptionListAttribute
       (added tests).
 
-2013-02-26  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
+2013-02-26  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Reduced mutability of ParserSettings, instance can be used once.
   * Internal refactoring.
      - some particular System.String extensions moved to ArgumentParser as made private.
 
-2013-02-25  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
+2013-02-25  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Reverted same StyleCop default (see doc/Contribution).
   * tools/invariantstrtool.exe replaced by T4 template (project removed from GitHub).
@@ -19,17 +23,17 @@
       Parser(Action<ParserSettings>) new CommandLine.Parser ctor.
   * Second KISS, removed IParser.
 
-2013-02-23  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
+2013-02-23  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * When omitting longName default is property name (lower case) as issue #57.
   * ParserConfigurator made nested type of Parser.
   * ParserConfigurator::HelpWriter(TextWriter) renamed to ParserConfigurator::UseHelpWriter(...).
 
-2013-02-22  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
+2013-02-22  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Reverting back genericity from IParser.
 
-2013-02-21  Giacomo Stelluti Scala  <gsscoder@gmail.com>  
+2013-02-21  Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * HelpText, internal refactoring to safely suppress a CodeAnalysis warning.
   * Namespace Core renamed Infrastructure.

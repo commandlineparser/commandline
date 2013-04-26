@@ -1,6 +1,6 @@
 Contributions Guidelines for Command Line Parser Library
 Giacomo Stelluti Scala (gsscoder@gmail.com)
-Last Mod.: 2013-02-25
+Last Mod.: 2013-04-26
 
 Tools:
 - MS FxCop (VSSTUDIO CodeAnalysis)
@@ -24,44 +24,16 @@ Code Formatting
                                             longlongstuff4 < 0)) -> TOO INDENTATION!
 
 Coding Style
-- Adhere to .NET Framework Coding Guidelines (http://msdn.microsoft.com/en-us/library/ms229042.aspx);
-Exception from standard are like AspNetWebStack Coding Conventions (http://aspnetwebstack.codeplex.com/wikipage?title=CodingConventions);
-- Use guard clause instead of nesting in too levels (with else clauses):
-// OK
-int Method(string arg1, string arg2, string arg3)
-{
-    if (arg1 == null)
-    {
-        return 0;
-    }
-    if (arg2 == arg3)
-    {
-        return 1;
-    }
-    return arg1 + arg2 + arg3;
-}
-// TOO NESTING!
-int Method(string arg1, string arg2, string arg3)
-{
-    if (arg1 != null)
-    {
-        if (arg2 != arg3)
-        {
-            return arg1 + arg2 + arg3;
-        }
-        else
-        {
-            return 1;
-        }  
-    }
-    else
-    {
-        return 0
-    }
-}
+- Adhere to .NET Framework Coding Guidelines (http://msdn.microsoft.com/en-us/library/ms229042.aspx) for public types.
+- Kernel of 2.0+ has been rewritten following Functional Programming principles (http://en.wikipedia.org/wiki/Functional_programming).
+- A minor use of side-effects could be allowed if isolated to "out-side" world (e.g.: see Tokenizer type).
 
 Unit Tests
 Personally 99% of times I write the unit tests before the desidered modification (TDD). Anyway please submit changes along with at least one unit test (this is also useful to let me understand what the change impacts).
+
+PR etiquette
+A not discussed PULL REQUEST could lead only to extra work for project coordinator;
+PR are well accepted, anyway they should be result of new or open discussions.
 
 Breaking Changes
 Please discuss any important modification or something that breaks the Public API.

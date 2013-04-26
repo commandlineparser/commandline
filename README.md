@@ -1,4 +1,4 @@
-Command Line Parser Library 1.9.71.2 stable for CLR.
+Command Line Parser Library 2.0.0.0 pre-release for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __This library provides _hassle free_ command line parsing with a constantly updated API since 2005.__
@@ -8,11 +8,15 @@ Compatibility:
   - .NET Framework 3.5+
   - Mono 2.1+ Profile
 
+Current Release:
+---
+  - This is a __pre-release__, for documentation please read appropriate [wiki section](https://github.com/gsscoder/commandline/wiki/Latest-Beta).
+
 At glance:
 ---
   - One line parsing using default singleton: ``CommandLine.Parser.Default.ParseArguments(...)``.
   - One line help screen generator: ``HelpText.AutoBuild(...)``.
-  - Map command line arguments to ``IList<string>``, arrays, enum or standard scalar types.
+  - Map command line arguments to sequences (``IEnumerable<T>``), enum or standard scalar types.
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
   - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Verb-Commands) as ``git commit -a``.
   - Create parser instance using lambda expressions.
@@ -26,26 +30,11 @@ To install:
 
 To build:
 ---
-You can use still use MonoDevelop or Visual Studio, but the project can aslo be built using Ruby [Rake](http://rake.rubyforge.org/) with a script that depends on [Albacore](https://github.com/derickbailey/Albacore).
-```
-$ gem install albacore
-$ git clone https://github.com/gsscoder/commandline.git CommandLine
-$ cd CommandLine
-$ rake
-```
-
-To start:
----
-  - [CSharp Template](https://github.com/gsscoder/commandline/blob/master/src/templates/CSharpTemplate/Program.cs)
-  - [VB.NET Template](https://github.com/gsscoder/commandline/blob/master/src/templates/VBNetTemplate/Program.vb)
+MonoDevelop or Visual Studio
 
 Public API:
 ---
 Latest changes are recorded from Version 1.9.4.91, please refer to [this document](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md).
-
-Verb Commands:
----
-Since introduction of verb commands is a very new feature, templates and sample application are not updated to illustrate it. Please refer this [wiki section](https://github.com/gsscoder/commandline/wiki/Verb-Commands) and unit tests code to learn how to [define](https://github.com/gsscoder/commandline/blob/master/src/tests/Mocks/OptionsWithVerbsHelp.cs), how to [respond](https://github.com/gsscoder/commandline/blob/master/src/tests/Parser/VerbsFixture.cs) and how they [relate to help subsystem](https://github.com/gsscoder/commandline/blob/master/src/tests/Text/VerbsHelpTextFixture.cs). Give a look also at this [blog article](http://gsscoder.blogspot.it/2013/01/command-line-parser-library-verb.html).
 
 Notes:
 ---
@@ -56,21 +45,16 @@ Define a class to receive parsed values:
 ```csharp
 class Options {
   [Option('r', "read", Required = true,
-    HelpText = "Input file to be processed.")]
-  public string InputFile { get; set; }
+    HelpText = "Input files to be processed.")]
+  public IEnumerable<string> InputFiles { get; set; }
     
   // omitting long name, default --verbose
   [Option(DefaultValue = true,
     HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
 
-  [ParserState]
-  public IParserState LastParserState { get; set; }
-
-  [HelpOption]
-  public string GetUsage() {
-    return HelpText.AutoBuild(this,
-      (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+  [Value(0)]
+  public Offset { get; set;}
   }
 }
 ```
@@ -79,10 +63,11 @@ Consume them:
 
 ```csharp
 static void Main(string[] args) {
-  var options = new Options();
-  if (CommandLine.Parser.Default.ParseArguments(args, options)) {
+  var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
+  if (!result.Errors.Any())
+  {
     // Values are available here
-    if (options.Verbose) Console.WriteLine("Filename: {0}", options.InputFile);
+    if (result.Value.Verbose) Console.WriteLine("Filenames: {0}", string.Join(",", result.Value.InputFiles.ToArray()));
   }
 }
 ```
@@ -103,12 +88,6 @@ Resources for newcomers:
   - [Quickstart](https://github.com/gsscoder/commandline/wiki/Quickstart)
   - [Wiki](https://github.com/gsscoder/commandline/wiki)
   - [GNU getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html)
-
-Latest Changes: 
----
-  - Promoted to stable.
-  - Implicit name is now available on ``OptionAttribute`` and ``OptionListAttribute``.
-  - Fixing version numeration error.
 
 Contacts:
 ---

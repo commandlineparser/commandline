@@ -1,85 +1,26 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "src\libcmdline\CommandLine.csproj", "{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "src\CommandLine\CommandLine.csproj", "{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "src\tests\CommandLine.Tests.csproj", "{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Demo", "src\demo\CommandLine.Demo.csproj", "{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Welcome", ".Welcome", "{4F498B61-A7BC-4B32-9ACB-901D4F50659B}"
-	ProjectSection(SolutionItems) = preProject
-		doc\ChangeLog = doc\ChangeLog
-		doc\LICENSE = doc\LICENSE
-		doc\PublicAPI.md = doc\PublicAPI.md
-		README.md = README.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{CC062800-4709-4A04-8A0D-DD972C1BFFC5}"
-	ProjectSection(SolutionItems) = preProject
-		nuget\CommandLine.nuspec = nuget\CommandLine.nuspec
-		nuget\readme.txt = nuget\readme.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{18282A82-E36C-4938-8397-C0A1166983BA}"
-	ProjectSection(SolutionItems) = preProject
-		Rakefile.rb = Rakefile.rb
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{350E598F-50C7-45A2-83A6-346AF7D163F5}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Develop", "Develop", "{939BEBC0-CE70-4209-A991-0DA4E8F3B9AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "src\CommandLine.Tests\CommandLine.Tests.csproj", "{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DEA2811-2FFA-4959-830B-CAD3ACACABEB}.Release|x86.ActiveCfg = Release|Any CPU
-		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{86E1AC34-ED2D-4E42-8B95-65208FEA36C2}.Release|x86.ActiveCfg = Release|Any CPU
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|Any CPU.Build.0 = Debug|x86
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|x86.ActiveCfg = Debug|x86
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Debug|x86.Build.0 = Debug|x86
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|Any CPU.ActiveCfg = Release|x86
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|Any CPU.Build.0 = Release|x86
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|x86.ActiveCfg = Release|x86
-		{9E573FFF-4ECB-4C59-A914-C0B74D44D2E8}.Release|x86.Build.0 = Release|x86
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{939BEBC0-CE70-4209-A991-0DA4E8F3B9AE} = {4F498B61-A7BC-4B32-9ACB-901D4F50659B}
-		{18282A82-E36C-4938-8397-C0A1166983BA} = {4F498B61-A7BC-4B32-9ACB-901D4F50659B}
-		{CC062800-4709-4A04-8A0D-DD972C1BFFC5} = {939BEBC0-CE70-4209-A991-0DA4E8F3B9AE}
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = src\demo\CommandLine.Demo.csproj
-		Policies = $0
-		$0.TextStylePolicy = $1
-		$1.FileWidth = 120
-		$1.TabsToSpaces = False
-		$1.inheritsSet = VisualStudio
-		$1.inheritsScope = text/plain
 	EndGlobalSection
 EndGlobal
