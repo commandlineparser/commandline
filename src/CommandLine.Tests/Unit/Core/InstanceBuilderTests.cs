@@ -111,6 +111,28 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
+        public void Parse_enum_value()
+        {
+            // Fixture setup
+            var expectedResult = new FakeOptionsWithEnum
+                {
+                    Colors = Colors.Green
+                };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithEnum(),
+                new[] { "--colors", "Green" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_values_partitioned_between_sequence_and_scalar()
         {
             // Fixture setup

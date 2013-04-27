@@ -55,6 +55,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Fakes\FakeOptionsWithDouble.cs" />
+    <Compile Include="Fakes\FakeOptionsWithEnum.cs" />
     <Compile Include="Fakes\FakeOptionsWithMetaValue.cs" />
     <Compile Include="Fakes\FakeOptionsWithSequenceWithoutRange.cs" />
     <Compile Include="Fakes\FakeOptionsWithSets.cs" />

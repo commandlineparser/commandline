@@ -1,9 +1,9 @@
-src/libcmdline/bin/*
-src/libcmdline/obj
+src/CommandLine/bin/*
+src/CommandLine/obj
 src/demo/bin/*
 src/demo/obj
-src/tests/bin/*
-src/tests/obj
+src/CommandLine.Tests/bin/*
+src/CommandLine.Tests/obj
 src/templates/CSharpTemplate/bin/*
 src/templates/CSharpTemplate/obj 
 src/templates/VBNetTemplate/bin/*

@@ -10,7 +10,7 @@ namespace CommandLine.Core
 {
     internal static class TypeConverter
     {
-        public static Maybe<object> ChangeType(IEnumerable<string> values, System.Type conversionType, bool scalar, CultureInfo conversionCulture)
+        public static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, bool scalar, CultureInfo conversionCulture)
         {
             if (values == null) throw new ArgumentNullException("values");
             if (conversionType == null) throw new ArgumentNullException("conversionType");
@@ -37,14 +37,16 @@ namespace CommandLine.Core
                 : Maybe.Just(converted.Select(c => ((Just<object>)c).Value).ToArray(type));
         }
 
-        private static Maybe<object> ChangeType(string value, System.Type conversionType, CultureInfo conversionCulture)
+        private static Maybe<object> ChangeType(string value, Type conversionType, CultureInfo conversionCulture)
         {
             try
             {
                 return Maybe.Just(
                     MatchBoolString(value)
                         ? ConvertBoolString(value)
-                        : Convert.ChangeType(value, conversionType, conversionCulture));
+                        : conversionType.IsEnum
+                            ? Enum.Parse(conversionType, value)
+                            : Convert.ChangeType(value, conversionType, conversionCulture));
             }
             catch (InvalidCastException)
             {
