@@ -4,6 +4,10 @@ src/demo/bin/*
 src/demo/obj
 src/CommandLine.Tests/bin/*
 src/CommandLine.Tests/obj
+src/CommandLine.FSharp/bin/*
+src/CommandLine.FSharp/obj
+src/CommandLine.FSharp.Tests/bin/*
+src/CommandLine.FSharp.Tests/obj
 src/templates/CSharpTemplate/bin/*
 src/templates/CSharpTemplate/obj 
 src/templates/VBNetTemplate/bin/*
