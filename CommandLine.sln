@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "src\CommandL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "src\CommandLine.Tests\CommandLine.Tests.csproj", "{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CommandLine.FSharp", "src\CommandLine.FSharp\CommandLine.FSharp.fsproj", "{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

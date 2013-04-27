@@ -1,0 +1,11 @@
+P:\CommandLine\src\CommandLine.FSharp\bin\Debug\CommandLine.FSharp.XML
+P:\CommandLine\src\CommandLine.FSharp\bin\Debug\CommandLine.FSharp.dll
+P:\CommandLine\src\CommandLine.FSharp\bin\Debug\CommandLine.FSharp.pdb
+P:\CommandLine\src\CommandLine.FSharp\bin\Debug\CommandLine.dll
+P:\CommandLine\src\CommandLine.FSharp\bin\Debug\FSharp.Core.dll
+P:\CommandLine\src\CommandLine.FSharp\bin\Debug\CommandLine.pdb
+P:\CommandLine\src\CommandLine.FSharp\bin\Debug\CommandLine.xml
+P:\CommandLine\src\CommandLine.FSharp\bin\Debug\FSharp.Core.xml
+P:\CommandLine\src\CommandLine.FSharp\obj\Debug\CommandLine.FSharp.fsprojResolveAssemblyReference.cache
+P:\CommandLine\src\CommandLine.FSharp\obj\Debug\CommandLine.FSharp.dll
+P:\CommandLine\src\CommandLine.FSharp\obj\Debug\CommandLine.FSharp.pdb
