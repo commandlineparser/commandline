@@ -2,7 +2,7 @@
 open System.Reflection
 open System.Resources
 
-[<assembly: AssemblyTitleAttribute("CommandLine.FSharp.dll")>]
+[<assembly: AssemblyTitleAttribute("CommandLine.FSharp.Tests.dll")>]
 [<assembly: AssemblyProductAttribute("Command Line Parser Library")>]
 [<assembly: AssemblyDescriptionAttribute("Command Line Parser Library F# API")>]
 [<assembly: AssemblyVersionAttribute("2.0.0.0")>]
