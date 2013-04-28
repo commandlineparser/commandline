@@ -3,12 +3,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandLine.Infrastructure;
 
 namespace CommandLine.Core
 {
     internal static class Tokenizer
     {
-        public static StatePair<IEnumerable<Token>> Tokenize(IEnumerable<string> arguments, Func<string, bool> nameLookup)
+        public static StatePair<IEnumerable<Token>> Tokenize(
+            IEnumerable<string> arguments,
+            Func<string, bool> nameLookup)
         {
             if (arguments == null) throw new ArgumentNullException("arguments");
 
@@ -26,6 +29,21 @@ namespace CommandLine.Core
             var unkTokens = from t in tokens where t.IsName() && !nameLookup(t.Text) select t;
 
             return StatePair.Create(tokens.Except(unkTokens), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
+        }
+
+        public static StatePair<IEnumerable<Token>> PreprocessDashDash(
+            IEnumerable<string> arguments,
+            Func<IEnumerable<string>, StatePair<IEnumerable<Token>>> tokenizer)
+        {
+            if (arguments == null) throw new ArgumentNullException("arguments");
+
+            if (arguments.Any(arg => arg.EqualsOrdinal("--")))
+            {
+                var tokenizerResult = tokenizer(arguments.TakeWhile(arg => !arg.EqualsOrdinal("--")));
+                var values = arguments.SkipWhile(arg => !arg.EqualsOrdinal("--")).Skip(1).Select(t => Token.Value(t));
+                return tokenizerResult.MapValue(tokens => tokens.Concat(values));
+            }
+            return tokenizer(arguments);
         }
 
         private static IEnumerable<Token> TokenizeShortName(

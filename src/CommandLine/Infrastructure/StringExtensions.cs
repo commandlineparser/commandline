@@ -31,5 +31,10 @@ namespace CommandLine.Infrastructure
         {
             return new string(' ', value);
         }
+
+        public static bool EqualsOrdinal(this string strA, string strB)
+        {
+            return string.CompareOrdinal(strA, strB) == 0;
+        }
     }
 }

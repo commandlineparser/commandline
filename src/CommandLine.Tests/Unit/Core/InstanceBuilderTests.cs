@@ -193,11 +193,15 @@ namespace CommandLine.Tests.Unit.Core
                     StringSequence = new[] { "-a", "--bee", "-c" },
                     IntValue = 20
                 };
+            var arguments = new[] { "--stringvalue", "str1", "--", "10", "-a", "--bee", "-c", "20" };
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithValues(),
-                new[] { "--stringvalue", "str1", "10", "-a", "--bee", "-c", "20" },
+                optionSpecs =>
+                    Tokenizer.PreprocessDashDash(arguments,
+                        args => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, StringComparer.Ordinal))),
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 

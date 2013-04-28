@@ -59,12 +59,19 @@ namespace CommandLine.Core
 
     internal static class StatePair
     {
-        public static StatePair<T> Create<T>(T instance, IEnumerable<Error> errors)
+        public static StatePair<T> Create<T>(T value, IEnumerable<Error> errors)
         {
-            if (object.Equals(instance, default(T))) throw new ArgumentNullException("instance");
+            if (object.Equals(value, default(T))) throw new ArgumentNullException("value");
             if (errors == null) throw new ArgumentNullException("errors");
 
-            return new StatePair<T>(instance, errors);
+            return new StatePair<T>(value, errors);
+        }
+
+        public static StatePair<T2> MapValue<T1, T2>(
+            this StatePair<T1> statePair,
+            Func<T1, T2> func)
+        {
+            return new StatePair<T2>(func(statePair.Value), statePair.Errors);
         }
     }
 }

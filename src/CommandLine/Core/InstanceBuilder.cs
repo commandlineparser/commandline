@@ -16,6 +16,22 @@ namespace CommandLine.Core
             StringComparer nameComparer,
             CultureInfo parsingCulture)
         {
+            return InstanceBuilder.Build(
+                factory,
+                optionSpecs =>
+                    Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, nameComparer)),
+                arguments,
+                nameComparer,
+                parsingCulture);
+        }
+
+        public static ParserResult<T> Build<T>(
+            Func<T> factory,
+            Func<IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
+            IEnumerable<string> arguments,
+            StringComparer nameComparer,
+            CultureInfo parsingCulture)
+        {
             var instance = factory();
 
             if (arguments.Any() && nameComparer.Equals("--help", arguments.First()))
@@ -33,9 +49,7 @@ namespace CommandLine.Core
                 .ThrowingValidate(SpecificationGuards.Lookup)
                 .OfType<OptionSpecification>();
 
-            var tokenizerResult = Tokenizer.Tokenize(
-                arguments,
-                name => NameLookup.Contains(name, optionSpecs, nameComparer));
+            var tokenizerResult = tokenizer(optionSpecs);
 
             var tokens = tokenizerResult.Value;
 
@@ -55,8 +69,8 @@ namespace CommandLine.Core
                 (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture));
 
             var missingValueErrors = from token in partitions.Item3
-                select new MissingValueOptionError(
-                    NameInfo.FromOptionSpecification(optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer))));
+                                     select new MissingValueOptionError(
+                                         NameInfo.FromOptionSpecification(optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer))));
 
             var specPropsWithValue = optionSpecProps.Value.Concat(valueSpecProps.Value);
 
