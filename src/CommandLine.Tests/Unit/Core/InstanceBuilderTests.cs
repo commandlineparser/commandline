@@ -198,8 +198,8 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithValues(),
-                optionSpecs =>
-                    Tokenizer.PreprocessDashDash(arguments,
+                (a, optionSpecs) =>
+                    Tokenizer.PreprocessDashDash(a,
                         args => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, StringComparer.Ordinal))),
                 arguments,
                 StringComparer.Ordinal,

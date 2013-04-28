@@ -17,7 +17,7 @@ namespace CommandLine.Core
             CultureInfo parsingCulture)
         {
             return InstanceChooser.Choose(
-                optionSpecs => Tokenizer.Tokenize(arguments.Skip(1), name => NameLookup.Contains(name, optionSpecs, nameComparer)),
+                (args, optionSpecs) => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer)),
                 types,
                 arguments,
                 nameComparer,
@@ -25,7 +25,7 @@ namespace CommandLine.Core
         }
 
         public static ParserResult<object> Choose(
-            Func<IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
+            Func<IEnumerable<string>, IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
             IEnumerable<Type> types,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
@@ -47,7 +47,7 @@ namespace CommandLine.Core
         }
 
         private static ParserResult<object> MatchVerb(
-            Func<IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
+            Func<IEnumerable<string>, IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
             IEnumerable<Tuple<Verb, Type>> verbs,
             IEnumerable<string> arguments,
             StringComparer nameComparer,

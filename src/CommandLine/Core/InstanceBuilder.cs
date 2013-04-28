@@ -18,8 +18,8 @@ namespace CommandLine.Core
         {
             return InstanceBuilder.Build(
                 factory,
-                optionSpecs =>
-                    Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, nameComparer)),
+                (args, optionSpecs) =>
+                    Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer)),
                 arguments,
                 nameComparer,
                 parsingCulture);
@@ -27,7 +27,7 @@ namespace CommandLine.Core
 
         public static ParserResult<T> Build<T>(
             Func<T> factory,
-            Func<IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
+            Func<IEnumerable<string>, IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
             CultureInfo parsingCulture)
@@ -49,7 +49,7 @@ namespace CommandLine.Core
                 .ThrowingValidate(SpecificationGuards.Lookup)
                 .OfType<OptionSpecification>();
 
-            var tokenizerResult = tokenizer(optionSpecs);
+            var tokenizerResult = tokenizer(arguments, optionSpecs);
 
             var tokens = tokenizerResult.Value;
 

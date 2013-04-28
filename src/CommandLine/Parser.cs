@@ -108,7 +108,7 @@ namespace CommandLine
             return MakeParserResult(
                 () => InstanceBuilder.Build(
                     factory,
-                    optionSpecs => Tokenize(args, optionSpecs, this.settings),
+                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, this.settings),
                     args,
                     this.settings.NameComparer,
                     this.settings.ParsingCulture),
@@ -135,7 +135,7 @@ namespace CommandLine
 
             return MakeParserResult(
                 () => InstanceChooser.Choose(
-                    optionSpecs => Tokenize(args.Skip(1), optionSpecs, this.settings),
+                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, this.settings),
                     types,
                     args,
                     this.settings.NameComparer,
