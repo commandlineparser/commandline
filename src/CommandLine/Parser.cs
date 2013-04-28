@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CommandLine.Core;
@@ -105,7 +106,12 @@ namespace CommandLine
             if (args == null) throw new ArgumentNullException("args");
 
             return MakeParserResult(
-                () => InstanceBuilder.Build(factory, args, this.settings.NameComparer, this.settings.ParsingCulture),
+                () => InstanceBuilder.Build(
+                    factory,
+                    optionSpecs => Tokenize(args, optionSpecs, this.settings),
+                    args,
+                    this.settings.NameComparer,
+                    this.settings.ParsingCulture),
                 settings);
         }
 
@@ -140,6 +146,19 @@ namespace CommandLine
             Dispose(true);
 
             GC.SuppressFinalize(this);
+        }
+
+        private static StatePair<IEnumerable<Token>> Tokenize(
+                IEnumerable<string> arguments,
+                IEnumerable<OptionSpecification> optionSpecs,
+                ParserSettings settings)
+        {
+            return settings.EnableDashDash
+                ? Tokenizer.PreprocessDashDash(
+                        arguments,
+                        args =>
+                            Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer)))
+                : Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer));
         }
 
         private static ParserResult<T> MakeParserResult<T>(Func<ParserResult<T>> parseFunc, ParserSettings settings)

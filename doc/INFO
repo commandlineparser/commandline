@@ -1,8 +1,10 @@
 Command Line Parser Library
---------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 Project Author/Coordinator: Giacomo Stelluti Scala
-Main Contributor(s): Steven Evans, Kevin Moore, Dan Nemec (nemec), Alexander Fast (mizipzor)
---------------------------------------------------------------------------------------------
+Main Contributors: Steven Evans, Kevin Moore, Dan Nemec (nemec), Alexander Fast (mizipzor)
+Others: Tom Glastonbury (tg73)
+-------------------------------------------------------------------------------------------
+
 
 Git home:
 https://github.com/gsscoder/commandline

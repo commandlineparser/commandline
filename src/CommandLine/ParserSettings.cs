@@ -18,6 +18,7 @@ namespace CommandLine
         private TextWriter helpWriter;
         private bool ignoreUnknownArguments;
         private CultureInfo parsingCulture;
+        private bool enableDashDash;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
@@ -87,6 +88,16 @@ namespace CommandLine
         {
             get { return this.ignoreUnknownArguments; }
             set { PopsicleSetter.Set(Consumed, ref this.ignoreUnknownArguments, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether enable double dash '--' syntax,
+        /// that forces parsing of all subsequent tokens as values.
+        /// </summary>
+        public bool EnableDashDash
+        {
+            get { return this.enableDashDash; }
+            set { PopsicleSetter.Set(Consumed, ref this.enableDashDash, value); }
         }
 
         internal StringComparer NameComparer

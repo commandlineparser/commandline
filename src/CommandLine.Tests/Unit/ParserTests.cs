@@ -78,6 +78,29 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_options_with_double_dash()
+        {
+            // Fixture setup
+            var expectedOptions = new FakeOptionsWithValues
+                {
+                    StringValue = "astring",
+                    LongValue = 20L,
+                    StringSequence = new[] { "--aaa", "-b", "--ccc" },
+                    IntValue = 30
+                };
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result = sut.ParseArguments<FakeOptionsWithValues>(
+                new[] { "--stringvalue", "astring", "--", "20", "--aaa", "-b", "--ccc", "30" });
+
+            // Verify outcome
+            result.Value.ShouldHave().AllProperties().EqualTo(expectedOptions);
+            Assert.False(result.Errors.Any());
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_verbs()
         {
             // Fixture setup

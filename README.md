@@ -88,6 +88,10 @@ Resources for newcomers:
   - [Wiki](https://github.com/gsscoder/commandline/wiki)
   - [GNU getopt](http://www.gnu.org/software/libc/manual/html_node/Getopt.html)
 
+Latest Changes:
+---
+  - Implemented issue #31 (double dash), thanks also to PR #77 by Tom Glastonbury (@tg73).
+
 Contacts:
 ---
 Giacomo Stelluti Scala
