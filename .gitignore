@@ -22,4 +22,3 @@ TestResult.xml
 *.nupkg
 *.old
 StyleCop.Cache
-CommandLine.sln.DotSettings.user

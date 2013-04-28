@@ -16,6 +16,21 @@ namespace CommandLine.Core
             StringComparer nameComparer,
             CultureInfo parsingCulture)
         {
+            return InstanceChooser.Choose(
+                optionSpecs => Tokenizer.Tokenize(arguments.Skip(1), name => NameLookup.Contains(name, optionSpecs, nameComparer)),
+                types,
+                arguments,
+                nameComparer,
+                parsingCulture);
+        }
+
+        public static ParserResult<object> Choose(
+            Func<IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
+            IEnumerable<Type> types,
+            IEnumerable<string> arguments,
+            StringComparer nameComparer,
+            CultureInfo parsingCulture)
+        {
             var verbs = Verb.SelectFromTypes(types);
 
             return arguments.Empty()
@@ -28,10 +43,11 @@ namespace CommandLine.Core
                             verbs,
                             arguments.Skip(1).SingleOrDefault() ?? string.Empty,
                             nameComparer) }, Maybe.Just(types))
-                   : MatchVerb(verbs, arguments, nameComparer, parsingCulture);
+                   : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
         }
 
         private static ParserResult<object> MatchVerb(
+            Func<IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
             IEnumerable<Tuple<Verb, Type>> verbs,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
@@ -40,6 +56,7 @@ namespace CommandLine.Core
             return verbs.Any(a => nameComparer.Equals(a.Item1.Name, arguments.First()))
                 ? InstanceBuilder.Build(
                     () => Activator.CreateInstance(verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First())).Item2),
+                    tokenizer,
                     arguments.Skip(1),
                     nameComparer,
                     parsingCulture)

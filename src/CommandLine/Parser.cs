@@ -134,7 +134,12 @@ namespace CommandLine
             if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
             return MakeParserResult(
-                () => InstanceChooser.Choose(types, args, this.settings.NameComparer, this.settings.ParsingCulture),
+                () => InstanceChooser.Choose(
+                    optionSpecs => Tokenize(args.Skip(1), optionSpecs, this.settings),
+                    types,
+                    args,
+                    this.settings.NameComparer,
+                    this.settings.ParsingCulture),
                 settings);
         }
 

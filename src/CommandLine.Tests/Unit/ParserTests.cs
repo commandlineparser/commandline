@@ -101,6 +101,29 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_options_with_double_dash_in_verbs_scenario()
+        {
+            // Fixture setup
+            var expectedOptions = new AddOptions
+                {
+                    Patch = true,
+                    FileName = "--strange-fn"
+                };
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result = sut.ParseArguments(
+                new[] { "add", "-p", "--", "--strange-fn" },
+                typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
+
+            // Verify outcome
+            Assert.IsType<AddOptions>(result.Value);
+            result.Value.ShouldHave().AllRuntimeProperties().EqualTo(expectedOptions);
+            Assert.False(result.Errors.Any());
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_verbs()
         {
             // Fixture setup
