@@ -7,7 +7,7 @@ open System.Resources
 [<assembly: AssemblyDescriptionAttribute("Command Line Parser Library F# API")>]
 [<assembly: AssemblyVersionAttribute("2.0.0.0")>]
 [<assembly: AssemblyFileVersionAttribute("2.0.0.0")>]
-[<assembly: AssemblyInformationalVersionAttribute("2.0.0-pre")>]
+//[<assembly: AssemblyInformationalVersionAttribute("2.0.0-pre")>]
 [<assembly: NeutralResourcesLanguageAttribute("en-US")>]
 
 ()
