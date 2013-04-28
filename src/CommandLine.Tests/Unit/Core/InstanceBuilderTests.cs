@@ -179,6 +179,34 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        /// <summary>
+        /// https://github.com/gsscoder/commandline/issues/31
+        /// </summary>
+        [Fact]
+        public void Double_dash_force_subsequent_arguments_as_values()
+        {
+            // Fixture setup
+            var expectedResult = new FakeOptionsWithValues
+                {
+                    StringValue = "str1",
+                    LongValue = 10L,
+                    StringSequence = new[] { "-a", "--bee", "-c" },
+                    IntValue = 20
+                };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithValues(),
+                new[] { "--stringvalue", "str1", "10", "-a", "--bee", "-c", "20" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+
+            // Teardown
+        }
+
         [Fact]
         public void Parse_option_from_different_sets_gererates_MutuallyExclusiveSetError()
         {
