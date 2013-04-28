@@ -15,36 +15,23 @@ type public ParserConfig = {
 }
 
 module ArgParser =
-    let private handleUnknownArguments<'a> (result : ParserResult<'a>, ignoreUnknownArguments) =
-        if ignoreUnknownArguments then
-            let errs = query { for err in result.Errors do
-                               where(err.Tag <> ErrorType.UnknownOptionError)
-                               select err }
-            ParserResult(result.Tag, result.Value, errs, result.VerbTypes)
-        else result
-
-    let private displayHelp<'a> (result : ParserResult<'a>, helpWriter: TextWriter option) =
-        let write (res : ParserResult<'a>, hw : TextWriter) =
-            hw.Write(HelpText.AutoBuild(res)) |> ignore
-            res
-        match helpWriter with
-            | Some(helpWriter) -> write(result, helpWriter)
-            | _ -> result
-
-    let private makeParserResult<'a> (parseFunc : unit -> ParserResult<'a>, config : ParserConfig) =
-        let writerToOption(hw: TextWriter) =
-            match hw with
-                | null -> None
-                | _ -> Some(hw)
-        displayHelp(handleUnknownArguments(parseFunc(), config.IgnoreUnknownArguments), writerToOption(config.HelpWriter))
-
-    let private getComparer config =
-        if config.CaseSensitive then StringComparer.Ordinal
-        else StringComparer.OrdinalIgnoreCase
-  
     let ParseOptions<'a when 'a : (new : unit -> 'a)> (config, args) =
-        let parseFunc = fun() -> InstanceBuilder.Build(Func<'a>(fun () -> new 'a()), args, getComparer(config), config.ParsingCulture)
-        makeParserResult(parseFunc, config)
+        let getComparer config =
+            if config.CaseSensitive then StringComparer.Ordinal
+            else StringComparer.OrdinalIgnoreCase
+        let filterUnknown (result: ParserResult<'a>) =
+            match config.IgnoreUnknownArguments with
+                | true -> ParserResult(result.Tag, result.Value, query { for err in result.Errors do
+                                                                         where(err.Tag <> ErrorType.UnknownOptionError)
+                                                                         select err }, result.VerbTypes)
+                | _ -> result
+        let displayHelp (result: ParserResult<'a>) =
+            match config.HelpWriter with
+                | null -> result
+                | _ -> config.HelpWriter.Write(HelpText.AutoBuild(result)) |> ignore; result
+        InstanceBuilder.Build(Func<'a>(fun () -> new 'a()), args, getComparer(config), config.ParsingCulture)
+            |> filterUnknown
+            |> displayHelp
 
 //    let ParseVerbs args =
 //        args
