@@ -9,6 +9,12 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CommandLine.FSharp", "src\C
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CommandLine.FSharp.Tests", "src\CommandLine.FSharp.Tests\CommandLine.FSharp.Tests.fsproj", "{54235AC4-60F1-4A3F-B218-3896B794043D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Welcome", ".Welcome", "{D9C1F005-94A7-4A2A-81F3-9C053D5A6AEC}"
+	ProjectSection(SolutionItems) = preProject
+		doc\LICENSE = doc\LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
