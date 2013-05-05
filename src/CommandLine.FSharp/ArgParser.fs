@@ -18,14 +18,14 @@ module ArgParser =
     let private getComparer config =
         if config.CaseSensitive then StringComparer.Ordinal
         else StringComparer.OrdinalIgnoreCase
-    let private parse<'a>(parseFunc : unit -> ParserResult<'a>, config) =
-        let filterUnknown (result: ParserResult<'a>) =
+    let private parse<'a> (parseFunc : unit -> ParserResult<'a>, config) =
+        let filterUnknown (result : ParserResult<'a>) =
             match config.IgnoreUnknownArguments with
                 | true -> ParserResult(result.Tag, result.Value, query { for err in result.Errors do
                                                                             where(err.Tag <> ErrorType.UnknownOptionError)
                                                                             select err }, result.VerbTypes)
                 | _ -> result
-        let displayHelp (result: ParserResult<'a>) =
+        let displayHelp result =
             match config.HelpWriter with
                 | null -> result
                 | _ -> config.HelpWriter.Write(HelpText.AutoBuild(result)) |> ignore; result
@@ -33,8 +33,8 @@ module ArgParser =
             |> filterUnknown
             |> displayHelp
 
-    let ParseOptions<'a when 'a : (new : unit -> 'a)> (config, args) =
+    let ParseOptions<'a when 'a : (new : unit -> 'a)> config args =
         parse((fun () -> InstanceBuilder.Build(Func<'a>(fun () -> new 'a()), args, getComparer(config), config.ParsingCulture)), config)
 
-    let ParseVerbs (config, args, types) =
+    let ParseVerbs config args types =
         parse((fun () -> InstanceChooser.Choose(types, args, getComparer(config), config.ParsingCulture)), config)
