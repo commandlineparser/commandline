@@ -5,12 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>54235ac4-60f1-4a3f-b218-3896b794043d</ProjectGuid>
+    <ProjectGuid>54235AC4-60F1-4A3F-B218-3896B794043D</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>CommandLine.FSharp.Tests</RootNamespace>
     <AssemblyName>CommandLine.FSharp.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <Name>CommandLine.FSharp.Tests</Name>
+    <ProductVersion>12.0.0</ProductVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,9 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -43,8 +42,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CommandLine.FSharp\CommandLine.FSharp.fsproj">
       <Name>CommandLine.FSharp</Name>
-      <Project>{dfb97974-e2cc-42e6-beb6-b6403fcb8b63}</Project>
-      <Private>True</Private>
+      <Project>DFB97974-E2CC-42E6-BEB6-B6403FCB8B63</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
