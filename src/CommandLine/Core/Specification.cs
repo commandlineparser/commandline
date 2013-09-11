@@ -67,14 +67,23 @@ namespace CommandLine.Core
 
         public static Specification FromProperty(PropertyInfo property)
         {
+            System.Collections.Generic.List<string> enumList = new System.Collections.Generic.List<string>();
+            if (property.PropertyType.IsEnum)
+            {
+                FieldInfo[] fieldArray = property.PropertyType.GetFields();
+                foreach (FieldInfo fInfo in fieldArray)
+                    if (!fInfo.IsSpecialName)
+                        enumList.Add(fInfo.Name);
+            }
+            
             var attrs = property.GetCustomAttributes(true);
             var oa = attrs.OfType<OptionAttribute>();
             if (oa.Count() == 1)
             {
-                var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType);
+                var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType, enumList);
                 if (spec.ShortName.Length == 0 && spec.LongName.Length == 0)
                 {
-                    return spec.WithLongName(property.Name.ToLowerInvariant());
+                    return spec.WithLongName(property.Name.ToLowerInvariant(), enumList);
                 }
                 return spec;
             }

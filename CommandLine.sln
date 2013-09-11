@@ -13,9 +13,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Welcome", ".Welcome", "{D9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FSharp", "FSharp", "{751E6303-1623-4418-B298-4FF97DA5C86E}"
 EndProject
-Project("{4925A630-B079-445d-BCD4-3A9C94FE9307}") = "CommandLine.FSharp", "src\CommandLine.FSharp\CommandLine.FSharp.fsproj", "DFB97974-E2CC-42E6-BEB6-B6403FCB8B63"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CommandLine.FSharp", "src\CommandLine.FSharp\CommandLine.FSharp.fsproj", "{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}"
 EndProject
-Project("{4925A630-B079-445d-BCD4-3A9C94FE9307}") = "CommandLine.FSharp.Tests", "src\CommandLine.FSharp.Tests\CommandLine.FSharp.Tests.fsproj", "54235AC4-60F1-4A3F-B218-3896B794043D"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CommandLine.FSharp.Tests", "src\CommandLine.FSharp.Tests\CommandLine.FSharp.Tests.fsproj", "{54235AC4-60F1-4A3F-B218-3896B794043D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C37353EF-032B-484B-B0BD-ABDED8589732}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,31 +28,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54235AC4-60F1-4A3F-B218-3896B794043D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54235AC4-60F1-4A3F-B218-3896B794043D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54235AC4-60F1-4A3F-B218-3896B794043D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54235AC4-60F1-4A3F-B218-3896B794043D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		DFB97974-E2CC-42E6-BEB6-B6403FCB8B63 = {751E6303-1623-4418-B298-4FF97DA5C86E}
-		54235AC4-60F1-4A3F-B218-3896B794043D = {751E6303-1623-4418-B298-4FF97DA5C86E}
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = src\CommandLine\CommandLine.csproj
+		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54235AC4-60F1-4A3F-B218-3896B794043D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54235AC4-60F1-4A3F-B218-3896B794043D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54235AC4-60F1-4A3F-B218-3896B794043D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54235AC4-60F1-4A3F-B218-3896B794043D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = src\CommandLine\CommandLine.csproj
 	EndGlobalSection
 EndGlobal

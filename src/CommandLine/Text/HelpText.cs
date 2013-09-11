@@ -26,6 +26,7 @@ namespace CommandLine.Text
         private bool additionalNewLineAfterOption;
         private StringBuilder optionsHelp;
         private bool addDashesToOption;
+        private bool addEnumValuesToHelpText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class.
@@ -168,6 +169,15 @@ namespace CommandLine.Text
         {
             get { return this.additionalNewLineAfterOption; }
             set { this.additionalNewLineAfterOption = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to add the values of an enum after the description of the option.
+        /// </summary>
+        public bool AddEnumValuesToHelpText
+        {
+            get { return this.addEnumValuesToHelpText; }
+            set { this.addEnumValuesToHelpText = value; }
         }
 
         /// <summary>
@@ -532,7 +542,8 @@ namespace CommandLine.Text
                        Maybe.Nothing<object>(),
                        typeof(bool),
                        verbTuple.Item1.HelpText,
-                       string.Empty))
+                       string.Empty,
+                       new List<string>()))
                     .Concat(new[] { this.CreateHelpEntry() });
         }
 
@@ -555,7 +566,7 @@ namespace CommandLine.Text
         private OptionSpecification CreateHelpEntry()
         {
             return new OptionSpecification(string.Empty, "help", false, string.Empty, -1, -1, Maybe.Nothing<object>(), typeof(bool),
-                this.sentenceBuilder.HelpCommandText(this.AddDashesToOption), string.Empty);
+                this.sentenceBuilder.HelpCommandText(this.AddDashesToOption), string.Empty, new List<string>());
         }
 
         private HelpText AddPreOptionsLine(string value, int maximumLength)
@@ -610,6 +621,11 @@ namespace CommandLine.Text
 
             this.optionsHelp.Append("    ");
             var optionHelpText = option.HelpText;
+
+            if (this.addEnumValuesToHelpText)
+                if (option.EnumValues.Count() > 0)
+                    optionHelpText += " Valid values: " + string.Join(", ", option.EnumValues);
+
             if (option.DefaultValue.IsJust())
             {
                 optionHelpText = "(Default: {0}) ".FormatLocal(option.DefaultValue.FromJust()) + optionHelpText;
