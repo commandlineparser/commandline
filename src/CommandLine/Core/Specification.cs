@@ -70,10 +70,7 @@ namespace CommandLine.Core
             System.Collections.Generic.List<string> enumList = new System.Collections.Generic.List<string>();
             if (property.PropertyType.IsEnum)
             {
-                FieldInfo[] fieldArray = property.PropertyType.GetFields();
-                foreach (FieldInfo fInfo in fieldArray)
-                    if (!fInfo.IsSpecialName)
-                        enumList.Add(fInfo.Name);
+                enumList.AddRange(Enum.GetNames(property.PropertyType));
             }
             
             var attrs = property.GetCustomAttributes(true);
