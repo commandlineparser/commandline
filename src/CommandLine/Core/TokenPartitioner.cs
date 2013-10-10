@@ -18,14 +18,15 @@ namespace CommandLine.Core
                 IEnumerable<Token> tokens,
                 Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
         {
-            var switches = PartitionSwitches(tokens, typeLookup);
-            var tokensExceptSwitches = tokens.Except(switches);
-            var scalars = PartitionScalars(tokensExceptSwitches, typeLookup);
-            var tokensExceptSwitchesAndScalars = tokensExceptSwitches.Except(scalars);
-            var sequences = PartitionSequences(tokensExceptSwitchesAndScalars, typeLookup);
-            var tokensExceptSwitchesAndScalarsAndSeq = tokensExceptSwitchesAndScalars.Except(sequences);
-            var values = tokensExceptSwitchesAndScalarsAndSeq.Where(v => v.IsValue());
-            var errors = tokensExceptSwitchesAndScalarsAndSeq.Except(values);
+            var tokenList = tokens.ToList();
+            var switches = PartitionSwitches(tokenList, typeLookup).ToList();
+            var tokensExceptSwitches = tokenList.Where(x => !switches.Contains(x)).ToList();
+            var scalars = PartitionScalars(tokensExceptSwitches, typeLookup).ToList();
+            var tokensExceptSwitchesAndScalars = (tokensExceptSwitches.Where(x => !scalars.Contains(x))).ToList();
+            var sequences = PartitionSequences(tokensExceptSwitchesAndScalars, typeLookup).ToList();
+            var tokensExceptSwitchesAndScalarsAndSeq = tokensExceptSwitchesAndScalars.Where(x => !sequences.Contains(x)).ToList();
+            var values = tokensExceptSwitchesAndScalarsAndSeq.Where(v => v.IsValue()).ToList();
+            var errors = tokensExceptSwitchesAndScalarsAndSeq.Where(x => !values.Contains(x));
 
             return Tuple.Create(
                     switches.Select(t => CreateValue(t.Text,"true"))

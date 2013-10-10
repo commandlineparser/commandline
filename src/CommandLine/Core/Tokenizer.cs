@@ -18,17 +18,17 @@ namespace CommandLine.Core
             var errors = new List<Error>();
             Action<Error> onError = e => errors.Add(e);
 
-            var tokens = from arg in arguments
-                         from token in !arg.StartsWith("-", StringComparison.Ordinal)
+            var tokens = (from arg in arguments
+                          from token in !arg.StartsWith("-", StringComparison.Ordinal)
                                ? new Token[] { Token.Value(arg) }
                                : arg.StartsWith("--", StringComparison.Ordinal)
                                      ? TokenizeLongName(arg, onError)
                                      : TokenizeShortName(arg, nameLookup)
-                         select token;
+                          select token).ToList();
 
-            var unkTokens = from t in tokens where t.IsName() && !nameLookup(t.Text) select t;
+            var unkTokens = (from t in tokens where t.IsName() && !nameLookup(t.Text) select t).ToList();
 
-            return StatePair.Create(tokens.Except(unkTokens), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
+            return StatePair.Create(tokens.Where(x=>!unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
 
         public static StatePair<IEnumerable<Token>> PreprocessDashDash(
