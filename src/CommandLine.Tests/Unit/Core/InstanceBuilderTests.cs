@@ -235,6 +235,65 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
+        public void Two_required_options_at_the_same_set_and_one_is_true() {
+            // Fixture setup
+            var expectedResult = new FakeOptionWithRequiredAndSet {
+                FtpUrl = "str1",
+                WebUrl = null
+            };
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionWithRequiredAndSet(),
+                new[] { "--ftpurl", "str1"},
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            // Teardown
+        }
+
+
+        [Fact]
+        public void Two_required_options_at_the_same_set_and_both_are_true() {
+            // Fixture setup
+            var expectedResult = new FakeOptionWithRequiredAndSet {
+                FtpUrl = "str1",
+                WebUrl = "str2"
+            };
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionWithRequiredAndSet(),
+                new[] { "--ftpurl", "str1", "--weburl", "str2" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            // Teardown
+        }
+
+        [Fact]
+        public void Two_required_options_at_the_same_set_and_none_are_true() {
+            // Fixture setup
+            var expectedResult = new[]
+            {
+                new MissingRequiredOptionError(new NameInfo("", "ftpurl")),
+                new MissingRequiredOptionError(new NameInfo("", "weburl"))
+            };
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionWithRequiredAndSet(),
+                new[] {""},
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            // Teardown
+        }
+
+        [Fact]
         public void Omitting_required_option_gererates_MissingRequiredOptionError()
         {
             // Fixture setup
