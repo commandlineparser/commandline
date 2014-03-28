@@ -12,12 +12,20 @@ namespace CommandLine.Core
     {
         public static IEnumerable<T> GetSpecifications<T>(this System.Type type, Func<PropertyInfo, T> selector)
         {
-            return from pi in type.GetProperties()
-                   let attrs = pi.GetCustomAttributes(true)
-                   where
-                        attrs.OfType<OptionAttribute>().Any() ||
-                        attrs.OfType<ValueAttribute>().Any()
-                   select selector(pi);
+            while (type != null)
+            {
+                foreach (var pi in from pi in type.GetProperties().Concat(type.GetInterfaces().SelectMany(x => x.GetProperties()))
+                                   let attrs = pi.GetCustomAttributes(true)
+                                   where
+                                        attrs.OfType<OptionAttribute>().Any() ||
+                                        attrs.OfType<ValueAttribute>().Any()
+                                   group pi by pi.Name into g
+                                   select selector(g.First()))
+                {
+                    yield return pi;
+                }
+                type = type.BaseType;
+            }
         }
 
         public static DescriptorType ToDescriptor(this System.Type type)
