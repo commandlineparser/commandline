@@ -130,7 +130,7 @@ namespace CommandLine.Text
         {
             get
             {
-                return this.heading;
+                return this.copyright;
             }
 
             set
