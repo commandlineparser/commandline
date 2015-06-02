@@ -28,7 +28,7 @@ namespace CommandLine.Core
 
             var unkTokens = from t in tokens where t.IsName() && !nameLookup(t.Text) select t;
 
-            return StatePair.Create(tokens.Except(unkTokens), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
+            return StatePair.Create(tokens.Where(t => !unkTokens.Contains(t)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
 
         public static StatePair<IEnumerable<Token>> PreprocessDashDash(
