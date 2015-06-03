@@ -92,6 +92,7 @@ Latest Changes:
 ---
   - Implemented issue #31 (double dash), thanks also to PR #77 by Tom Glastonbury (@tg73).
   - Merged pull request #87, thanks to @randacc.
+  - Merged pull request #95, thanks to Dan Nemec (@nemec).
 
 Contacts:
 ---
