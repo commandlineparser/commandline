@@ -39,6 +39,8 @@ namespace CommandLine
 
         /// <summary>
         /// Gets or sets a value indicating whether perform case sensitive comparisons.
+        /// Note that case insensitivity only applies to <i>parameters</i>, not the values
+        /// assigned to them (for example, enum parsing).
         /// </summary>
         public bool CaseSensitive
         {
