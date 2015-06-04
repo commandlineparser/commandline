@@ -16,6 +16,7 @@ packages
 *.suo
 *.userprefs
 *~
+\#*\#
 *.pidb
 *.test-cache
 src/libcmdline/test-results/*
