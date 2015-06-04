@@ -61,7 +61,50 @@ namespace CommandLine.Tests.Unit.Text
             Assert.Equal("-i               Define a int sequence here.", lines[2]);
             Assert.Equal("-x               Define a boolean or switch value here.", lines[3]);
             Assert.Equal("--help           Display this help screen.", lines[4]);
-            Assert.Equal( "post-options", lines[5]);
+            Assert.Equal("post-options", lines[5]);
+            // Teardown
+        }
+
+        [Fact]
+        public void Create_instance_with_enum_options_enabled()
+        {
+            // Fixture setup
+            // Exercize system 
+            var sut = new HelpText { AddDashesToOption = true, AddEnumValuesToHelpText = true }
+                .AddPreOptionsLine("pre-options")
+                .AddOptions(new FakeOptionsWithHelpTextEnum())
+                .AddPostOptionsLine("post-options");
+
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
+            Assert.Equal("pre-options", lines[0]);
+            Assert.Equal("--stringvalue    Define a string value here.", lines[1]);
+            Assert.Equal("--shape          Define a enum value here. Valid values: Circle, Square,", lines[2]);
+            Assert.Equal("Triangle", lines[3]);
+            Assert.Equal("--help           Display this help screen.", lines[4]);
+            Assert.Equal("post-options", lines[5]);
+            // Teardown
+        }
+
+        [Fact]
+        public void Create_instance_with_enum_options_disabled()
+        {
+            // Fixture setup
+            // Exercize system 
+            var sut = new HelpText { AddDashesToOption = true }
+                .AddPreOptionsLine("pre-options")
+                .AddOptions(new FakeOptionsWithHelpTextEnum())
+                .AddPostOptionsLine("post-options");
+
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
+            Assert.Equal("pre-options", lines[0]);
+            Assert.Equal("--stringvalue    Define a string value here.", lines[1]);
+            Assert.Equal("--shape          Define a enum value here.", lines[2]);
+            Assert.Equal("--help           Display this help screen.", lines[3]);
+            Assert.Equal("post-options", lines[4]);
             // Teardown
         }
 
