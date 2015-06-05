@@ -94,6 +94,7 @@ Latest Changes:
   - Merged pull request #87, thanks to @randacc.
   - Merged pull request #95, thanks to Dan Nemec (@nemec).
   - Merged pull request #97, thanks to @bolha7 and @nemec.
+  - Merged pull request #103, thanks to @krs43.
 
 Contacts:
 ---
