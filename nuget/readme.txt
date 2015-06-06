@@ -53,7 +53,7 @@ class Options {
 New Code:
 ---------
 class Options {
-  [Option("o", "my-option", DefaultValue=10, HelpText="This is an option!")]
+  [Option('o', "my-option", DefaultValue=10, HelpText="This is an option!")]
   public int MyOption { get; set; }
 }
 
