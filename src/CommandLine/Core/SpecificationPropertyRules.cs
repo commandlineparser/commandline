@@ -33,11 +33,17 @@ namespace CommandLine.Core
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>> EnforceRequired()
         {
             return specProps =>
-                {
-                    var options = specProps.Where(sp => sp.Value.IsNothing() && sp.Specification.Required);
-                    if (options.Any())
-                    {
-                        return options.Select(s => Maybe.Just<Error>(new MissingRequiredOptionError(
+            {
+                List<string> setsWithTrue =
+                    specProps.Where(sp => sp.Specification.IsOption() && sp.Value.IsJust() && sp.Specification.Required)
+                        .Select(x => ((OptionSpecification)x.Specification).SetName).ToList();
+                
+                var requiredButEmpty =
+                    specProps.Where(sp => sp.Value.IsNothing() && 
+                                          sp.Specification.Required &&
+                                          !setsWithTrue.Contains(((OptionSpecification)sp.Specification).SetName)).ToList();
+                    if (requiredButEmpty.Any()) {
+                        return requiredButEmpty.Select(s => Maybe.Just<Error>(new MissingRequiredOptionError(
                             NameInfo.FromSpecification(s.Specification))));
                     }
                     return Enumerable.Empty<Nothing<Error>>();
