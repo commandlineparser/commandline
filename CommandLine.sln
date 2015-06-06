@@ -48,6 +48,10 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DFB97974-E2CC-42E6-BEB6-B6403FCB8B63} = {751E6303-1623-4418-B298-4FF97DA5C86E}
+		{54235AC4-60F1-4A3F-B218-3896B794043D} = {751E6303-1623-4418-B298-4FF97DA5C86E}
+	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\CommandLine\CommandLine.csproj
 	EndGlobalSection
