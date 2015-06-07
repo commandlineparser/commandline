@@ -26,7 +26,6 @@ let reportInput (o : options)  =
 
 let args = Array.ofSeq(Seq.skip 1 (Seq.ofArray fsi.CommandLineArgs))
 let parsed = Parser.Default.ParseArguments<options>(args)
-let hasErrs = (Seq.length parsed.Errors) > 0
 
 if Seq.isEmpty parsed.Errors 
 then Console.WriteLine(reportInput parsed.Value)
