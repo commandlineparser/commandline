@@ -97,6 +97,7 @@ Latest Changes:
   - Merged pull request #103, thanks to @krs43.
   - Merged pull request #119, thanks to @andrecarlucci.
   - Added F# demo (as a simple script); removed specific API (work-in-progress) from solution.
+  - Merged pull request #144, thanks to @JLRishe.
 
 Contacts:
 ---
