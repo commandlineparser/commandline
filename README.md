@@ -20,7 +20,7 @@ At glance:
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
   - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Verb-Commands) as ``git commit -a``.
   - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
-  - F# specific API (work in progress).
+  - F#-friendly, see [demo](https://github.com/gsscoder/commandline/tree/master/fsxdemo).
 
 To install:
 ---
@@ -96,6 +96,7 @@ Latest Changes:
   - Merged pull request #97, thanks to @bolha7 and @nemec.
   - Merged pull request #103, thanks to @krs43.
   - Merged pull request #119, thanks to @andrecarlucci.
+  - Added F# demo (as a simple script); removed specific API (work-in-progress) from solution.
 
 Contacts:
 ---
