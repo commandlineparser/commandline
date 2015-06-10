@@ -31,6 +31,7 @@ namespace CommandLine
             this.setName = string.Empty;
             this.min = -1;
             this.max = -1;
+            this.separator = string.Empty;
             this.helpText = string.Empty;
             this.metaValue = string.Empty;
         }
@@ -158,7 +159,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.setName = value;
+                this.separator = value;
             }
         }
 

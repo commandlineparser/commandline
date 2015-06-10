@@ -14,8 +14,8 @@ namespace CommandLine.Core
         private readonly string metaValue;
         private readonly System.Collections.Generic.IEnumerable<string> enumValues;
 
-        public OptionSpecification(string shortName, string longName, bool required, string setName, int min, int max, Maybe<object> defaultValue, System.Type conversionType, string helpText, string metaValue, System.Collections.Generic.IEnumerable<string> enumValues)
-            : base(SpecificationType.Option, required, min, max, defaultValue, conversionType)
+        public OptionSpecification(string shortName, string longName, bool required, string setName, int min, int max, string separator, Maybe<object> defaultValue, System.Type conversionType, string helpText, string metaValue, System.Collections.Generic.IEnumerable<string> enumValues)
+            : base(SpecificationType.Option, required, min, max, separator, defaultValue, conversionType)
         {
             this.shortName = shortName;
             this.longName = longName;
@@ -34,6 +34,7 @@ namespace CommandLine.Core
                 attribute.SetName,
                 attribute.Min,
                 attribute.Max,
+                attribute.Separator,
                 attribute.DefaultValue.ToMaybe(),
                 conversionType,
                 attribute.HelpText,

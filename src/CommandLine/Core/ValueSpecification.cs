@@ -9,8 +9,8 @@ namespace CommandLine.Core
     {
         private readonly int index;
 
-        public ValueSpecification(int index, bool required, int min, int max, Maybe<object> defaultValue, System.Type conversionType)
-            : base(SpecificationType.Value, required, min, max, defaultValue, conversionType)
+        public ValueSpecification(int index, bool required, int min, int max, string separator, Maybe<object> defaultValue, System.Type conversionType)
+            : base(SpecificationType.Value, required, min, max, separator, defaultValue, conversionType)
         {
             this.index = index;
         }
@@ -22,6 +22,7 @@ namespace CommandLine.Core
                 attribute.Required,
                 attribute.Min,
                 attribute.Max,
+                attribute.Separator,
                 attribute.DefaultValue.ToMaybe(),
                 conversionType);
         }

@@ -32,6 +32,7 @@ namespace CommandLine.Core
                 specification.SetName,
                 specification.Min,
                 specification.Max,
+                specification.Separator,
                 specification.DefaultValue,
                 specification.ConversionType,
                 specification.HelpText,
