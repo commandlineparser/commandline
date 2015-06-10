@@ -7,6 +7,7 @@ Compatibility:
 ---
   - .NET Framework 3.5+
   - Mono 2.1+ Profile
+  - This is true for stable version, pre-release may need higher profiles.
 
 Current Release:
 ---
