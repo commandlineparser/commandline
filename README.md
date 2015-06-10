@@ -73,6 +73,8 @@ static void Main(string[] args) {
 
 Acknowledgements:
 ---
+[![Jet Brains ReSharper](/art/resharper-logo.png)](http://www.jetbrains.com/resharper/)
+
 Thanks to JetBrains for providing an open source license for [ReSharper](http://www.jetbrains.com/resharper/).
 
 Main Contributors (alphabetical order):
