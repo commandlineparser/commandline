@@ -16,6 +16,7 @@ namespace CommandLine
         private string setName;
         private int min;
         private int max;
+        private string separator;
         private object defaultValue;
         private string helpText;
         private string metaValue;
@@ -144,6 +145,20 @@ namespace CommandLine
                 }
 
                 this.max = value;
+            }
+        }
+
+        public string Separator
+        {
+            get { return this.separator; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                this.setName = value;
             }
         }
 

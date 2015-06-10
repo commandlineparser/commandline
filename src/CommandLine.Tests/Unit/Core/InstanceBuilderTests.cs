@@ -162,14 +162,36 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Fixture setup
             var expectedResult = new FakeOptionsWithSequenceWithoutRange
-            {
-                LongSequence = new[] { 1L, 2L, 3L, 4L, 5L, 6L }
-            };
+                {
+                    LongSequence = new[] { 1L, 2L, 3L, 4L, 5L, 6L }
+                };
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceWithoutRange(),
                 new[] { "1", "2", "3", "4", "5", "6" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Parse_string_sequence_with_separator()
+        {
+            // Fixture setup
+            var expectedResult = new FakeOptionsWithSequenceAndSeparator
+                {
+                    StringSequence = new[] { "abc","1234","xyz@aaa.com" }
+                };
+
+            // Exercize system
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndSeparator(),
+                new[] { "abc;1234;xyz@aaa.com" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
