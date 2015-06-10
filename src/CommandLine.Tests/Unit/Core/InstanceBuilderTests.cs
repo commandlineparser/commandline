@@ -191,7 +191,7 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceAndSeparator(),
-                new[] { "abc;1234;xyz@aaa.com" },
+                new[] { "--string-seq", "abc;1234;xyz@aaa.com" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
