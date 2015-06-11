@@ -28,7 +28,8 @@ namespace CommandLine.Tests.Unit.Core
                     StatePair.Create(
                         Enumerable.Empty<Token>().Concat(new[] { Token.Name("string-seq"), Token.Value("aaa,bb,cccc") }),
                         Enumerable.Empty<Error>()),
-                        optionName => "string-seq".EqualsOrdinal(optionName) ? Maybe.Just(",") : Maybe.Nothing<string>());
+                        optionName => NameLookup.WithSeparator(optionName, specs, StringComparer.InvariantCulture));
+            //optionName => "string-seq".EqualsOrdinal(optionName) ? Maybe.Just(",") : Maybe.Nothing<string>());
 
             // Verify outcome
             Assert.True(expectedTokens.SequenceEqual(result.Value));
