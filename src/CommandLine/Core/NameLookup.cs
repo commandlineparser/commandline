@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using CommandLine.Infrastructure;
+
 namespace CommandLine.Core
 {
-   static class NameLookup
+    static class NameLookup
     {
         public static bool Contains(string name, IEnumerable<OptionSpecification> specifications, StringComparer comparer)
         {
@@ -14,5 +16,17 @@ namespace CommandLine.Core
 
             return specifications.Any(a => name.MatchName(a.ShortName, a.LongName, comparer));
         }
+
+        public static Maybe<string> WithSeparator(string name, IEnumerable<OptionSpecification> specifications,
+            StringComparer comparer)
+        {
+            if (name == null) throw new ArgumentNullException("name");
+
+            return specifications.SingleOrDefault(
+                a => name.MatchName(a.ShortName, a.LongName, comparer) && a.Separator.Length > 0)
+                .ToMaybe()
+                .Return(spec => Maybe.Just(spec.Separator), Maybe.Nothing<string>());
+        }
+
     }
 }
