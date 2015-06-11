@@ -57,7 +57,7 @@ namespace CommandLine.Core
                 return tokens;
             }
 
-            var expandedTokens = tokens.Value.Pairwise<Token, IEnumerable<Token>>(
+            var expandedTokens = tokens.Value.Pairwise(
                 (f, s) =>
                     {
                         string separator;

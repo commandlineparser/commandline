@@ -76,6 +76,7 @@
     <Compile Include="Unit\Core\OptionMapperTests.cs" />
     <Compile Include="Unit\Core\InstanceBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Core\TokenizerTests.cs" />
     <Compile Include="Unit\Core\TokenPartitionerTests.cs">
       <SubType>Code</SubType>
     </Compile>
