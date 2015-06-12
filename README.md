@@ -102,6 +102,7 @@ Latest Changes:
   - Added F# demo (as a simple script); removed specific API (work-in-progress) from solution.
   - Merged pull request #144, thanks to @JLRishe.
   - Merged pull request #154, thanks to @txdv.
+  - Implemented issue #68 (option list behaviour).
 
 Contacts:
 ---
