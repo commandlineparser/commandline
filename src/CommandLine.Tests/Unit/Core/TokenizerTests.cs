@@ -17,8 +17,8 @@ namespace CommandLine.Tests.Unit.Core
         public void Explode_scalar_with_separator_returns_sequence()
         {
             // Fixture setup
-            var expectedTokens = new[] { Token.Name("string-seq"),
-                Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc")};
+            var expectedTokens = new[] { Token.Name("i"), Token.Value("10"), Token.Name("string-seq"),
+                Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc"), Token.Name("switch"), };
             var specs = new[] { new OptionSpecification(string.Empty, "string-seq",
                 false, string.Empty, -1, -1, ",", null, typeof(IEnumerable<string>), string.Empty, string.Empty, new List<string>())};
 
@@ -26,7 +26,8 @@ namespace CommandLine.Tests.Unit.Core
             var result =
                 Tokenizer.ExplodeOptionList(
                     StatePair.Create(
-                        Enumerable.Empty<Token>().Concat(new[] { Token.Name("string-seq"), Token.Value("aaa,bb,cccc") }),
+                        Enumerable.Empty<Token>().Concat(new[] { Token.Name("i"), Token.Value("10"),
+                            Token.Name("string-seq"), Token.Value("aaa,bb,cccc"), Token.Name("switch") }),
                         Enumerable.Empty<Error>()),
                         optionName => NameLookup.WithSeparator(optionName, specs, StringComparer.InvariantCulture));
             //optionName => "string-seq".EqualsOrdinal(optionName) ? Maybe.Just(",") : Maybe.Nothing<string>());

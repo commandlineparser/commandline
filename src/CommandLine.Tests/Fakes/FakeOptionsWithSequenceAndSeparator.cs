@@ -7,7 +7,7 @@ namespace CommandLine.Tests.Fakes
 {
     class FakeOptionsWithSequenceAndSeparator
     {
-        [Option("string-seq", Separator=";")]
-        public IEnumerable<string> StringSequence { get; set; }
+        [Option("long-seq", Min=0, Max=100, Separator=";")] //todo: problem omitting min/max -> defauly should be no check
+        public IEnumerable<long> LongSequence { get; set; }
     }
 }

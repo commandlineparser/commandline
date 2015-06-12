@@ -6,6 +6,20 @@ using System.Linq;
 
 namespace CommandLine.Infrastructure
 {
+    internal class ItemWithContext<T>
+    {
+        public T Previous { get; private set; }
+        public T Next { get; private set; }
+        public T Current { get; private set; }
+
+        public ItemWithContext(T current, T previous, T next)
+        {
+            this.Current = current;
+            this.Previous = previous;
+            this.Next = next;
+        }
+    }
+
     internal static class EnumerableExtensions
     {
         public static IEnumerable<TResult> Pairwise<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TSource, TResult> selector)
@@ -75,5 +89,29 @@ namespace CommandLine.Infrastructure
         {
             return !source.Any();
         }
+
+        public static IEnumerable<ItemWithContext<T>> WithContext<T>(this IEnumerable<T> source)
+        {
+            var previous = default(T);
+            var current = source.FirstOrDefault();
+
+            foreach (var next in source.Union(new[] { default(T) }).Skip(1))
+            {
+                yield return new ItemWithContext<T>(current, previous, next);
+                previous = current;
+                current = next;
+            }
+        }
+
+        //public static bool HasEvenNumberOfItems<TSource>(this IEnumerable<TSource> source)
+        //{
+        //    return source.Count() % 2 == 0;
+        //}
+
+        //public static bool HasOddNumberOfItems<TSource>(this IEnumerable<TSource> source)
+        //{
+        //    return !source.HasEvenNumberOfItems();
+        //}
+
     }
 }

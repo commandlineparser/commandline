@@ -180,18 +180,18 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Parse_string_sequence_with_separator()
+        public void Parse_long_sequence_with_separator()
         {
             // Fixture setup
             var expectedResult = new FakeOptionsWithSequenceAndSeparator
                 {
-                    StringSequence = new[] { "abc","1234","xyz@aaa.com" }
+                    LongSequence = new[] { 1L, 1234L, 59678L }
                 };
 
             // Exercize system
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceAndSeparator(),
-                new[] { "--string-seq", "abc;1234;xyz@aaa.com" },
+                new[] { "--long-seq", "1;1234;59678" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 

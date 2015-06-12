@@ -57,19 +57,54 @@ namespace CommandLine.Core
                 return tokens;
             }
 
-            var expandedTokens = tokens.Value.Pairwise(
-                (f, s) =>
-                    {
-                        string separator;
-                        if (f.IsName() && optionSequenceWithSeparatorLookup(f.Text).MatchJust(out separator))
-                        {
-                            var parts = s.Text.Split(Convert.ToChar(separator));
-                            return new[] { f }.Concat(parts.Select(str => Token.Value(str)));
-                        }
-                        return new[] { f, s };
-                    });
+            //var expandedTokens = tokens.Value.Pairwise(
+            //    (f, s) =>
+            //        {
+            //            string separator;
+            //            if (f.IsName() && optionSequenceWithSeparatorLookup(f.Text).MatchJust(out separator))
+            //            {
+            //                var parts = s.Text.Split(Convert.ToChar(separator));
+            //                return Enumerable.Empty<Token>()
+            //                    .Concat(new[] { f }).Concat(parts.Select(str => Token.Value(str)));
+            //            }
+            //            return Enumerable.Empty<Token>().Concat(new[] { f });
+            //        }); 
+            var withContext = tokens.Value.WithContext();
+            var expandedTokens = withContext.Select(ictx =>
+                Mapper(ictx, optionSequenceWithSeparatorLookup));
 
-            return StatePair.Create(expandedTokens.SelectMany(x => x), tokens.Errors);
+            var flattened = expandedTokens.SelectMany(x => x);
+
+            //if (tokens.Value.HasEvenNumberOfItems())
+            //{
+                return StatePair.Create(flattened, tokens.Errors);
+            //}
+            //return StatePair.Create(expandedTokens.SelectMany(x => x).Concat(new[] { tokens.Value.Last() }), tokens.Errors);
+        }
+
+        private static IEnumerable<Token> Mapper(ItemWithContext<Token> ictx, Func<string, Maybe<string>> optionSequenceWithSeparatorLookup)
+        {
+                var curr = ictx.Current;
+                var prev = ictx.Previous;
+                var next = ictx.Next;
+
+                string separator;
+                if (curr != null && curr.IsName() && optionSequenceWithSeparatorLookup(curr.Text).MatchJust(out separator))
+                {
+                    if (next != null)
+                    {
+                        var parts = next.Text.Split(Convert.ToChar(separator));
+                        return Enumerable.Empty<Token>()
+                            .Concat(new[] { curr })
+                            .Concat(parts.Select(str => Token.Value(str)));
+                    }
+                    return Enumerable.Empty<Token>().Concat(new[] { curr });
+                }
+                if (prev != null && prev.IsName() && optionSequenceWithSeparatorLookup(prev.Text).IsJust())
+                {
+                    return Enumerable.Empty<Token>();
+                }
+                return Enumerable.Empty<Token>().Concat(new[] { curr });
         }
 
         private static IEnumerable<Token> TokenizeShortName(
