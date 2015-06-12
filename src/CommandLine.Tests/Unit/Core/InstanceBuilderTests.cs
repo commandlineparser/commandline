@@ -185,13 +185,37 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup
             var expectedResult = new FakeOptionsWithSequenceAndSeparator
                 {
-                    LongSequence = new[] { 1L, 1234L, 59678L }
+                    LongSequence = new[] { 1L, 1234L, 59678L },
+                    StringSequence = new string[] { }
                 };
 
             // Exercize system
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceAndSeparator(),
                 new[] { "--long-seq", "1;1234;59678" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Parse_string_sequence_with_separator()
+        {
+            // Fixture setup
+            var expectedResult = new FakeOptionsWithSequenceAndSeparator
+            {
+                LongSequence = new long[] {},
+                StringSequence = new[] { "eml1@xyz.com", "test@unit.org", "xyz@srv.it" }
+            };
+
+            // Exercize system
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndSeparator(),
+                new[] { "-s", "eml1@xyz.com,test@unit.org,xyz@srv.it" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
