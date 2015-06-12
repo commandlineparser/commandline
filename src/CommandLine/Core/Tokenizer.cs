@@ -52,7 +52,9 @@ namespace CommandLine.Core
         {
             if (tokens == null) throw new ArgumentNullException("tokens");
 
-            if (tokens.Errors.Any() || tokens.Value.Count() == 1)
+            if (tokens.Errors.Any() ||
+                tokens.Value.Count() == 1 ||
+                !tokens.Value.Any(t => t.IsName() && optionSequenceWithSeparatorLookup(t.Text).IsJust()))
             {
                 return tokens;
             }
