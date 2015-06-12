@@ -24,7 +24,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system
             var result =
-                Tokenizer.ExplodeOptionList(
+                Tokenizer.ExplodeOptionList2(
                     StatePair.Create(
                         Enumerable.Empty<Token>().Concat(new[] { Token.Name("i"), Token.Value("10"),
                             Token.Name("string-seq"), Token.Value("aaa,bb,cccc"), Token.Name("switch") }),
@@ -48,7 +48,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system
             var result =
-                Tokenizer.ExplodeOptionList(
+                Tokenizer.ExplodeOptionList2(
                     StatePair.Create(
                         Enumerable.Empty<Token>().Concat(new[] { Token.Name("x"),
                             Token.Name("string-seq"), Token.Value("aaa,bb,cccc"), Token.Name("switch") }),

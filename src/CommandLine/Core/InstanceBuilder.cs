@@ -21,7 +21,7 @@ namespace CommandLine.Core
                 (args, optionSpecs) =>
                     {
                         var tokens = Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer));
-                        var explodedTokens = Tokenizer.ExplodeOptionList(
+                        var explodedTokens = Tokenizer.ExplodeOptionList2(
                             tokens,
                             name => NameLookup.WithSeparator(name, optionSpecs, nameComparer));
                         return explodedTokens;
