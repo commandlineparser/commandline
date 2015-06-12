@@ -54,7 +54,7 @@ namespace CommandLine.Core
 
             if (tokens.Errors.Any() ||
                 tokens.Value.Count() == 1 ||
-                !tokens.Value.Any(t => t.IsName() && optionSequenceWithSeparatorLookup(t.Text).IsJust()))
+                !tokens.Value.AnyOptionSequenceWithSeparator(optionSequenceWithSeparatorLookup))
             {
                 return tokens;
             }
@@ -66,6 +66,11 @@ namespace CommandLine.Core
             var flattened = expandedTokens.SelectMany(x => x);
 
             return StatePair.Create(flattened, tokens.Errors);
+        }
+
+        private static bool AnyOptionSequenceWithSeparator(this IEnumerable<Token> tokens, Func<string, Maybe<string>> predicate)
+        {
+            return tokens.Any(t => t.IsName() && predicate(t.Text).IsJust());
         }
 
         private static IEnumerable<Token> Mapper(ItemWithContext<Token> ictx, Func<string, Maybe<string>> optionSequenceWithSeparatorLookup)
