@@ -9,16 +9,18 @@ namespace CommandLine.Core
     {
         private readonly string shortName;
         private readonly string longName;
+        private readonly string separator;
         private readonly string setName;
         private readonly string helpText;
         private readonly string metaValue;
         private readonly System.Collections.Generic.IEnumerable<string> enumValues;
 
         public OptionSpecification(string shortName, string longName, bool required, string setName, int min, int max, string separator, Maybe<object> defaultValue, System.Type conversionType, string helpText, string metaValue, System.Collections.Generic.IEnumerable<string> enumValues)
-            : base(SpecificationType.Option, required, min, max, separator, defaultValue, conversionType)
+            : base(SpecificationType.Option, required, min, max, defaultValue, conversionType)
         {
             this.shortName = shortName;
             this.longName = longName;
+            this.separator = separator;
             this.setName = setName;
             this.helpText = helpText;
             this.metaValue = metaValue;
@@ -50,6 +52,11 @@ namespace CommandLine.Core
         public string LongName
         {
             get { return this.longName; }
+        }
+
+        public string Separator
+        {
+            get { return this.separator; }
         }
 
         public string SetName

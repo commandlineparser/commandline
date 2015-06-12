@@ -19,20 +19,20 @@ namespace CommandLine.Core
         private readonly bool required;
         private readonly int min;
         private readonly int max;
-        private readonly string separator;
+        //private readonly string separator;
         private readonly Maybe<object> defaultValue;
         /// <summary>
         /// This information is denormalized to decouple Specification from PropertyInfo.
         /// </summary>
         private readonly System.Type conversionType;
 
-        protected Specification(SpecificationType tag, bool required, int min, int max, string separator, Maybe<object> defaultValue, System.Type conversionType)
+        protected Specification(SpecificationType tag, bool required, int min, int max, Maybe<object> defaultValue, System.Type conversionType)
         {
             this.tag = tag;
             this.required = required;
             this.min = min;
             this.max = max;
-            this.separator = separator;
+            //this.separator = separator;
             this.defaultValue = defaultValue;
             this.conversionType = conversionType;
         }
@@ -57,10 +57,10 @@ namespace CommandLine.Core
             get { return this.max; }
         }
 
-        public string Separator
-        {
-            get { return this.separator; }
-        }
+        //public string Separator
+        //{
+        //    get { return this.separator; }
+        //}
 
         public Maybe<object> DefaultValue
         {
