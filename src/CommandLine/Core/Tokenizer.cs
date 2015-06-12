@@ -57,29 +57,13 @@ namespace CommandLine.Core
                 return tokens;
             }
 
-            //var expandedTokens = tokens.Value.Pairwise(
-            //    (f, s) =>
-            //        {
-            //            string separator;
-            //            if (f.IsName() && optionSequenceWithSeparatorLookup(f.Text).MatchJust(out separator))
-            //            {
-            //                var parts = s.Text.Split(Convert.ToChar(separator));
-            //                return Enumerable.Empty<Token>()
-            //                    .Concat(new[] { f }).Concat(parts.Select(str => Token.Value(str)));
-            //            }
-            //            return Enumerable.Empty<Token>().Concat(new[] { f });
-            //        }); 
             var withContext = tokens.Value.WithContext();
             var expandedTokens = withContext.Select(ictx =>
                 Mapper(ictx, optionSequenceWithSeparatorLookup));
 
             var flattened = expandedTokens.SelectMany(x => x);
 
-            //if (tokens.Value.HasEvenNumberOfItems())
-            //{
-                return StatePair.Create(flattened, tokens.Errors);
-            //}
-            //return StatePair.Create(expandedTokens.SelectMany(x => x).Concat(new[] { tokens.Value.Last() }), tokens.Errors);
+            return StatePair.Create(flattened, tokens.Errors);
         }
 
         private static IEnumerable<Token> Mapper(ItemWithContext<Token> ictx, Func<string, Maybe<string>> optionSequenceWithSeparatorLookup)

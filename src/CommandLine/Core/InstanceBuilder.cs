@@ -25,7 +25,6 @@ namespace CommandLine.Core
                             tokens,
                             name => NameLookup.WithSeparator(name, optionSpecs, nameComparer));
                         return explodedTokens;
-                        //return tokens;
                     },
                 arguments,
                 nameComparer,
