@@ -46,28 +46,6 @@ namespace CommandLine.Core
             return tokenizer(arguments);
         }
 
-        //public static StatePair<IEnumerable<Token>> ExplodeOptionList(
-        //    StatePair<IEnumerable<Token>> tokens,
-        //    Func<string, Maybe<string>> optionSequenceWithSeparatorLookup)
-        //{
-        //    if (tokens == null) throw new ArgumentNullException("tokens");
-
-        //    if (tokens.Errors.Any() ||
-        //        tokens.Value.Count() == 1 ||
-        //        !tokens.Value.AnyOptionSequenceWithSeparator(optionSequenceWithSeparatorLookup))
-        //    {
-        //        return tokens;
-        //    }
-
-        //    var withContext = tokens.Value.WithContext();
-        //    var expandedTokens = withContext.Select(ictx =>
-        //        Mapper(ictx, optionSequenceWithSeparatorLookup));
-
-        //    var flattened = expandedTokens.SelectMany(x => x);
-
-        //    return StatePair.Create(flattened, tokens.Errors);
-        //}
-
         public static StatePair<IEnumerable<Token>> ExplodeOptionList(
             StatePair<IEnumerable<Token>> tokens,
             Func<string, Maybe<string>> optionSequenceWithSeparatorLookup)
@@ -88,36 +66,6 @@ namespace CommandLine.Core
 
             return StatePair.Create(flattened, tokens.Errors);
         }
-
-        //private static bool AnyOptionSequenceWithSeparator(this IEnumerable<Token> tokens, Func<string, Maybe<string>> predicate)
-        //{
-        //    return tokens.Any(t => t.IsName() && predicate(t.Text).IsJust());
-        //}
-
-        //private static IEnumerable<Token> Mapper(ItemWithContext<Token> ictx, Func<string, Maybe<string>> optionSequenceWithSeparatorLookup)
-        //{
-        //        var curr = ictx.Current;
-        //        var prev = ictx.Previous;
-        //        var next = ictx.Next;
-
-        //        string separator;
-        //        if (curr != null && curr.IsName() && optionSequenceWithSeparatorLookup(curr.Text).MatchJust(out separator))
-        //        {
-        //            if (next != null)
-        //            {
-        //                var parts = next.Text.Split(Convert.ToChar(separator));
-        //                return Enumerable.Empty<Token>()
-        //                    .Concat(new[] { curr })
-        //                    .Concat(parts.Select(str => Token.Value(str)));
-        //            }
-        //            return Enumerable.Empty<Token>().Concat(new[] { curr });
-        //        }
-        //        if (prev != null && prev.IsName() && optionSequenceWithSeparatorLookup(prev.Text).IsJust())
-        //        {
-        //            return Enumerable.Empty<Token>();
-        //        }
-        //        return Enumerable.Empty<Token>().Concat(new[] { curr });
-        //}
 
         private static IEnumerable<Token> TokenizeShortName(
             string value,
