@@ -13,6 +13,7 @@ namespace CommandLine
         private readonly int index;
         private int min;
         private int max;
+        //private string separator;
         private object defaultValue;
 
         /// <summary>
@@ -23,6 +24,7 @@ namespace CommandLine
             this.index = index;
             this.min = -1;
             this.max = -1;
+            //this.separator = string.Empty;
         }
 
         /// <summary>
@@ -59,6 +61,20 @@ namespace CommandLine
                 this.min = value;
             }
         }
+
+        //public string Separator
+        //{
+        //    get { return this.separator; }
+        //    set
+        //    {
+        //        if (value == null)
+        //        {
+        //            throw new ArgumentNullException("value");
+        //        }
+
+        //        this.separator = value;
+        //    }
+        //}
 
         /// <summary>
         /// When applied to <see cref="System.Collections.Generic.IEnumerable{T}"/> properties defines

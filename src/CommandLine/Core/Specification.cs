@@ -19,6 +19,7 @@ namespace CommandLine.Core
         private readonly bool required;
         private readonly int min;
         private readonly int max;
+        //private readonly string separator;
         private readonly Maybe<object> defaultValue;
         /// <summary>
         /// This information is denormalized to decouple Specification from PropertyInfo.
@@ -31,6 +32,7 @@ namespace CommandLine.Core
             this.required = required;
             this.min = min;
             this.max = max;
+            //this.separator = separator;
             this.defaultValue = defaultValue;
             this.conversionType = conversionType;
         }
@@ -54,6 +56,11 @@ namespace CommandLine.Core
         {
             get { return this.max; }
         }
+
+        //public string Separator
+        //{
+        //    get { return this.separator; }
+        //}
 
         public Maybe<object> DefaultValue
         {

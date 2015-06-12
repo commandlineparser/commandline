@@ -19,7 +19,13 @@ namespace CommandLine.Core
             return InstanceBuilder.Build(
                 factory,
                 (args, optionSpecs) =>
-                    Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer)),
+                    {
+                        var tokens = Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer));
+                        var explodedTokens = Tokenizer.ExplodeOptionList(
+                            tokens,
+                            name => NameLookup.WithSeparator(name, optionSpecs, nameComparer));
+                        return explodedTokens;
+                    },
                 arguments,
                 nameComparer,
                 parsingCulture);

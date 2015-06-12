@@ -46,6 +46,27 @@ namespace CommandLine.Core
             return tokenizer(arguments);
         }
 
+        public static StatePair<IEnumerable<Token>> ExplodeOptionList(
+            StatePair<IEnumerable<Token>> tokens,
+            Func<string, Maybe<string>> optionSequenceWithSeparatorLookup)
+        {
+            if (tokens == null) throw new ArgumentNullException("tokens");
+
+            var replaces = tokens.Value.Select((t,i) =>
+                optionSequenceWithSeparatorLookup(t.Text)
+                    .Return(sep => Tuple.Create(i + 1, Convert.ToChar(sep)),
+                        Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0);
+
+            var exploded = tokens.Value.Select((t, i) =>
+                        replaces.FirstOrDefault(x => x.Item1 == i).ToMaybe()
+                            .Return(r => t.Text.Split(r.Item2).Select(str => Token.Value(str)),
+                                Enumerable.Empty<Token>().Concat(new[]{ t })));
+
+            var flattened = exploded.SelectMany(x => x);
+
+            return StatePair.Create(flattened, tokens.Errors);
+        }
+
         private static IEnumerable<Token> TokenizeShortName(
             string value,
             Func<string, bool> nameLookup)

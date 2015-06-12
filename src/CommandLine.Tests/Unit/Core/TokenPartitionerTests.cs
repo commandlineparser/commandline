@@ -20,8 +20,8 @@ namespace CommandLine.Tests.Unit.Core
                 };
             var specs =new[]
                 {
-                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, -1, -1, null, typeof(string), string.Empty, string.Empty, new List<string>()),
-                    new OptionSpecification("i", string.Empty, false, string.Empty, 3, 4, null, typeof(IEnumerable<int>), string.Empty, string.Empty, new List<string>())
+                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, -1, -1, string.Empty, null, typeof(string), string.Empty, string.Empty, new List<string>()),
+                    new OptionSpecification("i", string.Empty, false, string.Empty, 3, 4, string.Empty, null, typeof(IEnumerable<int>), string.Empty, string.Empty, new List<string>())
                 };
 
             // Exercize system 
@@ -46,8 +46,8 @@ namespace CommandLine.Tests.Unit.Core
                 };
             var specs =new[]
                 {
-                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, -1, -1, null, typeof(string), string.Empty, string.Empty, new List<string>()),
-                    new OptionSpecification("i", string.Empty, false, string.Empty, 3, 4, null, typeof(IEnumerable<int>), string.Empty, string.Empty, new List<string>())
+                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, -1, -1, string.Empty, null, typeof(string), string.Empty, string.Empty, new List<string>()),
+                    new OptionSpecification("i", string.Empty, false, string.Empty, 3, 4, string.Empty, null, typeof(IEnumerable<int>), string.Empty, string.Empty, new List<string>())
                 };
 
             // Exercize system 

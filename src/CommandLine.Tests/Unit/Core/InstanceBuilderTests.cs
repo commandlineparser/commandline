@@ -162,14 +162,60 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Fixture setup
             var expectedResult = new FakeOptionsWithSequenceWithoutRange
-            {
-                LongSequence = new[] { 1L, 2L, 3L, 4L, 5L, 6L }
-            };
+                {
+                    LongSequence = new[] { 1L, 2L, 3L, 4L, 5L, 6L }
+                };
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceWithoutRange(),
                 new[] { "1", "2", "3", "4", "5", "6" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Parse_long_sequence_with_separator()
+        {
+            // Fixture setup
+            var expectedResult = new FakeOptionsWithSequenceAndSeparator
+                {
+                    LongSequence = new[] { 1L, 1234L, 59678L },
+                    StringSequence = new string[] { }
+                };
+
+            // Exercize system
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndSeparator(),
+                new[] { "--long-seq", "1;1234;59678" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Parse_string_sequence_with_separator()
+        {
+            // Fixture setup
+            var expectedResult = new FakeOptionsWithSequenceAndSeparator
+            {
+                LongSequence = new long[] {},
+                StringSequence = new[] { "eml1@xyz.com", "test@unit.org", "xyz@srv.it" }
+            };
+
+            // Exercize system
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndSeparator(),
+                new[] { "-s", "eml1@xyz.com,test@unit.org,xyz@srv.it" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
