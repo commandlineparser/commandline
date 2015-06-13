@@ -59,21 +59,6 @@ namespace CommandLine.Core
                 select t;
         }
 
-        //private static IEnumerable<Token> PartitionSequences(
-        //    IEnumerable<Token> tokens,
-        //    Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
-        //{
-        //    return from tseq in tokens.Pairwise(
-        //        (f, s) =>     
-        //                f.IsName() && s.IsValue()
-        //                    ? typeLookup(f.Text).Return(info =>
-        //                           info.Item1 == DescriptorType.Sequence
-        //                                ? new[] { f }.Concat(tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Take(info.Item2.Return(items => items, 0)))
-        //                                : new Token[] { } , new Token[] { })
-        //                    : new Token[] {})
-        //        from t in tseq
-        //        select t;
-        //}
         private static IEnumerable<Token> PartitionSequences(
             IEnumerable<Token> tokens,
             Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
