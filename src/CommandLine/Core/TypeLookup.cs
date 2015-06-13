@@ -18,11 +18,12 @@ namespace CommandLine.Core
             if (specifications == null) throw new ArgumentNullException("specifications");
             if (comparer == null) throw new ArgumentNullException("comparer");
 
-            return specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
+            var info = specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
                 .ToMaybe()
                     .Map(
                         s => Tuple.Create(
                             s.ConversionType.ToDescriptor(), (s.Min < 0 && s.Max < 0) ? Maybe.Nothing<int>() : Maybe.Just(s.Max)));
+            return info;
         }
     }
 }
