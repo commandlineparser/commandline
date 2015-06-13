@@ -539,7 +539,7 @@ namespace CommandLine.Text
                        string.Empty,
                        -1,
                        -1,
-                       string.Empty,
+                       '\0',
                        Maybe.Nothing<object>(),
                        typeof(bool),
                        verbTuple.Item1.HelpText,
@@ -566,7 +566,7 @@ namespace CommandLine.Text
 
         private OptionSpecification CreateHelpEntry()
         {
-            return new OptionSpecification(string.Empty, "help", false, string.Empty, -1, -1, string.Empty, Maybe.Nothing<object>(), typeof(bool),
+            return new OptionSpecification(string.Empty, "help", false, string.Empty, -1, -1, '\0', Maybe.Nothing<object>(), typeof(bool),
                 this.sentenceBuilder.HelpCommandText(this.AddDashesToOption), string.Empty, new List<string>());
         }
 

@@ -1,6 +1,8 @@
 ﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Globalization;
+
 using CommandLine.Infrastructure;
 
 namespace CommandLine
@@ -16,7 +18,7 @@ namespace CommandLine
         private string setName;
         private int min;
         private int max;
-        private string separator;
+        private char? separator;
         private object defaultValue;
         private string helpText;
         private string metaValue;
@@ -31,7 +33,7 @@ namespace CommandLine
             this.setName = string.Empty;
             this.min = -1;
             this.max = -1;
-            this.separator = string.Empty;
+            this.separator = '\0';
             this.helpText = string.Empty;
             this.metaValue = string.Empty;
         }
@@ -149,9 +151,9 @@ namespace CommandLine
             }
         }
 
-        public string Separator
+        public char Separator
         {
-            get { return this.separator; }
+            get { return this.separator.Value ; }
             set
             {
                 if (value == null)

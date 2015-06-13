@@ -17,15 +17,15 @@ namespace CommandLine.Core
             return specifications.Any(a => name.MatchName(a.ShortName, a.LongName, comparer));
         }
 
-        public static Maybe<string> WithSeparator(string name, IEnumerable<OptionSpecification> specifications,
+        public static Maybe<char> WithSeparator(string name, IEnumerable<OptionSpecification> specifications,
             StringComparer comparer)
         {
             if (name == null) throw new ArgumentNullException("name");
 
             return specifications.SingleOrDefault(
-                a => name.MatchName(a.ShortName, a.LongName, comparer) && a.Separator.Length > 0)
+                a => name.MatchName(a.ShortName, a.LongName, comparer) && a.Separator != '\0')
                 .ToMaybe()
-                .Return(spec => Maybe.Just(spec.Separator), Maybe.Nothing<string>());
+                .Return(spec => Maybe.Just(spec.Separator), Maybe.Nothing<char>());
         }
 
     }

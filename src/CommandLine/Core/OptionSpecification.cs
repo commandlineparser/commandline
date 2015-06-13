@@ -9,13 +9,13 @@ namespace CommandLine.Core
     {
         private readonly string shortName;
         private readonly string longName;
-        private readonly string separator;
+        private readonly char separator;
         private readonly string setName;
         private readonly string helpText;
         private readonly string metaValue;
         private readonly System.Collections.Generic.IEnumerable<string> enumValues;
 
-        public OptionSpecification(string shortName, string longName, bool required, string setName, int min, int max, string separator, Maybe<object> defaultValue, System.Type conversionType, string helpText, string metaValue, System.Collections.Generic.IEnumerable<string> enumValues)
+        public OptionSpecification(string shortName, string longName, bool required, string setName, int min, int max, char separator, Maybe<object> defaultValue, System.Type conversionType, string helpText, string metaValue, System.Collections.Generic.IEnumerable<string> enumValues)
             : base(SpecificationType.Option, required, min, max, defaultValue, conversionType)
         {
             this.shortName = shortName;
@@ -54,7 +54,7 @@ namespace CommandLine.Core
             get { return this.longName; }
         }
 
-        public string Separator
+        public char Separator
         {
             get { return this.separator; }
         }

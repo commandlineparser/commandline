@@ -20,7 +20,7 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup
             var expected = Maybe.Just(".");
             var specs = new[] { new OptionSpecification(string.Empty, "string-seq",
-                false, string.Empty, -1, -1, ".", null, typeof(IEnumerable<string>), string.Empty, string.Empty, new List<string>())};
+                false, string.Empty, -1, -1, '.', null, typeof(IEnumerable<string>), string.Empty, string.Empty, new List<string>())};
 
             // Exercize system
             var result = NameLookup.WithSeparator("string-seq", specs, StringComparer.InvariantCulture);

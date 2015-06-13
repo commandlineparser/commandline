@@ -48,13 +48,13 @@ namespace CommandLine.Core
 
         public static StatePair<IEnumerable<Token>> ExplodeOptionList(
             StatePair<IEnumerable<Token>> tokens,
-            Func<string, Maybe<string>> optionSequenceWithSeparatorLookup)
+            Func<string, Maybe<char>> optionSequenceWithSeparatorLookup)
         {
             if (tokens == null) throw new ArgumentNullException("tokens");
 
             var replaces = tokens.Value.Select((t,i) =>
                 optionSequenceWithSeparatorLookup(t.Text)
-                    .Return(sep => Tuple.Create(i + 1, Convert.ToChar(sep)),
+                    .Return(sep => Tuple.Create(i + 1, sep),
                         Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0);
 
             var exploded = tokens.Value.Select((t, i) =>
