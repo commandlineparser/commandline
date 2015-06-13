@@ -92,6 +92,25 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
+        public void Parse_int_sequence()
+        {
+            // Fixture setup
+            var expectedResult = new[] { 1, 20, 300, 4000 };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequence(),
+                new[] { "--int-seq", "1", "20", "300", "4000" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result.Value.IntSequence));
+
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_int_sequence_with_range()
         {
             // Fixture setup
