@@ -68,7 +68,7 @@ namespace CommandLine.Core
                         f.IsName() && s.IsValue()
                             ? typeLookup(f.Text).Return(info =>
                                    info.Item1 == DescriptorType.Sequence
-                                        ? new[] { f }.Concat(tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Take(MaybeExtensions.Return(info.Item2, items => items, 0)))
+                                        ? new[] { f }.Concat(tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Take(info.Item2.Return(items => items, 0)))
                                         : new Token[] { } , new Token[] { })
                             : new Token[] {})
                 from t in tseq
