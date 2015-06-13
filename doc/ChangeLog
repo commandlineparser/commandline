@@ -1,7 +1,8 @@
 2015-06-13    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Chaning Separator from string to char.
-
+  * Fixing Issue #157.
+	
 2015-06-12    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Issue #68, option list behaviour.

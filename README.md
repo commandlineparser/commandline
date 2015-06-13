@@ -103,6 +103,7 @@ Latest Changes:
   - Merged pull request #144, thanks to @JLRishe.
   - Merged pull request #154, thanks to @txdv.
   - Implemented issue #68 (option list behaviour).
+  - Fixed issue #157 (range problems).
 
 Contacts:
 ---
