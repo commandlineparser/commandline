@@ -130,6 +130,25 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
+        public void Parse_string_sequence_with_only_min_constraint()
+        {
+            // Fixture setup
+            var expectedResult = new[] { "just-one" };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndOnlyMinConstraint(),
+                new[] { "-s", "just-one" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result.Value.StringSequence));
+
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_enum_value()
         {
             // Fixture setup
