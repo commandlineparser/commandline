@@ -5,9 +5,8 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 
 Compatibility:
 ---
-  - .NET Framework 3.5+
-  - Mono 2.1+ Profile
-  - This is true for stable version, pre-release may need higher profiles.
+  - .NET Framework 4.0+
+  - Mono 3.0.3+ Profile
 
 Current Release:
 ---
