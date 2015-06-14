@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Resources;
 
 [assembly: AssemblyProduct("Command Line Parser Library")]
-[assembly: AssemblyCopyright("Copyright (c) 2005 - 2013 Giacomo Stelluti Scala")]
+[assembly: AssemblyCopyright("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala")]
 [assembly: AssemblyVersion("2.0.0.0")]
 [assembly: AssemblyFileVersion("2.0.0.0")]
 
