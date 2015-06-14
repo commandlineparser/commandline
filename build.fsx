@@ -8,11 +8,18 @@ Target "Clean" (fun _ ->
 )
 
 Target "Default" (fun _ ->
-    trace "TODO: complete"
+    trace "Command Line Parser Library 2.0 pre-release"
+)
+
+Target "BuildLib"(fun _ ->
+    !! "src/**/*.csproj"
+        |> MSBuildRelease buildDir "Build"
+        |> Log "AppBuild-Output: "
 )
 
 // Dependencies
 "Clean"
+    ==> "BuildLib"
     ==> "Default"
 
 RunTargetOrDefault "Default"
