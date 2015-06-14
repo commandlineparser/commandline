@@ -10,11 +10,7 @@ namespace CommandLine.Core
     internal static class TokenPartitioner
     {
         public static
-            Tuple<
-                IEnumerable<KeyValuePair<string, IEnumerable<string>>>, // options
-                IEnumerable<string>,                                    // values
-                IEnumerable<Token>                                      // MissingValueOptionError tokens
-            > Partition(
+            TokenGroup Partition(
                 IEnumerable<Token> tokens,
                 Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
         {
@@ -28,7 +24,7 @@ namespace CommandLine.Core
             var values = tokensExceptSwitchesAndScalarsAndSeq.Where(v => v.IsValue()).ToList();
             var errors = tokensExceptSwitchesAndScalarsAndSeq.Where(x => !values.Contains(x));
 
-            return Tuple.Create(
+            return TokenGroup.Create(
                     switches.Select(t => CreateValue(t.Text,"true"))
                         .Concat(scalars.Pairwise((f, s) => CreateValue(f.Text, s.Text)))
                         .Concat(SequenceTokensToKeyValuePairEnumerable(sequences)),

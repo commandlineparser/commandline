@@ -65,16 +65,16 @@ namespace CommandLine.Core
 
             var optionSpecProps = OptionMapper.MapValues(
                 (from pt in specProps where pt.Specification.IsOption() select pt),
-                partitions.Item1,
+                partitions.Options,
                 (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture),
                 nameComparer);
 
             var valueSpecProps = ValueMapper.MapValues(
                 (from pt in specProps where pt.Specification.IsValue() select pt),
-                    partitions.Item2,
+                    partitions.Values,
                 (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture));
 
-            var missingValueErrors = from token in partitions.Item3
+            var missingValueErrors = from token in partitions.Errors
                                      select new MissingValueOptionError(
                                          NameInfo.FromOptionSpecification(optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer))));
 
