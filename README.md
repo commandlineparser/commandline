@@ -104,6 +104,7 @@ Latest Changes:
   - Implemented issue #68 (option list behaviour).
   - Fixed issue #157 (range problems).
   - Fixed issue #159 (min constraint).
+  - Fixed issue #160 (max constraint).
 
 Contacts:
 ---
