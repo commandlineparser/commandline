@@ -152,6 +152,28 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Theory]
+        [InlineData(new[] { "-s", "just-one" }, new[] { "just-one" })]
+        [InlineData(new[] { "-sjust-one-samearg" }, new[] { "just-one-samearg" })]
+        [InlineData(new[] { "-s", "also-two", "are-ok" }, new[] { "also-two", "are-ok" })]
+        [InlineData(new[] { "--string-seq", "one", "two", "three" }, new[] { "one", "two", "three" })]
+        public void Parse_string_sequence_with_only_max_constraint(string[] arguments, string[] expected)
+        {
+            // Fixture setup with attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndOnlyMaxConstraint(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(result.Value.StringSequence));
+
+            // Teardown
+        }
+
         [Fact]
         public void Breaking_min_constraint_in_string_sequence_gererates_MissingValueOptionError()
         {
