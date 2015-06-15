@@ -18,7 +18,8 @@ namespace CommandLine.Core
 
             return StatePair.Create(
                 propAndErrors.Select(pe => pe.Item1),
-                propAndErrors.Select(pe => pe.Item2).OfType<Just<Error>>().Select(e => e.Value)
+                propAndErrors.Select(pe => pe.Item2)
+                    .OfType<Just<Error>>().Select(e => e.Value)
                 );
         }
 
@@ -27,7 +28,7 @@ namespace CommandLine.Core
             IEnumerable<string> values,
             Func<IEnumerable<string>, System.Type, bool, Maybe<object>> converter)
         {
-            if (specProps.Empty() || values.Empty())
+            if (specProps.Empty()) // || values.Empty())
             {
                 yield break;
             }
@@ -35,6 +36,8 @@ namespace CommandLine.Core
             var taken = values.Take(pt.Specification.GetMaxValueCount().Return(n => n, values.Count()));
             if (taken.Empty())
             {
+                yield return
+                    Tuple.Create(pt, MakeErrorInCaseOfMinConstraint(pt.Specification));
                 yield break;
             }
 
@@ -49,6 +52,13 @@ namespace CommandLine.Core
             {
                 yield return value;
             }
+        }
+
+        private static Maybe<Error> MakeErrorInCaseOfMinConstraint(Specification specification)
+        {
+            return !specification.IsMinNotSpecified()
+                ? Maybe.Just<Error>(new SequenceOutOfRangeError(NameInfo.EmptyName))
+                : Maybe.Nothing<Error>();
         }
     }
 }

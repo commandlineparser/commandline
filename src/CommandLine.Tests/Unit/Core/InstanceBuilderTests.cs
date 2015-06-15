@@ -197,8 +197,8 @@ namespace CommandLine.Tests.Unit.Core
         [Fact]
         public void Breaking_min_constraint_in_string_sequence_as_value_gererates_an_error()
         {
-            //// Fixture setup
-            //var expectedResult = new[] { new MissingValueOptionError(new NameInfo("", "")) };
+            // Fixture setup
+            var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
 
             // Exercize system 
             var result = InstanceBuilder.Build(
@@ -208,8 +208,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            //Assert.True(expectedResult.SequenceEqual(result.Errors));
-            Assert.False(result.Errors.Empty());
+            Assert.True(expectedResult.SequenceEqual(result.Errors));
 
             // Teardown
         }
