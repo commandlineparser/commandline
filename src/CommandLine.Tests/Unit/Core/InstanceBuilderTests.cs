@@ -129,16 +129,17 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        [Fact]
-        public void Parse_string_sequence_with_only_min_constraint()
+        [Theory]
+        [InlineData(new[] {"-s", "just-one"}, new[] {"just-one"})]
+        public void Parse_string_sequence_with_only_min_constraint(string[] args, string[] expectedResult)
         {
-            // Fixture setup
-            var expectedResult = new[] { "just-one" };
+            //// Fixture setup
+            //var expectedResult = new[] { "just-one" };
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceAndOnlyMinConstraint(),
-                new[] { "-s", "just-one" },
+                args, //new[] { "-s", "just-one" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
@@ -165,7 +166,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(result.Value);
 
             // Teardown
         }
@@ -190,7 +191,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(result.Value);
 
             // Teardown
         }
@@ -212,7 +213,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(result.Value);
 
             // Teardown
         }
@@ -235,7 +236,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(result.Value);
 
             // Teardown
         }
@@ -258,7 +259,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(result.Value);
 
             // Teardown
         }
@@ -290,7 +291,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(result.Value);
 
             // Teardown
         }
@@ -333,7 +334,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(result.Value);
             // Teardown
         }
 
@@ -353,7 +354,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldHave().AllProperties().EqualTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(result.Value);
             // Teardown
         }
 

@@ -103,7 +103,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.IsType<AddOptions>(result.Value);
-            expected.ShouldHave().AllRuntimeProperties().EqualTo(result.Value);
+            expected.ShouldBeEquivalentTo(result.Value);
             // Teardown
         }    
     }

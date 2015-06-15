@@ -26,7 +26,7 @@ namespace CommandLine.Tests.Unit.Core
             var result = NameLookup.WithSeparator("string-seq", specs, StringComparer.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldHave().AllProperties().EqualTo(result);
+            expected.ShouldBeEquivalentTo(result);
 
             // Teardown
         }
