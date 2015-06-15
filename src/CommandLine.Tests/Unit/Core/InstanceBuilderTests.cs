@@ -202,7 +202,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceAndOnlyMinConstraint(),
+                () => new FakeOptionsWithSequenceAndOnlyMinConstraintAsValue(),
                 new string[] { },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
