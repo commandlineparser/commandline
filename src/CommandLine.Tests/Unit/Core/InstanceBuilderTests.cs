@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using CommandLine.Core;
+using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
 using Xunit;
@@ -189,6 +190,26 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.True(expectedResult.SequenceEqual(result.Errors));
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Breaking_min_constraint_in_string_sequence_as_value_gererates_an_error()
+        {
+            //// Fixture setup
+            //var expectedResult = new[] { new MissingValueOptionError(new NameInfo("", "")) };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndOnlyMinConstraint(),
+                new string[] { },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            //Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.False(result.Errors.Empty());
 
             // Teardown
         }
