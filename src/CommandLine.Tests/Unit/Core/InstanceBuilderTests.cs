@@ -131,20 +131,23 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [InlineData(new[] {"-s", "just-one"}, new[] {"just-one"})]
-        public void Parse_string_sequence_with_only_min_constraint(string[] args, string[] expectedResult)
+        [InlineData(new[] {"-sjust-one-samearg"}, new[] {"just-one-samearg"})]
+        [InlineData(new[] {"-s", "also-two", "are-ok" }, new[] { "also-two", "are-ok" })]
+        [InlineData(new[] { "--string-seq", "one", "two", "three" }, new[] { "one", "two", "three" })]
+        [InlineData(new[] { "--string-seq=one", "two", "three", "4" }, new[] { "one", "two", "three", "4" })]
+        public void Parse_string_sequence_with_only_min_constraint(string[] arguments, string[] expected)
         {
-            //// Fixture setup
-            //var expectedResult = new[] { "just-one" };
+            // Fixture setup with attributes
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceAndOnlyMinConstraint(),
-                args, //new[] { "-s", "just-one" },
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Value.StringSequence));
+            Assert.True(expected.SequenceEqual(result.Value.StringSequence));
 
             // Teardown
         }
