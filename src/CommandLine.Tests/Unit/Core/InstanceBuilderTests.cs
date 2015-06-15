@@ -194,6 +194,25 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
+        public void Breaking_max_constraint_in_string_sequence_gererates_SequenceOutOfRangeError()
+        {
+            // Fixture setup
+            var expectedResult = new[] { new SequenceOutOfRangeError(new NameInfo("s", "string-seq")) };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndOnlyMaxConstraint(),
+                new[] { "--string-seq=one", "two", "three", "this-is-too-much" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result.Errors));
+
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_enum_value()
         {
             // Fixture setup
