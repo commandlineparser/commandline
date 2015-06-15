@@ -57,7 +57,11 @@ namespace CommandLine.Core
                     var options = specProps.Where(
                         sp => sp.Specification.ConversionType.ToDescriptor() == DescriptorType.Sequence
                         && sp.Value.IsJust()
-                        && ((Array)sp.Value.FromJust()).Length < sp.Specification.Min);
+                        && (
+                            (!sp.Specification.IsMinNotSpecified() && ((Array)sp.Value.FromJust()).Length < sp.Specification.Min)
+                            || (!sp.Specification.IsMaxNotSpecified() && ((Array)sp.Value.FromJust()).Length > sp.Specification.Max)
+                        )
+                    );
                     if (options.Any())
                     {
                         return options.Select(s => Maybe.Just<Error>(new SequenceOutOfRangeError(

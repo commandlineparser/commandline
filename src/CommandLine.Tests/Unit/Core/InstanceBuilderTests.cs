@@ -152,6 +152,28 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Theory]
+        [InlineData(new[] { "-s", "just-one" }, new[] { "just-one" })]
+        [InlineData(new[] { "-sjust-one-samearg" }, new[] { "just-one-samearg" })]
+        [InlineData(new[] { "-s", "also-two", "are-ok" }, new[] { "also-two", "are-ok" })]
+        [InlineData(new[] { "--string-seq", "one", "two", "three" }, new[] { "one", "two", "three" })]
+        public void Parse_string_sequence_with_only_max_constraint(string[] arguments, string[] expected)
+        {
+            // Fixture setup with attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndOnlyMaxConstraint(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expected.SequenceEqual(result.Value.StringSequence));
+
+            // Teardown
+        }
+
         [Fact]
         public void Breaking_min_constraint_in_string_sequence_gererates_MissingValueOptionError()
         {
@@ -162,6 +184,25 @@ namespace CommandLine.Tests.Unit.Core
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceAndOnlyMinConstraint(),
                 new[] { "-s" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result.Errors));
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Breaking_max_constraint_in_string_sequence_gererates_SequenceOutOfRangeError()
+        {
+            // Fixture setup
+            var expectedResult = new[] { new SequenceOutOfRangeError(new NameInfo("s", "string-seq")) };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndOnlyMaxConstraint(),
+                new[] { "--string-seq=one", "two", "three", "this-is-too-much" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
