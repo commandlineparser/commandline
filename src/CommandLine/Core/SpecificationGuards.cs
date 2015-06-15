@@ -21,7 +21,8 @@ namespace CommandLine.Core
 
         private static Func<Specification, bool> GuardAgainstSequenceWithWrongRange()
         {
-            return spec => spec.ConversionType.ToDescriptor() == DescriptorType.Sequence && spec.Min > spec.Max;
+            return spec => spec.ConversionType.ToDescriptor() == DescriptorType.Sequence
+                && !spec.IsMinNotSpecified() && !spec.IsMaxNotSpecified() && spec.Min > spec.Max;
         }
 
         private static Func<Specification, bool> GuardAgainstOneCharLongName()

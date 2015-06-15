@@ -73,5 +73,16 @@ namespace CommandLine.Core
 
             return Maybe.Nothing<int>();
         }
+
+        public static bool IsMinNotSpecified(this Specification specification)
+        {
+            return specification.Min == -1;
+        }
+
+        public static bool IsMaxNotSpecified(this Specification specification)
+        {
+            return specification.Max == -1;
+        }
+
     }
 }
