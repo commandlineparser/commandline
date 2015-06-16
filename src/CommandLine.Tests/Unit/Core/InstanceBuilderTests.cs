@@ -58,7 +58,10 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [InlineData(new[] { "0.123" }, .123D)]
-        [InlineData(new[] { "-.123" }, -.123D)]
+        [InlineData(new[] { "-0.123" }, -0.123D)]
+        [InlineData(new[] { "1.0123456789" }, 1.0123456789D)]
+        [InlineData(new[] { "-1.0123456789" }, -1.0123456789D)]
+        [InlineData(new[] { "0" }, 0D)]
         public void Parse_double_value(string[] arguments, double expected)
         {
             // Fixture setup in attributes
