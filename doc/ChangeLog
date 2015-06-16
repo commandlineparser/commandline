@@ -1,7 +1,12 @@
+2015-06-16    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Increased test coverage using theories.
+
 2015-06-15    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Fixing Issue #159.
   * Fixing Issue #160.
+  * Fixing Issue #161.
 
 2015-06-13    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 

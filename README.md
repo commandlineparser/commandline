@@ -105,6 +105,8 @@ Latest Changes:
   - Fixed issue #157 (range problems).
   - Fixed issue #159 (min constraint).
   - Fixed issue #160 (max constraint).
+  - Fixed issue #161 (min/max constraint for values).
+  - Increased test coverage.
 
 Contacts:
 ---
