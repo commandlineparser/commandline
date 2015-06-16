@@ -80,6 +80,11 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [InlineData(new[] { "--int-seq", "1", "20", "300", "4000" }, new[] { 1, 20, 300, 4000 })]
+        [InlineData(new[] { "--int-seq=1", "20", "300", "4000" }, new[] { 1, 20, 300, 4000 })]
+        [InlineData(new[] { "--int-seq", "2147483647" }, new[] { 2147483647 })]
+        [InlineData(new[] { "--int-seq=2147483647" }, new[] { 2147483647 })]
+        [InlineData(new[] { "--int-seq", "-1", "20", "-3", "0" }, new[] { -1, 20, -3, 0 })]
+        [InlineData(new[] { "--int-seq=-1", "20", "-3", "0" }, new[] { -1, 20, -3, 0 })]
         public void Parse_int_sequence(string[] arguments, int[] expected)
         {
             // Fixture setup in attributes
@@ -87,7 +92,7 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequence(),
-                new[] { "--int-seq", "1", "20", "300", "4000" },
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
