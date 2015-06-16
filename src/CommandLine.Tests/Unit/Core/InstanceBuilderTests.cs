@@ -195,7 +195,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Breaking_min_constraint_in_string_sequence_as_value_gererates_an_error()
+        public void Breaking_min_constraint_in_string_sequence_as_value_gererates_SequenceOutOfRangeError()
         {
             // Fixture setup
             var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
@@ -234,7 +234,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Breaking_min_constraint_in_string_sequence_as_value_gererates_SequenceOutOfRangeError()
+        public void Breaking_max_constraint_in_string_sequence_as_value_gererates_SequenceOutOfRangeError()
         {
             // Fixture setup
             var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
