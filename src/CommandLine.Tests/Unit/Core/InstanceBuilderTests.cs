@@ -341,7 +341,10 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new[] { "-s", "here-one-elem-but-no-sep" }, new[] { "here-one-elem-but-no-sep" })]
+        [InlineData(new[] { "-shere-one-elem-but-no-sep" }, new[] { "here-one-elem-but-no-sep" })]
         [InlineData(new[] { "-s", "eml1@xyz.com,test@unit.org,xyz@srv.it" }, new[] { "eml1@xyz.com", "test@unit.org", "xyz@srv.it" })]
+        [InlineData(new[] { "-sInlineData@iscool.org,test@unit.org,xyz@srv.it;another;the-last-one" }, new[] { "InlineData@iscool.org", "test@unit.org", "xyz@srv.it", "another", "the-last-one" })]
         public void Parse_string_sequence_with_separator(string[] arguments, string[] expected)
         {
             // Fixture setup in attributes
