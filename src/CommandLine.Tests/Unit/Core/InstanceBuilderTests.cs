@@ -35,21 +35,23 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        [Fact]
-        public void Parse_negative_int_value()
+        [Theory]
+        [InlineData(new[] {"-123"}, -123L)]
+        [InlineData(new[] { "-1" }, -1L)]
+        [InlineData(new[] { "-9223372036854775807" }, -9223372036854775807)] // long.MaxValue * -1
+        public void Parse_negative_long_value(string[] arguments, long expected)
         {
-            // Fixture setup
-            var expectedResult = -123;
+            // Fixture setup in attributes
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptions(),
-                new[] { "-123" },
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.Equal(expectedResult, result.Value.LongValue);
+            Assert.Equal(expected, result.Value.LongValue);
 
             // Teardown
         }
