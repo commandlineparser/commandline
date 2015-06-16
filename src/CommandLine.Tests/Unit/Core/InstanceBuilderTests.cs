@@ -575,5 +575,25 @@ namespace CommandLine.Tests.Unit.Core
 
             // Teardown
         }
+
+        [Theory]
+        [InlineData(new[] {"--stringvalue", "this-value"}, "this-value")]
+        [InlineData(new[] {"--stringvalue=this-other"}, "this-other")]
+        public void Omitting_names_assumes_identifier_as_long_name(string[] arguments, string expected)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptions(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expected.Equals(result.Value.StringValue));
+
+            // Teardown
+        }
     }
 }
