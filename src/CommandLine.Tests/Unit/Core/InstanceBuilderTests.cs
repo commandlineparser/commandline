@@ -213,6 +213,7 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+
         [Fact]
         public void Breaking_max_constraint_in_string_sequence_gererates_SequenceOutOfRangeError()
         {
@@ -223,6 +224,25 @@ namespace CommandLine.Tests.Unit.Core
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceAndOnlyMaxConstraint(),
                 new[] { "--string-seq=one", "two", "three", "this-is-too-much" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result.Errors));
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Breaking_min_constraint_in_string_sequence_as_value_gererates_SequenceOutOfRangeError()
+        {
+            // Fixture setup
+            var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue(),
+                new[] { "one", "two", "three", "this-is-too-much" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
