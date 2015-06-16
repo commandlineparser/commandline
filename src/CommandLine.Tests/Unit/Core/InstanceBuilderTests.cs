@@ -340,25 +340,21 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        [Fact]
-        public void Parse_string_sequence_with_separator()
+        [Theory]
+        [InlineData(new[] { "-s", "eml1@xyz.com,test@unit.org,xyz@srv.it" }, new[] { "eml1@xyz.com", "test@unit.org", "xyz@srv.it" })]
+        public void Parse_string_sequence_with_separator(string[] arguments, string[] expected)
         {
-            // Fixture setup
-            var expectedResult = new FakeOptionsWithSequenceAndSeparator
-            {
-                LongSequence = new long[] {},
-                StringSequence = new[] { "eml1@xyz.com", "test@unit.org", "xyz@srv.it" }
-            };
+            // Fixture setup in attributes
 
             // Exercize system
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceAndSeparator(),
-                new[] { "-s", "eml1@xyz.com,test@unit.org,xyz@srv.it" },
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(result.Value);
+            expected.ShouldBeEquivalentTo(result.Value.StringSequence);
 
             // Teardown
         }
