@@ -56,43 +56,44 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        [Fact]
-        public void Parse_double_value()
+        [Theory]
+        [InlineData(new[] { "0.123" }, .123D)]
+        [InlineData(new[] { "-.123" }, -.123D)]
+        public void Parse_double_value(string[] arguments, double expected)
         {
-            // Fixture setup
-            var expectedResult = .123D;
+            // Fixture setup in attributes
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithDouble(),
-                new[] { "0.123" },
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.Equal(expectedResult, result.Value.DoubleValue);
+            Assert.Equal(expected, result.Value.DoubleValue);
 
             // Teardown
         }
 
-        [Fact]
-        public void Parse_negative_double_value()
-        {
-            // Fixture setup
-            var expectedResult = -.123D;
+        //[Fact]
+        //public void Parse_negative_double_value()
+        //{
+        //    // Fixture setup
+        //    var expectedResult = -.123D;
 
-            // Exercize system 
-            var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithDouble(),
-                new[] { "-0.123" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+        //    // Exercize system 
+        //    var result = InstanceBuilder.Build(
+        //        () => new FakeOptionsWithDouble(),
+        //        new[] { "-0.123" },
+        //        StringComparer.Ordinal,
+        //        CultureInfo.InvariantCulture);
 
-            // Verify outcome
-            Assert.Equal(expectedResult, result.Value.DoubleValue);
+        //    // Verify outcome
+        //    Assert.Equal(expectedResult, result.Value.DoubleValue);
 
-            // Teardown
-        }
+        //    // Teardown
+        //}
 
         [Fact]
         public void Parse_int_sequence()
