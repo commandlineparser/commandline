@@ -246,24 +246,21 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        [Fact]
-        public void Parse_enum_value()
+        [Theory]
+        [InlineData(new[] { "--colors", "Green" }, Colors.Green)]
+        public void Parse_enum_value(string[] arguments, Colors expected)
         {
-            // Fixture setup
-            var expectedResult = new FakeOptionsWithEnum
-                {
-                    Colors = Colors.Green
-                };
+            // Fixture setup in attribute
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithEnum(),
-                new[] { "--colors", "Green" },
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(result.Value);
+            expected.ShouldBeEquivalentTo(result.Value.Colors);
 
             // Teardown
         }

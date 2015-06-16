@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CommandLine.Tests.Fakes
 {
-    enum Colors
+    public enum Colors
     {
         Red,
         Green,
