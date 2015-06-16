@@ -4,7 +4,6 @@ using System;
 using System.Globalization;
 using System.Linq;
 using CommandLine.Core;
-using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
 using Xunit;
@@ -79,30 +78,11 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        //[Fact]
-        //public void Parse_negative_double_value()
-        //{
-        //    // Fixture setup
-        //    var expectedResult = -.123D;
-
-        //    // Exercize system 
-        //    var result = InstanceBuilder.Build(
-        //        () => new FakeOptionsWithDouble(),
-        //        new[] { "-0.123" },
-        //        StringComparer.Ordinal,
-        //        CultureInfo.InvariantCulture);
-
-        //    // Verify outcome
-        //    Assert.Equal(expectedResult, result.Value.DoubleValue);
-
-        //    // Teardown
-        //}
-
-        [Fact]
-        public void Parse_int_sequence()
+        [Theory]
+        [InlineData(new[] { "--int-seq", "1", "20", "300", "4000" }, new[] { 1, 20, 300, 4000 })]
+        public void Parse_int_sequence(string[] arguments, int[] expected)
         {
-            // Fixture setup
-            var expectedResult = new[] { 1, 20, 300, 4000 };
+            // Fixture setup in attributes
 
             // Exercize system 
             var result = InstanceBuilder.Build(
@@ -112,7 +92,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Value.IntSequence));
+            Assert.True(expected.SequenceEqual(result.Value.IntSequence));
 
             // Teardown
         }
