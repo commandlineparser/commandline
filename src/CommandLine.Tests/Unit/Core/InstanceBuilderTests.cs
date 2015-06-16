@@ -247,7 +247,9 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new[] { "--colors", "Red" }, Colors.Red)]
         [InlineData(new[] { "--colors", "Green" }, Colors.Green)]
+        [InlineData(new[] { "--colors", "Blue" }, Colors.Blue)]
         public void Parse_enum_value(string[] arguments, Colors expected)
         {
             // Fixture setup in attribute
