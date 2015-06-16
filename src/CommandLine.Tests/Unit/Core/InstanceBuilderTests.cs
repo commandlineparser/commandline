@@ -103,7 +103,10 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new[] { "-i", "10", "20", "30" }, new[] { 10, 20, 30 })]
         [InlineData(new[] { "-i", "10", "20", "30", "40" }, new[] { 10, 20, 30, 40 })]
+        [InlineData(new[] { "-i10", "20", "30" }, new[] { 10, 20, 30 })]
+        [InlineData(new[] { "-i10", "20", "30", "40" }, new[] { 10, 20, 30, 40 })]
         public void Parse_int_sequence_with_range(string[] arguments, int[] expected)
         {
             // Fixture setup in attributes
