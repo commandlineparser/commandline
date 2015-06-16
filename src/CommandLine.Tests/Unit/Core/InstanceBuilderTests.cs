@@ -295,24 +295,21 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        [Fact]
-        public void Parse_sequence_value_without_range_constraints()
+        [Theory]
+        [InlineData(new[] { "1", "2", "3", "4", "5", "6" }, new[] { 1L, 2L, 3L, 4L, 5L, 6L })]
+        public void Parse_sequence_value_without_range_constraints(string[] arguments, long[] expected)
         {
-            // Fixture setup
-            var expectedResult = new FakeOptionsWithSequenceWithoutRange
-                {
-                    LongSequence = new[] { 1L, 2L, 3L, 4L, 5L, 6L }
-                };
+            // Fixture setup in attributes
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceWithoutRange(),
-                new[] { "1", "2", "3", "4", "5", "6" },
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(result.Value);
+            expected.ShouldBeEquivalentTo(result.Value.LongSequence);
 
             // Teardown
         }
