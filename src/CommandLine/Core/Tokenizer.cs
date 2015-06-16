@@ -16,7 +16,11 @@ namespace CommandLine.Core
             if (arguments == null) throw new ArgumentNullException("arguments");
 
             var errors = new List<Error>();
-            Action<Error> onError = e => errors.Add(e);
+            Func<Error, Unit> onError = e =>
+                {
+                    errors.Add(e);
+                    return Unit.Default;
+                };
 
             var tokens = (from arg in arguments
                           from token in !arg.StartsWith("-", StringComparison.Ordinal)
@@ -119,7 +123,7 @@ namespace CommandLine.Core
 
         private static IEnumerable<Token> TokenizeLongName(
             string value,
-            Action<Error> onError)
+            Func<Error, Unit> onError)
         {
             if (value == null)
             {
@@ -137,7 +141,7 @@ namespace CommandLine.Core
                 }
                 if (equalIndex == 1) // "--="
                 {
-                    onError(new BadFormatTokenError(value));
+                    var _ = onError(new BadFormatTokenError(value));
                     yield break;
                 }
                 var parts = text.Split('=');
