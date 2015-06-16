@@ -102,21 +102,21 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        [Fact]
-        public void Parse_int_sequence_with_range()
+        [Theory]
+        [InlineData(new[] { "-i", "10", "20", "30", "40" }, new[] { 10, 20, 30, 40 })]
+        public void Parse_int_sequence_with_range(string[] arguments, int[] expected)
         {
-            // Fixture setup
-            var expectedResult = new[] { 10, 20, 30, 40 };
+            // Fixture setup in attributes
 
             // Exercize system 
             var result = InstanceBuilder.Build(
                 () => new FakeOptions(),
-                new[] { "-i", "10", "20", "30", "40" },
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Value.IntSequence));
+            Assert.True(expected.SequenceEqual(result.Value.IntSequence));
 
             // Teardown
         }
