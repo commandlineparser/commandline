@@ -318,25 +318,21 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        [Fact]
-        public void Parse_long_sequence_with_separator()
+        [Theory]
+        [InlineData(new[] { "--long-seq", "1;1234;59678" }, new[] { 1L, 1234L, 59678L })]
+        public void Parse_long_sequence_with_separator(string[] arguments, long[] expected)
         {
-            // Fixture setup
-            var expectedResult = new FakeOptionsWithSequenceAndSeparator
-                {
-                    LongSequence = new[] { 1L, 1234L, 59678L },
-                    StringSequence = new string[] { }
-                };
+            // Fixture setup in attributes
 
             // Exercize system
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithSequenceAndSeparator(),
-                new[] { "--long-seq", "1;1234;59678" },
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(result.Value);
+            expected.ShouldBeEquivalentTo(result.Value.LongSequence);
 
             // Teardown
         }
