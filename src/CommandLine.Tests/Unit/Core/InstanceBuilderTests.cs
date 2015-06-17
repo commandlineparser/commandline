@@ -271,6 +271,26 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
+        public void Parse_enum_value_with_wrong_index_generates_error()
+        {
+            //// Fixture setup
+            //var expectedResult = new[] { new MissingValueOptionError(new NameInfo("s", "string-seq")) };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithEnum(),
+                new[] { "--colors", "3" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            //Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(result.Errors.Any());
+
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_values_partitioned_between_sequence_and_scalar()
         {
             // Fixture setup
