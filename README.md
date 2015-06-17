@@ -107,6 +107,7 @@ Latest Changes:
   - Fixed issue #160 (max constraint).
   - Fixed issue #161 (min/max constraint for values).
   - Increased test coverage.
+  - Fixed issue #149 (valid numeric input for enums).
 
 Contacts:
 ---
