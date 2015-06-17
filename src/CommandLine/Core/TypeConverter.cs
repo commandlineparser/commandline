@@ -45,7 +45,7 @@ namespace CommandLine.Core
                     MatchBoolString(value)
                         ? ConvertBoolString(value)
                         : conversionType.IsEnum
-                            ? Enum.Parse(conversionType, value)
+                            ? ConvertEnumString(value, conversionType)
                             : Convert.ChangeType(value, conversionType, conversionCulture));
             }
             catch (InvalidCastException)
@@ -71,6 +71,16 @@ namespace CommandLine.Core
         private static bool ConvertBoolString(string value)
         {
             return value.Equals("true", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static object ConvertEnumString(string value, Type conversionType)
+        {
+            var parsedValue = Enum.Parse(conversionType, value);
+            if (Enum.IsDefined(conversionType, parsedValue))
+            {
+                return parsedValue;
+            }
+            throw new FormatException();
         }
     }
 }
