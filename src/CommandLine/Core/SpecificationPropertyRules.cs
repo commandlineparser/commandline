@@ -36,12 +36,12 @@ namespace CommandLine.Core
             {
                 List<string> setsWithTrue =
                     specProps.Where(sp => sp.Specification.IsOption() && sp.Value.IsJust() && sp.Specification.Required)
-                        .Select(x => ((OptionSpecification)x.Specification).SetName).ToList();
+                        .Select(x => x.Specification.GetSetName()).ToList();
                 
                 var requiredButEmpty =
                     specProps.Where(sp => sp.Value.IsNothing() && 
                                           sp.Specification.Required &&
-                                          !setsWithTrue.Contains(((OptionSpecification)sp.Specification).SetName)).ToList();
+                                          !setsWithTrue.Contains(sp.Specification.GetSetName())).ToList();
                     if (requiredButEmpty.Any()) {
                         return requiredButEmpty.Select(s => Maybe.Just<Error>(new MissingRequiredOptionError(
                             NameInfo.FromSpecification(s.Specification))));

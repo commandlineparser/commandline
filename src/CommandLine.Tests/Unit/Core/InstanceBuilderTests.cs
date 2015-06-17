@@ -649,10 +649,10 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Breaking_required_constraint_in_string_scalar_as_value_generates_MissingValueOptionError()
+        public void Breaking_required_constraint_in_string_scalar_as_value_generates_MissingRequiredOptionError()
         {
             // Fixture setup
-            var expectedResult = new[] { new MissingValueOptionError(NameInfo.EmptyName) };
+            var expectedResult = new[] { new MissingRequiredOptionError(NameInfo.EmptyName) };
 
             // Exercize system 
             var result = InstanceBuilder.Build(
