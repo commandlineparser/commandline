@@ -647,5 +647,24 @@ namespace CommandLine.Tests.Unit.Core
 
             // Teardown
         }
+
+        [Fact]
+        public void Breaking_required_constraint_in_string_scalar_as_value_generates_MissingValueOptionError()
+        {
+            // Fixture setup
+            var expectedResult = new[] { new MissingValueOptionError(NameInfo.EmptyName) };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionWithRequiredValue(),
+                new string[] { },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result.Errors));
+
+            // Teardown
+        }
     }
 }
