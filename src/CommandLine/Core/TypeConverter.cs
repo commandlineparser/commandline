@@ -75,7 +75,15 @@ namespace CommandLine.Core
 
         private static object ConvertEnumString(string value, Type conversionType)
         {
-            var parsedValue = Enum.Parse(conversionType, value);
+            object parsedValue;
+            try
+            {
+                parsedValue = Enum.Parse(conversionType, value);
+            }
+            catch (ArgumentException)
+            {
+                throw new FormatException();
+            }
             if (Enum.IsDefined(conversionType, parsedValue))
             {
                 return parsedValue;

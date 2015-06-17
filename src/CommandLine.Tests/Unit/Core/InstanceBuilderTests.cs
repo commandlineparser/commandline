@@ -290,6 +290,25 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
+        public void Parse_enum_value_with_wrong_item_name_generates_BadFormatConversionError()
+        {
+            // Fixture setup
+            var expectedResult = new[] { new BadFormatConversionError(new NameInfo("", "colors")) };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithEnum(),
+                new[] { "--colors", "Yellow" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result.Errors));
+
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_values_partitioned_between_sequence_and_scalar()
         {
             // Fixture setup
