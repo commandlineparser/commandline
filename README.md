@@ -17,7 +17,7 @@ At glance:
   - One line parsing using default singleton: ``CommandLine.Parser.Default.ParseArguments(...)``.
   - One line help screen generator: ``HelpText.AutoBuild(...)``.
   - Map command line arguments to sequences (``IEnumerable<T>``), enum or standard scalar types.
-  - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
+  - [stable only] __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
   - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Verb-Commands) as ``git commit -a``.
   - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
   - F#-friendly, see [demo](https://github.com/gsscoder/commandline/tree/master/fsxdemo).
