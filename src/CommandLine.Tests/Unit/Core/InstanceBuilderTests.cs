@@ -1,12 +1,14 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using CommandLine.Core;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
 using Xunit;
+using Xunit.Extensions;
 
 namespace CommandLine.Tests.Unit.Core
 {
@@ -665,6 +667,37 @@ namespace CommandLine.Tests.Unit.Core
             Assert.True(expectedResult.SequenceEqual(result.Errors));
 
             // Teardown
+        }
+
+        [Theory]
+        [MemberData("RequiredValueStringData")]
+        public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionWithRequiredValue expected)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionWithRequiredValue(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expected.ShouldBeEquivalentTo(result.Value);
+
+            // Teardown
+        }
+
+        public static IEnumerable<object> RequiredValueStringData
+        {
+            get
+            {
+                yield return new object[] { new[] { "value-string" }, new FakeOptionWithRequiredValue { StringValue = "value-string" } };
+                yield return new object[] { new[] { "another-string", "999" }, new FakeOptionWithRequiredValue { StringValue = "another-string", IntValue = 999} };
+                yield return new object[] { new[] { "str with spaces", "-1234567890" }, new FakeOptionWithRequiredValue { StringValue = "str with spaces", IntValue = -1234567890 } };
+                yield return new object[] { new[] { "1234567890", "1234567890" }, new FakeOptionWithRequiredValue { StringValue = "1234567890", IntValue = 1234567890 } };
+                yield return new object[] { new[] { "-1234567890", "1234567890" }, new FakeOptionWithRequiredValue { StringValue = "-1234567890", IntValue = 1234567890 } };
+            }
         }
     }
 }
