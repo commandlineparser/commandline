@@ -52,7 +52,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Core\DescriptorType.cs" />
+    <Compile Include="Core\TypeDescriptor.cs" />
     <Compile Include="Core\Scalar.cs" />
     <Compile Include="Core\Sequence.cs" />
     <Compile Include="Core\StatePair.cs" />
