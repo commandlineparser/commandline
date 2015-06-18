@@ -688,6 +688,25 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Theory]
+        [MemberData("ScalarSequenceStringAdjacentData")]
+        public void Parse_string_scalar_and_sequence_adjacent(string[] arguments, FakeOptionsWithScalarValueAndSequenceStringAdjacent expected)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithScalarValueAndSequenceStringAdjacent(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expected.ShouldBeEquivalentTo(result.Value);
+
+            // Teardown
+        }
+
         public static IEnumerable<object> RequiredValueStringData
         {
             get
@@ -697,6 +716,14 @@ namespace CommandLine.Tests.Unit.Core
                 yield return new object[] { new[] { "str with spaces", "-1234567890" }, new FakeOptionWithRequiredValue { StringValue = "str with spaces", IntValue = -1234567890 } };
                 yield return new object[] { new[] { "1234567890", "1234567890" }, new FakeOptionWithRequiredValue { StringValue = "1234567890", IntValue = 1234567890 } };
                 yield return new object[] { new[] { "-1234567890", "1234567890" }, new FakeOptionWithRequiredValue { StringValue = "-1234567890", IntValue = 1234567890 } };
+            }
+        }
+
+        public static IEnumerable<object> ScalarSequenceStringAdjacentData
+        {
+            get
+            {
+                yield return new object[] { new[] { "to-value" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringValueWithIndexZero = "to-value", StringOptionSequence = new string[] {} } };
             }
         }
     }
