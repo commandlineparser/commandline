@@ -30,7 +30,9 @@ To install:
 
 To build:
 ---
-MonoDevelop or Visual Studio
+- [FAKE](http://fsharp.github.io/FAKE/) Script (under development).
+- MS Visual Studio.
+- Xamarin Studio (not tested).
 
 Public API:
 ---
