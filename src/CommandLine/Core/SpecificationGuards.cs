@@ -16,12 +16,12 @@ namespace CommandLine.Core
 
         private static Func<Specification, bool> GuardAgainstScalarWithRange()
         {
-            return spec => spec.ConversionType.ToDescriptor() == TypeDescriptorKind.Scalar && (spec.Min > 0 || spec.Max > 0);
+            return spec => spec.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Scalar && (spec.Min > 0 || spec.Max > 0);
         }
 
         private static Func<Specification, bool> GuardAgainstSequenceWithWrongRange()
         {
-            return spec => spec.ConversionType.ToDescriptor() == TypeDescriptorKind.Sequence
+            return spec => spec.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Sequence
                 && !spec.IsMinNotSpecified() && !spec.IsMaxNotSpecified() && spec.Min > spec.Max;
         }
 

@@ -29,7 +29,7 @@ namespace CommandLine.Core
         {
             if (specProp == null) throw new ArgumentNullException("specProp");
 
-            switch (specProp.Specification.ConversionType.ToDescriptor())
+            switch (specProp.Specification.ConversionType.ToDescriptorKind())
             {
                 case TypeDescriptorKind.Sequence:
                     return specProp.Property.PropertyType.GetGenericArguments()

@@ -20,7 +20,7 @@ namespace CommandLine.Core
                    select selector(pi);
         }
 
-        public static TypeDescriptorKind ToDescriptor(this System.Type type)
+        public static TypeDescriptorKind ToDescriptorKind(this System.Type type)
         {
             if (type == null) throw new ArgumentNullException("type");
 

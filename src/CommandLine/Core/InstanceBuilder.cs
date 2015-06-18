@@ -89,7 +89,7 @@ namespace CommandLine.Core
                     sp => sp.Specification.DefaultValue.FromJust())
                 .SetProperties(specPropsWithValue,
                     sp => sp.Value.IsNothing()
-                        && sp.Specification.ConversionType.ToDescriptor() == TypeDescriptorKind.Sequence
+                        && sp.Specification.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Sequence
                         && sp.Specification.DefaultValue.MatchNothing(),
                     sp => sp.Property.PropertyType.GetGenericArguments().Single().CreateEmptyArray());
 

@@ -57,7 +57,7 @@ namespace CommandLine.Core
         {
             if (specification == null) throw new ArgumentNullException("specification");
 
-            switch (specification.ConversionType.ToDescriptor())
+            switch (specification.ConversionType.ToDescriptorKind())
             {
                 case TypeDescriptorKind.Scalar:
                     return  Maybe.Just(1);

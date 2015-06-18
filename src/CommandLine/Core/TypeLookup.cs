@@ -22,7 +22,7 @@ namespace CommandLine.Core
                 .ToMaybe()
                     .Map(
                         s => TypeDescriptor.Create(
-                            s.ConversionType.ToDescriptor(), (s.Min < 0 && s.Max < 0) ? Maybe.Nothing<int>() : Maybe.Just(s.Max)));
+                            s.ConversionType.ToDescriptorKind(), (s.Min < 0 && s.Max < 0) ? Maybe.Nothing<int>() : Maybe.Just(s.Max)));
             return info;
         }
     }
