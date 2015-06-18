@@ -91,13 +91,10 @@ namespace CommandLine.Core
                     {
                         yield return first;
 
-                        foreach (var token in tokens.Skip(1))
+                        foreach (var token in tokens.Skip(1).Where(token => token.IsValue()))
                         {
-                            if (token.IsValue())
-                            {
-                                items++;
-                                yield return token;
-                            }
+                            items++;
+                            yield return token;
                         }
                     }
                 }
