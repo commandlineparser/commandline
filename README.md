@@ -1,4 +1,4 @@
-Command Line Parser Library 2.0.2.0 pre-release for CLR.
+Command Line Parser Library 2.0.4.0 pre-release for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
 __This library provides _hassle free_ command line parsing with a constantly updated API since 2005.__
@@ -109,6 +109,7 @@ Latest Changes:
   - Increased test coverage.
   - Fixed issue #149 (valid numeric input for enums).
   - Fixed issue #164 (fixed bug in required value constraint).
+  - Important fix on scalar string value adjacent to string sequence (without constraints).
 
 Contacts:
 ---
