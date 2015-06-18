@@ -8,10 +8,10 @@
         <description>The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</description>
         <releaseNotes/>
         <copyright>Copyright (c) 2005 - 2015 Giacomo Stelluti Scala</copyright>
-        <licenseUrl>https://raw.github.com/gsscoder/commandline/master/doc/LICENSE</licenseUrl>
+        <licenseUrl>https://raw.githubusercontent.com/gsscoder/commandline/master/doc/LICENSE</licenseUrl>
         <projectUrl>https://github.com/gsscoder/commandline</projectUrl>
         <owners>Giacomo Stelluti Scala</owners>
-        <iconUrl>https://github.com/gsscoder/commandline/raw/master/art/CommandLine20.png</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/gsscoder/commandline/master/art/CommandLine20.png/iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>command line argument option parser parsing library syntax shell</tags>
     </metadata>
