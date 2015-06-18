@@ -55,20 +55,57 @@ namespace CommandLine.Core
                 select t;
         }
 
+        //private static IEnumerable<Token> PartitionSequences(
+        //    IEnumerable<Token> tokens,
+        //    Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
+        //{
+        //    return from tseq in tokens.Pairwise(
+        //        (f, s) =>
+        //                f.IsName() && s.IsValue()
+        //                    ? typeLookup(f.Text).Return(info =>
+        //                           info.Item1 == DescriptorType.Sequence
+        //                                ? new[] { f }.Concat(tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()))
+        //                                : new Token[] { }, new Token[] { })
+        //                    : new Token[] { })
+        //           from t in tseq
+        //           select t;
+        //}
+
         private static IEnumerable<Token> PartitionSequences(
             IEnumerable<Token> tokens,
             Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
         {
-            return from tseq in tokens.Pairwise(
-                (f, s) =>
-                        f.IsName() && s.IsValue()
-                            ? typeLookup(f.Text).Return(info =>
-                                   info.Item1 == DescriptorType.Sequence
-                                        ? new[] { f }.Concat(tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()))
-                                        : new Token[] { }, new Token[] { })
-                            : new Token[] { })
-                   from t in tseq
-                   select t;
+            if (tokens.Empty())
+            {
+                yield break;
+            }
+            var items = 0;
+            var first = tokens.First();
+            if (first.Tag == TokenType.Name)
+            {
+                Tuple<DescriptorType, Maybe<int>> info;
+                if (typeLookup(first.Text).MatchJust(out info))
+                {
+                    if (info.Item1 == DescriptorType.Sequence
+                        && tokens.Skip(1).Take(1).Any())
+                    {
+                        yield return first;
+
+                        foreach (var token in tokens.Skip(1))
+                        {
+                            if (token.IsValue())
+                            {
+                                items++;
+                                yield return token;
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (var token in PartitionSequences(tokens.Skip(1 + items), typeLookup))
+            {
+                yield return token;
+            }
         }
 
         private static IEnumerable<KeyValuePair<string, IEnumerable<string>>> SequenceTokensToKeyValuePairEnumerable(
