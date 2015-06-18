@@ -723,8 +723,10 @@ namespace CommandLine.Tests.Unit.Core
         {
             get
             {
-                //yield return new object[] { new[] { "to-value" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringValueWithIndexZero = "to-value", StringOptionSequence = new string[] {} } };
+                yield return new object[] { new[] { "to-value" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringValueWithIndexZero = "to-value", StringOptionSequence = new string[] {} } };
                 yield return new object[] { new[] { "to-value", "-s", "to-seq-0" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringValueWithIndexZero = "to-value", StringOptionSequence = new[] { "to-seq-0" } } };
+                yield return new object[] { new[] { "to-value", "-s", "to-seq-0", "to-seq-1" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringValueWithIndexZero = "to-value", StringOptionSequence = new[] { "to-seq-0", "to-seq-1" } } };
+                yield return new object[] { new[] { "-s", "cant-capture", "value-anymore" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringOptionSequence = new[] { "cant-capture", "value-anymore" } } };
             }
         }
     }
