@@ -11,7 +11,7 @@
         <licenseUrl>https://raw.githubusercontent.com/gsscoder/commandline/master/doc/LICENSE</licenseUrl>
         <projectUrl>https://github.com/gsscoder/commandline</projectUrl>
         <owners>Giacomo Stelluti Scala</owners>
-        <iconUrl>https://raw.githubusercontent.com/gsscoder/commandline/master/art/CommandLine20.png/iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/gsscoder/commandline/master/art/CommandLine20.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <tags>command line argument option parser parsing library syntax shell</tags>
     </metadata>
