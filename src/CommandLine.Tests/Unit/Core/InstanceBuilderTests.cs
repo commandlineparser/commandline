@@ -724,6 +724,7 @@ namespace CommandLine.Tests.Unit.Core
             get
             {
                 yield return new object[] { new[] { "to-value" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringValueWithIndexZero = "to-value", StringOptionSequence = new string[] {} } };
+                yield return new object[] { new[] { "to-value", "to-seq-0" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringValueWithIndexZero = "to-value", StringOptionSequence = new[] { "to-seq-0" } } };
             }
         }
     }
