@@ -20,17 +20,17 @@ namespace CommandLine.Core
                    select selector(pi);
         }
 
-        public static DescriptorType ToDescriptor(this System.Type type)
+        public static TypeDescriptorKind ToDescriptor(this System.Type type)
         {
             if (type == null) throw new ArgumentNullException("type");
 
             return type == typeof(bool)
-                       ? DescriptorType.Boolean
+                       ? TypeDescriptorKind.Boolean
                        : type == typeof(string)
-                             ? DescriptorType.Scalar
+                             ? TypeDescriptorKind.Scalar
                              : type.IsArray || typeof(IEnumerable).IsAssignableFrom(type)
-                                   ? DescriptorType.Sequence
-                                   : DescriptorType.Scalar;
+                                   ? TypeDescriptorKind.Sequence
+                                   : TypeDescriptorKind.Scalar;
         }
 
         public static bool IsScalar(this System.Type type)

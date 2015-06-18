@@ -9,7 +9,7 @@ namespace CommandLine.Core
 {
     internal static class TypeLookup
     {
-        public static Maybe<Tuple<DescriptorType, Maybe<int>>> GetDescriptorInfo(
+        public static Maybe<Tuple<TypeDescriptorKind, Maybe<int>>> GetDescriptorInfo(
             string name,
             IEnumerable<OptionSpecification> specifications,
             StringComparer comparer)

@@ -12,7 +12,7 @@ namespace CommandLine.Core
         public static
             TokenGroup Partition(
                 IEnumerable<Token> tokens,
-                Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
+                Func<string, Maybe<Tuple<TypeDescriptorKind, Maybe<int>>>> typeLookup)
         {
             var tokenList = tokens.ToList();
             var switches = Switch.Partition(tokenList, typeLookup).ToList();

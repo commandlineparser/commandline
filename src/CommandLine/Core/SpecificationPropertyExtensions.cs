@@ -31,7 +31,7 @@ namespace CommandLine.Core
 
             switch (specProp.Specification.ConversionType.ToDescriptor())
             {
-                case DescriptorType.Sequence:
+                case TypeDescriptorKind.Sequence:
                     return specProp.Property.PropertyType.GetGenericArguments()
                              .SingleOrDefault()
                              .ToMaybe()

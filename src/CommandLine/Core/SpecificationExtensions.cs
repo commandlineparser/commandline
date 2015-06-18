@@ -59,9 +59,9 @@ namespace CommandLine.Core
 
             switch (specification.ConversionType.ToDescriptor())
             {
-                case DescriptorType.Scalar:
+                case TypeDescriptorKind.Scalar:
                     return  Maybe.Just(1);
-                case DescriptorType.Sequence:
+                case TypeDescriptorKind.Sequence:
                     var min = specification.Min;
                     var max = specification.Max;
                     if (min >= 0 && max >= 0)

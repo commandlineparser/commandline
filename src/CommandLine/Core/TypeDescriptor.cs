@@ -6,7 +6,7 @@ using CommandLine.Infrastructure;
 
 namespace CommandLine.Core
 {
-    internal enum DescriptorType
+    internal enum TypeDescriptorKind
     {
         Scalar,
         Boolean,
@@ -15,10 +15,10 @@ namespace CommandLine.Core
 
     internal sealed class TypeDescriptor
     {
-        private readonly DescriptorType tag;
+        private readonly TypeDescriptorKind tag;
         private readonly Maybe<int> maximumItems;
 
-        internal TypeDescriptor(DescriptorType tag, Maybe<int> maximumItems)
+        internal TypeDescriptor(TypeDescriptorKind tag, Maybe<int> maximumItems)
         {
             if (maximumItems == null) throw new ArgumentNullException("maximumItems");
 
@@ -26,7 +26,7 @@ namespace CommandLine.Core
             this.maximumItems = maximumItems;
         }
 
-        public DescriptorType Tag
+        public TypeDescriptorKind Tag
         {
             get { return this.tag; }
         }
