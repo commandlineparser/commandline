@@ -151,6 +151,10 @@ namespace CommandLine
             }
         }
 
+        /// <summary>
+        /// When applying attribute to <see cref="System.Collections.Generic.IEnumerable{T}"/> target properties,
+        /// it allows you to split an argument and consume its content as a sequence.
+        /// </summary>
         public char Separator
         {
             get { return this.separator.Value ; }
