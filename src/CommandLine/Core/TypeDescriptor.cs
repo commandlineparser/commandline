@@ -18,10 +18,8 @@ namespace CommandLine.Core
         private readonly TypeDescriptorKind tag;
         private readonly Maybe<int> maximumItems;
 
-        internal TypeDescriptor(TypeDescriptorKind tag, Maybe<int> maximumItems)
+        private TypeDescriptor(TypeDescriptorKind tag, Maybe<int> maximumItems)
         {
-            if (maximumItems == null) throw new ArgumentNullException("maximumItems");
-
             this.tag = tag;
             this.maximumItems = maximumItems;
         }
@@ -34,6 +32,13 @@ namespace CommandLine.Core
         public Maybe<int> MaximumItems
         {
             get { return this.maximumItems; }
+        }
+
+        public static TypeDescriptor Create(TypeDescriptorKind tag, Maybe<int> maximumItems)
+        {
+            if (maximumItems == null) throw new ArgumentNullException("maximumItems");
+
+            return new TypeDescriptor(tag, maximumItems);
         }
     }
 }

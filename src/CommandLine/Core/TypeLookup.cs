@@ -9,7 +9,7 @@ namespace CommandLine.Core
 {
     internal static class TypeLookup
     {
-        public static Maybe<Tuple<TypeDescriptorKind, Maybe<int>>> GetDescriptorInfo(
+        public static Maybe<TypeDescriptor> GetDescriptorInfo(
             string name,
             IEnumerable<OptionSpecification> specifications,
             StringComparer comparer)
@@ -21,7 +21,7 @@ namespace CommandLine.Core
             var info = specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
                 .ToMaybe()
                     .Map(
-                        s => Tuple.Create(
+                        s => TypeDescriptor.Create(
                             s.ConversionType.ToDescriptor(), (s.Min < 0 && s.Max < 0) ? Maybe.Nothing<int>() : Maybe.Just(s.Max)));
             return info;
         }

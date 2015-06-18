@@ -11,7 +11,7 @@ namespace CommandLine.Core
     {
         public static IEnumerable<Token> Partition(
             IEnumerable<Token> tokens,
-            Func<string, Maybe<Tuple<TypeDescriptorKind, Maybe<int>>>> typeLookup)
+            Func<string, Maybe<TypeDescriptor>> typeLookup)
         {
             if (tokens.Empty())
             {
@@ -21,10 +21,10 @@ namespace CommandLine.Core
             var first = tokens.First();
             if (first.Tag == TokenType.Name)
             {
-                Tuple<TypeDescriptorKind, Maybe<int>> info;
+                TypeDescriptor info;
                 if (typeLookup(first.Text).MatchJust(out info))
                 {
-                    if (info.Item1 == TypeDescriptorKind.Sequence
+                    if (info.Tag == TypeDescriptorKind.Sequence
                         && tokens.Skip(1).Take(1).Any())
                     {
                         yield return first;

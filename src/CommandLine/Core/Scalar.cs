@@ -11,13 +11,13 @@ namespace CommandLine.Core
     {
         public static IEnumerable<Token> Partition(
             IEnumerable<Token> tokens,
-            Func<string, Maybe<Tuple<TypeDescriptorKind, Maybe<int>>>> typeLookup)
+            Func<string, Maybe<TypeDescriptor>> typeLookup)
         {
             return from tseq in tokens.Pairwise(
                 (f, s) =>
                         f.IsName() && s.IsValue()
                             ? typeLookup(f.Text).Return(info =>
-                                    info.Item1 == TypeDescriptorKind.Scalar ? new[] { f, s } : new Token[] { }, new Token[] { })
+                                    info.Tag == TypeDescriptorKind.Scalar ? new[] { f, s } : new Token[] { }, new Token[] { })
                                     : new Token[] { })
                    from t in tseq
                    select t;
