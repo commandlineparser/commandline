@@ -15,11 +15,11 @@ namespace CommandLine.Core
                 Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
         {
             var tokenList = tokens.ToList();
-            var switches = PartitionSwitches(tokenList, typeLookup).ToList();
+            var switches = Switch.Partition(tokenList, typeLookup).ToList();
             var tokensExceptSwitches = tokenList.Where(x => !switches.Contains(x)).ToList();
-            var scalars = PartitionScalars(tokensExceptSwitches, typeLookup).ToList();
+            var scalars = Scalar.Partition(tokensExceptSwitches, typeLookup).ToList();
             var tokensExceptSwitchesAndScalars = (tokensExceptSwitches.Where(x => !scalars.Contains(x))).ToList();
-            var sequences = PartitionSequences(tokensExceptSwitchesAndScalars, typeLookup).ToList();
+            var sequences = Sequence.Partition(tokensExceptSwitchesAndScalars, typeLookup).ToList();
             var tokensExceptSwitchesAndScalarsAndSeq = tokensExceptSwitchesAndScalars.Where(x => !sequences.Contains(x)).ToList();
             var values = tokensExceptSwitchesAndScalarsAndSeq.Where(v => v.IsValue()).ToList();
             var errors = tokensExceptSwitchesAndScalarsAndSeq.Where(x => !values.Contains(x));
@@ -30,79 +30,6 @@ namespace CommandLine.Core
                         .Concat(SequenceTokensToKeyValuePairEnumerable(sequences)),
                 values.Select(t => t.Text),
                 errors);
-        }
-
-        private static IEnumerable<Token> PartitionSwitches(
-            IEnumerable<Token> tokens,
-            Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
-        {
-            return from t in tokens
-                   where typeLookup(t.Text).Return(info => t.IsName() && info.Item1 == DescriptorType.Boolean, false)
-                   select t;
-        }
-
-        private static IEnumerable<Token> PartitionScalars(
-            IEnumerable<Token> tokens,
-            Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
-        {
-            return from tseq in tokens.Pairwise(
-                (f, s) =>
-                        f.IsName() && s.IsValue()
-                            ? typeLookup(f.Text).Return(info =>
-                                    info.Item1 == DescriptorType.Scalar ? new[] { f, s } : new Token[] { }, new Token[] { })
-                                    : new Token[] { })
-                from t in tseq
-                select t;
-        }
-
-        //private static IEnumerable<Token> PartitionSequences(
-        //    IEnumerable<Token> tokens,
-        //    Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
-        //{
-        //    return from tseq in tokens.Pairwise(
-        //        (f, s) =>
-        //                f.IsName() && s.IsValue()
-        //                    ? typeLookup(f.Text).Return(info =>
-        //                           info.Item1 == DescriptorType.Sequence
-        //                                ? new[] { f }.Concat(tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()))
-        //                                : new Token[] { }, new Token[] { })
-        //                    : new Token[] { })
-        //           from t in tseq
-        //           select t;
-        //}
-
-        private static IEnumerable<Token> PartitionSequences(
-            IEnumerable<Token> tokens,
-            Func<string, Maybe<Tuple<DescriptorType, Maybe<int>>>> typeLookup)
-        {
-            if (tokens.Empty())
-            {
-                yield break;
-            }
-            var items = 0;
-            var first = tokens.First();
-            if (first.Tag == TokenType.Name)
-            {
-                Tuple<DescriptorType, Maybe<int>> info;
-                if (typeLookup(first.Text).MatchJust(out info))
-                {
-                    if (info.Item1 == DescriptorType.Sequence
-                        && tokens.Skip(1).Take(1).Any())
-                    {
-                        yield return first;
-
-                        foreach (var token in tokens.Skip(1).Where(token => token.IsValue()))
-                        {
-                            items++;
-                            yield return token;
-                        }
-                    }
-                }
-            }
-            foreach (var token in PartitionSequences(tokens.Skip(1 + items), typeLookup))
-            {
-                yield return token;
-            }
         }
 
         private static IEnumerable<KeyValuePair<string, IEnumerable<string>>> SequenceTokensToKeyValuePairEnumerable(

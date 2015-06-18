@@ -53,7 +53,10 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Core\DescriptorType.cs" />
+    <Compile Include="Core\Scalar.cs" />
+    <Compile Include="Core\Sequence.cs" />
     <Compile Include="Core\StatePair.cs" />
+    <Compile Include="Core\Switch.cs" />
     <Compile Include="Core\TokenGroup.cs" />
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />
     <Compile Include="Core\InstanceChooser.cs" />
