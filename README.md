@@ -112,6 +112,7 @@ Latest Changes:
   - Fixed issue #149 (valid numeric input for enums).
   - Fixed issue #164 (fixed bug in required value constraint).
   - Important fix on scalar string value adjacent to string sequence (without constraints).
+  - Refactoring for Increase Testability.
 
 Contacts:
 ---

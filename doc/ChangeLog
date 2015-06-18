@@ -1,6 +1,7 @@
 2015-06-18    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Important fix on scalar string value adjacent to string sequence (without constraints).
+  * Refactoring for Increase Testability.
 
 2015-06-17    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
