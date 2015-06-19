@@ -53,5 +53,30 @@ namespace CommandLine.Tests.Unit.Core
 
             expected.ShouldAllBeEquivalentTo(result);
         }
+
+        [Fact]
+        public void Partition_sequence_values_from_two_sequneces()
+        {
+            var expected = new[]
+                {
+                    Token.Name("seq"), Token.Value("seqval0"), Token.Value("seqval1"),
+                    Token.Name("seqb"), Token.Value("seqbval0")
+                };
+
+            var result = Sequence.Partition(
+                new[]
+                    {
+                        Token.Name("str"), Token.Value("strvalue"), Token.Value("freevalue"),
+                        Token.Name("seq"), Token.Value("seqval0"), Token.Value("seqval1"),
+                        Token.Name("x"), Token.Value("freevalue2"),
+                        Token.Name("seqb"), Token.Value("seqbval0")
+                    },
+                name =>
+                    new[] { "seq", "seqb" }.Contains(name)
+                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Sequence, Maybe.Nothing<int>()))
+                        : Maybe.Nothing<TypeDescriptor>());
+
+            expected.ShouldAllBeEquivalentTo(result);
+        }
     }
 }
