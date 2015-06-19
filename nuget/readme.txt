@@ -1,4 +1,4 @@
-Command Line Parser Library 2.0.4.0 pre-release
+Command Line Parser Library 2.0.5.0 pre-release
 -----------------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
