@@ -25,8 +25,8 @@ namespace CommandLine.Core
             var errors = tokensExceptSwitchesAndScalarsAndSeq.Where(x => !values.Contains(x));
 
             return TokenGroup.Create(
-                    switches.Select(t => CreateValue(t.Text,"true"))
-                        .Concat(scalars.Pairwise((f, s) => CreateValue(f.Text, s.Text)))
+                    switches.Select(t => KeyValuePairHelper.Create(t.Text, "true"))
+                        .Concat(scalars.Pairwise((f, s) => KeyValuePairHelper.Create(f.Text, s.Text)))
                         .Concat(SequenceTokensToKeyValuePairEnumerable(sequences)),
                 values.Select(t => t.Text),
                 errors);
@@ -38,15 +38,15 @@ namespace CommandLine.Core
             return from t in tokens.Pairwise(
                 (f, s) =>
                         f.IsName()
-                            ? CreateValue(f.Text, tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Select(x => x.Text).ToArray())
-                            : CreateValue(string.Empty))
+                            ? KeyValuePairHelper.Create(f.Text, tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Select(x => x.Text).ToArray())
+                            : KeyValuePairHelper.Create(string.Empty))
                    where t.Key.Length > 0 && t.Value.Any()
                    select t;
         }
 
-        private static KeyValuePair<string, IEnumerable<string>> CreateValue(string value, params string[] values)
-        {
-            return new KeyValuePair<string, IEnumerable<string>>(value, values);
-        }
+        //private static KeyValuePair<string, IEnumerable<string>> CreateValue(string value, params string[] values)
+        //{
+        //    return new KeyValuePair<string, IEnumerable<string>>(value, values);
+        //}
     }
 }
