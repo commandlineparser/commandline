@@ -116,6 +116,7 @@ Latest Changes:
   - Fix in `Sequence.Partition()`.
   - `Sequence.Partition()` rewritten.
   - Refactoring for Increase Testability.
+  - Little change to allow .NET 4.5 build.
 
 Contacts:
 ---
