@@ -3,6 +3,7 @@
   * Adding more tests for token partitioners.
   * Fix in Sequence.Partition().
   * Sequence.Partition() rewritten.
+  * Refactoring for Increase Testability.
 
 2015-06-18    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
