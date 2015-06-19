@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace CommandLine.Core
 {
-    internal class TokenGroup
+    internal class TokenPartitions
     {
         private readonly IEnumerable<KeyValuePair<string, IEnumerable<string>>> options;
         private readonly IEnumerable<string> values;
         private readonly IEnumerable<Token> errors;
 
-        private TokenGroup(
+        private TokenPartitions(
             IEnumerable<KeyValuePair<string, IEnumerable<string>>> options,
             IEnumerable<string> values,
             IEnumerable<Token> errors)
@@ -35,12 +35,12 @@ namespace CommandLine.Core
             get { return this.errors; }
         }
 
-        public static TokenGroup Create(
+        public static TokenPartitions Create(
             IEnumerable<KeyValuePair<string, IEnumerable<string>>> options,
             IEnumerable<string> values,
             IEnumerable<Token> errors)
         {
-            return new TokenGroup(options, values, errors);
+            return new TokenPartitions(options, values, errors);
         }
     }
 }

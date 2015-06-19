@@ -10,7 +10,7 @@ namespace CommandLine.Core
     internal static class TokenPartitioner
     {
         public static
-            TokenGroup Partition(
+            TokenPartitions Partition(
                 IEnumerable<Token> tokens,
                 Func<string, Maybe<TypeDescriptor>> typeLookup)
         {
@@ -24,7 +24,7 @@ namespace CommandLine.Core
             var values = tokensExceptSwitchesAndScalarsAndSeq.Where(v => v.IsValue()).ToList();
             var errors = tokensExceptSwitchesAndScalarsAndSeq.Where(x => !values.Contains(x));
 
-            return TokenGroup.Create(
+            return TokenPartitions.Create(
                     switches.Select(t => KeyValuePairHelper.Create(t.Text, "true"))
                         .Concat(scalars.Pairwise((f, s) => KeyValuePairHelper.Create(f.Text, s.Text)))
                         .Concat(KeyValuePairHelper.CreateSequence(sequences)),
