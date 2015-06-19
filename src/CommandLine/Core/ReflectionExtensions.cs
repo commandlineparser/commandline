@@ -46,11 +46,13 @@ namespace CommandLine.Core
             Func<SpecificationProperty, bool> predicate,
             Func<SpecificationProperty, object> selector)
         {
-            return specProps.Where(predicate)
-                .Aggregate(
-                    instance,
-                    (current, specProp) =>
-                        specProp.Property.SetValue(current, selector(specProp)));
+            return specProps.Where(predicate).Aggregate(
+                instance,
+                (current, specProp) =>
+                    {
+                        specProp.Property.SetValue(current, selector(specProp));
+                        return instance;
+                    });
         }
 
         private static T SetValue<T>(this PropertyInfo property, T instance, object value)
