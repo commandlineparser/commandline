@@ -27,22 +27,22 @@ namespace CommandLine.Core
             return TokenGroup.Create(
                     switches.Select(t => KeyValuePairHelper.Create(t.Text, "true"))
                         .Concat(scalars.Pairwise((f, s) => KeyValuePairHelper.Create(f.Text, s.Text)))
-                        .Concat(SequenceTokensToKeyValuePairEnumerable(sequences)),
+                        .Concat(KeyValuePairHelper.CreateSequence(sequences)),
                 values.Select(t => t.Text),
                 errors);
         }
 
-        private static IEnumerable<KeyValuePair<string, IEnumerable<string>>> SequenceTokensToKeyValuePairEnumerable(
-            IEnumerable<Token> tokens)
-        {
-            return from t in tokens.Pairwise(
-                (f, s) =>
-                        f.IsName()
-                            ? KeyValuePairHelper.Create(f.Text, tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Select(x => x.Text).ToArray())
-                            : KeyValuePairHelper.Create(string.Empty))
-                   where t.Key.Length > 0 && t.Value.Any()
-                   select t;
-        }
+        //private static IEnumerable<KeyValuePair<string, IEnumerable<string>>> SequenceTokensToKeyValuePairEnumerable(
+        //    IEnumerable<Token> tokens)
+        //{
+        //    return from t in tokens.Pairwise(
+        //        (f, s) =>
+        //                f.IsName()
+        //                    ? KeyValuePairHelper.Create(f.Text, tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Select(x => x.Text).ToArray())
+        //                    : KeyValuePairHelper.Create(string.Empty))
+        //           where t.Key.Length > 0 && t.Value.Any()
+        //           select t;
+        //}
 
         //private static KeyValuePair<string, IEnumerable<string>> CreateValue(string value, params string[] values)
         //{
