@@ -25,14 +25,21 @@ namespace CommandLine.Core
                 if (typeLookup(first.Text).MatchJust(out info))
                 {
                     if (info.Tag == TypeDescriptorKind.Sequence
-                        && tokens.Skip(1).Take(1).Any())
+                        && IsNextTokenAValue(tokens))
                     {
                         yield return first;
 
-                        foreach (var token in tokens.Skip(1).Where(token => token.IsValue()))
+                        foreach (var token in tokens.Skip(1)) //.Where(token => token.IsValue()))
                         {
-                            items++;
-                            yield return token;
+                            if (token.IsValue())
+                            {
+                                items++;
+                                yield return token;
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
                     }
                 }
@@ -41,6 +48,15 @@ namespace CommandLine.Core
             {
                 yield return token;
             }
+        }
+
+        private static bool IsNextTokenAValue(IEnumerable<Token> tokens)
+        {
+            var next = tokens.Skip(1).Take(1);
+
+            return next.Any()
+                ? next.Single().IsValue()
+                : false;
         }
 
         //public static IEnumerable<Token> Partition(
