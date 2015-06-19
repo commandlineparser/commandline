@@ -114,7 +114,8 @@ Latest Changes:
   - Important fix on scalar string value adjacent to string sequence (without constraints).
   - Refactoring for Increase Testability.
   - Adding more tests for token partitioners.
-  - Fix in `Sequence.Partitioner()`.
+  - Fix in `Sequence.Partition()`.
+  - `Sequence.Partition()` rewritten.
 
 Contacts:
 ---
