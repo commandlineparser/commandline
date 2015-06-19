@@ -78,5 +78,26 @@ namespace CommandLine.Tests.Unit.Core
 
             expected.ShouldAllBeEquivalentTo(result);
         }
+
+        [Fact]
+        public void Partition_sequence_values_only()
+        {
+            var expected = new[]
+                {
+                    Token.Name("seq"), Token.Value("seqval0"), Token.Value("seqval1")
+                };
+
+            var result = Sequence.Partition(
+                new[]
+                    {
+                        Token.Name("seq"), Token.Value("seqval0"), Token.Value("seqval1"),
+                    },
+                name =>
+                    new[] { "seq" }.Contains(name)
+                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Sequence, Maybe.Nothing<int>()))
+                        : Maybe.Nothing<TypeDescriptor>());
+
+            expected.ShouldAllBeEquivalentTo(result);
+        }
     }
 }
