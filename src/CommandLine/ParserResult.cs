@@ -80,7 +80,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return this.Value.GetHashCode() ^ this.Errors.GetHashCode();
+            return new { this.Value, this.Errors }.GetHashCode();
         }
 
         /// <summary>
