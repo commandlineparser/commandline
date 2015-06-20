@@ -235,7 +235,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return this.Tag.GetHashCode() ^ this.NameInfo.GetHashCode();
+            return new {this.Tag, this.NameInfo}.GetHashCode();
         }
 
         /// <summary>
