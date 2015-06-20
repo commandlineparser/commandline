@@ -43,7 +43,7 @@ namespace CommandLine.Core
 
         public override int GetHashCode()
         {
-            return this.Value.GetHashCode() ^ this.Errors.GetHashCode();
+            return new {this.Value, this.Errors}.GetHashCode();
         }
 
         public bool Equals(StatePair<T> other)
