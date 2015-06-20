@@ -54,7 +54,7 @@ namespace CommandLine.Core
 
         public override int GetHashCode()
         {
-            return this.Tag.GetHashCode() ^ this.Text.GetHashCode();
+            return new {this.Tag, this.Text}.GetHashCode();
         }
 
         public bool Equals(Token other)
