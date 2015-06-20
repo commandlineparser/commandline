@@ -98,7 +98,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return this.ShortName.GetHashCode() ^ this.LongName.GetHashCode();
+            return new { this.ShortName, this.LongName }.GetHashCode();
         }
 
         /// <summary>
