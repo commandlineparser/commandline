@@ -623,9 +623,10 @@ namespace CommandLine.Text
             this.optionsHelp.Append("    ");
             var optionHelpText = option.HelpText;
 
-            if (this.addEnumValuesToHelpText)
-                if (option.EnumValues.Count() > 0)
-                    optionHelpText += " Valid values: " + string.Join(", ", option.EnumValues);
+            if (this.addEnumValuesToHelpText && option.EnumValues.Any())
+            {
+                optionHelpText += " Valid values: " + string.Join(", ", option.EnumValues);
+            }
 
             if (option.DefaultValue.IsJust())
             {

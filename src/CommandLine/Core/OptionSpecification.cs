@@ -1,6 +1,6 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
-using System;
+using System.Collections.Generic;
 using CommandLine.Infrastructure;
 
 namespace CommandLine.Core
@@ -13,9 +13,9 @@ namespace CommandLine.Core
         private readonly string setName;
         private readonly string helpText;
         private readonly string metaValue;
-        private readonly System.Collections.Generic.IEnumerable<string> enumValues;
+        private readonly IEnumerable<string> enumValues;
 
-        public OptionSpecification(string shortName, string longName, bool required, string setName, int min, int max, char separator, Maybe<object> defaultValue, System.Type conversionType, string helpText, string metaValue, System.Collections.Generic.IEnumerable<string> enumValues)
+        public OptionSpecification(string shortName, string longName, bool required, string setName, int min, int max, char separator, Maybe<object> defaultValue, System.Type conversionType, string helpText, string metaValue, IEnumerable<string> enumValues)
             : base(SpecificationType.Option, required, min, max, defaultValue, conversionType)
         {
             this.shortName = shortName;
@@ -74,7 +74,7 @@ namespace CommandLine.Core
             get { return this.metaValue; }
         }
 
-        public System.Collections.Generic.IEnumerable<string> EnumValues
+        public IEnumerable<string> EnumValues
         {
             get { return this.enumValues; }
         }

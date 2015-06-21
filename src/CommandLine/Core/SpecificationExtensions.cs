@@ -19,7 +19,7 @@ namespace CommandLine.Core
             return specification.Tag == SpecificationType.Value;
         }
 
-        public static OptionSpecification WithLongName(this OptionSpecification specification, string newLongName, System.Collections.Generic.IEnumerable<string> enumValues)
+        public static OptionSpecification WithLongName(this OptionSpecification specification, string newLongName, IEnumerable<string> enumValues)
         {
             return new OptionSpecification(
                 specification.ShortName,
