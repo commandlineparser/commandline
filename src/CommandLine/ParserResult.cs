@@ -23,9 +23,6 @@ namespace CommandLine
 
         internal ParserResult(ParserResultType tag, T value, IEnumerable<Error> errors, Maybe<IEnumerable<Type>> verbTypes)
         {
-            if (object.Equals(value, default(T))) throw new ArgumentNullException("value");
-            if (errors == null) throw new ArgumentNullException("errors");
-
             this.tag = tag;
             this.value = value;
             this.errors = errors;
