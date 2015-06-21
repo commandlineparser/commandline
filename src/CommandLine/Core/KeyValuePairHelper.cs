@@ -19,6 +19,12 @@ namespace CommandLine.Core
             return tokens.Select(t => KeyValuePairHelper.Create(t.Text, "true"));
         }
 
+        public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForScalar(
+            IEnumerable<Token> tokens)
+        {
+            return tokens.Pairwise((f, s) => KeyValuePairHelper.Create(f.Text, s.Text));
+        }
+
         public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForSequence(
             IEnumerable<Token> tokens)
         {
