@@ -22,5 +22,22 @@ namespace CommandLine.Tests.Unit.Core
 
             result.SequenceEqual(expected);
         }
+
+        [Fact]
+        public void Token_sequence_creates_a_KeyValuePair_sequence()
+        {
+            var expected = new[]
+                {
+                    new KeyValuePair<string, IEnumerable<string>>("seq", new[] {"seq0", "seq1", "seq2"}),   
+                };
+
+            var result = KeyValuePairHelper.CreateSequence(new []
+                {
+                    Token.Name("seq"), Token.Value("seq0"), Token.Value("seq1"), Token.Value("seq2") 
+                });
+
+            result.SequenceEqual(expected);
+        }
+
     }
 }
