@@ -8,21 +8,16 @@ namespace CommandLine.Core
 {
     internal static class KeyValuePairHelper
     {
-        public static KeyValuePair<string, IEnumerable<string>> Create(string value, params string[] values)
-        {
-            return new KeyValuePair<string, IEnumerable<string>>(value, values);
-        }
-
         public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForSwitch(
             IEnumerable<Token> tokens)
         {
-            return tokens.Select(t => KeyValuePairHelper.Create(t.Text, "true"));
+            return tokens.Select(t => Create(t.Text, "true"));
         }
 
         public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForScalar(
             IEnumerable<Token> tokens)
         {
-            return tokens.Pairwise((f, s) => KeyValuePairHelper.Create(f.Text, s.Text));
+            return tokens.Pairwise((f, s) => Create(f.Text, s.Text));
         }
 
         public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForSequence(
@@ -31,12 +26,15 @@ namespace CommandLine.Core
             return from t in tokens.Pairwise(
                 (f, s) =>
                         f.IsName()
-                            ? KeyValuePairHelper.Create(f.Text, tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Select(x => x.Text).ToArray())
-                            : KeyValuePairHelper.Create(string.Empty))
+                            ? Create(f.Text, tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Select(x => x.Text).ToArray())
+                            : Create(string.Empty))
                    where t.Key.Length > 0 && t.Value.Any()
                    select t;
         }
 
-
+        private static KeyValuePair<string, IEnumerable<string>> Create(string value, params string[] values)
+        {
+            return new KeyValuePair<string, IEnumerable<string>>(value, values);
+        }
     }
 }
