@@ -158,15 +158,7 @@ namespace CommandLine
         public char Separator
         {
             get { return this.separator.Value ; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                this.separator = value;
-            }
+            set { this.separator = value; }
         }
 
         /// <summary>
