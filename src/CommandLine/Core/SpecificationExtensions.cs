@@ -11,15 +11,11 @@ namespace CommandLine.Core
     {
         public static bool IsOption(this Specification specification)
         {
-            if (specification == null) throw new ArgumentNullException("specification");
-
             return specification.Tag == SpecificationType.Option;
         }
 
         public static bool IsValue(this Specification specification)
         {
-            if (specification == null) throw new ArgumentNullException("specification");
-
             return specification.Tag == SpecificationType.Value;
         }
 

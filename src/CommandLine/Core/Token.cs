@@ -19,15 +19,11 @@ namespace CommandLine.Core
 
         public static Token Name(string text)
         {
-            if (text == null) throw new ArgumentNullException("text");
-
             return new Token(TokenType.Name, text);
         }
 
         public static Token Value(string text)
         {
-            if (text == null) throw new ArgumentNullException("text");
-
             return new Token(TokenType.Value, text);
         }
 

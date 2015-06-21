@@ -8,8 +8,6 @@ namespace CommandLine.Core
     {
         public static bool MatchName(this string value, string shortName, string longName, StringComparer comparer)
         {
-            if (value == null) throw new ArgumentNullException("value");
-
             return value.Length == 1
                ? comparer.Equals(value, shortName)
                : comparer.Equals(value, longName);

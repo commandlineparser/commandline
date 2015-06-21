@@ -13,8 +13,6 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             Func<string, bool> nameLookup)
         {
-            if (arguments == null) throw new ArgumentNullException("arguments");
-
             var errors = new List<Error>();
             Func<Error, Unit> onError = e =>
                 {
@@ -39,8 +37,6 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             Func<IEnumerable<string>, StatePair<IEnumerable<Token>>> tokenizer)
         {
-            if (arguments == null) throw new ArgumentNullException("arguments");
-
             if (arguments.Any(arg => arg.EqualsOrdinal("--")))
             {
                 var tokenizerResult = tokenizer(arguments.TakeWhile(arg => !arg.EqualsOrdinal("--")));
@@ -54,8 +50,6 @@ namespace CommandLine.Core
             StatePair<IEnumerable<Token>> tokens,
             Func<string, Maybe<char>> optionSequenceWithSeparatorLookup)
         {
-            if (tokens == null) throw new ArgumentNullException("tokens");
-
             var replaces = tokens.Value.Select((t,i) =>
                 optionSequenceWithSeparatorLookup(t.Text)
                     .Return(sep => Tuple.Create(i + 1, sep),
@@ -75,11 +69,6 @@ namespace CommandLine.Core
             string value,
             Func<string, bool> nameLookup)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-
             if (value.Length > 1 || value[0] == '-' || value[1] != '-')
             {
                 var text = value.Substring(1);
@@ -125,11 +114,6 @@ namespace CommandLine.Core
             string value,
             Func<Error, Unit> onError)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-
             if (value.Length > 2 && value.StartsWith("--", StringComparison.Ordinal))
             {
                 var text = value.Substring(2);

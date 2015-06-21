@@ -12,16 +12,12 @@ namespace CommandLine.Core
     {
         public static bool Contains(string name, IEnumerable<OptionSpecification> specifications, StringComparer comparer)
         {
-            if (name == null) throw new ArgumentNullException("name");
-
             return specifications.Any(a => name.MatchName(a.ShortName, a.LongName, comparer));
         }
 
         public static Maybe<char> WithSeparator(string name, IEnumerable<OptionSpecification> specifications,
             StringComparer comparer)
         {
-            if (name == null) throw new ArgumentNullException("name");
-
             return specifications.SingleOrDefault(
                 a => name.MatchName(a.ShortName, a.LongName, comparer) && a.Separator != '\0')
                 .ToMaybe()

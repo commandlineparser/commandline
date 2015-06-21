@@ -12,10 +12,6 @@ namespace CommandLine.Core
     {
         public static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, bool scalar, CultureInfo conversionCulture)
         {
-            if (values == null) throw new ArgumentNullException("values");
-            if (conversionType == null) throw new ArgumentNullException("conversionType");
-            if (conversionCulture == null) throw new ArgumentNullException("conversionCulture");
-
             return scalar
                 ? ChangeType(values.Single(), conversionType, conversionCulture)
                 : ChangeType(values, conversionType, conversionCulture);

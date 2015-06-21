@@ -14,10 +14,6 @@ namespace CommandLine.Core
             IEnumerable<OptionSpecification> specifications,
             StringComparer comparer)
         {
-            if (name == null) throw new ArgumentNullException("name");
-            if (specifications == null) throw new ArgumentNullException("specifications");
-            if (comparer == null) throw new ArgumentNullException("comparer");
-
             var info = specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
                 .ToMaybe()
                     .Map(

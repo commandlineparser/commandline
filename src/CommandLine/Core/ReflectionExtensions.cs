@@ -22,8 +22,6 @@ namespace CommandLine.Core
 
         public static TypeDescriptorKind ToDescriptorKind(this System.Type type)
         {
-            if (type == null) throw new ArgumentNullException("type");
-
             return type == typeof(bool)
                        ? TypeDescriptorKind.Boolean
                        : type == typeof(string)
@@ -35,8 +33,6 @@ namespace CommandLine.Core
 
         public static bool IsScalar(this System.Type type)
         {
-            if (type == null) throw new ArgumentNullException("type");
-
             return type == typeof(string) || !type.IsArray && !typeof(IEnumerable).IsAssignableFrom(type);
         }
 
@@ -85,8 +81,6 @@ namespace CommandLine.Core
 
         public static object CreateEmptyArray(this System.Type type)
         {
-            if (type == null) throw new ArgumentNullException("type");
-
             return Array.CreateInstance(type, 0);
         }
     }

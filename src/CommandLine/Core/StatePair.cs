@@ -13,9 +13,6 @@ namespace CommandLine.Core
 
         internal StatePair(T value, IEnumerable<Error> errors)
         {
-            if (object.Equals(value, default(T))) throw new ArgumentNullException("value");
-            if (errors == null) throw new ArgumentNullException("errors");
-
             this.value = value;
             this.errors = errors;
         }
