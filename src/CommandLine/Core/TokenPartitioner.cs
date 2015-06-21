@@ -27,7 +27,7 @@ namespace CommandLine.Core
             return TokenPartitions.Create(
                     switches.Select(t => KeyValuePairHelper.Create(t.Text, "true"))
                         .Concat(scalars.Pairwise((f, s) => KeyValuePairHelper.Create(f.Text, s.Text)))
-                        .Concat(KeyValuePairHelper.CreateSequence(sequences)),
+                        .Concat(KeyValuePairHelper.ForSequence(sequences)),
                 values.Select(t => t.Text),
                 errors);
         }

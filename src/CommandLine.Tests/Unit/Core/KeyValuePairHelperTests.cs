@@ -18,7 +18,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             var expected = new KeyValuePair<string, IEnumerable<string>>[] { };
 
-            var result = KeyValuePairHelper.CreateSequence(new Token[] { });
+            var result = KeyValuePairHelper.ForSequence(new Token[] { });
 
             result.SequenceEqual(expected);
         }
@@ -31,7 +31,7 @@ namespace CommandLine.Tests.Unit.Core
                     new KeyValuePair<string, IEnumerable<string>>("seq", new[] {"seq0", "seq1", "seq2"}),   
                 };
 
-            var result = KeyValuePairHelper.CreateSequence(new []
+            var result = KeyValuePairHelper.ForSequence(new []
                 {
                     Token.Name("seq"), Token.Value("seq0"), Token.Value("seq1"), Token.Value("seq2") 
                 });
