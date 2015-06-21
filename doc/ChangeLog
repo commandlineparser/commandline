@@ -1,5 +1,9 @@
 2015-06-19    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
+  * Better GetHashCode() implementations.
+
+2015-06-19    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
   * Adding more tests for token partitioners.
   * Fix in Sequence.Partition().
   * Sequence.Partition() rewritten.
