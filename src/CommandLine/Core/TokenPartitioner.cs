@@ -25,7 +25,7 @@ namespace CommandLine.Core
             var errors = tokensExceptSwitchesAndScalarsAndSeq.Where(x => !values.Contains(x));
 
             return TokenPartitions.Create(
-                    switches.Select(t => KeyValuePairHelper.Create(t.Text, "true"))
+                    KeyValuePairHelper.ForSwitch(switches)
                         .Concat(scalars.Pairwise((f, s) => KeyValuePairHelper.Create(f.Text, s.Text)))
                         .Concat(KeyValuePairHelper.ForSequence(sequences)),
                 values.Select(t => t.Text),

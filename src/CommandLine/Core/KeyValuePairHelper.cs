@@ -13,6 +13,12 @@ namespace CommandLine.Core
             return new KeyValuePair<string, IEnumerable<string>>(value, values);
         }
 
+        public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForSwitch(
+            IEnumerable<Token> tokens)
+        {
+            return tokens.Select(t => KeyValuePairHelper.Create(t.Text, "true"));
+        }
+
         public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForSequence(
             IEnumerable<Token> tokens)
         {
@@ -24,5 +30,7 @@ namespace CommandLine.Core
                    where t.Key.Length > 0 && t.Value.Any()
                    select t;
         }
+
+
     }
 }
