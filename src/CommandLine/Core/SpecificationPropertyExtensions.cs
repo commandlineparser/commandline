@@ -11,7 +11,6 @@ namespace CommandLine.Core
     {
         public static SpecificationProperty WithSpecification(this SpecificationProperty specProp, Specification newSpecification)
         {
-            if (specProp == null) throw new ArgumentNullException("specProp");
             if (newSpecification == null) throw new ArgumentNullException("newSpecification");
 
             return SpecificationProperty.Create(newSpecification, specProp.Property, specProp.Value);
@@ -19,7 +18,6 @@ namespace CommandLine.Core
 
         public static SpecificationProperty WithValue(this SpecificationProperty specProp, Maybe<object> newValue)
         {
-            if (specProp == null) throw new ArgumentNullException("specProp");
             if (newValue == null) throw new ArgumentNullException("newValue");
 
             return SpecificationProperty.Create(specProp.Specification, specProp.Property, newValue);
@@ -27,8 +25,6 @@ namespace CommandLine.Core
 
         public static System.Type GetConversionType(this SpecificationProperty specProp)
         {
-            if (specProp == null) throw new ArgumentNullException("specProp");
-
             switch (specProp.Specification.ConversionType.ToDescriptorKind())
             {
                 case TypeDescriptorKind.Sequence:
@@ -47,8 +43,6 @@ namespace CommandLine.Core
             IEnumerable<Func<IEnumerable<SpecificationProperty>,
             IEnumerable<Maybe<Error>>>> rules)
         {
-            if (specProps == null) throw new ArgumentNullException("specProps");
-
             return rules.SelectMany(rule => rule(specProps));
         }
     }

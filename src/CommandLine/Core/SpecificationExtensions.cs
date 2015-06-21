@@ -51,8 +51,6 @@ namespace CommandLine.Core
 
         public static Maybe<int> GetMaxValueCount(this Specification specification)
         {
-            if (specification == null) throw new ArgumentNullException("specification");
-
             switch (specification.ConversionType.ToDescriptorKind())
             {
                 case TypeDescriptorKind.Scalar:
