@@ -2,11 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using CommandLine.Core;
 using CommandLine.Infrastructure;
-using CommandLine.Tests.Fakes;
 using FluentAssertions;
 using Xunit;
 
