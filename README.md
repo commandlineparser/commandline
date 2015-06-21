@@ -118,6 +118,8 @@ Latest Changes:
   - Refactoring for Increase Testability.
   - Little change to allow .NET 4.5 build.
   - Better GetHashCode() implementations.
+  - Internal refactorings.
+  - New tests added.
 
 Contacts:
 ---

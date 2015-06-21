@@ -1,5 +1,10 @@
 2015-06-20    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
+  * Internal refactorings.
+  * New tests added.
+
+2015-06-20    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
   * Removed reduntant internal params null checks.
 
 2015-06-19    Giacomo Stelluti Scala  <gsscoder@gmail.com>
