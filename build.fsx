@@ -1,5 +1,6 @@
 ﻿#r "packages/FAKE.3.35.1/tools/FakeLib.dll"
 open Fake
+open Fake.Testing
 
 //RestorePackages()
 
@@ -33,9 +34,9 @@ Target "BuildTest" (fun _ ->
 )
 
 Target "Test" (fun _ ->
-    trace "Running Tests..."
-    !! (testDir + @"\CommandLine.Tests.dll") 
-      |> xUnit (fun p -> {p with OutputDir = testDir})
+    //trace "Running Tests..."
+    !! (testDir @@ "\CommandLine.Tests.dll") 
+      |> xUnit2 (fun p -> {p with HtmlOutputPath = Some(testDir @@ "xunit.html")})
 )
 
 //Target "Package" (fun _ ->
