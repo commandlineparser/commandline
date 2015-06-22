@@ -658,7 +658,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionWithRequiredValue(),
+                () => new FakeOptionsWithRequiredValue(),
                 new string[] { },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -674,7 +674,7 @@ namespace CommandLine.Tests.Unit.Core
         [InlineData(new[] { "--stringvalue=中文" }, "中文")]
         [InlineData(new[] { "--stringvalue", "日本人" }, "日本人")] // Japanese
         [InlineData(new[] { "--stringvalue=日本人" }, "日本人")]
-        public void Parse_utf8_string_correcty(string[] arguments, string expected)
+        public void Parse_utf8_string_correctly(string[] arguments, string expected)
         {
             // Fixture setup in attributes
 
@@ -693,13 +693,13 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [MemberData("RequiredValueStringData")]
-        public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionWithRequiredValue expected)
+        public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionsWithRequiredValue expected)
         {
             // Fixture setup in attributes
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionWithRequiredValue(),
+                () => new FakeOptionsWithRequiredValue(),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -733,11 +733,11 @@ namespace CommandLine.Tests.Unit.Core
         {
             get
             {
-                yield return new object[] { new[] { "value-string" }, new FakeOptionWithRequiredValue { StringValue = "value-string" } };
-                yield return new object[] { new[] { "another-string", "999" }, new FakeOptionWithRequiredValue { StringValue = "another-string", IntValue = 999} };
-                yield return new object[] { new[] { "str with spaces", "-1234567890" }, new FakeOptionWithRequiredValue { StringValue = "str with spaces", IntValue = -1234567890 } };
-                yield return new object[] { new[] { "1234567890", "1234567890" }, new FakeOptionWithRequiredValue { StringValue = "1234567890", IntValue = 1234567890 } };
-                yield return new object[] { new[] { "-1234567890", "1234567890" }, new FakeOptionWithRequiredValue { StringValue = "-1234567890", IntValue = 1234567890 } };
+                yield return new object[] { new[] { "value-string" }, new FakeOptionsWithRequiredValue { StringValue = "value-string" } };
+                yield return new object[] { new[] { "another-string", "999" }, new FakeOptionsWithRequiredValue { StringValue = "another-string", IntValue = 999} };
+                yield return new object[] { new[] { "str with spaces", "-1234567890" }, new FakeOptionsWithRequiredValue { StringValue = "str with spaces", IntValue = -1234567890 } };
+                yield return new object[] { new[] { "1234567890", "1234567890" }, new FakeOptionsWithRequiredValue { StringValue = "1234567890", IntValue = 1234567890 } };
+                yield return new object[] { new[] { "-1234567890", "1234567890" }, new FakeOptionsWithRequiredValue { StringValue = "-1234567890", IntValue = 1234567890 } };
             }
         }
 

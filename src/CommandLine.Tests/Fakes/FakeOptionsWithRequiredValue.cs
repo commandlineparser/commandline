@@ -2,7 +2,7 @@
 
 namespace CommandLine.Tests.Fakes
 {
-    public class FakeOptionWithRequiredValue
+    public class FakeOptionsWithRequiredValue
     {
         [Value(0, Required = true)]
         public string StringValue { get; set; }
