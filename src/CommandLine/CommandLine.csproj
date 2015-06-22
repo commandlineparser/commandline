@@ -77,7 +77,6 @@
     <Compile Include="Core\ValueMapper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Infrastructure\Identity.cs" />
     <Compile Include="Infrastructure\Maybe.cs" />
     <Compile Include="Core\SpecificationPropertyExtensions.cs" />
     <Compile Include="Core\SpecificationExtensions.cs" />
