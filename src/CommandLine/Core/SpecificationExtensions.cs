@@ -19,7 +19,7 @@ namespace CommandLine.Core
             return specification.Tag == SpecificationType.Value;
         }
 
-        public static OptionSpecification WithLongName(this OptionSpecification specification, string newLongName, IEnumerable<string> enumValues)
+        public static OptionSpecification WithLongName(this OptionSpecification specification, string newLongName)
         {
             return new OptionSpecification(
                 specification.ShortName,
@@ -33,7 +33,7 @@ namespace CommandLine.Core
                 specification.ConversionType,
                 specification.HelpText,
                 specification.MetaValue,
-                enumValues);
+                specification.EnumValues);
         }
 
         public static IEnumerable<Specification> ThrowingValidate(this IEnumerable<Specification> specifications, IEnumerable<Tuple<Func<Specification, bool>, string>> guardsLookup)

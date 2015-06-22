@@ -73,21 +73,18 @@ namespace CommandLine.Core
         }
 
         public static Specification FromProperty(PropertyInfo property)
-        {
-            System.Collections.Generic.List<string> enumList = new System.Collections.Generic.List<string>();
-            if (property.PropertyType.IsEnum)
-            {
-                enumList.AddRange(Enum.GetNames(property.PropertyType));
-            }
-            
+        {       
             var attrs = property.GetCustomAttributes(true);
             var oa = attrs.OfType<OptionAttribute>();
             if (oa.Count() == 1)
             {
-                var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType, enumList);
+                var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType,
+                    property.PropertyType.IsEnum
+                        ? Enum.GetNames(property.PropertyType)
+                        : Enumerable.Empty<string>());
                 if (spec.ShortName.Length == 0 && spec.LongName.Length == 0)
                 {
-                    return spec.WithLongName(property.Name.ToLowerInvariant(), enumList);
+                    return spec.WithLongName(property.Name.ToLowerInvariant());
                 }
                 return spec;
             }
