@@ -14,11 +14,7 @@ namespace CommandLine.Core
             Func<string, bool> nameLookup)
         {
             var errors = new List<Error>();
-            Func<Error, Unit> onError = e =>
-                {
-                    errors.Add(e);
-                    return Unit.Default;
-                };
+            Action<Error> onError = e => errors.Add(e);
 
             var tokens = (from arg in arguments
                           from token in !arg.StartsWith("-", StringComparison.Ordinal)
@@ -112,7 +108,7 @@ namespace CommandLine.Core
 
         private static IEnumerable<Token> TokenizeLongName(
             string value,
-            Func<Error, Unit> onError)
+            Action<Error> onError)
         {
             if (value.Length > 2 && value.StartsWith("--", StringComparison.Ordinal))
             {
@@ -125,7 +121,7 @@ namespace CommandLine.Core
                 }
                 if (equalIndex == 1) // "--="
                 {
-                    var _ = onError(new BadFormatTokenError(value));
+                    onError(new BadFormatTokenError(value));
                     yield break;
                 }
                 var parts = text.Split('=');

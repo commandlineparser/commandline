@@ -68,7 +68,6 @@
     <Compile Include="Infrastructure\PopsicleSetter.cs" />
     <Compile Include="Infrastructure\ReflectionHelper.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
-    <Compile Include="Infrastructure\Unit.cs" />
     <Compile Include="NameInfo.cs" />
     <Compile Include="NullInstance.cs" />
     <Compile Include="Core\OptionMapper.cs" />
