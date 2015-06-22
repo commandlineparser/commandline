@@ -120,6 +120,7 @@ Latest Changes:
   - Better GetHashCode() implementations.
   - Internal refactorings.
   - New tests added.
+  - Fixing FAKE build script.
 
 Contacts:
 ---
