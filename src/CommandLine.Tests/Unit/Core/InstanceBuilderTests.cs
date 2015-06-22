@@ -670,6 +670,28 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new[] { "--stringvalue", "中文" }, "中文")] // Chinese
+        [InlineData(new[] { "--stringvalue=中文" }, "中文")]
+        [InlineData(new[] { "--stringvalue", "日本人" }, "日本人")] // Japanese
+        [InlineData(new[] { "--stringvalue=日本人" }, "日本人")]
+        public void Parse_utf8_string_correcty(string[] arguments, string expected)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptions(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expected.ShouldBeEquivalentTo(result.Value.StringValue);
+
+            // Teardown
+        }
+
+        [Theory]
         [MemberData("RequiredValueStringData")]
         public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionWithRequiredValue expected)
         {
