@@ -16,7 +16,7 @@ namespace CommandLine.Core
             StringComparer nameComparer,
             CultureInfo parsingCulture)
         {
-            return InstanceBuilder.Build(
+            return Build(
                 factory,
                 (args, optionSpecs) =>
                     {

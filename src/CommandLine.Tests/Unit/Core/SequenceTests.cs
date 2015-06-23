@@ -84,7 +84,7 @@ namespace CommandLine.Tests.Unit.Core
             var result = Sequence.Partition(
                 new[]
                     {
-                        Token.Name("seq"), Token.Value("seqval0"), Token.Value("seqval1"),
+                        Token.Name("seq"), Token.Value("seqval0"), Token.Value("seqval1")
                     },
                 name =>
                     new[] { "seq" }.Contains(name)

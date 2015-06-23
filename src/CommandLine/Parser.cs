@@ -25,7 +25,7 @@ namespace CommandLine
         /// </summary>
         public Parser()
         {
-            this.settings = new ParserSettings { Consumed = true };
+            settings = new ParserSettings { Consumed = true };
         }
 
         /// <summary>
@@ -38,9 +38,9 @@ namespace CommandLine
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
-            this.settings = new ParserSettings();
-            configuration(this.settings);
-            this.settings.Consumed = true;
+            settings = new ParserSettings();
+            configuration(settings);
+            settings.Consumed = true;
         }
 
         internal Parser(ParserSettings settings)
@@ -70,7 +70,7 @@ namespace CommandLine
         /// </summary>
         public ParserSettings Settings
         {
-            get { return this.settings; }
+            get { return settings; }
         }
 
         /// <summary>
@@ -108,10 +108,10 @@ namespace CommandLine
             return MakeParserResult(
                 () => InstanceBuilder.Build(
                     factory,
-                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, this.settings),
+                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     args,
-                    this.settings.NameComparer,
-                    this.settings.ParsingCulture),
+                    settings.NameComparer,
+                    settings.ParsingCulture),
                 settings);
         }
 
@@ -135,11 +135,11 @@ namespace CommandLine
 
             return MakeParserResult(
                 () => InstanceChooser.Choose(
-                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, this.settings),
+                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     types,
                     args,
-                    this.settings.NameComparer,
-                    this.settings.ParsingCulture),
+                    settings.NameComparer,
+                    settings.ParsingCulture),
                 settings);
         }
 
@@ -194,7 +194,7 @@ namespace CommandLine
 
         private void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (disposed)
             {
                 return;
             }
@@ -206,7 +206,7 @@ namespace CommandLine
                     settings.Dispose();
                 }
 
-                this.disposed = true;
+                disposed = true;
             }
         }
     }

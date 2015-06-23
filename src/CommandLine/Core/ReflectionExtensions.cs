@@ -10,7 +10,7 @@ namespace CommandLine.Core
 {
     internal static class ReflectionExtensions
     {
-        public static IEnumerable<T> GetSpecifications<T>(this System.Type type, Func<PropertyInfo, T> selector)
+        public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
         {
             return from pi in type.GetProperties()
                    let attrs = pi.GetCustomAttributes(true)
@@ -20,7 +20,7 @@ namespace CommandLine.Core
                    select selector(pi);
         }
 
-        public static TypeDescriptorKind ToDescriptorKind(this System.Type type)
+        public static TypeDescriptorKind ToDescriptorKind(this Type type)
         {
             return type == typeof(bool)
                        ? TypeDescriptorKind.Boolean
@@ -31,7 +31,7 @@ namespace CommandLine.Core
                                    : TypeDescriptorKind.Scalar;
         }
 
-        public static bool IsScalar(this System.Type type)
+        public static bool IsScalar(this Type type)
         {
             return type == typeof(string) || !type.IsArray && !typeof(IEnumerable).IsAssignableFrom(type);
         }
@@ -79,7 +79,7 @@ namespace CommandLine.Core
             return instance;
         }
 
-        public static object CreateEmptyArray(this System.Type type)
+        public static object CreateEmptyArray(this Type type)
         {
             return Array.CreateInstance(type, 0);
         }

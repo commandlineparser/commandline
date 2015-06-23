@@ -15,7 +15,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Fixture setup
             var expectedTokens = new[] { Token.Name("i"), Token.Value("10"), Token.Name("string-seq"),
-                Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc"), Token.Name("switch"), };
+                Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc"), Token.Name("switch") };
             var specs = new[] { new OptionSpecification(string.Empty, "string-seq",
                 false, string.Empty, -1, -1, ',', null, typeof(IEnumerable<string>), string.Empty, string.Empty, new List<string>())};
 
@@ -39,7 +39,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Fixture setup
             var expectedTokens = new[] { Token.Name("x"), Token.Name("string-seq"),
-                Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc"), Token.Name("switch"), };
+                Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc"), Token.Name("switch") };
             var specs = new[] { new OptionSpecification(string.Empty, "string-seq",
                 false, string.Empty, -1, -1, ',', null, typeof(IEnumerable<string>), string.Empty, string.Empty, new List<string>())};
 

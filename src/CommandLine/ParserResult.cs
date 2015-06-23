@@ -31,7 +31,7 @@ namespace CommandLine
 
         internal ParserResultType Tag
         {
-            get { return this.tag; }
+            get { return tag; }
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace CommandLine
         /// </summary>
         public T Value
         {
-            get { return this.value; }
+            get { return value; }
         }
 
         /// <summary>
@@ -47,12 +47,12 @@ namespace CommandLine
         /// </summary>
         public IEnumerable<Error> Errors
         {
-            get { return this.errors; }
+            get { return errors; }
         }
 
         internal Maybe<IEnumerable<Type>> VerbTypes
         {
-            get { return this.verbTypes; }
+            get { return verbTypes; }
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace CommandLine
             var other = obj as ParserResult<T>;
             if (other != null)
             {
-                return this.Equals(other);
+                return Equals(other);
             }
 
             return base.Equals(obj);
@@ -77,7 +77,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return new { this.Value, this.Errors }.GetHashCode();
+            return new { Value, Errors }.GetHashCode();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace CommandLine
                 return false;
             }
 
-            return this.Value.Equals(other.Value) && this.Errors.SequenceEqual(other.Errors);
+            return Value.Equals(other.Value) && Errors.SequenceEqual(other.Errors);
         }
     }
 
@@ -100,12 +100,12 @@ namespace CommandLine
     {
         public static ParserResult<T> Create<T>(ParserResultType tag, T instance, IEnumerable<Error> errors)
         {
-            return ParserResult.Create(tag, instance, errors, Maybe.Nothing<IEnumerable<Type>>());
+            return Create(tag, instance, errors, Maybe.Nothing<IEnumerable<Type>>());
         }
 
         public static ParserResult<T> Create<T>(ParserResultType tag, T instance, IEnumerable<Error> errors, Maybe<IEnumerable<Type>> verbTypes)
         {
-            if (object.Equals(instance, default(T))) throw new ArgumentNullException("instance");
+            if (Equals(instance, default(T))) throw new ArgumentNullException("instance");
             if (errors == null) throw new ArgumentNullException("errors");
             if (verbTypes == null) throw new ArgumentNullException("verbTypes");
 

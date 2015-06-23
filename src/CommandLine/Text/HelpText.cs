@@ -96,8 +96,8 @@ namespace CommandLine.Text
             if (heading == null) throw new ArgumentNullException("heading");
             if (copyright == null) throw new ArgumentNullException("copyright");
 
-            this.preOptionsHelp = new StringBuilder(BuilderCapacity);
-            this.postOptionsHelp = new StringBuilder(BuilderCapacity);
+            preOptionsHelp = new StringBuilder(BuilderCapacity);
+            postOptionsHelp = new StringBuilder(BuilderCapacity);
 
             this.sentenceBuilder = sentenceBuilder;
             this.heading = heading;
@@ -112,14 +112,14 @@ namespace CommandLine.Text
         {
             get
             {
-                return this.heading;
+                return heading;
             }
 
             set
             {
                 if (value == null) throw new ArgumentNullException("value");
 
-                this.heading = value;
+                heading = value;
             }
         }
 
@@ -131,14 +131,14 @@ namespace CommandLine.Text
         {
             get
             {
-                return this.copyright;
+                return copyright;
             }
 
             set
             {
                 if (value == null) throw new ArgumentNullException("value");
 
-                this.copyright = value;
+                copyright = value;
             }
         }
 
@@ -148,8 +148,8 @@ namespace CommandLine.Text
         /// <value>The maximum width of the display.</value>
         public int MaximumDisplayWidth
         {
-            get { return this.maximumDisplayWidth.HasValue ? this.maximumDisplayWidth.Value : DefaultMaximumLength; }
-            set { this.maximumDisplayWidth = value; }
+            get { return maximumDisplayWidth.HasValue ? maximumDisplayWidth.Value : DefaultMaximumLength; }
+            set { maximumDisplayWidth = value; }
         }
 
         /// <summary>
@@ -158,8 +158,8 @@ namespace CommandLine.Text
         /// </summary>
         public bool AddDashesToOption
         {
-            get { return this.addDashesToOption; }
-            set { this.addDashesToOption = value; }
+            get { return addDashesToOption; }
+            set { addDashesToOption = value; }
         }
 
         /// <summary>
@@ -167,8 +167,8 @@ namespace CommandLine.Text
         /// </summary>
         public bool AdditionalNewLineAfterOption
         {
-            get { return this.additionalNewLineAfterOption; }
-            set { this.additionalNewLineAfterOption = value; }
+            get { return additionalNewLineAfterOption; }
+            set { additionalNewLineAfterOption = value; }
         }
 
         /// <summary>
@@ -176,8 +176,8 @@ namespace CommandLine.Text
         /// </summary>
         public bool AddEnumValuesToHelpText
         {
-            get { return this.addEnumValuesToHelpText; }
-            set { this.addEnumValuesToHelpText = value; }
+            get { return addEnumValuesToHelpText; }
+            set { addEnumValuesToHelpText = value; }
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace CommandLine.Text
         /// </summary>
         public SentenceBuilder SentenceBuilder
         {
-            get { return this.sentenceBuilder; }
+            get { return sentenceBuilder; }
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace CommandLine.Text
             switch (parserResult.Tag)
             {
                 case ParserResultType.Options:
-                    return HelpText.AutoBuild(parserResult, current => HelpText.DefaultParsingErrorsHandler(parserResult, current));
+                    return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
 
                 case ParserResultType.Verbs:
                     var helpVerbErr = parserResult.Errors.OfType<HelpVerbRequestedError>();
@@ -265,10 +265,10 @@ namespace CommandLine.Text
                         if (err.Matched)
                         {
                             var pr = ParserResult.Create(ParserResultType.Options, Activator.CreateInstance(err.Type), Enumerable.Empty<Error>());
-                            return HelpText.AutoBuild(pr, current => HelpText.DefaultParsingErrorsHandler(pr, current));
+                            return AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current));
                         }
                     }
-                    return HelpText.AutoBuild(parserResult, current => HelpText.DefaultParsingErrorsHandler(parserResult, current), true);
+                    return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), true);
 
                 default:
                     throw new InvalidOperationException();
@@ -290,7 +290,7 @@ namespace CommandLine.Text
                 return current;
             }
 
-            var errors = HelpText.RenderParsingErrorsText(parserResult, current.SentenceBuilder.FormatError, 2); // indent with two spaces
+            var errors = RenderParsingErrorsText(parserResult, current.SentenceBuilder.FormatError, 2); // indent with two spaces
             if (string.IsNullOrEmpty(errors))
             {
                 return current;
@@ -323,7 +323,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="value"/> is null or empty string.</exception>
         public HelpText AddPreOptionsLine(string value)
         {
-            return this.AddPreOptionsLine(value, MaximumDisplayWidth);
+            return AddPreOptionsLine(value, MaximumDisplayWidth);
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="value"/> is null or empty string.</exception>
         public HelpText AddPostOptionsLine(string value)
         {
-            return this.AddLine(this.postOptionsHelp, value);
+            return AddLine(postOptionsHelp, value);
         }
 
         /// <summary>
@@ -343,9 +343,9 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>
         public HelpText AddOptions<T>(T options)
         {
-            if (object.Equals(options, default(T))) throw new ArgumentNullException("options");
+            if (Equals(options, default(T))) throw new ArgumentNullException("options");
 
-            return this.AddOptionsImpl(this.GetOptionListFromType(options), SentenceBuilder.RequiredWord(), MaximumDisplayWidth);
+            return AddOptionsImpl(GetOptionListFromType(options), SentenceBuilder.RequiredWord(), MaximumDisplayWidth);
         }
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace CommandLine.Text
             if (types == null) throw new ArgumentNullException("types");
             if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
-            return this.AddOptionsImpl(this.AdaptVerbListToOptionList(types), SentenceBuilder.RequiredWord(), MaximumDisplayWidth);
+            return AddOptionsImpl(AdaptVerbListToOptionList(types), SentenceBuilder.RequiredWord(), MaximumDisplayWidth);
         }
 
         /// <summary>
@@ -370,9 +370,9 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>    
         public HelpText AddOptions<T>(int maximumLength, T options)
         {
-            if (object.Equals(options, default(T))) throw new ArgumentNullException("options");
+            if (Equals(options, default(T))) throw new ArgumentNullException("options");
 
-            return this.AddOptionsImpl(this.GetOptionListFromType(options), SentenceBuilder.RequiredWord(), maximumLength);
+            return AddOptionsImpl(GetOptionListFromType(options), SentenceBuilder.RequiredWord(), maximumLength);
         }
 
         /// <summary>
@@ -387,7 +387,7 @@ namespace CommandLine.Text
             if (types == null) throw new ArgumentNullException("types");
             if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
-            return this.AddOptionsImpl(this.AdaptVerbListToOptionList(types), SentenceBuilder.RequiredWord(), maximumLength);
+            return AddOptionsImpl(AdaptVerbListToOptionList(types), SentenceBuilder.RequiredWord(), maximumLength);
         }
 
         /// <summary>
@@ -428,33 +428,33 @@ namespace CommandLine.Text
         public override string ToString()
         {
             const int ExtraLength = 10;
-            var builder = new StringBuilder(GetLength(this.heading) + GetLength(this.copyright) +
-                GetLength(this.preOptionsHelp) + GetLength(this.optionsHelp) + ExtraLength);
+            var builder = new StringBuilder(GetLength(heading) + GetLength(copyright) +
+                GetLength(preOptionsHelp) + GetLength(optionsHelp) + ExtraLength);
 
-            builder.Append(this.heading);
-            if (!string.IsNullOrEmpty(this.copyright))
+            builder.Append(heading);
+            if (!string.IsNullOrEmpty(copyright))
             {
                 builder.Append(Environment.NewLine);
-                builder.Append(this.copyright);
+                builder.Append(copyright);
             }
 
-            if (this.preOptionsHelp.Length > 0)
+            if (preOptionsHelp.Length > 0)
             {
                 builder.Append(Environment.NewLine);
-                builder.Append(this.preOptionsHelp);
+                builder.Append(preOptionsHelp);
             }
 
-            if (this.optionsHelp != null && this.optionsHelp.Length > 0)
+            if (optionsHelp != null && optionsHelp.Length > 0)
             {
                 builder.Append(Environment.NewLine);
                 builder.Append(Environment.NewLine);
-                builder.Append(this.optionsHelp);
+                builder.Append(optionsHelp);
             }
 
-            if (this.postOptionsHelp.Length > 0)
+            if (postOptionsHelp.Length > 0)
             {
                 builder.Append(Environment.NewLine);
-                builder.Append(this.postOptionsHelp);
+                builder.Append(postOptionsHelp);
             }
 
             return builder.ToString();
@@ -526,7 +526,7 @@ namespace CommandLine.Text
         {
              return options.GetType().GetSpecifications(pi => Specification.FromProperty(pi))
                 .OfType<OptionSpecification>()
-                .Concat(new[] { this.CreateHelpEntry() });
+                .Concat(new[] { CreateHelpEntry() });
         }
 
         private IEnumerable<OptionSpecification> AdaptVerbListToOptionList(IEnumerable<Type> types)
@@ -545,14 +545,14 @@ namespace CommandLine.Text
                        verbTuple.Item1.HelpText,
                        string.Empty,
                        new List<string>()))
-                    .Concat(new[] { this.CreateHelpEntry() });
+                    .Concat(new[] { CreateHelpEntry() });
         }
 
         private HelpText AddOptionsImpl(IEnumerable<OptionSpecification> optionList, string requiredWord, int maximumLength)
         {
             var maxLength = GetMaxLength(optionList);
 
-            this.optionsHelp = new StringBuilder(BuilderCapacity);
+            optionsHelp = new StringBuilder(BuilderCapacity);
 
             var remainingSpace = maximumLength - (maxLength + 6);
 
@@ -567,23 +567,23 @@ namespace CommandLine.Text
         private OptionSpecification CreateHelpEntry()
         {
             return new OptionSpecification(string.Empty, "help", false, string.Empty, -1, -1, '\0', Maybe.Nothing<object>(), typeof(bool),
-                this.sentenceBuilder.HelpCommandText(this.AddDashesToOption), string.Empty, new List<string>());
+                sentenceBuilder.HelpCommandText(AddDashesToOption), string.Empty, new List<string>());
         }
 
         private HelpText AddPreOptionsLine(string value, int maximumLength)
         {
-            AddLine(this.preOptionsHelp, value, maximumLength);
+            AddLine(preOptionsHelp, value, maximumLength);
 
             return this;
         }
 
         private HelpText AddOption(string requiredWord, int maxLength, OptionSpecification option, int widthOfHelpText)
         {
-            this.optionsHelp.Append("  ");
+            optionsHelp.Append("  ");
             var optionName = new StringBuilder(maxLength);
             if (option.ShortName.Length > 0)
             {
-                if (this.addDashesToOption)
+                if (addDashesToOption)
                 {
                     optionName.Append('-');
                 }
@@ -603,7 +603,7 @@ namespace CommandLine.Text
 
             if (option.LongName.Length > 0)
             {
-                if (this.addDashesToOption)
+                if (addDashesToOption)
                 {
                     optionName.Append("--");
                 }
@@ -616,14 +616,14 @@ namespace CommandLine.Text
                 }
             }
 
-            this.optionsHelp.Append(optionName.Length < maxLength ?
+            optionsHelp.Append(optionName.Length < maxLength ?
                 optionName.ToString().PadRight(maxLength) :
                 optionName.ToString());
 
-            this.optionsHelp.Append("    ");
+            optionsHelp.Append("    ");
             var optionHelpText = option.HelpText;
 
-            if (this.addEnumValuesToHelpText && option.EnumValues.Any())
+            if (addEnumValuesToHelpText && option.EnumValues.Any())
             {
                 optionHelpText += " Valid values: " + string.Join(", ", option.EnumValues);
             }
@@ -648,17 +648,17 @@ namespace CommandLine.Text
                     {
                         if (words[i].Length < (widthOfHelpText - wordBuffer))
                         {
-                            this.optionsHelp.Append(words[i]);
+                            optionsHelp.Append(words[i]);
                             wordBuffer += words[i].Length;
                             if ((widthOfHelpText - wordBuffer) > 1 && i != words.Length - 1)
                             {
-                                this.optionsHelp.Append(" ");
+                                optionsHelp.Append(" ");
                                 wordBuffer++;
                             }
                         }
                         else if (words[i].Length >= widthOfHelpText && wordBuffer == 0)
                         {
-                            this.optionsHelp.Append(words[i].Substring(0, widthOfHelpText));
+                            optionsHelp.Append(words[i].Substring(0, widthOfHelpText));
                             wordBuffer = widthOfHelpText;
                             break;
                         }
@@ -672,18 +672,18 @@ namespace CommandLine.Text
                         Math.Min(wordBuffer, optionHelpText.Length)).Trim();
                     if (optionHelpText.Length > 0)
                     {
-                        this.optionsHelp.Append(Environment.NewLine);
-                        this.optionsHelp.Append(new string(' ', maxLength + 6));
+                        optionsHelp.Append(Environment.NewLine);
+                        optionsHelp.Append(new string(' ', maxLength + 6));
                     }
                 }
                 while (optionHelpText.Length > widthOfHelpText);
             }
 
-            this.optionsHelp.Append(optionHelpText);
-            this.optionsHelp.Append(Environment.NewLine);
-            if (this.additionalNewLineAfterOption)
+            optionsHelp.Append(optionHelpText);
+            optionsHelp.Append(Environment.NewLine);
+            if (additionalNewLineAfterOption)
             {
-                this.optionsHelp.Append(Environment.NewLine);
+                optionsHelp.Append(Environment.NewLine);
             }
 
             return this;
@@ -713,7 +713,7 @@ namespace CommandLine.Text
                 if (hasShort)
                 {
                     ++optionLength;
-                    if (this.AddDashesToOption)
+                    if (AddDashesToOption)
                     {
                         ++optionLength;
                     }
@@ -724,7 +724,7 @@ namespace CommandLine.Text
                 if (hasLong)
                 {
                     optionLength += option.LongName.Length;
-                    if (this.AddDashesToOption)
+                    if (AddDashesToOption)
                     {
                         optionLength += 2;
                     }

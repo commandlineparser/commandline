@@ -82,14 +82,14 @@ namespace CommandLine.Text
         /// <returns>The <see cref="System.String"/> that contains the heading.</returns>
         public override string ToString()
         {
-            bool isVersionNull = string.IsNullOrEmpty(this.version);
-            var builder = new StringBuilder(this.programName.Length +
-                (!isVersionNull ? this.version.Length + 1 : 0));
-            builder.Append(this.programName);
+            bool isVersionNull = string.IsNullOrEmpty(version);
+            var builder = new StringBuilder(programName.Length +
+                (!isVersionNull ? version.Length + 1 : 0));
+            builder.Append(programName);
             if (!isVersionNull)
             {
                 builder.Append(' ');
-                builder.Append(this.version);
+                builder.Append(version);
             }
 
             return builder.ToString();
@@ -108,8 +108,8 @@ namespace CommandLine.Text
             if (string.IsNullOrWhiteSpace("message")) throw new ArgumentException("message");
             if (writer == null) throw new ArgumentNullException("writer");
 
-            var builder = new StringBuilder(this.programName.Length + message.Length + 2);
-            builder.Append(this.programName);
+            var builder = new StringBuilder(programName.Length + message.Length + 2);
+            builder.Append(programName);
             builder.Append(": ");
             builder.Append(message);
             writer.WriteLine(builder.ToString());

@@ -175,7 +175,7 @@ namespace CommandLine.Tests.Unit.Text
                 .AddPostOptionsLine("Before 0123456789012345678901234567890123456789 After");
 
             // Verify outcome
-            var lines = sut.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+            var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             lines[1].Should().Be("Before ");
             lines[2].Should().Be("0123456789012345678901234567890123456789");
             lines[3].Should().Be("012 After");
@@ -204,7 +204,7 @@ namespace CommandLine.Tests.Unit.Text
                         new NoVerbSelectedError(),
                         new BadVerbSelectedError("badverb"),
                         new HelpRequestedError(), // should be ignored
-                        new HelpVerbRequestedError(null, null, false), // should be ignored 
+                        new HelpVerbRequestedError(null, null, false) // should be ignored 
                     },
                 Maybe.Nothing<IEnumerable<Type>>());
             Func<Error, string> fakeRenderer = err =>

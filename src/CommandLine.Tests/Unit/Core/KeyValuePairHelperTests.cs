@@ -1,13 +1,9 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommandLine.Core;
 using Xunit;
-using FluentAssertions;
 
 namespace CommandLine.Tests.Unit.Core
 {
@@ -28,7 +24,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             var expected = new[]
                 {
-                    new KeyValuePair<string, IEnumerable<string>>("seq", new[] {"seq0", "seq1", "seq2"}),   
+                    new KeyValuePair<string, IEnumerable<string>>("seq", new[] {"seq0", "seq1", "seq2"})
                 };
 
             var result = KeyValuePairHelper.ForSequence(new []

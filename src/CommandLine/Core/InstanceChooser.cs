@@ -16,7 +16,7 @@ namespace CommandLine.Core
             StringComparer nameComparer,
             CultureInfo parsingCulture)
         {
-            return InstanceChooser.Choose(
+            return Choose(
                 (args, optionSpecs) => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer)),
                 types,
                 arguments,

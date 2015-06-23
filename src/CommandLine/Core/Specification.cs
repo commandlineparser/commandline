@@ -24,9 +24,9 @@ namespace CommandLine.Core
         /// <summary>
         /// This information is denormalized to decouple Specification from PropertyInfo.
         /// </summary>
-        private readonly System.Type conversionType;
+        private readonly Type conversionType;
 
-        protected Specification(SpecificationType tag, bool required, int min, int max, Maybe<object> defaultValue, System.Type conversionType)
+        protected Specification(SpecificationType tag, bool required, int min, int max, Maybe<object> defaultValue, Type conversionType)
         {
             this.tag = tag;
             this.required = required;
@@ -39,22 +39,22 @@ namespace CommandLine.Core
 
         public SpecificationType Tag 
         {
-            get { return this.tag; }
+            get { return tag; }
         }
 
         public bool Required
         {
-            get { return this.required; }
+            get { return required; }
         }
 
         public int Min
         {
-            get { return this.min; }
+            get { return min; }
         }
 
         public int Max
         {
-            get { return this.max; }
+            get { return max; }
         }
 
         //public string Separator
@@ -64,12 +64,12 @@ namespace CommandLine.Core
 
         public Maybe<object> DefaultValue
         {
-            get { return this.defaultValue; }
+            get { return defaultValue; }
         }
 
-        public System.Type ConversionType
+        public Type ConversionType
         {
-            get { return this.conversionType; }
+            get { return conversionType; }
         }
 
         public static Specification FromProperty(PropertyInfo property)

@@ -40,7 +40,7 @@ namespace CommandLine.Tests.Unit.Core
             Assert.NotNull(result.Value.Single(
                 a => a.Specification.IsOption()
                 && ((OptionSpecification)a.Specification).ShortName.Equals("x")
-                && (bool)((Just<object>)a.Value).Value == true));
+                && (bool)((Just<object>)a.Value).Value));
 
             // Teardown
         }

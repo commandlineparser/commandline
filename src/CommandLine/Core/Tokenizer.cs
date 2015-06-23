@@ -18,7 +18,7 @@ namespace CommandLine.Core
 
             var tokens = (from arg in arguments
                           from token in !arg.StartsWith("-", StringComparison.Ordinal)
-                               ? new Token[] { Token.Value(arg) }
+                               ? new[] { Token.Value(arg) }
                                : arg.StartsWith("--", StringComparison.Ordinal)
                                      ? TokenizeLongName(arg, onError)
                                      : TokenizeShortName(arg, nameLookup)

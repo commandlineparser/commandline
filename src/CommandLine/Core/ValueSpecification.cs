@@ -27,7 +27,7 @@ namespace CommandLine.Core
 
         public int Index
         {
-            get { return this.index; }
+            get { return index; }
         }
     }
 }
