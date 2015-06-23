@@ -524,7 +524,7 @@ namespace CommandLine.Text
 
         private IEnumerable<OptionSpecification> GetOptionListFromType<T>(T options)
         {
-             return options.GetType().GetSpecifications(pi => Specification.FromProperty(pi))
+             return options.GetType().GetSpecifications(Specification.FromProperty)
                 .OfType<OptionSpecification>()
                 .Concat(new[] { CreateHelpEntry() });
         }

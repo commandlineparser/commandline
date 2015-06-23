@@ -19,23 +19,12 @@ namespace CommandLine.Text
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HeadingInfo"/> class
-        /// specifying program name.
-        /// </summary>
-        /// <param name="programName">The name of the program.</param>
-        /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="programName"/> is null or empty string.</exception>
-        public HeadingInfo(string programName)
-            : this(programName, null)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommandLine.Text.HeadingInfo"/> class
         /// specifying program name and version.
         /// </summary>
         /// <param name="programName">The name of the program.</param>
         /// <param name="version">The version of the program.</param>
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="programName"/> is null or empty string.</exception>
-        public HeadingInfo(string programName, string version)
+        public HeadingInfo(string programName, string version = null)
         {
             if (string.IsNullOrWhiteSpace("programName")) throw new ArgumentException("programName");
 

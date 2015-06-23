@@ -14,7 +14,7 @@ namespace CommandLine.Core
             Func<string, bool> nameLookup)
         {
             var errors = new List<Error>();
-            Action<Error> onError = e => errors.Add(e);
+            Action<Error> onError = errors.Add;
 
             var tokens = (from arg in arguments
                           from token in !arg.StartsWith("-", StringComparison.Ordinal)
@@ -36,7 +36,7 @@ namespace CommandLine.Core
             if (arguments.Any(arg => arg.EqualsOrdinal("--")))
             {
                 var tokenizerResult = tokenizer(arguments.TakeWhile(arg => !arg.EqualsOrdinal("--")));
-                var values = arguments.SkipWhile(arg => !arg.EqualsOrdinal("--")).Skip(1).Select(t => Token.Value(t));
+                var values = arguments.SkipWhile(arg => !arg.EqualsOrdinal("--")).Skip(1).Select(Token.Value);
                 return tokenizerResult.MapValue(tokens => tokens.Concat(values));
             }
             return tokenizer(arguments);
@@ -53,7 +53,7 @@ namespace CommandLine.Core
 
             var exploded = tokens.Value.Select((t, i) =>
                         replaces.FirstOrDefault(x => x.Item1 == i).ToMaybe()
-                            .Return(r => t.Text.Split(r.Item2).Select(str => Token.Value(str)),
+                            .Return(r => t.Text.Split(r.Item2).Select(Token.Value),
                                 Enumerable.Empty<Token>().Concat(new[]{ t })));
 
             var flattened = exploded.SelectMany(x => x);
