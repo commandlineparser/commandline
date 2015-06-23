@@ -80,6 +80,7 @@
     <Compile Include="Fakes\FakeOptionsWithEnum.cs" />
     <Compile Include="Fakes\FakeOptionsWithMetaValue.cs" />
     <Compile Include="Fakes\FakeOptionsWithScalarValueAndSequenceStringAdjacent.cs" />
+    <Compile Include="Fakes\FakeOptionsWithSequenceMinMaxEqual.cs" />
     <Compile Include="Fakes\FakeOptionsWithSequenceAndOnlyMaxConstraint.cs" />
     <Compile Include="Fakes\FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue.cs" />
     <Compile Include="Fakes\FakeOptionsWithSequenceAndOnlyMinConstraintAsValue.cs" />

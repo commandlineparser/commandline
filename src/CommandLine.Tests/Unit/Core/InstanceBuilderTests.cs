@@ -691,6 +691,25 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Fact]
+        public void Breaking_equal_min_max_constraint_in_string_sequence_as_value_gererates_SequenceOutOfRangeError()
+        {
+            // Fixture setup
+            var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithSequenceMinMaxEqual(),
+                new[] { "one", "two", "this-is-too-much" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.True(expectedResult.SequenceEqual(result.Errors));
+
+            // Teardown
+        }
+
         [Theory]
         [MemberData("RequiredValueStringData")]
         public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionsWithRequiredValue expected)
