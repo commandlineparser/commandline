@@ -41,6 +41,17 @@ namespace CommandLine.Core
                 yield break;
             }
 
+            var next = specProps.Skip(1).FirstOrDefault(s => s.Specification.IsValue()).ToMaybe();
+            if (!pt.Specification.IsMaxNotSpecified()
+                && next.IsNothing()
+                && values.Skip(taken.Count()).Any())
+            {
+                yield return
+                    Tuple.Create<SpecificationProperty, Maybe<Error>>(
+                        pt, Maybe.Just<Error>(new SequenceOutOfRangeError(NameInfo.EmptyName)));
+                yield break;
+            }
+
             yield return
                 converter(taken, pt.Property.PropertyType, pt.Specification.ConversionType.IsScalar())
                     .Return(
