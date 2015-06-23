@@ -17,7 +17,7 @@ namespace CommandLine
     {
         private bool disposed;
         private readonly ParserSettings settings;
-        private static readonly Lazy<Parser> @default = new Lazy<Parser>(
+        private static readonly Lazy<Parser> DefaultParser = new Lazy<Parser>(
             () => new Parser(new ParserSettings{ HelpWriter = Console.Error }));
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace CommandLine
         /// </summary>
         public static Parser Default
         {
-            get { return @default.Value; }
+            get { return DefaultParser.Value; }
         }
 
         /// <summary>
