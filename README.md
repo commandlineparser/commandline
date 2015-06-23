@@ -117,10 +117,11 @@ Latest Changes:
   - `Sequence.Partition()` rewritten.
   - Refactoring for Increase Testability.
   - Little change to allow .NET 4.5 build.
-  - Better GetHashCode() implementations.
+  - Better `GetHashCode()` implementations.
   - Internal refactorings.
   - New tests added.
   - Fixing FAKE build script.
+  - Issue #172 fixed (`Max` constraint when `Min=Max`).
 
 Contacts:
 ---
