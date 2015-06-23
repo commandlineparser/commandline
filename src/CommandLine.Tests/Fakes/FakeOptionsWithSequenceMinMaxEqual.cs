@@ -10,6 +10,6 @@ namespace CommandLine.Tests.Fakes
     class FakeOptionsWithSequenceMinMaxEqual
     {
         [Value(0, Min=2, Max=2)]
-        public IEnumerable<int> StringSequence { get; set; }
+        public IEnumerable<string> StringSequence { get; set; }
     }
 }
