@@ -34,25 +34,6 @@ namespace CommandLine.Infrastructure
             }
         }
 
-        //public static IEnumerable<TSource> TakeUntil<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
-        //{
-        //    if (source == null) throw new ArgumentNullException("source");
-        //    if (predicate == null) throw new ArgumentNullException("predicate");
-        //    return TakeUntilImpl(source, predicate);
-        //}
-
-        //private static IEnumerable<TSource> TakeUntilImpl<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
-        //{
-        //    foreach (var item in source)
-        //    {
-        //        yield return item;
-        //        if (predicate(item))
-        //        {
-        //            yield break;
-        //        }
-        //    }
-        //}
-
         public static int IndexOf<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
             var index = -1;
