@@ -67,7 +67,7 @@ namespace CommandLine.Infrastructure
             return index;
         }
 
-        public static IEnumerable<T> ToEnumerable<T>(this List<T> value)
+        public static IEnumerable<T> ToEnumerable<T>(this IEnumerable<T> value)
         {
             return value;
         }

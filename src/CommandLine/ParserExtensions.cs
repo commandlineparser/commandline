@@ -1,11 +1,12 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 
 namespace CommandLine
 {
     /// <summary>
-    /// Defines generic overloads for <see cref="CommandLine.Parser.ParseArguments(string[],Type[])"/>.
+    /// Defines generic overloads for <see cref="CommandLine.Parser.ParseArguments(IEnumerable&lt;string&gt;,Type[])"/>.
     /// </summary>
     public static class ParserExtensions
     {
@@ -22,7 +23,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -43,7 +44,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -65,7 +66,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -88,7 +89,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -112,7 +113,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -137,7 +138,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -163,7 +164,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -190,7 +191,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -219,7 +220,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -249,7 +250,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -280,7 +281,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -312,7 +313,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -345,7 +346,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -379,7 +380,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 
@@ -414,7 +415,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <remarks>All types must expose a parameterless constructor.</remarks>
-        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(this Parser parser, string[] args)
+        public static ParserResult<object> ParseArguments<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(this Parser parser, IEnumerable<string> args)
         {
             if (parser == null) throw new ArgumentNullException("parser");
 

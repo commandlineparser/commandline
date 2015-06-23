@@ -82,7 +82,7 @@ namespace CommandLine
         /// <returns>A <see cref="CommandLine.ParserResult{T}"/> containing an instance of type <typeparamref name="T"/> with parsed values
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
-        public ParserResult<T> ParseArguments<T>(string[] args)
+        public ParserResult<T> ParseArguments<T>(IEnumerable<string> args)
             where T : new()
         {
             if (args == null) throw new ArgumentNullException("args");
@@ -100,7 +100,7 @@ namespace CommandLine
         /// <returns>A <see cref="CommandLine.ParserResult{T}"/> containing an instance of type <typeparamref name="T"/> with parsed values
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
-        public ParserResult<T> ParseArguments<T>(Func<T> factory, string[] args)
+        public ParserResult<T> ParseArguments<T>(Func<T> factory, IEnumerable<string> args)
         {
             if (factory == null) throw new ArgumentNullException("factory");
             if (args == null) throw new ArgumentNullException("args");
@@ -127,7 +127,7 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown if <paramref name="types"/> array is empty.</exception>
         /// <remarks>All types must expose a parameterless constructor. It's stronly recommended to use a generic overload.</remarks>
-        public ParserResult<object> ParseArguments(string[] args, params Type[] types)
+        public ParserResult<object> ParseArguments(IEnumerable<string> args, params Type[] types)
         {
             if (args == null) throw new ArgumentNullException("args");
             if (types == null) throw new ArgumentNullException("types");
