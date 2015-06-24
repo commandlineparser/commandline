@@ -1,6 +1,6 @@
 Command Line Parser Library 2.0.6.0 pre-release for CLR.
 ===
-The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic.
+The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user. Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic. It's written in **C#** and doesn't depend on other packages.
 __This library provides _hassle free_ command line parsing with a constantly updated API since 2005.__
 
 Compatibility:
@@ -20,7 +20,7 @@ At glance:
   - [stable only] __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
   - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Verb-Commands) as ``git commit -a``.
   - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
-  - F#-friendly, see [demo](https://github.com/gsscoder/commandline/tree/master/fsxdemo).
+  - F#-friendly, see [demo](https://github.com/gsscoder/commandline/blob/master/demo/fsharp-demo.fsx).
 
 To install:
 ---
