@@ -122,6 +122,7 @@ Latest Changes:
   - New tests added.
   - Fixing FAKE build script.
   - Issue #172 fixed (`Max` constraint when `Min=Max`).
+  - Merged PR #171 from @mizipzor.
 
 Contacts:
 ---
