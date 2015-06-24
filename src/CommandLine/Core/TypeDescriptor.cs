@@ -26,12 +26,12 @@ namespace CommandLine.Core
 
         public TypeDescriptorKind Tag
         {
-            get { return this.tag; }
+            get { return tag; }
         }
 
         public Maybe<int> MaximumItems
         {
-            get { return this.maximumItems; }
+            get { return maximumItems; }
         }
 
         public static TypeDescriptor Create(TypeDescriptorKind tag, Maybe<int> maximumItems)

@@ -28,17 +28,17 @@ namespace CommandLine.Core
 
         public Specification Specification
         {
-            get { return this.specification; }
+            get { return specification; }
         }
 
         public PropertyInfo Property
         {
-            get { return this.property; }
+            get { return property; }
         }
 
         public Maybe<object> Value
         {
-            get { return this.value; }
+            get { return value; }
         }
     }
 }

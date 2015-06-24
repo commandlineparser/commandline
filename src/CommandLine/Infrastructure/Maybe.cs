@@ -21,20 +21,20 @@ namespace CommandLine.Infrastructure
 
         public MaybeType Tag
         {
-            get { return this.tag; }
+            get { return tag; }
         }
 
         public bool MatchNothing()
         {
-            return this.Tag == MaybeType.Nothing;
+            return Tag == MaybeType.Nothing;
         }
 
         public bool MatchJust(out T value)
         {
-            value = this.Tag == MaybeType.Just
+            value = Tag == MaybeType.Just
                 ? ((Just<T>)this).Value
                 : default(T);
-            return this.Tag == MaybeType.Just;
+            return Tag == MaybeType.Just;
         }
     }
 
@@ -55,10 +55,7 @@ namespace CommandLine.Infrastructure
 
         public T Value
         {
-            get
-            {
-                return this.value;
-            }
+            get { return value; }
         }
     }
 
@@ -82,7 +79,7 @@ namespace CommandLine.Infrastructure
         /// </summary>
         public static Maybe<T> ToMaybe<T>(this T value)
         {
-            return object.Equals(value, default(T)) ? Maybe.Nothing<T>() : Maybe.Just(value);
+            return Equals(value, default(T)) ? Maybe.Nothing<T>() : Maybe.Just(value);
         }
 
         public static Maybe<T2> Bind<T1, T2>(this Maybe<T1> maybe, Func<T1, Maybe<T2>> func)

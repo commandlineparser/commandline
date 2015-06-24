@@ -8,7 +8,6 @@ using CommandLine.Core;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
 using Xunit;
-using Xunit.Extensions;
 
 namespace CommandLine.Tests.Unit.Core
 {

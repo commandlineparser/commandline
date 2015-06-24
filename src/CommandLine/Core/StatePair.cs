@@ -19,12 +19,12 @@ namespace CommandLine.Core
 
         public T Value
         {
-            get { return this.value; }
+            get { return value; }
         }
 
         public IEnumerable<Error> Errors
         {
-            get { return this.errors; }
+            get { return errors; }
         }
 
         public override bool Equals(object obj)
@@ -32,7 +32,7 @@ namespace CommandLine.Core
             var other = obj as StatePair<T>;
             if (other != null)
             {
-                return this.Equals(other);
+                return Equals(other);
             }
 
             return base.Equals(obj);
@@ -40,7 +40,7 @@ namespace CommandLine.Core
 
         public override int GetHashCode()
         {
-            return new {this.Value, this.Errors}.GetHashCode();
+            return new {Value, Errors}.GetHashCode();
         }
 
         public bool Equals(StatePair<T> other)
@@ -50,7 +50,7 @@ namespace CommandLine.Core
                 return false;
             }
 
-            return this.Value.Equals(other.Value) && this.Errors.SequenceEqual(other.Errors);
+            return Value.Equals(other.Value) && Errors.SequenceEqual(other.Errors);
         }
     }
 
@@ -58,7 +58,7 @@ namespace CommandLine.Core
     {
         public static StatePair<T> Create<T>(T value, IEnumerable<Error> errors)
         {
-            if (object.Equals(value, default(T))) throw new ArgumentNullException("value");
+            if (Equals(value, default(T))) throw new ArgumentNullException("value");
             if (errors == null) throw new ArgumentNullException("errors");
 
             return new StatePair<T>(value, errors);

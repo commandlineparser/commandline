@@ -66,7 +66,7 @@ namespace CommandLine.Text
             this.isSymbolUpper = isSymbolUpper;
             this.author = author;
             this.copyrightYears = copyrightYears;
-            this.builderSize = 12 + author.Length + (4 * copyrightYears.Length) + ExtraLength;
+            builderSize = 12 + author.Length + (4 * copyrightYears.Length) + ExtraLength;
         }
 
         /// <summary>
@@ -137,19 +137,19 @@ namespace CommandLine.Text
         /// <returns>The <see cref="System.String"/> that contains the copyright.</returns>
         public override string ToString()
         {
-            if (this.attribute != null)
+            if (attribute != null)
             {
-                return this.attribute.Copyright;
+                return attribute.Copyright;
             }
 
-            var builder = new StringBuilder(this.builderSize);
+            var builder = new StringBuilder(builderSize);
             builder.Append(CopyrightWord);
             builder.Append(' ');
-            builder.Append(this.isSymbolUpper ? SymbolUpper : SymbolLower);
+            builder.Append(isSymbolUpper ? SymbolUpper : SymbolLower);
             builder.Append(' ');
-            builder.Append(FormatYears(this.copyrightYears));
+            builder.Append(FormatYears(copyrightYears));
             builder.Append(' ');
-            builder.Append(this.author);
+            builder.Append(author);
             return builder.ToString();
         }
 

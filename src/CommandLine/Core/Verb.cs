@@ -22,12 +22,12 @@ namespace CommandLine.Core
 
         public string Name
         {
-            get { return this.name; }
+            get { return name; }
         }
 
         public string HelpText
         {
-            get { return this.helpText; }
+            get { return helpText; }
         }
 
         public static Verb FromAttribute(VerbAttribute attribute)
@@ -44,7 +44,7 @@ namespace CommandLine.Core
                    let attrs = type.GetCustomAttributes(typeof(VerbAttribute), true)
                    where attrs.Length == 1
                    select Tuple.Create(
-                       Verb.FromAttribute((VerbAttribute)attrs.Single()),
+                       FromAttribute((VerbAttribute)attrs.Single()),
                        type);
         }
     }

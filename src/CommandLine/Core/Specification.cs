@@ -19,57 +19,50 @@ namespace CommandLine.Core
         private readonly bool required;
         private readonly int min;
         private readonly int max;
-        //private readonly string separator;
         private readonly Maybe<object> defaultValue;
         /// <summary>
         /// This information is denormalized to decouple Specification from PropertyInfo.
         /// </summary>
-        private readonly System.Type conversionType;
+        private readonly Type conversionType;
 
-        protected Specification(SpecificationType tag, bool required, int min, int max, Maybe<object> defaultValue, System.Type conversionType)
+        protected Specification(SpecificationType tag, bool required, int min, int max, Maybe<object> defaultValue, Type conversionType)
         {
             this.tag = tag;
             this.required = required;
             this.min = min;
             this.max = max;
-            //this.separator = separator;
             this.defaultValue = defaultValue;
             this.conversionType = conversionType;
         }
 
         public SpecificationType Tag 
         {
-            get { return this.tag; }
+            get { return tag; }
         }
 
         public bool Required
         {
-            get { return this.required; }
+            get { return required; }
         }
 
         public int Min
         {
-            get { return this.min; }
+            get { return min; }
         }
 
         public int Max
         {
-            get { return this.max; }
+            get { return max; }
         }
-
-        //public string Separator
-        //{
-        //    get { return this.separator; }
-        //}
 
         public Maybe<object> DefaultValue
         {
-            get { return this.defaultValue; }
+            get { return defaultValue; }
         }
 
-        public System.Type ConversionType
+        public Type ConversionType
         {
-            get { return this.conversionType; }
+            get { return conversionType; }
         }
 
         public static Specification FromProperty(PropertyInfo property)

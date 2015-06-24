@@ -13,7 +13,6 @@ namespace CommandLine
         private readonly int index;
         private int min;
         private int max;
-        //private string separator;
         private object defaultValue;
 
         /// <summary>
@@ -22,8 +21,8 @@ namespace CommandLine
         public ValueAttribute(int index)
         {
             this.index = index;
-            this.min = -1;
-            this.max = -1;
+            min = -1;
+            max = -1;
             //this.separator = string.Empty;
         }
 
@@ -32,7 +31,7 @@ namespace CommandLine
         /// </summary>
         public int Index
         {
-            get { return this.index; }
+            get { return index; }
         }
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace CommandLine
         /// <remarks>If not set, no lower range is enforced.</remarks>
         public int Min
         {
-            get { return this.min; }
+            get { return min; }
             set
             {
                 if (value < 0)
@@ -58,23 +57,9 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.min = value;
+                min = value;
             }
         }
-
-        //public string Separator
-        //{
-        //    get { return this.separator; }
-        //    set
-        //    {
-        //        if (value == null)
-        //        {
-        //            throw new ArgumentNullException("value");
-        //        }
-
-        //        this.separator = value;
-        //    }
-        //}
 
         /// <summary>
         /// When applied to <see cref="System.Collections.Generic.IEnumerable{T}"/> properties defines
@@ -83,7 +68,7 @@ namespace CommandLine
         /// <remarks>If not set, no upper range is enforced.</remarks>
         public int Max
         {
-            get { return this.max; }
+            get { return max; }
             set
             {
                 if (value < 0)
@@ -91,7 +76,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.max = value;
+                max = value;
             }
         }
 
@@ -100,7 +85,7 @@ namespace CommandLine
         /// </summary>
         public object DefaultValue
         {
-            get { return this.defaultValue; }
+            get { return defaultValue; }
             set
             {
                 if (value == null)
@@ -108,7 +93,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.defaultValue = value;
+                defaultValue = value;
             }
         }
     }

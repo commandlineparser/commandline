@@ -12,7 +12,7 @@ namespace CommandLine.Core
         public static StatePair<IEnumerable<SpecificationProperty>> MapValues(
             IEnumerable<SpecificationProperty> specProps,
             IEnumerable<string> values,
-            Func<IEnumerable<string>, System.Type, bool, Maybe<object>> converter)
+            Func<IEnumerable<string>, Type, bool, Maybe<object>> converter)
         {
             var propAndErrors = MapValuesImpl(specProps, values, converter);
 
@@ -26,7 +26,7 @@ namespace CommandLine.Core
         private static IEnumerable<Tuple<SpecificationProperty, Maybe<Error>>> MapValuesImpl(
             IEnumerable<SpecificationProperty> specProps,
             IEnumerable<string> values,
-            Func<IEnumerable<string>, System.Type, bool, Maybe<object>> converter)
+            Func<IEnumerable<string>, Type, bool, Maybe<object>> converter)
         {
             if (specProps.Empty()) // || values.Empty())
             {

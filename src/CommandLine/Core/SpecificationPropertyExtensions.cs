@@ -23,7 +23,7 @@ namespace CommandLine.Core
             return SpecificationProperty.Create(specProp.Specification, specProp.Property, newValue);
         }
 
-        public static System.Type GetConversionType(this SpecificationProperty specProp)
+        public static Type GetConversionType(this SpecificationProperty specProp)
         {
             switch (specProp.Specification.ConversionType.ToDescriptorKind())
             {

@@ -28,12 +28,12 @@ namespace CommandLine
 
             this.shortName = shortName;
             this.longName = longName;
-            this.setName = string.Empty;
-            this.min = -1;
-            this.max = -1;
-            this.separator = '\0';
-            this.helpText = string.Empty;
-            this.metaValue = string.Empty;
+            setName = string.Empty;
+            min = -1;
+            max = -1;
+            separator = '\0';
+            helpText = string.Empty;
+            metaValue = string.Empty;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace CommandLine
         /// </summary>
         public string LongName
         {
-            get { return this.longName; }
+            get { return longName; }
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace CommandLine
         /// </summary>
         public string ShortName
         {
-            get { return this.shortName; }
+            get { return shortName; }
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace CommandLine
         /// </summary>
         public string SetName
         {
-            get { return this.setName; }
+            get { return setName; }
             set
             {
                 if (value == null)
@@ -107,7 +107,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.setName = value;
+                setName = value;
             }
         }
 
@@ -118,7 +118,7 @@ namespace CommandLine
         /// <remarks>If not set, no lower range is enforced.</remarks>
         public int Min
         {
-            get { return this.min; }
+            get { return min; }
             set
             {
                 if (value < 0)
@@ -126,7 +126,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.min = value;
+                min = value;
             }
         }
 
@@ -137,7 +137,7 @@ namespace CommandLine
         /// <remarks>If not set, no upper range is enforced.</remarks>
         public int Max
         {
-            get { return this.max; }
+            get { return max; }
             set
             {
                 if (value < 0)
@@ -145,7 +145,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.max = value;
+                max = value;
             }
         }
 
@@ -155,8 +155,8 @@ namespace CommandLine
         /// </summary>
         public char Separator
         {
-            get { return this.separator.Value ; }
-            set { this.separator = value; }
+            get { return separator.Value ; }
+            set { separator = value; }
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace CommandLine
         /// </summary>
         public object DefaultValue
         {
-            get { return this.defaultValue; }
+            get { return defaultValue; }
             set
             {
                 if (value == null)
@@ -172,7 +172,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.defaultValue = value;
+                defaultValue = value;
             }
         }
 
@@ -181,7 +181,7 @@ namespace CommandLine
         /// </summary>
         public string HelpText
         {
-            get { return this.helpText; }
+            get { return helpText; }
             set
             {
                 if (value == null)
@@ -189,7 +189,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.helpText = value;
+                helpText = value;
             }
         }
 
@@ -198,7 +198,7 @@ namespace CommandLine
         /// </summary>
         public string MetaValue
         {
-            get { return this.metaValue; }
+            get { return metaValue; }
             set
             {
                 if (value == null)
@@ -206,7 +206,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.metaValue = value;
+                metaValue = value;
             }
         }
     }

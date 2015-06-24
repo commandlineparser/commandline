@@ -29,12 +29,12 @@ namespace CommandLine.Core
 
         public TokenType Tag
         {
-            get { return this.tag; }
+            get { return tag; }
         }
 
         public string Text
         {
-            get { return this.text; }
+            get { return text; }
         }
 
         public override bool Equals(object obj)
@@ -42,7 +42,7 @@ namespace CommandLine.Core
             var other = obj as Token;
             if (other != null)
             {
-                return this.Equals(other);
+                return Equals(other);
             }
 
             return base.Equals(obj);
@@ -50,7 +50,7 @@ namespace CommandLine.Core
 
         public override int GetHashCode()
         {
-            return new {this.Tag, this.Text}.GetHashCode();
+            return new {Tag, Text}.GetHashCode();
         }
 
         public bool Equals(Token other)
@@ -60,7 +60,7 @@ namespace CommandLine.Core
                 return false;
             }
 
-            return this.Tag.Equals(other.Tag) && this.Text.Equals(other.Text);
+            return Tag.Equals(other.Tag) && Text.Equals(other.Text);
         }
     }
 

@@ -27,7 +27,7 @@ namespace CommandLine.Core
             this.enumValues = enumValues;
         }
 
-        public static OptionSpecification FromAttribute(OptionAttribute attribute, System.Type conversionType, System.Collections.Generic.IEnumerable<string> enumValues)
+        public static OptionSpecification FromAttribute(OptionAttribute attribute, System.Type conversionType, IEnumerable<string> enumValues)
         {
             return new OptionSpecification(
                 attribute.ShortName,
@@ -46,37 +46,37 @@ namespace CommandLine.Core
 
         public string ShortName
         {
-            get { return this.shortName; }
+            get { return shortName; }
         }
 
         public string LongName
         {
-            get { return this.longName; }
+            get { return longName; }
         }
 
         public char Separator
         {
-            get { return this.separator; }
+            get { return separator; }
         }
 
         public string SetName
         {
-            get { return this.setName; }
+            get { return setName; }
         }
 
         public string HelpText
         {
-            get { return this.helpText; }
+            get { return helpText; }
         }
 
         public string MetaValue
         {
-            get { return this.metaValue; }
+            get { return metaValue; }
         }
 
         public IEnumerable<string> EnumValues
         {
-            get { return this.enumValues; }
+            get { return enumValues; }
         }
     }
 }

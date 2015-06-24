@@ -14,7 +14,7 @@ namespace CommandLine.Core
                 MapValues(
                     IEnumerable<SpecificationProperty> propertyTuples,
                     IEnumerable<KeyValuePair<string, IEnumerable<string>>> options,
-                    Func<IEnumerable<string>, System.Type, bool, Maybe<object>> converter,
+                    Func<IEnumerable<string>, Type, bool, Maybe<object>> converter,
                     StringComparer comparer)
         {
             var sequencesAndErrors = propertyTuples

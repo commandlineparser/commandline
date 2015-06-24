@@ -17,7 +17,7 @@ namespace CommandLine.Core
                 : ChangeType(values, conversionType, conversionCulture);
         }
 
-        private static Maybe<object> ChangeType(IEnumerable<string> values, System.Type conversionType, CultureInfo conversionCulture)
+        private static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, CultureInfo conversionCulture)
         {
             var type =
                 conversionType.GetGenericArguments()

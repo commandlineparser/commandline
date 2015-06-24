@@ -22,17 +22,17 @@ namespace CommandLine.Core
 
         public IEnumerable<KeyValuePair<string, IEnumerable<string>>> Options
         {
-            get { return this.options; }
+            get { return options; }
         }
 
         public IEnumerable<string> Values
         {
-            get { return this.values; }
+            get { return values; }
         }
 
         public IEnumerable<Token> Errors
         {
-            get { return this.errors; }
+            get { return errors; }
         }
 
         public static TokenPartitions Create(
