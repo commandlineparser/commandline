@@ -37,12 +37,18 @@ namespace CommandLine.Core
         {
             try
             {
+                Func<object> safeChangeType = () =>
+                    {
+                        var t = Nullable.GetUnderlyingType(conversionType) ?? conversionType;
+                        return (value == null) ? null : Convert.ChangeType(value, t, conversionCulture);
+                    };
+
                 return Maybe.Just(
                     MatchBoolString(value)
                         ? ConvertBoolString(value)
                         : conversionType.IsEnum
                             ? ConvertEnumString(value, conversionType)
-                            : Convert.ChangeType(value, conversionType, conversionCulture));
+                            : safeChangeType());
             }
             catch (InvalidCastException)
             {
