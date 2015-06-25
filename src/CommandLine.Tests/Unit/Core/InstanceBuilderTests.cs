@@ -710,6 +710,28 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new[] { "-i", "10" }, 10)]
+        [InlineData(new string[] { }, null)]
+        [InlineData(new[] { "-i9999" }, 9999)]
+        [InlineData(new[] { "--nullable-int=-1" }, -1)]
+        public void Parse_nullable_int(string[] arguments, int? expected)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithNullables(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expected.ShouldBeEquivalentTo(result.Value.NullableInt);
+
+            // Teardown
+        }
+
+        [Theory]
         [MemberData("RequiredValueStringData")]
         public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionsWithRequiredValue expected)
         {
@@ -743,25 +765,6 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(result.Value);
-
-            // Teardown
-        }
-
-        [Theory]
-        [InlineData(new [] { "-i", "10" }, 10)]
-        public void Parse_nullable_int(string[] arguments, int? expected)
-        {
-            // Fixture setup in attributes
-
-            // Exercize system 
-            var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithNullables(),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
-
-            // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value.NullableInt);
 
             // Teardown
         }
