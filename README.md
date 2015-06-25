@@ -1,4 +1,4 @@
-Command Line Parser Library 2.0.6.0 pre-release for CLR.
+Command Line Parser Library 2.0.7.0 pre-release for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user.
 
@@ -126,6 +126,7 @@ Latest Changes:
   - Fixing FAKE build script.
   - Issue #172 fixed (`Max` constraint when `Min=Max`).
   - Merged PR #171 from @mizipzor.
+  - Issue #155 Fixed (fix from @guyzeug).
 
 Contacts:
 ---
