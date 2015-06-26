@@ -7,6 +7,9 @@ using System.Linq;
 using CommandLine.Core;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
+
+using Microsoft.FSharp.Core;
+
 using Xunit;
 
 namespace CommandLine.Tests.Unit.Core
@@ -749,6 +752,26 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(result.Value.NullableLong);
+
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(new[] { "--filename", "log-20150626.txt" }, "log-20150626.txt", true)]
+        public void Parse_fsharp_option_string(string[] arguments, string expectedValue, bool expectedSome)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithFSharpOption(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedValue.ShouldBeEquivalentTo(result.Value.FileName.Value);
+            expectedSome.ShouldBeEquivalentTo(FSharpOption<string>.get_IsSome(result.Value.FileName));
 
             // Teardown
         }
