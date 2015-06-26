@@ -11,7 +11,7 @@ namespace CommandLine.Infrastructure
     {
         private readonly Type fsharpOptionType;
 
-        private FSharpOptionHelper()
+        internal FSharpOptionHelper()
         {
             Assembly fsharpCoreAssembly;
             try
@@ -27,7 +27,7 @@ namespace CommandLine.Infrastructure
             }
         }
 
-        private bool Available
+        internal bool Available
         {
             get { return fsharpOptionType != null; }
         }
