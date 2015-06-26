@@ -39,14 +39,26 @@ namespace CommandLine.Core
             {
                 Func<object> safeChangeType = () =>
                     {
-                        Type t;
-                        if (!ReflectionHelper.IsFSharpOptionType(conversionType))
-                        {
-                            t = Nullable.GetUnderlyingType(conversionType) ?? conversionType;
-                            return (value == null) ? null : Convert.ChangeType(value, t, conversionCulture);
-                        }
-                        t = FSharpOptionHelper.GetUnderlyingType(conversionType);
-                        return (value == null) ? FSharpOptionHelper.None(t) : FSharpOptionHelper.Some(t, Convert.ChangeType(value, t, conversionCulture));
+                        var isFsOption = ReflectionHelper.IsFSharpOptionType(conversionType);
+
+                        Func<Type> getUnderlyingType = () =>
+                            isFsOption
+                                ? FSharpOptionHelper.GetUnderlyingType(conversionType)
+                                : Nullable.GetUnderlyingType(conversionType);
+
+                        var type = getUnderlyingType() ?? conversionType;
+
+                        Func<object> withValue = () =>
+                            isFsOption
+                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(value, type, conversionCulture))
+                                : Convert.ChangeType(value, type, conversionCulture);
+
+                        Func<object> empty = () =>
+                            isFsOption
+                                ? FSharpOptionHelper.None(type)
+                                : null;
+
+                        return (value == null) ? empty() : withValue();
                     };
 
                 return Maybe.Just(
