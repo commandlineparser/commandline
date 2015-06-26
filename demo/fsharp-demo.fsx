@@ -7,7 +7,7 @@ type options() =
     let mutable stringValue = ""
     let mutable intSequence = Seq.empty<int>
     let mutable boolValue = false
-    let mutable longValue = 0L
+    let mutable longValue : int64 option = None
 
     [<Option(HelpText = "Define a string value here.")>]
     member this.StringValue with get() = stringValue and set(value) = stringValue <- value
@@ -21,8 +21,13 @@ type options() =
     [<Value(0)>]
     member this.LongValue with get() = longValue and set(value) = longValue <- value
 
+let longOrZero o =
+  match o with
+    | Some(v) -> v
+    | _ -> 0L
+
 let reportInput (o : options)  =
-    sprintf "--stringvalue: %s\n -i: %A\n -x: %b\n value: %u\n" o.StringValue (Array.ofSeq o.IntSequence) o.BoolValue o.LongValue
+    sprintf "--stringvalue: %s\n -i: %A\n -x: %b\n value: %u\n" o.StringValue (Array.ofSeq o.IntSequence) o.BoolValue (longOrZero o.LongValue)
 
 let args = fsi.CommandLineArgs.[1..]
 let parsed = Parser.Default.ParseArguments<options>(args)
