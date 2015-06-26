@@ -9,12 +9,6 @@ namespace CommandLine.Infrastructure
 {
     class FSharpOptionHelper
     {
-        public static bool MatchType(Type type)
-        {
-            return type.FullName.StartsWith(
-                "Microsoft.FSharp.Core.FSharpOption`1", StringComparison.Ordinal);
-        }
-
 
     }
 }

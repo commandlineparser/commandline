@@ -17,7 +17,7 @@ namespace CommandLine.Tests.Unit.Infrastructure
         {
             var prop = typeof(FakeOptionsWithFSharpOption).GetProperty("FileName", BindingFlags.Public | BindingFlags.Instance);
 
-            FSharpOptionHelper.MatchType(prop.PropertyType).Should().BeTrue();
+            ReflectionHelper.IsFSharpOptionType(prop.PropertyType).Should().BeTrue();
         }
     }
 }

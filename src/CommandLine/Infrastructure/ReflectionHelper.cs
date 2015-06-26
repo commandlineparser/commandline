@@ -29,5 +29,11 @@ namespace CommandLine.Infrastructure
             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
             return assembly.GetName().Version.ToStringInvariant();
         }
+
+        public static bool IsFSharpOptionType(Type type)
+        {
+            return type.FullName.StartsWith(
+                "Microsoft.FSharp.Core.FSharpOption`1", StringComparison.Ordinal);
+        }
     }
 }
