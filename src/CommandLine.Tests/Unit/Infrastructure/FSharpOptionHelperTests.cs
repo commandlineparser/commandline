@@ -19,5 +19,13 @@ namespace CommandLine.Tests.Unit.Infrastructure
 
             ReflectionHelper.IsFSharpOptionType(prop.PropertyType).Should().BeTrue();
         }
+
+        [Fact]
+        public void Get_underlying_type()
+        {
+            var prop = typeof(FakeOptionsWithFSharpOption).GetProperty("FileName", BindingFlags.Public | BindingFlags.Instance);
+
+            var expected = FSharpOptionHelper.GetUnderlyingType(prop.PropertyType);
+        }
     }
 }
