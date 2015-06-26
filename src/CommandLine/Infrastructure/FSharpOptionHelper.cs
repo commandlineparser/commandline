@@ -21,7 +21,7 @@ namespace CommandLine.Infrastructure
                 BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
                 null,
                 null,
-                new object[] { value });
+                new [] { value });
         }
 
         public static object None(Type type)
@@ -31,10 +31,10 @@ namespace CommandLine.Infrastructure
 
             return typedType.InvokeMember(
                 "None",
-                BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
+                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static,
                 null,
                 null,
-                new object[] { });
+                new object[] {});
         }
     }
 }

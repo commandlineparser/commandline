@@ -1,10 +1,9 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System.Reflection;
-
 using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
-
+using Microsoft.FSharp.Core;
 using FluentAssertions;
 using Xunit;
 
@@ -15,17 +14,37 @@ namespace CommandLine.Tests.Unit.Infrastructure
         [Fact]
         public void Match_type_returns_true_if_FSharpOption()
         {
-            var prop = typeof(FakeOptionsWithFSharpOption).GetProperty("FileName", BindingFlags.Public | BindingFlags.Instance);
-
-            ReflectionHelper.IsFSharpOptionType(prop.PropertyType).Should().BeTrue();
+            ReflectionHelper.IsFSharpOptionType(TestData.PropertyType)
+                .Should().BeTrue();
         }
 
         [Fact]
         public void Get_underlying_type()
         {
-            var prop = typeof(FakeOptionsWithFSharpOption).GetProperty("FileName", BindingFlags.Public | BindingFlags.Instance);
+            FSharpOptionHelper.GetUnderlyingType(TestData.PropertyType).FullName
+                .ShouldBeEquivalentTo("System.String");
+        }
 
-            var expected = FSharpOptionHelper.GetUnderlyingType(prop.PropertyType);
+        [Fact]
+        public void Create_some()
+        {
+            var expected = FSharpOptionHelper.Some(FSharpOptionHelper.GetUnderlyingType(TestData.PropertyType), "with data");
+
+            expected.Should().BeOfType<FSharpOption<string>>();
+            FSharpOption<string>.get_IsSome((FSharpOption<string>)expected).Should().BeTrue();
+        }
+
+        [Fact]
+        public void Create_none()
+        {
+            var expected = FSharpOptionHelper.None(FSharpOptionHelper.GetUnderlyingType(TestData.PropertyType));
+
+            FSharpOption<string>.get_IsNone((FSharpOption<string>)expected).Should().BeTrue();
+        }
+
+        private PropertyInfo TestData
+        {
+            get { return typeof(FakeOptionsWithFSharpOption).GetProperty("FileName", BindingFlags.Public | BindingFlags.Instance); }
         }
     }
 }
