@@ -1,17 +1,23 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
+using System.Reflection;
+
 using CommandLine.Infrastructure;
+using CommandLine.Tests.Fakes;
+
 using FluentAssertions;
 using Xunit;
 
 namespace CommandLine.Tests.Unit.Infrastructure
 {
-    class FSharpOptionHelperTests
+    public class FSharpOptionHelperTests
     {
         [Fact]
-        public void FSharpCore_loaded_when_present()
+        public void Match_type_returns_true_if_FSharpOption()
         {
-            new FSharpOptionHelper().Available.Should().BeTrue();
+            var prop = typeof(FakeOptionsWithFSharpOption).GetProperty("FileName", BindingFlags.Public | BindingFlags.Instance);
+
+            FSharpOptionHelper.MatchType(prop.PropertyType).Should().BeTrue();
         }
     }
 }

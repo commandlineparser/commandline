@@ -9,36 +9,12 @@ namespace CommandLine.Infrastructure
 {
     class FSharpOptionHelper
     {
-        private readonly Type fsharpOptionType;
-
-        internal FSharpOptionHelper()
+        public static bool MatchType(Type type)
         {
-            Assembly fsharpCoreAssembly;
-            try
-            {
-                fsharpCoreAssembly =
-                    Assembly.Load(Path.Combine(Assembly.GetCallingAssembly().Location, "FSharp.Core.dll"));
-            }
-            catch (FileNotFoundException) { fsharpCoreAssembly = null; }
-            catch (FileLoadException)  { fsharpCoreAssembly = null; }
-            if (fsharpCoreAssembly != null)
-            {
-                fsharpOptionType = fsharpCoreAssembly.GetType("FSharpOption`1", false);
-            }
+            return type.FullName.StartsWith(
+                "Microsoft.FSharp.Core.FSharpOption`1", StringComparison.Ordinal);
         }
 
-        internal bool Available
-        {
-            get { return fsharpOptionType != null; }
-        }
 
-        public bool MatchType(Type type)
-        {
-            if (!Available)
-            {
-                throw new InvalidOperationException();
-            }
-            return type.IsAssignableFrom(fsharpOptionType);
-        }
     }
 }
