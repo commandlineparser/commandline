@@ -1,4 +1,4 @@
-﻿#r "CommandLine.dll"
+﻿#r "./../src/CommandLine/bin/Debug/CommandLine.dll"
 
 open System
 open CommandLine
@@ -24,9 +24,9 @@ type options() =
 let reportInput (o : options)  =
     sprintf "--stringvalue: %s\n -i: %A\n -x: %b\n value: %u\n" o.StringValue (Array.ofSeq o.IntSequence) o.BoolValue o.LongValue
 
-let args = Array.ofSeq(Seq.skip 1 (Seq.ofArray fsi.CommandLineArgs))
+let args = fsi.CommandLineArgs.[1..]
 let parsed = Parser.Default.ParseArguments<options>(args)
 
-if Seq.isEmpty parsed.Errors 
+if Seq.isEmpty parsed.Errors
 then Console.WriteLine(reportInput parsed.Value)
 else printf "Invalid: %A\n" args
