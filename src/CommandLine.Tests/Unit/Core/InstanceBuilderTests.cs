@@ -756,6 +756,7 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [InlineData(new[] { "--filename", "log-20150626.txt" }, "log-20150626.txt", true)]
+        [InlineData(new string[] { }, null, false)]
         public void Parse_fsharp_option_string(string[] arguments, string expectedValue, bool expectedSome)
         {
             // Fixture setup in attributes
@@ -768,8 +769,35 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedValue.ShouldBeEquivalentTo(result.Value.FileName.Value);
+            if (result.Value.FileName != null)
+            {
+                expectedValue.ShouldBeEquivalentTo(result.Value.FileName.Value);
+            }
             expectedSome.ShouldBeEquivalentTo(FSharpOption<string>.get_IsSome(result.Value.FileName));
+
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(new[] { "1234567" }, 1234567, true)]
+        [InlineData(new string[] { }, default(int), false)]
+        public void Parse_fsharp_option_int(string[] arguments, int expectedValue, bool expectedSome)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithFSharpOption(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            if (result.Value.Offset != null)
+            {
+                expectedValue.ShouldBeEquivalentTo(result.Value.Offset.Value);
+            }
+            expectedSome.ShouldBeEquivalentTo(FSharpOption<int>.get_IsSome(result.Value.Offset));
 
             // Teardown
         }
