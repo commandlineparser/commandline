@@ -97,6 +97,7 @@
     <Compile Include="Fakes\FakeOptionsWithSequence.cs" />
     <Compile Include="Fakes\FakeOptionsWithSequenceAndSeparator.cs" />
     <Compile Include="Fakes\FakeOptionsWithSequenceWithoutRange.cs" />
+    <Compile Include="Fakes\FakeOptionsWithNamedAndEmptySets.cs" />
     <Compile Include="Fakes\FakeOptionsWithSets.cs" />
     <Compile Include="Fakes\FakeOptionsWithValues.cs" />
     <Compile Include="Fakes\FakeOptions.cs" />
