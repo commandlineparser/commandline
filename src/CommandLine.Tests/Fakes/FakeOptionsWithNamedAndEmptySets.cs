@@ -16,5 +16,10 @@ namespace CommandLine.Tests.Fakes
         [Option(SetName = "ftp")]
         public int MaxFiles { get; set; }
 
+        [Option]
+        public bool Verbose { get; set; }
+
+        [Option]
+        public bool Interactive { get; set; }
     }
 }
