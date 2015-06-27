@@ -53,7 +53,7 @@ class Options {
     HelpText = "Input files to be processed.")]
   public IEnumerable<string> InputFiles { get; set; }
     
-  // omitting long name, default --verbose
+  // Omitting long name, default --verbose
   [Option(
     HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
