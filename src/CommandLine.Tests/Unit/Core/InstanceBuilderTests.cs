@@ -846,6 +846,20 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new [] {"--weburl", "value.com", "--verbose"}, 0)]
+        public void Empty_set_options_allowed_with_mutually_exclusive_sets(string[] arguments, int expected)
+        {
+            var result = InstanceBuilder.Build(
+                () => new FakeOptionsWithNamedAndEmptySets(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            result.Errors.Should().HaveCount(x => x == expected);
+        }
+
+        [Theory]
         [MemberData("RequiredValueStringData")]
         public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionsWithRequiredValue expected)
         {
