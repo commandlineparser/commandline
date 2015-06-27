@@ -806,12 +806,42 @@ namespace CommandLine.Tests.Unit.Core
         [Fact]
         public void Min_constraint_set_to_zero_throws_exception()
         {
+            // Exercize system 
             Action test = () => InstanceBuilder.Build(
                 () => new FakeOptionsWithMinZero(),
                 new string[] {},
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
+            // Verify outcome
+            Assert.Throws<ApplicationException>(test);
+        }
+
+        [Fact]
+        public void Max_constraint_set_to_zero_throws_exception()
+        {
+            // Exercize system 
+            Action test = () => InstanceBuilder.Build(
+                () => new FakeOptionsWithMaxZero(),
+                new string[] { },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.Throws<ApplicationException>(test);
+        }
+
+        [Fact]
+        public void Min_and_max_constraint_set_to_zero_throws_exception()
+        {
+            // Exercize system 
+            Action test = () => InstanceBuilder.Build(
+                () => new FakeOptionsWithMinMaxZero(),
+                new string[] { },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
             Assert.Throws<ApplicationException>(test);
         }
 
