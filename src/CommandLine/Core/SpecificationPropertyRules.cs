@@ -20,7 +20,9 @@ namespace CommandLine.Core
         {
             return specProps =>
                 {
-                    var options = specProps.Where(sp => sp.Specification.IsOption() && sp.Value.IsJust());
+                    var options = specProps.Where(sp => sp.Specification.IsOption()
+                        && sp.Value.IsJust()
+                        && sp.Specification.GetSetName().Length > 0);
                     var groups = options.GroupBy(g => ((OptionSpecification)g.Specification).SetName);
                     if (groups.Count() > 1)
                     {
