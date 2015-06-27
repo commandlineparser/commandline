@@ -1,4 +1,4 @@
-Command Line Parser Library 2.0.8.0 pre-release for CLR.
+Command Line Parser Library 2.0.9.0 alpha for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user.
 
@@ -128,6 +128,7 @@ Latest Changes:
   - Merged PR #171 from @mizipzor.
   - Issue #155 Fixed (fix from @guyzeug).
   - Added support for `FSharpOption<T>` (if not used no need to distribute `FSharp.Core.dll`).
+  - Disallowed `Min=Max=0` for sequences, raising exception.
 
 Contacts:
 ---
