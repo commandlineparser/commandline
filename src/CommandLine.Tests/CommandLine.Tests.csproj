@@ -83,7 +83,9 @@
     <Compile Include="Fakes\FakeOptionsWithHelpTextEnum.cs" />
     <Compile Include="Fakes\FakeOptionsWithDouble.cs" />
     <Compile Include="Fakes\FakeOptionsWithEnum.cs" />
+    <Compile Include="Fakes\FakeOptionsWithMinMaxZero.cs" />
     <Compile Include="Fakes\FakeOptionsWithMetaValue.cs" />
+    <Compile Include="Fakes\FakeOptionsWithMaxZero.cs" />
     <Compile Include="Fakes\FakeOptionsWithMinZero.cs" />
     <Compile Include="Fakes\FakeOptionsWithNullables.cs" />
     <Compile Include="Fakes\FakeOptionsWithScalarValueAndSequenceStringAdjacent.cs" />
