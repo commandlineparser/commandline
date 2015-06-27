@@ -7,6 +7,6 @@ namespace CommandLine.Tests.Fakes
     class FakeOptionsWithMinZero
     {
         [Option(Min=0)]
-        public IEnumerable<int> BadIntSequnce { get; set; }
+        public IEnumerable<int> BadIntSequence { get; set; }
     }
 }

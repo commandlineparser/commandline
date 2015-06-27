@@ -802,6 +802,19 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+    
+        [Fact]
+        public void Min_constraint_set_to_zero_throws_exception()
+        {
+            Action test = () => InstanceBuilder.Build(
+                () => new FakeOptionsWithMinZero(),
+                new string[] {},
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            Assert.Throws<ApplicationException>(test);
+        }
+
         [Theory]
         [MemberData("RequiredValueStringData")]
         public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionsWithRequiredValue expected)
