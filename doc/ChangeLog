@@ -1,6 +1,7 @@
 2015-06-27    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Disallowed Min=Max=0 for sequences, raising exception.
+  * Issue #177 Fixed.
 
 2015-06-26    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
