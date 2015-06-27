@@ -846,7 +846,11 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
-        [InlineData(new [] {"--weburl", "value.com", "--verbose"}, 0)]
+        [InlineData(new[] {"--weburl", "value.com", "--verbose"}, 0)]
+        [InlineData(new[] { "--ftpurl", "value.org", "--interactive" }, 0)]
+        [InlineData(new[] { "--weburl", "value.com", "--verbose", "--interactive" }, 0)]
+        [InlineData(new[] { "--ftpurl=fvalue", "--weburl=wvalue" }, 2)]
+        [InlineData(new[] { "--interactive", "--weburl=wvalue", "--verbose", "--ftpurl=wvalue" }, 2)]
         public void Empty_set_options_allowed_with_mutually_exclusive_sets(string[] arguments, int expected)
         {
             var result = InstanceBuilder.Build(
