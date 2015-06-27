@@ -54,12 +54,13 @@ class Options {
   public IEnumerable<string> InputFiles { get; set; }
     
   // omitting long name, default --verbose
-  [Option(DefaultValue = true,
+  [Option(
     HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
 
-  [Value(0)]
-  public int Offset { get; set;}
+  [Value(0,
+    DefaultValue = 12)]
+  public long Offset { get; set;}
   }
 }
 ```
