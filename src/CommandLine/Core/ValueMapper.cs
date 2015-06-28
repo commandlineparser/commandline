@@ -65,6 +65,29 @@ namespace CommandLine.Core
             }
         }
 
+        private static Maybe<int> CountOfMaxNumberOfValues(this Specification specification)
+        {
+            switch (specification.ConversionType.ToDescriptorKind())
+            {
+                case TypeDescriptorKind.Scalar:
+                    return Maybe.Just(1);
+                case TypeDescriptorKind.Sequence:
+                    int min;
+                    int max;
+                    if (specification.Min.MatchJust(out min)
+                        && specification.Max.MatchJust(out max))
+                    {
+                        if (min >= 0 && max >= 0)
+                        {
+                            return Maybe.Just(max);
+                        }
+                    }
+                    break;
+            }
+
+            return Maybe.Nothing<int>();
+        }
+
         private static Maybe<Error> MakeErrorInCaseOfMinConstraint(Specification specification)
         {
             return specification.Min.IsJust()
