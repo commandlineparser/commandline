@@ -77,12 +77,5 @@ namespace CommandLine.Core
         {
             return specification.Max == -1;
         }
-
-        //public static string GetSetName(this Specification specification)
-        //{
-        //    return specification.IsOption()
-        //        ? ((OptionSpecification)specification).SetName
-        //        : string.Empty;
-        //}
     }
 }
