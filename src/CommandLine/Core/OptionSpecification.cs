@@ -1,5 +1,6 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using CommandLine.Infrastructure;
 
@@ -15,8 +16,10 @@ namespace CommandLine.Core
         private readonly string metaValue;
         private readonly IEnumerable<string> enumValues;
 
-        public OptionSpecification(string shortName, string longName, bool required, string setName, Maybe<int> min, Maybe<int> max, char separator, Maybe<object> defaultValue, System.Type conversionType, string helpText, string metaValue, IEnumerable<string> enumValues)
-            : base(SpecificationType.Option, required, min, max, defaultValue, conversionType)
+        public OptionSpecification(string shortName, string longName, bool required, string setName, Maybe<int> min, Maybe<int> max,
+            char separator, Maybe<object> defaultValue, Type conversionType, TargetType targetType,
+            string helpText, string metaValue, IEnumerable<string> enumValues)
+            : base(SpecificationType.Option, required, min, max, defaultValue, conversionType, targetType)
         {
             this.shortName = shortName;
             this.longName = longName;
@@ -39,6 +42,7 @@ namespace CommandLine.Core
                 attribute.Separator,
                 attribute.DefaultValue.ToMaybe(),
                 conversionType,
+                conversionType.ToTargetType(),
                 attribute.HelpText,
                 attribute.MetaValue,
                 enumValues);

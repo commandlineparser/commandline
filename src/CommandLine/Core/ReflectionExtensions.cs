@@ -31,6 +31,17 @@ namespace CommandLine.Core
                                    : TypeDescriptorKind.Scalar;
         }
 
+        public static TargetType ToTargetType(this Type type)
+        {
+            return type == typeof(bool)
+                       ? TargetType.Boolean
+                       : type == typeof(string)
+                             ? TargetType.Scalar
+                             : type.IsArray || typeof(IEnumerable).IsAssignableFrom(type)
+                                   ? TargetType.Sequence
+                                   : TargetType.Scalar;
+        }
+
         public static bool IsScalar(this Type type)
         {
             return type == typeof(string) || !type.IsArray && !typeof(IEnumerable).IsAssignableFrom(type);

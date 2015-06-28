@@ -30,6 +30,7 @@ namespace CommandLine.Core
                 specification.Separator,
                 specification.DefaultValue,
                 specification.ConversionType,
+                specification.TargetType,
                 specification.HelpText,
                 specification.MetaValue,
                 specification.EnumValues);

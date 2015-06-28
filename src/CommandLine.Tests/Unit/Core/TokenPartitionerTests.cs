@@ -21,8 +21,8 @@ namespace CommandLine.Tests.Unit.Core
                 };
             var specs =new[]
                 {
-                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', null, typeof(string), string.Empty, string.Empty, new List<string>()),
-                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Just(3), Maybe.Just(4), '\0', null, typeof(IEnumerable<int>), string.Empty, string.Empty, new List<string>())
+                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', null, typeof(string), TargetType.Scalar, string.Empty, string.Empty, new List<string>()),
+                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Just(3), Maybe.Just(4), '\0', null, typeof(IEnumerable<int>), TargetType.Sequence, string.Empty, string.Empty, new List<string>())
                 };
 
             // Exercize system 
@@ -47,8 +47,8 @@ namespace CommandLine.Tests.Unit.Core
                 };
             var specs =new[]
                 {
-                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', null, typeof(string), string.Empty, string.Empty, new List<string>()),
-                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Just(3), Maybe.Just(4), '\0', null, typeof(IEnumerable<int>), string.Empty, string.Empty, new List<string>())
+                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', null, typeof(string), TargetType.Scalar, string.Empty, string.Empty, new List<string>()),
+                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Just(3), Maybe.Just(4), '\0', null, typeof(IEnumerable<int>), TargetType.Sequence, string.Empty, string.Empty, new List<string>())
                 };
 
             // Exercize system 

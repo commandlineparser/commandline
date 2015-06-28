@@ -13,6 +13,13 @@ namespace CommandLine.Core
         Value
     }
 
+    internal enum TargetType
+    {
+        Boolean,
+        Scalar,
+        Sequence
+    }
+
     internal abstract class Specification
     {
         private readonly SpecificationType tag;
@@ -24,8 +31,10 @@ namespace CommandLine.Core
         /// This information is denormalized to decouple Specification from PropertyInfo.
         /// </summary>
         private readonly Type conversionType;
+        private readonly TargetType targetType;
 
-        protected Specification(SpecificationType tag, bool required, Maybe<int> min, Maybe<int> max, Maybe<object> defaultValue, Type conversionType)
+        protected Specification(SpecificationType tag, bool required, Maybe<int> min, Maybe<int> max,
+            Maybe<object> defaultValue, Type conversionType, TargetType targetType)
         {
             this.tag = tag;
             this.required = required;
@@ -33,6 +42,7 @@ namespace CommandLine.Core
             this.max = max;
             this.defaultValue = defaultValue;
             this.conversionType = conversionType;
+            this.targetType = targetType;
         }
 
         public SpecificationType Tag 
@@ -63,6 +73,11 @@ namespace CommandLine.Core
         public Type ConversionType
         {
             get { return conversionType; }
+        }
+
+        public TargetType TargetType
+        {
+            get { return targetType; }
         }
 
         public static Specification FromProperty(PropertyInfo property)
