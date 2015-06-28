@@ -15,7 +15,7 @@ namespace CommandLine.Core
 
     internal enum TargetType
     {
-        Boolean,
+        Switch,
         Scalar,
         Sequence
     }

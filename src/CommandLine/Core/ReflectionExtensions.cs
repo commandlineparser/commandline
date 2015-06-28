@@ -23,7 +23,7 @@ namespace CommandLine.Core
         public static TargetType ToTargetType(this Type type)
         {
             return type == typeof(bool)
-                       ? TargetType.Boolean
+                       ? TargetType.Switch
                        : type == typeof(string)
                              ? TargetType.Scalar
                              : type.IsArray || typeof(IEnumerable).IsAssignableFrom(type)
