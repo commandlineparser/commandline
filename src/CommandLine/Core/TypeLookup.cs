@@ -21,16 +21,5 @@ namespace CommandLine.Core
                         s => TypeDescriptor.Create(s.TargetType, s.Max));
             return info;
         }
-
-        //private static TypeDescriptorKind ToDescriptorKind(this Type type)
-        //{
-        //    return type == typeof(bool)
-        //               ? TypeDescriptorKind.Boolean
-        //               : type == typeof(string)
-        //                     ? TypeDescriptorKind.Scalar
-        //                     : type.IsArray || typeof(IEnumerable).IsAssignableFrom(type)
-        //                           ? TypeDescriptorKind.Sequence
-        //                           : TypeDescriptorKind.Scalar;
-        //}
     }
 }
