@@ -28,12 +28,12 @@ namespace CommandLine.Core
             IEnumerable<string> values,
             Func<IEnumerable<string>, Type, bool, Maybe<object>> converter)
         {
-            if (specProps.Empty()) // || values.Empty())
+            if (specProps.Empty())
             {
                 yield break;
             }
             var pt = specProps.First();
-            var taken = values.Take(pt.Specification.GetMaxValueCount().Return(n => n, values.Count()));
+            var taken = values.Take(pt.Specification.CountOfMaxNumberOfValues().Return(n => n, values.Count()));
             if (taken.Empty())
             {
                 yield return

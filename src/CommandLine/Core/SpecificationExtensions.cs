@@ -49,7 +49,7 @@ namespace CommandLine.Core
             return specifications;
         }
 
-        public static Maybe<int> GetMaxValueCount(this Specification specification)
+        public static Maybe<int> CountOfMaxNumberOfValues(this Specification specification)
         {
             switch (specification.ConversionType.ToDescriptorKind())
             {
