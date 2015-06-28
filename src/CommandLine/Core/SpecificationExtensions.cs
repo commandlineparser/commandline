@@ -72,7 +72,7 @@ namespace CommandLine.Core
             return Maybe.Nothing<int>();
         }
 
-        public static bool WithRange(this Specification specification, Func<int, int, bool> predicate)
+        public static bool HavingRange(this Specification specification, Func<int, int, bool> predicate)
         {
             int min;
             int max;
@@ -83,7 +83,7 @@ namespace CommandLine.Core
             return false;
         }
 
-        public static bool WithMin(this Specification specification, Func<int, bool> predicate)
+        public static bool HavingMin(this Specification specification, Func<int, bool> predicate)
         {
             int min;
             if (specification.Min.MatchJust(out min))
@@ -93,7 +93,7 @@ namespace CommandLine.Core
             return false;
         }
 
-        public static bool WithMax(this Specification specification, Func<int, bool> predicate)
+        public static bool HavingMax(this Specification specification, Func<int, bool> predicate)
         {
             int max;
             if (specification.Max.MatchJust(out max))
