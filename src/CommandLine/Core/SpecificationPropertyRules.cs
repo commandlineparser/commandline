@@ -20,13 +20,17 @@ namespace CommandLine.Core
         {
             return specProps =>
                 {
-                    var options = specProps.Where(sp => sp.Specification.IsOption()
-                        && sp.Value.IsJust()
-                        && sp.Specification.GetSetName().Length > 0);
+                    var options = specProps
+                            .Where(sp => sp.Specification.IsOption())
+                            .Where(sp => ((OptionSpecification)sp.Specification).SetName.Length > 0
+                                   && sp.Value.IsJust()
+                                   && sp.Specification.GetSetName().Length > 0);
                     var groups = options.GroupBy(g => ((OptionSpecification)g.Specification).SetName);
                     if (groups.Count() > 1)
                     {
-                        return options.Select(s => Maybe.Just<Error>(new MutuallyExclusiveSetError(NameInfo.FromOptionSpecification((OptionSpecification)s.Specification))));
+                        return options.Select(s => Maybe.Just<Error>(
+                            new MutuallyExclusiveSetError(
+                                NameInfo.FromOptionSpecification((OptionSpecification)s.Specification))));
                     }
                     return Enumerable.Empty<Nothing<Error>>();
                 };
