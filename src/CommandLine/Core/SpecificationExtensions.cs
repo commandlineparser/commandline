@@ -102,15 +102,5 @@ namespace CommandLine.Core
             }
             return false;
         }
-
-        //public static bool IsMinNotSpecified(this Specification specification)
-        //{
-        //    return specification.Min == -1;
-        //}
-
-        //public static bool IsMaxNotSpecified(this Specification specification)
-        //{
-        //    return specification.Max == -1;
-        //}
     }
 }
