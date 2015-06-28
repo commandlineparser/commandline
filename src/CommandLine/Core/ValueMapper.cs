@@ -72,15 +72,9 @@ namespace CommandLine.Core
                 case TypeDescriptorKind.Scalar:
                     return Maybe.Just(1);
                 case TypeDescriptorKind.Sequence:
-                    int min;
-                    int max;
-                    if (specification.Min.MatchJust(out min)
-                        && specification.Max.MatchJust(out max))
+                    if (specification.Max.IsJust())
                     {
-                        if (min >= 0 && max >= 0)
-                        {
-                            return Maybe.Just(max);
-                        }
+                        return Maybe.Just(specification.Max.FromJust());
                     }
                     break;
             }
