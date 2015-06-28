@@ -25,12 +25,12 @@ namespace CommandLine.Core
         /// </summary>
         private readonly Type conversionType;
 
-        protected Specification(SpecificationType tag, bool required, int min, int max, Maybe<object> defaultValue, Type conversionType)
+        protected Specification(SpecificationType tag, bool required, Maybe<int> min, Maybe<int> max, Maybe<object> defaultValue, Type conversionType)
         {
             this.tag = tag;
             this.required = required;
-            this.min = min == -1 ? Maybe.Nothing<int>() : Maybe.Just(min);
-            this.max = max == -1 ? Maybe.Nothing<int>() : Maybe.Just(max);
+            this.min = min;
+            this.max = max;
             this.defaultValue = defaultValue;
             this.conversionType = conversionType;
         }

@@ -8,7 +8,7 @@ namespace CommandLine.Core
     {
         private readonly int index;
 
-        public ValueSpecification(int index, bool required, int min, int max, Maybe<object> defaultValue, System.Type conversionType)
+        public ValueSpecification(int index, bool required, Maybe<int> min, Maybe<int> max, Maybe<object> defaultValue, System.Type conversionType)
             : base(SpecificationType.Value, required, min, max, defaultValue, conversionType)
         {
             this.index = index;
@@ -19,8 +19,8 @@ namespace CommandLine.Core
             return new ValueSpecification(
                 attribute.Index,
                 attribute.Required,
-                attribute.Min,
-                attribute.Max,
+                attribute.Min == -1 ? Maybe.Nothing<int>() : Maybe.Just(attribute.Min),
+                attribute.Max == -1 ? Maybe.Nothing<int>() : Maybe.Just(attribute.Max),
                 attribute.DefaultValue.ToMaybe(),
                 conversionType);
         }
