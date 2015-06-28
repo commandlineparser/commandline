@@ -41,13 +41,21 @@ namespace CommandLine.Core
             return specProps =>
             {
                 List<string> setsWithTrue =
-                    specProps.Where(sp => sp.Specification.IsOption() && sp.Value.IsJust() && sp.Specification.Required)
-                        .Select(x => x.Specification.GetSetName()).ToList();
+                    specProps
+                        .Where(sp => sp.Specification.IsOption()
+                            && sp.Value.IsJust() && sp.Specification.Required)
+                        .Select(s => ((OptionSpecification)s.Specification).SetName).ToList();
                 
                 var requiredButEmpty =
-                    specProps.Where(sp => sp.Value.IsNothing() && 
-                                          sp.Specification.Required &&
-                                          !setsWithTrue.Contains(sp.Specification.GetSetName())).ToList();
+                    specProps
+                        .Where(sp => sp.Specification.IsOption())
+                        .Where(sp => sp.Value.IsNothing()
+                            && sp.Specification.Required
+                            && !setsWithTrue.Contains(((OptionSpecification)sp.Specification).SetName))
+                    .Concat(specProps
+                        .Where(sp => sp.Specification.IsValue()
+                            && sp.Value.IsNothing()
+                            && sp.Specification.Required)).ToList();
                     if (requiredButEmpty.Any()) {
                         return requiredButEmpty.Select(s => Maybe.Just<Error>(new MissingRequiredOptionError(
                             NameInfo.FromSpecification(s.Specification))));
