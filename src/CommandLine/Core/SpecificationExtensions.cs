@@ -72,6 +72,37 @@ namespace CommandLine.Core
             return Maybe.Nothing<int>();
         }
 
+        public static bool WithRange(this Specification specification, Func<int, int, bool> predicate)
+        {
+            int min;
+            int max;
+            if (specification.Min.MatchJust(out min) && specification.Max.MatchJust(out max))
+            {
+                return predicate(min, max);
+            }
+            return false;
+        }
+
+        public static bool WithMin(this Specification specification, Func<int, bool> predicate)
+        {
+            int min;
+            if (specification.Min.MatchJust(out min))
+            {
+                return predicate(min);
+            }
+            return false;
+        }
+
+        public static bool WithMax(this Specification specification, Func<int, bool> predicate)
+        {
+            int max;
+            if (specification.Max.MatchJust(out max))
+            {
+                return predicate(max);
+            }
+            return false;
+        }
+
         //public static bool IsMinNotSpecified(this Specification specification)
         //{
         //    return specification.Min == -1;

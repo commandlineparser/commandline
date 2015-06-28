@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommandLine.Core;
+using CommandLine.Infrastructure;
 using Xunit;
 
 namespace CommandLine.Tests.Unit.Core
@@ -17,7 +18,7 @@ namespace CommandLine.Tests.Unit.Core
             var expectedTokens = new[] { Token.Name("i"), Token.Value("10"), Token.Name("string-seq"),
                 Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc"), Token.Name("switch") };
             var specs = new[] { new OptionSpecification(string.Empty, "string-seq",
-                false, string.Empty, -1, -1, ',', null, typeof(IEnumerable<string>), string.Empty, string.Empty, new List<string>())};
+                false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), ',', null, typeof(IEnumerable<string>), string.Empty, string.Empty, new List<string>())};
 
             // Exercize system
             var result =
@@ -41,7 +42,7 @@ namespace CommandLine.Tests.Unit.Core
             var expectedTokens = new[] { Token.Name("x"), Token.Name("string-seq"),
                 Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc"), Token.Name("switch") };
             var specs = new[] { new OptionSpecification(string.Empty, "string-seq",
-                false, string.Empty, -1, -1, ',', null, typeof(IEnumerable<string>), string.Empty, string.Empty, new List<string>())};
+                false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), ',', null, typeof(IEnumerable<string>), string.Empty, string.Empty, new List<string>())};
 
             // Exercize system
             var result =
