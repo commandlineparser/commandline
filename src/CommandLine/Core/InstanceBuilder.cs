@@ -40,6 +40,13 @@ namespace CommandLine.Core
         {
             var instance = factory();
 
+            var specProps = instance.GetType().GetSpecifications(pi => SpecificationProperty.Create(
+                    Specification.FromProperty(pi), pi, Maybe.Nothing<object>()));
+
+            var optionSpecs = (from pt in specProps select pt.Specification)
+                .ThrowingValidate(SpecificationGuards.Lookup)
+                .OfType<OptionSpecification>();
+
             if (arguments.Any() && nameComparer.Equals("--help", arguments.First()))
             {
                 return ParserResult.Create(
@@ -47,13 +54,6 @@ namespace CommandLine.Core
                     instance,
                     new[] { new HelpRequestedError() });
             }
-
-            var specProps = instance.GetType().GetSpecifications(pi => SpecificationProperty.Create(
-                    Specification.FromProperty(pi), pi, Maybe.Nothing<object>()));
-
-            var optionSpecs = (from pt in specProps select pt.Specification)
-                .ThrowingValidate(SpecificationGuards.Lookup)
-                .OfType<OptionSpecification>();
 
             var tokenizerResult = tokenizer(arguments, optionSpecs);
 
