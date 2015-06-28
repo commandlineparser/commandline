@@ -122,7 +122,6 @@ Latest Changes:
   - Refactoring for Increase Testability.
   - Little change to allow .NET 4.5 build.
   - Better `GetHashCode()` implementations.
-  - Internal refactorings.
   - New tests added.
   - Fixing FAKE build script.
   - Issue #172 fixed (`Max` constraint when `Min=Max`).
@@ -131,6 +130,7 @@ Latest Changes:
   - Added support for `FSharpOption<T>` (if not used no need to distribute `FSharp.Core.dll`).
   - Disallowed `Min=Max=0` for sequences, raising exception.
   - Issue #177 Fixed.
+  - Internal refactorings.
 
 Contacts:
 ---
