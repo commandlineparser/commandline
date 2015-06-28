@@ -42,7 +42,7 @@ namespace CommandLine.Core
             }
 
             var next = specProps.Skip(1).FirstOrDefault(s => s.Specification.IsValue()).ToMaybe();
-            if (!pt.Specification.IsMaxNotSpecified()
+            if (pt.Specification.Max.IsJust()
                 && next.IsNothing()
                 && values.Skip(taken.Count()).Any())
             {
@@ -67,7 +67,7 @@ namespace CommandLine.Core
 
         private static Maybe<Error> MakeErrorInCaseOfMinConstraint(Specification specification)
         {
-            return !specification.IsMinNotSpecified()
+            return specification.Min.IsJust()
                 ? Maybe.Just<Error>(new SequenceOutOfRangeError(NameInfo.EmptyName))
                 : Maybe.Nothing<Error>();
         }

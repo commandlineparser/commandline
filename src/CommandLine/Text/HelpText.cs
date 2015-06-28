@@ -537,8 +537,8 @@ namespace CommandLine.Text
                        verbTuple.Item1.Name,
                        false,
                        string.Empty,
-                       -1,
-                       -1,
+                       Maybe.Nothing<int>(),
+                       Maybe.Nothing<int>(),
                        '\0',
                        Maybe.Nothing<object>(),
                        typeof(bool),
@@ -566,7 +566,7 @@ namespace CommandLine.Text
 
         private OptionSpecification CreateHelpEntry()
         {
-            return new OptionSpecification(string.Empty, "help", false, string.Empty, -1, -1, '\0', Maybe.Nothing<object>(), typeof(bool),
+            return new OptionSpecification(string.Empty, "help", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), typeof(bool),
                 sentenceBuilder.HelpCommandText(AddDashesToOption), string.Empty, new List<string>());
         }
 

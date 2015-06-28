@@ -54,13 +54,17 @@ namespace CommandLine.Core
             switch (specification.ConversionType.ToDescriptorKind())
             {
                 case TypeDescriptorKind.Scalar:
-                    return  Maybe.Just(1);
+                    return Maybe.Just(1);
                 case TypeDescriptorKind.Sequence:
-                    var min = specification.Min;
-                    var max = specification.Max;
-                    if (min >= 0 && max >= 0)
+                    int min;
+                    int max;
+                    if (specification.Min.MatchJust(out min)
+                        && specification.Max.MatchJust(out max))
                     {
-                        return Maybe.Just(max);
+                        if (min >= 0 && max >= 0)
+                        {
+                            return Maybe.Just(max);
+                        }
                     }
                     break;
             }
@@ -68,14 +72,14 @@ namespace CommandLine.Core
             return Maybe.Nothing<int>();
         }
 
-        public static bool IsMinNotSpecified(this Specification specification)
-        {
-            return specification.Min == -1;
-        }
+        //public static bool IsMinNotSpecified(this Specification specification)
+        //{
+        //    return specification.Min == -1;
+        //}
 
-        public static bool IsMaxNotSpecified(this Specification specification)
-        {
-            return specification.Max == -1;
-        }
+        //public static bool IsMaxNotSpecified(this Specification specification)
+        //{
+        //    return specification.Max == -1;
+        //}
     }
 }

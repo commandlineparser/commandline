@@ -71,8 +71,8 @@ namespace CommandLine.Core
                         sp => sp.Specification.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Sequence
                         && sp.Value.IsJust()
                         && (
-                            (!sp.Specification.IsMinNotSpecified() && ((Array)sp.Value.FromJust()).Length < sp.Specification.Min)
-                            || (!sp.Specification.IsMaxNotSpecified() && ((Array)sp.Value.FromJust()).Length > sp.Specification.Max)
+                            (sp.Specification.Min.IsJust() && ((Array)sp.Value.FromJust()).Length < sp.Specification.Min.FromJust())
+                            || (sp.Specification.Max.IsJust() && ((Array)sp.Value.FromJust()).Length > sp.Specification.Max.FromJust())
                         )
                     );
                     if (options.Any())

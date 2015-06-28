@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 
+using CommandLine.Infrastructure;
+
 namespace CommandLine.Core
 {
     static class SpecificationGuards
@@ -17,13 +19,15 @@ namespace CommandLine.Core
 
         private static Func<Specification, bool> GuardAgainstScalarWithRange()
         {
-            return spec => spec.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Scalar && (spec.Min > 0 || spec.Max > 0);
+            return spec => spec.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Scalar
+                && (spec.Min.IsJust() || spec.Max.IsJust());
         }
 
         private static Func<Specification, bool> GuardAgainstSequenceWithWrongRange()
         {
             return spec => spec.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Sequence
-                && !spec.IsMinNotSpecified() && !spec.IsMaxNotSpecified() && spec.Min > spec.Max;
+                && spec.Min.IsJust() && spec.Max.IsJust()
+                && spec.Min.FromJust() > spec.Max.FromJust();
         }
 
         private static Func<Specification, bool> GuardAgainstOneCharLongName()
@@ -34,7 +38,8 @@ namespace CommandLine.Core
         private static Func<Specification, bool> GuardAgainstSequenceWithZeroRange()
         {
             return spec => spec.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Sequence
-                && spec.Min == 0 || spec.Max == 0;
+                && spec.Min.IsJust() && spec.Max.IsJust()
+                && spec.Min.FromJust() == 0 || spec.Max.FromJust() == 0;
         }
     }
 }
