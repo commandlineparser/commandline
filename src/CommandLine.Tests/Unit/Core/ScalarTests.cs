@@ -19,7 +19,7 @@ namespace CommandLine.Tests.Unit.Core
                 new Token[] { },
                 name =>
                     new[] { "str", "int" }.Contains(name)
-                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Scalar, Maybe.Nothing<int>()))
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Scalar, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
             expected.ShouldAllBeEquivalentTo(result);
@@ -38,7 +38,7 @@ namespace CommandLine.Tests.Unit.Core
                     },
                 name =>
                     new[] { "str", "int" }.Contains(name)
-                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Scalar, Maybe.Nothing<int>()))
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Scalar, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
             expected.ShouldAllBeEquivalentTo(result);

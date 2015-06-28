@@ -19,7 +19,7 @@ namespace CommandLine.Tests.Unit.Core
                 new Token[] { },
                 name =>
                     new[] { "seq" }.Contains(name)
-                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Sequence, Maybe.Nothing<int>()))
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Sequence, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
             expected.ShouldAllBeEquivalentTo(result);
@@ -42,7 +42,7 @@ namespace CommandLine.Tests.Unit.Core
                     },
                 name =>
                     new[] { "seq" }.Contains(name)
-                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Sequence, Maybe.Nothing<int>()))
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Sequence, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
             expected.ShouldAllBeEquivalentTo(result);
@@ -67,7 +67,7 @@ namespace CommandLine.Tests.Unit.Core
                     },
                 name =>
                     new[] { "seq", "seqb" }.Contains(name)
-                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Sequence, Maybe.Nothing<int>()))
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Sequence, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
             expected.ShouldAllBeEquivalentTo(result);
@@ -88,7 +88,7 @@ namespace CommandLine.Tests.Unit.Core
                     },
                 name =>
                     new[] { "seq" }.Contains(name)
-                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Sequence, Maybe.Nothing<int>()))
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Sequence, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
             expected.ShouldAllBeEquivalentTo(result);

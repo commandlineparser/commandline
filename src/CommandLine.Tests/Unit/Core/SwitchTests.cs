@@ -19,7 +19,7 @@ namespace CommandLine.Tests.Unit.Core
                 new Token[] { },
                 name =>
                     new[] { "x", "switch" }.Contains(name)
-                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Boolean, Maybe.Nothing<int>()))
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Boolean, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
             expected.ShouldAllBeEquivalentTo(result);
@@ -38,7 +38,7 @@ namespace CommandLine.Tests.Unit.Core
                     },
                 name =>
                     new[] { "x", "switch" }.Contains(name)
-                        ? Maybe.Just(TypeDescriptor.Create(TypeDescriptorKind.Boolean, Maybe.Nothing<int>()))
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Boolean, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
             expected.ShouldAllBeEquivalentTo(result);

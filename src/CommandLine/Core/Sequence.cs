@@ -17,7 +17,7 @@ namespace CommandLine.Core
                 (f, s) =>
                         f.IsName() && s.IsValue()
                             ? typeLookup(f.Text).Return(info =>
-                                   info.Tag == TypeDescriptorKind.Sequence
+                                   info.Tag == TargetType.Sequence
                                         ? new[] { f }.Concat(tokens.OfSequence(f))
                                         : new Token[] { }, new Token[] { })
                             : new Token[] { })

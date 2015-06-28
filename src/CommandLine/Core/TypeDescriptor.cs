@@ -6,35 +6,35 @@ using CommandLine.Infrastructure;
 
 namespace CommandLine.Core
 {
-    internal enum TypeDescriptorKind
-    {
-        Scalar,
-        Boolean,
-        Sequence
-    }
+    //internal enum TypeDescriptorKind
+    //{
+    //    Boolean,
+    //    Scalar,
+    //    Sequence
+    //}
 
     internal sealed class TypeDescriptor
     {
-        private readonly TypeDescriptorKind tag;
-        private readonly Maybe<int> maximumItems;
+        private readonly TargetType tag;
+        private readonly Maybe<int> maxItems;
 
-        private TypeDescriptor(TypeDescriptorKind tag, Maybe<int> maximumItems)
+        private TypeDescriptor(TargetType tag, Maybe<int> maxItems)
         {
             this.tag = tag;
-            this.maximumItems = maximumItems;
+            this.maxItems = maxItems;
         }
 
-        public TypeDescriptorKind Tag
+        public TargetType Tag
         {
             get { return tag; }
         }
 
-        public Maybe<int> MaximumItems
+        public Maybe<int> MaxItems
         {
-            get { return maximumItems; }
+            get { return this.maxItems; }
         }
 
-        public static TypeDescriptor Create(TypeDescriptorKind tag, Maybe<int> maximumItems)
+        public static TypeDescriptor Create(TargetType tag, Maybe<int> maximumItems)
         {
             if (maximumItems == null) throw new ArgumentNullException("maximumItems");
 

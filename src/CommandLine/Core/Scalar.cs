@@ -17,7 +17,7 @@ namespace CommandLine.Core
                 (f, s) =>
                         f.IsName() && s.IsValue()
                             ? typeLookup(f.Text).Return(info =>
-                                    info.Tag == TypeDescriptorKind.Scalar ? new[] { f, s } : new Token[] { }, new Token[] { })
+                                    info.Tag == TargetType.Scalar ? new[] { f, s } : new Token[] { }, new Token[] { })
                                     : new Token[] { })
                    from t in tseq
                    select t;

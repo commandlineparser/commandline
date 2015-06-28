@@ -20,17 +20,6 @@ namespace CommandLine.Core
                    select selector(pi);
         }
 
-        public static TypeDescriptorKind ToDescriptorKind(this Type type)
-        {
-            return type == typeof(bool)
-                       ? TypeDescriptorKind.Boolean
-                       : type == typeof(string)
-                             ? TypeDescriptorKind.Scalar
-                             : type.IsArray || typeof(IEnumerable).IsAssignableFrom(type)
-                                   ? TypeDescriptorKind.Sequence
-                                   : TypeDescriptorKind.Scalar;
-        }
-
         public static TargetType ToTargetType(this Type type)
         {
             return type == typeof(bool)
