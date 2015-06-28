@@ -53,7 +53,7 @@ namespace CommandLine.Core
             }
 
             yield return
-                converter(taken, pt.Property.PropertyType, pt.Specification.ConversionType.IsScalar())
+                converter(taken, pt.Property.PropertyType, pt.Specification.TargetType != TargetType.Sequence)
                     .Return(
                         converted => Tuple.Create(pt.WithValue(Maybe.Just(converted)), Maybe.Nothing<Error>()),
                         Tuple.Create<SpecificationProperty, Maybe<Error>>(

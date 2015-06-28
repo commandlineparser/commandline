@@ -24,7 +24,7 @@ namespace CommandLine.Core
                             s.Key.MatchName(((OptionSpecification)pt.Specification).ShortName, ((OptionSpecification)pt.Specification).LongName, comparer))
                                .ToMaybe()
                                .Return(sequence =>
-                                    converter(sequence.Value, pt.Property.PropertyType, pt.Specification.ConversionType.IsScalar())
+                                    converter(sequence.Value, pt.Property.PropertyType, pt.Specification.TargetType != TargetType.Sequence)
                                     .Return(converted =>
                                             Tuple.Create(
                                                 pt.WithValue(Maybe.Just(converted)),

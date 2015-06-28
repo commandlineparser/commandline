@@ -31,11 +31,6 @@ namespace CommandLine.Core
                                    : TargetType.Scalar;
         }
 
-        public static bool IsScalar(this Type type)
-        {
-            return type == typeof(string) || !type.IsArray && !typeof(IEnumerable).IsAssignableFrom(type);
-        }
-
         public static T SetProperties<T>(
             this T instance,
             IEnumerable<SpecificationProperty> specProps,
