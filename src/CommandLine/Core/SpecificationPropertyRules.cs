@@ -68,7 +68,7 @@ namespace CommandLine.Core
             return specProps =>
                 {
                     var options = specProps.Where(
-                        sp => sp.Specification.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Sequence
+                        sp => sp.Specification.TargetType == TargetType.Sequence
                         && sp.Value.IsJust()
                         && (
                             (sp.Specification.Min.IsJust() && ((Array)sp.Value.FromJust()).Length < sp.Specification.Min.FromJust())

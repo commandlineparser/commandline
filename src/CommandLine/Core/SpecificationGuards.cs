@@ -19,13 +19,13 @@ namespace CommandLine.Core
 
         private static Func<Specification, bool> GuardAgainstScalarWithRange()
         {
-            return spec => spec.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Scalar
+            return spec => spec.TargetType == TargetType.Scalar
                 && (spec.Min.IsJust() || spec.Max.IsJust());
         }
 
         private static Func<Specification, bool> GuardAgainstSequenceWithWrongRange()
         {
-            return spec => spec.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Sequence
+            return spec => spec.TargetType == TargetType.Sequence
                 && spec.HavingRange((min, max) => min > max);
         }
 
@@ -36,7 +36,7 @@ namespace CommandLine.Core
 
         private static Func<Specification, bool> GuardAgainstSequenceWithZeroRange()
         {
-            return spec => spec.ConversionType.ToDescriptorKind() == TypeDescriptorKind.Sequence
+            return spec => spec.TargetType == TargetType.Sequence
                 && (spec.HavingMin(min => min == 0)
                 || spec.HavingMax(max => max == 0));
         }

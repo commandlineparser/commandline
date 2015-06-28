@@ -25,9 +25,9 @@ namespace CommandLine.Core
 
         public static Type GetConversionType(this SpecificationProperty specProp)
         {
-            switch (specProp.Specification.ConversionType.ToDescriptorKind())
+            switch (specProp.Specification.TargetType)
             {
-                case TypeDescriptorKind.Sequence:
+                case TargetType.Sequence:
                     return specProp.Property.PropertyType.GetGenericArguments()
                              .SingleOrDefault()
                              .ToMaybe()

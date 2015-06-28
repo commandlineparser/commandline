@@ -67,18 +67,17 @@ namespace CommandLine.Core
 
         private static Maybe<int> CountOfMaxNumberOfValues(this Specification specification)
         {
-            switch (specification.ConversionType.ToDescriptorKind())
+            switch (specification.TargetType)
             {
-                case TypeDescriptorKind.Scalar:
+                case TargetType.Scalar:
                     return Maybe.Just(1);
-                case TypeDescriptorKind.Sequence:
+                case TargetType.Sequence:
                     if (specification.Max.IsJust())
                     {
                         return Maybe.Just(specification.Max.FromJust());
                     }
                     break;
             }
-
             return Maybe.Nothing<int>();
         }
 
