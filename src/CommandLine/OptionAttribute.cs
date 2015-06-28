@@ -16,7 +16,7 @@ namespace CommandLine
         private string setName;
         private int min;
         private int max;
-        private char? separator;
+        private char separator;
         private object defaultValue;
         private string helpText;
         private string metaValue;
@@ -155,7 +155,7 @@ namespace CommandLine
         /// </summary>
         public char Separator
         {
-            get { return separator.Value ; }
+            get { return separator ; }
             set { separator = value; }
         }
 

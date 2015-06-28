@@ -17,8 +17,8 @@ namespace CommandLine.Core
     {
         private readonly SpecificationType tag;
         private readonly bool required;
-        private readonly int min;
-        private readonly int max;
+        private readonly Maybe<int> min;
+        private readonly Maybe<int> max;
         private readonly Maybe<object> defaultValue;
         /// <summary>
         /// This information is denormalized to decouple Specification from PropertyInfo.
@@ -29,8 +29,8 @@ namespace CommandLine.Core
         {
             this.tag = tag;
             this.required = required;
-            this.min = min;
-            this.max = max;
+            this.min = min == -1 ? Maybe.Nothing<int>() : Maybe.Just(min);
+            this.max = max == -1 ? Maybe.Nothing<int>() : Maybe.Just(max);
             this.defaultValue = defaultValue;
             this.conversionType = conversionType;
         }
@@ -45,12 +45,12 @@ namespace CommandLine.Core
             get { return required; }
         }
 
-        public int Min
+        public Maybe<int> Min
         {
             get { return min; }
         }
 
-        public int Max
+        public Maybe<int> Max
         {
             get { return max; }
         }
