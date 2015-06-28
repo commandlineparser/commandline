@@ -7,18 +7,18 @@ namespace CommandLine.Core
 {
     internal sealed class TypeDescriptor
     {
-        private readonly TargetType tag;
+        private readonly TargetType targetType;
         private readonly Maybe<int> maxItems;
 
-        private TypeDescriptor(TargetType tag, Maybe<int> maxItems)
+        private TypeDescriptor(TargetType targetType, Maybe<int> maxItems)
         {
-            this.tag = tag;
+            this.targetType = targetType;
             this.maxItems = maxItems;
         }
 
-        public TargetType Tag
+        public TargetType TargetType
         {
-            get { return tag; }
+            get { return this.targetType; }
         }
 
         public Maybe<int> MaxItems
