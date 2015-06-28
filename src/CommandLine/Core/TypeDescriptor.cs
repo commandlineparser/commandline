@@ -6,13 +6,6 @@ using CommandLine.Infrastructure;
 
 namespace CommandLine.Core
 {
-    //internal enum TypeDescriptorKind
-    //{
-    //    Boolean,
-    //    Scalar,
-    //    Sequence
-    //}
-
     internal sealed class TypeDescriptor
     {
         private readonly TargetType tag;
