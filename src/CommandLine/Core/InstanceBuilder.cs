@@ -61,16 +61,6 @@ namespace CommandLine.Core
 
             var tokens = tokenizerResult.Value;
 
-            //var tokensErrors = tokens.Validate(specs, TokenRules.Lookup);
-
-            //if (tokenErrors.Any())
-            //{
-            //    return ParserResult.Create(
-            //        ParserResultType.Options,
-            //        instance,
-            //        tokensErrors);
-            //}
-
             var partitions = TokenPartitioner.Partition(
                 tokens,
                 name => TypeLookup.FindTypeDescriptor(name, optionSpecs, nameComparer));
@@ -106,8 +96,7 @@ namespace CommandLine.Core
                     sp => sp.Property.PropertyType.GetGenericArguments().Single().CreateEmptyArray());
 
             var validationErrors = specPropsWithValue.Validate(
-                SpecificationPropertyRules.Lookup
-                .Concat(new[] { SpecificationPropertyRules.EnforceSingle(tokens) }))
+                SpecificationPropertyRules.Lookup(tokens))
                 .OfType<Just<Error>>().Select(e => e.Value);
 
             return ParserResult.Create(
