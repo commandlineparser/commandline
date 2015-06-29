@@ -853,8 +853,24 @@ namespace CommandLine.Tests.Unit.Core
         [InlineData(new[] { "--interactive", "--weburl=wvalue", "--verbose", "--ftpurl=wvalue" }, 2)]
         public void Empty_set_options_allowed_with_mutually_exclusive_sets(string[] arguments, int expected)
         {
+            // Exercize system
             var result = InstanceBuilder.Build(
                 () => new FakeOptionsWithNamedAndEmptySets(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            result.Errors.Should().HaveCount(x => x == expected);
+        }
+
+        [Theory]
+        [InlineData(new[] { "--stringvalue", "abc", "--stringvalue", "def" }, 1)]
+        public void Specifying_options_two_or_more_times_generates_error(string[] arguments, int expected)
+        {
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                () => new FakeOptions(),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
