@@ -123,6 +123,7 @@
     </Compile>
     <Compile Include="Unit\Core\TokenTests.cs" />
     <Compile Include="Unit\Infrastructure\FSharpOptionHelperTests.cs" />
+    <Compile Include="Unit\Infrastructure\ReflectionHelperTests.cs" />
     <Compile Include="Unit\ParserTests.cs" />
     <Compile Include="Unit\Text\HelpTextTests.cs" />
   </ItemGroup>
