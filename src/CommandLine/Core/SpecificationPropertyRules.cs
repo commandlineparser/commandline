@@ -9,11 +9,11 @@ namespace CommandLine.Core
 {
     static class SpecificationPropertyRules
     {
-        public static IEnumerable<Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>>>
+        public static IEnumerable<Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>>>
             Lookup(
                 IEnumerable<Token> tokens)
         {
-            return new List<Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>>>
+            return new List<Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>>>
                 {
                     EnforceMutuallyExclusiveSet(),
                     EnforceRequired(),
@@ -22,7 +22,7 @@ namespace CommandLine.Core
                 };
         }
 
-        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>> EnforceMutuallyExclusiveSet()
+        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceMutuallyExclusiveSet()
         {
             return specProps =>
                 {
@@ -33,19 +33,19 @@ namespace CommandLine.Core
                     var groups = options.GroupBy(g => ((OptionSpecification)g.Specification).SetName);
                     if (groups.Count() > 1)
                     {
-                        return options.Select(s => Maybe.Just<Error>(
+                        return options.Select(s =>
                             new MutuallyExclusiveSetError(
-                                NameInfo.FromOptionSpecification((OptionSpecification)s.Specification))));
+                                NameInfo.FromOptionSpecification((OptionSpecification)s.Specification)));
                     }
-                    return Enumerable.Empty<Nothing<Error>>();
+                    return Enumerable.Empty<Error>();
                 };
         }
 
-        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>> EnforceRequired()
+        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceRequired()
         {
             return specProps =>
             {
-                List<string> setsWithTrue =
+                var setsWithTrue =
                     specProps
                         .Where(sp => sp.Specification.IsOption()
                             && sp.Value.IsJust() && sp.Specification.Required)
@@ -62,14 +62,14 @@ namespace CommandLine.Core
                             && sp.Value.IsNothing()
                             && sp.Specification.Required)).ToList();
                     if (requiredButEmpty.Any()) {
-                        return requiredButEmpty.Select(s => Maybe.Just<Error>(new MissingRequiredOptionError(
-                            NameInfo.FromSpecification(s.Specification))));
+                        return requiredButEmpty.Select(s =>new MissingRequiredOptionError(
+                            NameInfo.FromSpecification(s.Specification)));
                     }
-                    return Enumerable.Empty<Nothing<Error>>();
+                    return Enumerable.Empty<Error>();
                 };
         }
 
-        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>> EnforceRange()
+        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceRange()
         {
             return specProps =>
                 {
@@ -83,14 +83,14 @@ namespace CommandLine.Core
                     );
                     if (options.Any())
                     {
-                        return options.Select(s => Maybe.Just<Error>(new SequenceOutOfRangeError(
-                            NameInfo.FromSpecification(s.Specification))));
+                        return options.Select(s => new SequenceOutOfRangeError(
+                            NameInfo.FromSpecification(s.Specification)));
                     }
-                    return Enumerable.Empty<Nothing<Error>>();
+                    return Enumerable.Empty<Error>();
                 };
         }
 
-        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>> EnforceSingle(IEnumerable<Token> tokens)
+        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceSingle(IEnumerable<Token> tokens)
         {
             return specProps =>
                 {
@@ -108,7 +108,7 @@ namespace CommandLine.Core
                                  select new { Value = g.Key, Count = count };
                     var errors = from y in groups
                                  where y.Count > 1
-                                 select Maybe.Just<Error>(new RepeatedOptionError(new NameInfo(y.Value.ShortName, y.Value.LongName)));
+                                 select new RepeatedOptionError(new NameInfo(y.Value.ShortName, y.Value.LongName));
                     return errors;
                 };
         }

@@ -38,10 +38,10 @@ namespace CommandLine.Core
             }
         }
 
-        public static IEnumerable<Maybe<Error>> Validate(
+        public static IEnumerable<Error> Validate(
             this IEnumerable<SpecificationProperty> specProps,
             IEnumerable<Func<IEnumerable<SpecificationProperty>,
-            IEnumerable<Maybe<Error>>>> rules)
+            IEnumerable<Error>>> rules)
         {
             return rules.SelectMany(rule => rule(specProps));
         }

@@ -96,8 +96,7 @@ namespace CommandLine.Core
                     sp => sp.Property.PropertyType.GetGenericArguments().Single().CreateEmptyArray());
 
             var validationErrors = specPropsWithValue.Validate(
-                SpecificationPropertyRules.Lookup(tokens))
-                .OfType<Just<Error>>().Select(e => e.Value);
+                SpecificationPropertyRules.Lookup(tokens));
 
             return ParserResult.Create(
                 ParserResultType.Options,
