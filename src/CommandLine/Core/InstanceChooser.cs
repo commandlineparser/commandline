@@ -55,7 +55,7 @@ namespace CommandLine.Core
         {     
             return verbs.Any(a => nameComparer.Equals(a.Item1.Name, arguments.First()))
                 ? InstanceBuilder.Build(
-                    () => Activator.CreateInstance(verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First())).Item2),
+                    Maybe.Just<Func<object>>(() => Activator.CreateInstance(verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First())).Item2)),
                     tokenizer,
                     arguments.Skip(1),
                     nameComparer,
