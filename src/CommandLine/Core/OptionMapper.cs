@@ -31,7 +31,7 @@ namespace CommandLine.Core
                                                 Maybe.Nothing<Error>()),
                                             Tuple.Create<SpecificationProperty, Maybe<Error>>(
                                                 pt,
-                                                Maybe.Just<Error>(new BadFormatConversionError(NameInfo.FromOptionSpecification((OptionSpecification)pt.Specification))))),
+                                                Maybe.Just<Error>(new BadFormatConversionError(NameExtensions.FromOptionSpecification((OptionSpecification)pt.Specification))))),
                                 Tuple.Create(pt, Maybe.Nothing<Error>()))
                 );
             return StatePair.Create(

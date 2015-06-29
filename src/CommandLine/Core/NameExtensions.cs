@@ -12,5 +12,23 @@ namespace CommandLine.Core
                ? comparer.Equals(value, shortName)
                : comparer.Equals(value, longName);
         }
+
+        public static NameInfo FromOptionSpecification(this OptionSpecification specification)
+        {
+            return new NameInfo(
+                specification.LongName,
+                specification.ShortName);
+        }
+
+        public static NameInfo FromSpecification(this Specification specification)
+        {
+            switch (specification.Tag)
+            {
+                case SpecificationType.Option:
+                    return FromOptionSpecification((OptionSpecification)specification);
+                default:
+                    return NameInfo.EmptyName;
+            }
+        }
     }
 }

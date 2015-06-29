@@ -78,7 +78,7 @@ namespace CommandLine.Core
 
             var missingValueErrors = from token in partitions.Errors
                                      select new MissingValueOptionError(
-                                         NameInfo.FromOptionSpecification(optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer))));
+                                         NameExtensions.FromOptionSpecification(optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer))));
 
             var specPropsWithValue = optionSpecProps.Value.Concat(valueSpecProps.Value);
 

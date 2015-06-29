@@ -58,24 +58,6 @@ namespace CommandLine
             }
         }
 
-        internal static NameInfo FromOptionSpecification(OptionSpecification specification)
-        {
-            return new NameInfo(
-                specification.LongName,
-                specification.ShortName);
-        }
-
-        internal static NameInfo FromSpecification(Specification specification)
-        {
-            switch (specification.Tag)
-            {
-                case SpecificationType.Option:
-                    return FromOptionSpecification((OptionSpecification)specification);
-                default:
-                    return EmptyName;
-            }
-        }
-
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>.
         /// </summary>
