@@ -39,9 +39,9 @@ namespace CommandLine.Infrastructure
 
         public static bool IsTypeMutable(Type type)
         {
-            return type.GetMembers(
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.SetField)
-                    .Any();
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
+            return props || fields;
         }
     }
 }

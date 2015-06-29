@@ -6,24 +6,29 @@ namespace CommandLine.Tests.Fakes
 {
     class FakeImmutableOptions
     {
+        private readonly string stringValue;
+        private readonly IEnumerable<int> intSequence;
+        private readonly bool boolValue;
+        private readonly long longValue;
+
         public FakeImmutableOptions(string stringValue, IEnumerable<int> intSequence, bool boolValue, long longValue)
         {
-            StringValue = stringValue;
-            IntSequence = intSequence;
-            BoolValue = boolValue;
-            LongValue = longValue;
+            this.stringValue = stringValue;
+            this.intSequence = intSequence;
+            this.boolValue = boolValue;
+            this.longValue = longValue;
         }
 
         [Option(HelpText = "Define a string value here.")]
-        public string StringValue { get; private set; }
+        public string StringValue { get { return stringValue; } }
 
         [Option('i', Min = 3, Max = 4, HelpText = "Define a int sequence here.")]
-        public IEnumerable<int> IntSequence { get; private set; }
+        public IEnumerable<int> IntSequence { get { return intSequence; } }
 
         [Option('x', HelpText = "Define a boolean or switch value here.")]
-        public bool BoolValue { get; private set; }
+        public bool BoolValue { get { return boolValue; } }
 
         [Value(0)]
-        public long LongValue { get; private set; }
+        public long LongValue { get { return longValue; } }
     }
 }

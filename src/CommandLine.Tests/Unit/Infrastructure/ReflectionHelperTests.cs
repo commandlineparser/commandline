@@ -14,5 +14,11 @@ namespace CommandLine.Tests.Unit.Infrastructure
         {
             ReflectionHelper.IsTypeMutable(typeof(FakeOptions)).Should().BeTrue();
         }
+
+        [Fact]
+        public static void Class_without_public_set_properties_or_fields_is_ranked_immutable()
+        {
+            ReflectionHelper.IsTypeMutable(typeof(FakeImmutableOptions)).Should().BeFalse();
+        }
     }
 }
