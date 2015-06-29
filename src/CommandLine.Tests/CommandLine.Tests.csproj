@@ -79,6 +79,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Fakes\FakeImmutableOptions.cs" />
     <Compile Include="Fakes\FakeOptionsWithFSharpOption.cs" />
     <Compile Include="Fakes\FakeOptionsWithHelpTextEnum.cs" />
     <Compile Include="Fakes\FakeOptionsWithDouble.cs" />
