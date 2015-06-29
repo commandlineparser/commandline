@@ -9,12 +9,14 @@ namespace CommandLine.Core
 {
     static class SpecificationPropertyRules
     {
-        public static readonly IEnumerable<Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>>> Lookup = new List<Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>>>
-            {
-                EnforceMutuallyExclusiveSet(),
-                EnforceRequired(),
-                EnforceRange()
-            };
+        public static readonly
+            IEnumerable<Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>>> Lookup =
+                new List<Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>>>
+                    {
+                        EnforceMutuallyExclusiveSet(),
+                        EnforceRequired(),
+                        EnforceRange()
+                    };
 
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>> EnforceMutuallyExclusiveSet()
         {
