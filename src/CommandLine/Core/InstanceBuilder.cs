@@ -23,7 +23,7 @@ namespace CommandLine.Core
                         var tokens = Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer));
                         var explodedTokens = Tokenizer.ExplodeOptionList(
                             tokens,
-                            name => NameLookup.WithSeparator(name, optionSpecs, nameComparer));
+                            name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
                         return explodedTokens;
                     },
                 arguments,

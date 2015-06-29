@@ -14,7 +14,7 @@ namespace CommandLine.Core
             return specifications.Any(a => name.MatchName(a.ShortName, a.LongName, comparer));
         }
 
-        public static Maybe<char> WithSeparator(string name, IEnumerable<OptionSpecification> specifications,
+        public static Maybe<char> HavingSeparator(string name, IEnumerable<OptionSpecification> specifications,
             StringComparer comparer)
         {
             return specifications.SingleOrDefault(
