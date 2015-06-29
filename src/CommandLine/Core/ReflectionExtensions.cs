@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace CommandLine.Core
@@ -77,6 +78,15 @@ namespace CommandLine.Core
         public static object CreateEmptyArray(this Type type)
         {
             return Array.CreateInstance(type, 0);
+        }
+
+        public static object GetDefaultValue(this Type type)
+        {
+            var e = Expression.Lambda<Func<object>>(
+                Expression.Convert(
+                    Expression.Default(type),
+                    typeof(object)));
+            return e.Compile()();
         }
     }
 }

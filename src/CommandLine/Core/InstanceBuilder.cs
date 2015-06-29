@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
+
 using CommandLine.Infrastructure;
 
 namespace CommandLine.Core
@@ -11,10 +13,10 @@ namespace CommandLine.Core
     internal static class InstanceBuilder
     {
         public static ParserResult<T> Build<T>(
-            Func<T> factory,
+            Maybe<Func<T>> factory,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
-            CultureInfo parsingCulture)
+            CultureInfo parsingCulture) where T : new()
         {
             return Build(
                 factory,
@@ -32,15 +34,13 @@ namespace CommandLine.Core
         }
 
         public static ParserResult<T> Build<T>(
-            Func<T> factory,
+            Maybe<Func<T>> factory,
             Func<IEnumerable<string>, IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
-            CultureInfo parsingCulture)
+            CultureInfo parsingCulture) where T : new()
         {
-            var instance = factory();
-
-            var specProps = instance.GetType().GetSpecifications(pi => SpecificationProperty.Create(
+            var specProps = typeof(T).GetSpecifications(pi => SpecificationProperty.Create(
                     Specification.FromProperty(pi), pi, Maybe.Nothing<object>()));
 
             var specs = from pt in specProps select pt.Specification;
@@ -53,7 +53,7 @@ namespace CommandLine.Core
             {
                 return ParserResult.Create(
                     ParserResultType.Options,
-                    instance,
+                    factory.Return(f => f(), default(T)) ,
                     new[] { new HelpRequestedError() });
             }
 
@@ -78,22 +78,40 @@ namespace CommandLine.Core
 
             var missingValueErrors = from token in partitions.Errors
                                      select new MissingValueOptionError(
-                                         NameExtensions.FromOptionSpecification(optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer))));
+                                         optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer)).FromOptionSpecification());
 
             var specPropsWithValue = optionSpecProps.Value.Concat(valueSpecProps.Value);
 
-            instance = instance
-                .SetProperties(specPropsWithValue,
-                    sp => sp.Value.IsJust(),
-                    sp => sp.Value.FromJust())
-                .SetProperties(specPropsWithValue,
-                    sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
-                    sp => sp.Specification.DefaultValue.FromJust())
-                .SetProperties(specPropsWithValue,
-                    sp => sp.Value.IsNothing()
-                        && sp.Specification.TargetType == TargetType.Sequence
-                        && sp.Specification.DefaultValue.MatchNothing(),
-                    sp => sp.Property.PropertyType.GetGenericArguments().Single().CreateEmptyArray());
+            T instance;
+
+            if (ReflectionHelper.IsTypeMutable(typeof(T)))
+            {
+                instance = factory.Return(f => f(), new T());
+
+                instance = instance
+                    .SetProperties(specPropsWithValue,
+                        sp => sp.Value.IsJust(),
+                        sp => sp.Value.FromJust())
+                    .SetProperties(specPropsWithValue,
+                        sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
+                        sp => sp.Specification.DefaultValue.FromJust())
+                    .SetProperties(specPropsWithValue,
+                        sp => sp.Value.IsNothing()
+                            && sp.Specification.TargetType == TargetType.Sequence
+                            && sp.Specification.DefaultValue.MatchNothing(),
+                        sp => sp.Property.PropertyType.GetGenericArguments().Single().CreateEmptyArray());
+            }
+            else
+            {
+                var t = typeof(T);
+                var ctor = t.GetConstructor((from p in specProps select p.Specification.ConversionType).ToArray());
+                var values = (from prms in ctor.GetParameters()
+                              join sp in specProps on prms.Name.ToLower() equals sp.Property.Name.ToLower()
+                              select sp.Value.Return(v => v,
+                                    sp.Specification.DefaultValue.Return(d => d,
+                                        sp.Specification.ConversionType.GetDefaultValue()))).ToArray();
+                instance = (T)ctor.Invoke(values);
+            }
 
             var validationErrors = specPropsWithValue.Validate(
                 SpecificationPropertyRules.Lookup(tokens));
