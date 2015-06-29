@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace CommandLine.Infrastructure
@@ -34,6 +35,13 @@ namespace CommandLine.Infrastructure
         {
             return type.FullName.StartsWith(
                 "Microsoft.FSharp.Core.FSharpOption`1", StringComparison.Ordinal);
+        }
+
+        public static bool IsTypeMutable(Type type)
+        {
+            return type.GetMembers(
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.SetField)
+                    .Any();
         }
     }
 }
