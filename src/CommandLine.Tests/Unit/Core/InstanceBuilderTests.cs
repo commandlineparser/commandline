@@ -866,7 +866,7 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [InlineData(new[] { "--stringvalue", "abc", "--stringvalue", "def" }, 1)]
-        public void Specifying_options_two_or_more_times_generates_error(string[] arguments, int expected)
+        public void Specifying_options_two_or_more_times_generates_RepeatedOptionError(string[] arguments, int expected)
         {
             // Exercize system 
             var result = InstanceBuilder.Build(

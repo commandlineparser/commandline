@@ -19,7 +19,7 @@ namespace CommandLine.Core
         {
             var sequencesAndErrors = propertyTuples
                 .Select(pt =>
-                    options.SingleOrDefault(
+                    options.FirstOrDefault(
                             s =>
                             s.Key.MatchName(((OptionSpecification)pt.Specification).ShortName, ((OptionSpecification)pt.Specification).LongName, comparer))
                                .ToMaybe()

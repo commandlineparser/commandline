@@ -43,7 +43,9 @@ namespace CommandLine.Core
             var specProps = instance.GetType().GetSpecifications(pi => SpecificationProperty.Create(
                     Specification.FromProperty(pi), pi, Maybe.Nothing<object>()));
 
-            var optionSpecs = (from pt in specProps select pt.Specification)
+            var specs = from pt in specProps select pt.Specification;
+
+            var optionSpecs = specs
                 .ThrowingValidate(SpecificationGuards.Lookup)
                 .OfType<OptionSpecification>();
 
@@ -58,6 +60,16 @@ namespace CommandLine.Core
             var tokenizerResult = tokenizer(arguments, optionSpecs);
 
             var tokens = tokenizerResult.Value;
+
+            //var tokensErrors = tokens.Validate(specs, TokenRules.Lookup);
+
+            //if (tokenErrors.Any())
+            //{
+            //    return ParserResult.Create(
+            //        ParserResultType.Options,
+            //        instance,
+            //        tokensErrors);
+            //}
 
             var partitions = TokenPartitioner.Partition(
                 tokens,
@@ -93,7 +105,9 @@ namespace CommandLine.Core
                         && sp.Specification.DefaultValue.MatchNothing(),
                     sp => sp.Property.PropertyType.GetGenericArguments().Single().CreateEmptyArray());
 
-            var validationErrors = specPropsWithValue.Validate(SpecificationPropertyRules.Lookup)
+            var validationErrors = specPropsWithValue.Validate(
+                SpecificationPropertyRules.Lookup
+                .Concat(new[] { SpecificationPropertyRules.EnforceSingle(tokens) }))
                 .OfType<Just<Error>>().Select(e => e.Value);
 
             return ParserResult.Create(

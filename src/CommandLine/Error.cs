@@ -38,6 +38,10 @@ namespace CommandLine
         /// </summary>
         SequenceOutOfRangeError,
         /// <summary>
+        /// Value of <see cref="CommandLine.RepeatedOptionError"/> type.
+        /// </summary>
+        RepeatedOptionError,
+        /// <summary>
         /// Value of <see cref="CommandLine.NoVerbSelectedError"/> type.
         /// </summary>
         NoVerbSelectedError,
@@ -316,6 +320,17 @@ namespace CommandLine
     {
         internal SequenceOutOfRangeError(NameInfo nameInfo)
             : base(ErrorType.SequenceOutOfRangeError, nameInfo)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Models an error generated when an option is repeated two or more times.
+    /// </summary>
+    public sealed class RepeatedOptionError : NamedError
+    {
+        internal RepeatedOptionError(NameInfo nameInfo)
+            : base(ErrorType.RepeatedOptionError, nameInfo)
         {
         }
     }

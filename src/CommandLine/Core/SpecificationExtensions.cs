@@ -36,6 +36,11 @@ namespace CommandLine.Core
                 specification.EnumValues);
         }
 
+        public static string UniqueName(this OptionSpecification specification)
+        {
+            return specification.ShortName.Length > 0 ? specification.ShortName : specification.LongName;
+        }
+
         public static IEnumerable<Specification> ThrowingValidate(this IEnumerable<Specification> specifications, IEnumerable<Tuple<Func<Specification, bool>, string>> guardsLookup)
         {
             foreach (var guard in guardsLookup)

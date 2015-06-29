@@ -85,5 +85,28 @@ namespace CommandLine.Core
                     return Enumerable.Empty<Nothing<Error>>();
                 };
         }
+
+        public static Func<IEnumerable<SpecificationProperty>, IEnumerable<Maybe<Error>>> EnforceSingle(IEnumerable<Token> tokens)
+        {
+            return specProps =>
+                {
+                    var specs = from sp in specProps
+                                where sp.Specification.IsOption() && sp.Value.IsJust()
+                                select (OptionSpecification)sp.Specification;
+                    var options = from t in tokens.Where(t => t.IsName())
+                                  join o in specs on t.Text equals o.UniqueName() into to
+                                  from o in to.DefaultIfEmpty()
+                                  where o != null
+                                  select new { o.ShortName, o.LongName };
+                    var groups = from x in options
+                                 group x by x into g
+                                 let count = g.Count()
+                                 select new { Value = g.Key, Count = count };
+                    var errors = from y in groups
+                                 where y.Count > 1
+                                 select Maybe.Just<Error>(new RepeatedOptionError(new NameInfo(y.Value.ShortName, y.Value.LongName)));
+                    return errors;
+                };
+        }
     }
 }
