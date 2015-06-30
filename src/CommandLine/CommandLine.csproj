@@ -58,7 +58,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Core\InstanceBuilder_new.cs" />
     <Compile Include="Core\KeyValuePairHelper.cs" />
     <Compile Include="Core\TypeDescriptor.cs" />
     <Compile Include="Core\Scalar.cs" />
