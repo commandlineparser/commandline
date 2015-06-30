@@ -700,7 +700,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
+                Maybe.Just<Func<FakeOptionsWithSequenceMinMaxEqual>>(() => new FakeOptionsWithSequenceMinMaxEqual()),
                 new[] { "one", "two", "this-is-too-much" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
