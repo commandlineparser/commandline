@@ -45,8 +45,9 @@ Notes:
 ---
 The project is and well suited to be included in your application. If you don't merge it to your project tree, you must reference ``CommandLine.dll`` and import ``CommandLine`` and ``CommandLine.Text`` namespaces (or install via NuGet). The help text builder and its support types lives in ``CommandLine.Text`` namespace that is loosely coupled with the parser. However is good to know that ``HelpText`` class will avoid a lot of repetitive coding.
 
-Define a class to receive parsed values:
+**C#:**
 
+Define a class to receive parsed values:
 ```csharp
 class Options {
   [Option('r', "read", Required = true,
@@ -64,9 +65,7 @@ class Options {
   }
 }
 ```
-
 Consume them:
-
 ```csharp
 static void Main(string[] args) {
   var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
@@ -75,6 +74,21 @@ static void Main(string[] args) {
     if (result.Value.Verbose) Console.WriteLine("Filenames: {0}", string.Join(",", result.Value.InputFiles.ToArray()));
   }
 }
+```
+**F#:**
+```fsharp
+type options = {
+  [<Option('r', "read", Required = true, HelpText = "Input files.")>] files : seq<string>;
+  [<Option(HelpText = "Prints all messages to standard output.")>] verbose : bool;
+  [<Value(0)>] offset : int64 option;
+}
+```
+Consume them:
+```fsharp
+let result = Parser.Default.ParseArguments<options>(args)
+// Values passed to your run(o : options) function
+if Seq.isEmpty r.Errors then run r.Value
+else fail r.Errors
 ```
 
 Acknowledgements:
