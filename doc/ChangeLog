@@ -1,3 +1,9 @@
+2015-06-30    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Internal refactorings.
+  * Support for immutable types.
+  * Fixes.
+
 2015-06-29    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Issue #112 Fixed.
