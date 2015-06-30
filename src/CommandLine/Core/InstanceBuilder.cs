@@ -124,18 +124,5 @@ namespace CommandLine.Core
                     .Concat(valueSpecProps.Errors)
                     .Concat(validationErrors));
         }
-
-        private static object CreateDefaultForImmutable(this Type type)
-        {
-            if (type == typeof(string))
-            {
-                return string.Empty;
-            }
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-            {
-                return type.GetGenericArguments()[0].CreateEmptyArray();
-            }
-            return type.GetDefaultValue();
-        }
     }
 }

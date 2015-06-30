@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-
 using CommandLine.Infrastructure;
 
 namespace CommandLine.Core
@@ -94,6 +93,19 @@ namespace CommandLine.Core
         public static bool IsMutable(this Type type)
         {
             return ReflectionHelper.IsTypeMutable(type);
+        }
+
+        public static object CreateDefaultForImmutable(this Type type)
+        {
+            if (type == typeof(string))
+            {
+                return string.Empty;
+            }
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                return type.GetGenericArguments()[0].CreateEmptyArray();
+            }
+            return type.GetDefaultValue();
         }
     }
 }
