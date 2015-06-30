@@ -918,6 +918,25 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Theory]
+        [MemberData("ImmutableInstanceData")]
+        public void Parse_to_immutable_instance(string[] arguments, FakeImmutableOptions expected)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                Maybe.Nothing<Func<FakeImmutableOptions>>(),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expected.ShouldBeEquivalentTo(result.Value);
+
+            // Teardown
+        }
+
         public static IEnumerable<object> RequiredValueStringData
         {
             get
@@ -940,6 +959,14 @@ namespace CommandLine.Tests.Unit.Core
                 yield return new object[] { new[] { "-s", "cant-capture", "value-anymore" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringOptionSequence = new[] { "cant-capture", "value-anymore" } } };
                 yield return new object[] { new[] { "-s", "just-one" }, new FakeOptionsWithScalarValueAndSequenceStringAdjacent { StringOptionSequence = new[] { "just-one" } } };
 
+            }
+        }
+
+        public static IEnumerable<object> ImmutableInstanceData
+        {
+            get
+            {
+                yield return new object[] { new[] { "--stringvalue=strval0" }, new FakeImmutableOptions("strval0", new int[] {}, default(bool), default(long)) };
             }
         }
     }

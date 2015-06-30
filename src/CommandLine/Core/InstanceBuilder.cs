@@ -11,11 +11,10 @@ namespace CommandLine.Core
     internal static class InstanceBuilder
     {
         public static ParserResult<T> Build<T>(
-            Just<Func<T>> factory,
+            Maybe<Func<T>> factory,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
             CultureInfo parsingCulture)
-            where T : new()
         {
             return Build(
                 factory,
@@ -33,12 +32,11 @@ namespace CommandLine.Core
         }
 
         public static ParserResult<T> Build<T>(
-            Just<Func<T>> factory,
+            Maybe<Func<T>> factory,
             Func<IEnumerable<string>, IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
             CultureInfo parsingCulture)
-            where T : new()
         {
             var typeInfo = factory.Return(f => f().GetType(), typeof(T));
 
@@ -87,7 +85,7 @@ namespace CommandLine.Core
             T instance;
             if (ReflectionHelper.IsTypeMutable(typeInfo))
             {
-                instance = factory.Return(f => f(), new T());
+                instance = factory.Return(f => f(), Activator.CreateInstance<T>());
 
                 instance = instance
                     .SetProperties(specPropsWithValue,

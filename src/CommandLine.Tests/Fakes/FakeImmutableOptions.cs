@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CommandLine.Tests.Fakes
 {
-    class FakeImmutableOptions
+    public class FakeImmutableOptions
     {
         private readonly string stringValue;
         private readonly IEnumerable<int> intSequence;
