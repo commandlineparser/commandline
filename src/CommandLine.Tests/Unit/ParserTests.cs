@@ -167,5 +167,22 @@ namespace CommandLine.Tests.Unit
             Assert.False(result.Errors.Any());
             // Teardown
         }
+
+        [Fact]
+        public void Parse_to_immutable_instance()
+        {
+            // Fixture setup
+            var expectedOptions = new FakeImmutableOptions(
+                "strvalue", new[] { 1, 2, 3 }, default(bool), default(long));
+            var sut = new Parser();
+
+            // Exercize system
+            var result = sut.ParseArguments<FakeImmutableOptions>(new[] { "--stringvalue=strvalue", "-i1", "2", "3" });
+
+            // Verify outcome
+            result.Value.ShouldBeEquivalentTo(expectedOptions);
+            Assert.False(result.Errors.Any());
+            // Teardown
+        }
     }
 }
