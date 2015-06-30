@@ -78,7 +78,7 @@ namespace CommandLine.Core
 
             var missingValueErrors = from token in partitions.Errors
                                      select new MissingValueOptionError(
-                                         NameExtensions.FromOptionSpecification(optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer))));
+                                         optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer)).FromOptionSpecification());
 
             var specPropsWithValue = optionSpecProps.Value.Concat(valueSpecProps.Value);
 
@@ -86,7 +86,6 @@ namespace CommandLine.Core
             if (ReflectionHelper.IsTypeMutable(typeInfo))
             {
                 instance = factory.Return(f => f(), Activator.CreateInstance<T>());
-
                 instance = instance
                     .SetProperties(specPropsWithValue,
                         sp => sp.Value.IsJust(),
