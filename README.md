@@ -13,7 +13,7 @@ Compatibility:
 
 Current Release:
 ---
-  - This is a __pre-release__, for documentation please read appropriate [wiki section](https://github.com/gsscoder/commandline/wiki/Latest-Version#verbs). From version **2.0.x-pre+** parsing kernel was rewritten and public API simplified.
+  - This is a __pre-release__, for documentation please read appropriate [wiki section](https://github.com/gsscoder/commandline/wiki/Latest-Version). From version **2.0.x-pre+** parsing kernel was rewritten and public API simplified.
 
 At glance:
 ---
