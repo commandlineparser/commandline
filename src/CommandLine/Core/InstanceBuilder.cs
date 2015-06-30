@@ -15,6 +15,7 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             StringComparer nameComparer,
             CultureInfo parsingCulture)
+            where T : new()
         {
             return Build(
                 factory,
@@ -37,10 +38,11 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             StringComparer nameComparer,
             CultureInfo parsingCulture)
+            where T : new()
         {
-            var instance = factory.FromJust()();
+            var typeInfo = factory.Return(f => f().GetType(), typeof(T));
 
-            var specProps = instance.GetType().GetSpecifications(pi => SpecificationProperty.Create(
+            var specProps = typeInfo.GetSpecifications(pi => SpecificationProperty.Create(
                     Specification.FromProperty(pi), pi, Maybe.Nothing<object>()));
 
             var specs = from pt in specProps select pt.Specification;
@@ -53,7 +55,7 @@ namespace CommandLine.Core
             {
                 return ParserResult.Create(
                     ParserResultType.Options,
-                    instance,
+                    factory.Return(f => f(), default(T)),
                     new[] { new HelpRequestedError() });
             }
 
@@ -82,18 +84,35 @@ namespace CommandLine.Core
 
             var specPropsWithValue = optionSpecProps.Value.Concat(valueSpecProps.Value);
 
-            instance = instance
-                .SetProperties(specPropsWithValue,
-                    sp => sp.Value.IsJust(),
-                    sp => sp.Value.FromJust())
-                .SetProperties(specPropsWithValue,
-                    sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
-                    sp => sp.Specification.DefaultValue.FromJust())
-                .SetProperties(specPropsWithValue,
-                    sp => sp.Value.IsNothing()
-                        && sp.Specification.TargetType == TargetType.Sequence
-                        && sp.Specification.DefaultValue.MatchNothing(),
-                    sp => sp.Property.PropertyType.GetGenericArguments().Single().CreateEmptyArray());
+            T instance;
+            if (ReflectionHelper.IsTypeMutable(typeInfo))
+            {
+                instance = factory.Return(f => f(), new T());
+
+                instance = instance
+                    .SetProperties(specPropsWithValue,
+                        sp => sp.Value.IsJust(),
+                        sp => sp.Value.FromJust())
+                    .SetProperties(specPropsWithValue,
+                        sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
+                        sp => sp.Specification.DefaultValue.FromJust())
+                    .SetProperties(specPropsWithValue,
+                        sp => sp.Value.IsNothing()
+                            && sp.Specification.TargetType == TargetType.Sequence
+                            && sp.Specification.DefaultValue.MatchNothing(),
+                        sp => sp.Property.PropertyType.GetGenericArguments().Single().CreateEmptyArray());
+            }
+            else
+            {
+                var t = typeof(T);
+                var ctor = t.GetConstructor((from p in specProps select p.Specification.ConversionType).ToArray());
+                var values = (from prms in ctor.GetParameters()
+                              join sp in specProps on prms.Name.ToLower() equals sp.Property.Name.ToLower()
+                              select sp.Value.Return(v => v,
+                                    sp.Specification.DefaultValue.Return(d => d,
+                                        sp.Specification.ConversionType.GetDefaultValue()))).ToArray();
+                instance = (T)ctor.Invoke(values);
+            }
 
             var validationErrors = specPropsWithValue.Validate(
                 SpecificationPropertyRules.Lookup(tokens));
