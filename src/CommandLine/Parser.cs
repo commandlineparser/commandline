@@ -83,11 +83,21 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         public ParserResult<T> ParseArguments<T>(IEnumerable<string> args)
-            where T : new()
         {
             if (args == null) throw new ArgumentNullException("args");
 
-            return ParseArguments(() => new T(), args);
+            var factory = typeof(T).IsMutable()
+                ? Maybe.Just<Func<T>>(Activator.CreateInstance<T>)
+                : Maybe.Nothing<Func<T>>();
+
+            return MakeParserResult(
+                () => InstanceBuilder.Build(
+                    factory,
+                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
+                    args,
+                    settings.NameComparer,
+                    settings.ParsingCulture),
+                settings);
         }
 
         /// <summary>
@@ -104,6 +114,7 @@ namespace CommandLine
             where T : new()
         {
             if (factory == null) throw new ArgumentNullException("factory");
+            if (!typeof(T).IsMutable()) throw new ArgumentException("factory");
             if (args == null) throw new ArgumentNullException("args");
 
             return MakeParserResult(
