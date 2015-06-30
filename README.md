@@ -87,8 +87,8 @@ Consume them:
 ```fsharp
 let result = Parser.Default.ParseArguments<options>(args)
 // Values passed to your run(o : options) function
-if Seq.isEmpty r.Errors then run r.Value
-else fail r.Errors
+if Seq.isEmpty result.Errors then run result.Value
+else fail result.Errors
 ```
 
 Acknowledgements:
