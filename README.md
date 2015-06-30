@@ -85,7 +85,7 @@ type options = {
 ```
 Consume them:
 ```fsharp
-let result = Parser.Default.ParseArguments<options>(args)
+let result = CommandLine.Parser.Default.ParseArguments<options>(args)
 // Values passed to your run(o : options) function
 if Seq.isEmpty result.Errors then run result.Value
 else fail result.Errors
