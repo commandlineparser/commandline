@@ -959,11 +959,11 @@ namespace CommandLine.Tests.Unit.Core
         {
             get
             {
-                //yield return new object[] { new[] { "value-string" }, new FakeOptionsWithRequiredValue { StringValue = "value-string" } };
-                //yield return new object[] { new[] { "another-string", "999" }, new FakeOptionsWithRequiredValue { StringValue = "another-string", IntValue = 999} };
-                //yield return new object[] { new[] { "str with spaces", "-1234567890" }, new FakeOptionsWithRequiredValue { StringValue = "str with spaces", IntValue = -1234567890 } };
+                yield return new object[] { new[] { "value-string" }, new FakeOptionsWithRequiredValue { StringValue = "value-string" } };
+                yield return new object[] { new[] { "another-string", "999" }, new FakeOptionsWithRequiredValue { StringValue = "another-string", IntValue = 999 } };
+                yield return new object[] { new[] { "str with spaces", "-1234567890" }, new FakeOptionsWithRequiredValue { StringValue = "str with spaces", IntValue = -1234567890 } };
                 yield return new object[] { new[] { "1234567890", "1234567890" }, new FakeOptionsWithRequiredValue { StringValue = "1234567890", IntValue = 1234567890 } };
-                //yield return new object[] { new[] { "-1234567890", "1234567890" }, new FakeOptionsWithRequiredValue { StringValue = "-1234567890", IntValue = 1234567890 } };
+                yield return new object[] { new[] { "-1234567890", "1234567890" }, new FakeOptionsWithRequiredValue { StringValue = "-1234567890", IntValue = 1234567890 } };
             }
         }
 
@@ -984,11 +984,11 @@ namespace CommandLine.Tests.Unit.Core
         {
             get
             {
-                //yield return new object[] { new string[] { }, new FakeImmutableOptions(default(string), default(int[]), default(bool), default(long)) };
-                //yield return new object[] { new[] { "--stringvalue=strval0" }, new FakeImmutableOptions("strval0", default(int[]), default(bool), default(long)) };
-                //yield return new object[] { new[] { "-i", "9", "7", "8" }, new FakeImmutableOptions(default(string), new [] {9, 7, 8}, default(bool), default(long)) };
-                //yield return new object[] { new[] { "-x" }, new FakeImmutableOptions(default(string), default(int[]), true, default(long)) };
-                //yield return new object[] { new[] { "9876543210" }, new FakeImmutableOptions(default(string), default(int[]), default(bool), 9876543210L) };
+                yield return new object[] { new string[] { }, new FakeImmutableOptions(default(string), default(int[]), default(bool), default(long)) };
+                yield return new object[] { new[] { "--stringvalue=strval0" }, new FakeImmutableOptions("strval0", default(int[]), default(bool), default(long)) };
+                yield return new object[] { new[] { "-i", "9", "7", "8" }, new FakeImmutableOptions(default(string), new[] { 9, 7, 8 }, default(bool), default(long)) };
+                yield return new object[] { new[] { "-x" }, new FakeImmutableOptions(default(string), default(int[]), true, default(long)) };
+                yield return new object[] { new[] { "9876543210" }, new FakeImmutableOptions(default(string), default(int[]), default(bool), 9876543210L) };
                 yield return new object[] { new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" }, new FakeImmutableOptions("strval0", new[] { 9, 7, 8 }, true, 9876543210L) };
             }
         }
