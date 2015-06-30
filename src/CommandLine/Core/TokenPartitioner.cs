@@ -19,9 +19,9 @@ namespace CommandLine.Core
             var scalars = Scalar.Partition(tokenList, typeLookup).ToList();
             var sequences = Sequence.Partition(tokenList, typeLookup).ToList();
             var nonOptions = tokenList
-                .Except(switches)
-                .Except(scalars)
-                .Except(sequences).ToList();
+                .Where(t => !switches.Contains(t))
+                .Where(t => !scalars.Contains(t))
+                .Where(t => !sequences.Contains(t)).ToList();
             var values = nonOptions.Where(v => v.IsValue()).ToList();
             var errors = nonOptions.Except(values).ToList();
 
