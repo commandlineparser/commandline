@@ -966,7 +966,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             get
             {
-                yield return new object[] { new[] { "--stringvalue=strval0" }, new FakeImmutableOptions("strval0", new int[] {}, default(bool), default(long)) };
+                yield return new object[] { new[] { "--stringvalue=strval0" }, new FakeImmutableOptions("strval0", default(int[]), default(bool), default(long)) };
             }
         }
     }

@@ -105,7 +105,7 @@ namespace CommandLine.Core
                 var t = typeof(T);
                 var ctor = t.GetConstructor((from p in specProps select p.Specification.ConversionType).ToArray());
                 var values = (from prms in ctor.GetParameters()
-                              join sp in specProps on prms.Name.ToLower() equals sp.Property.Name.ToLower()
+                              join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower()
                               select sp.Value.Return(v => v,
                                     sp.Specification.DefaultValue.Return(d => d,
                                         sp.Specification.ConversionType.GetDefaultValue()))).ToArray();
