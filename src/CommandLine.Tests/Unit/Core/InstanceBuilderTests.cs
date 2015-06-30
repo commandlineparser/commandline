@@ -210,7 +210,6 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-
         [Fact]
         public void Breaking_max_constraint_in_string_sequence_gererates_SequenceOutOfRangeError()
         {

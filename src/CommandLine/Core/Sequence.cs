@@ -18,19 +18,19 @@ namespace CommandLine.Core
                         f.IsName() && s.IsValue()
                             ? typeLookup(f.Text).Return(info =>
                                    info.TargetType == TargetType.Sequence
-                                        ? new[] { f }.Concat(tokens.OfSequence(f, info.MaxItems))
+                                        ? new[] { f }.Concat(tokens.OfSequence(f, info))
                                         : new Token[] { }, new Token[] { })
                             : new Token[] { })
                    from t in tseq
                    select t;
         }
 
-        private static IEnumerable<Token> OfSequence(this IEnumerable<Token> tokens, Token nameToken, Maybe<int> maxItems)
+        private static IEnumerable<Token> OfSequence(this IEnumerable<Token> tokens, Token nameToken, TypeDescriptor info)
         {
             var nameIndex = tokens.IndexOf(t => t.Equals(nameToken));
             if (nameIndex >= 0)
             {
-                return maxItems.Return(
+                return info.MaxItems.Return(
                     n => tokens.Skip(nameIndex + 1).Take(n),
                          tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue()));
             }

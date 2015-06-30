@@ -26,20 +26,21 @@ namespace CommandLine.Core
             IEnumerable<OptionSpecification> specifications,
             StringComparer comparer)
         {
-            var nameIndex = specifications.IndexOf(a => name.MatchName(a.ShortName, a.LongName, comparer));
-            if (nameIndex >= 0)
-            {
-                var infos = specifications.Skip(nameIndex).Take(2);
-                if (infos.Any())
-                {
-                    var first = infos.First();
-                    var info = TypeDescriptor.Create(first.TargetType, first.Max);
-                    return infos.Skip(1).FirstOrDefault().ToMaybe()
-                        .Map(second => info.WithNext(
-                            Maybe.Just(TypeDescriptor.Create(second.TargetType, second.Max))));
-                }
-            }
-            return Maybe.Nothing<TypeDescriptor>();
+            var info =
+                specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
+                    .ToMaybe()
+                    .Map(
+                        first =>
+                            {
+                                var descr = TypeDescriptor.Create(first.TargetType, first.Max);
+                                var next = specifications
+                                    .SkipWhile(s => s.Equals(first)).Take(1)
+                                    .SingleOrDefault().ToMaybe()
+                                    .Map(second => TypeDescriptor.Create(second.TargetType, second.Max));
+                                return descr.WithNext(next);
+                            });
+            return info;
+
         }
     }
 }

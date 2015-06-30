@@ -63,7 +63,7 @@ namespace CommandLine.Core
 
             var partitions = TokenPartitioner.Partition(
                 tokens,
-                name => TypeLookup.FindTypeDescriptor(name, optionSpecs, nameComparer));
+                name => TypeLookup.FindTypeDescriptorAndSibling(name, optionSpecs, nameComparer));
 
             var optionSpecProps = OptionMapper.MapValues(
                 (from pt in specProps where pt.Specification.IsOption() select pt),
