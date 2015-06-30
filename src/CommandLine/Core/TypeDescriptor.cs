@@ -9,13 +9,13 @@ namespace CommandLine.Core
     {
         private readonly TargetType targetType;
         private readonly Maybe<int> maxItems;
-        private readonly Maybe<TypeDescriptor> next;
+        private readonly Maybe<TypeDescriptor> nextValue;
 
-        private TypeDescriptor(TargetType targetType, Maybe<int> maxItems, Maybe<TypeDescriptor> next = null)
+        private TypeDescriptor(TargetType targetType, Maybe<int> maxItems, Maybe<TypeDescriptor> nextValue = null)
         {
             this.targetType = targetType;
             this.maxItems = maxItems;
-            this.next = next;
+            this.nextValue = nextValue;
         }
 
         public TargetType TargetType
@@ -28,9 +28,9 @@ namespace CommandLine.Core
             get { return maxItems; }
         }
 
-        public Maybe<TypeDescriptor> Next
+        public Maybe<TypeDescriptor> NextValue
         {
-            get { return next; }
+            get { return this.nextValue; }
         }
 
         public static TypeDescriptor Create(TargetType tag, Maybe<int> maximumItems, TypeDescriptor next = null)
@@ -43,9 +43,9 @@ namespace CommandLine.Core
 
     static class TypeDescriptorExtensions
     {
-        public static TypeDescriptor WithNext(this TypeDescriptor descriptor, Maybe<TypeDescriptor> next)
+        public static TypeDescriptor WithNextValue(this TypeDescriptor descriptor, Maybe<TypeDescriptor> nextValue)
         {
-            return TypeDescriptor.Create(descriptor.TargetType, descriptor.MaxItems, next.Return(n => n, null));
+            return TypeDescriptor.Create(descriptor.TargetType, descriptor.MaxItems, nextValue.Return(n => n, null));
         }
     }
 }

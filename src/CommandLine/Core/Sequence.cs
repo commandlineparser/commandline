@@ -30,9 +30,11 @@ namespace CommandLine.Core
             var nameIndex = tokens.IndexOf(t => t.Equals(nameToken));
             if (nameIndex >= 0)
             {
-                return info.MaxItems.Return(
-                    n => tokens.Skip(nameIndex + 1).Take(n),
-                         tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue()));
+                return info.NextValue.Return(
+                    _ => info.MaxItems.Return(
+                            n => tokens.Skip(nameIndex + 1).Take(n),
+                                 tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue())),
+                    tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue()));
             }
             return new Token[] { };
         }

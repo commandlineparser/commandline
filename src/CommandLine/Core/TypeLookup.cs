@@ -35,9 +35,9 @@ namespace CommandLine.Core
                                 var descr = TypeDescriptor.Create(first.TargetType, first.Max);
                                 var next = specifications
                                     .SkipWhile(s => s.Equals(first)).Take(1)
-                                    .SingleOrDefault().ToMaybe()
+                                    .SingleOrDefault(x => x.IsValue()).ToMaybe()
                                     .Map(second => TypeDescriptor.Create(second.TargetType, second.Max));
-                                return descr.WithNext(next);
+                                return descr.WithNextValue(next);
                             });
             return info;
 
