@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.FSharp.Core;
 using CommandLine.Core;
+using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
 using Xunit;
@@ -25,7 +26,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => fakeOptions,
+                Maybe.Just<Func<FakeOptions>>(() => fakeOptions),
                 new[] { "--help" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -46,7 +47,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptions(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -69,7 +70,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithDouble(),
+                Maybe.Just<Func<FakeOptionsWithDouble>>(() => new FakeOptionsWithDouble()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -93,7 +94,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequence(),
+                Maybe.Just<Func<FakeOptionsWithSequence>>(() => new FakeOptionsWithSequence()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -115,7 +116,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptions(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -138,7 +139,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceAndOnlyMinConstraint(),
+                Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMinConstraint>>(() => new FakeOptionsWithSequenceAndOnlyMinConstraint()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -160,7 +161,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceAndOnlyMaxConstraint(),
+                Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMaxConstraint>>(() => new FakeOptionsWithSequenceAndOnlyMaxConstraint()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -179,7 +180,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceAndOnlyMinConstraint(),
+                Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMinConstraint>>(() => new FakeOptionsWithSequenceAndOnlyMinConstraint()),
                 new[] { "-s" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -198,7 +199,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceAndOnlyMinConstraintAsValue(),
+                Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMinConstraintAsValue>>(() => new FakeOptionsWithSequenceAndOnlyMinConstraintAsValue()),
                 new string[] { },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -218,7 +219,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceAndOnlyMaxConstraint(),
+                Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMaxConstraint>>(() => new FakeOptionsWithSequenceAndOnlyMaxConstraint()),
                 new[] { "--string-seq=one", "two", "three", "this-is-too-much" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -237,7 +238,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue(),
+                Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue>>(() => new FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue()),
                 new[] { "one", "two", "three", "this-is-too-much" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -261,7 +262,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithEnum(),
+                Maybe.Just<Func<FakeOptionsWithEnum>>(() => new FakeOptionsWithEnum()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -280,7 +281,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithEnum(),
+                Maybe.Just<Func<FakeOptionsWithEnum>>(() => new FakeOptionsWithEnum()),
                 new[] { "--colors", "3" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -299,7 +300,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithEnum(),
+                Maybe.Just<Func<FakeOptionsWithEnum>>(() => new FakeOptionsWithEnum()),
                 new[] { "--colors", "Yellow" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -318,7 +319,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithEnum(),
+                Maybe.Just<Func<FakeOptionsWithEnum>>(() => new FakeOptionsWithEnum()),
                 new[] { "--colors", "RED" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -343,7 +344,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithValues(),
+                Maybe.Just<Func<FakeOptionsWithValues>>(() => new FakeOptionsWithValues()),
                 new[] { "10", "a", "b", "c", "20" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -366,7 +367,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceWithoutRange(),
+                Maybe.Just<Func<FakeOptionsWithSequenceWithoutRange>>(() => new FakeOptionsWithSequenceWithoutRange()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -388,7 +389,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceAndSeparator(),
+                Maybe.Just<Func<FakeOptionsWithSequenceAndSeparator>>(() => new FakeOptionsWithSequenceAndSeparator()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -410,7 +411,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceAndSeparator(),
+                Maybe.Just<Func<FakeOptionsWithSequenceAndSeparator>>(() => new FakeOptionsWithSequenceAndSeparator()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -439,7 +440,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithValues(),
+                Maybe.Just<Func<FakeOptionsWithValues>>(() => new FakeOptionsWithValues()),
                 (a, optionSpecs) =>
                     Tokenizer.PreprocessDashDash(a,
                         args => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, StringComparer.Ordinal))),
@@ -465,7 +466,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSets(),
+                Maybe.Just<Func<FakeOptionsWithSets>>(() => new FakeOptionsWithSets()),
                 new[] { "--weburl", "http://mywebsite.org/", "--ftpurl", "fpt://ftpsite.org/" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -485,7 +486,7 @@ namespace CommandLine.Tests.Unit.Core
             };
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionWithRequiredAndSet(),
+                Maybe.Just<Func<FakeOptionWithRequiredAndSet>>(() => new FakeOptionWithRequiredAndSet()),
                 new[] { "--ftpurl", "str1"},
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -505,7 +506,7 @@ namespace CommandLine.Tests.Unit.Core
             };
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionWithRequiredAndSet(),
+                Maybe.Just<Func<FakeOptionWithRequiredAndSet>>(() => new FakeOptionWithRequiredAndSet()),
                 new[] { "--ftpurl", "str1", "--weburl", "str2" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -525,7 +526,7 @@ namespace CommandLine.Tests.Unit.Core
             };
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionWithRequiredAndSet(),
+                Maybe.Just<Func<FakeOptionWithRequiredAndSet>>(() => new FakeOptionWithRequiredAndSet()),
                 new[] {""},
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -543,7 +544,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionWithRequired(),
+                Maybe.Just<Func<FakeOptionWithRequired>>(() => new FakeOptionWithRequired()),
                 new string[] { },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -562,7 +563,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptions(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new [] { "-i", "10" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -581,7 +582,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptions(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new[] { "--stringvalue", "abc", "--xyz" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -600,7 +601,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptions(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new[] { "-z", "-x" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -619,7 +620,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptions(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new[] { "-zx" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -639,7 +640,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptions(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -658,7 +659,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithRequiredValue(),
+                Maybe.Just<Func<FakeOptionsWithRequiredValue>>(() => new FakeOptionsWithRequiredValue()),
                 new string[] { },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -680,7 +681,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptions(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -699,7 +700,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithSequenceMinMaxEqual(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new[] { "one", "two", "this-is-too-much" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -721,7 +722,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithNullables(),
+                Maybe.Just<Func<FakeOptionsWithNullables>>(() => new FakeOptionsWithNullables()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -743,7 +744,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithNullables(),
+                Maybe.Just<Func<FakeOptionsWithNullables>>(() => new FakeOptionsWithNullables()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -763,7 +764,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithFSharpOption(),
+                Maybe.Just<Func<FakeOptionsWithFSharpOption>>(() => new FakeOptionsWithFSharpOption()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -787,7 +788,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithFSharpOption(),
+                Maybe.Just<Func<FakeOptionsWithFSharpOption>>(() => new FakeOptionsWithFSharpOption()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -808,7 +809,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Exercize system 
             Action test = () => InstanceBuilder.Build(
-                () => new FakeOptionsWithMinZero(),
+                Maybe.Just<Func<FakeOptionsWithMinZero>>(() => new FakeOptionsWithMinZero()),
                 new string[] {},
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -822,7 +823,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Exercize system 
             Action test = () => InstanceBuilder.Build(
-                () => new FakeOptionsWithMaxZero(),
+                Maybe.Just<Func<FakeOptionsWithMaxZero>>(() => new FakeOptionsWithMaxZero()),
                 new string[] { },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -836,7 +837,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Exercize system 
             Action test = () => InstanceBuilder.Build(
-                () => new FakeOptionsWithMinMaxZero(),
+                Maybe.Just<Func<FakeOptionsWithMinMaxZero>>(() => new FakeOptionsWithMinMaxZero()),
                 new string[] { },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -855,7 +856,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Exercize system
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithNamedAndEmptySets(),
+                Maybe.Just<Func<FakeOptionsWithNamedAndEmptySets>>(() => new FakeOptionsWithNamedAndEmptySets()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -870,7 +871,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptions(),
+                Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -887,7 +888,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithRequiredValue(),
+                Maybe.Just<Func<FakeOptionsWithRequiredValue>>(() => new FakeOptionsWithRequiredValue()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
@@ -906,7 +907,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                () => new FakeOptionsWithScalarValueAndSequenceStringAdjacent(),
+                Maybe.Just<Func<FakeOptionsWithScalarValueAndSequenceStringAdjacent>>(() => new FakeOptionsWithScalarValueAndSequenceStringAdjacent()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
