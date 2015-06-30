@@ -7,6 +7,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using CommandLine.Infrastructure;
+
 namespace CommandLine.Core
 {
     internal static class ReflectionExtensions
@@ -87,6 +89,11 @@ namespace CommandLine.Core
                     Expression.Default(type),
                     typeof(object)));
             return e.Compile()();
+        }
+
+        public static bool IsMutable(this Type type)
+        {
+            return ReflectionHelper.IsTypeMutable(type);
         }
     }
 }
