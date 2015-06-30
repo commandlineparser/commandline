@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -107,7 +108,7 @@ namespace CommandLine.Core
                               join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower()
                               select sp.Value.Return(v => v,
                                     sp.Specification.DefaultValue.Return(d => d,
-                                        sp.Specification.ConversionType.GetDefaultValue()))).ToArray();
+                                        sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();
                 instance = (T)ctor.Invoke(values);
             }
 
@@ -122,6 +123,19 @@ namespace CommandLine.Core
                     .Concat(optionSpecProps.Errors)
                     .Concat(valueSpecProps.Errors)
                     .Concat(validationErrors));
+        }
+
+        private static object CreateDefaultForImmutable(this Type type)
+        {
+            if (type == typeof(string))
+            {
+                return string.Empty;
+            }
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                return type.GetGenericArguments()[0].CreateEmptyArray();
+            }
+            return type.GetDefaultValue();
         }
     }
 }

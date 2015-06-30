@@ -984,11 +984,11 @@ namespace CommandLine.Tests.Unit.Core
         {
             get
             {
-                yield return new object[] { new string[] { }, new FakeImmutableOptions(default(string), default(int[]), default(bool), default(long)) };
-                yield return new object[] { new[] { "--stringvalue=strval0" }, new FakeImmutableOptions("strval0", default(int[]), default(bool), default(long)) };
-                yield return new object[] { new[] { "-i", "9", "7", "8" }, new FakeImmutableOptions(default(string), new[] { 9, 7, 8 }, default(bool), default(long)) };
-                yield return new object[] { new[] { "-x" }, new FakeImmutableOptions(default(string), default(int[]), true, default(long)) };
-                yield return new object[] { new[] { "9876543210" }, new FakeImmutableOptions(default(string), default(int[]), default(bool), 9876543210L) };
+                yield return new object[] { new string[] { }, new FakeImmutableOptions("", new int[] { }, default(bool), default(long)) };
+                yield return new object[] { new[] { "--stringvalue=strval0" }, new FakeImmutableOptions("strval0", new int[] { }, default(bool), default(long)) };
+                yield return new object[] { new[] { "-i", "9", "7", "8" }, new FakeImmutableOptions("", new[] { 9, 7, 8 }, default(bool), default(long)) };
+                yield return new object[] { new[] { "-x" }, new FakeImmutableOptions("", new int[] { }, true, default(long)) };
+                yield return new object[] { new[] { "9876543210" }, new FakeImmutableOptions("", new int[] { }, default(bool), 9876543210L) };
                 yield return new object[] { new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" }, new FakeImmutableOptions("strval0", new[] { 9, 7, 8 }, true, 9876543210L) };
             }
         }
