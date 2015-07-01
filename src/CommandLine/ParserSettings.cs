@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Globalization;
@@ -25,8 +25,8 @@ namespace CommandLine
         /// </summary>
         public ParserSettings()
         {
-            this.caseSensitive = true;
-            this.parsingCulture = CultureInfo.InvariantCulture;
+            caseSensitive = true;
+            parsingCulture = CultureInfo.InvariantCulture;
         }
 
         /// <summary>
@@ -39,11 +39,13 @@ namespace CommandLine
 
         /// <summary>
         /// Gets or sets a value indicating whether perform case sensitive comparisons.
+        /// Note that case insensitivity only applies to <i>parameters</i>, not the values
+        /// assigned to them (for example, enum parsing).
         /// </summary>
         public bool CaseSensitive
         {
-            get { return this.caseSensitive; }
-            set { PopsicleSetter.Set(Consumed, ref this.caseSensitive, value); }
+            get { return caseSensitive; }
+            set { PopsicleSetter.Set(Consumed, ref caseSensitive, value); }
         }
 
         /// <summary>
@@ -54,12 +56,12 @@ namespace CommandLine
         /// </remarks>
         public CultureInfo ParsingCulture
         {
-            get { return this.parsingCulture; }
+            get { return parsingCulture; }
             set
             {
                 if (value == null) throw new ArgumentNullException("value");
 
-                PopsicleSetter.Set(Consumed, ref this.parsingCulture, value); 
+                PopsicleSetter.Set(Consumed, ref parsingCulture, value); 
             }
         }
 
@@ -69,8 +71,8 @@ namespace CommandLine
         /// </summary>
         public TextWriter HelpWriter
         {
-            get { return this.helpWriter; }
-            set { PopsicleSetter.Set(Consumed, ref this.helpWriter, value); }
+            get { return helpWriter; }
+            set { PopsicleSetter.Set(Consumed, ref helpWriter, value); }
         }
 
         /// <summary>
@@ -86,8 +88,8 @@ namespace CommandLine
         /// </remarks>
         public bool IgnoreUnknownArguments
         {
-            get { return this.ignoreUnknownArguments; }
-            set { PopsicleSetter.Set(Consumed, ref this.ignoreUnknownArguments, value); }
+            get { return ignoreUnknownArguments; }
+            set { PopsicleSetter.Set(Consumed, ref ignoreUnknownArguments, value); }
         }
 
         /// <summary>
@@ -96,8 +98,8 @@ namespace CommandLine
         /// </summary>
         public bool EnableDashDash
         {
-            get { return this.enableDashDash; }
-            set { PopsicleSetter.Set(Consumed, ref this.enableDashDash, value); }
+            get { return enableDashDash; }
+            set { PopsicleSetter.Set(Consumed, ref enableDashDash, value); }
         }
 
         internal StringComparer NameComparer
@@ -124,7 +126,7 @@ namespace CommandLine
 
         private void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (disposed)
             {
                 return;
             }
@@ -133,11 +135,11 @@ namespace CommandLine
             {
                 if (HelpWriter != null)
                 {
-                    this.helpWriter.Dispose();
-                    this.helpWriter = null;
+                    helpWriter.Dispose();
+                    helpWriter = null;
                 }
 
-                this.disposed = true;
+                disposed = true;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 
@@ -19,26 +19,22 @@ namespace CommandLine.Core
 
         public static Token Name(string text)
         {
-            if (text == null) throw new ArgumentNullException("text");
-
             return new Token(TokenType.Name, text);
         }
 
         public static Token Value(string text)
         {
-            if (text == null) throw new ArgumentNullException("text");
-
             return new Token(TokenType.Value, text);
         }
 
         public TokenType Tag
         {
-            get { return this.tag; }
+            get { return tag; }
         }
 
         public string Text
         {
-            get { return this.text; }
+            get { return text; }
         }
 
         public override bool Equals(object obj)
@@ -46,7 +42,7 @@ namespace CommandLine.Core
             var other = obj as Token;
             if (other != null)
             {
-                return this.Equals(other);
+                return Equals(other);
             }
 
             return base.Equals(obj);
@@ -54,7 +50,7 @@ namespace CommandLine.Core
 
         public override int GetHashCode()
         {
-            return this.Tag.GetHashCode() ^ this.Text.GetHashCode();
+            return new {Tag, Text}.GetHashCode();
         }
 
         public bool Equals(Token other)
@@ -64,7 +60,7 @@ namespace CommandLine.Core
                 return false;
             }
 
-            return this.Tag.Equals(other.Tag) && this.Text.Equals(other.Text);
+            return Tag.Equals(other.Tag) && Text.Equals(other.Text);
         }
     }
 

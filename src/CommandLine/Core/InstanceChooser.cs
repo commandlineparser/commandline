@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace CommandLine.Core
             StringComparer nameComparer,
             CultureInfo parsingCulture)
         {
-            return InstanceChooser.Choose(
+            return Choose(
                 (args, optionSpecs) => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer)),
                 types,
                 arguments,
@@ -55,7 +55,7 @@ namespace CommandLine.Core
         {     
             return verbs.Any(a => nameComparer.Equals(a.Item1.Name, arguments.First()))
                 ? InstanceBuilder.Build(
-                    () => Activator.CreateInstance(verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First())).Item2),
+                    Maybe.Just<Func<object>>(() => Activator.CreateInstance(verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First())).Item2)),
                     tokenizer,
                     arguments.Skip(1),
                     nameComparer,

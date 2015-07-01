@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Linq;
@@ -13,19 +13,28 @@ namespace CommandLine.Core
         Value
     }
 
+    internal enum TargetType
+    {
+        Switch,
+        Scalar,
+        Sequence
+    }
+
     internal abstract class Specification
     {
         private readonly SpecificationType tag;
         private readonly bool required;
-        private readonly int min;
-        private readonly int max;
+        private readonly Maybe<int> min;
+        private readonly Maybe<int> max;
         private readonly Maybe<object> defaultValue;
         /// <summary>
         /// This information is denormalized to decouple Specification from PropertyInfo.
         /// </summary>
-        private readonly System.Type conversionType;
+        private readonly Type conversionType;
+        private readonly TargetType targetType;
 
-        protected Specification(SpecificationType tag, bool required, int min, int max, Maybe<object> defaultValue, System.Type conversionType)
+        protected Specification(SpecificationType tag, bool required, Maybe<int> min, Maybe<int> max,
+            Maybe<object> defaultValue, Type conversionType, TargetType targetType)
         {
             this.tag = tag;
             this.required = required;
@@ -33,45 +42,54 @@ namespace CommandLine.Core
             this.max = max;
             this.defaultValue = defaultValue;
             this.conversionType = conversionType;
+            this.targetType = targetType;
         }
 
         public SpecificationType Tag 
         {
-            get { return this.tag; }
+            get { return tag; }
         }
 
         public bool Required
         {
-            get { return this.required; }
+            get { return required; }
         }
 
-        public int Min
+        public Maybe<int> Min
         {
-            get { return this.min; }
+            get { return min; }
         }
 
-        public int Max
+        public Maybe<int> Max
         {
-            get { return this.max; }
+            get { return max; }
         }
 
         public Maybe<object> DefaultValue
         {
-            get { return this.defaultValue; }
+            get { return defaultValue; }
         }
 
-        public System.Type ConversionType
+        public Type ConversionType
         {
-            get { return this.conversionType; }
+            get { return conversionType; }
+        }
+
+        public TargetType TargetType
+        {
+            get { return targetType; }
         }
 
         public static Specification FromProperty(PropertyInfo property)
-        {
+        {       
             var attrs = property.GetCustomAttributes(true);
             var oa = attrs.OfType<OptionAttribute>();
             if (oa.Count() == 1)
             {
-                var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType);
+                var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType,
+                    property.PropertyType.IsEnum
+                        ? Enum.GetNames(property.PropertyType)
+                        : Enumerable.Empty<string>());
                 if (spec.ShortName.Length == 0 && spec.LongName.Length == 0)
                 {
                     return spec.WithLongName(property.Name.ToLowerInvariant());

@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace CommandLine.Tests.Unit.Core
             var specProps = new[]
                 {
                     SpecificationProperty.Create(
-                        new OptionSpecification("x", string.Empty, false, string.Empty, -1, -1, Maybe.Nothing<object>(), typeof(bool), string.Empty, string.Empty), 
+                        new OptionSpecification("x", string.Empty, false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), typeof(bool), TargetType.Switch, string.Empty, string.Empty, new List<string>()), 
                         typeof(FakeOptions).GetProperties().Single(p => p.Name.Equals("BoolValue", StringComparison.Ordinal)),
                         Maybe.Nothing<object>())
                 };
@@ -40,7 +40,7 @@ namespace CommandLine.Tests.Unit.Core
             Assert.NotNull(result.Value.Single(
                 a => a.Specification.IsOption()
                 && ((OptionSpecification)a.Specification).ShortName.Equals("x")
-                && (bool)((Just<object>)a.Value).Value == true));
+                && (bool)((Just<object>)a.Value).Value));
 
             // Teardown
         }

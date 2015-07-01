@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Reflection;
@@ -21,8 +21,6 @@ namespace CommandLine.Core
 
         public static SpecificationProperty Create(Specification specification, PropertyInfo property, Maybe<object> value)
         {
-            if (specification == null) throw new ArgumentNullException("specification");
-            if (property == null) throw new ArgumentNullException("property");
             if (value == null) throw new ArgumentNullException("value");
 
             return new SpecificationProperty(specification, property, value);
@@ -30,17 +28,17 @@ namespace CommandLine.Core
 
         public Specification Specification
         {
-            get { return this.specification; }
+            get { return specification; }
         }
 
         public PropertyInfo Property
         {
-            get { return this.property; }
+            get { return property; }
         }
 
         public Maybe<object> Value
         {
-            get { return this.value; }
+            get { return value; }
         }
     }
 }

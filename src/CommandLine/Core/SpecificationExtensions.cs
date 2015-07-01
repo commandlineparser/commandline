@@ -1,9 +1,8 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommandLine.Infrastructure;
 
 namespace CommandLine.Core
 {
@@ -11,15 +10,11 @@ namespace CommandLine.Core
     {
         public static bool IsOption(this Specification specification)
         {
-            if (specification == null) throw new ArgumentNullException("specification");
-
             return specification.Tag == SpecificationType.Option;
         }
 
         public static bool IsValue(this Specification specification)
         {
-            if (specification == null) throw new ArgumentNullException("specification");
-
             return specification.Tag == SpecificationType.Value;
         }
 
@@ -32,10 +27,18 @@ namespace CommandLine.Core
                 specification.SetName,
                 specification.Min,
                 specification.Max,
+                specification.Separator,
                 specification.DefaultValue,
                 specification.ConversionType,
+                specification.TargetType,
                 specification.HelpText,
-                specification.MetaValue);
+                specification.MetaValue,
+                specification.EnumValues);
+        }
+
+        public static string UniqueName(this OptionSpecification specification)
+        {
+            return specification.ShortName.Length > 0 ? specification.ShortName : specification.LongName;
         }
 
         public static IEnumerable<Specification> ThrowingValidate(this IEnumerable<Specification> specifications, IEnumerable<Tuple<Func<Specification, bool>, string>> guardsLookup)
@@ -51,25 +54,35 @@ namespace CommandLine.Core
             return specifications;
         }
 
-        public static Maybe<int> GetMaxValueCount(this Specification specification)
+        public static bool HavingRange(this Specification specification, Func<int, int, bool> predicate)
         {
-            if (specification == null) throw new ArgumentNullException("specification");
-
-            switch (specification.ConversionType.ToDescriptor())
+            int min;
+            int max;
+            if (specification.Min.MatchJust(out min) && specification.Max.MatchJust(out max))
             {
-                case DescriptorType.Scalar:
-                    return  Maybe.Just(1);
-                case DescriptorType.Sequence:
-                    var min = specification.Min;
-                    var max = specification.Max;
-                    if (min >= 0 && max >= 0)
-                    {
-                        return Maybe.Just(max);
-                    }
-                    break;
+                return predicate(min, max);
             }
+            return false;
+        }
 
-            return Maybe.Nothing<int>();
+        public static bool HavingMin(this Specification specification, Func<int, bool> predicate)
+        {
+            int min;
+            if (specification.Min.MatchJust(out min))
+            {
+                return predicate(min);
+            }
+            return false;
+        }
+
+        public static bool HavingMax(this Specification specification, Func<int, bool> predicate)
+        {
+            int max;
+            if (specification.Max.MatchJust(out max))
+            {
+                return predicate(max);
+            }
+            return false;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -12,16 +12,12 @@ namespace CommandLine.Core
     {
         public static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, bool scalar, CultureInfo conversionCulture)
         {
-            if (values == null) throw new ArgumentNullException("values");
-            if (conversionType == null) throw new ArgumentNullException("conversionType");
-            if (conversionCulture == null) throw new ArgumentNullException("conversionCulture");
-
             return scalar
                 ? ChangeType(values.Single(), conversionType, conversionCulture)
                 : ChangeType(values, conversionType, conversionCulture);
         }
 
-        private static Maybe<object> ChangeType(IEnumerable<string> values, System.Type conversionType, CultureInfo conversionCulture)
+        private static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, CultureInfo conversionCulture)
         {
             var type =
                 conversionType.GetGenericArguments()
@@ -41,12 +37,36 @@ namespace CommandLine.Core
         {
             try
             {
+                Func<object> safeChangeType = () =>
+                    {
+                        var isFsOption = ReflectionHelper.IsFSharpOptionType(conversionType);
+
+                        Func<Type> getUnderlyingType = () =>
+                            isFsOption
+                                ? FSharpOptionHelper.GetUnderlyingType(conversionType)
+                                : Nullable.GetUnderlyingType(conversionType);
+
+                        var type = getUnderlyingType() ?? conversionType;
+
+                        Func<object> withValue = () =>
+                            isFsOption
+                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(value, type, conversionCulture))
+                                : Convert.ChangeType(value, type, conversionCulture);
+
+                        Func<object> empty = () =>
+                            isFsOption
+                                ? FSharpOptionHelper.None(type)
+                                : null;
+
+                        return (value == null) ? empty() : withValue();
+                    };
+
                 return Maybe.Just(
                     MatchBoolString(value)
                         ? ConvertBoolString(value)
                         : conversionType.IsEnum
-                            ? Enum.Parse(conversionType, value)
-                            : Convert.ChangeType(value, conversionType, conversionCulture));
+                            ? ConvertEnumString(value, conversionType)
+                            : safeChangeType());
             }
             catch (InvalidCastException)
             {
@@ -71,6 +91,24 @@ namespace CommandLine.Core
         private static bool ConvertBoolString(string value)
         {
             return value.Equals("true", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static object ConvertEnumString(string value, Type conversionType)
+        {
+            object parsedValue;
+            try
+            {
+                parsedValue = Enum.Parse(conversionType, value);
+            }
+            catch (ArgumentException)
+            {
+                throw new FormatException();
+            }
+            if (Enum.IsDefined(conversionType, parsedValue))
+            {
+                return parsedValue;
+            }
+            throw new FormatException();
         }
     }
 }

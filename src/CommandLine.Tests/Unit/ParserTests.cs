@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System.IO;
 using System.Linq;
@@ -72,7 +72,7 @@ namespace CommandLine.Tests.Unit
             var result = sut.ParseArguments<FakeOptions>(new[] { "--stringvalue=strvalue", "-i1", "2", "3" });
 
             // Verify outcome
-            result.Value.ShouldHave().AllProperties().EqualTo(expectedOptions);
+            result.Value.ShouldBeEquivalentTo(expectedOptions);
             Assert.False(result.Errors.Any());
             // Teardown
         }
@@ -95,7 +95,7 @@ namespace CommandLine.Tests.Unit
                 new[] { "--stringvalue", "astring", "--", "20", "--aaa", "-b", "--ccc", "30" });
 
             // Verify outcome
-            result.Value.ShouldHave().AllProperties().EqualTo(expectedOptions);
+            result.Value.ShouldBeEquivalentTo(expectedOptions);
             Assert.False(result.Errors.Any());
             // Teardown
         }
@@ -118,7 +118,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             Assert.IsType<AddOptions>(result.Value);
-            result.Value.ShouldHave().AllRuntimeProperties().EqualTo(expectedOptions);
+            result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             Assert.False(result.Errors.Any());
             // Teardown
         }
@@ -141,7 +141,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             Assert.IsType<CloneOptions>(result.Value);
-            result.Value.ShouldHave().AllRuntimeProperties().EqualTo(expectedOptions);
+            result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             Assert.False(result.Errors.Any());
             // Teardown
         }
@@ -163,7 +163,24 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             Assert.IsType<CloneOptions>(result.Value);
-            result.Value.ShouldHave().AllRuntimeProperties().EqualTo(expectedOptions);
+            result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
+            Assert.False(result.Errors.Any());
+            // Teardown
+        }
+
+        [Fact]
+        public void Parse_to_immutable_instance()
+        {
+            // Fixture setup
+            var expectedOptions = new FakeImmutableOptions(
+                "strvalue", new[] { 1, 2, 3 }, default(bool), default(long));
+            var sut = new Parser();
+
+            // Exercize system
+            var result = sut.ParseArguments<FakeImmutableOptions>(new[] { "--stringvalue=strvalue", "-i1", "2", "3" });
+
+            // Verify outcome
+            result.Value.ShouldBeEquivalentTo(expectedOptions);
             Assert.False(result.Errors.Any());
             // Teardown
         }

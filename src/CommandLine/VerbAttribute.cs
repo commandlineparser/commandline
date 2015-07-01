@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 
@@ -30,7 +30,7 @@ namespace CommandLine
         /// </summary>
         public string Name
         {
-            get { return this.name; }
+            get { return name; }
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace CommandLine
         /// </summary>
         public string HelpText
         {
-            get { return this.helpText; }
+            get { return helpText; }
             set
             {
                 if (value == null)
@@ -46,7 +46,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.helpText = value;
+                helpText = value;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Text;
@@ -96,7 +96,7 @@ namespace CommandLine.Text
             get
             {
                 var value = new StringBuilder(string.Empty);
-                var strArray = new[] { this.line1, this.line2, this.line3, this.line4, this.line5 };
+                var strArray = new[] { line1, line2, line3, line4, line5 };
 
                 for (var i = 0; i < GetLastLineWithText(strArray); i++)
                 {
@@ -112,7 +112,7 @@ namespace CommandLine.Text
         /// </summary>
         public string Line1
         {
-            get { return this.line1; }
+            get { return line1; }
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace CommandLine.Text
         /// </summary>
         public string Line2
         {
-            get { return this.line2; }
+            get { return line2; }
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace CommandLine.Text
         /// </summary>
         public string Line3
         {
-            get { return this.line3; }
+            get { return line3; }
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace CommandLine.Text
         /// </summary>
         public string Line4
         {
-            get { return this.line4; }
+            get { return line4; }
         }
 
         /// <summary>
@@ -144,12 +144,12 @@ namespace CommandLine.Text
         /// </summary>
         public string Line5
         {
-            get { return this.line5; }
+            get { return line5; }
         }
 
         internal HelpText AddToHelpText(HelpText helpText, Func<string, HelpText> func)
         {
-            var strArray = new[] { this.line1, this.line2, this.line3, this.line4, this.line5 };
+            var strArray = new[] { line1, line2, line3, line4, line5 };
             return strArray.Aggregate(helpText, (current, line) => func(line));
         }
 
@@ -158,8 +158,8 @@ namespace CommandLine.Text
             // before flag only distinguishes which action is called, 
             // so refactor common code and call with appropriate func
             return before
-                ? this.AddToHelpText(helpText, line => helpText.AddPreOptionsLine(line))
-                : this.AddToHelpText(helpText, line => helpText.AddPostOptionsLine(line));
+                ? AddToHelpText(helpText, helpText.AddPreOptionsLine)
+                : AddToHelpText(helpText, helpText.AddPostOptionsLine);
         }
 
         /// <summary>

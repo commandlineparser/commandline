@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 
@@ -8,11 +8,27 @@ namespace CommandLine.Core
     {
         public static bool MatchName(this string value, string shortName, string longName, StringComparer comparer)
         {
-            if (value == null) throw new ArgumentNullException("value");
-
             return value.Length == 1
                ? comparer.Equals(value, shortName)
                : comparer.Equals(value, longName);
+        }
+
+        public static NameInfo FromOptionSpecification(this OptionSpecification specification)
+        {
+            return new NameInfo(
+                specification.LongName,
+                specification.ShortName);
+        }
+
+        public static NameInfo FromSpecification(this Specification specification)
+        {
+            switch (specification.Tag)
+            {
+                case SpecificationType.Option:
+                    return FromOptionSpecification((OptionSpecification)specification);
+                default:
+                    return NameInfo.EmptyName;
+            }
         }
     }
 }

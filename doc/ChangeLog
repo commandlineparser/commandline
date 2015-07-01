@@ -1,3 +1,116 @@
+2015-06-30    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Internal refactorings.
+  * Support for immutable types.
+  * Fixes.
+
+2015-06-29    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Issue #112 Fixed.
+
+2015-06-28    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Internal refactorings.
+
+2015-06-27    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Disallowed Min=Max=0 for sequences, raising exception.
+  * Issue #177 Fixed.
+
+2015-06-26    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Added support for FSharpOption<T>.
+
+2015-06-25    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Issue #155 Fixed (thanks to @guyzeug).
+
+2015-06-24    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * PR #171 merged.
+
+2015-06-23    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Issue #172 Fixed.
+
+2015-06-22    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Fixing FAKE build script.
+
+2015-06-20    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Internal refactorings.
+  * New tests added.
+
+2015-06-20    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Removed reduntant internal params null checks.
+
+2015-06-19    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Better GetHashCode() implementations.
+
+2015-06-19    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Adding more tests for token partitioners.
+  * Fix in Sequence.Partition().
+  * Sequence.Partition() rewritten.
+  * Refactoring for Increase Testability.
+  * Little change to allow .NET 4.5 build.
+
+2015-06-18    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Important fix on scalar string value adjacent to string sequence (without constraints).
+  * Refactoring for Increase Testability.
+
+2015-06-17    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Fixing Issue #164.
+
+2015-06-16    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Increased test coverage using theories.
+
+2015-06-15    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Fixing Issue #159.
+  * Fixing Issue #160.
+  * Fixing Issue #161.
+
+2015-06-13    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Chaning Separator from string to char.
+  * Fixing Issue #157.
+	
+2015-06-12    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Issue #68, option list behaviour.
+
+2015-06-10    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Pull request #154 merged.
+
+2015-06-07    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Pull request #144 merged.
+
+2015-06-06    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Pull request #119 merged.
+
+2015-06-05    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Pull request #103 merged (solving conflicts).
+
+2015-06-04    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Pull request #97 merged.
+
+2015-06-03    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Pull request #87 merged.
+  * Pull request #95 merged.
+
 2013-04-26    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Released pre-release of Version 2.0.

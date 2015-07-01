@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using CommandLine.Infrastructure;
@@ -16,6 +16,7 @@ namespace CommandLine
         private string setName;
         private int min;
         private int max;
+        private char separator;
         private object defaultValue;
         private string helpText;
         private string metaValue;
@@ -27,11 +28,12 @@ namespace CommandLine
 
             this.shortName = shortName;
             this.longName = longName;
-            this.setName = string.Empty;
-            this.min = -1;
-            this.max = -1;
-            this.helpText = string.Empty;
-            this.metaValue = string.Empty;
+            setName = string.Empty;
+            min = -1;
+            max = -1;
+            separator = '\0';
+            helpText = string.Empty;
+            metaValue = string.Empty;
         }
 
         /// <summary>
@@ -76,7 +78,7 @@ namespace CommandLine
         /// </summary>
         public string LongName
         {
-            get { return this.longName; }
+            get { return longName; }
         }
 
         /// <summary>
@@ -84,7 +86,7 @@ namespace CommandLine
         /// </summary>
         public string ShortName
         {
-            get { return this.shortName; }
+            get { return shortName; }
         }
 
         /// <summary>
@@ -97,7 +99,7 @@ namespace CommandLine
         /// </summary>
         public string SetName
         {
-            get { return this.setName; }
+            get { return setName; }
             set
             {
                 if (value == null)
@@ -105,7 +107,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.setName = value;
+                setName = value;
             }
         }
 
@@ -116,7 +118,7 @@ namespace CommandLine
         /// <remarks>If not set, no lower range is enforced.</remarks>
         public int Min
         {
-            get { return this.min; }
+            get { return min; }
             set
             {
                 if (value < 0)
@@ -124,7 +126,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.min = value;
+                min = value;
             }
         }
 
@@ -135,7 +137,7 @@ namespace CommandLine
         /// <remarks>If not set, no upper range is enforced.</remarks>
         public int Max
         {
-            get { return this.max; }
+            get { return max; }
             set
             {
                 if (value < 0)
@@ -143,8 +145,18 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.max = value;
+                max = value;
             }
+        }
+
+        /// <summary>
+        /// When applying attribute to <see cref="System.Collections.Generic.IEnumerable{T}"/> target properties,
+        /// it allows you to split an argument and consume its content as a sequence.
+        /// </summary>
+        public char Separator
+        {
+            get { return separator ; }
+            set { separator = value; }
         }
 
         /// <summary>
@@ -152,7 +164,7 @@ namespace CommandLine
         /// </summary>
         public object DefaultValue
         {
-            get { return this.defaultValue; }
+            get { return defaultValue; }
             set
             {
                 if (value == null)
@@ -160,7 +172,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.defaultValue = value;
+                defaultValue = value;
             }
         }
 
@@ -169,7 +181,7 @@ namespace CommandLine
         /// </summary>
         public string HelpText
         {
-            get { return this.helpText; }
+            get { return helpText; }
             set
             {
                 if (value == null)
@@ -177,7 +189,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.helpText = value;
+                helpText = value;
             }
         }
 
@@ -186,7 +198,7 @@ namespace CommandLine
         /// </summary>
         public string MetaValue
         {
-            get { return this.metaValue; }
+            get { return metaValue; }
             set
             {
                 if (value == null)
@@ -194,7 +206,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                this.metaValue = value;
+                metaValue = value;
             }
         }
     }

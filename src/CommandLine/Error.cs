@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 
@@ -38,6 +38,10 @@ namespace CommandLine
         /// </summary>
         SequenceOutOfRangeError,
         /// <summary>
+        /// Value of <see cref="CommandLine.RepeatedOptionError"/> type.
+        /// </summary>
+        RepeatedOptionError,
+        /// <summary>
         /// Value of <see cref="CommandLine.NoVerbSelectedError"/> type.
         /// </summary>
         NoVerbSelectedError,
@@ -73,7 +77,7 @@ namespace CommandLine
         /// </summary>
         public ErrorType Tag
         {
-            get { return this.tag; }
+            get { return tag; }
         }
 
         /// <summary>
@@ -86,7 +90,7 @@ namespace CommandLine
             var other = obj as Error;
             if (other != null)
             {
-                return this.Equals(other);
+                return Equals(other);
             }
 
             return base.Equals(obj);
@@ -98,7 +102,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return this.Tag.GetHashCode();
+            return Tag.GetHashCode();
         }
 
         /// <summary>
@@ -113,7 +117,7 @@ namespace CommandLine
                 return false;
             }
 
-            return this.Tag.Equals(other.Tag);
+            return Tag.Equals(other.Tag);
         }
     }
 
@@ -137,7 +141,7 @@ namespace CommandLine
         /// </summary>
         public string Token
         {
-            get { return this.token; }
+            get { return token; }
         }
 
         /// <summary>
@@ -150,7 +154,7 @@ namespace CommandLine
             var other = obj as TokenError;
             if (other != null)
             {
-                return this.Equals(other);
+                return Equals(other);
             }
 
             return base.Equals(obj);
@@ -162,7 +166,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return this.Tag.GetHashCode() ^ this.Token.GetHashCode();
+            return new {Tag, Token}.GetHashCode();
         }
 
         /// <summary>
@@ -177,7 +181,7 @@ namespace CommandLine
                 return false;
             }
 
-            return this.Tag.Equals(other.Tag) && this.Token.Equals(other.Token);
+            return Tag.Equals(other.Tag) && Token.Equals(other.Token);
         }
     }
 
@@ -210,7 +214,7 @@ namespace CommandLine
         /// </summary>
         public NameInfo NameInfo
         {
-            get { return this.nameInfo; }
+            get { return nameInfo; }
         }
 
         /// <summary>
@@ -223,7 +227,7 @@ namespace CommandLine
             var other = obj as NamedError;
             if (other != null)
             {
-                return this.Equals(other);
+                return Equals(other);
             }
 
             return base.Equals(obj);
@@ -235,7 +239,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return this.Tag.GetHashCode() ^ this.NameInfo.GetHashCode();
+            return new {Tag, NameInfo}.GetHashCode();
         }
 
         /// <summary>
@@ -250,7 +254,7 @@ namespace CommandLine
                 return false;
             }
 
-            return this.Tag.Equals(other.Tag) && this.NameInfo.Equals(other.NameInfo);
+            return Tag.Equals(other.Tag) && NameInfo.Equals(other.NameInfo);
         }
     }
 
@@ -321,6 +325,17 @@ namespace CommandLine
     }
 
     /// <summary>
+    /// Models an error generated when an option is repeated two or more times.
+    /// </summary>
+    public sealed class RepeatedOptionError : NamedError
+    {
+        internal RepeatedOptionError(NameInfo nameInfo)
+            : base(ErrorType.RepeatedOptionError, nameInfo)
+        {
+        }
+    }
+
+    /// <summary>
     /// Models an error generated when an unknown verb is detected.
     /// </summary>
     public sealed class BadVerbSelectedError : TokenError
@@ -364,7 +379,7 @@ namespace CommandLine
         /// </summary>
         public string Verb
         {
-            get { return this.verb; }
+            get { return verb; }
         }
 
         /// <summary>
@@ -372,7 +387,7 @@ namespace CommandLine
         /// </summary>
         public Type Type
         {
-            get { return this.type; }
+            get { return type; }
         }
 
         /// <summary>
@@ -380,7 +395,7 @@ namespace CommandLine
         /// </summary>
         public bool Matched
         {
-            get { return this.matched; }
+            get { return matched; }
         }
     }
 

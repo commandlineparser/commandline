@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace CommandLine
     {
         private bool disposed;
         private readonly ParserSettings settings;
-        private static readonly Lazy<Parser> @default = new Lazy<Parser>(
+        private static readonly Lazy<Parser> DefaultParser = new Lazy<Parser>(
             () => new Parser(new ParserSettings{ HelpWriter = Console.Error }));
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace CommandLine
         /// </summary>
         public Parser()
         {
-            this.settings = new ParserSettings { Consumed = true };
+            settings = new ParserSettings { Consumed = true };
         }
 
         /// <summary>
@@ -38,9 +38,9 @@ namespace CommandLine
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
 
-            this.settings = new ParserSettings();
-            configuration(this.settings);
-            this.settings.Consumed = true;
+            settings = new ParserSettings();
+            configuration(settings);
+            settings.Consumed = true;
         }
 
         internal Parser(ParserSettings settings)
@@ -62,7 +62,7 @@ namespace CommandLine
         /// </summary>
         public static Parser Default
         {
-            get { return @default.Value; }
+            get { return DefaultParser.Value; }
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace CommandLine
         /// </summary>
         public ParserSettings Settings
         {
-            get { return this.settings; }
+            get { return settings; }
         }
 
         /// <summary>
@@ -82,12 +82,22 @@ namespace CommandLine
         /// <returns>A <see cref="CommandLine.ParserResult{T}"/> containing an instance of type <typeparamref name="T"/> with parsed values
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
-        public ParserResult<T> ParseArguments<T>(string[] args)
-            where T : new()
+        public ParserResult<T> ParseArguments<T>(IEnumerable<string> args)
         {
             if (args == null) throw new ArgumentNullException("args");
 
-            return ParseArguments(() => new T(), args);
+            var factory = typeof(T).IsMutable()
+                ? Maybe.Just<Func<T>>(Activator.CreateInstance<T>)
+                : Maybe.Nothing<Func<T>>();
+
+            return MakeParserResult(
+                () => InstanceBuilder.Build(
+                    factory,
+                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
+                    args,
+                    settings.NameComparer,
+                    settings.ParsingCulture),
+                settings);
         }
 
         /// <summary>
@@ -100,18 +110,20 @@ namespace CommandLine
         /// <returns>A <see cref="CommandLine.ParserResult{T}"/> containing an instance of type <typeparamref name="T"/> with parsed values
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
-        public ParserResult<T> ParseArguments<T>(Func<T> factory, string[] args)
+        public ParserResult<T> ParseArguments<T>(Func<T> factory, IEnumerable<string> args)
+            where T : new()
         {
             if (factory == null) throw new ArgumentNullException("factory");
+            if (!typeof(T).IsMutable()) throw new ArgumentException("factory");
             if (args == null) throw new ArgumentNullException("args");
 
             return MakeParserResult(
                 () => InstanceBuilder.Build(
-                    factory,
-                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, this.settings),
+                    Maybe.Just(factory),
+                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     args,
-                    this.settings.NameComparer,
-                    this.settings.ParsingCulture),
+                    settings.NameComparer,
+                    settings.ParsingCulture),
                 settings);
         }
 
@@ -127,7 +139,7 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown if <paramref name="types"/> array is empty.</exception>
         /// <remarks>All types must expose a parameterless constructor. It's stronly recommended to use a generic overload.</remarks>
-        public ParserResult<object> ParseArguments(string[] args, params Type[] types)
+        public ParserResult<object> ParseArguments(IEnumerable<string> args, params Type[] types)
         {
             if (args == null) throw new ArgumentNullException("args");
             if (types == null) throw new ArgumentNullException("types");
@@ -135,11 +147,11 @@ namespace CommandLine
 
             return MakeParserResult(
                 () => InstanceChooser.Choose(
-                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, this.settings),
+                    (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     types,
                     args,
-                    this.settings.NameComparer,
-                    this.settings.ParsingCulture),
+                    settings.NameComparer,
+                    settings.ParsingCulture),
                 settings);
         }
 
@@ -194,7 +206,7 @@ namespace CommandLine
 
         private void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (disposed)
             {
                 return;
             }
@@ -206,7 +218,7 @@ namespace CommandLine
                     settings.Dispose();
                 }
 
-                this.disposed = true;
+                disposed = true;
             }
         }
     }

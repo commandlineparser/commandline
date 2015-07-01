@@ -12,10 +12,12 @@ src/templates/CSharpTemplate/bin/*
 src/templates/CSharpTemplate/obj 
 src/templates/VBNetTemplate/bin/*
 src/templates/VBNetTemplate/obj
+build/*
 packages
 *.suo
 *.userprefs
 *~
+\#*\#
 *.pidb
 *.test-cache
 src/libcmdline/test-results/*

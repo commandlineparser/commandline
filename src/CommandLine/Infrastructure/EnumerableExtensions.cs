@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -34,32 +34,21 @@ namespace CommandLine.Infrastructure
             }
         }
 
-        //public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
-        //{
-        //    if (source == null) throw new ArgumentNullException("source");
-        //    if (action == null) throw new ArgumentNullException("action");
+        public static int IndexOf<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+        {
+            var index = -1;
+            foreach (var item in source)
+            {
+                index++;
+                if (predicate(item))
+                {
+                    break;
+                }
+            }
+            return index;
+        }
 
-        //    foreach (var item in source)
-        //    {
-        //        action(item);
-        //    }
-        //}
-
-        //public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource, int> action)
-        //{
-        //    if (source == null) throw new ArgumentNullException("source");
-        //    if (action == null) throw new ArgumentNullException("action");
-
-        //    var index = 0;
-
-        //    foreach (var item in source)
-        //    {
-        //        action(item, index++);
-        //    }
-        //}
-
-
-        public static IEnumerable<T> ToEnumerable<T>(this List<T> value)
+        public static IEnumerable<T> ToEnumerable<T>(this IEnumerable<T> value)
         {
             return value;
         }

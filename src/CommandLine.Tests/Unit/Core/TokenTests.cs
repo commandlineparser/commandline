@@ -1,0 +1,16 @@
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+
+using CommandLine.Core;
+using Xunit;
+
+namespace CommandLine.Tests.Unit.Core
+{
+    public class TokenTests
+    {
+        [Fact]
+        public void Equality()
+        {
+            Assert.True(Token.Name("nametok").Equals(Token.Name("nametok")));
+        }
+    }
+}

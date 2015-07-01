@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -9,20 +9,38 @@ namespace CommandLine.Core
 {
     internal static class TypeLookup
     {
-        public static Maybe<Tuple<DescriptorType, Maybe<int>>> GetDescriptorInfo(
+        public static Maybe<TypeDescriptor> FindTypeDescriptor(
             string name,
             IEnumerable<OptionSpecification> specifications,
             StringComparer comparer)
         {
-            if (name == null) throw new ArgumentNullException("name");
-            if (specifications == null) throw new ArgumentNullException("specifications");
-            if (comparer == null) throw new ArgumentNullException("comparer");
-
-            return specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
+            var info = specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
                 .ToMaybe()
                     .Map(
-                        s => Tuple.Create(
-                            s.ConversionType.ToDescriptor(), (s.Min < 0 && s.Max < 0) ? Maybe.Nothing<int>() : Maybe.Just(s.Max)));
+                        s => TypeDescriptor.Create(s.TargetType, s.Max));
+            return info;
+        }
+
+        public static Maybe<TypeDescriptor> FindTypeDescriptorAndSibling(
+            string name,
+            IEnumerable<OptionSpecification> specifications,
+            StringComparer comparer)
+        {
+            var info =
+                specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
+                    .ToMaybe()
+                    .Map(
+                        first =>
+                            {
+                                var descr = TypeDescriptor.Create(first.TargetType, first.Max);
+                                var next = specifications
+                                    .SkipWhile(s => s.Equals(first)).Take(1)
+                                    .SingleOrDefault(x => x.IsValue()).ToMaybe()
+                                    .Map(second => TypeDescriptor.Create(second.TargetType, second.Max));
+                                return descr.WithNextValue(next);
+                            });
+            return info;
+
         }
     }
 }

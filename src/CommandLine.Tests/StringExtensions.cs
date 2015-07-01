@@ -1,6 +1,7 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CommandLine.Tests
@@ -12,7 +13,7 @@ namespace CommandLine.Tests
             return value.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public static string[] TrimStringArray(this string[] array)
+        public static string[] TrimStringArray(this IEnumerable<string> array)
         {
             return array.Select(item => item.Trim()).ToArray();
         }

@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using CommandLine.Core;
@@ -32,7 +32,7 @@ namespace CommandLine
         /// </summary>
         public string ShortName
         {
-            get { return this.shortName; }
+            get { return shortName; }
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace CommandLine
         /// </summary>
         public string LongName
         {
-            get { return this.longName; }
+            get { return longName; }
         }
 
         /// <summary>
@@ -50,29 +50,11 @@ namespace CommandLine
         {
             get
             {
-                return this.ShortName.Length > 0 && this.LongName.Length > 0
-                           ? this.ShortName + ", " + this.LongName
-                           : this.ShortName.Length > 0
-                                ? this.ShortName
-                                : this.LongName;
-            }
-        }
-
-        internal static NameInfo FromOptionSpecification(OptionSpecification specification)
-        {
-            return new NameInfo(
-                specification.LongName,
-                specification.ShortName);
-        }
-
-        internal static NameInfo FromSpecification(Specification specification)
-        {
-            switch (specification.Tag)
-            {
-                case SpecificationType.Option:
-                    return NameInfo.FromOptionSpecification((OptionSpecification)specification);
-                default:
-                    return NameInfo.EmptyName;
+                return ShortName.Length > 0 && LongName.Length > 0
+                           ? ShortName + ", " + LongName
+                           : ShortName.Length > 0
+                                ? ShortName
+                                : LongName;
             }
         }
 
@@ -86,7 +68,7 @@ namespace CommandLine
             var other = obj as NameInfo;
             if (other != null)
             {
-                return this.Equals(other);
+                return Equals(other);
             }
 
             return base.Equals(obj);
@@ -98,7 +80,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return this.ShortName.GetHashCode() ^ this.LongName.GetHashCode();
+            return new { ShortName, LongName }.GetHashCode();
         }
 
         /// <summary>
@@ -113,7 +95,7 @@ namespace CommandLine
                 return false;
             }
 
-            return this.ShortName.Equals(other.ShortName) && this.LongName.Equals(other.LongName);
+            return ShortName.Equals(other.ShortName) && LongName.Equals(other.LongName);
         }
     }
 }

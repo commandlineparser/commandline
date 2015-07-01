@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -14,24 +14,24 @@ namespace CommandLine.Core
                 MapValues(
                     IEnumerable<SpecificationProperty> propertyTuples,
                     IEnumerable<KeyValuePair<string, IEnumerable<string>>> options,
-                    Func<IEnumerable<string>, System.Type, bool, Maybe<object>> converter,
+                    Func<IEnumerable<string>, Type, bool, Maybe<object>> converter,
                     StringComparer comparer)
         {
             var sequencesAndErrors = propertyTuples
                 .Select(pt =>
-                    options.SingleOrDefault(
+                    options.FirstOrDefault(
                             s =>
                             s.Key.MatchName(((OptionSpecification)pt.Specification).ShortName, ((OptionSpecification)pt.Specification).LongName, comparer))
                                .ToMaybe()
                                .Return(sequence =>
-                                    converter(sequence.Value, pt.Property.PropertyType, pt.Specification.ConversionType.IsScalar())
+                                    converter(sequence.Value, pt.Property.PropertyType, pt.Specification.TargetType != TargetType.Sequence)
                                     .Return(converted =>
                                             Tuple.Create(
                                                 pt.WithValue(Maybe.Just(converted)),
                                                 Maybe.Nothing<Error>()),
                                             Tuple.Create<SpecificationProperty, Maybe<Error>>(
                                                 pt,
-                                                Maybe.Just<Error>(new BadFormatConversionError(NameInfo.FromOptionSpecification((OptionSpecification)pt.Specification))))),
+                                                Maybe.Just<Error>(new BadFormatConversionError(NameExtensions.FromOptionSpecification((OptionSpecification)pt.Specification))))),
                                 Tuple.Create(pt, Maybe.Nothing<Error>()))
                 );
             return StatePair.Create(

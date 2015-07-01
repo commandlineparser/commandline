@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2013 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
 using System.Collections.Generic;
@@ -13,48 +13,58 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             Func<string, bool> nameLookup)
         {
-            if (arguments == null) throw new ArgumentNullException("arguments");
-
             var errors = new List<Error>();
-            Action<Error> onError = e => errors.Add(e);
+            Action<Error> onError = errors.Add;
 
-            var tokens = from arg in arguments
-                         from token in !arg.StartsWith("-", StringComparison.Ordinal)
-                               ? new Token[] { Token.Value(arg) }
+            var tokens = (from arg in arguments
+                          from token in !arg.StartsWith("-", StringComparison.Ordinal)
+                               ? new[] { Token.Value(arg) }
                                : arg.StartsWith("--", StringComparison.Ordinal)
                                      ? TokenizeLongName(arg, onError)
                                      : TokenizeShortName(arg, nameLookup)
-                         select token;
+                          select token).ToList();
 
-            var unkTokens = from t in tokens where t.IsName() && !nameLookup(t.Text) select t;
+            var unkTokens = (from t in tokens where t.IsName() && !nameLookup(t.Text) select t).ToList();
 
-            return StatePair.Create(tokens.Except(unkTokens), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
+            return StatePair.Create(tokens.Where(x=>!unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
 
         public static StatePair<IEnumerable<Token>> PreprocessDashDash(
             IEnumerable<string> arguments,
             Func<IEnumerable<string>, StatePair<IEnumerable<Token>>> tokenizer)
         {
-            if (arguments == null) throw new ArgumentNullException("arguments");
-
             if (arguments.Any(arg => arg.EqualsOrdinal("--")))
             {
                 var tokenizerResult = tokenizer(arguments.TakeWhile(arg => !arg.EqualsOrdinal("--")));
-                var values = arguments.SkipWhile(arg => !arg.EqualsOrdinal("--")).Skip(1).Select(t => Token.Value(t));
+                var values = arguments.SkipWhile(arg => !arg.EqualsOrdinal("--")).Skip(1).Select(Token.Value);
                 return tokenizerResult.MapValue(tokens => tokens.Concat(values));
             }
             return tokenizer(arguments);
+        }
+
+        public static StatePair<IEnumerable<Token>> ExplodeOptionList(
+            StatePair<IEnumerable<Token>> tokens,
+            Func<string, Maybe<char>> optionSequenceWithSeparatorLookup)
+        {
+            var replaces = tokens.Value.Select((t,i) =>
+                optionSequenceWithSeparatorLookup(t.Text)
+                    .Return(sep => Tuple.Create(i + 1, sep),
+                        Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0);
+
+            var exploded = tokens.Value.Select((t, i) =>
+                        replaces.FirstOrDefault(x => x.Item1 == i).ToMaybe()
+                            .Return(r => t.Text.Split(r.Item2).Select(Token.Value),
+                                Enumerable.Empty<Token>().Concat(new[]{ t })));
+
+            var flattened = exploded.SelectMany(x => x);
+
+            return StatePair.Create(flattened, tokens.Errors);
         }
 
         private static IEnumerable<Token> TokenizeShortName(
             string value,
             Func<string, bool> nameLookup)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-
             if (value.Length > 1 || value[0] == '-' || value[1] != '-')
             {
                 var text = value.Substring(1);
@@ -100,11 +110,6 @@ namespace CommandLine.Core
             string value,
             Action<Error> onError)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("value");
-            }
-
             if (value.Length > 2 && value.StartsWith("--", StringComparison.Ordinal))
             {
                 var text = value.Substring(2);
