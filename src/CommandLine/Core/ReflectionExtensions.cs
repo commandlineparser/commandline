@@ -12,17 +12,23 @@ namespace CommandLine.Core
     {
         public static IEnumerable<T> GetSpecifications<T>(this System.Type type, Func<PropertyInfo, T> selector)
         {
+            return from pi in GetCandidateTypes(type).SelectMany(x => x.GetProperties())
+                   let attrs = pi.GetCustomAttributes(true)
+                   where
+                       attrs.OfType<OptionAttribute>().Any() ||
+                       attrs.OfType<ValueAttribute>().Any()
+                   group pi by pi.Name into g
+                   select selector(g.First());
+        }
+
+        private static IEnumerable<Type> GetCandidateTypes(System.Type type)
+        {
             while (type != null)
             {
-                foreach (var pi in from pi in type.GetProperties().Concat(type.GetInterfaces().SelectMany(x => x.GetProperties()))
-                                   let attrs = pi.GetCustomAttributes(true)
-                                   where
-                                        attrs.OfType<OptionAttribute>().Any() ||
-                                        attrs.OfType<ValueAttribute>().Any()
-                                   group pi by pi.Name into g
-                                   select selector(g.First()))
+                yield return type;
+                foreach (var @interface in type.GetInterfaces())
                 {
-                    yield return pi;
+                    yield return @interface;
                 }
                 type = type.BaseType;
             }
