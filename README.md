@@ -58,15 +58,19 @@ class Options {
   [Option('r', "read", Required = true,
     HelpText = "Input files to be processed.")]
   public IEnumerable<string> InputFiles { get; set; }
-    
+
   // Omitting long name, default --verbose
   [Option(
     HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
 
-  [Value(0,
-    DefaultValue = 12)]
-  public long Offset { get; set;}
+  [Option(DefaultValue = "中文",
+    HelpText = "Content language."
+  )]
+  public Language { get; set; }
+
+  [Value(0)]
+  public long? Offset { get; set;}
   }
 }
 ```
@@ -85,6 +89,7 @@ static void Main(string[] args) {
 type options = {
   [<Option('r', "read", Required = true, HelpText = "Input files.")>] files : seq<string>;
   [<Option(HelpText = "Prints all messages to standard output.")>] verbose : bool;
+  [<Option(DefaultValue = "русский", HelpText = "Content language.")>] language : string;
   [<Value(0)>] offset : int64 option;
 }
 ```
