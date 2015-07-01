@@ -65,8 +65,7 @@ class Options {
   public bool Verbose { get; set; }
 
   [Option(DefaultValue = "中文",
-    HelpText = "Content language."
-  )]
+    HelpText = "Content language.")]
   public Language { get; set; }
 
   [Value(0)]
