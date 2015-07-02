@@ -115,7 +115,9 @@ namespace CommandLine.Core
 
         public static bool IsMutable(this Type type)
         {
-            return ReflectionHelper.IsTypeMutable(type);
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
+            return props || fields;
         }
 
         public static object CreateDefaultForImmutable(this Type type)

@@ -1,5 +1,6 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
+using CommandLine.Core;
 using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
@@ -12,13 +13,13 @@ namespace CommandLine.Tests.Unit.Infrastructure
         [Fact]
         public static void Class_with_public_set_properties_or_fields_is_ranked_mutable()
         {
-            ReflectionHelper.IsTypeMutable(typeof(FakeOptions)).Should().BeTrue();
+            typeof(FakeOptions).IsMutable().Should().BeTrue();
         }
 
         [Fact]
         public static void Class_without_public_set_properties_or_fields_is_ranked_immutable()
         {
-            ReflectionHelper.IsTypeMutable(typeof(FakeImmutableOptions)).Should().BeFalse();
+            typeof(FakeImmutableOptions).IsMutable().Should().BeFalse();
         }
     }
 }

@@ -84,7 +84,7 @@ namespace CommandLine.Core
             var specPropsWithValue = optionSpecProps.Value.Concat(valueSpecProps.Value);
 
             T instance;
-            if (ReflectionHelper.IsTypeMutable(typeInfo))
+            if (typeInfo.IsMutable())
             {
                 instance = factory.Return(f => f(), Activator.CreateInstance<T>());
                 instance = instance

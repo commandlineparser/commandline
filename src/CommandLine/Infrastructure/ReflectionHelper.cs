@@ -36,12 +36,5 @@ namespace CommandLine.Infrastructure
             return type.FullName.StartsWith(
                 "Microsoft.FSharp.Core.FSharpOption`1", StringComparison.Ordinal);
         }
-
-        public static bool IsTypeMutable(Type type)
-        {
-            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
-            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
-            return props || fields;
-        }
     }
 }
