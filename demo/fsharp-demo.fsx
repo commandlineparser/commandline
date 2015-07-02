@@ -3,9 +3,9 @@
 open CommandLine
 
 type options = {
-    [<Option(HelpText = "Define a string value here.")>] stringValue : string;
-    [<Option('i', Min = 3, Max = 4, HelpText = "Define a int sequence here.")>] intSequence : seq<int>;
-    [<Option('x', HelpText = "Define a boolean or switch value here.")>] boolValue : bool;
+    [<Option(HelpText = "Input a string value here.")>] stringValue : string;
+    [<Option('i', Min = 3, Max = 4, HelpText = "Input a int sequence here.")>] intSequence : seq<int>;
+    [<Option('x', HelpText = "Define a switch (boolean) here.")>] boolValue : bool;
     [<Value(0)>] longValue : int64 option;
   }
 
