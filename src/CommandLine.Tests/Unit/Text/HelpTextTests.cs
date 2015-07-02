@@ -338,19 +338,5 @@ namespace CommandLine.Tests.Unit.Text
             Assert.Equal("help      Display more information on a specific command.", lines[5]);
             // Teardown
         }
-
-        [Fact]
-        public void Can_inherit_properties_from_interface() {
-            // Fixture setup
-            // Exercize system 
-            var sut = new HelpText("Interface.")
-                .AddOptions(new FakeInterfaceOptions());
-
-            // Verify outcome
-            var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-
-            lines[1].Should().Be("v, verbose    Comment extensively every operation.");
-            // Teardown
-        }
     }
 }
