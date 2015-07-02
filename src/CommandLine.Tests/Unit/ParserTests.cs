@@ -184,5 +184,21 @@ namespace CommandLine.Tests.Unit
             Assert.False(result.Errors.Any());
             // Teardown
         }
+
+        [Fact]
+        public void Explicit_help_request_with_immutable_instance_generates_help_requested_error()
+        {
+            // Fixture setup
+            var expectedError = new HelpRequestedError();
+            var sut = new Parser();
+
+            // Exercize system
+            var result = sut.ParseArguments<FakeImmutableOptions>(new[] { "--help" });
+
+            // Verify outcome
+            result.Errors.Should().HaveCount(x => x == 1);
+            result.Errors.Should().ContainSingle(e => e.Equals(expectedError));
+            // Teardown
+        }
     }
 }
