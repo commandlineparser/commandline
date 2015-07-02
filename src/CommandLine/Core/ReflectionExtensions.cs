@@ -14,7 +14,7 @@ namespace CommandLine.Core
     {
         public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
         {
-            return from pi in GetCandidateTypes(type).SelectMany(x => x.GetProperties())
+            return from pi in type.FlattenHierarchy().SelectMany(x => x.GetProperties())
                    let attrs = pi.GetCustomAttributes(true)
                    where
                        attrs.OfType<OptionAttribute>().Any() ||
@@ -23,17 +23,26 @@ namespace CommandLine.Core
                    select selector(g.First());
         }
 
-        private static IEnumerable<Type> GetCandidateTypes(System.Type type)
+        private static IEnumerable<Type> FlattenHierarchy(this Type type)
         {
-            while (type != null)
+            if (type == null)
             {
-                yield return type;
-                foreach (var @interface in type.GetInterfaces())
-                {
-                    yield return @interface;
-                }
-                type = type.BaseType;
+                yield break;         
             }
+            yield return type;
+            foreach (var @interface in type.SafeGetInterfaces())
+            {
+                yield return @interface;
+            }
+            foreach (var @interface in FlattenHierarchy(type.BaseType))
+            {
+                yield return @interface;
+            }
+        }
+
+        private static IEnumerable<Type> SafeGetInterfaces(this Type type)
+        {
+            return type == null ? Enumerable.Empty<Type>() : type.GetInterfaces();
         }
 
         public static TargetType ToTargetType(this Type type)
