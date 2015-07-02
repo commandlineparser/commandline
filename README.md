@@ -157,7 +157,7 @@ Latest Changes:
   - Internal refactorings.
   - Support for **immutable types**.
   - Fixes.
-  - Issue #123 Fixed.
+  - PR #123 by @smbecker Merged.
 
 Contacts:
 ---
