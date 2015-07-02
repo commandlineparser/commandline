@@ -3,6 +3,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using CommandLine.Core;
 
 namespace CommandLine.Infrastructure
 {
@@ -35,6 +36,15 @@ namespace CommandLine.Infrastructure
         {
             return type.FullName.StartsWith(
                 "Microsoft.FSharp.Core.FSharpOption`1", StringComparison.Ordinal);
+        }
+
+        public static T CreateDefaultImmutableInstance<T>(Type[] constructorTypes)
+        {
+            var t = typeof(T);
+            var ctor = t.GetConstructor(constructorTypes);
+            var values = (from prms in ctor.GetParameters()
+                          select prms.ParameterType.CreateDefaultForImmutable()).ToArray();
+            return (T)ctor.Invoke(values);
         }
     }
 }

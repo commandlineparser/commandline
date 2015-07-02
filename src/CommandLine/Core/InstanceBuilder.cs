@@ -50,11 +50,17 @@ namespace CommandLine.Core
                 .ThrowingValidate(SpecificationGuards.Lookup)
                 .OfType<OptionSpecification>();
 
+            Func<T> makeDefault = () =>
+                typeof(T).IsMutable()
+                    ? factory.Return(f => f(), Activator.CreateInstance<T>())
+                    : ReflectionHelper.CreateDefaultImmutableInstance<T>(
+                        (from p in specProps select p.Specification.ConversionType).ToArray());
+
             if (arguments.Any() && nameComparer.Equals("--help", arguments.First()))
             {
                 return ParserResult.Create(
                     ParserResultType.Options,
-                    factory.Return(f => f(), default(T)),
+                    makeDefault(),
                     new[] { new HelpRequestedError() });
             }
 

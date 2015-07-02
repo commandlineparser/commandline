@@ -200,5 +200,21 @@ namespace CommandLine.Tests.Unit
             result.Errors.Should().ContainSingle(e => e.Equals(expectedError));
             // Teardown
         }
+
+        [Fact]
+        public void Explicit_help_request_with_immutable_instance_generates_help_screen()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<FakeImmutableOptions>(new[] { "--help" });
+            var result = help.ToString();
+
+            // Verify outcome
+            result.Length.Should().BeGreaterThan(0);
+            // Teardown
+        }
     }
 }

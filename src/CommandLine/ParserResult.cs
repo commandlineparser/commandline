@@ -105,6 +105,7 @@ namespace CommandLine
 
         public static ParserResult<T> Create<T>(ParserResultType tag, T instance, IEnumerable<Error> errors, Maybe<IEnumerable<Type>> verbTypes)
         {
+            if (Equals(instance, default(T))) throw new ArgumentNullException("instance");
             if (errors == null) throw new ArgumentNullException("errors");
             if (verbTypes == null) throw new ArgumentNullException("verbTypes");
 
