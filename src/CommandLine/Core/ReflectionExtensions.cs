@@ -14,12 +14,35 @@ namespace CommandLine.Core
     {
         public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
         {
-            return from pi in type.GetProperties()
+            return from pi in type.FlattenHierarchy().SelectMany(x => x.GetProperties())
                    let attrs = pi.GetCustomAttributes(true)
                    where
-                        attrs.OfType<OptionAttribute>().Any() ||
-                        attrs.OfType<ValueAttribute>().Any()
-                   select selector(pi);
+                       attrs.OfType<OptionAttribute>().Any() ||
+                       attrs.OfType<ValueAttribute>().Any()
+                   group pi by pi.Name into g
+                   select selector(g.First());
+        }
+
+        private static IEnumerable<Type> FlattenHierarchy(this Type type)
+        {
+            if (type == null)
+            {
+                yield break;         
+            }
+            yield return type;
+            foreach (var @interface in type.SafeGetInterfaces())
+            {
+                yield return @interface;
+            }
+            foreach (var @interface in FlattenHierarchy(type.BaseType))
+            {
+                yield return @interface;
+            }
+        }
+
+        private static IEnumerable<Type> SafeGetInterfaces(this Type type)
+        {
+            return type == null ? Enumerable.Empty<Type>() : type.GetInterfaces();
         }
 
         public static TargetType ToTargetType(this Type type)

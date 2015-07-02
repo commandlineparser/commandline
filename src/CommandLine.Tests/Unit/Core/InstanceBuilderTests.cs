@@ -880,6 +880,22 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new[] { "--inputfile=file1.bin" }, "file1.bin")]
+        [InlineData(new[] { "--inputfile", "file2.txt" }, "file2.txt")]
+        public void Can_define_options_on_interface_properties(string[] arguments, string expected)
+        {
+            // Exercize system
+            var result = InstanceBuilder.Build(
+                Maybe.Just<Func<FakeInterfaceOptions>>(() => new FakeInterfaceOptions()),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expected.ShouldBeEquivalentTo(result.Value.InputFile);
+        }
+
+        [Theory]
         [MemberData("RequiredValueStringData")]
         public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionsWithRequiredValue expected)
         {

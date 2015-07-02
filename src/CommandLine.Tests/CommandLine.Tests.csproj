@@ -79,6 +79,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Fakes\FakeInterfaceOptions.cs" />
     <Compile Include="Fakes\FakeImmutableOptions.cs" />
     <Compile Include="Fakes\FakeOptionsWithFSharpOption.cs" />
     <Compile Include="Fakes\FakeOptionsWithHelpTextEnum.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Fakes\FakeOptionWithRequired.cs" />
     <Compile Include="Fakes\FakeOptionWithRequiredAndSet.cs" />
     <Compile Include="Fakes\HelpFakes.cs" />
+    <Compile Include="Fakes\IFakeInterfaceOptions.cs" />
     <Compile Include="Fakes\VerbFakes.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Unit\Core\InstanceChooserTests.cs" />
