@@ -17,7 +17,7 @@ namespace CommandLine
         private int min;
         private int max;
         private char separator;
-        private object defaultValue;
+        private object @default;
         private string helpText;
         private string metaValue;
 
@@ -162,9 +162,9 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets mapped property default value.
         /// </summary>
-        public object DefaultValue
+        public object Default
         {
-            get { return defaultValue; }
+            get { return @default; }
             set
             {
                 if (value == null)
@@ -172,7 +172,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                defaultValue = value;
+                @default = value;
             }
         }
 

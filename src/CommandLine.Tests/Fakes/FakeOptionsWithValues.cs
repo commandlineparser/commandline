@@ -6,7 +6,7 @@ namespace CommandLine.Tests.Fakes
 {
     class FakeOptionsWithValues
     {
-        [Option(DefaultValue = "")]
+        [Option(Default = "")]
         public string StringValue { get; set; }
 
         [Value(0)]

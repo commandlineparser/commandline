@@ -3,7 +3,7 @@
 [![Nuget](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 
-Command Line Parser Library 2.0.21.0 alpha for CLR.
+Command Line Parser Library 2.0.23.0 alpha for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user.
 
@@ -64,7 +64,7 @@ class Options {
     HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
 
-  [Option(DefaultValue = "中文",
+  [Option(Default = "中文",
     HelpText = "Content language.")]
   public Language { get; set; }
 
@@ -88,7 +88,7 @@ static void Main(string[] args) {
 type options = {
   [<Option('r', "read", Required = true, HelpText = "Input files.")>] files : seq<string>;
   [<Option(HelpText = "Prints all messages to standard output.")>] verbose : bool;
-  [<Option(DefaultValue = "русский", HelpText = "Content language.")>] language : string;
+  [<Option(Default = "русский", HelpText = "Content language.")>] language : string;
   [<Value(0)>] offset : int64 option;
 }
 ```
@@ -158,6 +158,7 @@ Latest Changes:
   - Support for **immutable types**.
   - PR #123 by @smbecker Merged.
   - Fixes.
+  - Issue #179 Implemented (`Value|Option.DefaultValue` -> `Default`).
 
 Contacts:
 ---

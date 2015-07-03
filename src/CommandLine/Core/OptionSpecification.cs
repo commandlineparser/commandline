@@ -40,7 +40,7 @@ namespace CommandLine.Core
                 attribute.Min == -1 ? Maybe.Nothing<int>() : Maybe.Just(attribute.Min),
                 attribute.Max == -1 ? Maybe.Nothing<int>() : Maybe.Just(attribute.Max),
                 attribute.Separator,
-                attribute.DefaultValue.ToMaybe(),
+                attribute.Default.ToMaybe(),
                 conversionType,
                 conversionType.ToTargetType(),
                 attribute.HelpText,

@@ -23,7 +23,7 @@ namespace CommandLine.Core
                 attribute.Required,
                 attribute.Min == -1 ? Maybe.Nothing<int>() : Maybe.Just(attribute.Min),
                 attribute.Max == -1 ? Maybe.Nothing<int>() : Maybe.Just(attribute.Max),
-                attribute.DefaultValue.ToMaybe(),
+                attribute.Default.ToMaybe(),
                 conversionType,
                 conversionType.ToTargetType());
         }

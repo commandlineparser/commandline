@@ -13,7 +13,7 @@ namespace CommandLine
         private readonly int index;
         private int min;
         private int max;
-        private object defaultValue;
+        private object @default;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.ValueAttribute"/> class.
@@ -82,9 +82,9 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets mapped property default value.
         /// </summary>
-        public object DefaultValue
+        public object Default
         {
-            get { return defaultValue; }
+            get { return @default; }
             set
             {
                 if (value == null)
@@ -92,7 +92,7 @@ namespace CommandLine
                     throw new ArgumentNullException("value");
                 }
 
-                defaultValue = value;
+                @default = value;
             }
         }
     }

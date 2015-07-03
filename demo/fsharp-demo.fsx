@@ -3,7 +3,7 @@
 open CommandLine
 
 type options = {
-    [<Option(HelpText = "Input a string value here.")>] stringValue : string;
+    [<Option(HelpText = "Input a string value here.", Default="中文")>] stringValue : string;
     [<Option('i', Min = 3, Max = 4, HelpText = "Input a int sequence here.")>] intSequence : seq<int>;
     [<Option('x', HelpText = "Define a switch (boolean) here.")>] boolValue : bool;
     [<Value(0)>] longValue : int64 option;
