@@ -23,7 +23,6 @@ namespace CommandLine
             this.index = index;
             min = -1;
             max = -1;
-            //this.separator = string.Empty;
         }
 
         /// <summary>
