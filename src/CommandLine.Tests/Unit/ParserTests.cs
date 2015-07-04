@@ -73,7 +73,6 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             result.Value.ShouldBeEquivalentTo(expectedOptions);
-            Assert.False(((NotParsed<FakeOptions>)result).Errors.Any());
             // Teardown
         }
 
@@ -96,7 +95,6 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             result.Value.ShouldBeEquivalentTo(expectedOptions);
-            Assert.False(((NotParsed<FakeOptionsWithValues>)result).Errors.Any());
             // Teardown
         }
 
@@ -119,7 +117,6 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             Assert.IsType<AddOptions>(result.Value);
             result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
-            Assert.False(((NotParsed<object>)result).Errors.Any());
             // Teardown
         }
 
@@ -142,7 +139,6 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             Assert.IsType<CloneOptions>(result.Value);
             result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
-            Assert.False(((NotParsed<object>)result).Errors.Any());
             // Teardown
         }
 
@@ -164,7 +160,6 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             Assert.IsType<CloneOptions>(result.Value);
             result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
-            Assert.False(((NotParsed<object>)result).Errors.Any());
             // Teardown
         }
 
@@ -181,7 +176,6 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             result.Value.ShouldBeEquivalentTo(expectedOptions);
-            Assert.False(((NotParsed<FakeImmutableOptions>)result).Errors.Any());
             // Teardown
         }
 
