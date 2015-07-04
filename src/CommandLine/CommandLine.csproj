@@ -104,6 +104,7 @@
     <Compile Include="Parser.cs" />
     <Compile Include="ParserExtensions.cs" />
     <Compile Include="ParserResult.cs" />
+    <Compile Include="ParserResultExtensions.cs" />
     <Compile Include="ParserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\NameExtensions.cs" />

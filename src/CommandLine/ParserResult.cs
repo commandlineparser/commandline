@@ -53,7 +53,7 @@ namespace CommandLine
             get { return verbTypes; }
         }
 
-        public T Value
+        internal T Value
         {
             get { return value; }
         }
