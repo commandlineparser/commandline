@@ -195,7 +195,7 @@ namespace CommandLine
         }
     }
 
-    internal static class ParserResult
+    internal static class NotParsedExtensions
     {
         public static NotParsed<T> MapErrors<T>(
             this NotParsed<T> parserResult,
