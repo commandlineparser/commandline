@@ -35,10 +35,12 @@ namespace CommandLine.Core
 
             return arguments.Empty()
                 ? new NotParsed<object>(
+                    new NullInstance(),
                     types,
                     new[] { new NoVerbSelectedError() })
                 : nameComparer.Equals("help", arguments.First())
                    ? new NotParsed<object>(
+                       new NullInstance(),
                        types, new[] { CreateHelpVerbRequestedError(
                                         verbs,
                                         arguments.Skip(1).SingleOrDefault() ?? string.Empty,
@@ -61,6 +63,7 @@ namespace CommandLine.Core
                     nameComparer,
                     parsingCulture)
                 : new NotParsed<object>(
+                    new NullInstance(),
                     verbs.Select(v => v.Item2),
                     new[] { new BadVerbSelectedError(arguments.First()) });
         }
