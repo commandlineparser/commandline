@@ -7,11 +7,25 @@ using CommandLine.Infrastructure;
 
 namespace CommandLine
 {
-    public enum ParserResultType { Parsed, NotParsed }
+    /// <summary>
+    /// Discriminator enumeration of <see cref="CommandLine.ParserResultType"/> derivates.
+    /// </summary>
+    public enum ParserResultType
+    {
+        /// <summary>
+        /// Value of <see cref="CommandLine.Parsed{T}"/> type.
+        /// </summary>
+        Parsed,
+        /// <summary>
+        /// Value of <see cref="CommandLine.NotParsed{T}"/> type.
+        /// </summary>
+        NotParsed
+    }
 
     /// <summary>
-    /// Models a parser result. It contains an instance of type <typeparamref name="T"/> with parsed values and
-    /// a sequence of <see cref="CommandLine.Error"/>.
+    /// Models a parser result. When inherited by <see cref="CommandLine.Parsed{T}"/>, it contains an instance of type <typeparamref name="T"/>
+    /// with parsed values.
+    /// When inherited by <see cref="CommandLine.NotParsed{T}"/>, it contains a sequence of <see cref="CommandLine.Error"/>.
     /// </summary>
     /// <typeparam name="T">The type with attributes that define the syntax of parsing rules.</typeparam>
     public abstract class ParserResult<T>
@@ -27,7 +41,7 @@ namespace CommandLine
             this.verbTypes = verbTypes;
         }
 
-        internal ParserResultType ParserResultType
+        public ParserResultType ParserResultType
         {
             get { return this.parserResultType; }
         }
@@ -37,15 +51,16 @@ namespace CommandLine
             get { return verbTypes; }
         }
 
-        /// <summary>
-        /// Gets the instance with parsed values.
-        /// </summary>
         public T Value
         {
             get { return value; }
         }
     }
 
+    /// <summary>
+    /// It contains an instance of type <typeparamref name="T"/> with parsed values.
+    /// </summary>
+    /// <typeparam name="T">The type with attributes that define the syntax of parsing rules.</typeparam>
     public sealed class Parsed<T> : ParserResult<T>, IEquatable<Parsed<T>>
     {
         internal Parsed(T value, IEnumerable<Type> verbTypes)
@@ -58,7 +73,9 @@ namespace CommandLine
         {
         }
 
-
+        /// <summary>
+        /// Gets the instance with parsed values.
+        /// </summary>
         public new T Value
         {
             get { return base.Value; }
@@ -107,6 +124,10 @@ namespace CommandLine
         }
     }
 
+    /// <summary>
+    /// It contains a sequence of <see cref="CommandLine.Error"/>.
+    /// </summary>
+    /// <typeparam name="T">The type with attributes that define the syntax of parsing rules.</typeparam>
     public sealed class NotParsed<T> : ParserResult<T>, IEquatable<NotParsed<T>>
     {
         private readonly IEnumerable<Error> errors;
@@ -174,20 +195,6 @@ namespace CommandLine
 
     internal static class ParserResult
     {
-        //public static ParserResult<T> Create<T>(T instance, IEnumerable<Error> errors)
-        //{
-        //    return Create(tag, instance, errors, Maybe.Nothing<IEnumerable<Type>>());
-        //}
-
-        //public static ParserResult<T> Create<T>(ParserResultType tag, T instance, IEnumerable<Error> errors, Maybe<IEnumerable<Type>> verbTypes)
-        //{
-        //    if (Equals(instance, default(T))) throw new ArgumentNullException("instance");
-        //    if (errors == null) throw new ArgumentNullException("errors");
-        //    if (verbTypes == null) throw new ArgumentNullException("verbTypes");
-
-        //    return new ParserResult<T>(tag, instance, errors, verbTypes);
-        //}
-
         public static NotParsed<T> MapErrors<T>(
             this NotParsed<T> parserResult,
             Func<IEnumerable<Error>, IEnumerable<Error>> func)
