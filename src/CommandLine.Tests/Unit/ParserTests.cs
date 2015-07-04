@@ -73,7 +73,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             result.Value.ShouldBeEquivalentTo(expectedOptions);
-            Assert.False(result.Errors.Any());
+            Assert.False(((NotParsed<FakeOptions>)result).Errors.Any());
             // Teardown
         }
 
@@ -96,7 +96,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             result.Value.ShouldBeEquivalentTo(expectedOptions);
-            Assert.False(result.Errors.Any());
+            Assert.False(((NotParsed<FakeOptionsWithValues>)result).Errors.Any());
             // Teardown
         }
 
@@ -119,7 +119,7 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             Assert.IsType<AddOptions>(result.Value);
             result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
-            Assert.False(result.Errors.Any());
+            Assert.False(((NotParsed<object>)result).Errors.Any());
             // Teardown
         }
 
@@ -142,7 +142,7 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             Assert.IsType<CloneOptions>(result.Value);
             result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
-            Assert.False(result.Errors.Any());
+            Assert.False(((NotParsed<object>)result).Errors.Any());
             // Teardown
         }
 
@@ -164,7 +164,7 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             Assert.IsType<CloneOptions>(result.Value);
             result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
-            Assert.False(result.Errors.Any());
+            Assert.False(((NotParsed<object>)result).Errors.Any());
             // Teardown
         }
 
@@ -181,7 +181,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             result.Value.ShouldBeEquivalentTo(expectedOptions);
-            Assert.False(result.Errors.Any());
+            Assert.False(((NotParsed<FakeImmutableOptions>)result).Errors.Any());
             // Teardown
         }
 
@@ -196,8 +196,8 @@ namespace CommandLine.Tests.Unit
             var result = sut.ParseArguments<FakeImmutableOptions>(new[] { "--help" });
 
             // Verify outcome
-            result.Errors.Should().HaveCount(x => x == 1);
-            result.Errors.Should().ContainSingle(e => e.Equals(expectedError));
+            ((NotParsed<FakeImmutableOptions>)result).Errors.Should().HaveCount(x => x == 1);
+            ((NotParsed<FakeImmutableOptions>)result).Errors.Should().ContainSingle(e => e.Equals(expectedError));
             // Teardown
         }
 

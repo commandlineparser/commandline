@@ -27,7 +27,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.IsType<NullInstance>(result.Value);
-            Assert.True(expectedErrors.SequenceEqual(result.Errors));
+            Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
             // Teardown
         }
 
@@ -46,7 +46,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.IsType<NullInstance>(result.Value);
-            Assert.True(expectedErrors.SequenceEqual(result.Errors));
+            Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
             // Teardown
         }
 
@@ -65,7 +65,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.IsType<NullInstance>(result.Value);
-            Assert.True(expectedErrors.SequenceEqual(result.Errors));
+            Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
             // Teardown
         }
 
@@ -84,7 +84,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.IsType<NullInstance>(result.Value);
-            Assert.True(expectedErrors.SequenceEqual(result.Errors));
+            Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
             // Teardown
         }
 

@@ -20,8 +20,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Fixture setup
             var fakeOptions = new FakeOptions();
-            var expectedResult = ParserResult.Create(
-                ParserResultType.Options,
+            var expectedResult = new NotParsed<FakeOptions>(
                 fakeOptions, new Error[] { new HelpRequestedError() });
 
             // Exercize system 
@@ -186,7 +185,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceAndOnlyMinConstraint>)result).Errors));
 
             // Teardown
         }
@@ -205,7 +204,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceAndOnlyMinConstraintAsValue>)result).Errors));
 
             // Teardown
         }
@@ -224,7 +223,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceAndOnlyMaxConstraint>)result).Errors));
 
             // Teardown
         }
@@ -243,7 +242,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue>)result).Errors));
 
             // Teardown
         }
@@ -286,7 +285,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithEnum>)result).Errors));
 
             // Teardown
         }
@@ -305,7 +304,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithEnum>)result).Errors));
 
             // Teardown
         }
@@ -324,7 +323,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithEnum>)result).Errors));
 
             // Teardown
         }
@@ -471,7 +470,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSets>)result).Errors));
 
             // Teardown
         }
@@ -531,7 +530,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionWithRequiredAndSet>)result).Errors));
+            
             // Teardown
         }
 
@@ -549,8 +549,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
-
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionWithRequired>)result).Errors));
+ 
             // Teardown
         }
 
@@ -568,8 +568,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
-
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptions>)result).Errors));
+ 
             // Teardown
         }
 
@@ -587,8 +587,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
-
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptions>)result).Errors));
+ 
             // Teardown
         }
 
@@ -606,8 +606,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
-
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptions>)result).Errors));
+ 
             // Teardown
         }
 
@@ -625,8 +625,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
-
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptions>)result).Errors));
+ 
             // Teardown
         }
 
@@ -664,8 +664,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
-
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithRequiredValue>)result).Errors));
+ 
             // Teardown
         }
 
@@ -705,8 +705,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(result.Errors));
-
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceMinMaxEqual>)result).Errors));
+ 
             // Teardown
         }
 
@@ -861,7 +861,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            result.Errors.Should().HaveCount(x => x == expected);
+            ((NotParsed<FakeOptionsWithNamedAndEmptySets>)result).Errors.Should().HaveCount(x => x == expected);
         }
 
         [Theory]
@@ -876,7 +876,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            result.Errors.Should().HaveCount(x => x == expected);
+            ((NotParsed<FakeOptions>)result).Errors.Should().HaveCount(x => x == expected);
         }
 
         [Theory]

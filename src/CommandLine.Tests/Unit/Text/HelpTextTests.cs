@@ -190,8 +190,7 @@ namespace CommandLine.Tests.Unit.Text
         public void Invoking_RenderParsingErrorsText_returns_appropriate_formatted_text()
         {
             // Fixture setup
-            var fakeResult = new ParserResult<NullInstance>(
-                ParserResultType.Options,
+            var fakeResult = new NotParsed<object>(
                 new NullInstance(),
                 new Error[]
                     {
@@ -205,8 +204,7 @@ namespace CommandLine.Tests.Unit.Text
                         new BadVerbSelectedError("badverb"),
                         new HelpRequestedError(), // should be ignored
                         new HelpVerbRequestedError(null, null, false) // should be ignored 
-                    },
-                Maybe.Nothing<IEnumerable<Type>>());
+                    });
             Func<Error, string> fakeRenderer = err =>
                 {
                     switch (err.Tag)
@@ -253,15 +251,13 @@ namespace CommandLine.Tests.Unit.Text
         public void Invoke_AutoBuild_for_Options_returns_appropriate_formatted_text()
         {
             // Fixture setup
-            var fakeResult = new ParserResult<FakeOptions>(
-                ParserResultType.Options,
+            var fakeResult = new NotParsed<FakeOptions>(
                 new FakeOptions(),
                 new Error[]
                     {
                         new BadFormatTokenError("badtoken"),
                         new SequenceOutOfRangeError(new NameInfo("i", ""))
-                    },
-                Maybe.Nothing<IEnumerable<Type>>());
+                    });
 
             // Exercize system
             var helpText = HelpText.AutoBuild(fakeResult);
@@ -285,14 +281,12 @@ namespace CommandLine.Tests.Unit.Text
         public void Invoke_AutoBuild_for_Verbs_with_specific_verb_returns_appropriate_formatted_text()
         {
             // Fixture setup
-            var fakeResult = new ParserResult<object>(
-                ParserResultType.Verbs,
+            var fakeResult = new NotParsed<object>(
                 new NullInstance(),
                 new Error[]
                     {
                         new HelpVerbRequestedError("commit", typeof(CommitOptions), true)
-                    },
-                Maybe.Nothing<IEnumerable<Type>>());
+                    });
 
             // Exercize system
             var helpText = HelpText.AutoBuild(fakeResult);
@@ -315,14 +309,10 @@ namespace CommandLine.Tests.Unit.Text
             // Fixture setup
             var verbTypes = Enumerable.Empty<Type>().Concat(
                 new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) });
-            var fakeResult = new ParserResult<object>(
-                ParserResultType.Verbs,
+            var fakeResult = new NotParsed<object>(
                 new NullInstance(),
-                new Error[]
-                    {
-                        new HelpVerbRequestedError(null, null, false)
-                    },
-                Maybe.Just(verbTypes));
+                verbTypes,
+                new Error[] { new HelpVerbRequestedError(null, null, false) });
 
             // Exercize system
             var helpText = HelpText.AutoBuild(fakeResult);
