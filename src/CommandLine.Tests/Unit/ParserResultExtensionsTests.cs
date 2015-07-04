@@ -18,9 +18,9 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public static void Invoker_parsed_lambda_when_parsed()
         {
-            string expected = string.Empty;
-            var result = Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" });
-            result.WithParsed(opts => expected = opts.StringValue);
+            var expected = string.Empty;
+            Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" })
+                .WithParsed(opts => expected = opts.StringValue);
 
             "value".ShouldBeEquivalentTo(expected);
         }
@@ -28,9 +28,9 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public static void Invoker_not_parsed_lambda_when_not_parsed()
         {
-            string expected = "a default";
-            var result = Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" });
-            result.WithNotParsed(_ => expected = "changed");
+            var expected = "a default";
+            Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
+                .WithNotParsed(_ => expected = "changed");
 
             "changed".ShouldBeEquivalentTo(expected);
         }
@@ -38,8 +38,8 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public static void Invoker_proper_lambda_when_parsed()
         {
-            string expected = string.Empty;
-            var result = Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" })
+            var expected = string.Empty;
+            Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" })
                 .WithParsed(opts => expected = opts.StringValue)
                 .WithNotParsed(_ => expected = "changed");
 
@@ -49,8 +49,8 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public static void Invoker_proper_lambda_when_not_parsed()
         {
-            string expected = "a default";
-            var result = Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
+            var expected = "a default";
+            Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
                 .WithParsed(opts => expected = opts.StringValue)
                 .WithNotParsed(_ => expected = "changed");
 
