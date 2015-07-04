@@ -3,7 +3,7 @@
 [![Nuget](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 
-Command Line Parser Library 2.0.23.0 alpha for CLR.
+Command Line Parser Library 2.0.31.0 alpha for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user.
 
@@ -77,9 +77,13 @@ Consume them:
 ```csharp
 static void Main(string[] args) {
   var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
-  if (!result.Errors.Any()) {
-    // Values are available here
-    if (result.Value.Verbose) Console.WriteLine("Filenames: {0}", string.Join(",", result.Value.InputFiles.ToArray()));
+  if (result.Tag != ParserResultType.NotParsed) {
+	// Values are available here
+	var options = (Parsed<Options>)result.Value;
+    if (options.Verbose) Console.WriteLine("Filenames: {0}", string.Join(",", options.InputFiles.ToArray()));
+  } else {
+    // Errors are available here
+    var errors = ((NotParsed<Options>)result).Errors;
   }
 }
 ```
@@ -95,9 +99,9 @@ type options = {
 Consume them:
 ```fsharp
 let result = CommandLine.Parser.Default.ParseArguments<options>(args)
-// Values passed to your run(o : options) function
-if Seq.isEmpty result.Errors then run result.Value
-else fail result.Errors
+match result.Tag with
+| ParserResultType.Parsed -> run result
+| ParserResultType.NotParsed -> fail result
 ```
 
 Acknowledgements:
@@ -159,6 +163,7 @@ Latest Changes:
   - PR #123 by @smbecker Merged.
   - Fixes.
   - Issue #179 Implemented (`Value|Option.DefaultValue` -> `Default`).
+  - Issue #180 Implemented (better `ParserResult<T>` model).
 
 Contacts:
 ---

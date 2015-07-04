@@ -17,13 +17,15 @@ let formatLong o =
 let formatInput (o : options)  =
     sprintf "--stringvalue: %s\n-i: %A\n-x: %b\nvalue: %s\n" o.stringValue (Array.ofSeq o.intSequence) o.boolValue (formatLong o.longValue)
 
-let (|Parsed|Failed|) (r : ParserResult<'a>) =
-  if Seq.isEmpty r.Errors then Parsed(r.Value)
-  else Failed(r.Errors)
+let (|Success|Fail|) (result : ParserResult<'a>) =
+  match result with
+  | :? Parsed<'a> as parsed -> Success(parsed.Value)
+  | :? NotParsed<'a> as notParsed -> Fail(notParsed.Errors)
+  | _ -> failwith "invalid parser result"
 
 let args = fsi.CommandLineArgs.[1..]
 let result = Parser.Default.ParseArguments<options>(args)
 
 match result with
-  | Parsed(opts) -> printf "%s" (formatInput opts)
-  | Failed(errs) -> printf "Invalid: %A, Errors: %u\n" args (Seq.length errs)
+  | Success(opts) -> printf "%s" (formatInput opts)
+  | Fail(errs) -> printf "Invalid: %A, Errors: %u\n" args (Seq.length errs)
