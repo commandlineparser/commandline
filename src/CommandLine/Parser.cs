@@ -190,7 +190,7 @@ namespace CommandLine
         private static ParserResult<T> HandleUnknownArguments<T>(ParserResult<T> parserResult, bool ignoreUnknownArguments)
         {
             return ignoreUnknownArguments
-                       ? parserResult.ParserResultType == ParserResultType.NotParsed
+                       ? parserResult.Tag == ParserResultType.NotParsed
                             ? ((NotParsed<T>)parserResult).MapErrors(errs => errs.Where(e => e.Tag != ErrorType.UnknownOptionError))
                             : parserResult
                        : parserResult;
@@ -198,7 +198,7 @@ namespace CommandLine
 
         private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter)
         {
-            if (parserResult.ParserResultType == ParserResultType.NotParsed)
+            if (parserResult.Tag == ParserResultType.NotParsed)
             {
                 if (((NotParsed<T>)parserResult).Errors.Any())
                 {

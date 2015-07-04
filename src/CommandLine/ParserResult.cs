@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommandLine.Infrastructure;
 
 namespace CommandLine
 {
@@ -30,20 +29,23 @@ namespace CommandLine
     /// <typeparam name="T">The type with attributes that define the syntax of parsing rules.</typeparam>
     public abstract class ParserResult<T>
     {
-        private readonly ParserResultType parserResultType;
+        private readonly ParserResultType tag;
         private readonly T value;
         private readonly IEnumerable<Type> verbTypes;
 
-        internal ParserResult(ParserResultType parserResultType, T value, IEnumerable<Type> verbTypes)
+        internal ParserResult(ParserResultType tag, T value, IEnumerable<Type> verbTypes)
         {
-            this.parserResultType = parserResultType;
+            this.tag = tag;
             this.value = value;
             this.verbTypes = verbTypes;
         }
 
-        public ParserResultType ParserResultType
+        /// <summary>
+        /// Parser result type discriminator, defined as <see cref="CommandLine.ParserResultType"/> enumeration.
+        /// </summary>
+        public ParserResultType Tag
         {
-            get { return this.parserResultType; }
+            get { return this.tag; }
         }
 
         internal IEnumerable<Type> VerbTypes
@@ -103,7 +105,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return new { ParserResultType, Value, VerbTypes }.GetHashCode();
+            return new { ParserResultType = this.Tag, Value, VerbTypes }.GetHashCode();
         }
 
         /// <summary>
@@ -118,7 +120,7 @@ namespace CommandLine
                 return false;
             }
 
-            return ParserResultType.Equals(other.ParserResultType)
+            return this.Tag.Equals(other.Tag)
                     && Value.Equals(other.Value)
                     && VerbTypes.SequenceEqual(other.VerbTypes);
         }
@@ -189,7 +191,7 @@ namespace CommandLine
                 return false;
             }
 
-            return ParserResultType.Equals(other.ParserResultType) && Errors.SequenceEqual(other.Errors);
+            return this.Tag.Equals(other.Tag) && Errors.SequenceEqual(other.Errors);
         }
     }
 

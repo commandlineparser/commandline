@@ -208,7 +208,7 @@ namespace CommandLine.Text
                     AddDashesToOption = !verbsIndex
                 };
 
-            if (onError != null && parserResult.ParserResultType == ParserResultType.NotParsed)
+            if (onError != null && parserResult.Tag == ParserResultType.NotParsed)
             {
                 if (FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors).Any())
                 {
@@ -252,19 +252,19 @@ namespace CommandLine.Text
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
         //public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
         //{
-        //    switch (parserResult.ParserResultType)
+        //    switch (parserResult.Tag)
         //    {
-        //        case ParserResultType.Options:
+        //        case Tag.Options:
         //            return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
 
-        //        case ParserResultType.Verbs:
+        //        case Tag.Verbs:
         //            var helpVerbErr = parserResult.Errors.OfType<HelpVerbRequestedError>();
         //            if (helpVerbErr.Any())
         //            {
         //                var err = helpVerbErr.Single();
         //                if (err.Matched)
         //                {
-        //                    var pr = ParserResult.Create(ParserResultType.Options, Activator.CreateInstance(err.Type), Enumerable.Empty<Error>());
+        //                    var pr = ParserResult.Create(Tag.Options, Activator.CreateInstance(err.Type), Enumerable.Empty<Error>());
         //                    return AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current));
         //                }
         //            }
@@ -276,7 +276,7 @@ namespace CommandLine.Text
         //}
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
         {
-            if (parserResult.ParserResultType != ParserResultType.NotParsed)
+            if (parserResult.Tag != ParserResultType.NotParsed)
             {
                 throw new InvalidOperationException();
             }
