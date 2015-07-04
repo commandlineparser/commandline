@@ -132,5 +132,14 @@ namespace CommandLine.Core
             }
             return type.GetDefaultValue();
         }
+
+        public static object AutoDefault(this Type type)
+        {
+            if (type.IsMutable())
+            {
+                return Activator.CreateInstance(type);
+            }
+            return type.CreateDefaultForImmutable();
+        }
     }
 }

@@ -34,15 +34,15 @@ namespace CommandLine.Core
             var verbs = Verb.SelectFromTypes(types);
 
             return arguments.Empty()
-                ? ParserResult.Create<object>(
-                    ParserResultType.Verbs, new NullInstance(), new[] { new NoVerbSelectedError() }, Maybe.Just(types))
+                ? new NotParsed<object>(
+                    types,
+                    new[] { new NoVerbSelectedError() })
                 : nameComparer.Equals("help", arguments.First())
-                   ? ParserResult.Create<object>(
-                        ParserResultType.Verbs,
-                        new NullInstance(), new[] { CreateHelpVerbRequestedError(
-                            verbs,
-                            arguments.Skip(1).SingleOrDefault() ?? string.Empty,
-                            nameComparer) }, Maybe.Just(types))
+                   ? new NotParsed<object>(
+                       types, new[] { CreateHelpVerbRequestedError(
+                                        verbs,
+                                        arguments.Skip(1).SingleOrDefault() ?? string.Empty,
+                                        nameComparer) })
                    : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
         }
 
@@ -55,16 +55,14 @@ namespace CommandLine.Core
         {     
             return verbs.Any(a => nameComparer.Equals(a.Item1.Name, arguments.First()))
                 ? InstanceBuilder.Build(
-                    Maybe.Just<Func<object>>(() => Activator.CreateInstance(verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First())).Item2)),
+                    Maybe.Just<Func<object>>(() => verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First())).Item2.AutoDefault()),
                     tokenizer,
                     arguments.Skip(1),
                     nameComparer,
                     parsingCulture)
-                : ParserResult.Create<object>(
-                    ParserResultType.Verbs,
-                    new NullInstance(),
-                    new[] { new BadVerbSelectedError(arguments.First()) },
-                    Maybe.Just(verbs.Select(v => v.Item2)));
+                : new NotParsed<object>(
+                    verbs.Select(v => v.Item2),
+                    new[] { new BadVerbSelectedError(arguments.First()) });
         }
 
        private static HelpVerbRequestedError CreateHelpVerbRequestedError(

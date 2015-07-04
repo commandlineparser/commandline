@@ -190,15 +190,20 @@ namespace CommandLine
         private static ParserResult<T> HandleUnknownArguments<T>(ParserResult<T> parserResult, bool ignoreUnknownArguments)
         {
             return ignoreUnknownArguments
-                       ? parserResult.MapErrors(errs => errs.Where(e => e.Tag != ErrorType.UnknownOptionError))
+                       ? parserResult.ParserResultType == ParserResultType.NotParsed
+                            ? ((NotParsed<T>)parserResult).MapErrors(errs => errs.Where(e => e.Tag != ErrorType.UnknownOptionError))
+                            : parserResult
                        : parserResult;
         }
 
         private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter)
         {
-            if (parserResult.Errors.Any())
+            if (parserResult.ParserResultType == ParserResultType.NotParsed)
             {
-                helpWriter.ToMaybe().Do(writer => writer.Write(HelpText.AutoBuild(parserResult)));
+                if (((NotParsed<T>)parserResult).Errors.Any())
+                {
+                    helpWriter.ToMaybe().Do(writer => writer.Write(HelpText.AutoBuild(parserResult)));
+                }
             }
 
             return parserResult;

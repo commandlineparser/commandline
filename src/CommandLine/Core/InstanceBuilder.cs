@@ -58,8 +58,7 @@ namespace CommandLine.Core
 
             if (arguments.Any() && nameComparer.Equals("--help", arguments.First()))
             {
-                return ParserResult.Create(
-                    ParserResultType.Options,
+                return new NotParsed<T>(
                     makeDefault(),
                     new[] { new HelpRequestedError() });
             }
@@ -121,14 +120,16 @@ namespace CommandLine.Core
             var validationErrors = specPropsWithValue.Validate(
                 SpecificationPropertyRules.Lookup(tokens));
 
-            return ParserResult.Create(
-                ParserResultType.Options,
-                instance,
-                tokenizerResult.Errors
-                    .Concat(missingValueErrors)
-                    .Concat(optionSpecProps.Errors)
-                    .Concat(valueSpecProps.Errors)
-                    .Concat(validationErrors));
+            var allErrors = tokenizerResult.Errors.Concat(missingValueErrors)
+                .Concat(optionSpecProps.Errors)
+                .Concat(valueSpecProps.Errors)
+                .Concat(validationErrors);
+
+            if (allErrors.Any())
+            {
+                return new NotParsed<T>(instance, allErrors);
+            }
+            return new Parsed<T>(instance);
         }
     }
 }

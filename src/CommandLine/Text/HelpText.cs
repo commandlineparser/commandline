@@ -208,9 +208,9 @@ namespace CommandLine.Text
                     AddDashesToOption = !verbsIndex
                 };
 
-            if (onError != null)
+            if (onError != null && parserResult.ParserResultType == ParserResultType.NotParsed)
             {
-                if (FilterMeaningfulErrors(parserResult.Errors).Any())
+                if (FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors).Any())
                 {
                     auto = onError(auto);
                 }
@@ -228,9 +228,9 @@ namespace CommandLine.Text
                 usage.FromJust().AddToHelpText(auto, true);
             }
 
-            if (verbsIndex && parserResult.VerbTypes.IsJust())
+            if (verbsIndex && parserResult.VerbTypes.Any())
             {
-                auto.AddVerbs(parserResult.VerbTypes.FromJust().ToArray());
+                auto.AddVerbs(parserResult.VerbTypes.ToArray());
             }
             else
             {
@@ -250,29 +250,52 @@ namespace CommandLine.Text
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
+        //public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
+        //{
+        //    switch (parserResult.ParserResultType)
+        //    {
+        //        case ParserResultType.Options:
+        //            return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
+
+        //        case ParserResultType.Verbs:
+        //            var helpVerbErr = parserResult.Errors.OfType<HelpVerbRequestedError>();
+        //            if (helpVerbErr.Any())
+        //            {
+        //                var err = helpVerbErr.Single();
+        //                if (err.Matched)
+        //                {
+        //                    var pr = ParserResult.Create(ParserResultType.Options, Activator.CreateInstance(err.Type), Enumerable.Empty<Error>());
+        //                    return AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current));
+        //                }
+        //            }
+        //            return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), true);
+
+        //        default:
+        //            throw new InvalidOperationException();
+        //    }
+        //}
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
         {
-            switch (parserResult.ParserResultType)
+            if (parserResult.ParserResultType != ParserResultType.NotParsed)
             {
-                case ParserResultType.Options:
-                    return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
-
-                case ParserResultType.Verbs:
-                    var helpVerbErr = parserResult.Errors.OfType<HelpVerbRequestedError>();
-                    if (helpVerbErr.Any())
-                    {
-                        var err = helpVerbErr.Single();
-                        if (err.Matched)
-                        {
-                            var pr = ParserResult.Create(ParserResultType.Options, Activator.CreateInstance(err.Type), Enumerable.Empty<Error>());
-                            return AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current));
-                        }
-                    }
-                    return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), true);
-
-                default:
-                    throw new InvalidOperationException();
+                throw new InvalidOperationException();
             }
+
+            var errors = ((NotParsed<T>)parserResult).Errors;
+            var helpVerbErr = errors.OfType<HelpVerbRequestedError>();
+            if (!helpVerbErr.Any())
+            {
+                return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
+            }
+
+            var err = helpVerbErr.Single();
+            if (err.Matched)
+            {
+                var pr = new NotParsed<object>(err.Type.AutoDefault(), Enumerable.Empty<Error>());
+                return AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current));
+            }
+
+            return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), true);
         }
 
         /// <summary>
@@ -285,7 +308,7 @@ namespace CommandLine.Text
             if (parserResult == null) throw new ArgumentNullException("parserResult");
             if (current == null) throw new ArgumentNullException("current");
 
-            if (FilterMeaningfulErrors(parserResult.Errors).Empty())
+            if (FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors).Empty())
             {
                 return current;
             }
@@ -401,7 +424,7 @@ namespace CommandLine.Text
         {
             if (parserResult == null) throw new ArgumentNullException("parserResult");
 
-            var meaningfulErrors = FilterMeaningfulErrors(parserResult.Errors);
+            var meaningfulErrors = FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors);
             if (meaningfulErrors.Empty())
             {
                 return string.Empty;
