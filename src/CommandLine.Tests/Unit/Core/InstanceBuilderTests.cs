@@ -846,11 +846,11 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
-        [InlineData(new[] {"--weburl", "value.com", "--verbose"}, 0)]
-        [InlineData(new[] { "--ftpurl", "value.org", "--interactive" }, 0)]
-        [InlineData(new[] { "--weburl", "value.com", "--verbose", "--interactive" }, 0)]
-        [InlineData(new[] { "--ftpurl=fvalue", "--weburl=wvalue" }, 2)]
-        [InlineData(new[] { "--interactive", "--weburl=wvalue", "--verbose", "--ftpurl=wvalue" }, 2)]
+        [InlineData(new[] {"--weburl", "value.com", "--verbose"}, ParserResultType.Parsed, 0)]
+        [InlineData(new[] { "--ftpurl", "value.org", "--interactive" }, ParserResultType.Parsed, 0)]
+        [InlineData(new[] { "--weburl", "value.com", "--verbose", "--interactive" }, ParserResultType.Parsed, 0)]
+        [InlineData(new[] { "--ftpurl=fvalue", "--weburl=wvalue" }, ParserResultType.NotParsed, 2)]
+        [InlineData(new[] { "--interactive", "--weburl=wvalue", "--verbose", "--ftpurl=wvalue" }, ParserResultType.NotParsed, 2)]
         public void Empty_set_options_allowed_with_mutually_exclusive_sets(string[] arguments, ParserResultType type, int expected)
         {
             // Exercize system
@@ -861,7 +861,14 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            ((NotParsed<FakeOptionsWithNamedAndEmptySets>)result).Errors.Should().HaveCount(x => x == expected);
+            if (type == ParserResultType.NotParsed)
+            {
+                ((NotParsed<FakeOptionsWithNamedAndEmptySets>)result).Errors.Should().HaveCount(x => x == expected);
+            }
+            else if (type == ParserResultType.Parsed)
+            {
+                result.Should().BeOfType<Parsed<FakeOptionsWithNamedAndEmptySets>>();
+            }
         }
 
         [Theory]
