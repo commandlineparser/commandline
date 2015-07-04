@@ -250,30 +250,6 @@ namespace CommandLine.Text
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
-        //public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
-        //{
-        //    switch (parserResult.Tag)
-        //    {
-        //        case Tag.Options:
-        //            return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
-
-        //        case Tag.Verbs:
-        //            var helpVerbErr = parserResult.Errors.OfType<HelpVerbRequestedError>();
-        //            if (helpVerbErr.Any())
-        //            {
-        //                var err = helpVerbErr.Single();
-        //                if (err.Matched)
-        //                {
-        //                    var pr = ParserResult.Create(Tag.Options, Activator.CreateInstance(err.Type), Enumerable.Empty<Error>());
-        //                    return AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current));
-        //                }
-        //            }
-        //            return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), true);
-
-        //        default:
-        //            throw new InvalidOperationException();
-        //    }
-        //}
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
         {
             if (parserResult.Tag != ParserResultType.NotParsed)
