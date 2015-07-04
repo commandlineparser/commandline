@@ -16,22 +16,22 @@ namespace CommandLine
     /// <typeparam name="T">The type with attributes that define the syntax of parsing rules.</typeparam>
     public class ParserResult<T> : IEquatable<ParserResult<T>>
     {
-        private readonly ParserResultType tag;
+        private readonly ParserResultType parserResultType;
         private readonly T value;
         private readonly IEnumerable<Error> errors;
         private readonly Maybe<IEnumerable<Type>> verbTypes;
 
-        internal ParserResult(ParserResultType tag, T value, IEnumerable<Error> errors, Maybe<IEnumerable<Type>> verbTypes)
+        internal ParserResult(ParserResultType parserResultType, T value, IEnumerable<Error> errors, Maybe<IEnumerable<Type>> verbTypes)
         {
-            this.tag = tag;
+            this.parserResultType = parserResultType;
             this.value = value;
             this.errors = errors;
             this.verbTypes = verbTypes;
         }
 
-        internal ParserResultType Tag
+        internal ParserResultType ParserResultType
         {
-            get { return tag; }
+            get { return this.parserResultType; }
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace CommandLine
             this ParserResult<T> parserResult,
             Func<IEnumerable<Error>, IEnumerable<Error>> func)
         {
-            return new ParserResult<T>(parserResult.Tag, parserResult.Value, func(parserResult.Errors), parserResult.VerbTypes);
+            return new ParserResult<T>(parserResult.ParserResultType, parserResult.Value, func(parserResult.Errors), parserResult.VerbTypes);
         }
     }
 }

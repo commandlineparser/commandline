@@ -252,7 +252,7 @@ namespace CommandLine.Text
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
         {
-            switch (parserResult.Tag)
+            switch (parserResult.ParserResultType)
             {
                 case ParserResultType.Options:
                     return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
