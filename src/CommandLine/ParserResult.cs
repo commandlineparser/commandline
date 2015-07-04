@@ -7,7 +7,7 @@ using CommandLine.Infrastructure;
 
 namespace CommandLine
 {
-    internal enum ParserResultType { Parsed, NotParsed }
+    public enum ParserResultType { Parsed, NotParsed }
 
     /// <summary>
     /// Models a parser result. It contains an instance of type <typeparamref name="T"/> with parsed values and
