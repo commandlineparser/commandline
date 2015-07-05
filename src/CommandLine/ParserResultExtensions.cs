@@ -45,5 +45,17 @@ namespace CommandLine
             }
             return result;
         }
+
+        public static TResult Return<TSource, TResult>(this ParserResult<TSource> result,
+            Func<TSource, TResult> parsedFunc,
+            Func<IEnumerable<Error>, TResult> notParsedFunc)
+        {
+            var parsed = result as Parsed<TSource>;
+            if (parsed != null)
+            {
+                return parsedFunc(parsed.Value);
+            }
+            return notParsedFunc(((NotParsed<TSource>)result).Errors);
+        }
     }
 }

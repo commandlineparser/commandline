@@ -56,5 +56,23 @@ namespace CommandLine.Tests.Unit
 
             "changed".ShouldBeEquivalentTo(expected);
         }
+
+        [Fact]
+        public static void Turn_sucessful_parsing_into_exit_code()
+        {
+            var expected = Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" })
+                .Return(_ => 0, _ => -1);
+
+            0.ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void Turn_failed_parsing_into_exit_code()
+        {
+            var expected = Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
+                .Return(_ => 0, _ => -1);
+
+            (-1).ShouldBeEquivalentTo(expected);
+        }
     }
 }
