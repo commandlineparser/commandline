@@ -106,5 +106,47 @@ namespace CommandLine.Tests.Unit.Core
             expected.ShouldBeEquivalentTo(result.Value);
             // Teardown
         }    
+
+        [Fact]
+        public void Parse_sequence_verb_returns_verb_instance()
+        {
+            // Fixture setup
+            var expected = new SequenceOptions { LongSequence = new long[] { }, StringSequence = new[] { "aa", "b" } };
+
+            // Exercize system 
+            var result = InstanceChooser.Choose(
+                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions), typeof(SequenceOptions) },
+                new[] { "sequence", "-s", "aa", "b" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.IsType<SequenceOptions>(result.Value);
+            expected.ShouldBeEquivalentTo(result.Value);
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(new[] { "sequence", "-s", "here-one-elem-but-no-sep" }, new[] { "here-one-elem-but-no-sep" })]
+        [InlineData(new[] { "sequence", "-shere-one-elem-but-no-sep" }, new[] { "here-one-elem-but-no-sep" })]
+        [InlineData(new[] { "sequence", "-s", "eml1@xyz.com,test@unit.org,xyz@srv.it" }, new[] { "eml1@xyz.com", "test@unit.org", "xyz@srv.it" })]
+        [InlineData(new[] { "sequence", "-sInlineData@iscool.org,test@unit.org,xyz@srv.it,another,the-last-one" }, new[] { "InlineData@iscool.org", "test@unit.org", "xyz@srv.it", "another", "the-last-one" })]
+        public void Parse_sequence_verb_with_separator_returns_verb_instance(string[] arguments, string[] expectedString)
+        {
+            // Fixture setup
+            var expected = new SequenceOptions { LongSequence = new long[] { }, StringSequence = expectedString };
+
+            // Exercize system 
+            var result = InstanceChooser.Choose(
+                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions), typeof(SequenceOptions) },
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.IsType<SequenceOptions>(result.Value);
+            expected.ShouldBeEquivalentTo(result.Value);
+            // Teardown
+        }
     }
 }

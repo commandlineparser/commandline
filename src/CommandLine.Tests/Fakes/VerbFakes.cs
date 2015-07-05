@@ -45,4 +45,14 @@ namespace CommandLine.Tests.Fakes
         public IEnumerable<string> Urls { get; set; }
     }
 
+    [Verb("sequence", HelpText = "Sequence options test.")]
+    class SequenceOptions
+    {
+        [Option("long-seq", Separator = ';')]
+        public IEnumerable<long> LongSequence { get; set; }
+
+        [Option('s', Min = 1, Max = 100, Separator = ',')]
+        public IEnumerable<string> StringSequence { get; set; }
+    }
+
 }

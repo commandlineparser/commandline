@@ -170,12 +170,14 @@ namespace CommandLine
                 IEnumerable<OptionSpecification> optionSpecs,
                 ParserSettings settings)
         {
-            return settings.EnableDashDash
+            var tokens = settings.EnableDashDash
                 ? Tokenizer.PreprocessDashDash(
                         arguments,
                         args =>
                             Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer)))
                 : Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer));
+            var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, settings.NameComparer));
+            return explodedTokens;
         }
 
         private static ParserResult<T> MakeParserResult<T>(Func<ParserResult<T>> parseFunc, ParserSettings settings)
