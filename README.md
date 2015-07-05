@@ -99,10 +99,11 @@ type options = {
 ```
 Consume them:
 ```fsharp
-let result = CommandLine.Parser.Default.ParseArguments<options>(args)
-match result.Tag with
-| ParserResultType.Parsed -> run result
-| ParserResultType.NotParsed -> fail result
+let main argv = 
+  let result = Parser.Default.ParseArguments<options>(argv)
+  match result with
+  | :? Parsed<options> as parsed -> run parsed.Value
+  | :? NotParsed<options> as notParsed -> fail notParsed.Errors
 ```
 
 Acknowledgements:
