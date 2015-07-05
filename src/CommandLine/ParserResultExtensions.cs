@@ -17,7 +17,7 @@ namespace CommandLine
         /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
         /// <param name="result">An <see cref="CommandLine.ParserResult{T}"/> instance.</param>
         /// <param name="action">The <see cref="Action{T}"/> to execute.</param>
-        /// <returns></returns>
+        /// <returns>The same <see cref="result"/> instance.</returns>
         public static ParserResult<T> WithParsed<T>(this ParserResult<T> result, Action<T> action)
         {
             var parsed = result as Parsed<T>;
@@ -35,7 +35,7 @@ namespace CommandLine
         /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
         /// <param name="result">An <see cref="CommandLine.ParserResult{T}"/> instance.</param>
         /// <param name="action">The <see cref="Action{IEnumerable{Error}}"/> to execute.</param>
-        /// <returns></returns>
+        /// <returns>The same <see cref="result"/> instance.</returns>
         public static ParserResult<T> WithNotParsed<T>(this ParserResult<T> result, Action<IEnumerable<Error>> action)
         {
             var notParsed = result as NotParsed<T>;
@@ -46,6 +46,15 @@ namespace CommandLine
             return result;
         }
 
+        /// <summary>
+        /// Provides a way to transform result data into another value.
+        /// </summary>
+        /// <typeparam name="TSource">Type of the target instance built with parsed value.</typeparam>
+        /// <typeparam name="TResult">The type of the new value.</typeparam>
+        /// <param name="result">An <see cref="CommandLine.ParserResult{T}"/> instance.</param>
+        /// <param name="parsedFunc">Lambda executed on successful parsing.</param>
+        /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
+        /// <returns>The new value.</returns>
         public static TResult Return<TSource, TResult>(this ParserResult<TSource> result,
             Func<TSource, TResult> parsedFunc,
             Func<IEnumerable<Error>, TResult> notParsedFunc)
