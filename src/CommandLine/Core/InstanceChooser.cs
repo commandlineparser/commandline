@@ -18,11 +18,11 @@ namespace CommandLine.Core
         {
             return Choose(
                 (args, optionSpecs) =>
-                {
-                    var tokens = Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer));
-                    var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
-                    return explodedTokens;
-                },
+                    {
+                        var tokens = Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer));
+                        var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
+                        return explodedTokens;
+                    },
                 types,
                 arguments,
                 nameComparer,

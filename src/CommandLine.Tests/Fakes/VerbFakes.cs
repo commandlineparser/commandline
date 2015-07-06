@@ -54,5 +54,4 @@ namespace CommandLine.Tests.Fakes
         [Option('s', Min = 1, Max = 100, Separator = ',')]
         public IEnumerable<string> StringSequence { get; set; }
     }
-
 }
