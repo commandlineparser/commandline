@@ -105,8 +105,27 @@ namespace CommandLine.Tests.Unit.Core
             Assert.IsType<AddOptions>(result.Value);
             expected.ShouldBeEquivalentTo(result.Value);
             // Teardown
-        }    
+        }
 
+        [Fact]
+        public void Parse_existing_verb_returns_verb_immutable_instance()
+        {
+            // Fixture setup
+            var expected = new ImmutableAddOptions(true, default(bool), "dummy.bin");
+
+            // Exercize system 
+            var result = InstanceChooser.Choose(
+                new[] { typeof(ImmutableAddOptions), typeof(ImmutableCommitOptions), typeof(ImmutableCloneOptions) },
+                new[] { "add", "--patch", "dummy.bin" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            Assert.IsType<ImmutableAddOptions>(result.Value);
+            expected.ShouldBeEquivalentTo(result.Value);
+            // Teardown
+        }
+    
         [Fact]
         public void Parse_sequence_verb_returns_verb_instance()
         {
