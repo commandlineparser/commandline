@@ -3,7 +3,7 @@
 [![Nuget](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 
-Command Line Parser Library 2.0.37.0 alpha for CLR.
+Command Line Parser Library 2.0.39.0 alpha for CLR.
 ===
 The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user.
 
@@ -169,6 +169,7 @@ Latest Changes:
   - Issue #181 Implemented.
   - Added `Return<TSource,TResult>(...)` to `ParserResult<TSource>`.
   - Issue #183 (option list in verb scenario) Fixed by @Thilas.
+  - Issue #183 (immutable in verb scenario) reported by @Thilas Fixed.
 
 Contacts:
 ---
