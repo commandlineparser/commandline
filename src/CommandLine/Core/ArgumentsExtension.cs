@@ -11,8 +11,10 @@ namespace CommandLine.Core
     static class ArgumentsExtension
     {
         public static IEnumerable<Error> Preprocess(
-            this IEnumerable<string> arguments, IEnumerable<Func<IEnumerable<string>,
-            IEnumerable<Error>>> preprocessorLookup)
+            this IEnumerable<string> arguments,
+            IEnumerable<
+                    Func<IEnumerable<string>, IEnumerable<Error>>
+                > preprocessorLookup)
         {
             if (preprocessorLookup.Empty())
             {
