@@ -170,6 +170,7 @@ Latest Changes:
   - Added `Return<TSource,TResult>(...)` to `ParserResult<TSource>`.
   - Issue #183 (option list in verb scenario) Fixed by @Thilas.
   - Issue #183 (immutable in verb scenario) reported by @Thilas Fixed.
+  - Default `--help` command refactored.
 
 Contacts:
 ---

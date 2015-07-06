@@ -2,6 +2,7 @@
 
   * Issue #183 Fixed by @Thilas.
   * Issue #183 reported by @Thilas Fixed.
+  * Default '--help' command refactored.
 
 2015-07-05    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
