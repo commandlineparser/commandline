@@ -56,11 +56,13 @@ namespace CommandLine.Core
                     : ReflectionHelper.CreateDefaultImmutableInstance<T>(
                         (from p in specProps select p.Specification.ConversionType).ToArray());
 
-            if (arguments.Any() && nameComparer.Equals("--help", arguments.First()))
+            if (arguments.Any())
             {
-                return new NotParsed<T>(
-                    makeDefault(),
-                    new[] { new HelpRequestedError() });
+                var preprocessorErrors = arguments.Preprocess(PreprocessorGuards.Lookup(nameComparer));
+                if (preprocessorErrors.Any())
+                {
+                    return new NotParsed<T>(makeDefault(), preprocessorErrors);
+                }
             }
 
             var tokenizerResult = tokenizer(arguments, optionSpecs);
