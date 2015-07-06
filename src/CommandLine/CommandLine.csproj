@@ -59,6 +59,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Core\KeyValuePairHelper.cs" />
+    <Compile Include="Core\PreprocessorGuards.cs" />
     <Compile Include="Core\TypeDescriptor.cs" />
     <Compile Include="Core\Scalar.cs" />
     <Compile Include="Core\Sequence.cs" />
