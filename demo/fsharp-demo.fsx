@@ -17,7 +17,7 @@ let formatLong o =
 let formatInput (o : options)  =
     sprintf "--stringvalue: %s\n-i: %A\n-x: %b\nvalue: %s\n" o.stringValue (Array.ofSeq o.intSequence) o.boolValue (formatLong o.longValue)
 
-let (|Success|Fail|) (result : ParserResult<'a>) =
+let inline (|Success|Fail|) (result : ParserResult<'a>) =
   match result with
   | :? Parsed<'a> as parsed -> Success(parsed.Value)
   | :? NotParsed<'a> as notParsed -> Fail(notParsed.Errors)
