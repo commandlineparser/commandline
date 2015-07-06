@@ -46,5 +46,13 @@ namespace CommandLine.Infrastructure
                           select prms.ParameterType.CreateDefaultForImmutable()).ToArray();
             return (T)ctor.Invoke(values);
         }
+
+        public static object CreateDefaultImmutableInstance(Type type, Type[] constructorTypes)
+        {
+            var ctor = type.GetConstructor(constructorTypes);
+            var values = (from prms in ctor.GetParameters()
+                          select prms.ParameterType.CreateDefaultForImmutable()).ToArray();
+            return ctor.Invoke(values);
+        }
     }
 }

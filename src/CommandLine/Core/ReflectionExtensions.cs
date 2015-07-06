@@ -139,7 +139,10 @@ namespace CommandLine.Core
             {
                 return Activator.CreateInstance(type);
             }
-            return type.CreateDefaultForImmutable();
+
+            var ctorTypes = type.GetSpecifications(pi => pi.PropertyType).ToArray();
+ 
+            return ReflectionHelper.CreateDefaultImmutableInstance(type, ctorTypes);
         }
     }
 }

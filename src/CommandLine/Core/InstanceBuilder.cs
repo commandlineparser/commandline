@@ -107,8 +107,7 @@ namespace CommandLine.Core
             }
             else
             {
-                var t = typeof(T);
-                var ctor = t.GetConstructor((from p in specProps select p.Specification.ConversionType).ToArray());
+                var ctor = typeInfo.GetConstructor((from sp in specProps select sp.Property.PropertyType).ToArray());
                 var values = (from prms in ctor.GetParameters()
                               join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower()
                               select sp.Value.Return(v => v,
