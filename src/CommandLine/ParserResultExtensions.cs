@@ -88,6 +88,17 @@ namespace CommandLine
             return notParsedFunc(((NotParsed<TSource>)result).Errors);
         }
 
+        /// <summary>
+        /// Provides a way to transform result data into another value.
+        /// </summary>
+        /// <typeparam name="T1">First verb type.</typeparam>
+        /// <typeparam name="T2">Second verb type.</typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="result">The result in verb scenario.</param>
+        /// <param name="parsedFunc1">Lambda executed on successful parsing of <see cref="T1"/>.</param>
+        /// <param name="parsedFunc2">Lambda executed on successful parsing of <see cref="T2"/>.</param>
+        /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
+        /// <returns>The new value.</returns>
         public static TResult Return<T1, T2, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
@@ -109,6 +120,19 @@ namespace CommandLine
             return notParsedFunc(((NotParsed<object>)result).Errors);
         }
 
+        /// <summary>
+        /// Provides a way to transform result data into another value.
+        /// </summary>
+        /// <typeparam name="T1">First verb type.</typeparam>
+        /// <typeparam name="T2">Second verb type.</typeparam>
+        /// <typeparam name="T3">Third verb type.</typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="result">The result in verb scenario.</param>
+        /// <param name="parsedFunc1">Lambda executed on successful parsing of <see cref="T1"/>.</param>
+        /// <param name="parsedFunc2">Lambda executed on successful parsing of <see cref="T2"/>.</param>
+        /// <param name="parsedFunc3">Lambda executed on successful parsing of <see cref="T2"/>.</param>
+        /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
+        /// <returns>The new value.</returns>
         public static TResult Return<T1, T2, T3, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
