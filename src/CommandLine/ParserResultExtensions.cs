@@ -87,5 +87,52 @@ namespace CommandLine
             }
             return notParsedFunc(((NotParsed<TSource>)result).Errors);
         }
+
+        public static TResult Return<T1, T2, TResult>(this ParserResult<object> result,
+            Func<T1, TResult> parsedFunc1,
+            Func<T2, TResult> parsedFunc2,
+            Func<IEnumerable<Error>, TResult> notParsedFunc)
+        {
+            var parsed = result as Parsed<object>;
+            if (parsed != null)
+            {
+                if (parsed.Value.GetType() == typeof(T1))
+                {
+                    return parsedFunc1((T1)parsed.Value);
+                }
+                if (parsed.Value.GetType() == typeof(T2))
+                {
+                    return parsedFunc2((T2)parsed.Value);
+                }
+                throw new InvalidOperationException();
+            }
+            return notParsedFunc(((NotParsed<object>)result).Errors);
+        }
+
+        public static TResult Return<T1, T2, T3, TResult>(this ParserResult<object> result,
+            Func<T1, TResult> parsedFunc1,
+            Func<T2, TResult> parsedFunc2,
+            Func<T3, TResult> parsedFunc3,
+            Func<IEnumerable<Error>, TResult> notParsedFunc)
+        {
+            var parsed = result as Parsed<object>;
+            if (parsed != null)
+            {
+                if (parsed.Value.GetType() == typeof(T1))
+                {
+                    return parsedFunc1((T1)parsed.Value);
+                }
+                if (parsed.Value.GetType() == typeof(T2))
+                {
+                    return parsedFunc2((T2)parsed.Value);
+                }
+                if (parsed.Value.GetType() == typeof(T3))
+                {
+                    return parsedFunc3((T3)parsed.Value);
+                }
+                throw new InvalidOperationException();
+            }
+            return notParsedFunc(((NotParsed<object>)result).Errors);
+        }
     }
 }

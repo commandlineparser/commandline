@@ -93,12 +93,40 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public static void Turn_sucessful_parsing_into_exit_code_for_verbs()
+        {
+            var expected = Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions>(
+                new[] { "clone", "https://value.org/user/file.git" })
+                .Return(
+                    (AddOptions opts) => 0,
+                    (CommitOptions opts) => 1,
+                    (CloneOptions opts) => 2,
+                    errs => 3);
+
+            2.ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
         public static void Turn_failed_parsing_into_exit_code()
         {
             var expected = Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
                 .Return(_ => 0, _ => -1);
 
             (-1).ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void Turn_failed_parsing_into_exit_code_for_verbs()
+        {
+            var expected = Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions>(
+                new[] { "undefined", "-xyz" })
+                .Return(
+                    (AddOptions opts) => 0,
+                    (CommitOptions opts) => 1,
+                    (CloneOptions opts) => 2,
+                    errs => 3);
+
+            3.ShouldBeEquivalentTo(expected);
         }
     }
 }
