@@ -26,10 +26,36 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public static void Invoke_parsed_lambda_when_parsed_for_verbs()
+        {
+            var expected = string.Empty;
+            Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions>(
+                new[] { "clone", "https://value.org/user/file.git" })
+                .WithParsed<AddOptions>(opts => expected = "wrong1")
+                .WithParsed<CommitOptions>(opts => expected = "wrong2")
+                .WithParsed<CloneOptions>(opts => expected = opts.Urls.First());
+
+            "https://value.org/user/file.git".ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
         public static void Invoke_not_parsed_lambda_when_not_parsed()
         {
             var expected = "a default";
             Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
+                .WithNotParsed(_ => expected = "changed");
+
+            "changed".ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void Invoke_not_parsed_lambda_when_parsed_for_verbs()
+        {
+            var expected = "a default";
+            Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new[] { "undefined", "-xyz" })
+                .WithParsed<AddOptions>(opts => expected = "wrong1")
+                .WithParsed<CommitOptions>(opts => expected = "wrong2")
+                .WithParsed<CloneOptions>(opts => expected = "wrong3")
                 .WithNotParsed(_ => expected = "changed");
 
             "changed".ShouldBeEquivalentTo(expected);
@@ -56,8 +82,6 @@ namespace CommandLine.Tests.Unit
 
             "changed".ShouldBeEquivalentTo(expected);
         }
-
-        //public static void I
 
         [Fact]
         public static void Turn_sucessful_parsing_into_exit_code()

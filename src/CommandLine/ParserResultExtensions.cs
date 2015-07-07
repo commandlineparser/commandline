@@ -29,12 +29,15 @@ namespace CommandLine
             return result;
         }
 
+        /// <summary>
+        /// Executes <see cref="Action{T}"/> if parsed values are of <see cref="T"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
+        /// <param name="result">An verb result instance.</param>
+        /// <param name="action">The <see cref="Action{T}"/> to execute.</param>
+        /// <returns>The same <see cref="result"/> instance.</returns>
         public static ParserResult<object> WithParsed<T>(this ParserResult<object> result, Action<T> action)
         {
-            if (!result.VerbTypes.Any(t => t == typeof(T)))
-            {
-                throw new InvalidOperationException(string.Format("{0} is not a verb type.", typeof(T).Name));
-            }
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
