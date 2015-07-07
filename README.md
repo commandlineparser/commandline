@@ -38,9 +38,9 @@ To install:
 
 To build:
 ---
-- [FAKE](http://fsharp.github.io/FAKE/) Script (under development)
+- [FAKE](http://fsharp.github.io/FAKE/) Script
 - MS Visual Studio
-- Xamarin Studio (not tested)
+- Xamarin Studio
 
 Public API:
 ---
