@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CommandLine
 {
@@ -24,6 +25,23 @@ namespace CommandLine
             if (parsed != null)
             {
                 action(parsed.Value);
+            }
+            return result;
+        }
+
+        public static ParserResult<object> WithParsed<T>(this ParserResult<object> result, Action<T> action)
+        {
+            if (!result.VerbTypes.Any(t => t == typeof(T)))
+            {
+                throw new InvalidOperationException(string.Format("{0} is not a verb type.", typeof(T).Name));
+            }
+            var parsed = result as Parsed<object>;
+            if (parsed != null)
+            {
+                if (result.Value.GetType() == typeof(T))
+                {
+                    action((T)parsed.Value);
+                }
             }
             return result;
         }

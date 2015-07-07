@@ -16,7 +16,7 @@ namespace CommandLine.Tests.Unit
     public class ParserResultExtensionsTests
     {
         [Fact]
-        public static void Invoker_parsed_lambda_when_parsed()
+        public static void Invoke_parsed_lambda_when_parsed()
         {
             var expected = string.Empty;
             Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" })
@@ -26,7 +26,7 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public static void Invoker_not_parsed_lambda_when_not_parsed()
+        public static void Invoke_not_parsed_lambda_when_not_parsed()
         {
             var expected = "a default";
             Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
@@ -36,7 +36,7 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public static void Invoker_proper_lambda_when_parsed()
+        public static void Invoke_proper_lambda_when_parsed()
         {
             var expected = string.Empty;
             Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" })
@@ -47,7 +47,7 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public static void Invoker_proper_lambda_when_not_parsed()
+        public static void Invoke_proper_lambda_when_not_parsed()
         {
             var expected = "a default";
             Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
@@ -56,6 +56,8 @@ namespace CommandLine.Tests.Unit
 
             "changed".ShouldBeEquivalentTo(expected);
         }
+
+        //public static void I
 
         [Fact]
         public static void Turn_sucessful_parsing_into_exit_code()
