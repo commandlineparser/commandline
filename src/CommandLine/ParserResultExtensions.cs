@@ -317,5 +317,72 @@ namespace CommandLine
             }
             return notParsedFunc(((NotParsed<object>)result).Errors);
         }
+
+        /// <summary>
+        /// Provides a way to transform result data into another value.
+        /// </summary>
+        /// <typeparam name="T1">First verb type.</typeparam>
+        /// <typeparam name="T2">Second verb type.</typeparam>
+        /// <typeparam name="T3">Third verb type.</typeparam>
+        /// <typeparam name="T4">Third verb type.</typeparam>
+        /// <typeparam name="T5">Third verb type.</typeparam>
+        /// <typeparam name="T6">Third verb type.</typeparam>
+        /// <typeparam name="T7">Third verb type.</typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="result">The result in verb scenario.</param>
+        /// <param name="parsedFunc1">Lambda executed on successful parsing of <see cref="T1"/>.</param>
+        /// <param name="parsedFunc2">Lambda executed on successful parsing of <see cref="T2"/>.</param>
+        /// <param name="parsedFunc3">Lambda executed on successful parsing of <see cref="T3"/>.</param>
+        /// <param name="parsedFunc4">Lambda executed on successful parsing of <see cref="T4"/>.</param>
+        /// <param name="parsedFunc5">Lambda executed on successful parsing of <see cref="T5"/>.</param>
+        /// <param name="parsedFunc6">Lambda executed on successful parsing of <see cref="T6"/>.</param>
+        /// <param name="parsedFunc7">Lambda executed on successful parsing of <see cref="T7"/>.</param>
+        /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
+        /// <returns>The new value.</returns>
+        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, TResult>(this ParserResult<object> result,
+            Func<T1, TResult> parsedFunc1,
+            Func<T2, TResult> parsedFunc2,
+            Func<T3, TResult> parsedFunc3,
+            Func<T4, TResult> parsedFunc4,
+            Func<T5, TResult> parsedFunc5,
+            Func<T6, TResult> parsedFunc6,
+            Func<T7, TResult> parsedFunc7,
+            Func<IEnumerable<Error>, TResult> notParsedFunc)
+        {
+            var parsed = result as Parsed<object>;
+            if (parsed != null)
+            {
+                if (parsed.Value.GetType() == typeof(T1))
+                {
+                    return parsedFunc1((T1)parsed.Value);
+                }
+                if (parsed.Value.GetType() == typeof(T2))
+                {
+                    return parsedFunc2((T2)parsed.Value);
+                }
+                if (parsed.Value.GetType() == typeof(T3))
+                {
+                    return parsedFunc3((T3)parsed.Value);
+                }
+                if (parsed.Value.GetType() == typeof(T4))
+                {
+                    return parsedFunc4((T4)parsed.Value);
+                }
+                if (parsed.Value.GetType() == typeof(T5))
+                {
+                    return parsedFunc5((T5)parsed.Value);
+                }
+                if (parsed.Value.GetType() == typeof(T6))
+                {
+                    return parsedFunc6((T6)parsed.Value);
+                }
+                if (parsed.Value.GetType() == typeof(T7))
+                {
+                    return parsedFunc7((T7)parsed.Value);
+                }
+                throw new InvalidOperationException();
+            }
+            return notParsedFunc(((NotParsed<object>)result).Errors);
+        }
     }
 }
