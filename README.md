@@ -100,10 +100,37 @@ type options = {
 Consume them:
 ```fsharp
 let main argv = 
-  let result = Parser.Default.ParseArguments<options>(argv)
+  let result = CommandLine.Parser.Default.ParseArguments<options>(argv)
   match result with
   | :? Parsed<options> as parsed -> run parsed.Value
   | :? NotParsed<options> as notParsed -> fail notParsed.Errors
+```
+
+For verbs:
+
+**C#:**
+```csharp
+[Verb("add", HelpText = "Add file contents to the index.")]
+class AddOptions {
+  //normal options here
+}
+[Verb("commit", HelpText = "Record changes to the repository.")]
+class CommitOptions {
+  //normal options here
+}
+[Verb("clone", HelpText = "Clone a repository into a new directory.")]
+class CloneOptions {
+  //normal options here
+}
+
+int Main(string[] args) {
+  return CommandLine.Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions>(args)
+    .Return(
+      (AddOptions opts) => RunAddAndReturnExitCode(opts),
+      (CommitOptions opts) => RunCommitAndReturnExitCode(opts),
+      (CloneOptions opts) => RunCloneAndReturnExitCode(opts),
+      errs => 1);
+}
 ```
 
 Acknowledgements:
