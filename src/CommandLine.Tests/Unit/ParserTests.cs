@@ -226,5 +226,24 @@ namespace CommandLine.Tests.Unit
             ((NotParsed<FakeOptions>)result).Errors.Should().ContainSingle(e => e.Equals(expectedError));
             // Teardown
         }
+
+        [Fact]
+        public void Explicit_version_request_generates_help_screen()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+            // Creating value to compare
+            sut.ParseArguments<FakeOptions>(new[] { "--help" });
+            var helpText = help.ToString();
+
+            // Exercize system
+            sut.ParseArguments<FakeOptions>(new[] { "--version" });
+            var result = help.ToString();
+
+            // Verify outcome
+            result.Length.Should().BeLessThan(helpText.Length);
+            // Teardown
+        }
     }
 }
