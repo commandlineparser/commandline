@@ -202,6 +202,7 @@ Latest Changes:
   - Added `WithParsed<T>()` for verbs.
   - Added `Return<T1...T16>()` for verbs.
   - Automatic `--version` handling.
+  - Added C# demo.
 
 Contacts:
 ---
