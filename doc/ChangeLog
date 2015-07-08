@@ -2,6 +2,7 @@
 
   * Automatic --version handling.
   * Added C# demo.
+  * Internal refactorings in HelpText.
 
 2015-07-07    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 

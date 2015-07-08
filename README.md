@@ -188,7 +188,6 @@ Latest Changes:
   - Disallowed `Min=Max=0` for sequences, raising exception.
   - Issue #177 Fixed.
   - Issue #112 Fixed.
-  - Internal refactorings.
   - Support for **immutable types**.
   - PR #123 by @smbecker Merged.
   - Fixes.
@@ -203,6 +202,7 @@ Latest Changes:
   - Added `Return<T1...T16>()` for verbs.
   - Automatic `--version` handling.
   - Added C# demo.
+  - Internal refactorings.
 
 Contacts:
 ---
