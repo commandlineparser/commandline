@@ -15,7 +15,8 @@ namespace CommandLine.Core
         {
             return new List<Func<IEnumerable<string>, IEnumerable<Error>>>
                 {
-                    HelpCommand(nameComparer)
+                    HelpCommand(nameComparer),
+                    VersionCommand(nameComparer)
                 };
         }
 
@@ -25,6 +26,15 @@ namespace CommandLine.Core
                 arguments =>
                     nameComparer.Equals("--help", arguments.First())
                         ? new Error[] { new HelpRequestedError() }
+                        : Enumerable.Empty<Error>();
+        }
+
+        public static Func<IEnumerable<string>, IEnumerable<Error>> VersionCommand(StringComparer nameComparer)
+        {
+            return
+                arguments =>
+                    nameComparer.Equals("--version", arguments.First())
+                        ? new Error[] { new VersionRequestedError() }
                         : Enumerable.Empty<Error>();
         }
     }
