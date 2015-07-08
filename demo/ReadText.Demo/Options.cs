@@ -5,20 +5,21 @@ namespace ReadText.Demo
     interface IOptions
     {
         [Option('n', "lines",
-        SetName = "amount",
+            Default = 5U,
+            SetName = "amount",
             HelpText = "Lines to be printed from the beginning or end of the file.")]
         uint? Lines { get; set; }
 
         [Option('c', "bytes",
-                SetName = "amount",
-                HelpText = "Bytes to be printed from the beginning or end of the file.")]
+            SetName = "amount2",
+            HelpText = "Bytes to be printed from the beginning or end of the file.")]
         uint? Bytes { get; set; }
 
         [Option('q', "quiet",
             HelpText = "Supresses summary messages.")]
         bool Quiet { get; set; }
 
-        [Value(0)]
+        [Value(0, Required = true)]
         string FileName { get; set; } 
     }
 

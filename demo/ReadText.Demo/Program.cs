@@ -20,34 +20,36 @@ namespace ReadText.Demo
 		                : ReadBytes(opts.FileName, fromTop, (int)opts.Bytes);
 		        };
 		    Func<IOptions, string> header = opts =>
-		    {
-		        if (opts.Quiet)
 		        {
-		            return string.Empty;
-		        }
-                var fromTop = opts.GetType() == typeof(HeadOptions);
-		        var builder = new StringBuilder("Reading ");
-		        builder = opts.Lines.HasValue
-		            ? builder.Append(opts.Lines).Append(" lines")
-		            : builder.Append(opts.Bytes).Append(" bytes");
-		        builder = fromTop ? builder.Append(" from top") : builder.Append(" from bottom:");
-		        return builder.ToString();
-		    };
+		            if (opts.Quiet)
+		            {
+		                return string.Empty;
+		            }
+                    var fromTop = opts.GetType() == typeof(HeadOptions);
+		            var builder = new StringBuilder("Reading ");
+		            builder = opts.Lines.HasValue
+		                ? builder.Append(opts.Lines).Append(" lines")
+		                : builder.Append(opts.Bytes).Append(" bytes");
+		            builder = fromTop ? builder.Append(" from top:") : builder.Append(" from bottom:");
+		            return builder.ToString();
+		        };
+            Action<string> printIfNotEmpty = text =>
+                {
+                    if (text.Length == 0) { return; }
+                    Console.WriteLine(text);
+                };
 
             var result = Parser.Default.ParseArguments<HeadOptions, TailOptions>(args);
             var texts = result
                 .Return(
                     (HeadOptions opts) => Tuple.Create(header(opts), reader(opts)),
                     (TailOptions opts) => Tuple.Create(header(opts), reader(opts)),
-                    _ => Tuple.Create(string.Empty, string.Empty));
+                    _ => MakeError());
 
-		    if (texts.Item1.Length > 0)
-		    {
-                Console.WriteLine(texts.Item1);
-		    }
-            Console.WriteLine(texts.Item2);
+            printIfNotEmpty(texts.Item1);
+            printIfNotEmpty(texts.Item2);
 
-		    return 0;
+		    return texts.Equals(MakeError()) ? 1 : 0;
 		}
 
 	    private static string ReadLines(string fileName, bool fromTop, int count)
@@ -68,6 +70,11 @@ namespace ReadText.Demo
 	            return Encoding.UTF8.GetString(bytes, 0, count);
 	        }
             return Encoding.UTF8.GetString(bytes, bytes.Length - count, count);
+	    }
+
+	    private static Tuple<string, string> MakeError()
+	    {
+	        return Tuple.Create("\0", "\0");
 	    }
 	}
 }
