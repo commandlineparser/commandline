@@ -232,14 +232,15 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var version = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = version);
             // Creating value to compare
-            sut.ParseArguments<FakeOptions>(new[] { "--help" });
+            new Parser(config => config.HelpWriter = help).ParseArguments<FakeOptions>(new[] { "--help" });
             var helpText = help.ToString();
 
             // Exercize system
             sut.ParseArguments<FakeOptions>(new[] { "--version" });
-            var result = help.ToString();
+            var result = version.ToString();
 
             // Verify outcome
             result.Length.Should().BeLessThan(helpText.Length);

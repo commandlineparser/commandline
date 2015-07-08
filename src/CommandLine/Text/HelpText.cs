@@ -258,6 +258,12 @@ namespace CommandLine.Text
             }
 
             var errors = ((NotParsed<T>)parserResult).Errors;
+
+            if (errors.Any(e => e.Tag == ErrorType.VersionRequestedError))
+            {
+                return new HelpText(HeadingInfo.Default);
+            }
+
             var helpVerbErr = errors.OfType<HelpVerbRequestedError>();
             if (!helpVerbErr.Any())
             {
