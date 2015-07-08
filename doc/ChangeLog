@@ -1,7 +1,7 @@
 2015-07-07    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Added WithParsed<T>() for verbs.
-  * Added Result<T1...T16>() for verbs.
+  * Added Return<T1...T16>() for verbs.
 
 2015-07-06    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 

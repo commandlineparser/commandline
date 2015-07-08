@@ -199,7 +199,7 @@ Latest Changes:
   - Issue #183 (immutable in verb scenario) reported by @Thilas Fixed.
   - Default `--help` command refactored.
   - Added `WithParsed<T>()` for verbs.
-  - Added `Result<T1...T16>()` for verbs.
+  - Added `Return<T1...T16>()` for verbs.
 
 Contacts:
 ---
