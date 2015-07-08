@@ -210,5 +210,21 @@ namespace CommandLine.Tests.Unit
             result.Length.Should().BeGreaterThan(0);
             // Teardown
         }
+
+        [Fact]
+        public void Explicit_version_request_generates_version_requested_error()
+        {
+            // Fixture setup
+            var expectedError = new VersionRequestedError();
+            var sut = new Parser();
+
+            // Exercize system
+            var result = sut.ParseArguments<FakeOptions>(new[] { "--version" });
+
+            // Verify outcome
+            ((NotParsed<FakeOptions>)result).Errors.Should().HaveCount(x => x == 1);
+            ((NotParsed<FakeOptions>)result).Errors.Should().ContainSingle(e => e.Equals(expectedError));
+            // Teardown
+        }
     }
 }
