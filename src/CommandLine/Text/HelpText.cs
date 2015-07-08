@@ -264,13 +264,12 @@ namespace CommandLine.Text
                 return new HelpText(HeadingInfo.Default).AddPreOptionsLine(Environment.NewLine);
             }
 
-            var helpVerbErr = errors.OfType<HelpVerbRequestedError>();
-            if (!helpVerbErr.Any())
+            if (!errors.Any(e => e.Tag == ErrorType.HelpVerbRequestedError))
             {
                 return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
             }
 
-            var err = helpVerbErr.Single();
+            var err = errors.OfType<HelpVerbRequestedError>().Single();
             if (err.Matched)
             {
                 var pr = new NotParsed<object>(err.Type.AutoDefault(), Enumerable.Empty<Error>());
