@@ -56,7 +56,11 @@ namespace CommandLine
         /// <summary>
         /// Value of <see cref="CommandLine.HelpVerbRequestedError"/> type.
         /// </summary>
-        HelpVerbRequestedError
+        HelpVerbRequestedError,
+        /// <summary>
+        /// Value of <see cref="CommandLine.VersionRequestedError"/> type.
+        /// </summary>
+        VersionRequestedError
     }
 
     /// <summary>
@@ -406,6 +410,17 @@ namespace CommandLine
     {
         internal NoVerbSelectedError()
             : base(ErrorType.NoVerbSelectedError)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Models an error generated when a user explicitly requests version.
+    /// </summary>
+    public sealed class VersionRequestedError : Error
+    {
+        internal VersionRequestedError()
+            : base(ErrorType.VersionRequestedError)
         {
         }
     }
