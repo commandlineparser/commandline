@@ -261,7 +261,7 @@ namespace CommandLine.Text
 
             if (errors.Any(e => e.Tag == ErrorType.VersionRequestedError))
             {
-                return new HelpText(HeadingInfo.Default);
+                return new HelpText(HeadingInfo.Default).AddPreOptionsLine(Environment.NewLine);
             }
 
             var helpVerbErr = errors.OfType<HelpVerbRequestedError>();
