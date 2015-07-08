@@ -1,45 +1,48 @@
-using System;
 using CommandLine;
 
 namespace ReadText.Demo
 {
-    abstract class Options
+    interface IOptions
     {
+        [Option('n', "lines",
+        SetName = "amount",
+            HelpText = "Lines to be printed from the beginning or end of the file.")]
+        uint? Lines { get; set; }
+
+        [Option('c', "bytes",
+                SetName = "amount",
+                HelpText = "Bytes to be printed from the beginning or end of the file.")]
+        uint? Bytes { get; set; }
+
         [Option('q', "quiet",
-                HelpText = "Supresses summary messages.")]
-        public bool Quiet { get; set; }
+            HelpText = "Supresses summary messages.")]
+        bool Quiet { get; set; }
 
         [Value(0)]
-        public string FileName { get; set; }
+        string FileName { get; set; } 
     }
 
     [Verb("head", HelpText = "Displays first lines of a file.")]
-    class HeadOptions : Options
+    class HeadOptions : IOptions
     {
-        [Option('n', "lines",
-                DefaultValue = 10,
-                SetName = "amount",
-                HelpText = "Lines to be printed from the beginning of the file (default 10).")]
-        public uint Lines { get; set; }
+        public uint? Lines { get; set; }
 
-        [Option('c', "bytes",
-                SetName = "amount",
-                HelpText = "Bytes to be printed from the beginning of the file.")]
-        public uint Bytes { get; set; }
+        public uint? Bytes { get; set; }
+
+        public bool Quiet { get; set; }
+
+        public string FileName { get; set; } 
     }
 
     [Verb("tail", HelpText = "Displays last lines of a file.")]
-    class TailOptions : Options
+    class TailOptions : IOptions
     {
-        [Option('n', "lines",
-                DefaultValue = 10,
-                SetName = "amount",
-                HelpText = "Lines to be printed from the end of the file (default 10).")]
-        public uint Lines { get; set; }
+        public uint? Lines { get; set; }
 
-        [Option('c', "bytes",
-                SetName = "amount",
-                HelpText = "Bytes to be printed from the end of the file.")]
-        public uint Bytes { get; set; }
+        public uint? Bytes { get; set; }
+
+        public bool Quiet { get; set; }
+
+        public string FileName { get; set; } 
     }
 }
