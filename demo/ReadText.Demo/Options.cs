@@ -20,7 +20,7 @@ namespace ReadText.Demo
         bool Quiet { get; set; }
 
         [Value(0, Required = true)]
-        string FileName { get; set; } 
+        string FileName { get; set; }
     }
 
     [Verb("head", HelpText = "Displays first lines of a file.")]
@@ -32,7 +32,7 @@ namespace ReadText.Demo
 
         public bool Quiet { get; set; }
 
-        public string FileName { get; set; } 
+        public string FileName { get; set; }
     }
 
     [Verb("tail", HelpText = "Displays last lines of a file.")]
@@ -44,6 +44,6 @@ namespace ReadText.Demo
 
         public bool Quiet { get; set; }
 
-        public string FileName { get; set; } 
+        public string FileName { get; set; }
     }
 }
