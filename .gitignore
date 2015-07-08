@@ -1,7 +1,7 @@
 src/CommandLine/bin/*
 src/CommandLine/obj
-src/demo/bin/*
-src/demo/obj
+src/demo/ReadText.Demo/bin/*
+src/demo/ReadText.Demo/obj
 src/CommandLine.Tests/bin/*
 src/CommandLine.Tests/obj
 src/CommandLine.FSharp/bin/*
