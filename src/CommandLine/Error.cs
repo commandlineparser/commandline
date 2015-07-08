@@ -351,7 +351,7 @@ namespace CommandLine
     }
 
     /// <summary>
-    /// Models an error generated when a user explicit requests help.
+    /// Models an error generated when a user explicitly requests help.
     /// </summary>
     public sealed class HelpRequestedError : Error
     {
@@ -362,7 +362,7 @@ namespace CommandLine
     }
 
     /// <summary>
-    /// Models an error generated when a user explicit requests help in verb commands scenario.
+    /// Models an error generated when a user explicitly requests help in verb commands scenario.
     /// </summary>
     public sealed class HelpVerbRequestedError : Error
     {
