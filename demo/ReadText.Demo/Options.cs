@@ -6,12 +6,12 @@ namespace ReadText.Demo
     {
         [Option('n', "lines",
             Default = 5U,
-            SetName = "amount",
+            SetName = "bylines",
             HelpText = "Lines to be printed from the beginning or end of the file.")]
         uint? Lines { get; set; }
 
         [Option('c', "bytes",
-            SetName = "amount2",
+            SetName = "bybytes",
             HelpText = "Bytes to be printed from the beginning or end of the file.")]
         uint? Bytes { get; set; }
 
