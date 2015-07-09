@@ -208,9 +208,13 @@ namespace CommandLine.Text
                     AddDashesToOption = !verbsIndex
                 };
 
+            var errors = Enumerable.Empty<Error>();  
+
             if (onError != null && parserResult.Tag == ParserResultType.NotParsed)
             {
-                if (FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors).Any())
+                errors = ((NotParsed<T>)parserResult).Errors;
+
+                if (FilterMeaningfulErrors(errors).Any())
                 {
                     auto = onError(auto);
                 }
@@ -228,13 +232,13 @@ namespace CommandLine.Text
                 usage.FromJust().AddToHelpText(auto, true);
             }
 
-            if (verbsIndex && parserResult.VerbTypes.Any())
+            if ((verbsIndex && parserResult.VerbTypes.Any()) || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
             {
                 auto.AddVerbs(parserResult.VerbTypes.ToArray());
             }
             else
             {
-                auto.AddOptionsImpl(auto.GetOptionListFromType(parserResult.Value), auto.SentenceBuilder.RequiredWord(), auto.MaximumDisplayWidth);
+                auto.AddOptions(parserResult.Value); 
             }
 
             return auto;
@@ -528,14 +532,9 @@ namespace CommandLine.Text
 
         private IEnumerable<OptionSpecification> GetOptionListFromType<T>(T options)
         {
-            return GetOptionListFromType(options, CreateHelpEntry());
-        }
-
-        private IEnumerable<OptionSpecification> GetOptionListFromType<T>(T options, params OptionSpecification[] addOptions)
-        {
             return options.GetType().GetSpecifications(Specification.FromProperty)
                .OfType<OptionSpecification>()
-               .Concat(addOptions);
+               .Concat(new[] { CreateHelpEntry() });
         }
 
         private IEnumerable<OptionSpecification> AdaptVerbListToOptionList(IEnumerable<Type> types)
