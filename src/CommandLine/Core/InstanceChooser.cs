@@ -43,7 +43,7 @@ namespace CommandLine.Core
                     new NullInstance(),
                     types,
                     new[] { new NoVerbSelectedError() })
-                : nameComparer.Equals("help", arguments.First())
+                : (nameComparer.Equals("help", arguments.First()) || nameComparer.Equals("--help", arguments.First()))
                    ? new NotParsed<object>(
                        new NullInstance(),
                        types, new[] { CreateHelpVerbRequestedError(
