@@ -24,7 +24,7 @@ At glance:
 ---
   - One line parsing using default singleton: ``CommandLine.Parser.Default.ParseArguments(...)``.
   - Automatic or one line help screen generator: ``HelpText.AutoBuild(...)``.
-    - Supports `--help`, `--version` and `help [verb]` by default.
+    - Supports `--help`, `--version`, `version` and `help [verb]` by default.
   - Map to sequences (``IEnumerable<T>``) or scalar types, including enum and ``Nullable<T>``.
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
   - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Latest-Version#verbs) as ``git commit -a``.
