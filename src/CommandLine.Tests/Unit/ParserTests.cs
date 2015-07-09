@@ -264,5 +264,21 @@ namespace CommandLine.Tests.Unit
             result.Length.Should().BeGreaterThan(0);
             // Teardown
         }
+
+        [Fact]
+        public void Double_dash_help_dispalys_verbs_index_in_verbs_scenario()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new [] { "--help" });
+            var result = help.ToString();
+
+            // Verify outcome
+            result.Length.Should().BeGreaterThan(0);
+            // Teardown
+        }
     }
 }
