@@ -38,7 +38,7 @@ namespace CommandLine.Core
         {
             if (arguments.Empty())
             {
-                return new NotParsed<object>(new NullInstance(), types, new[] { new NoVerbSelectedError() });
+                return MakeNotParsed(types, new NoVerbSelectedError());
             }
 
             var firstArg = arguments.First();
@@ -51,21 +51,14 @@ namespace CommandLine.Core
 
             if (preprocCompare("help"))
             {
-                return new NotParsed<object>(new NullInstance(), types, new[]
-                    {
-                        MakeHelpVerbRequestedError(
-                            verbs,
-                            arguments.Skip(1).SingleOrDefault() ?? string.Empty,
-                            nameComparer)
-                    });
+                return MakeNotParsed(types,
+                    MakeHelpVerbRequestedError(verbs,
+                        arguments.Skip(1).SingleOrDefault() ?? string.Empty, nameComparer));
             }
 
             if (preprocCompare("version"))
             {
-                return new NotParsed<object>(new NullInstance(), types, new[]
-                    {
-                        new VersionRequestedError()
-                    });
+                return MakeNotParsed(types, new VersionRequestedError());
             }
 
             return MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
@@ -104,5 +97,10 @@ namespace CommandLine.Core
                                  new HelpVerbRequestedError(null, null, false))
                       : new HelpVerbRequestedError(null, null, false);
        }
+
+        private static NotParsed<object> MakeNotParsed(IEnumerable<Type> types, params Error[] errors)
+        {
+            return new NotParsed<object>(new NullInstance(), types, errors);
+        }
     }
 }
