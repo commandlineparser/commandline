@@ -311,12 +311,8 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
-            //lines[0].Should().StartWithEquivalent("CommandLine");
-            //lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
-            //lines[2].ShouldBeEquivalentTo("add       Add file contents to the index.");
-            //lines[3].ShouldBeEquivalentTo("commit    Record changes to the repository.");
-            //lines[4].ShouldBeEquivalentTo("clone     Clone a repository into a new directory.");
-            //lines[5].ShouldBeEquivalentTo("help      Display more information on a specific command.");
+            lines.Should().HaveCount(x => x == 1);
+            lines[0].Should().StartWithEquivalent("CommandLine");
             // Teardown
         }
     }
