@@ -70,18 +70,18 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             StringComparer nameComparer,
             CultureInfo parsingCulture)
-        {     
+        {
             return verbs.Any(a => nameComparer.Equals(a.Item1.Name, arguments.First()))
                 ? InstanceBuilder.Build(
-                    Maybe.Just<Func<object>>(() => verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First())).Item2.AutoDefault()),
+                    Maybe.Just<Func<object>>(
+                        () =>
+                            verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First()))
+                                .Item2.AutoDefault()),
                     tokenizer,
                     arguments.Skip(1),
                     nameComparer,
                     parsingCulture)
-                : new NotParsed<object>(
-                    new NullInstance(),
-                    verbs.Select(v => v.Item2),
-                    new[] { new BadVerbSelectedError(arguments.First()) });
+                : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
         }
 
        private static HelpVerbRequestedError MakeHelpVerbRequestedError(
