@@ -960,7 +960,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
-        [InlineData(new [] {"str=val0"}, 1)]
+        [InlineData(new [] {"--str=val0"}, 1)]
         public void Breaking_required_constraint_generate_MissingRequiredOptionError(string[] arguments, int expected)
         {
             // Exercize system 
@@ -971,8 +971,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            ((NotParsed<FakeOptionWithTwoRequired>)result).Errors.OfType<MissingRequiredOptionError>()
-                .Should().HaveCount(x => x == expected);
+            var errors = ((NotParsed<FakeOptionWithTwoRequired>)result).Errors;
+            errors.OfType<MissingRequiredOptionError>().Should().HaveCount(x => x == expected);
         }
 
         [Theory]

@@ -56,7 +56,10 @@ namespace CommandLine.Core
                         .Where(sp => sp.Specification.IsOption())
                         .Where(sp => sp.Value.IsNothing()
                             && sp.Specification.Required
-                            && !setsWithTrue.Contains(((OptionSpecification)sp.Specification).SetName))
+                            && (
+                                ((OptionSpecification)sp.Specification).SetName.Length == 0 ||
+                                !setsWithTrue.Contains(((OptionSpecification)sp.Specification).SetName)
+                            ))                          
                     .Concat(specProps
                         .Where(sp => sp.Specification.IsValue()
                             && sp.Value.IsNothing()
