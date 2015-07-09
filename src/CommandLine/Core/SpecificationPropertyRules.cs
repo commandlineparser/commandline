@@ -35,7 +35,7 @@ namespace CommandLine.Core
                     {
                         return options.Select(s =>
                             new MutuallyExclusiveSetError(
-                                NameExtensions.FromOptionSpecification((OptionSpecification)s.Specification)));
+                                ((OptionSpecification)s.Specification).FromOptionSpecification()));
                     }
                     return Enumerable.Empty<Error>();
                 };
@@ -66,7 +66,7 @@ namespace CommandLine.Core
                             && sp.Specification.Required)).ToList();
                     if (requiredButEmpty.Any()) {
                         return requiredButEmpty.Select(s =>new MissingRequiredOptionError(
-                            NameExtensions.FromSpecification(s.Specification)));
+                            s.Specification.FromSpecification()));
                     }
                     return Enumerable.Empty<Error>();
                 };
@@ -87,7 +87,7 @@ namespace CommandLine.Core
                     if (options.Any())
                     {
                         return options.Select(s => new SequenceOutOfRangeError(
-                            NameExtensions.FromSpecification(s.Specification)));
+                            s.Specification.FromSpecification()));
                     }
                     return Enumerable.Empty<Error>();
                 };
