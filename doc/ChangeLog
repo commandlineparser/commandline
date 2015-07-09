@@ -1,5 +1,9 @@
 2015-07-08    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
+  * Issue #189 Implemented
+
+2015-07-08    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
   * Automatic --version handling.
   * Added C# demo.
   * Internal refactorings in HelpText.
