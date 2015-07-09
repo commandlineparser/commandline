@@ -234,18 +234,17 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var version = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = version);
-            // Creating value to compare
-            new Parser(config => config.HelpWriter = help).ParseArguments<FakeOptions>(new[] { "--help" });
-            var helpText = help.ToString();
+            var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
             sut.ParseArguments<FakeOptions>(new[] { "--version" });
-            var result = version.ToString();
+            var result = help.ToString();
 
             // Verify outcome
-            result.Length.Should().BeLessThan(helpText.Length);
+            result.Length.Should().BeGreaterThan(0);
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines.Should().HaveCount(x => x == 1);
+            lines[0].Should().StartWithEquivalent("CommandLine");
             // Teardown
         }
 
@@ -297,15 +296,17 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-        [Fact]
-        public void Explicit_version_request_generates_version_info_screen_in_verbs_scenario()
+        [Theory]
+        [InlineData("--version")]
+        [InlineData("version")]
+        public void Explicit_version_request_generates_version_info_screen_in_verbs_scenario(string command)
         {
             // Fixture setup
             var help = new StringWriter();
             var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
-            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new[] { "--version" });
+            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new[] { command });
             var result = help.ToString();
 
             // Verify outcome
