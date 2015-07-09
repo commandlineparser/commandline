@@ -230,7 +230,7 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public void Explicit_version_request_generates_help_screen()
+        public void Explicit_version_request_generates_version_info_screen()
         {
             // Fixture setup
             var help = new StringWriter();
@@ -294,6 +294,29 @@ namespace CommandLine.Tests.Unit
             lines[3].ShouldBeEquivalentTo("commit    Record changes to the repository.");
             lines[4].ShouldBeEquivalentTo("clone     Clone a repository into a new directory.");
             lines[5].ShouldBeEquivalentTo("help      Display more information on a specific command.");
+            // Teardown
+        }
+
+        [Fact]
+        public void Explicit_version_request_generates_version_info_screen_in_verbs_scenario()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new[] { "--version" });
+            var result = help.ToString();
+
+            // Verify outcome
+            result.Length.Should().BeGreaterThan(0);
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            //lines[0].Should().StartWithEquivalent("CommandLine");
+            //lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            //lines[2].ShouldBeEquivalentTo("add       Add file contents to the index.");
+            //lines[3].ShouldBeEquivalentTo("commit    Record changes to the repository.");
+            //lines[4].ShouldBeEquivalentTo("clone     Clone a repository into a new directory.");
+            //lines[5].ShouldBeEquivalentTo("help      Display more information on a specific command.");
             // Teardown
         }
     }
