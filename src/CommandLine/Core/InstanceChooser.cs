@@ -43,7 +43,13 @@ namespace CommandLine.Core
                 return new NotParsed<object>(new NullInstance(), types, new[] { new NoVerbSelectedError() });
             }
 
-            if (nameComparer.Equals("help", arguments.First()) || nameComparer.Equals("--help", arguments.First()))
+            var firstArg = arguments.First();
+
+            Func<string, bool> preprocCompare = command =>
+                    nameComparer.Equals(command, firstArg) ||
+                    nameComparer.Equals(string.Concat("--", command), firstArg);
+
+            if (preprocCompare("help"))
             {
                 return new NotParsed<object>(new NullInstance(), types, new[]
                     {
@@ -54,7 +60,7 @@ namespace CommandLine.Core
                     });
             }
 
-            if (nameComparer.Equals("version", arguments.First()) || nameComparer.Equals("--version", arguments.First()))
+            if (preprocCompare("version"))
             {
                 return new NotParsed<object>(new NullInstance(), types, new[]
                     {
