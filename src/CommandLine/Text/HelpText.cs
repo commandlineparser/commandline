@@ -234,6 +234,7 @@ namespace CommandLine.Text
 
             if ((verbsIndex && parserResult.VerbTypes.Any()) || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
             {
+                auto.AddDashesToOption = false;
                 auto.AddVerbs(parserResult.VerbTypes.ToArray());
             }
             else
