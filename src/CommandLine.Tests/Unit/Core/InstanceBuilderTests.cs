@@ -960,7 +960,12 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
-        [InlineData(new [] {"--str=val0"}, 1)]
+        [InlineData(new string[] { }, 2)]
+        [InlineData(new [] { "--str=val0" }, 1)]
+        [InlineData(new [] { "--long=9" }, 1)]
+        [InlineData(new [] { "--int=7" }, 2)]
+        [InlineData(new [] { "--str", "val1", "--int=3" }, 1)]
+        [InlineData(new [] { "--long", "9", "--int=11" }, 1)]
         public void Breaking_required_constraint_generate_MissingRequiredOptionError(string[] arguments, int expected)
         {
             // Exercize system 
