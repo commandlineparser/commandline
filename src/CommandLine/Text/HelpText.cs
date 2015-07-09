@@ -234,7 +234,7 @@ namespace CommandLine.Text
             }
             else
             {
-                auto.AddOptions(parserResult.Value);
+                auto.AddOptionsImpl(auto.GetOptionListFromType(parserResult.Value), auto.SentenceBuilder.RequiredWord(), auto.MaximumDisplayWidth);
             }
 
             return auto;
@@ -528,9 +528,14 @@ namespace CommandLine.Text
 
         private IEnumerable<OptionSpecification> GetOptionListFromType<T>(T options)
         {
-             return options.GetType().GetSpecifications(Specification.FromProperty)
-                .OfType<OptionSpecification>()
-                .Concat(new[] { CreateHelpEntry() });
+            return GetOptionListFromType(options, CreateHelpEntry());
+        }
+
+        private IEnumerable<OptionSpecification> GetOptionListFromType<T>(T options, params OptionSpecification[] addOptions)
+        {
+            return options.GetType().GetSpecifications(Specification.FromProperty)
+               .OfType<OptionSpecification>()
+               .Concat(addOptions);
         }
 
         private IEnumerable<OptionSpecification> AdaptVerbListToOptionList(IEnumerable<Type> types)
