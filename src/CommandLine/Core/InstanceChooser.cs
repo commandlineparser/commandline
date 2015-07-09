@@ -36,8 +36,6 @@ namespace CommandLine.Core
             StringComparer nameComparer,
             CultureInfo parsingCulture)
         {
-            var verbs = Verb.SelectFromTypes(types);
-
             if (arguments.Empty())
             {
                 return new NotParsed<object>(new NullInstance(), types, new[] { new NoVerbSelectedError() });
@@ -48,6 +46,8 @@ namespace CommandLine.Core
             Func<string, bool> preprocCompare = command =>
                     nameComparer.Equals(command, firstArg) ||
                     nameComparer.Equals(string.Concat("--", command), firstArg);
+
+            var verbs = Verb.SelectFromTypes(types);
 
             if (preprocCompare("help"))
             {
