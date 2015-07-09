@@ -38,19 +38,23 @@ namespace CommandLine.Core
         {
             var verbs = Verb.SelectFromTypes(types);
 
-            return arguments.Empty()
-                ? new NotParsed<object>(
-                    new NullInstance(),
-                    types,
-                    new[] { new NoVerbSelectedError() })
-                : (nameComparer.Equals("help", arguments.First()) || nameComparer.Equals("--help", arguments.First()))
-                   ? new NotParsed<object>(
-                       new NullInstance(),
-                       types, new[] { CreateHelpVerbRequestedError(
-                                        verbs,
-                                        arguments.Skip(1).SingleOrDefault() ?? string.Empty,
-                                        nameComparer) })
-                   : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
+            if (arguments.Empty())
+            {
+                return new NotParsed<object>(new NullInstance(), types, new[] { new NoVerbSelectedError() });
+            }
+
+            if (nameComparer.Equals("help", arguments.First()) || nameComparer.Equals("--help", arguments.First()))
+            {
+                return new NotParsed<object>(new NullInstance(), types, new[]
+                    {
+                        CreateHelpVerbRequestedError(
+                            verbs,
+                            arguments.Skip(1).SingleOrDefault() ?? string.Empty,
+                            nameComparer)
+                    });
+            }
+
+            return MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
         }
 
         private static ParserResult<object> MatchVerb(
