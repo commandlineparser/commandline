@@ -53,7 +53,7 @@ namespace CommandLine.Core
             {
                 return new NotParsed<object>(new NullInstance(), types, new[]
                     {
-                        CreateHelpVerbRequestedError(
+                        MakeHelpVerbRequestedError(
                             verbs,
                             arguments.Skip(1).SingleOrDefault() ?? string.Empty,
                             nameComparer)
@@ -91,7 +91,7 @@ namespace CommandLine.Core
                     new[] { new BadVerbSelectedError(arguments.First()) });
         }
 
-       private static HelpVerbRequestedError CreateHelpVerbRequestedError(
+       private static HelpVerbRequestedError MakeHelpVerbRequestedError(
            IEnumerable<Tuple<Verb, Type>> verbs,
            string verb,
            StringComparer nameComparer)
