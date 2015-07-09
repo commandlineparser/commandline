@@ -960,6 +960,22 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new [] {"str=val0"}, 1)]
+        public void Breaking_required_constraint_generate_MissingRequiredOptionError(string[] arguments, int expected)
+        {
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                Maybe.Just<Func<FakeOptionWithTwoRequired>>(() => new FakeOptionWithTwoRequired()),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            ((NotParsed<FakeOptionWithTwoRequired>)result).Errors.OfType<MissingRequiredOptionError>()
+                .Should().HaveCount(x => x == expected);
+        }
+
+        [Theory]
         [MemberData("ImmutableInstanceData")]
         public void Parse_to_immutable_instance(string[] arguments, FakeImmutableOptions expected)
         {
