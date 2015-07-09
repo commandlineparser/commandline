@@ -1,5 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using CommandLine.Tests.Fakes;
@@ -244,6 +246,22 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             result.Length.Should().BeLessThan(helpText.Length);
+            // Teardown
+        }
+
+        [Fact]
+        public void Implicit_help_screen_in_verb_scenario()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new string [] { });
+            var result = help.ToString();
+
+            // Verify outcome
+            result.Length.Should().BeGreaterThan(0);
             // Teardown
         }
     }
