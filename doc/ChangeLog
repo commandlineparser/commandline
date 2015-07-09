@@ -1,8 +1,9 @@
 2015-07-09    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
-  * Issue #189 Implemented
+  * Issue #189 Implemented.
   * Issue #190 Fixed/Implemented (--help/--version/version for verbs).
   * Internal refactorings in InstanceChooser.
+  * Issue #188 Fixed.
 
 2015-07-08    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
