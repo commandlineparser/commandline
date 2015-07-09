@@ -54,6 +54,14 @@ namespace CommandLine.Core
                     });
             }
 
+            if (nameComparer.Equals("version", arguments.First()) || nameComparer.Equals("--version", arguments.First()))
+            {
+                return new NotParsed<object>(new NullInstance(), types, new[]
+                    {
+                        new VersionRequestedError()
+                    });
+            }
+
             return MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
         }
 
