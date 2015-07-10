@@ -62,7 +62,8 @@ namespace CommandLine.Tests.Unit.Text
             Assert.Equal("-x               Define a boolean or switch value here.", lines[3]);
             Assert.Equal("--help           Display this help screen.", lines[4]);
             Assert.Equal("--version        Display version information.", lines[5]);
-            Assert.Equal("post-options", lines[6]);
+            Assert.Equal("value pos. 0     Define a long value here.", lines[6]);
+            Assert.Equal("post-options", lines[7]);
             // Teardown
         }
 

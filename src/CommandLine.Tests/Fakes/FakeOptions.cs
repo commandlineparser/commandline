@@ -15,7 +15,7 @@ namespace CommandLine.Tests.Fakes
         [Option('x', HelpText = "Define a boolean or switch value here.")]
         public bool BoolValue { get; set; }
 
-        [Value(0)]
+        [Value(0, HelpText = "Define a long value here.")]
         public long LongValue { get; set; }
     }
 }

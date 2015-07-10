@@ -589,12 +589,15 @@ namespace CommandLine.Text
         private IEnumerable<Specification> GetSpecificationsFromType<T>(T options)
         {
             var type = options.GetType();
-            var optionSpecs =
-                type.GetSpecifications(Specification.FromProperty)
+            var optionSpecs = type.GetSpecifications(Specification.FromProperty)
                     .OfType<OptionSpecification>()
                     .Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
-            var valueSpecs = type.GetSpecifications(Specification.FromProperty).OfType<ValueSpecification>();
-            return Enumerable.Empty<Specification>().Concat(optionSpecs).Concat(valueSpecs);
+            var valueSpecs = type.GetSpecifications(Specification.FromProperty)
+                .OfType<ValueSpecification>()
+                .OrderBy(v => v.Index);
+            return Enumerable.Empty<Specification>()
+                .Concat(optionSpecs)
+                .Concat(valueSpecs);
         }
 
         private IEnumerable<Specification> AdaptVerbsToSpecifications(IEnumerable<Type> types)
@@ -808,11 +811,11 @@ namespace CommandLine.Text
 
             if (specification.MetaName.Length > 0)
             {
-                valueName.Append(specification.MetaName);
+                valueName.AppendFormat("{0} (pos. {1})", specification.MetaName, specification.Index);
             }
             else
             {
-                valueName.AppendFormat("value {0}", specification.Index);
+                valueName.AppendFormat("value pos. {0}", specification.Index);
             }
 
             if (specification.MetaValue.Length > 0)
@@ -909,11 +912,11 @@ namespace CommandLine.Text
 
             if (hasMeta)
             {
-                specLength += spec.MetaValue.Length;
+                specLength += spec.MetaName.Length + spec.Index.ToStringInvariant().Length + 8; //METANAME (pos. N)
             }
             else
             {
-                specLength += spec.Index.ToStringInvariant().Length + 6; // "value N"
+                specLength += spec.Index.ToStringInvariant().Length + 11; // "value pos. N"
             }
 
             specLength += metaLength;
