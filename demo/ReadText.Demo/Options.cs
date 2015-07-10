@@ -19,7 +19,9 @@ namespace ReadText.Demo
             HelpText = "Supresses summary messages.")]
         bool Quiet { get; set; }
 
-        [Value(0, Required = true)]
+        [Value(0, MetaName = "input file",
+            HelpText = "Input file to be processed.",
+            Required = true)]
         string FileName { get; set; }
     }
 
