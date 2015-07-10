@@ -5,8 +5,8 @@ using System.Resources;
 
 [assembly: AssemblyProduct("Command Line Parser Library")]
 [assembly: AssemblyCopyright("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala")]
-[assembly: AssemblyVersion("2.0.61.0")]
-[assembly: AssemblyFileVersion("2.0.61.0")]
+[assembly: AssemblyVersion("2.0.65.0")]
+[assembly: AssemblyFileVersion("2.0.65.0")]
 
-[assembly: AssemblyInformationalVersion("2.0.61-alpha")]
+[assembly: AssemblyInformationalVersion("2.0.65-alpha")]
 [assembly: NeutralResourcesLanguage("en-US")]
