@@ -535,7 +535,7 @@ namespace CommandLine.Text
         {
             return options.GetType().GetSpecifications(Specification.FromProperty)
                .OfType<OptionSpecification>()
-               .Concat(new[] { CreateHelpEntry() });
+               .Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
         }
 
         private IEnumerable<OptionSpecification> AdaptVerbListToOptionList(IEnumerable<Type> types)
@@ -555,7 +555,7 @@ namespace CommandLine.Text
                        verbTuple.Item1.HelpText,
                        string.Empty,
                        new List<string>()))
-                    .Concat(new[] { CreateHelpEntry() });
+                    .Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
         }
 
         private HelpText AddOptionsImpl(IEnumerable<OptionSpecification> optionList, string requiredWord, int maximumLength)
