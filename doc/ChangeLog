@@ -1,6 +1,7 @@
 2015-07-10    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Issue #191 (--version\version added to help screen) Fixed.
+  * Issue #162 (`ValueAttribute` handled in help screen) Implemented.
 
 2015-07-09    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
