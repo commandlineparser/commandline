@@ -354,7 +354,7 @@ namespace CommandLine.Text
         {
             if (Equals(options, default(T))) throw new ArgumentNullException("options");
 
-            return AddOptionsImpl(GetOptionListFromType(options), SentenceBuilder.RequiredWord(), MaximumDisplayWidth);
+            return AddOptionsImpl(this.GetSpecificationsFromType(options), SentenceBuilder.RequiredWord(), MaximumDisplayWidth);
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace CommandLine.Text
             if (types == null) throw new ArgumentNullException("types");
             if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
-            return AddOptionsImpl(AdaptVerbListToOptionList(types), SentenceBuilder.RequiredWord(), MaximumDisplayWidth);
+            return AddOptionsImpl(this.AdaptVerbsToSpecifications(types), SentenceBuilder.RequiredWord(), MaximumDisplayWidth);
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace CommandLine.Text
         {
             if (Equals(options, default(T))) throw new ArgumentNullException("options");
 
-            return AddOptionsImpl(GetOptionListFromType(options), SentenceBuilder.RequiredWord(), maximumLength);
+            return AddOptionsImpl(this.GetSpecificationsFromType(options), SentenceBuilder.RequiredWord(), maximumLength);
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace CommandLine.Text
             if (types == null) throw new ArgumentNullException("types");
             if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
-            return AddOptionsImpl(AdaptVerbListToOptionList(types), SentenceBuilder.RequiredWord(), maximumLength);
+            return AddOptionsImpl(this.AdaptVerbsToSpecifications(types), SentenceBuilder.RequiredWord(), maximumLength);
         }
 
         /// <summary>
@@ -531,14 +531,20 @@ namespace CommandLine.Text
             builder.Append(value);
         }
 
-        private IEnumerable<OptionSpecification> GetOptionListFromType<T>(T options)
+        private IEnumerable<Specification> GetSpecificationsFromType<T>(T options)
         {
-            return options.GetType().GetSpecifications(Specification.FromProperty)
+            var type = options.GetType();
+            var optionSpecs = type.GetSpecifications(Specification.FromProperty)
                .OfType<OptionSpecification>()
                .Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
+            var valueSpecs = type.GetSpecifications(Specification.FromProperty)
+                .OfType<ValueSpecification>();
+            return Enumerable.Empty<Specification>()
+                .Concat(optionSpecs)
+                .Concat(valueSpecs);
         }
 
-        private IEnumerable<OptionSpecification> AdaptVerbListToOptionList(IEnumerable<Type> types)
+        private IEnumerable<Specification> AdaptVerbsToSpecifications(IEnumerable<Type> types)
         {
             return (from verbTuple in Verb.SelectFromTypes(types)
                    select new OptionSpecification(
