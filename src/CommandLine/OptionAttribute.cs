@@ -15,8 +15,6 @@ namespace CommandLine
         private readonly string shortName;
         private string setName;
         private char separator;
-        private string helpText;
-        private string metaValue;
 
         private OptionAttribute(string shortName, string longName) : base()
         {
@@ -27,8 +25,6 @@ namespace CommandLine
             this.longName = longName;
             setName = string.Empty;
             separator = '\0';
-            helpText = string.Empty;
-            metaValue = string.Empty;
         }
 
         /// <summary>
@@ -109,40 +105,6 @@ namespace CommandLine
         {
             get { return separator ; }
             set { separator = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets a short description of this command line option. Usually a sentence summary.
-        /// </summary>
-        public string HelpText
-        {
-            get { return helpText; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                helpText = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets mapped property meta value. Usually an uppercase hint of required value type.
-        /// </summary>
-        public string MetaValue
-        {
-            get { return metaValue; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                metaValue = value;
-            }
         }
     }
 }

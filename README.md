@@ -203,11 +203,11 @@ Latest Changes:
   - Added `Return<T1...T16>()` for verbs.
   - Automatic `--version` handling.
   - Added C# demo.
-  - Internal refactorings.
   - Issue #189 Implemented.
   - Issue #190 Fixed/Implemented (`--help`/`--version`/`version` for verbs).
   - Issue #188 (reported by @diversteve) Fixed.
   - Issue #191 (`--version`/`version` added to help screen) Fixed.
+  - Internal refactorings.
 
 Contacts:
 ---

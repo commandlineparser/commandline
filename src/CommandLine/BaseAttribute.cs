@@ -12,6 +12,8 @@ namespace CommandLine
         private int min;
         private int max;
         private object @default;
+        private string helpText;
+        private string metaValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.BaseAttribute"/> class.
@@ -20,6 +22,8 @@ namespace CommandLine
         {
             min = -1;
             max = -1;
+            helpText = string.Empty;
+            metaValue = string.Empty;
         }
 
         /// <summary>
@@ -83,6 +87,40 @@ namespace CommandLine
                 }
 
                 @default = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a short description of this command line option. Usually a sentence summary.
+        /// </summary>
+        public string HelpText
+        {
+            get { return helpText; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                helpText = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets mapped property meta value. Usually an uppercase hint of required value type.
+        /// </summary>
+        public string MetaValue
+        {
+            get { return metaValue; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                metaValue = value;
             }
         }
     }
