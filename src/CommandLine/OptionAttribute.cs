@@ -9,19 +9,16 @@ namespace CommandLine
     /// Models an option specification.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class OptionAttribute : Attribute
+    public sealed class OptionAttribute : BaseAttribute
     {
         private readonly string longName;
         private readonly string shortName;
         private string setName;
-        private int min;
-        private int max;
         private char separator;
-        private object @default;
         private string helpText;
         private string metaValue;
 
-        private OptionAttribute(string shortName, string longName)
+        private OptionAttribute(string shortName, string longName) : base()
         {
             if (shortName == null) throw new ArgumentNullException("shortName");
             if (longName == null) throw new ArgumentNullException("longName");
@@ -29,8 +26,6 @@ namespace CommandLine
             this.shortName = shortName;
             this.longName = longName;
             setName = string.Empty;
-            min = -1;
-            max = -1;
             separator = '\0';
             helpText = string.Empty;
             metaValue = string.Empty;
@@ -90,11 +85,6 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether a command line option is required.
-        /// </summary>
-        public bool Required { get; set; }
-
-        /// <summary>
         /// Gets or sets the option's mutually exclusive set name.
         /// </summary>
         public string SetName
@@ -112,44 +102,6 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// When applied to <see cref="System.Collections.Generic.IEnumerable{T}"/> properties defines
-        /// the lower range of items.
-        /// </summary>
-        /// <remarks>If not set, no lower range is enforced.</remarks>
-        public int Min
-        {
-            get { return min; }
-            set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                min = value;
-            }
-        }
-
-        /// <summary>
-        /// When applied to <see cref="System.Collections.Generic.IEnumerable{T}"/> properties defines
-        /// the upper range of items.
-        /// </summary>
-        /// <remarks>If not set, no upper range is enforced.</remarks>
-        public int Max
-        {
-            get { return max; }
-            set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                max = value;
-            }
-        }
-
-        /// <summary>
         /// When applying attribute to <see cref="System.Collections.Generic.IEnumerable{T}"/> target properties,
         /// it allows you to split an argument and consume its content as a sequence.
         /// </summary>
@@ -157,23 +109,6 @@ namespace CommandLine
         {
             get { return separator ; }
             set { separator = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets mapped property default value.
-        /// </summary>
-        public object Default
-        {
-            get { return @default; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                @default = value;
-            }
         }
 
         /// <summary>
