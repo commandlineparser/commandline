@@ -29,11 +29,11 @@ namespace CommandLine.Core
                 specification.Max,
                 specification.Separator,
                 specification.DefaultValue,
-                specification.ConversionType,
-                specification.TargetType,
                 specification.HelpText,
                 specification.MetaValue,
-                specification.EnumValues);
+                specification.EnumValues,
+                specification.ConversionType,
+                specification.TargetType);
         }
 
         public static string UniqueName(this OptionSpecification specification)

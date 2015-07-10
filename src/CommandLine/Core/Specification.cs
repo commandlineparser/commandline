@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CommandLine.Infrastructure;
@@ -27,6 +28,9 @@ namespace CommandLine.Core
         private readonly Maybe<int> min;
         private readonly Maybe<int> max;
         private readonly Maybe<object> defaultValue;
+        private readonly string helpText;
+        private readonly string metaValue;
+        private readonly IEnumerable<string> enumValues;
         /// <summary>
         /// This information is denormalized to decouple Specification from PropertyInfo.
         /// </summary>
@@ -34,7 +38,8 @@ namespace CommandLine.Core
         private readonly TargetType targetType;
 
         protected Specification(SpecificationType tag, bool required, Maybe<int> min, Maybe<int> max,
-            Maybe<object> defaultValue, Type conversionType, TargetType targetType)
+            Maybe<object> defaultValue, string helpText, string metaValue, IEnumerable<string> enumValues,
+            Type conversionType, TargetType targetType)
         {
             this.tag = tag;
             this.required = required;
@@ -43,6 +48,9 @@ namespace CommandLine.Core
             this.defaultValue = defaultValue;
             this.conversionType = conversionType;
             this.targetType = targetType;
+            this.helpText = helpText;
+            this.metaValue = metaValue;
+            this.enumValues = enumValues;
         }
 
         public SpecificationType Tag 
@@ -68,6 +76,21 @@ namespace CommandLine.Core
         public Maybe<object> DefaultValue
         {
             get { return defaultValue; }
+        }
+
+        public string HelpText
+        {
+            get { return helpText; }
+        }
+
+        public string MetaValue
+        {
+            get { return metaValue; }
+        }
+
+        public IEnumerable<string> EnumValues
+        {
+            get { return enumValues; }
         }
 
         public Type ConversionType
@@ -100,7 +123,10 @@ namespace CommandLine.Core
             var va = attrs.OfType<ValueAttribute>();
             if (va.Count() == 1)
             {
-                return ValueSpecification.FromAttribute(va.Single(), property.PropertyType);
+                return ValueSpecification.FromAttribute(va.Single(), property.PropertyType,
+                    property.PropertyType.IsEnum
+                        ? Enum.GetNames(property.PropertyType)
+                        : Enumerable.Empty<string>());
             }
 
             throw new InvalidOperationException();

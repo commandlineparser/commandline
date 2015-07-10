@@ -550,11 +550,11 @@ namespace CommandLine.Text
                        Maybe.Nothing<int>(),
                        '\0',
                        Maybe.Nothing<object>(),
-                       typeof(bool),
-                       TargetType.Switch,
                        verbTuple.Item1.HelpText,
                        string.Empty,
-                       new List<string>()))
+                       new List<string>(),
+                       typeof(bool),
+                       TargetType.Switch))
                     .Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
         }
 
@@ -577,15 +577,13 @@ namespace CommandLine.Text
         private OptionSpecification CreateHelpEntry()
         {
             return new OptionSpecification(string.Empty, "help", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(),
-                '\0', Maybe.Nothing<object>(), typeof(bool), TargetType.Switch,
-                sentenceBuilder.HelpCommandText(AddDashesToOption), string.Empty, new List<string>());
+                '\0', Maybe.Nothing<object>(), sentenceBuilder.HelpCommandText(AddDashesToOption), string.Empty, new List<string>(), typeof(bool), TargetType.Switch);
         }
 
         private OptionSpecification CreateVersionEntry()
         {
             return new OptionSpecification(string.Empty, "version", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(),
-                '\0', Maybe.Nothing<object>(), typeof(bool), TargetType.Switch,
-                sentenceBuilder.VersionCommandText(AddDashesToOption), string.Empty, new List<string>());
+                '\0', Maybe.Nothing<object>(), sentenceBuilder.VersionCommandText(AddDashesToOption), string.Empty, new List<string>(), typeof(bool), TargetType.Switch);
         }
 
         private HelpText AddPreOptionsLine(string value, int maximumLength)
