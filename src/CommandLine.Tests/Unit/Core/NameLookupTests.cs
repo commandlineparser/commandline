@@ -17,7 +17,7 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup
             var expected = Maybe.Just(".");
             var specs = new[] { new OptionSpecification(string.Empty, "string-seq",
-                false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '.', null, typeof(IEnumerable<string>), TargetType.Sequence, string.Empty, string.Empty, new List<string>())};
+                false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '.', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence)};
 
             // Exercize system
             var result = NameLookup.HavingSeparator("string-seq", specs, StringComparer.InvariantCulture);
