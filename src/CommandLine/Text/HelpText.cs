@@ -581,6 +581,13 @@ namespace CommandLine.Text
                 sentenceBuilder.HelpCommandText(AddDashesToOption), string.Empty, new List<string>());
         }
 
+        private OptionSpecification CreateVersionEntry()
+        {
+            return new OptionSpecification(string.Empty, "version", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(),
+                '\0', Maybe.Nothing<object>(), typeof(bool), TargetType.Switch,
+                sentenceBuilder.VersionCommandText(AddDashesToOption), string.Empty, new List<string>());
+        }
+
         private HelpText AddPreOptionsLine(string value, int maximumLength)
         {
             AddLine(preOptionsHelp, value, maximumLength);

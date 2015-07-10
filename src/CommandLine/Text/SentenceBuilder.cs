@@ -31,10 +31,16 @@ namespace CommandLine.Text
         public abstract Func<string> ErrorsHeadingText { get; }
 
         /// <summary>
-        /// Get a delegate that returns the help text of helo command.
+        /// Get a delegate that returns the help text of help command.
         /// The delegates should accept a boolean that is equal <value>true</value> for options; otherwise <value>false</value> for verbs.
         /// </summary>
-        public abstract Func<bool, string> HelpCommandText { get; } 
+        public abstract Func<bool, string> HelpCommandText { get; }
+
+        /// <summary>
+        /// Get a delegate that returns the help text of vesion command.
+        /// The delegates should accept a boolean that is equal <value>true</value> for options; otherwise <value>false</value> for verbs.
+        /// </summary>
+        public abstract Func<bool, string> VersionCommandText { get; } 
 
         /// <summary>
         /// Gets a delegate that handle singular error formatting.
@@ -67,6 +73,14 @@ namespace CommandLine.Text
                     return isOption => isOption
                         ? "Display this help screen."
                         : "Display more information on a specific command.";
+                }
+            }
+
+            public override Func<bool, string> VersionCommandText
+            {
+                get
+                {
+                    return _ => "Display version information.";
                 }
             }
 
