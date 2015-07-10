@@ -7,7 +7,7 @@ namespace CommandLine
     /// <summary>
     /// Models a base attribute to define command line syntax.
     /// </summary>
-    public abstract class BaseAttribute
+    public abstract class BaseAttribute : Attribute
     {
         private int min;
         private int max;
