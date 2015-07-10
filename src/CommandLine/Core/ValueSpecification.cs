@@ -10,19 +10,22 @@ namespace CommandLine.Core
     internal sealed class ValueSpecification : Specification
     {
         private readonly int index;
+        private readonly string metaName;
 
-        public ValueSpecification(int index, bool required, Maybe<int> min, Maybe<int> max, Maybe<object> defaultValue,
+        public ValueSpecification(int index, string metaName, bool required, Maybe<int> min, Maybe<int> max, Maybe<object> defaultValue,
             string helpText, string metaValue, IEnumerable<string> enumValues,
             Type conversionType, TargetType targetType)
             : base(SpecificationType.Value, required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType, targetType)
         {
             this.index = index;
+            this.metaName = metaName;
         }
 
         public static ValueSpecification FromAttribute(ValueAttribute attribute, Type conversionType, IEnumerable<string> enumValues)
         {
             return new ValueSpecification(
                 attribute.Index,
+                attribute.MetaName,
                 attribute.Required,
                 attribute.Min == -1 ? Maybe.Nothing<int>() : Maybe.Just(attribute.Min),
                 attribute.Max == -1 ? Maybe.Nothing<int>() : Maybe.Just(attribute.Max),
@@ -37,6 +40,11 @@ namespace CommandLine.Core
         public int Index
         {
             get { return index; }
+        }
+
+        public string MetaName
+        {
+            get { return metaName;}
         }
     }
 }

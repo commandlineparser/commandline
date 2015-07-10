@@ -11,6 +11,7 @@ namespace CommandLine
     public sealed class ValueAttribute : BaseAttribute
     {
         private readonly int index;
+        private string metaName; 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.ValueAttribute"/> class.
@@ -18,6 +19,7 @@ namespace CommandLine
         public ValueAttribute(int index) : base()
         {
             this.index = index;
+            this.metaName = string.Empty;
         }
 
         /// <summary>
@@ -26,6 +28,23 @@ namespace CommandLine
         public int Index
         {
             get { return index; }
+        }
+
+        /// <summary>
+        /// Gets or sets name of this positional value specification.
+        /// </summary>
+        public string MetaName
+        {
+            get { return metaName; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                metaName = value;
+            }
         }
     }
 }

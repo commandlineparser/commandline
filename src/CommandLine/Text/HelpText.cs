@@ -163,7 +163,7 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to add an additional line after the description of the option.
+        /// Gets or sets a value indicating whether to add an additional line after the description of the specification.
         /// </summary>
         public bool AdditionalNewLineAfterOption
         {
@@ -172,7 +172,7 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to add the values of an enum after the description of the option.
+        /// Gets or sets a value indicating whether to add the values of an enum after the description of the specification.
         /// </summary>
         public bool AddEnumValuesToHelpText
         {
@@ -593,63 +593,33 @@ namespace CommandLine.Text
             return this;
         }
 
-        private HelpText AddOption(string requiredWord, int maxLength, OptionSpecification option, int widthOfHelpText)
+        private HelpText AddOption(string requiredWord, int maxLength, Specification specification, int widthOfHelpText)
         {
             optionsHelp.Append("  ");
-            var optionName = new StringBuilder(maxLength);
-            if (option.ShortName.Length > 0)
+            var name = new StringBuilder(maxLength);
+            if (specification.Tag == SpecificationType.Option)
             {
-                if (addDashesToOption)
-                {
-                    optionName.Append('-');
-                }
-
-                optionName.AppendFormat("{0}", option.ShortName);
-                
-                if (option.MetaValue.Length > 0)
-                {
-                    optionName.AppendFormat(" {0}", option.MetaValue);
-                }
-
-                if (option.LongName.Length > 0)
-                {
-                    optionName.Append(", ");
-                }
+                name.Append(AddOptionName(maxLength, (OptionSpecification)specification));
             }
 
-            if (option.LongName.Length > 0)
-            {
-                if (addDashesToOption)
-                {
-                    optionName.Append("--");
-                }
-
-                optionName.AppendFormat("{0}", option.LongName);
-
-                if (option.MetaValue.Length > 0)
-                {
-                    optionName.AppendFormat("={0}", option.MetaValue);
-                }
-            }
-
-            optionsHelp.Append(optionName.Length < maxLength ?
-                optionName.ToString().PadRight(maxLength) :
-                optionName.ToString());
+            optionsHelp.Append(name.Length < maxLength ?
+                name.ToString().PadRight(maxLength) :
+                name.ToString());
 
             optionsHelp.Append("    ");
-            var optionHelpText = option.HelpText;
+            var optionHelpText = specification.HelpText;
 
-            if (addEnumValuesToHelpText && option.EnumValues.Any())
+            if (addEnumValuesToHelpText && specification.EnumValues.Any())
             {
-                optionHelpText += " Valid values: " + string.Join(", ", option.EnumValues);
+                optionHelpText += " Valid values: " + string.Join(", ", specification.EnumValues);
             }
 
-            if (option.DefaultValue.IsJust())
+            if (specification.DefaultValue.IsJust())
             {
-                optionHelpText = "(Default: {0}) ".FormatLocal(option.DefaultValue.FromJust()) + optionHelpText;
+                optionHelpText = "(Default: {0}) ".FormatLocal(specification.DefaultValue.FromJust()) + optionHelpText;
             }
 
-            if (option.Required)
+            if (specification.Required)
             {
                 optionHelpText = "{0} ".FormatInvariant(requiredWord) + optionHelpText;
             }
@@ -703,6 +673,60 @@ namespace CommandLine.Text
             }
 
             return this;
+        }
+
+        private string AddOptionName(int maxLength, OptionSpecification specification)
+        {
+            var optionName = new StringBuilder(maxLength);
+            if (specification.ShortName.Length > 0)
+            {
+                if (addDashesToOption)
+                {
+                    optionName.Append('-');
+                }
+
+                optionName.AppendFormat("{0}", specification.ShortName);
+
+                if (specification.MetaValue.Length > 0)
+                {
+                    optionName.AppendFormat(" {0}", specification.MetaValue);
+                }
+
+                if (specification.LongName.Length > 0)
+                {
+                    optionName.Append(", ");
+                }
+            }
+
+            if (specification.LongName.Length > 0)
+            {
+                if (addDashesToOption)
+                {
+                    optionName.Append("--");
+                }
+
+                optionName.AppendFormat("{0}", specification.LongName);
+
+                if (specification.MetaValue.Length > 0)
+                {
+                    optionName.AppendFormat("={0}", specification.MetaValue);
+                }
+            }
+            return optionName.ToString();
+        }
+
+        private string AddValueName(int maxLength, ValueSpecification specification)
+        {
+            var optionName = new StringBuilder(maxLength);
+
+            optionName.AppendFormat("value {0}", specification.Index);
+
+            if (specification.MetaValue.Length > 0)
+            {
+                optionName.AppendFormat(" {0}", specification.MetaValue);
+            }
+
+            return optionName.ToString();
         }
 
         private HelpText AddLine(StringBuilder builder, string value)
