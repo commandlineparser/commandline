@@ -333,5 +333,30 @@ namespace CommandLine.Tests.Unit.Text
             Assert.Equal("version    Display version information.", lines[6]);
             // Teardown
         }
+
+        [Fact]
+        public void Create_instance_with_options_and_values()
+        {
+            // Fixture setup
+            // Exercize system 
+            var sut = new HelpText { AddDashesToOption = true }
+                .AddPreOptionsLine("pre-options")
+                .AddOptions(new FakeOptionsWithHelpTextValue())
+                .AddPostOptionsLine("post-options");
+
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
+            Assert.Equal("pre-options", lines[0]);
+            Assert.Equal("--stringvalue=STR            Define a string value here.", lines[1]);
+            Assert.Equal("-i INTSEQ                    Define a int sequence here.", lines[2]);
+            Assert.Equal("-x                           Define a boolean or switch value here.", lines[3]);
+            Assert.Equal("--help                       Display this help screen.", lines[4]);
+            Assert.Equal("--version                    Display version information.", lines[5]);
+            Assert.Equal("number (pos. 0) NUM          Define a long value here.", lines[6]);
+            Assert.Equal("paintcolor (pos. 1) COLOR    Define a color value here.", lines[7]);
+            Assert.Equal("post-options", lines[8]);
+            // Teardown
+        }
     }
 }
