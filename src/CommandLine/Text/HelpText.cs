@@ -558,15 +558,15 @@ namespace CommandLine.Text
                     .Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
         }
 
-        private HelpText AddOptionsImpl(IEnumerable<OptionSpecification> optionList, string requiredWord, int maximumLength)
+        private HelpText AddOptionsImpl(IEnumerable<Specification> specifications, string requiredWord, int maximumLength)
         {
-            var maxLength = GetMaxLength(optionList);
+            var maxLength = GetMaxLength(specifications);
 
             optionsHelp = new StringBuilder(BuilderCapacity);
 
             var remainingSpace = maximumLength - (maxLength + 6);
 
-            foreach (var option in optionList)
+            foreach (var option in specifications)
             {
                 AddOption(requiredWord, maxLength, option, remainingSpace);
             }
@@ -600,6 +600,10 @@ namespace CommandLine.Text
             if (specification.Tag == SpecificationType.Option)
             {
                 name.Append(AddOptionName(maxLength, (OptionSpecification)specification));
+            }
+            else
+            {
+                name.Append(AddValueName(maxLength, (ValueSpecification)specification));
             }
 
             optionsHelp.Append(name.Length < maxLength ?
@@ -717,16 +721,23 @@ namespace CommandLine.Text
 
         private string AddValueName(int maxLength, ValueSpecification specification)
         {
-            var optionName = new StringBuilder(maxLength);
+            var valueName = new StringBuilder(maxLength);
 
-            optionName.AppendFormat("value {0}", specification.Index);
+            if (specification.MetaName.Length > 0)
+            {
+                valueName.Append(specification.MetaName);
+            }
+            else
+            {              
+                valueName.AppendFormat("value {0}", specification.Index);
+            }
 
             if (specification.MetaValue.Length > 0)
             {
-                optionName.AppendFormat(" {0}", specification.MetaValue);
+                valueName.AppendFormat(" {0}", specification.MetaValue);
             }
 
-            return optionName.ToString();
+            return valueName.ToString();
         }
 
         private HelpText AddLine(StringBuilder builder, string value)
@@ -736,48 +747,77 @@ namespace CommandLine.Text
             return this;
         }
 
-        private int GetMaxLength(IEnumerable<OptionSpecification> optionList)
+        private int GetMaxLength(IEnumerable<Specification> specifications)
         {
             var length = 0;
-            foreach (var option in optionList)
+            foreach (var spec in specifications)
             {
-                var optionLength = 0;
-                var hasShort = option.ShortName.Length > 0;
-                var hasLong = option.LongName.Length > 0;
-                var metaLength = 0;
-                if (option.MetaValue.Length > 0)
+                var specLength = 0;
+                var hasShort = false;
+                var hasLong = false;
+                var hasMeta = false;
+                var longName = string.Empty;
+                var metaName = string.Empty;
+                var index = 0;
+                if (spec.Tag == SpecificationType.Option)
                 {
-                    metaLength = option.MetaValue.Length + 1;
+                    var option = (OptionSpecification)spec;
+                    hasShort = option.ShortName.Length > 0;
+                    hasLong = option.LongName.Length > 0;
+                    longName = option.LongName;
+                }
+                else
+                {
+                    var value = (ValueSpecification)spec;
+                    hasMeta = value.MetaName.Length > 0;
+                    metaName = value.MetaName;
+                    index = value.Index;
+                }
+                var metaLength = 0;
+                if (spec.MetaValue.Length > 0)
+                {
+                    metaLength = spec.MetaValue.Length + 1;
                 }
 
                 if (hasShort)
                 {
-                    ++optionLength;
+                    ++specLength;
                     if (AddDashesToOption)
                     {
-                        ++optionLength;
+                        ++specLength;
                     }
 
-                    optionLength += metaLength;
+                    specLength += metaLength;
                 }
 
                 if (hasLong)
                 {
-                    optionLength += option.LongName.Length;
+                    specLength += longName.Length;
                     if (AddDashesToOption)
                     {
-                        optionLength += 2;
+                        specLength += 2;
                     }
 
-                    optionLength += metaLength;
+                    specLength += metaLength;
                 }
 
                 if (hasShort && hasLong)
                 {
-                    optionLength += 2; // ", "
+                    specLength += 2; // ", "
                 }
 
-                length = Math.Max(length, optionLength);
+                if (hasMeta)
+                {
+                    specLength += metaName.Length;
+                    specLength += metaLength;
+                }
+                else
+                {
+                    specLength += index.ToStringInvariant().Length + 6; // "value N"
+                    specLength += metaLength;
+                }
+
+                length = Math.Max(length, specLength);
             }
 
             return length;
