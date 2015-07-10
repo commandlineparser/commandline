@@ -61,7 +61,8 @@ namespace CommandLine.Tests.Unit.Text
             Assert.Equal("-i               Define a int sequence here.", lines[2]);
             Assert.Equal("-x               Define a boolean or switch value here.", lines[3]);
             Assert.Equal("--help           Display this help screen.", lines[4]);
-            Assert.Equal("post-options", lines[5]);
+            Assert.Equal("--version        Display version information.", lines[5]);
+            Assert.Equal("post-options", lines[6]);
             // Teardown
         }
 
@@ -83,7 +84,8 @@ namespace CommandLine.Tests.Unit.Text
             Assert.Equal("--shape          Define a enum value here. Valid values: Circle, Square,", lines[2]);
             Assert.Equal("Triangle", lines[3]);
             Assert.Equal("--help           Display this help screen.", lines[4]);
-            Assert.Equal("post-options", lines[5]);
+            Assert.Equal("--version        Display version information.", lines[5]);
+            Assert.Equal("post-options", lines[6]);
             // Teardown
         }
 
@@ -104,7 +106,8 @@ namespace CommandLine.Tests.Unit.Text
             Assert.Equal("--stringvalue    Define a string value here.", lines[1]);
             Assert.Equal("--shape          Define a enum value here.", lines[2]);
             Assert.Equal("--help           Display this help screen.", lines[3]);
-            Assert.Equal("post-options", lines[4]);
+            Assert.Equal("--version        Display version information.", lines[4]);
+            Assert.Equal("post-options", lines[5]);
             // Teardown
         }
 
@@ -322,10 +325,11 @@ namespace CommandLine.Tests.Unit.Text
 
             Assert.True(lines[0].StartsWith("CommandLine", StringComparison.Ordinal));
             Assert.True(lines[1].StartsWith("Copyright (c)", StringComparison.Ordinal));
-            Assert.Equal("add       Add file contents to the index.", lines[2]);
-            Assert.Equal("commit    Record changes to the repository.", lines[3]);
-            Assert.Equal("clone     Clone a repository into a new directory.", lines[4]);
-            Assert.Equal("help      Display more information on a specific command.", lines[5]);
+            Assert.Equal("add        Add file contents to the index.", lines[2]);
+            Assert.Equal("commit     Record changes to the repository.", lines[3]);
+            Assert.Equal("clone      Clone a repository into a new directory.", lines[4]);
+            Assert.Equal("help       Display more information on a specific command.", lines[5]);
+            Assert.Equal("version    Display version information.", lines[6]);
             // Teardown
         }
     }

@@ -266,10 +266,11 @@ namespace CommandLine.Tests.Unit
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("No verb selected.");
-            lines[4].ShouldBeEquivalentTo("add       Add file contents to the index.");
-            lines[5].ShouldBeEquivalentTo("commit    Record changes to the repository.");
-            lines[6].ShouldBeEquivalentTo("clone     Clone a repository into a new directory.");
-            lines[7].ShouldBeEquivalentTo("help      Display more information on a specific command.");
+            lines[4].ShouldBeEquivalentTo("add        Add file contents to the index.");
+            lines[5].ShouldBeEquivalentTo("commit     Record changes to the repository.");
+            lines[6].ShouldBeEquivalentTo("clone      Clone a repository into a new directory.");
+            lines[7].ShouldBeEquivalentTo("help       Display more information on a specific command.");
+            lines[8].ShouldBeEquivalentTo("version    Display version information.");
             // Teardown
         }
 
@@ -289,10 +290,11 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
-            lines[2].ShouldBeEquivalentTo("add       Add file contents to the index.");
-            lines[3].ShouldBeEquivalentTo("commit    Record changes to the repository.");
-            lines[4].ShouldBeEquivalentTo("clone     Clone a repository into a new directory.");
-            lines[5].ShouldBeEquivalentTo("help      Display more information on a specific command.");
+            lines[2].ShouldBeEquivalentTo("add        Add file contents to the index.");
+            lines[3].ShouldBeEquivalentTo("commit     Record changes to the repository.");
+            lines[4].ShouldBeEquivalentTo("clone      Clone a repository into a new directory.");
+            lines[5].ShouldBeEquivalentTo("help       Display more information on a specific command.");
+            lines[6].ShouldBeEquivalentTo("version    Display version information.");
             // Teardown
         }
 
