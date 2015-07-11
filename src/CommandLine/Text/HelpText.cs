@@ -630,38 +630,22 @@ namespace CommandLine.Text
 
         private OptionSpecification CreateHelpEntry()
         {
-            return new OptionSpecification(
+            return OptionSpecification.NewSwitch(
                 string.Empty,
                 "help",
                 false,
-                string.Empty,
-                Maybe.Nothing<int>(),
-                Maybe.Nothing<int>(),
-                '\0',
-                Maybe.Nothing<object>(),
                 sentenceBuilder.HelpCommandText(AddDashesToOption),
-                string.Empty,
-                new List<string>(),
-                typeof(bool),
-                TargetType.Switch);
+                string.Empty);
         }
 
         private OptionSpecification CreateVersionEntry()
         {
-            return new OptionSpecification(
+            return OptionSpecification.NewSwitch(
                 string.Empty,
                 "version",
                 false,
-                string.Empty,
-                Maybe.Nothing<int>(),
-                Maybe.Nothing<int>(),
-                '\0',
-                Maybe.Nothing<object>(),
                 sentenceBuilder.VersionCommandText(AddDashesToOption),
-                string.Empty,
-                new List<string>(),
-                typeof(bool),
-                TargetType.Switch);
+                string.Empty);
         }
 
         private HelpText AddPreOptionsLine(string value, int maximumLength)
