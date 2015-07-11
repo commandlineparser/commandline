@@ -16,27 +16,16 @@ namespace CommandLine.Text
     public class HelpText
     {
         private const int BuilderCapacity = 128;
-
         private const int DefaultMaximumLength = 80; // default console width
-
         private readonly StringBuilder preOptionsHelp;
-
         private readonly StringBuilder postOptionsHelp;
-
         private readonly SentenceBuilder sentenceBuilder;
-
         private int? maximumDisplayWidth;
-
         private string heading;
-
         private string copyright;
-
         private bool additionalNewLineAfterOption;
-
         private StringBuilder optionsHelp;
-
         private bool addDashesToOption;
-
         private bool addEnumValuesToHelpText;
 
         /// <summary>
