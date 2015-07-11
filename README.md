@@ -208,8 +208,8 @@ Latest Changes:
   - Issue #190 Fixed/Implemented (`--help`/`--version`/`version` for verbs).
   - Issue #188 (reported by @diversteve) Fixed.
   - Issue #191 (`--version`/`version` added to help screen) Fixed.
-  - Internal refactorings.
   - Issue #162 (`ValueAttribute` handled in help screen) Implemented.
+  - Internal refactorings.
 
 Contacts:
 ---
