@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 using CommandLine.Infrastructure;
 
 namespace CommandLine.Core
@@ -40,6 +42,12 @@ namespace CommandLine.Core
                 enumValues,
                 conversionType,
                 conversionType.ToTargetType());
+        }
+
+        public static OptionSpecification NewSwitch(string shortName, string longName, bool required, string helpText, string metaValue)
+        {
+            return new OptionSpecification(shortName, longName, required, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(),
+                '\0', Maybe.Nothing<object>(), helpText, metaValue, Enumerable.Empty<string>(), typeof(bool), TargetType.Switch);
         }
 
         public string ShortName
