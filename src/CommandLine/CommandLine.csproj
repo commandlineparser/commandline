@@ -128,6 +128,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Text\SentenceBuilder.cs" />
+    <Compile Include="Text\StringBuilderExtensions.cs" />
     <Compile Include="ValueAttribute.cs" />
     <Compile Include="VerbAttribute.cs" />
   </ItemGroup>

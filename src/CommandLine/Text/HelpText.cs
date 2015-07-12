@@ -486,30 +486,16 @@ namespace CommandLine.Text
                     + ExtraLength);
 
             builder.Append(heading);
-            if (!string.IsNullOrEmpty(copyright))
-            {
-                builder.Append(Environment.NewLine);
-                builder.Append(copyright);
-            }
+            builder.AppendWhen(!string.IsNullOrEmpty(copyright), Environment.NewLine, copyright);
+            builder.AppendWhen(preOptionsHelp.Length > 0, Environment.NewLine, preOptionsHelp.ToString());
 
-            if (preOptionsHelp.Length > 0)
-            {
-                builder.Append(Environment.NewLine);
-                builder.Append(preOptionsHelp);
-            }
+            builder.AppendWhen(
+                optionsHelp != null && optionsHelp.Length > 0,
+                Environment.NewLine,
+                Environment.NewLine,
+                optionsHelp.SafeToString());
 
-            if (optionsHelp != null && optionsHelp.Length > 0)
-            {
-                builder.Append(Environment.NewLine);
-                builder.Append(Environment.NewLine);
-                builder.Append(optionsHelp);
-            }
-
-            if (postOptionsHelp.Length > 0)
-            {
-                builder.Append(Environment.NewLine);
-                builder.Append(postOptionsHelp);
-            }
+            builder.AppendWhen(postOptionsHelp.Length > 0, Environment.NewLine, postOptionsHelp.ToString());
 
             return builder.ToString();
         }
