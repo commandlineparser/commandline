@@ -674,21 +674,15 @@ namespace CommandLine.Text
                     }
 
                     optionHelpText = optionHelpText.Substring(Math.Min(wordBuffer, optionHelpText.Length)).Trim();
-                    if (optionHelpText.Length > 0)
-                    {
-                        optionsHelp.Append(Environment.NewLine);
-                        optionsHelp.Append(new string(' ', maxLength + 6));
-                    }
+                    optionsHelp.AppendWhen(optionHelpText.Length > 0, Environment.NewLine,
+                        new string(' ', maxLength + 6));
                 }
                 while (optionHelpText.Length > widthOfHelpText);
             }
 
             optionsHelp.Append(optionHelpText);
             optionsHelp.Append(Environment.NewLine);
-            if (additionalNewLineAfterOption)
-            {
-                optionsHelp.Append(Environment.NewLine);
-            }
+            optionsHelp.AppendWhen(additionalNewLineAfterOption, Environment.NewLine);
 
             return this;
         }
