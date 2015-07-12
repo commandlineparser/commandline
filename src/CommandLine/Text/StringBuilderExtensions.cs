@@ -20,6 +20,15 @@ namespace CommandLine.Text
             }
             return builder;
         }
+
+        public static StringBuilder AppendFormatWhen(this StringBuilder builder, bool condition, string format, params object[] args)
+        {
+            if (condition)
+            {
+                builder.AppendFormat(format, args);
+            }
+            return builder;
+        }
         public static string SafeToString(this StringBuilder builder)        {            return builder == null ? string.Empty : builder.ToString();        }
 
         public static int SafeLength(this StringBuilder builder)
