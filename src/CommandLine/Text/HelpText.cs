@@ -480,24 +480,19 @@ namespace CommandLine.Text
         public override string ToString()
         {
             const int ExtraLength = 10;
-            var builder =
+            return
                 new StringBuilder(
                     GetLength(heading) + GetLength(copyright) + GetLength(preOptionsHelp) + GetLength(optionsHelp)
-                    + ExtraLength);
-
-            builder.Append(heading);
-            builder.AppendWhen(!string.IsNullOrEmpty(copyright), Environment.NewLine, copyright);
-            builder.AppendWhen(preOptionsHelp.Length > 0, Environment.NewLine, preOptionsHelp.ToString());
-
-            builder.AppendWhen(
-                optionsHelp != null && optionsHelp.Length > 0,
-                Environment.NewLine,
-                Environment.NewLine,
-                optionsHelp.SafeToString());
-
-            builder.AppendWhen(postOptionsHelp.Length > 0, Environment.NewLine, postOptionsHelp.ToString());
-
-            return builder.ToString();
+                    + ExtraLength).Append(heading)
+                    .AppendWhen(!string.IsNullOrEmpty(copyright), Environment.NewLine, copyright)
+                    .AppendWhen(preOptionsHelp.Length > 0, Environment.NewLine, preOptionsHelp.ToString())
+                    .AppendWhen(
+                        optionsHelp != null && optionsHelp.Length > 0,
+                        Environment.NewLine,
+                        Environment.NewLine,
+                        optionsHelp.SafeToString())
+                    .AppendWhen(postOptionsHelp.Length > 0, Environment.NewLine, postOptionsHelp.ToString())
+                .ToString();
         }
 
         private static IEnumerable<Error> FilterMeaningfulErrors(IEnumerable<Error> errors)
