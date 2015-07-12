@@ -10,7 +10,7 @@ namespace CommandLine.Text
             if (condition)            {                foreach (var value in values)                {                    builder.Append(value);                }            }            return builder;        }
         public static string SafeToString(this StringBuilder builder)        {            return builder == null ? string.Empty : builder.ToString();        }
 
-        private static int SafeLength(this StringBuilder builder)
+        public static int SafeLength(this StringBuilder builder)
         {
             return builder == null ? 0 : builder.Length;
         }    }

@@ -36,5 +36,10 @@ namespace CommandLine.Infrastructure
         {
             return string.CompareOrdinal(strA, strB) == 0;
         }
+
+        public static int SafeLength(this string value)
+        {
+            return value == null ? 0 : value.Length;
+        }
     }
 }

@@ -482,7 +482,7 @@ namespace CommandLine.Text
             const int ExtraLength = 10;
             return
                 new StringBuilder(
-                    GetLength(heading) + GetLength(copyright) + GetLength(preOptionsHelp) + GetLength(optionsHelp)
+                    GetLength(heading) + GetLength(copyright) + preOptionsHelp.SafeLength() + optionsHelp.SafeLength()
                     + ExtraLength).Append(heading)
                     .AppendWhen(!string.IsNullOrEmpty(copyright), Environment.NewLine, copyright)
                     .AppendWhen(preOptionsHelp.Length > 0, Environment.NewLine, preOptionsHelp.ToString())
@@ -501,11 +501,6 @@ namespace CommandLine.Text
         }
 
         private static int GetLength(string value)
-        {
-            return value == null ? 0 : value.Length;
-        }
-
-        private static int GetLength(StringBuilder value)
         {
             return value == null ? 0 : value.Length;
         }
