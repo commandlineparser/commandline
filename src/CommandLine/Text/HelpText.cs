@@ -482,8 +482,8 @@ namespace CommandLine.Text
             const int ExtraLength = 10;
             return
                 new StringBuilder(
-                    GetLength(heading) + GetLength(copyright) + preOptionsHelp.SafeLength() + optionsHelp.SafeLength()
-                    + ExtraLength).Append(heading)
+                    heading.SafeLength() + copyright.SafeLength() + preOptionsHelp.SafeLength() +
+                        optionsHelp.SafeLength() + ExtraLength).Append(heading)
                     .AppendWhen(!string.IsNullOrEmpty(copyright), Environment.NewLine, copyright)
                     .AppendWhen(preOptionsHelp.Length > 0, Environment.NewLine, preOptionsHelp.ToString())
                     .AppendWhen(
@@ -498,11 +498,6 @@ namespace CommandLine.Text
         private static IEnumerable<Error> FilterMeaningfulErrors(IEnumerable<Error> errors)
         {
             return errors.Where(e => e.Tag != ErrorType.HelpRequestedError && e.Tag != ErrorType.HelpVerbRequestedError);
-        }
-
-        private static int GetLength(string value)
-        {
-            return value == null ? 0 : value.Length;
         }
 
         private static void AddLine(StringBuilder builder, string value, int maximumLength)
