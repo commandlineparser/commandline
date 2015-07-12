@@ -555,21 +555,13 @@ namespace CommandLine.Text
         private IEnumerable<Specification> AdaptVerbsToSpecifications(IEnumerable<Type> types)
         {
             return (from verbTuple in Verb.SelectFromTypes(types)
-                select
-                    new OptionSpecification(
-                        string.Empty,
-                        verbTuple.Item1.Name,
-                        false,
-                        string.Empty,
-                        Maybe.Nothing<int>(),
-                        Maybe.Nothing<int>(),
-                        '\0',
-                        Maybe.Nothing<object>(),
-                        verbTuple.Item1.HelpText,
-                        string.Empty,
-                        new List<string>(),
-                        typeof(bool),
-                        TargetType.Switch)).Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
+                    select
+                        OptionSpecification.NewSwitch(
+                            string.Empty,
+                            verbTuple.Item1.Name,
+                            false,
+                            verbTuple.Item1.HelpText,
+                            string.Empty)).Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
         }
 
         private HelpText AddOptionsImpl(
