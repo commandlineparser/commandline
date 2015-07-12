@@ -693,20 +693,14 @@ namespace CommandLine.Text
             if (specification.ShortName.Length > 0)
             {
                 optionName.AppendWhen(addDashesToOption, '-');
-
                 optionName.AppendFormat("{0}", specification.ShortName);
-
                 optionName.AppendFormatWhen(specification.MetaValue.Length > 0, " {0}", specification.MetaValue);
-
                 optionName.AppendWhen(specification.LongName.Length > 0, ", ");
             }
-
             if (specification.LongName.Length > 0)
             {
                 optionName.AppendWhen(addDashesToOption, "--");
-
                 optionName.AppendFormat("{0}", specification.LongName);
-
                 optionName.AppendFormatWhen(specification.MetaValue.Length > 0, "={0}", specification.MetaValue);
             }
             return optionName.ToString();
@@ -724,11 +718,7 @@ namespace CommandLine.Text
             {
                 valueName.AppendFormat("value pos. {0}", specification.Index);
             }
-
-            if (specification.MetaValue.Length > 0)
-            {
-                valueName.AppendFormat(" {0}", specification.MetaValue);
-            }
+            valueName.AppendFormatWhen(specification.MetaValue.Length > 0, " {0}", specification.MetaValue);
 
             return valueName.ToString();
         }
