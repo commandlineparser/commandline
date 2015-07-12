@@ -502,11 +502,7 @@ namespace CommandLine.Text
 
         private static void AddLine(StringBuilder builder, string value, int maximumLength)
         {
-            if (builder.Length > 0)
-            {
-                builder.Append(Environment.NewLine);
-            }
-
+            builder.AppendWhen(builder.Length > 0, Environment.NewLine);
             do
             {
                 var wordBuffer = 0;
@@ -534,12 +530,8 @@ namespace CommandLine.Text
                         break;
                     }
                 }
-
                 value = value.Substring(Math.Min(wordBuffer, value.Length));
-                if (value.Length > 0)
-                {
-                    builder.Append(Environment.NewLine);
-                }
+                builder.AppendWhen(value.Length > 0, Environment.NewLine);
             }
             while (value.Length > maximumLength);
 
