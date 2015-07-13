@@ -167,10 +167,10 @@ namespace CommandLine.Text
             }
 
             var yearsPart = new StringBuilder(years.Length * 6);
-            for (int i = 0; i < years.Length; i++)
+            for (var i = 0; i < years.Length; i++)
             {
                 yearsPart.Append(years[i].ToString(CultureInfo.InvariantCulture));
-                int next = i + 1;
+                var next = i + 1;
                 if (next < years.Length)
                 {
                     yearsPart.Append(years[next] - years[i] > 1 ? " - " : ", ");
