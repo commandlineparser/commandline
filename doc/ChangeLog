@@ -1,3 +1,7 @@
+2015-07-13    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Internal refactorings in CopyrighInfo, HeadingInfo.
+
 2015-07-12    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Internal refactorings in HelpText.
