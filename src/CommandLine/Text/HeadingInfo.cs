@@ -92,11 +92,12 @@ namespace CommandLine.Text
             if (string.IsNullOrWhiteSpace("message")) throw new ArgumentException("message");
             if (writer == null) throw new ArgumentNullException("writer");
 
-            var builder = new StringBuilder(programName.Length + message.Length + 2);
-            builder.Append(programName);
-            builder.Append(": ");
-            builder.Append(message);
-            writer.WriteLine(builder.ToString());
+            writer.WriteLine(
+                new StringBuilder(programName.Length + message.Length + 2)
+                    .Append(programName)
+                    .Append(": ")
+                    .Append(message)
+                    .ToString());
         }
 
         /// <summary>
