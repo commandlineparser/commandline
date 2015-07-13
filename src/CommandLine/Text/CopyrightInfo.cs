@@ -142,15 +142,15 @@ namespace CommandLine.Text
                 return attribute.Copyright;
             }
 
-            var builder = new StringBuilder(builderSize);
-            builder.Append(CopyrightWord);
-            builder.Append(' ');
-            builder.Append(isSymbolUpper ? SymbolUpper : SymbolLower);
-            builder.Append(' ');
-            builder.Append(FormatYears(copyrightYears));
-            builder.Append(' ');
-            builder.Append(author);
-            return builder.ToString();
+            return new StringBuilder(builderSize)
+                .Append(CopyrightWord)
+                .Append(' ')
+                .Append(isSymbolUpper ? SymbolUpper : SymbolLower)
+                .Append(' ')
+                .Append(FormatYears(copyrightYears))
+                .Append(' ')
+                .Append(author)
+                .ToString();
         }
 
         /// <summary>
