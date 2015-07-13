@@ -732,25 +732,17 @@ namespace CommandLine.Text
 
         private int GetMaxLength(IEnumerable<Specification> specifications)
         {
-            var length = 0;
+            return specifications.Aggregate(0,
+                (length, spec) =>
+                    {
+                        var specLength = spec.Tag == SpecificationType.Option
+                            ? this.GetMaxOptionLength((OptionSpecification)spec)
+                            : this.GetMaxValueLength((ValueSpecification)spec);
 
-            foreach (var spec in specifications)
-            {
-                var specLength = 0;
-                if (spec.Tag == SpecificationType.Option)
-                {
-                    specLength = GetMaxOptionLength((OptionSpecification)spec);
-                }
-                else
-                {
-                    specLength = GetMaxValueLength((ValueSpecification)spec);
-                }
-
-                length = Math.Max(length, specLength);
-            }
-
-            return length;
+                        return Math.Max(length, specLength);
+                    });
         }
+
 
         private int GetMaxOptionLength(OptionSpecification spec)
         {
