@@ -71,17 +71,12 @@ namespace CommandLine.Text
         /// <returns>The <see cref="System.String"/> that contains the heading.</returns>
         public override string ToString()
         {
-            bool isVersionNull = string.IsNullOrEmpty(version);
-            var builder = new StringBuilder(programName.Length +
-                (!isVersionNull ? version.Length + 1 : 0));
-            builder.Append(programName);
-            if (!isVersionNull)
-            {
-                builder.Append(' ');
-                builder.Append(version);
-            }
-
-            return builder.ToString();
+            var isVersionNull = string.IsNullOrEmpty(version);
+            return new StringBuilder(programName.Length +
+                    (!isVersionNull ? version.Length + 1 : 0))
+                .Append(programName)
+                .AppendWhen(!isVersionNull, " ", version)
+                .ToString();
         }
 
         /// <summary>
