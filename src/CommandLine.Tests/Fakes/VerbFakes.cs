@@ -54,4 +54,22 @@ namespace CommandLine.Tests.Fakes
         [Option('s', Min = 1, Max = 100, Separator = ',')]
         public IEnumerable<string> StringSequence { get; set; }
     }
+
+    abstract class BaseFileOptions
+    {
+        [Option('p', "patch", SetName = "mode",
+           HelpText = "Interactively choose hunks of patch between the index and the work tree and add them to the index.")]
+        public bool Patch { get; set; }
+
+        [Value(0)]
+        public string FileName { get; set; }
+    }
+
+    [Verb("derivedadd", HelpText = "Add file contents to the index.")]
+    class DerivedAddOptions : BaseFileOptions
+    {
+        [Option('f', "force", SetName = "mode",
+            HelpText = "Allow adding otherwise ignored files.")]
+        public bool Force { get; set; }
+    }
 }

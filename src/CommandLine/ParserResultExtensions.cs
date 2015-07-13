@@ -41,7 +41,7 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (result.Value.GetType() == typeof(T))
+                if (typeof(T).IsAssignableFrom(parsed.Value.GetType()))
                 {
                     action((T)parsed.Value);
                 }
@@ -92,6 +92,31 @@ namespace CommandLine
         /// Provides a way to transform result data into another value.
         /// </summary>
         /// <typeparam name="T1">First verb type.</typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="result">The result in verb scenario.</param>
+        /// <param name="parsedFunc1">Lambda executed on successful parsing of <see cref="T1"/>.</param>
+        /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
+        /// <returns>The new value.</returns>
+        public static TResult Return<T1, TResult>(this ParserResult<object> result,
+            Func<T1, TResult> parsedFunc1,
+            Func<IEnumerable<Error>, TResult> notParsedFunc)
+        {
+            var parsed = result as Parsed<object>;
+            if (parsed != null)
+            {
+                if (typeof(T1).IsAssignableFrom(parsed.Value.GetType()))
+                {
+                    return parsedFunc1((T1)parsed.Value);
+                }
+                throw new InvalidOperationException();
+            }
+            return notParsedFunc(((NotParsed<object>)result).Errors);
+        }
+
+        /// <summary>
+        /// Provides a way to transform result data into another value.
+        /// </summary>
+        /// <typeparam name="T1">First verb type.</typeparam>
         /// <typeparam name="T2">Second verb type.</typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="result">The result in verb scenario.</param>
@@ -107,11 +132,12 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
@@ -142,15 +168,16 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
@@ -184,19 +211,20 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
@@ -233,23 +261,24 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
@@ -289,27 +318,28 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
@@ -352,31 +382,32 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
@@ -422,35 +453,36 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T8))
+                if (typeof(T8).IsAssignableFrom(valueType))
                 {
                     return parsedFunc8((T8)parsed.Value);
                 }
@@ -499,39 +531,40 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T8))
+                if (typeof(T8).IsAssignableFrom(valueType))
                 {
                     return parsedFunc8((T8)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T9))
+                if (typeof(T9).IsAssignableFrom(valueType))
                 {
                     return parsedFunc9((T9)parsed.Value);
                 }
@@ -583,43 +616,44 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T8))
+                if (typeof(T8).IsAssignableFrom(valueType))
                 {
                     return parsedFunc8((T8)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T9))
+                if (typeof(T9).IsAssignableFrom(valueType))
                 {
                     return parsedFunc9((T9)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T10))
+                if (typeof(T10).IsAssignableFrom(valueType))
                 {
                     return parsedFunc10((T10)parsed.Value);
                 }
@@ -674,47 +708,48 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T8))
+                if (typeof(T8).IsAssignableFrom(valueType))
                 {
                     return parsedFunc8((T8)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T9))
+                if (typeof(T9).IsAssignableFrom(valueType))
                 {
                     return parsedFunc9((T9)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T10))
+                if (typeof(T10).IsAssignableFrom(valueType))
                 {
                     return parsedFunc10((T10)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T11))
+                if (typeof(T11).IsAssignableFrom(valueType))
                 {
                     return parsedFunc11((T11)parsed.Value);
                 }
@@ -772,51 +807,52 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T8))
+                if (typeof(T8).IsAssignableFrom(valueType))
                 {
                     return parsedFunc8((T8)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T9))
+                if (typeof(T9).IsAssignableFrom(valueType))
                 {
                     return parsedFunc9((T9)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T10))
+                if (typeof(T10).IsAssignableFrom(valueType))
                 {
                     return parsedFunc10((T10)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T11))
+                if (typeof(T11).IsAssignableFrom(valueType))
                 {
                     return parsedFunc11((T11)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T12))
+                if (typeof(T12).IsAssignableFrom(valueType))
                 {
                     return parsedFunc12((T12)parsed.Value);
                 }
@@ -877,55 +913,56 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T8))
+                if (typeof(T8).IsAssignableFrom(valueType))
                 {
                     return parsedFunc8((T8)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T9))
+                if (typeof(T9).IsAssignableFrom(valueType))
                 {
                     return parsedFunc9((T9)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T10))
+                if (typeof(T10).IsAssignableFrom(valueType))
                 {
                     return parsedFunc10((T10)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T11))
+                if (typeof(T11).IsAssignableFrom(valueType))
                 {
                     return parsedFunc11((T11)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T12))
+                if (typeof(T12).IsAssignableFrom(valueType))
                 {
                     return parsedFunc12((T12)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T13))
+                if (typeof(T13).IsAssignableFrom(valueType))
                 {
                     return parsedFunc13((T13)parsed.Value);
                 }
@@ -989,59 +1026,60 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T8))
+                if (typeof(T8).IsAssignableFrom(valueType))
                 {
                     return parsedFunc8((T8)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T9))
+                if (typeof(T9).IsAssignableFrom(valueType))
                 {
                     return parsedFunc9((T9)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T10))
+                if (typeof(T10).IsAssignableFrom(valueType))
                 {
                     return parsedFunc10((T10)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T11))
+                if (typeof(T11).IsAssignableFrom(valueType))
                 {
                     return parsedFunc11((T11)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T12))
+                if (typeof(T12).IsAssignableFrom(valueType))
                 {
                     return parsedFunc12((T12)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T13))
+                if (typeof(T13).IsAssignableFrom(valueType))
                 {
                     return parsedFunc13((T13)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T14))
+                if (typeof(T14).IsAssignableFrom(valueType))
                 {
                     return parsedFunc14((T14)parsed.Value);
                 }
@@ -1108,63 +1146,64 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T8))
+                if (typeof(T8).IsAssignableFrom(valueType))
                 {
                     return parsedFunc8((T8)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T9))
+                if (typeof(T9).IsAssignableFrom(valueType))
                 {
                     return parsedFunc9((T9)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T10))
+                if (typeof(T10).IsAssignableFrom(valueType))
                 {
                     return parsedFunc10((T10)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T11))
+                if (typeof(T11).IsAssignableFrom(valueType))
                 {
                     return parsedFunc11((T11)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T12))
+                if (typeof(T12).IsAssignableFrom(valueType))
                 {
                     return parsedFunc12((T12)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T13))
+                if (typeof(T13).IsAssignableFrom(valueType))
                 {
                     return parsedFunc13((T13)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T14))
+                if (typeof(T14).IsAssignableFrom(valueType))
                 {
                     return parsedFunc14((T14)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T15))
+                if (typeof(T15).IsAssignableFrom(valueType))
                 {
                     return parsedFunc15((T15)parsed.Value);
                 }
@@ -1234,67 +1273,68 @@ namespace CommandLine
             var parsed = result as Parsed<object>;
             if (parsed != null)
             {
-                if (parsed.Value.GetType() == typeof(T1))
+                var valueType = parsed.Value.GetType();
+                if (typeof(T1).IsAssignableFrom(valueType))
                 {
                     return parsedFunc1((T1)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T2))
+                if (typeof(T2).IsAssignableFrom(valueType))
                 {
                     return parsedFunc2((T2)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T3))
+                if (typeof(T3).IsAssignableFrom(valueType))
                 {
                     return parsedFunc3((T3)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T4))
+                if (typeof(T4).IsAssignableFrom(valueType))
                 {
                     return parsedFunc4((T4)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T5))
+                if (typeof(T5).IsAssignableFrom(valueType))
                 {
                     return parsedFunc5((T5)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T6))
+                if (typeof(T6).IsAssignableFrom(valueType))
                 {
                     return parsedFunc6((T6)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T7))
+                if (typeof(T7).IsAssignableFrom(valueType))
                 {
                     return parsedFunc7((T7)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T8))
+                if (typeof(T8).IsAssignableFrom(valueType))
                 {
                     return parsedFunc8((T8)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T9))
+                if (typeof(T9).IsAssignableFrom(valueType))
                 {
                     return parsedFunc9((T9)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T10))
+                if (typeof(T10).IsAssignableFrom(valueType))
                 {
                     return parsedFunc10((T10)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T11))
+                if (typeof(T11).IsAssignableFrom(valueType))
                 {
                     return parsedFunc11((T11)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T12))
+                if (typeof(T12).IsAssignableFrom(valueType))
                 {
                     return parsedFunc12((T12)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T13))
+                if (typeof(T13).IsAssignableFrom(valueType))
                 {
                     return parsedFunc13((T13)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T14))
+                if (typeof(T14).IsAssignableFrom(valueType))
                 {
                     return parsedFunc14((T14)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T15))
+                if (typeof(T15).IsAssignableFrom(valueType))
                 {
                     return parsedFunc15((T15)parsed.Value);
                 }
-                if (parsed.Value.GetType() == typeof(T16))
+                if (typeof(T16).IsAssignableFrom(valueType))
                 {
                     return parsedFunc16((T16)parsed.Value);
                 }

@@ -128,5 +128,47 @@ namespace CommandLine.Tests.Unit
 
             3.ShouldBeEquivalentTo(expected);
         }
+
+        [Fact]
+        public static void Invoke_parsed_lambda_when_parsed_for_base_verbs()
+        {
+            var expected = string.Empty;
+            Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions, DerivedAddOptions>(
+                new[] { "derivedadd", "dummy.bin" })
+                .WithParsed<AddOptions>(opts => expected = "wrong1")
+                .WithParsed<CommitOptions>(opts => expected = "wrong2")
+                .WithParsed<CloneOptions>(opts => expected = "wrong3")
+                .WithParsed<BaseFileOptions>(opts => expected = opts.FileName);
+
+            "dummy.bin".ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void Turn_sucessful_parsing_into_exit_code_for_single_base_verbs()
+        {
+            var expected = Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions, DerivedAddOptions>(
+                new[] { "derivedadd", "dummy.bin" })
+                .Return(
+                    (BaseFileOptions opts) => 1,
+                    errs => 2);
+
+            1.ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void Turn_sucessful_parsing_into_exit_code_for_multiple_base_verbs()
+        {
+            var expected = Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions, DerivedAddOptions>(
+                new[] { "derivedadd", "dummy.bin" })
+                .Return(
+                    (AddOptions opts) => 0,
+                    (CommitOptions opts) => 1,
+                    (CloneOptions opts) => 2,
+                    (BaseFileOptions opts) => 4,
+                    (DerivedAddOptions opts) => 3,
+                    errs => 5);
+
+            4.ShouldBeEquivalentTo(expected);
+        }
     }
 }
