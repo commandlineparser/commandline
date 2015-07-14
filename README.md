@@ -147,6 +147,7 @@ Main Contributors (alphabetical order):
 - Dan Nemec (@nemec)
 - Kevin Moore (@gimmemoore)
 - Steven Evans
+- Thomas Démoulins (@Thilas)
 
 Resources for newcomers:
 ---
