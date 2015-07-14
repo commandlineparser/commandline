@@ -1,3 +1,7 @@
+2015-07-14    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * PR #197 (by @Thilas) Implemented.
+
 2015-07-13    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Internal refactorings in CopyrighInfo, HeadingInfo.
