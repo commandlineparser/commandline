@@ -1,4 +1,4 @@
-Command Line Parser Library 2.0.75.0 alpha
+Command Line Parser Library 2.0.77.0 alpha
 ------------------------------------------
 Giacomo Stelluti Scala
 (gsscoder@gmail.com)
