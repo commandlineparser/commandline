@@ -24,10 +24,7 @@ namespace CommandLine
             var parsed = result as Parsed<T>;
             if (parsed != null)
             {
-                if (parsed.Value is T)
-                {
-                    action(parsed.Value);
-                }
+                action(parsed.Value);
             }
             return result;
         }
@@ -65,10 +62,7 @@ namespace CommandLine
             var notParsed = result as NotParsed<T>;
             if (notParsed != null)
             {
-                if (notParsed.Value is T)
-                {
-                    action(notParsed.Errors);
-                }
+                action(notParsed.Errors);
             }
             return result;
         }
