@@ -5,9 +5,9 @@
 
 Command Line Parser Library 2.0.77.0 alpha for CLR.
 ===
-The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks defining switches, options and verb commands. It allows you to display an help screen with an high degree of customization and a simple way to report syntax errors to the end user.
+The Command Line Parser Library offers CLR applications a clean and concise API for manipulating command line arguments and related tasks, such as defining switches, options and verb commands. It allows you to display a help screen with a high degree of customization and a simple way to report syntax errors to the end user.
 
-Everything that is boring and repetitive to be programmed stands up on library shoulders, letting developers concentrate on core logic. It's written in **C#** and doesn't depend on other packages.
+Everything that is boring and repetitive about parsing command line arguments is delegated to the library, letting developers concentrate on core logic. It's written in **C#** and doesn't depend on other packages.
 
 __This library provides _hassle free_ command line parsing with a constantly updated API since 2005.__
 
@@ -50,7 +50,7 @@ Latest changes are recorded from Version 1.9.4.91, please refer to [this documen
 
 Notes:
 ---
-The project is and well suited to be included in your application. If you don't merge it to your project tree, you must reference ``CommandLine.dll`` and import ``CommandLine`` and ``CommandLine.Text`` namespaces (or install via NuGet). The help text builder and its support types lives in ``CommandLine.Text`` namespace that is loosely coupled with the parser. However is good to know that ``HelpText`` class will avoid a lot of repetitive coding.
+The project is well suited to be included in your application. If you don't merge it to your project tree, you must reference ``CommandLine.dll`` and import ``CommandLine`` and ``CommandLine.Text`` namespaces (or install via NuGet). The help text builder and support types are in the ``CommandLine.Text`` namespace that is loosely coupled with the parser. It is good to know that the ``HelpText`` class will avoid a lot of repetitive coding.
 
 **C#:**
 
@@ -213,7 +213,7 @@ Latest Changes:
   - Internal refactorings.
   - PR #197 (by @Thilas) Implemented.
 
-Contacts:
+Contact:
 ---
 Giacomo Stelluti Scala
   - gsscoder AT gmail DOT com
