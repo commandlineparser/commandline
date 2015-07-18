@@ -32,15 +32,15 @@ namespace CommandLine.Core
                     where sp.Value.IsJust()
                     let o = (OptionSpecification)sp.Specification
                     where o.SetName.Length > 0
-                    select sp;
-                var groups =
-                    options.GroupBy(g => ((OptionSpecification)g.Specification).SetName);
+                    select o;
+                var groups = from o in options
+                             group o by o.SetName into g
+                             select g;
                 if (groups.Count() > 1)
                 {
                     return
-                        from s in options
-                        select new MutuallyExclusiveSetError(
-                            ((OptionSpecification)s.Specification).FromOptionSpecification());
+                        from o in options
+                        select new MutuallyExclusiveSetError(o.FromOptionSpecification());
                 }
                 return Enumerable.Empty<Error>();
             };
