@@ -25,11 +25,11 @@ namespace CommandLine.Core
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceMutuallyExclusiveSet()
         {
             return specProps =>
-                {
-                    var options = specProps
-                            .Where(sp => sp.Specification.IsOption())
-                            .Where(sp => ((OptionSpecification)sp.Specification).SetName.Length > 0
-                                   && sp.Value.IsJust());
+            {
+                var options = specProps
+                        .Where(sp => sp.Specification.IsOption())
+                        .Where(sp => sp.Value.IsJust())
+                        .Where(sp => ((OptionSpecification)sp.Specification).SetName.Length > 0);
                     var groups = options.GroupBy(g => ((OptionSpecification)g.Specification).SetName);
                     if (groups.Count() > 1)
                     {
