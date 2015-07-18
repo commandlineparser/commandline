@@ -903,7 +903,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
-        [InlineData(new[] { "--web=value.com" }, ParserResultType.Parsed, 0)]
+        [InlineData(new[] { "--weburl=value.com" }, ParserResultType.Parsed, 0)]
         public void Enforce_required_within_mutually_exclusive_set_only(string[] arguments, ParserResultType type, int expected)
         {
             // Exercize system
