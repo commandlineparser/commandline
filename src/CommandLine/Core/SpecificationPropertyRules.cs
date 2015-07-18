@@ -26,20 +26,24 @@ namespace CommandLine.Core
         {
             return specProps =>
             {
-                var options = specProps
-                        .Where(sp => sp.Specification.IsOption())
-                        .Where(sp => sp.Value.IsJust())
-                        .Where(sp => ((OptionSpecification)sp.Specification).SetName.Length > 0);
-                    var groups = options.GroupBy(g => ((OptionSpecification)g.Specification).SetName);
-                    if (groups.Count() > 1)
-                    {
-                        return
-                            from s in options
-                            select new MutuallyExclusiveSetError(
-                                ((OptionSpecification)s.Specification).FromOptionSpecification());
-                    }
-                    return Enumerable.Empty<Error>();
-                };
+                var options =
+                    from sp in specProps
+                    where sp.Specification.IsOption()
+                    where sp.Value.IsJust()
+                    let o = (OptionSpecification)sp.Specification
+                    where o.SetName.Length > 0
+                    select sp;
+                var groups =
+                    options.GroupBy(g => ((OptionSpecification)g.Specification).SetName);
+                if (groups.Count() > 1)
+                {
+                    return
+                        from s in options
+                        select new MutuallyExclusiveSetError(
+                            ((OptionSpecification)s.Specification).FromOptionSpecification());
+                }
+                return Enumerable.Empty<Error>();
+            };
         }
 
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceRequired()
