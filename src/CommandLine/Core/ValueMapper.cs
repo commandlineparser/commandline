@@ -37,7 +37,7 @@ namespace CommandLine.Core
             if (taken.Empty())
             {
                 yield return
-                    Tuple.Create(pt, MakeErrorInCaseOfMinConstraint(pt.Specification));
+                    Tuple.Create(pt, pt.Specification.MakeErrorInCaseOfMinConstraint());
                 yield break;
             }
 
@@ -81,7 +81,7 @@ namespace CommandLine.Core
             return Maybe.Nothing<int>();
         }
 
-        private static Maybe<Error> MakeErrorInCaseOfMinConstraint(Specification specification)
+        private static Maybe<Error> MakeErrorInCaseOfMinConstraint(this Specification specification)
         {
             return specification.Min.IsJust()
                 ? Maybe.Just<Error>(new SequenceOutOfRangeError(NameInfo.EmptyName))
