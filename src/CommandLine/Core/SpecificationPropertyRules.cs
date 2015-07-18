@@ -45,12 +45,12 @@ namespace CommandLine.Core
         {
             return specProps =>
             {
-                var setsWithTrue =
+                var setsWithRequiredTrue =
                     specProps
                         .Where(sp => sp.Specification.IsOption()
                             && sp.Value.IsJust() && sp.Specification.Required)
                         .Select(s => ((OptionSpecification)s.Specification).SetName).ToList();
-                
+
                 var requiredButEmpty =
                     specProps
                         .Where(sp => sp.Specification.IsOption())
@@ -58,8 +58,8 @@ namespace CommandLine.Core
                             && sp.Specification.Required
                             && (
                                 ((OptionSpecification)sp.Specification).SetName.Length == 0 ||
-                                !setsWithTrue.Contains(((OptionSpecification)sp.Specification).SetName)
-                            ))                          
+                                !setsWithRequiredTrue.Contains(((OptionSpecification)sp.Specification).SetName)
+                            ))
                     .Concat(specProps
                         .Where(sp => sp.Specification.IsValue()
                             && sp.Value.IsNothing()
