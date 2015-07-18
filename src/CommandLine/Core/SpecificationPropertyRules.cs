@@ -33,9 +33,10 @@ namespace CommandLine.Core
                     var groups = options.GroupBy(g => ((OptionSpecification)g.Specification).SetName);
                     if (groups.Count() > 1)
                     {
-                        return options.Select(s =>
-                            new MutuallyExclusiveSetError(
-                                ((OptionSpecification)s.Specification).FromOptionSpecification()));
+                        return
+                            from s in options
+                            select new MutuallyExclusiveSetError(
+                                ((OptionSpecification)s.Specification).FromOptionSpecification());
                     }
                     return Enumerable.Empty<Error>();
                 };
