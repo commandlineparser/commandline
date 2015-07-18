@@ -88,14 +88,13 @@ namespace CommandLine.Core
         {
             return specProps =>
                 {
-                    var options = specProps.Where(
-                        sp => sp.Specification.TargetType == TargetType.Sequence
-                        && sp.Value.IsJust()
-                        && (
+                    var options = specProps
+                        .Where(sp => sp.Specification.TargetType == TargetType.Sequence)
+                        .Where(sp => sp.Value.IsJust())
+                        .Where(sp =>
                             (sp.Specification.Min.IsJust() && ((Array)sp.Value.FromJust()).Length < sp.Specification.Min.FromJust())
                             || (sp.Specification.Max.IsJust() && ((Array)sp.Value.FromJust()).Length > sp.Specification.Max.FromJust())
-                        )
-                    );
+                        );
                     if (options.Any())
                     {
                         return options.Select(s => new SequenceOutOfRangeError(
