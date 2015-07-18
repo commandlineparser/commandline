@@ -98,8 +98,9 @@ namespace CommandLine.Core
                         );
                     if (options.Any())
                     {
-                        return options.Select(s => new SequenceOutOfRangeError(
-                            s.Specification.FromSpecification()));
+                        return
+                            from s in options
+                            select new SequenceOutOfRangeError(s.Specification.FromSpecification());
                     }
                     return Enumerable.Empty<Error>();
                 };
