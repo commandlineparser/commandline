@@ -57,8 +57,8 @@ namespace CommandLine.Core
                     from s in requiredWithValue
                     let o = (OptionSpecification)s
                     where o.SetName.Length > 0
-                    select o.SetName
-                    ).Distinct();
+                    select o.SetName)
+                        .Distinct();
                 var requiredWithoutValue = from sp in specProps
                     where sp.Specification.IsOption()
                     where sp.Specification.Required
@@ -68,7 +68,8 @@ namespace CommandLine.Core
                     where setWithRequiredValue.ContainsIfNotEmpty(o.SetName)
                     select sp.Specification;
                 var missing =
-                    requiredWithoutValue.Except(requiredWithValue)
+                    requiredWithoutValue
+                        .Except(requiredWithValue)
                         .Concat(
                             from sp in specProps
                             where sp.Specification.IsOption()
@@ -87,15 +88,6 @@ namespace CommandLine.Core
                     from sp in missing
                     select new MissingRequiredOptionError(sp.FromSpecification());
             };
-        }
-
-        private static bool ContainsIfNotEmpty<T>(this IEnumerable<T> sequence, T value)
-        {
-            if (sequence.Any())
-            {
-                return sequence.Contains(value);
-            }
-            return true;
         }
 
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceRange()
@@ -140,6 +132,15 @@ namespace CommandLine.Core
                                  select new RepeatedOptionError(new NameInfo(y.Value.ShortName, y.Value.LongName));
                     return errors;
                 };
+        }
+
+        private static bool ContainsIfNotEmpty<T>(this IEnumerable<T> sequence, T value)
+        {
+            if (sequence.Any())
+            {
+                return sequence.Contains(value);
+            }
+            return true;
         }
     }
 }
