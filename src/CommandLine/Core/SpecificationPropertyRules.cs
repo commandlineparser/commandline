@@ -45,34 +45,54 @@ namespace CommandLine.Core
         {
             return specProps =>
             {
-                var setsWithRequiredTrue =
-                    specProps
-                        .Where(sp => sp.Specification.IsOption())
-                        .Where(sp => sp.Value.IsJust())
-                        .Where(sp => sp.Specification.Required)
-                        .Select(s => ((OptionSpecification)s.Specification).SetName)
-                        .Distinct().ToList();
-
-                var requiredButEmpty =
-                    specProps
-                        .Where(sp => sp.Specification.IsOption())
-                        .Where(sp => sp.Value.IsNothing())
-                        .Where(sp => sp.Specification.Required)
-                        .Where(sp =>
-                                ((OptionSpecification)sp.Specification).SetName.Length == 0 ||
-                                !setsWithRequiredTrue.Contains(((OptionSpecification)sp.Specification).SetName)
-                              )
-                    .Concat(specProps
-                        .Where(sp => sp.Specification.IsValue())
-                        .Where(sp => sp.Value.IsNothing())
-                        .Where(sp => sp.Specification.Required)).ToList();
-
-                if (requiredButEmpty.Any()) {
-                    return requiredButEmpty.Select(s =>new MissingRequiredOptionError(
-                        s.Specification.FromSpecification()));
-                }
-                return Enumerable.Empty<Error>();
+                return EnforceRequiredImpl(specProps);
             };
+        }
+
+        private static IEnumerable<Error> EnforceRequiredImpl(IEnumerable<SpecificationProperty> specProps)
+        {
+            var setCount =
+                specProps.Where(sp => sp.Specification.IsOption())
+                    .Select(sp => ((OptionSpecification)sp.Specification).SetName)
+                    .Distinct()
+                    .ToList()
+                    .Count();
+
+            var setWithRequired =
+                specProps.Where(sp => sp.Specification.IsOption())
+                    .Where(sp => sp.Specification.Required)
+                    .Select(sp => ((OptionSpecification)sp.Specification).SetName)
+                    .Distinct()
+                    .ToList();
+
+            foreach (var sp in specProps)
+            {
+                if (sp.Specification.IsOption())
+                {
+                    var option = (OptionSpecification)sp.Specification;
+                    if (sp.Specification.Required && sp.Value.IsNothing())
+                    {
+                        if (option.SetName.Length == 0)
+                        {
+                            yield return new MissingRequiredOptionError(sp.Specification.FromSpecification());
+                        }
+                        else if (option.SetName.Length > 0 && (
+                            setCount == 1 ||
+                            (setCount > 1 && !setWithRequired.Contains(option.SetName)))
+                            )
+                        {
+                            yield return new MissingRequiredOptionError(sp.Specification.FromSpecification());
+                        }
+                    }
+                }
+                else
+                {
+                    if (sp.Specification.Required && sp.Value.IsNothing())
+                    {
+                        yield return new MissingRequiredOptionError(sp.Specification.FromSpecification());
+                    }
+                }
+            }
         }
 
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceRange()
