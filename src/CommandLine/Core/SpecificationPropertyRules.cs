@@ -46,47 +46,56 @@ namespace CommandLine.Core
         {
             return specProps =>
             {
-                var setCount =
-                    specProps
-                        .Where(sp => sp.Specification.IsOption())
-                        .Where(sp => ((OptionSpecification)sp.Specification).SetName.Length > 0)
-                        .Select(sp => ((OptionSpecification)sp.Specification).SetName)
-                        .Distinct()
-                        .ToList()
-                        .Count();
-
-                var setWithRequired =
-                    specProps.Where(sp => sp.Specification.IsOption())
-                        .Where(sp => sp.Specification.Required)
-                        .Where(sp => ((OptionSpecification)sp.Specification).SetName.Length > 0)
-                        .Select(sp => ((OptionSpecification)sp.Specification).SetName)
-                        .Distinct()
-                        .ToList();
-
+                var requiredWithValue = from sp in specProps
+                    where sp.Specification.IsOption()
+                    where sp.Specification.Required
+                    where sp.Value.IsJust()
+                    let o = (OptionSpecification)sp.Specification
+                    where o.SetName.Length > 0
+                    select sp.Specification;
+                var setWithRequiredValue = (
+                    from s in requiredWithValue
+                    let o = (OptionSpecification)s
+                    where o.SetName.Length > 0
+                    select o.SetName
+                    ).Distinct();
+                var requiredWithoutValue = from sp in specProps
+                    where sp.Specification.IsOption()
+                    where sp.Specification.Required
+                    where sp.Value.IsNothing()
+                    let o = (OptionSpecification)sp.Specification
+                    where o.SetName.Length > 0
+                    where setWithRequiredValue.ContainsIfNotEmpty(o.SetName)
+                    select sp.Specification;
                 var missing =
-                    specProps.Where(sp => sp.Specification.IsOption())
-                        .Where(sp => sp.Specification.Required)
-                        .Where(sp => sp.Value.IsNothing())
-                        .Where(sp => ((OptionSpecification)sp.Specification).SetName.Length == 0)
+                    requiredWithoutValue.Except(requiredWithValue)
                         .Concat(
-                            specProps.Where(sp => sp.Specification.IsOption())
-                                .Where(sp => sp.Specification.Required)
-                                .Where(sp => sp.Value.IsNothing())
-                                .Where(
-                                    sp =>
-                                        ((OptionSpecification)sp.Specification).SetName.Length > 0
-                                        && (setCount == 1
-                                            || (setCount > 1
-                                                && !setWithRequired.Contains(
-                                                    ((OptionSpecification)sp.Specification).SetName)))))
+                            from sp in specProps
+                            where sp.Specification.IsOption()
+                            where sp.Specification.Required
+                            where sp.Value.IsNothing()
+                            let o = (OptionSpecification)sp.Specification
+                            where o.SetName.Length == 0
+                            select sp.Specification)
                         .Concat(
-                            specProps
-                                .Where(sp => sp.Specification.IsValue())
-                                .Where(sp => sp.Specification.Required)
-                                .Where(sp => sp.Value.IsNothing())).ToList();
-
-                return from sp in missing select new MissingRequiredOptionError(sp.Specification.FromSpecification());
+                            from sp in specProps
+                            where sp.Specification.IsValue()
+                            where sp.Specification.Required
+                            where sp.Value.IsNothing()
+                            select sp.Specification);
+                return
+                    from sp in missing
+                    select new MissingRequiredOptionError(sp.FromSpecification());
             };
+        }
+
+        private static bool ContainsIfNotEmpty<T>(this IEnumerable<T> sequence, T value)
+        {
+            if (sequence.Any())
+            {
+                return sequence.Contains(value);
+            }
+            return true;
         }
 
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceRange()

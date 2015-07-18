@@ -909,7 +909,7 @@ namespace CommandLine.Tests.Unit.Core
         [InlineData(new[] { "--ftpurl=value.org", "-a" }, ParserResultType.Parsed, 0)]
         [InlineData(new[] { "--weburl=value.com", "--ftpurl=value.org" }, ParserResultType.NotParsed, 2)]
         [InlineData(new[] { "--weburl=value.com", "--ftpurl=value.org", "-a" }, ParserResultType.NotParsed, 2)]
-        [InlineData(new string[] { }, ParserResultType.NotParsed, 1)]
+        [InlineData(new string[] { }, ParserResultType.NotParsed, 2)]
         public void Enforce_required_within_mutually_exclusive_set_only(string[] arguments, ParserResultType type, int expected)
         {
             // Exercize system
