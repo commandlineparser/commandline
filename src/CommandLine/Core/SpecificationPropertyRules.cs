@@ -47,29 +47,32 @@ namespace CommandLine.Core
             {
                 var setsWithRequiredTrue =
                     specProps
-                        .Where(sp => sp.Specification.IsOption()
-                            && sp.Value.IsJust() && sp.Specification.Required)
-                        .Select(s => ((OptionSpecification)s.Specification).SetName).ToList();
+                        .Where(sp => sp.Specification.IsOption())
+                        .Where(sp => sp.Value.IsJust())
+                        .Where(sp => sp.Specification.Required)
+                        .Select(s => ((OptionSpecification)s.Specification).SetName)
+                        .Distinct().ToList();
 
                 var requiredButEmpty =
                     specProps
                         .Where(sp => sp.Specification.IsOption())
-                        .Where(sp => sp.Value.IsNothing()
-                            && sp.Specification.Required
-                            && (
+                        .Where(sp => sp.Value.IsNothing())
+                        .Where(sp => sp.Specification.Required)
+                        .Where(sp =>
                                 ((OptionSpecification)sp.Specification).SetName.Length == 0 ||
                                 !setsWithRequiredTrue.Contains(((OptionSpecification)sp.Specification).SetName)
-                            ))
+                              )
                     .Concat(specProps
-                        .Where(sp => sp.Specification.IsValue()
-                            && sp.Value.IsNothing()
-                            && sp.Specification.Required)).ToList();
-                    if (requiredButEmpty.Any()) {
-                        return requiredButEmpty.Select(s =>new MissingRequiredOptionError(
-                            s.Specification.FromSpecification()));
-                    }
-                    return Enumerable.Empty<Error>();
-                };
+                        .Where(sp => sp.Specification.IsValue())
+                        .Where(sp => sp.Value.IsNothing())
+                        .Where(sp => sp.Specification.Required)).ToList();
+
+                if (requiredButEmpty.Any()) {
+                    return requiredButEmpty.Select(s =>new MissingRequiredOptionError(
+                        s.Specification.FromSpecification()));
+                }
+                return Enumerable.Empty<Error>();
+            };
         }
 
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceRange()
