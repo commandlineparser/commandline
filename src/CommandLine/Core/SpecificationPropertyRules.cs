@@ -47,7 +47,9 @@ namespace CommandLine.Core
             return specProps =>
             {
                 var setCount =
-                    specProps.Where(sp => sp.Specification.IsOption())
+                    specProps
+                        .Where(sp => sp.Specification.IsOption())
+                        .Where(sp => ((OptionSpecification)sp.Specification).SetName.Length > 0)
                         .Select(sp => ((OptionSpecification)sp.Specification).SetName)
                         .Distinct()
                         .ToList()
@@ -56,6 +58,7 @@ namespace CommandLine.Core
                 var setWithRequired =
                     specProps.Where(sp => sp.Specification.IsOption())
                         .Where(sp => sp.Specification.Required)
+                        .Where(sp => ((OptionSpecification)sp.Specification).SetName.Length > 0)
                         .Select(sp => ((OptionSpecification)sp.Specification).SetName)
                         .Distinct()
                         .ToList();
@@ -71,10 +74,11 @@ namespace CommandLine.Core
                                 .Where(sp => sp.Value.IsNothing())
                                 .Where(
                                     sp =>
-                                        ((OptionSpecification)sp.Specification).SetName.Length > 0 && setCount == 1
-                                        || (setCount > 1
-                                            && !setWithRequired.Contains(
-                                                ((OptionSpecification)sp.Specification).SetName))))
+                                        ((OptionSpecification)sp.Specification).SetName.Length > 0
+                                        && (setCount == 1
+                                            || (setCount > 1
+                                                && !setWithRequired.Contains(
+                                                    ((OptionSpecification)sp.Specification).SetName)))))
                         .Concat(
                             specProps
                                 .Where(sp => sp.Specification.IsValue())
