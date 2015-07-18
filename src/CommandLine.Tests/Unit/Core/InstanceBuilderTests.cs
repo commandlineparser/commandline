@@ -903,6 +903,28 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new[] { "--web=value.com" }, ParserResultType.Parsed, 0)]
+        public void Enforce_required_within_mutually_exclusive_set_only(string[] arguments, ParserResultType type, int expected)
+        {
+            // Exercize system
+            var result = InstanceBuilder.Build(
+                Maybe.Just<Func<FakeOptionsWithTwoRequiredAndSets>>(() => new FakeOptionsWithTwoRequiredAndSets()),
+                arguments,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            if (type == ParserResultType.NotParsed)
+            {
+                ((NotParsed<FakeOptionsWithTwoRequiredAndSets>)result).Errors.Should().HaveCount(x => x == expected);
+            }
+            else if (type == ParserResultType.Parsed)
+            {
+                result.Should().BeOfType<Parsed<FakeOptionsWithTwoRequiredAndSets>>();
+            }
+        }
+
+        [Theory]
         [MemberData("RequiredValueStringData")]
         public void Parse_string_scalar_with_required_constraint_as_value(string[] arguments, FakeOptionsWithRequiredValue expected)
         {
