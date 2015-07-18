@@ -81,7 +81,7 @@ namespace CommandLine.Core
                                 .Where(sp => sp.Specification.Required)
                                 .Where(sp => sp.Value.IsNothing())).ToList();
 
-                return missing.Select(sp => new MissingRequiredOptionError(sp.Specification.FromSpecification()));
+                return from sp in missing select new MissingRequiredOptionError(sp.Specification.FromSpecification());
             };
         }
 
