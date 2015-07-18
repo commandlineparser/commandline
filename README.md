@@ -210,9 +210,9 @@ Latest Changes:
   - Issue #188 (reported by @diversteve) Fixed.
   - Issue #191 (`--version`/`version` added to help screen) Fixed.
   - Issue #162 (`ValueAttribute` handled in help screen) Implemented.
-  - Internal refactorings.
   - PR #197 (by @Thilas) Implemented.
   - Issue #202 (reported by @StevenLiekens) Fixed.
+  - Internal refactorings.
 
 Contact:
 ---

@@ -1,6 +1,7 @@
 2015-07-18    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Issue #202 (reported by @StevenLiekens) Fixed.
+  * Internal refactorings in rule enforcement.
 
 2015-07-15    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
