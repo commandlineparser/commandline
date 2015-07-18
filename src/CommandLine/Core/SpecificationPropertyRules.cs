@@ -120,9 +120,11 @@ namespace CommandLine.Core
             return specProps =>
                 {
                     var specs = from sp in specProps
-                                where sp.Specification.IsOption() && sp.Value.IsJust()
+                                where sp.Specification.IsOption()
+                                where sp.Value.IsJust()
                                 select (OptionSpecification)sp.Specification;
-                    var options = from t in tokens.Where(t => t.IsName())
+                    var options = from t in tokens
+                                  where t.IsName()
                                   join o in specs on t.Text equals o.UniqueName() into to
                                   from o in to.DefaultIfEmpty()
                                   where o != null
