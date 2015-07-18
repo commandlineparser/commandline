@@ -904,6 +904,11 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [InlineData(new[] { "--weburl=value.com" }, ParserResultType.Parsed, 0)]
+        [InlineData(new[] { "--ftpurl=value.org" }, ParserResultType.Parsed, 0)]
+        [InlineData(new[] { "--weburl=value.com", "-a" }, ParserResultType.Parsed, 0)]
+        [InlineData(new[] { "--ftpurl=value.org", "-a" }, ParserResultType.Parsed, 0)]
+        [InlineData(new[] { "--weburl=value.com", "--ftpurl=value.org" }, ParserResultType.NotParsed, 2)]
+        [InlineData(new[] { "--weburl=value.com", "--ftpurl=value.org", "-a" }, ParserResultType.NotParsed, 2)]
         public void Enforce_required_within_mutually_exclusive_set_only(string[] arguments, ParserResultType type, int expected)
         {
             // Exercize system
