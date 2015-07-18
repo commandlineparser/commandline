@@ -3,6 +3,7 @@
   * Issue #202 (reported by @StevenLiekens) Fixed.
   * Internal refactorings in rule enforcement.
   * Added a test for #202, method rewritten and (re)fixed.
+  * More internal refactorings in rule enforcement.
 
 2015-07-15    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
