@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using CommandLine.Infrastructure;
+using CSharpx;
 
 namespace CommandLine.Text
 {

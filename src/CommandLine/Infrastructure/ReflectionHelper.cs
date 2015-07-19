@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using CommandLine.Core;
+using CSharpx;
 
 namespace CommandLine.Infrastructure
 {

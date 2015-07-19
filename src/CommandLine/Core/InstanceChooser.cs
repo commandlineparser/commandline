@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using CommandLine.Infrastructure;
+using CSharpx;
 
 namespace CommandLine.Core
 {

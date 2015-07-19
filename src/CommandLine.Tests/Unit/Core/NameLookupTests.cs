@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using CommandLine.Core;
-using CommandLine.Infrastructure;
 using FluentAssertions;
 using Xunit;
+using CSharpx;
 
 namespace CommandLine.Tests.Unit.Core
 {

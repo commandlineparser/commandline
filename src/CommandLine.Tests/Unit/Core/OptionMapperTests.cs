@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using CommandLine.Core;
-using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
+using CSharpx;
 using Xunit;
 
 namespace CommandLine.Tests.Unit.Core

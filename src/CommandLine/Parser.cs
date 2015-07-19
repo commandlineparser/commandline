@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CommandLine.Core;
-using CommandLine.Infrastructure;
 using CommandLine.Text;
+using CSharpx;
 
 namespace CommandLine
 {

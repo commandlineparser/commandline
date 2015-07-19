@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using CommandLine.Infrastructure;
 using CommandLine.Core;
+using CSharpx;
 
 namespace CommandLine.Text
 {

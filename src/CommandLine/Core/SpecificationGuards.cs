@@ -2,8 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-
-using CommandLine.Infrastructure;
+using CSharpx;
 
 namespace CommandLine.Core
 {

@@ -2,7 +2,7 @@
 
 using System.Linq;
 using CommandLine.Core;
-using CommandLine.Infrastructure;
+using CSharpx;
 using Xunit;
 using FluentAssertions;
 
