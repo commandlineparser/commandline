@@ -233,9 +233,11 @@ namespace CommandLine.Tests.Unit.Text
                             throw new InvalidOperationException();
                     }
                 };
+            Func<IEnumerable<MutuallyExclusiveSetError>, string> fakeMutExclRenderer =
+                _ => string.Empty;
 
             // Exercize system
-            var errorsText = HelpText.RenderParsingErrorsText(fakeResult, fakeRenderer, 2);
+            var errorsText = HelpText.RenderParsingErrorsText(fakeResult, fakeRenderer, fakeMutExclRenderer, 2);
 
             // Verify outcome
             var lines = errorsText.ToNotEmptyLines();
