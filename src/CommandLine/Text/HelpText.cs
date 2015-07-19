@@ -330,8 +330,10 @@ namespace CommandLine.Text
                 return current;
             }
 
-            var errors = RenderParsingErrorsText(parserResult, current.SentenceBuilder.FormatError, 2);
-                // indent with two spaces
+            var errors = RenderParsingErrorsText(parserResult,
+                current.SentenceBuilder.FormatError,
+                current.SentenceBuilder.FormatMutuallyExclusiveSetErrors,
+                2); // indent with two spaces
             if (string.IsNullOrEmpty(errors))
             {
                 return current;
