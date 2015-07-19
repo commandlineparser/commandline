@@ -300,9 +300,20 @@ namespace CommandLine
     /// </summary>
     public sealed class MutuallyExclusiveSetError : NamedError
     {
-        internal MutuallyExclusiveSetError(NameInfo nameInfo)
+        private readonly string setName;
+
+        internal MutuallyExclusiveSetError(NameInfo nameInfo, string setName)
             : base(ErrorType.MutuallyExclusiveSetError, nameInfo)
         {
+            this.setName = setName;
+        }
+
+        /// <summary>
+        /// Option's set name.
+        /// </summary>
+        public string SetName
+        {
+            get { return setName; }
         }
     }
 
