@@ -1,3 +1,7 @@
+2015-07-19    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Managing deps with Paket.
+
 2015-07-18    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Issue #202 (reported by @StevenLiekens) Fixed.

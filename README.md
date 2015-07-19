@@ -213,6 +213,7 @@ Latest Changes:
   - PR #197 (by @Thilas) Implemented.
   - Issue #202 (reported by @StevenLiekens) Fixed.
   - Internal refactorings.
+  - Managing deps with Paket.
 
 Contact:
 ---
