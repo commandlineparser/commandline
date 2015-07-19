@@ -13,3 +13,7 @@ NUGET
     xunit.extensibility.core (2.0.0)
       xunit.abstractions (2.0.0)
     xunit.runner.visualstudio (2.0.1)
+GITHUB
+  remote: gsscoder/CSharpx
+  specs:
+    src/CSharpx/Maybe.cs (e389817649e9e501fa973270b1bba5ee75dd7cdb)

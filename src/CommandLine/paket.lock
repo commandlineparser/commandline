@@ -1,8 +1,0 @@
-NUGET
-  remote: https://nuget.org/api/v2
-  specs:
-    FSharp.Core (3.1.2.5)
-GITHUB
-  remote: gsscoder/CSharpx
-  specs:
-    src/CSharpx/Maybe.cs (e389817649e9e501fa973270b1bba5ee75dd7cdb)

@@ -4,3 +4,4 @@ nuget FSharp.Core
 nuget FluentAssertions
 nuget xunit
 nuget xunit.runner.visualstudio
+github gsscoder/CSharpx src/CSharpx/Maybe.cs
