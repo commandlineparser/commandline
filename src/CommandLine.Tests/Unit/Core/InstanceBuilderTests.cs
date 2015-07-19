@@ -458,8 +458,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup
             var expectedResult = new[]
                 {
-                    new MutuallyExclusiveSetError(new NameInfo("", "weburl")),
-                    new MutuallyExclusiveSetError(new NameInfo("", "ftpurl"))
+                    new MutuallyExclusiveSetError(new NameInfo("", "weburl"), string.Empty),
+                    new MutuallyExclusiveSetError(new NameInfo("", "ftpurl"), string.Empty)
                 };
 
             // Exercize system 

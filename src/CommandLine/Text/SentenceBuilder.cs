@@ -1,6 +1,9 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace CommandLine.Text
 {
@@ -47,6 +50,8 @@ namespace CommandLine.Text
         /// The delegates should accept an <see cref="Error"/> instance as input.
         /// </summary>
         public abstract Func<Error, string> FormatError { get; }
+
+        public abstract Func<IEnumerable<MutuallyExclusiveSetError>, string> FormatMutuallyExclusiveSetErrors { get; }
 
         private class DefaultSentenceBuilder : SentenceBuilder 
         {
@@ -104,8 +109,8 @@ namespace CommandLine.Text
                                     return errMisssing.NameInfo == NameInfo.EmptyName
                                                ? "A required value not bound to option name is missing."
                                                : "Required option '" + errMisssing.NameInfo.NameText + "' is missing.";
-                                case ErrorType.MutuallyExclusiveSetError:
-                                    return "Option '" + ((MutuallyExclusiveSetError)error).NameInfo.NameText + "' is defined along with an incompatible one.";
+                                //case ErrorType.MutuallyExclusiveSetError:
+                                //    return "Option '" + ((MutuallyExclusiveSetError)error).NameInfo.NameText + "' is defined along with an incompatible one.";
                                 case ErrorType.BadFormatConversionError:
                                     var badFormat = ((BadFormatConversionError)error);
                                     return badFormat.NameInfo == NameInfo.EmptyName
@@ -123,6 +128,46 @@ namespace CommandLine.Text
                             }
                             throw new InvalidOperationException();
                         };
+                }
+            }
+
+            public override Func<IEnumerable<MutuallyExclusiveSetError>, string> FormatMutuallyExclusiveSetErrors
+            {
+                get
+                {
+                    return errors =>
+                    {
+                        var bySet = from e in errors
+                                group e by e.SetName into g
+                                select new { SetName = g.Key, Errors = g.ToList() };
+                        
+                        if (bySet.Count() < 2) { throw new InvalidOperationException(); }
+
+                        var msgs = bySet.Select(
+                            set =>
+                            {
+                                var names = string.Join(
+                                    string.Empty,
+                                    (from e in set.Errors select "'" + e.NameInfo.NameText + "', ").ToArray());
+                                var namesCount = set.Errors.Count();
+
+                                var incompat = string.Join(
+                                    string.Empty,
+                                    (from e in set.Errors
+                                        where !e.SetName.Equals(set.SetName)
+                                        select "'" + e.NameInfo.NameText + "', ").ToArray());
+                                return
+                                    new StringBuilder("Option").AppendWhen(namesCount > 1, "s")
+                                        .Append(": ")
+                                        .Append(names.Substring(0, names.Length - 3))
+                                        .AppendIf(namesCount > 1, "are", "is")
+                                        .Append(" not compatible with: ")
+                                        .Append(incompat.Substring(0, incompat.Length - 3))
+                                        .Append('.')
+                                        .ToString();
+                            }).ToArray();
+                        return string.Join(Environment.NewLine, msgs);
+                    };
                 }
             }
         }
