@@ -1,0 +1,6 @@
+source https://nuget.org/api/v2
+
+nuget FSharp.Core
+nuget FluentAssertions
+nuget xunit
+nuget xunit.runner.visualstudio
