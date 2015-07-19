@@ -1,0 +1,4 @@
+NUGET
+  remote: https://nuget.org/api/v2
+  specs:
+    FSharp.Core (3.1.2.5)

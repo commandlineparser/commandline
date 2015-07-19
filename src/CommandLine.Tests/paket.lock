@@ -1,0 +1,15 @@
+NUGET
+  remote: https://nuget.org/api/v2
+  specs:
+    FluentAssertions (3.4.1)
+    FSharp.Core (3.1.2.5)
+    xunit (2.0.0)
+      xunit.assert (2.0.0)
+      xunit.core (2.0.0)
+    xunit.abstractions (2.0.0)
+    xunit.assert (2.0.0)
+    xunit.core (2.0.0)
+      xunit.extensibility.core (2.0.0)
+    xunit.extensibility.core (2.0.0)
+      xunit.abstractions (2.0.0)
+    xunit.runner.visualstudio (2.0.1)
