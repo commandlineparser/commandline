@@ -1,3 +1,4 @@
 source https://nuget.org/api/v2
 
 nuget FSharp.Core
+github gsscoder/CSharpx src/CSharpx/Maybe.cs
