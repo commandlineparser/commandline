@@ -40,7 +40,7 @@ namespace CommandLine.Core
                 {
                     return
                         from o in options
-                        select new MutuallyExclusiveSetError(o.FromOptionSpecification());
+                        select new MutuallyExclusiveSetError(o.FromOptionSpecification(), o.SetName);
                 }
                 return Enumerable.Empty<Error>();
             };
