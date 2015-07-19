@@ -450,11 +450,14 @@ namespace CommandLine.Text
         public static string RenderParsingErrorsText<T>(
             ParserResult<T> parserResult,
             Func<Error, string> formatError,
+            Func<IEnumerable<MutuallyExclusiveSetError>, string> formatMutuallyExclusiveSetErrors,
             int indent)
         {
             if (parserResult == null) throw new ArgumentNullException("parserResult");
 
-            var meaningfulErrors = FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors);
+            var meaningfulErrors =
+                FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors)
+                    .Where(e => e.Tag != ErrorType.MutuallyExclusiveSetError);
             if (meaningfulErrors.Empty())
             {
                 return string.Empty;
@@ -470,6 +473,10 @@ namespace CommandLine.Text
 
                 text.AppendLine(line.ToString());
             }
+
+            text.AppendLine(
+                formatMutuallyExclusiveSetErrors(
+                    meaningfulErrors.OfType<MutuallyExclusiveSetError>()));
 
             return text.ToString();
         }
