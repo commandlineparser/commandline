@@ -9,9 +9,9 @@ namespace CommandLine.Infrastructure
 {
     static class ExceptionExtensions
     {
-        public static void RethrowWhenAbsentIn(this Exception exception, IEnumerable<Exception> validExceptions)
+        public static void RethrowWhenAbsentIn(this Exception exception, IEnumerable<Type> validExceptions)
         {
-            if (!validExceptions.Contains(exception))
+            if (!validExceptions.Contains(exception.GetType()))
             {
                 throw exception;
             }

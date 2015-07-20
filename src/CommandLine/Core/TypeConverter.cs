@@ -36,51 +36,10 @@ namespace CommandLine.Core
 
         private static Maybe<object> ChangeTypeScalar(string value, Type conversionType, CultureInfo conversionCulture)
         {
-            try
-            {
-                Func<object> safeChangeType = () =>
-                    {
-                        var isFsOption = ReflectionHelper.IsFSharpOptionType(conversionType);
-
-                        Func<Type> getUnderlyingType = () =>
-                            isFsOption
-                                ? FSharpOptionHelper.GetUnderlyingType(conversionType)
-                                : Nullable.GetUnderlyingType(conversionType);
-
-                        var type = getUnderlyingType() ?? conversionType;
-
-                        Func<object> withValue = () =>
-                            isFsOption
-                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(value, type, conversionCulture))
-                                : Convert.ChangeType(value, type, conversionCulture);
-
-                        Func<object> empty = () =>
-                            isFsOption
-                                ? FSharpOptionHelper.None(type)
-                                : null;
-
-                        return (value == null) ? empty() : withValue();
-                    };
-
-                return Maybe.Just(
-                    MatchBoolString(value)
-                        ? ConvertBoolString(value)
-                        : conversionType.IsEnum
-                            ? ConvertEnumString(value, conversionType)
-                            : safeChangeType());
-            }
-            catch (InvalidCastException)
-            {
-                return Maybe.Nothing<object>();
-            }
-            catch (FormatException)
-            {
-                return Maybe.Nothing<object>();
-            }
-            catch (OverflowException)
-            {
-                return Maybe.Nothing<object>();
-            }
+            var result = ChangeTypeScalarImpl(value, conversionType, conversionCulture);
+            result.Match(_ => { }, e => e.RethrowWhenAbsentIn(
+                new[] { typeof(InvalidCastException), typeof(FormatException), typeof(OverflowException) }));
+            return Maybe.OfEither(result);
         }
 
         private static Either<object, Exception> ChangeTypeScalarImpl(string value, Type conversionType, CultureInfo conversionCulture)
