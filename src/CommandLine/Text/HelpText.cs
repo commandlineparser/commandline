@@ -111,11 +111,7 @@ namespace CommandLine.Text
         /// </summary>
         public string Heading
         {
-            get
-            {
-                return heading;
-            }
-
+            get { return heading; }
             set
             {
                 if (value == null) throw new ArgumentNullException("value");
@@ -130,11 +126,7 @@ namespace CommandLine.Text
         /// </summary>
         public string Copyright
         {
-            get
-            {
-                return copyright;
-            }
-
+            get { return copyright; }
             set
             {
                 if (value == null) throw new ArgumentNullException("value");
@@ -165,14 +157,8 @@ namespace CommandLine.Text
         /// </summary>
         public bool AddDashesToOption
         {
-            get
-            {
-                return addDashesToOption;
-            }
-            set
-            {
-                addDashesToOption = value;
-            }
+            get { return addDashesToOption; }
+            set { addDashesToOption = value; }
         }
 
         /// <summary>
@@ -180,14 +166,8 @@ namespace CommandLine.Text
         /// </summary>
         public bool AdditionalNewLineAfterOption
         {
-            get
-            {
-                return additionalNewLineAfterOption;
-            }
-            set
-            {
-                additionalNewLineAfterOption = value;
-            }
+            get { return additionalNewLineAfterOption; }
+            set { additionalNewLineAfterOption = value; }
         }
 
         /// <summary>
@@ -195,14 +175,8 @@ namespace CommandLine.Text
         /// </summary>
         public bool AddEnumValuesToHelpText
         {
-            get
-            {
-                return addEnumValuesToHelpText;
-            }
-            set
-            {
-                addEnumValuesToHelpText = value;
-            }
+            get { return addEnumValuesToHelpText; }
+            set { addEnumValuesToHelpText = value; }
         }
 
         /// <summary>
@@ -210,10 +184,7 @@ namespace CommandLine.Text
         /// </summary>
         public SentenceBuilder SentenceBuilder
         {
-            get
-            {
-                return sentenceBuilder;
-            }
+            get { return sentenceBuilder; }
         }
 
         /// <summary>
@@ -231,13 +202,12 @@ namespace CommandLine.Text
             Func<HelpText, HelpText> onError,
             bool verbsIndex = false)
         {
-            var auto = new HelpText
-                       {
-                           Heading = HeadingInfo.Default,
-                           Copyright = CopyrightInfo.Default,
-                           AdditionalNewLineAfterOption = true,
-                           AddDashesToOption = !verbsIndex
-                       };
+            var auto = new HelpText {
+                Heading = HeadingInfo.Default,
+                Copyright = CopyrightInfo.Default,
+                AdditionalNewLineAfterOption = true,
+                AddDashesToOption = !verbsIndex
+            };
 
             var errors = Enumerable.Empty<Error>();
 
