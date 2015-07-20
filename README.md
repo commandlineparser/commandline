@@ -212,9 +212,9 @@ Latest Changes:
   - Issue #162 (`ValueAttribute` handled in help screen) Implemented.
   - PR #197 (by @Thilas) Implemented.
   - Issue #202 (reported by @StevenLiekens) Fixed.
-  - Internal refactorings.
   - Managing deps with Paket.
   - Issue #203 Implemented.
+  - Internal refactorings.
 
 Contact:
 ---
