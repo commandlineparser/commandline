@@ -82,6 +82,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Verb.cs" />
+    <Compile Include="Infrastructure\ExceptionExtensions.cs" />
     <Compile Include="Infrastructure\FSharpOptionHelper.cs" />
     <Compile Include="Infrastructure\PopsicleSetter.cs" />
     <Compile Include="Infrastructure\ReflectionHelper.cs" />

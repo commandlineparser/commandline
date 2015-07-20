@@ -83,6 +83,40 @@ namespace CommandLine.Core
             }
         }
 
+        private static Either<object, Exception> ChangeTypeScalarImpl(string value, Type conversionType, CultureInfo conversionCulture)
+        {
+            Func<string, object> changeType = input =>
+            {
+                Func<object> safeChangeType = () =>
+                {
+                    var isFsOption = ReflectionHelper.IsFSharpOptionType(conversionType);
+
+                    Func<Type> getUnderlyingType =
+                        () =>
+                            isFsOption
+                                ? FSharpOptionHelper.GetUnderlyingType(conversionType)
+                                : Nullable.GetUnderlyingType(conversionType);
+
+                    var type = getUnderlyingType() ?? conversionType;
+
+                    Func<object> withValue =
+                        () =>
+                            isFsOption
+                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(input, type, conversionCulture))
+                                : Convert.ChangeType(input, type, conversionCulture);
+
+                    Func<object> empty = () => isFsOption ? FSharpOptionHelper.None(type) : null;
+
+                    return (input == null) ? empty() : withValue();
+                };
+
+                return MatchBoolString(input)
+                    ? ConvertBoolString(input)
+                    : conversionType.IsEnum ? ConvertEnumString(input, conversionType) : safeChangeType();
+            };
+            return Either.Protect(changeType, value);
+        }
+
         private static bool MatchBoolString(string value)
         {
             return value.Equals("true", StringComparison.OrdinalIgnoreCase)
