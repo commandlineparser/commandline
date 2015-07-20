@@ -2,6 +2,7 @@
 
   * Issue #203 Implemented
   * Internal refactorings.
+  * Issue #204 (reported by @Kimi-Arthur) Fixed.
 
 2015-07-19    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
