@@ -31,7 +31,7 @@ namespace CommandLine.Core
 
             return converted.Any(a => a.MatchNothing())
                 ? Maybe.Nothing<object>()
-                : Maybe.Just(converted.Select(c => ((Just<object>)c).Value).ToArray(type));
+                : Maybe.Just(converted.Select(c => ((Just<object>)c).Value).ToUntypedArray(type));
         }
 
         private static Maybe<object> ChangeTypeScalar(string value, Type conversionType, CultureInfo conversionCulture)

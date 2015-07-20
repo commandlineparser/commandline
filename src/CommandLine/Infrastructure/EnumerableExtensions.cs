@@ -48,7 +48,7 @@ namespace CommandLine.Infrastructure
             return index;
         }
 
-        public static object ToArray(this IEnumerable<object> value, Type type)
+        public static object ToUntypedArray(this IEnumerable<object> value, Type type)
         {
             var array = Array.CreateInstance(type, value.Count());
             value.ToArray().CopyTo(array, 0);
