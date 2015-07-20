@@ -115,9 +115,12 @@ namespace CommandLine.Core
 
         public static bool IsMutable(this Type type)
         {
-            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
-            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
-            return props || fields;
+            Func<bool> isMutable = () => {
+                var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
+                var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
+                return props || fields;
+            };
+            return type != typeof(object) ? isMutable() : true;
         }
 
         public static object CreateDefaultForImmutable(this Type type)
