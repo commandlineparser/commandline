@@ -127,11 +127,13 @@ namespace CommandLine.Core
                 .Concat(valueSpecProps.Errors)
                 .Concat(validationErrors);
 
-            if (allErrors.Any())
-            {
-                return new NotParsed<T>(instance, allErrors);
-            }
-            return new Parsed<T>(instance);
+            Func<ParserResult<T>> makeParsed =
+                () => new Parsed<T>(instance);
+            Func<ParserResult<T>> makeNotParsed =
+                () => new NotParsed<T>(instance, allErrors);
+
+            return allErrors.Any()
+                ? makeNotParsed() : makeParsed();
         }
     }
 }
