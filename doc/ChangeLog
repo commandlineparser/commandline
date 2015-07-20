@@ -3,6 +3,7 @@
   * Issue #203 Implemented
   * Internal refactorings.
   * Issue #204 (reported by @Kimi-Arthur) Fixed.
+  * TypeConverter refactored with CSharpx.Either<T1, T2>.
 
 2015-07-19    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 

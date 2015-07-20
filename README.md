@@ -214,8 +214,8 @@ Latest Changes:
   - Issue #202 (reported by @StevenLiekens) Fixed.
   - Managing deps with Paket.
   - Issue #203 Implemented.
-  - Internal refactorings.
   - Issue #204 (reported by @Kimi-Arthur) Fixed.
+  - Internal refactorings.
 
 Contact:
 ---
