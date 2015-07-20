@@ -42,6 +42,10 @@
     <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\paket-files\gsscoder\CSharpx\src\CSharpx\Either.cs">
+      <Paket>True</Paket>
+      <Link>Infrastructure/Either.cs</Link>
+    </Compile>
     <Compile Include="..\..\paket-files\gsscoder\CSharpx\src\CSharpx\Maybe.cs">
       <Paket>True</Paket>
       <Link>Infrastructure/Maybe.cs</Link>
