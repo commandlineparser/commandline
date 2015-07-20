@@ -58,18 +58,12 @@ namespace CommandLine.Text
         {
             public override Func<string> RequiredWord
             {
-                get
-                {
-                    return () => "Required.";
-                }
+                get { return () => "Required."; }
             }
 
             public override Func<string> ErrorsHeadingText
             {
-                get
-                {
-                    return () => "ERROR(S):";
-                }
+                get { return () => "ERROR(S):"; }
             }
 
             public override Func<bool, string> HelpCommandText
@@ -84,10 +78,7 @@ namespace CommandLine.Text
 
             public override Func<bool, string> VersionCommandText
             {
-                get
-                {
-                    return _ => "Display version information.";
-                }
+                get { return _ => "Display version information."; }
             }
 
             public override Func<Error, string> FormatError
