@@ -52,5 +52,16 @@ namespace CommandLine.Infrastructure
             }
             return builder.ToString();
         }
+
+        public static bool IsBooleanString(this string value)
+        {
+            return value.Equals("true", StringComparison.OrdinalIgnoreCase)
+                || value.Equals("false", StringComparison.OrdinalIgnoreCase);
+        }
+
+        public static bool ToBoolean(this string value)
+        {
+            return value.Equals("true", StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

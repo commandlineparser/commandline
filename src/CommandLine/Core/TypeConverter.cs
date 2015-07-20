@@ -69,22 +69,11 @@ namespace CommandLine.Core
                     return (input == null) ? empty() : withValue();
                 };
 
-                return MatchBoolString(input)
-                    ? ConvertBoolString(input)
-                    : conversionType.IsEnum ? ConvertEnumString(input, conversionType) : safeChangeType();
+                return input.IsBooleanString()
+                    ? input.ToBoolean() : conversionType.IsEnum
+                        ? ConvertEnumString(input, conversionType) : safeChangeType();
             };
             return Either.Protect(changeType, value);
-        }
-
-        private static bool MatchBoolString(string value)
-        {
-            return value.Equals("true", StringComparison.OrdinalIgnoreCase)
-                   || value.Equals("false", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private static bool ConvertBoolString(string value)
-        {
-            return value.Equals("true", StringComparison.OrdinalIgnoreCase);
         }
 
         private static object ConvertEnumString(string value, Type conversionType)
