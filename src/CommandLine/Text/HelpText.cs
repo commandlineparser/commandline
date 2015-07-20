@@ -523,7 +523,7 @@ namespace CommandLine.Text
             var type = options.GetType();
             var optionSpecs = type.GetSpecifications(Specification.FromProperty)
                     .OfType<OptionSpecification>()
-                    .Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
+                    .Concat(new[] { this.MakeHelpEntry(), this.MakeVersionEntry() });
             var valueSpecs = type.GetSpecifications(Specification.FromProperty)
                 .OfType<ValueSpecification>()
                 .OrderBy(v => v.Index);
@@ -541,7 +541,7 @@ namespace CommandLine.Text
                             verbTuple.Item1.Name,
                             false,
                             verbTuple.Item1.HelpText,
-                            string.Empty)).Concat(new[] { CreateHelpEntry(), CreateVersionEntry() });
+                            string.Empty)).Concat(new[] { this.MakeHelpEntry(), this.MakeVersionEntry() });
         }
 
         private HelpText AddOptionsImpl(
@@ -563,7 +563,7 @@ namespace CommandLine.Text
             return this;
         }
 
-        private OptionSpecification CreateHelpEntry()
+        private OptionSpecification MakeHelpEntry()
         {
             return OptionSpecification.NewSwitch(
                 string.Empty,
@@ -573,7 +573,7 @@ namespace CommandLine.Text
                 string.Empty);
         }
 
-        private OptionSpecification CreateVersionEntry()
+        private OptionSpecification MakeVersionEntry()
         {
             return OptionSpecification.NewSwitch(
                 string.Empty,
