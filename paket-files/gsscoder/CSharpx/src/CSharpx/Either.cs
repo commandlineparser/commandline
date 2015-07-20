@@ -4,7 +4,7 @@
 //#define CSHARPX_EITHER_5 // Comment this to remove Either<T1, T2, T3, T4, T5> and realted functions.
 //#define CSHARPX_EITHER_6 // Comment this to remove Either<T1, T2, T3, T6, T5. T6> and realted functions.
 //#define CSHARPX_EITHER_7 // Comment this to remove Either<T1, T2, T3, T6, T5. T6, T7> and realted functions.
-#define CSHARPX_EITHER_FUNC // Comment this to remove dependency from Maybe.cs.
+#define CSHARPX_MAYBE_FUNC // Comment this to remove dependency from Maybe.cs.
 
 using System;
 
@@ -947,7 +947,7 @@ namespace CSharpx
             return func2(y.Value);
         }
 
-#if CSHARPX_EITHER_FUNC
+#if CSHARPX_MAYBE_FUNC
         public static Either<T1, T2> OfMaybe<T1, T2>(Maybe<T1> maybe, T2 second)
         {
             if (maybe.Tag == MaybeType.Just)

@@ -16,5 +16,5 @@ NUGET
 GITHUB
   remote: gsscoder/CSharpx
   specs:
-    src/CSharpx/Either.cs (e389817649e9e501fa973270b1bba5ee75dd7cdb)
-    src/CSharpx/Maybe.cs (e389817649e9e501fa973270b1bba5ee75dd7cdb)
+    src/CSharpx/Either.cs (d2ecc2810fe4e29b62934e51242f98f1e47f3a79)
+    src/CSharpx/Maybe.cs (d2ecc2810fe4e29b62934e51242f98f1e47f3a79)
