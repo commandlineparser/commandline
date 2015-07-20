@@ -48,11 +48,6 @@ namespace CommandLine.Infrastructure
             return index;
         }
 
-        public static IEnumerable<T> ToEnumerable<T>(this IEnumerable<T> value)
-        {
-            return value;
-        }
-
         public static object ToArray(this IEnumerable<object> value, Type type)
         {
             var array = Array.CreateInstance(type, value.Count());
