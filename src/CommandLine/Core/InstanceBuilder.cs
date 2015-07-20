@@ -122,7 +122,8 @@ namespace CommandLine.Core
             var validationErrors = specPropsWithValue.Validate(
                 SpecificationPropertyRules.Lookup(tokens));
 
-            var allErrors = tokenizerResult.Errors.Concat(missingValueErrors)
+            var allErrors = tokenizerResult.Errors
+                .Concat(missingValueErrors)
                 .Concat(optionSpecProps.Errors)
                 .Concat(valueSpecProps.Errors)
                 .Concat(validationErrors);
