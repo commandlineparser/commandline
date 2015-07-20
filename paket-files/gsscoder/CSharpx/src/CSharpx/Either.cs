@@ -1,9 +1,9 @@
-﻿#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
-#define CSHARPX_EITHER_3 // Comment this to remove Either<T1, T2, T3> and realted functions.
-#define CSHARPX_EITHER_4 // Comment this to remove Either<T1, T2, T3, T4> and realted functions.
-#define CSHARPX_EITHER_5 // Comment this to remove Either<T1, T2, T3, T4, T5> and realted functions.
-#define CSHARPX_EITHER_6 // Comment this to remove Either<T1, T2, T3, T6, T5. T6> and realted functions.
-#define CSHARPX_EITHER_7 // Comment this to remove Either<T1, T2, T3, T6, T5. T6, T7> and realted functions.
+﻿//#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
+//#define CSHARPX_EITHER_3 // Comment this to remove Either<T1, T2, T3> and realted functions.
+//#define CSHARPX_EITHER_4 // Comment this to remove Either<T1, T2, T3, T4> and realted functions.
+//#define CSHARPX_EITHER_5 // Comment this to remove Either<T1, T2, T3, T4, T5> and realted functions.
+//#define CSHARPX_EITHER_6 // Comment this to remove Either<T1, T2, T3, T6, T5. T6> and realted functions.
+//#define CSHARPX_EITHER_7 // Comment this to remove Either<T1, T2, T3, T6, T5. T6, T7> and realted functions.
 #define CSHARPX_EITHER_FUNC // Comment this to remove dependency from Maybe.cs.
 
 using System;
