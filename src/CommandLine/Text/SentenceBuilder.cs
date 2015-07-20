@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using CommandLine.Infrastructure;
 
 namespace CommandLine.Text
@@ -111,8 +110,6 @@ namespace CommandLine.Text
                                     return errMisssing.NameInfo.Equals(NameInfo.EmptyName)
                                                ? "A required value not bound to option name is missing."
                                                : "Required option '".JoinTo(errMisssing.NameInfo.NameText, "' is missing.");
-                                //case ErrorType.MutuallyExclusiveSetError:
-                                //    return "Option '" + ((MutuallyExclusiveSetError)error).NameInfo.NameText + "' is defined along with an incompatible one.";
                                 case ErrorType.BadFormatConversionError:
                                     var badFormat = ((BadFormatConversionError)error);
                                     return badFormat.NameInfo.Equals(NameInfo.EmptyName)
