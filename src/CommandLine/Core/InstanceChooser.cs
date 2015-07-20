@@ -50,19 +50,13 @@ namespace CommandLine.Core
 
             var verbs = Verb.SelectFromTypes(types);
 
-            if (preprocCompare("help"))
-            {
-                return MakeNotParsed(types,
+            return preprocCompare("help")
+                ? MakeNotParsed(types,
                     MakeHelpVerbRequestedError(verbs,
-                        arguments.Skip(1).SingleOrDefault() ?? string.Empty, nameComparer));
-            }
-
-            if (preprocCompare("version"))
-            {
-                return MakeNotParsed(types, new VersionRequestedError());
-            }
-
-            return MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
+                        arguments.Skip(1).SingleOrDefault() ?? string.Empty, nameComparer))
+                : preprocCompare("version")
+                    ? MakeNotParsed(types, new VersionRequestedError())
+                    : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
         }
 
         private static ParserResult<object> MatchVerb(
@@ -85,19 +79,19 @@ namespace CommandLine.Core
                 : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
         }
 
-       private static HelpVerbRequestedError MakeHelpVerbRequestedError(
-           IEnumerable<Tuple<Verb, Type>> verbs,
-           string verb,
-           StringComparer nameComparer)
-       {
-           return verb.Length > 0
-                      ? verbs.SingleOrDefault(v => nameComparer.Equals(v.Item1.Name, verb))
-                             .ToMaybe()
-                             .Return(
-                                 v => new HelpVerbRequestedError(v.Item1.Name, v.Item2, true),
-                                 new HelpVerbRequestedError(null, null, false))
-                      : new HelpVerbRequestedError(null, null, false);
-       }
+        private static HelpVerbRequestedError MakeHelpVerbRequestedError(
+            IEnumerable<Tuple<Verb, Type>> verbs,
+            string verb,
+            StringComparer nameComparer)
+        {
+            return verb.Length > 0
+                ? verbs.SingleOrDefault(v => nameComparer.Equals(v.Item1.Name, verb))
+                        .ToMaybe()
+                        .Return(
+                            v => new HelpVerbRequestedError(v.Item1.Name, v.Item2, true),
+                            new HelpVerbRequestedError(null, null, false))
+                : new HelpVerbRequestedError(null, null, false);
+        }
 
         private static NotParsed<object> MakeNotParsed(IEnumerable<Type> types, params Error[] errors)
         {
