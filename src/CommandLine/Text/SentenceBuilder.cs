@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using CommandLine.Infrastructure;
+
 namespace CommandLine.Text
 {
     /// <summary>
@@ -98,31 +100,32 @@ namespace CommandLine.Text
                             switch (error.Tag)
                             {
                                 case ErrorType.BadFormatTokenError:
-                                    return "Token '" + ((BadFormatTokenError)error).Token + "' is not recognized.";
+                                    return "Token '".JoinTo(((BadFormatTokenError)error).Token, "' is not recognized.");
                                 case ErrorType.MissingValueOptionError:
-                                    return "Option '" + ((MissingValueOptionError)error).NameInfo.NameText
-                                                      + "' has no value.";
+                                    return "Option '".JoinTo(((MissingValueOptionError)error).NameInfo.NameText,
+                                        "' has no value.");
                                 case ErrorType.UnknownOptionError:
-                                    return "Option '" + ((UnknownOptionError)error).Token + "' is unknown.";
+                                    return "Option '".JoinTo(((UnknownOptionError)error).Token, "' is unknown.");
                                 case ErrorType.MissingRequiredOptionError:
                                     var errMisssing = ((MissingRequiredOptionError)error);
                                     return errMisssing.NameInfo == NameInfo.EmptyName
                                                ? "A required value not bound to option name is missing."
-                                               : "Required option '" + errMisssing.NameInfo.NameText + "' is missing.";
+                                               : "Required option '".JoinTo(errMisssing.NameInfo.NameText, "' is missing.");
                                 //case ErrorType.MutuallyExclusiveSetError:
                                 //    return "Option '" + ((MutuallyExclusiveSetError)error).NameInfo.NameText + "' is defined along with an incompatible one.";
                                 case ErrorType.BadFormatConversionError:
                                     var badFormat = ((BadFormatConversionError)error);
                                     return badFormat.NameInfo == NameInfo.EmptyName
                                                ? "A value not bound to option name is defined with a bad format."
-                                               : "Option '" + badFormat.NameInfo.NameText + "' is defined with a bad format.";
+                                               : "Option '".JoinTo(badFormat.NameInfo.NameText, "' is defined with a bad format.");
                                 case ErrorType.SequenceOutOfRangeError:
                                     var seqOutRange = ((SequenceOutOfRangeError)error);
                                     return seqOutRange.NameInfo == NameInfo.EmptyName
                                                ? "A sequence value not bound to option name is defined with few items than required."
-                                               : "A sequence option '" + seqOutRange.NameInfo.NameText + "' is defined with few items than required.";
+                                               : "A sequence option '".JoinTo(seqOutRange.NameInfo.NameText,
+                                                    "' is defined with few items than required.");
                                 case ErrorType.BadVerbSelectedError:
-                                    return "Verb '" + ((BadVerbSelectedError)error).Token + "' is not recognized.";
+                                    return "Verb '".JoinTo(((BadVerbSelectedError)error).Token, "' is not recognized.");
                                 case ErrorType.NoVerbSelectedError:
                                     return "No verb selected.";
                             }
