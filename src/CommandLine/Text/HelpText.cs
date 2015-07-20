@@ -458,15 +458,15 @@ namespace CommandLine.Text
             if (parserResult == null) throw new ArgumentNullException("parserResult");
 
             var meaningfulErrors =
-                FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors)
-                    .Where(e => e.Tag != ErrorType.MutuallyExclusiveSetError);
+                FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors);
             if (meaningfulErrors.Empty())
             {
                 return string.Empty;
             }
 
             var text = new StringBuilder();
-            foreach (var error in meaningfulErrors)
+            foreach (var error in meaningfulErrors
+                .Where(e => e.Tag != ErrorType.MutuallyExclusiveSetError))
             {
                 var line = new StringBuilder();
                 line.Append(indent.Spaces());

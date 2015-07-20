@@ -318,5 +318,33 @@ namespace CommandLine.Tests.Unit
             lines[0].Should().StartWithEquivalent("CommandLine");
             // Teardown
         }
+
+        [Fact]
+        public void Errors_of_type_MutuallyExclusiveSetError_are_properly_formatted()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<FakeOptionsWithTwoRequiredAndSets>(
+                new[] { "--weburl=value.com", "--ftpurl=value.org" });
+            var result = help.ToString();
+
+            // Verify outcome
+            result.Length.Should().BeGreaterThan(0);
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[2].ShouldBeEquivalentTo("ERROR(S):");
+            lines[3].ShouldBeEquivalentTo("Option: 'weburl' is not compatible with: 'ftpurl'.");
+            lines[4].ShouldBeEquivalentTo("Option: 'ftpurl' is not compatible with: 'weburl'.");
+            lines[5].ShouldBeEquivalentTo("--weburl     Required.");
+            lines[6].ShouldBeEquivalentTo("--ftpurl     Required.");
+            lines[7].ShouldBeEquivalentTo("-a");
+            lines[8].ShouldBeEquivalentTo("--help       Display this help screen.");
+            lines[9].ShouldBeEquivalentTo("--version    Display version information.");
+            // Teardown
+        }
     }
 }

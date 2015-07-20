@@ -151,16 +151,19 @@ namespace CommandLine.Text
 
                                 var incompat = string.Join(
                                     string.Empty,
-                                    (from e in set.Errors
-                                        where !e.SetName.Equals(set.SetName)
-                                        select "'" + e.NameInfo.NameText + "', ").ToArray());
+                                    (from x in
+                                    (from s in bySet where !s.SetName.EndsWith(set.SetName) from e in s.Errors select e)
+                                        .Distinct()
+                                    select "'" + x.NameInfo.NameText + "', ").ToArray());
+
                                 return
                                     new StringBuilder("Option").AppendWhen(namesCount > 1, "s")
                                         .Append(": ")
-                                        .Append(names.Substring(0, names.Length - 3))
+                                        .Append(names.Substring(0, names.Length - 2))
+                                        .Append(' ')
                                         .AppendIf(namesCount > 1, "are", "is")
                                         .Append(" not compatible with: ")
-                                        .Append(incompat.Substring(0, incompat.Length - 3))
+                                        .Append(incompat.Substring(0, incompat.Length - 2))
                                         .Append('.')
                                         .ToString();
                             }).ToArray();
