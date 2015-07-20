@@ -41,5 +41,10 @@ namespace CommandLine.Infrastructure
         {
             return value == null ? 0 : value.Length;
         }
+
+        public static string JoinTo(this string value, string[] others)
+        {
+            return string.Join(string.Empty, others);
+        }
     }
 }
