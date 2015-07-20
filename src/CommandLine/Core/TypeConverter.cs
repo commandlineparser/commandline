@@ -14,11 +14,11 @@ namespace CommandLine.Core
         public static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, bool scalar, CultureInfo conversionCulture)
         {
             return scalar
-                ? ChangeType(values.Single(), conversionType, conversionCulture)
-                : ChangeType(values, conversionType, conversionCulture);
+                ? ChangeTypeScalar(values.Single(), conversionType, conversionCulture)
+                : ChangeTypeSequence(values, conversionType, conversionCulture);
         }
 
-        private static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, CultureInfo conversionCulture)
+        private static Maybe<object> ChangeTypeSequence(IEnumerable<string> values, Type conversionType, CultureInfo conversionCulture)
         {
             var type =
                 conversionType.GetGenericArguments()
@@ -27,14 +27,14 @@ namespace CommandLine.Core
                               .FromJust(
                                   new ApplicationException("Non scalar properties should be sequence of type IEnumerable<T>."));
 
-            var converted = values.Select(value => ChangeType(value, type, conversionCulture));
+            var converted = values.Select(value => ChangeTypeScalar(value, type, conversionCulture));
 
             return converted.Any(a => a.MatchNothing())
                 ? Maybe.Nothing<object>()
                 : Maybe.Just(converted.Select(c => ((Just<object>)c).Value).ToArray(type));
         }
 
-        private static Maybe<object> ChangeType(string value, Type conversionType, CultureInfo conversionCulture)
+        private static Maybe<object> ChangeTypeScalar(string value, Type conversionType, CultureInfo conversionCulture)
         {
             try
             {
