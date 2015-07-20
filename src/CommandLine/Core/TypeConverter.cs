@@ -71,12 +71,12 @@ namespace CommandLine.Core
 
                 return input.IsBooleanString()
                     ? input.ToBoolean() : conversionType.IsEnum
-                        ? ConvertEnumString(input, conversionType) : safeChangeType();
+                        ? input.ToEnum(conversionType) : safeChangeType();
             };
             return Either.Protect(changeType, value);
         }
 
-        private static object ConvertEnumString(string value, Type conversionType)
+        private static object ToEnum(this string value, Type conversionType)
         {
             object parsedValue;
             try
