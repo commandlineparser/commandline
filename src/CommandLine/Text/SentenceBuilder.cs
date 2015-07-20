@@ -146,7 +146,7 @@ namespace CommandLine.Text
                             {
                                 var names = string.Join(
                                     string.Empty,
-                                    (from e in set.Errors select "'" + e.NameInfo.NameText + "', ").ToArray());
+                                    (from e in set.Errors select "'".JoinTo(e.NameInfo.NameText, "', ")).ToArray());
                                 var namesCount = set.Errors.Count();
 
                                 var incompat = string.Join(
@@ -154,7 +154,7 @@ namespace CommandLine.Text
                                     (from x in
                                     (from s in bySet where !s.SetName.EndsWith(set.SetName) from e in s.Errors select e)
                                         .Distinct()
-                                    select "'" + x.NameInfo.NameText + "', ").ToArray());
+                                    select "'".JoinTo(x.NameInfo.NameText, "', ")).ToArray());
 
                                 return
                                     new StringBuilder("Option").AppendWhen(namesCount > 1, "s")
