@@ -34,6 +34,18 @@ namespace CommandLine.Text
         {
             return condition ? builder.Append(ifTrue) : builder.Append(ifFalse);
         }
+
+        public static StringBuilder AppendIfNotEmpty(this StringBuilder builder, params string[] values)
+        {
+            foreach (var value in values)
+            {
+                if (value.Length > 0)
+                {
+                    builder.Append(value);
+                }
+            }
+            return builder;
+        }
         public static string SafeToString(this StringBuilder builder)        {            return builder == null ? string.Empty : builder.ToString();        }
 
         public static int SafeLength(this StringBuilder builder)

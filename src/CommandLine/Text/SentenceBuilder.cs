@@ -140,8 +140,6 @@ namespace CommandLine.Text
                         var bySet = from e in errors
                                 group e by e.SetName into g
                                 select new { SetName = g.Key, Errors = g.ToList() };
-                        
-                        if (bySet.Count() < 2) { throw new InvalidOperationException(); }
 
                         var msgs = bySet.Select(
                             set =>

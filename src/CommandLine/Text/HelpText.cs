@@ -476,7 +476,7 @@ namespace CommandLine.Text
                 text.AppendLine(line.ToString());
             }
 
-            text.AppendLine(
+            text.AppendIfNotEmpty(
                 formatMutuallyExclusiveSetErrors(
                     meaningfulErrors.OfType<MutuallyExclusiveSetError>()));
 
