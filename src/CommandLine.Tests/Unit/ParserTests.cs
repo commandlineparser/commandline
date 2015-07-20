@@ -346,5 +346,21 @@ namespace CommandLine.Tests.Unit
             lines[9].ShouldBeEquivalentTo("--version    Display version information.");
             // Teardown
         }
+
+        [Fact]
+        public void Explicit_help_request_with_specific_verb_generates_help_screen()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new[] { "commit", "--help" });
+            var result = help.ToString();
+
+            // Verify outcome
+            result.Length.Should().BeGreaterThan(0);
+            // Teardown
+        }
     }
 }
