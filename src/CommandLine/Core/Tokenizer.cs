@@ -28,7 +28,7 @@ namespace CommandLine.Core
 
             var unkTokens = (from t in tokens where t.IsName() && !nameLookup(t.Text) select t).ToList();
 
-            return Result.Succeed(tokens.Where(x=>!unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
+            return Result.Succeed(tokens.Where(x => !unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
 
         public static Result<IEnumerable<Token>, Error> PreprocessDashDash(
