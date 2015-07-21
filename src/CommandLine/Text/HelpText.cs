@@ -669,16 +669,18 @@ namespace CommandLine.Text
             var optionName = new StringBuilder(maxLength);
             if (specification.ShortName.Length > 0)
             {
-                optionName.AppendWhen(addDashesToOption, '-');
-                optionName.AppendFormat("{0}", specification.ShortName);
-                optionName.AppendFormatWhen(specification.MetaValue.Length > 0, " {0}", specification.MetaValue);
-                optionName.AppendWhen(specification.LongName.Length > 0, ", ");
+                optionName
+                    .AppendWhen(addDashesToOption, '-')
+                    .AppendFormat("{0}", specification.ShortName)
+                    .AppendFormatWhen(specification.MetaValue.Length > 0, " {0}", specification.MetaValue)
+                    .AppendWhen(specification.LongName.Length > 0, ", ");
             }
             if (specification.LongName.Length > 0)
             {
-                optionName.AppendWhen(addDashesToOption, "--");
-                optionName.AppendFormat("{0}", specification.LongName);
-                optionName.AppendFormatWhen(specification.MetaValue.Length > 0, "={0}", specification.MetaValue);
+                optionName
+                    .AppendWhen(addDashesToOption, "--")
+                    .AppendFormat("{0}", specification.LongName)
+                    .AppendFormatWhen(specification.MetaValue.Length > 0, "={0}", specification.MetaValue);
             }
             return optionName.ToString();
         }
