@@ -309,12 +309,12 @@ namespace CommandLine.Text
                 return current;
             }
 
-            current.AddPreOptionsLine(string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText()));
-            var lines = errors.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            foreach (var line in lines)
-            {
-                current.AddPreOptionsLine(line);
-            }
+            current.AddPreOptionsLine(
+                string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText()));
+            var lines = errors.Split(
+                new[] { Environment.NewLine }, StringSplitOptions.None);
+            lines.ForEach(
+                line => current.AddPreOptionsLine(line));
 
             return current;
         }
