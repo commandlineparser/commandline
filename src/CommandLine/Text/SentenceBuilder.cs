@@ -148,14 +148,15 @@ namespace CommandLine.Text
                                     select "'".JoinTo(x.NameInfo.NameText, "', ")).ToArray());
 
                                 return
-                                    new StringBuilder("Option").AppendWhen(namesCount > 1, "s")
-                                        .Append(": ")
-                                        .Append(names.Substring(0, names.Length - 2))
-                                        .Append(' ')
-                                        .AppendIf(namesCount > 1, "are", "is")
-                                        .Append(" not compatible with: ")
-                                        .Append(incompat.Substring(0, incompat.Length - 2))
-                                        .Append('.')
+                                    new StringBuilder("Option")
+                                            .AppendWhen(namesCount > 1, "s")
+                                            .Append(": ")
+                                            .Append(names.Substring(0, names.Length - 2))
+                                            .Append(' ')
+                                            .AppendIf(namesCount > 1, "are", "is")
+                                            .Append(" not compatible with: ")
+                                            .Append(incompat.Substring(0, incompat.Length - 2))
+                                            .Append('.')
                                         .ToString();
                             }).ToArray();
                         return string.Join(Environment.NewLine, msgs);
