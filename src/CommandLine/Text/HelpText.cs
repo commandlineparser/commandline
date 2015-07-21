@@ -687,19 +687,14 @@ namespace CommandLine.Text
 
         private string AddValueName(int maxLength, ValueSpecification specification)
         {
-            var valueName = new StringBuilder(maxLength);
-
-            if (specification.MetaName.Length > 0)
-            {
-                valueName.AppendFormat("{0} (pos. {1})", specification.MetaName, specification.Index);
-            }
-            else
-            {
-                valueName.AppendFormat("value pos. {0}", specification.Index);
-            }
-            valueName.AppendFormatWhen(specification.MetaValue.Length > 0, " {0}", specification.MetaValue);
-
-            return valueName.ToString();
+            return new StringBuilder(maxLength)
+                .BimapIf(
+                    specification.MetaName.Length > 0,
+                    it => it.AppendFormat("{0} (pos. {1})", specification.MetaName, specification.Index),
+                    it => it.AppendFormat("value pos. {0}", specification.Index))
+                .AppendFormatWhen(
+                    specification.MetaValue.Length > 0, " {0}", specification.MetaValue)
+                .ToString();
         }
 
         private HelpText AddLine(StringBuilder builder, string value)
