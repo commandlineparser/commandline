@@ -1,4 +1,4 @@
-﻿#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
+﻿//#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
 #define CSHARPX_EITHER_FUNC // Comment this to remove dependency from Either.cs.
 
 using System;
