@@ -592,15 +592,11 @@ namespace CommandLine.Text
         private HelpText AddOption(string requiredWord, int maxLength, Specification specification, int widthOfHelpText)
         {
             optionsHelp.Append("  ");
-            var name = new StringBuilder(maxLength);
-            if (specification.Tag == SpecificationType.Option)
-            {
-                name.Append(AddOptionName(maxLength, (OptionSpecification)specification));
-            }
-            else
-            {
-                name.Append(AddValueName(maxLength, (ValueSpecification)specification));
-            }
+            var name = new StringBuilder(maxLength)
+                .BimapIf(
+                    specification.Tag == SpecificationType.Option,
+                    it => it.Append(AddOptionName(maxLength, (OptionSpecification)specification)),
+                    it => it.Append(AddValueName(maxLength, (ValueSpecification)specification)));
 
             optionsHelp.Append(name.Length < maxLength ? name.ToString().PadRight(maxLength) : name.ToString());
 
