@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommandLine.Infrastructure;
 using CSharpx;
 using RailwaySharp.ErrorHandling;
 
