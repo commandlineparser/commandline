@@ -24,9 +24,9 @@ namespace CommandLine.Core
                                : arg.StartsWith("--", StringComparison.Ordinal)
                                      ? TokenizeLongName(arg, onError)
                                      : TokenizeShortName(arg, nameLookup)
-                          select token).ToList();
+                          select token).Memorize();
 
-            var unkTokens = (from t in tokens where t.IsName() && !nameLookup(t.Text) select t).ToList();
+            var unkTokens = (from t in tokens where t.IsName() && !nameLookup(t.Text) select t).Memorize();
 
             return Result.Succeed(tokens.Where(x => !unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
