@@ -6,8 +6,9 @@ using System.Globalization;
 using System.Linq;
 using CommandLine.Core;
 using CommandLine.Tests.Fakes;
-using CSharpx;
 using Xunit;
+using CSharpx;
+using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Tests.Unit.Core
 {
@@ -37,7 +38,7 @@ namespace CommandLine.Tests.Unit.Core
                 StringComparer.InvariantCulture);
 
             // Verify outcome
-            Assert.NotNull(result.Value.Single(
+            Assert.NotNull(((Ok<IEnumerable<SpecificationProperty>, Error>)result).Value.Success.Single(
                 a => a.Specification.IsOption()
                 && ((OptionSpecification)a.Specification).ShortName.Equals("x")
                 && (bool)((Just<object>)a.Value).Value));
