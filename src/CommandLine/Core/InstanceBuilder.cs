@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using CommandLine.Infrastructure;
 using CSharpx;
+using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Core
 {
@@ -35,7 +36,7 @@ namespace CommandLine.Core
 
         public static ParserResult<T> Build<T>(
             Maybe<Func<T>> factory,
-            Func<IEnumerable<string>, IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
+            Func<IEnumerable<string>, IEnumerable<OptionSpecification>, Result<IEnumerable<Token>, Error>> tokenizer,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
             CultureInfo parsingCulture)
