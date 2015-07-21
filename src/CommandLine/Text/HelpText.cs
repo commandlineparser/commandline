@@ -520,11 +520,11 @@ namespace CommandLine.Text
 
         private IEnumerable<Specification> GetSpecificationsFromType<T>(T options)
         {
-            var type = options.GetType();
-            var optionSpecs = type.GetSpecifications(Specification.FromProperty)
-                    .OfType<OptionSpecification>()
-                    .Concat(new[] { this.MakeHelpEntry(), this.MakeVersionEntry() });
-            var valueSpecs = type.GetSpecifications(Specification.FromProperty)
+            var specs = options.GetType().GetSpecifications(Specification.FromProperty);
+            var optionSpecs = specs
+                .OfType<OptionSpecification>()
+                .Concat(new[] { this.MakeHelpEntry(), this.MakeVersionEntry() });
+            var valueSpecs = specs
                 .OfType<ValueSpecification>()
                 .OrderBy(v => v.Index);
             return Enumerable.Empty<Specification>()
