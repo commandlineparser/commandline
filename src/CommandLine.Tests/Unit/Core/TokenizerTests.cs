@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommandLine.Core;
-using CSharpx;
 using Xunit;
+using CSharpx;
+using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Tests.Unit.Core
 {
@@ -23,14 +24,14 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system
             var result =
                 Tokenizer.ExplodeOptionList(
-                    StatePair.Create(
+                    Result.Succeed(
                         Enumerable.Empty<Token>().Concat(new[] { Token.Name("i"), Token.Value("10"),
                             Token.Name("string-seq"), Token.Value("aaa,bb,cccc"), Token.Name("switch") }),
                         Enumerable.Empty<Error>()),
                         optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.InvariantCulture));
 
             // Verify outcome
-            Assert.True(expectedTokens.SequenceEqual(result.Value));
+            Assert.True(expectedTokens.SequenceEqual(((Ok<IEnumerable<Token>, Error>)result).Value.Success));
 
             // Teardown
         }
@@ -47,14 +48,14 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system
             var result =
                 Tokenizer.ExplodeOptionList(
-                    StatePair.Create(
+                    Result.Succeed(
                         Enumerable.Empty<Token>().Concat(new[] { Token.Name("x"),
                             Token.Name("string-seq"), Token.Value("aaa,bb,cccc"), Token.Name("switch") }),
                         Enumerable.Empty<Error>()),
                         optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.InvariantCulture));
 
             // Verify outcome
-            Assert.True(expectedTokens.SequenceEqual(result.Value));
+            Assert.True(expectedTokens.SequenceEqual(((Ok<IEnumerable<Token>, Error>)result).Value.Success));
 
             // Teardown
         }
