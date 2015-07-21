@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommandLine.Infrastructure;
 using CSharpx;
 
 namespace CommandLine.Core
@@ -15,16 +14,16 @@ namespace CommandLine.Core
                 IEnumerable<Token> tokens,
                 Func<string, Maybe<TypeDescriptor>> typeLookup)
         {
-            var tokenList = tokens.ToList();
-            var switches = Switch.Partition(tokenList, typeLookup).ToList();
-            var scalars = Scalar.Partition(tokenList, typeLookup).ToList();
-            var sequences = Sequence.Partition(tokenList, typeLookup).ToList();
+            var tokenList = tokens.Memorize();
+            var switches = Switch.Partition(tokenList, typeLookup).Memorize();
+            var scalars = Scalar.Partition(tokenList, typeLookup).Memorize();
+            var sequences = Sequence.Partition(tokenList, typeLookup).Memorize();
             var nonOptions = tokenList
                 .Where(t => !switches.Contains(t))
                 .Where(t => !scalars.Contains(t))
-                .Where(t => !sequences.Contains(t)).ToList();
-            var values = nonOptions.Where(v => v.IsValue()).ToList();
-            var errors = nonOptions.Except(values).ToList();
+                .Where(t => !sequences.Contains(t)).Memorize();
+            var values = nonOptions.Where(v => v.IsValue()).Memorize();
+            var errors = nonOptions.Except(values).Memorize();
 
             return TokenPartitions.Create(
                     KeyValuePairHelper.ForSwitch(switches)
