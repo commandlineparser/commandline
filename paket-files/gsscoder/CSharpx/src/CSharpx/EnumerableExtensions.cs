@@ -5,8 +5,8 @@
 //#define CSHARPX_PREPEND // Comment this to remove Prepend method.
 //#define CSHARPX_CONCAT // Comment this to remove Concat methods (depend on Prepend).
 //#define CSHARPX_EXCLUDE // Comment this to remove Prepend method.
-//#define CSHARPX_INDEX // Comment this to remove Index methods.
-//#define CSHARPX_FOLD // Comment this to remove Fold methods (depend on Index).
+#define CSHARPX_INDEX // Comment this to remove Index methods.
+#define CSHARPX_FOLD // Comment this to remove Fold methods (depend on Index).
 #define CSHARPX_FOREACH // Comment this to remove ForEach method.
 #define CSHARPX_PAIRWISE // Comment this to remove Index method.
 //#define CSHARPX_TODELIMITEDSTRING // Comment this to remove ToDelimitedString methods.

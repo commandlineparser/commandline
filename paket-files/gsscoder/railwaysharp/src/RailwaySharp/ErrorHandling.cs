@@ -1,6 +1,6 @@
-﻿#define ERRH_PUBLIC // Comment this to set visibility to internal.
-#define ERRH_INLINE_METHODS // Comment this to disable method inlining when compiling for <= NET 4.0.
-#define ERRH_BUILTIN_ENUMEXT // Comment this to use CSharpx.EnumerableExtensions.
+﻿//#define ERRH_PUBLIC // Comment this to set visibility to internal.
+//#define ERRH_INLINE_METHODS // Comment this to disable method inlining when compiling for <= NET 4.0.
+//#define ERRH_BUILTIN_ENUMEXT // Comment this to use CSharpx.EnumerableExtensions.
 #define ERRH_BUILTIN_UNIT // Comment this to use CSharpx.Unit.
 
 using System;
