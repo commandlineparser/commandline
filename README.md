@@ -215,8 +215,8 @@ Latest Changes:
   - Managing deps with Paket.
   - Issue #203 Implemented.
   - Issue #204 (reported by @Kimi-Arthur) Fixed.
-  - Internal refactorings.
   - PR #205 (by @forki) Merged.
+  - Internal refactorings.
 
 Contact:
 ---
