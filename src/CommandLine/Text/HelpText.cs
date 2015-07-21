@@ -555,10 +555,9 @@ namespace CommandLine.Text
 
             var remainingSpace = maximumLength - (maxLength + 6);
 
-            foreach (var option in specifications)
-            {
-                AddOption(requiredWord, maxLength, option, remainingSpace);
-            }
+            specifications.ForEach(
+                option =>
+                    AddOption(requiredWord, maxLength, option, remainingSpace));
 
             return this;
         }
