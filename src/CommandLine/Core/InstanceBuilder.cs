@@ -69,7 +69,7 @@ namespace CommandLine.Core
 
             var tokenizerResult = tokenizer(arguments, optionSpecs);
 
-            var tokens = tokenizerResult.Value;
+            var tokens = ((Ok<IEnumerable<Token>, Error>)tokenizerResult).Value.Success;
 
             var partitions = TokenPartitioner.Partition(
                 tokens,
