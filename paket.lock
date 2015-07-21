@@ -1,6 +1,7 @@
 NUGET
   remote: https://nuget.org/api/v2
   specs:
+    FAKE (3.36.0)
     FluentAssertions (3.4.1)
     FSharp.Core (3.1.2.5)
     xunit (2.0.0)
@@ -12,6 +13,7 @@ NUGET
       xunit.extensibility.core (2.0.0)
     xunit.extensibility.core (2.0.0)
       xunit.abstractions (2.0.0)
+    xunit.runner.console (2.0.0)
     xunit.runner.visualstudio (2.0.1)
 GITHUB
   remote: gsscoder/CSharpx

@@ -1,8 +1,6 @@
-﻿#r "packages/FAKE.3.35.1/tools/FakeLib.dll"
+#r "packages/FAKE/tools/FakeLib.dll"
 open Fake
 open Fake.Testing
-
-//RestorePackages()
 
 let buildDir = "./build/"
 let testDir = "./build/test/"

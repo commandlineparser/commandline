@@ -28,3 +28,4 @@ TestResult.xml
 *.nupkg
 *.old
 StyleCop.Cache
+.paket/paket.exe

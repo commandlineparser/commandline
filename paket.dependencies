@@ -1,9 +1,11 @@
 source https://nuget.org/api/v2
 
+nuget FAKE
 nuget FSharp.Core
 nuget FluentAssertions
 nuget xunit
 nuget xunit.runner.visualstudio
+nuget xunit.runner.console
 
 github gsscoder/CSharpx src/CSharpx/Maybe.cs
 github gsscoder/CSharpx src/CSharpx/Either.cs
