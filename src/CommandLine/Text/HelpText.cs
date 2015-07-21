@@ -598,9 +598,10 @@ namespace CommandLine.Text
                     it => it.Append(AddOptionName(maxLength, (OptionSpecification)specification)),
                     it => it.Append(AddValueName(maxLength, (ValueSpecification)specification)));
 
-            optionsHelp.Append(name.Length < maxLength ? name.ToString().PadRight(maxLength) : name.ToString());
+            optionsHelp
+                .Append(name.Length < maxLength ? name.ToString().PadRight(maxLength) : name.ToString())
+                .Append("    ");
 
-            optionsHelp.Append("    ");
             var optionHelpText = specification.HelpText;
 
             if (addEnumValuesToHelpText && specification.EnumValues.Any())
@@ -655,9 +656,10 @@ namespace CommandLine.Text
                 while (optionHelpText.Length > widthOfHelpText);
             }
 
-            optionsHelp.Append(optionHelpText);
-            optionsHelp.Append(Environment.NewLine);
-            optionsHelp.AppendWhen(additionalNewLineAfterOption, Environment.NewLine);
+            optionsHelp
+                .Append(optionHelpText)
+                .Append(Environment.NewLine)
+                .AppendWhen(additionalNewLineAfterOption, Environment.NewLine);
 
             return this;
         }
