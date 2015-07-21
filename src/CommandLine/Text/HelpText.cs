@@ -141,14 +141,8 @@ namespace CommandLine.Text
         /// <value>The maximum width of the display.</value>
         public int MaximumDisplayWidth
         {
-            get
-            {
-                return maximumDisplayWidth.HasValue ? maximumDisplayWidth.Value : DefaultMaximumLength;
-            }
-            set
-            {
-                maximumDisplayWidth = value;
-            }
+            get { return maximumDisplayWidth.HasValue ? maximumDisplayWidth.Value : DefaultMaximumLength; }
+            set { maximumDisplayWidth = value; }
         }
 
         /// <summary>
