@@ -35,6 +35,12 @@ namespace CommandLine.Text
             return condition ? builder.Append(ifTrue) : builder.Append(ifFalse);
         }
 
+        private static StringBuilder BimapIf(this StringBuilder builder, bool condition,
+            Func<StringBuilder, StringBuilder> ifTrue, Func<StringBuilder, StringBuilder> ifFalse)
+        {
+            return condition ? ifTrue(builder) : ifFalse(builder);
+        }
+
         public static StringBuilder AppendIfNotEmpty(this StringBuilder builder, params string[] values)
         {
             foreach (var value in values)
