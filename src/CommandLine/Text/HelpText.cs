@@ -436,16 +436,18 @@ namespace CommandLine.Text
             }
 
             var text = new StringBuilder();
-            foreach (var error in meaningfulErrors
-                .Where(e => e.Tag != ErrorType.MutuallyExclusiveSetError))
-            {
-                var line = new StringBuilder();
-                line.Append(indent.Spaces());
+            meaningfulErrors
+                .Where(e => e.Tag != ErrorType.MutuallyExclusiveSetError)
+                .ForEach(
+                    error =>
+                        {
+                            var line = new StringBuilder();
+                            line.Append(indent.Spaces());
 
-                line.Append(formatError(error));
+                            line.Append(formatError(error));
 
-                text.AppendLine(line.ToString());
-            }
+                            text.AppendLine(line.ToString());
+                        });
 
             text.AppendIfNotEmpty(
                 formatMutuallyExclusiveSetErrors(
