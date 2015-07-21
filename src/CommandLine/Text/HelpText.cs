@@ -441,11 +441,8 @@ namespace CommandLine.Text
                 .ForEach(
                     error =>
                         {
-                            var line = new StringBuilder();
-                            line.Append(indent.Spaces());
-
-                            line.Append(formatError(error));
-
+                            var line = new StringBuilder(indent.Spaces())
+                                .Append(formatError(error)); 
                             text.AppendLine(line.ToString());
                         });
 
