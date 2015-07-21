@@ -1,6 +1,7 @@
-2015-07-20    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+2015-07-21    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Internal refactorings (using CSharpx.EnumerableExtensions).
+  * PR #205 (by @forki) Merged.
 
 2015-07-20    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
