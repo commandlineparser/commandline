@@ -861,5 +861,22 @@ namespace RailwaySharp.ErrorHandling
                 string.Format("Result was an error: {0}",
                 string.Join(Environment.NewLine, bad.Messages.Select(m => m.ToString()))));
         }
+
+        /// <summary>
+        /// Always return all messages of computation.
+        /// </summary>
+#if ERRH_INLINE_METHODS
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static IEnumerable<TMessage> Messages<TSuccess, TMessage>(this Result<TSuccess, TMessage> result)
+        {
+            if (result.Tag == ResultType.Ok)
+            {
+                var ok = (Ok<TSuccess, TMessage>)result;
+                return ok.Value.Messages;
+            }
+            var bad = (Bad<TSuccess, TMessage>)result;
+            return bad.Messages;
+        }
     }
 }
