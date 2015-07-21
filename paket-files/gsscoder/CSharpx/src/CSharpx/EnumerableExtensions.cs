@@ -10,8 +10,8 @@
 #define CSHARPX_FOREACH // Comment this to remove ForEach method.
 #define CSHARPX_PAIRWISE // Comment this to remove Index method.
 //#define CSHARPX_TODELIMITEDSTRING // Comment this to remove ToDelimitedString methods.
-//#define CSHARPX_TAIL // Comment this to remove Tails methods.
-//#define CSHARPX_MAYBE_FUNC // Comment this to remove dependency from Maybe.cs.
+#define CSHARPX_TAIL // Comment this to remove Tails methods.
+#define CSHARPX_MAYBE_FUNC // Comment this to remove dependency from Maybe.cs.
 
 using System;
 using System.Collections.Generic;
