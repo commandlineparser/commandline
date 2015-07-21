@@ -15,14 +15,15 @@ namespace CommandLine.Core
                     Func<IEnumerable<string>, IEnumerable<Error>>
                 > preprocessorLookup)
         {
-            if (preprocessorLookup.Empty())
-            {
-                return Enumerable.Empty<Error>();
-            }
-            var errors = preprocessorLookup.First()(arguments);
-            return errors.Any()
-                ? errors
-                : arguments.Preprocess(preprocessorLookup.Skip(1));
+            return preprocessorLookup.TryHead().Return(
+                func =>
+                    {
+                        var errors = func(arguments);
+                        return errors.Any()
+                            ? errors
+                            : arguments.Preprocess(preprocessorLookup.TailNoFail());
+                    },
+                Enumerable.Empty<Error>());
         }
     }
 }
