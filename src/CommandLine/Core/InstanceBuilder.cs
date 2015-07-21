@@ -90,7 +90,10 @@ namespace CommandLine.Core
                                      select new MissingValueOptionError(
                                          optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer)).FromOptionSpecification());
 
-            var specPropsWithValue = optionSpecProps.Value.Concat(valueSpecProps.Value);
+            var specPropsWithValue =
+                ((Ok<IEnumerable<SpecificationProperty>, Error>)optionSpecProps).Value.Success
+                    .Concat(
+                        ((Ok<IEnumerable<SpecificationProperty>, Error>)valueSpecProps).Value.Success);
 
             T instance;
             if (typeInfo.IsMutable())
@@ -123,10 +126,10 @@ namespace CommandLine.Core
             var validationErrors = specPropsWithValue.Validate(
                 SpecificationPropertyRules.Lookup(tokens));
 
-            var allErrors = tokenizerResult.Errors
+            var allErrors = ((Ok<IEnumerable<Token>, Error>)tokenizerResult).Value.Messages
                 .Concat(missingValueErrors)
-                .Concat(optionSpecProps.Errors)
-                .Concat(valueSpecProps.Errors)
+                .Concat(((Ok<IEnumerable<SpecificationProperty>, Error>)optionSpecProps).Value.Messages)
+                .Concat(((Ok<IEnumerable<SpecificationProperty>, Error>)valueSpecProps).Value.Messages)
                 .Concat(validationErrors);
 
             return allErrors.Any()
