@@ -12,8 +12,10 @@
 //#define CSHARPX_TODELIMITEDSTRING // Comment this to remove ToDelimitedString methods.
 #define CSHARPX_TAIL // Comment this to remove Tails methods.
 #define CSHARPX_MAYBE_FUNC // Comment this to remove dependency from Maybe.cs.
+#define CSHARPX_MEM // Comment this to remove Memorize, Meterialize methods.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -377,6 +379,48 @@ namespace CSharpx
                 if (e.MoveNext())
                     while (e.MoveNext())
                         yield return e.Current;
+            }
+        }
+#endif
+
+#if CSHARPX_MEM
+        /// <summary>
+        /// Captures current state of a sequence.
+        /// </summary>
+        public static IEnumerable<T> Memorize<T>(this IEnumerable<T> source)
+        {
+            return source.GetType().IsArray ? source : source.ToArray();
+        }
+
+        /// <summary>
+        /// Creates an immutable copy of a sequence.
+        /// </summary>
+        public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
+        {
+            if (source is MaterializedEnumerable<T> || source.GetType().IsArray)
+            {
+                return source;
+            }
+            return new MaterializedEnumerable<T>(source);
+        }
+
+        private class MaterializedEnumerable<T> : IEnumerable<T>
+        {
+            private readonly ICollection<T> inner;
+
+            public MaterializedEnumerable(IEnumerable<T> enumerable)
+            {
+                inner = enumerable as ICollection<T> ?? enumerable.ToArray();
+            }
+
+            public IEnumerator<T> GetEnumerator()
+            {
+                return inner.GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
             }
         }
 #endif
