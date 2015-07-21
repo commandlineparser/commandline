@@ -42,6 +42,10 @@
     <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\paket-files\gsscoder\CSharpx\src\CSharpx\EnumerableExtensions.cs">
+      <Paket>True</Paket>
+      <Link>Infrastructure/EnumerableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\paket-files\gsscoder\CSharpx\src\CSharpx\Either.cs">
       <Paket>True</Paket>
       <Link>Infrastructure/Either.cs</Link>
@@ -76,7 +80,7 @@
     <Compile Include="Core\StatePair.cs" />
     <Compile Include="Core\Switch.cs" />
     <Compile Include="Core\TokenPartitions.cs" />
-    <Compile Include="Infrastructure\EnumerableExtensions.cs" />
+    <Compile Include="Infrastructure\EnumerableExtensionsExtra.cs" />
     <Compile Include="Core\InstanceChooser.cs" />
     <Compile Include="Core\Tokenizer.cs">
       <SubType>Code</SubType>

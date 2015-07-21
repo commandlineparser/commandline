@@ -7,3 +7,4 @@ nuget xunit.runner.visualstudio
 
 github gsscoder/CSharpx src/CSharpx/Maybe.cs
 github gsscoder/CSharpx src/CSharpx/Either.cs
+github gsscoder/CSharpx src/CSharpx/EnumerableExtensions.cs
