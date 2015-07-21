@@ -69,7 +69,7 @@ namespace CommandLine.Core
 
             var tokenizerResult = tokenizer(arguments, optionSpecs);
 
-            var tokens = ((Ok<IEnumerable<Token>, Error>)tokenizerResult).Value.Success;
+            var tokens = tokenizerResult.SucceededWith();
 
             var partitions = TokenPartitioner.Partition(
                 tokens,
@@ -90,10 +90,8 @@ namespace CommandLine.Core
                                      select new MissingValueOptionError(
                                          optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer)).FromOptionSpecification());
 
-            var specPropsWithValue =
-                ((Ok<IEnumerable<SpecificationProperty>, Error>)optionSpecProps).Value.Success
-                    .Concat(
-                        ((Ok<IEnumerable<SpecificationProperty>, Error>)valueSpecProps).Value.Success);
+            var specPropsWithValue = optionSpecProps.SucceededWith()
+                .Concat(valueSpecProps.SucceededWith());
 
             T instance;
             if (typeInfo.IsMutable())
