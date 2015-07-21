@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using CommandLine.Infrastructure;
 using CSharpx;
+using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Core
 {
@@ -31,7 +32,7 @@ namespace CommandLine.Core
         }
 
         public static ParserResult<object> Choose(
-            Func<IEnumerable<string>, IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
+            Func<IEnumerable<string>, IEnumerable<OptionSpecification>, Result<IEnumerable<Token>, Error>> tokenizer,
             IEnumerable<Type> types,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
@@ -60,7 +61,7 @@ namespace CommandLine.Core
         }
 
         private static ParserResult<object> MatchVerb(
-            Func<IEnumerable<string>, IEnumerable<OptionSpecification>, StatePair<IEnumerable<Token>>> tokenizer,
+            Func<IEnumerable<string>, IEnumerable<OptionSpecification>, Result<IEnumerable<Token>, Error>> tokenizer,
             IEnumerable<Tuple<Verb, Type>> verbs,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
