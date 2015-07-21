@@ -49,8 +49,7 @@ namespace CommandLine.Core
             Result<IEnumerable<Token>, Error> tokenizerResult,
             Func<string, Maybe<char>> optionSequenceWithSeparatorLookup)
         {
-            var ok = (Ok<IEnumerable<Token>, Error>)tokenizerResult;
-            var tokens = ok.Value.Success;
+            var tokens = tokenizerResult.SucceededWith();
 
             var replaces = tokens.Select((t,i) =>
                 optionSequenceWithSeparatorLookup(t.Text)
@@ -64,7 +63,7 @@ namespace CommandLine.Core
 
             var flattened = exploded.SelectMany(x => x);
 
-            return Result.Succeed(flattened, ok.Value.Messages);
+            return Result.Succeed(flattened, tokenizerResult.Messages());
         }
 
         private static IEnumerable<Token> TokenizeShortName(
