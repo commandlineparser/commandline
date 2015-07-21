@@ -3,6 +3,7 @@
   * Internal refactorings (using CSharpx.EnumerableExtensions).
   * PR #205 (by @forki) Merged.
   * Internal refactorings.
+  * Refactoring with RailwaySharp.ErrorHandling.
 
 2015-07-20    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
