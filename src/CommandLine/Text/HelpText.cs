@@ -486,7 +486,7 @@ namespace CommandLine.Text
             do
             {
                 var wordBuffer = 0;
-                var words = value.Split(new[] { ' ' });
+                var words = value.Split(' ');
                 for (var i = 0; i < words.Length; i++)
                 {
                     if (words[i].Length < (maximumLength - wordBuffer))
