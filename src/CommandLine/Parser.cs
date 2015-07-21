@@ -7,6 +7,7 @@ using System.Linq;
 using CommandLine.Core;
 using CommandLine.Text;
 using CSharpx;
+using RailwaySharp.ErrorHandling;
 
 namespace CommandLine
 {
@@ -165,7 +166,7 @@ namespace CommandLine
             GC.SuppressFinalize(this);
         }
 
-        private static StatePair<IEnumerable<Token>> Tokenize(
+        private static Result<IEnumerable<Token>, Error> Tokenize(
                 IEnumerable<string> arguments,
                 IEnumerable<OptionSpecification> optionSpecs,
                 ParserSettings settings)
