@@ -1,16 +1,18 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CommandLine.Infrastructure;
 using CSharpx;
+using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Core
 {
     internal static class Tokenizer
     {
-        public static StatePair<IEnumerable<Token>> Tokenize(
+        public static Result<IEnumerable<Token>, Error> Tokenize(
             IEnumerable<string> arguments,
             Func<string, bool> nameLookup)
         {
@@ -27,23 +29,23 @@ namespace CommandLine.Core
 
             var unkTokens = (from t in tokens where t.IsName() && !nameLookup(t.Text) select t).ToList();
 
-            return StatePair.Create(tokens.Where(x=>!unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
+            return Result.Succeed(tokens.Where(x=>!unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
 
-        public static StatePair<IEnumerable<Token>> PreprocessDashDash(
+        public static Result<IEnumerable<Token>, Error> PreprocessDashDash(
             IEnumerable<string> arguments,
-            Func<IEnumerable<string>, StatePair<IEnumerable<Token>>> tokenizer)
+            Func<IEnumerable<string>, Result<IEnumerable<Token>, Error>> tokenizer)
         {
             if (arguments.Any(arg => arg.EqualsOrdinal("--")))
             {
                 var tokenizerResult = tokenizer(arguments.TakeWhile(arg => !arg.EqualsOrdinal("--")));
                 var values = arguments.SkipWhile(arg => !arg.EqualsOrdinal("--")).Skip(1).Select(Token.Value);
-                return tokenizerResult.MapValue(tokens => tokens.Concat(values));
+                return tokenizerResult.Map(tokens => tokens.Concat(values));
             }
             return tokenizer(arguments);
         }
 
-        public static StatePair<IEnumerable<Token>> ExplodeOptionList(
+        public static Result<IEnumerable<Token>, Error> ExplodeOptionList(
             StatePair<IEnumerable<Token>> tokens,
             Func<string, Maybe<char>> optionSequenceWithSeparatorLookup)
         {
@@ -59,7 +61,7 @@ namespace CommandLine.Core
 
             var flattened = exploded.SelectMany(x => x);
 
-            return StatePair.Create(flattened, tokens.Errors);
+            return Result.Succeed(flattened, tokens.Errors);
         }
 
         private static IEnumerable<Token> TokenizeShortName(
