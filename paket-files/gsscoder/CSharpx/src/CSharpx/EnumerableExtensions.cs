@@ -10,6 +10,8 @@
 #define CSHARPX_FOREACH // Comment this to remove ForEach method.
 #define CSHARPX_PAIRWISE // Comment this to remove Index method.
 //#define CSHARPX_TODELIMITEDSTRING // Comment this to remove ToDelimitedString methods.
+//#define CSHARPX_TAIL // Comment this to remove Tails methods.
+//#define CSHARPX_MAYBE_FUNC // Comment this to remove dependency from Maybe.cs.
 
 using System;
 using System.Collections.Generic;
@@ -331,6 +333,51 @@ namespace CSharpx
             }
 
             return sb.ToString();
+        }
+#endif
+
+#if CSHARPX_MAYBE_FUNC
+        /// <summary>
+        /// Safe function that returns Just(first element) or None.
+        /// </summary>
+        public static Maybe<T> TryHead<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator())
+            {
+                return e.MoveNext()
+                    ? Maybe.Just(e.Current)
+                    : Maybe.Nothing<T>();
+            }
+        }
+#endif
+
+#if CSHARPX_TAIL
+        /// <summary>
+        /// Return everything except first element and throws exception if empty.
+        /// </summary>
+        public static IEnumerable<T> Tail<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator())
+            {
+                if (e.MoveNext())
+                    while (e.MoveNext())
+                        yield return e.Current;
+                else
+                    throw new ArgumentException("Source sequence cannot be empty.", "source");
+            }
+        }
+
+        /// <summary>
+        /// Return everything except first element without throwing exception if empty.
+        /// </summary>
+        public static IEnumerable<T> TailNoFail<T>(this IEnumerable<T> source)
+        {
+            using (var e = source.GetEnumerator())
+            {
+                if (e.MoveNext())
+                    while (e.MoveNext())
+                        yield return e.Current;
+            }
         }
 #endif
     }
