@@ -41,6 +41,12 @@ namespace CommandLine.Text
             return condition ? ifTrue(builder) : ifFalse(builder);
         }
 
+        public static StringBuilder MapIf(this StringBuilder builder, bool condition,
+            Func<StringBuilder, StringBuilder> ifTrue)
+        {
+            return condition ? ifTrue(builder) : builder;
+        }
+
         public static StringBuilder AppendIfNotEmpty(this StringBuilder builder, params string[] values)
         {
             foreach (var value in values)
