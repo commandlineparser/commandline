@@ -83,6 +83,7 @@ namespace CSharpx
         public static IEnumerable<TSource> Prepend<TSource>(this IEnumerable<TSource> source, TSource value)
         {
             if (source == null) throw new ArgumentNullException("source");
+
             return LinqEnumerable.Concat(LinqEnumerable.Repeat(value, 1), source);
         }
 #endif
@@ -94,6 +95,7 @@ namespace CSharpx
         public static IEnumerable<T> Concat<T>(this T head, IEnumerable<T> tail)
         {
             if (tail == null) throw new ArgumentNullException("tail");
+
             return tail.Prepend(head);
         }
 
@@ -103,6 +105,7 @@ namespace CSharpx
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> head, T tail)
         {
             if (head == null) throw new ArgumentNullException("head");
+
             return LinqEnumerable.Concat(head, LinqEnumerable.Repeat(tail, 1));
         }
 #endif
@@ -267,6 +270,7 @@ namespace CSharpx
         {
             if (source == null) throw new ArgumentNullException("source");
             if (resultSelector == null) throw new ArgumentNullException("resultSelector");
+
             return PairwiseImpl(source, resultSelector);
         }
 
@@ -307,6 +311,7 @@ namespace CSharpx
         public static string ToDelimitedString<TSource>(this IEnumerable<TSource> source, string delimiter)
         {
             if (source == null) throw new ArgumentNullException("source");
+
             return ToDelimitedStringImpl(source, delimiter, (sb, e) => sb.Append(e));
         }
 
