@@ -44,12 +44,6 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <Target Name="CopyXUnit" BeforeTargets="PrepareForBuild">
-    <ItemGroup>
-      <xunitrunner Include="$(ProjectDir)..\..\packages\xunit.runner.visualstudio\**\*.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(xunitrunner)" DestinationFolder="$(ProjectDir)..\..\packages\xunit.runner.visualstudio.2.0.1\%(RecursiveDir)" SkipUnchangedFiles="true" />    
-  </Target>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -402,6 +396,6 @@
       </PropertyGroup>
     </When>
   </Choose>
-  <Import Project="..\..\packages\xunit.runner.visualstudio\build\$(__paket__xunit_runner_visualstudio_props).props" Condition="Exists('..\..\packages\xunit.runner.visualstudio\build\$(__paket__xunit_runner_visualstudio_props).props')" Label="Paket" />
-  <Import Project="..\..\packages\xunit.runner.visualstudio\build\$(__paket__xunit_runner_visualstudio_targets).targets" Condition="Exists('..\..\packages\xunit.runner.visualstudio\build\$(__paket__xunit_runner_visualstudio_targets).targets')" Label="Paket" />
+  <Import Project="..\..\packages\xunit.runner.visualstudio.2.0.1\build\$(__paket__xunit_runner_visualstudio_props).props" Condition="Exists('..\..\packages\xunit.runner.visualstudio.2.0.1\build\$(__paket__xunit_runner_visualstudio_props).props')" Label="Paket" />
+  <Import Project="..\..\packages\xunit.runner.visualstudio.2.0.1\build\$(__paket__xunit_runner_visualstudio_targets).targets" Condition="Exists('..\..\packages\xunit.runner.visualstudio.2.0.1\build\$(__paket__xunit_runner_visualstudio_targets).targets')" Label="Paket" />
 </Project>

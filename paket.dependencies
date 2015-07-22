@@ -4,7 +4,7 @@ nuget FAKE
 nuget FSharp.Core
 nuget FluentAssertions
 nuget xunit
-nuget xunit.runner.visualstudio
+nuget xunit.runner.visualstudio version_in_path: true
 nuget xunit.runner.console
 
 github gsscoder/CSharpx src/CSharpx/Maybe.cs
