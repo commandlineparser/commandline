@@ -240,13 +240,13 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = errorsText.ToNotEmptyLines();
 
-            Assert.Equal("  ERR badtoken", lines[0]);
-            Assert.Equal("  ERR x, switch", lines[1]);
-            Assert.Equal("  ERR unknown", lines[2]);
-            Assert.Equal("  ERR missing", lines[3]);
-            Assert.Equal("  ERR s, sequence", lines[4]);
-            Assert.Equal("  ERR no-verb-selected", lines[5]);
-            Assert.Equal("  ERR badverb", lines[6]);
+            lines[0].ShouldBeEquivalentTo("  ERR badtoken");
+            lines[1].ShouldBeEquivalentTo("  ERR x, switch");
+            lines[2].ShouldBeEquivalentTo("  ERR unknown");
+            lines[3].ShouldBeEquivalentTo("  ERR missing");
+            lines[4].ShouldBeEquivalentTo("  ERR s, sequence");
+            lines[5].ShouldBeEquivalentTo("  ERR no-verb-selected");
+            lines[6].ShouldBeEquivalentTo("  ERR badverb");
             // Teardown
         }
 
