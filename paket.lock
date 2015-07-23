@@ -14,10 +14,10 @@ NUGET
     xunit.extensibility.core (2.0.0)
       xunit.abstractions (2.0.0)
     xunit.runner.console (2.0.0)
-    xunit.runner.visualstudio (2.0.1) - version_in_path: true
+    xunit.runner.visualstudio (2.0.1)
 GITHUB
   remote: gsscoder/CSharpx
   specs:
-    src/CSharpx/Either.cs (a80f9e85122184f364c0b5232dddc64dc3d4edcf)
-    src/CSharpx/EnumerableExtensions.cs (a80f9e85122184f364c0b5232dddc64dc3d4edcf)
-    src/CSharpx/Maybe.cs (a80f9e85122184f364c0b5232dddc64dc3d4edcf)
+    src/CSharpx/Either.cs (45256c63c3e7ad5ef7345c3e87958bc1f07ed02a)
+    src/CSharpx/EnumerableExtensions.cs (45256c63c3e7ad5ef7345c3e87958bc1f07ed02a)
+    src/CSharpx/Maybe.cs (45256c63c3e7ad5ef7345c3e87958bc1f07ed02a)
