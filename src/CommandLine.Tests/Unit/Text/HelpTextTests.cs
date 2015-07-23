@@ -16,7 +16,7 @@ namespace CommandLine.Tests.Unit.Text
         [Fact]
         public void Create_empty_instance()
         {
-            Assert.Equal(string.Empty, new HelpText().ToString());
+            string.Empty.ShouldBeEquivalentTo(new HelpText().ToString());
         }
 
         [Fact]
@@ -34,12 +34,12 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines();
 
-            Assert.Equal("Unit-tests 2.0", lines[0]);
-            Assert.Equal("Copyright (C) 2005 - 2013 Author", lines[1]);
-            Assert.Equal("pre-options line 1", lines[2]);
-            Assert.Equal("pre-options line 2", lines[3]);
-            Assert.Equal("post-options line 1", lines[4]);
-            Assert.Equal("post-options line 2", lines[5]);
+            lines[0].ShouldBeEquivalentTo("Unit-tests 2.0");
+            lines[1].ShouldBeEquivalentTo("Copyright (C) 2005 - 2013 Author");
+            lines[2].ShouldBeEquivalentTo("pre-options line 1");
+            lines[3].ShouldBeEquivalentTo("pre-options line 2");
+            lines[4].ShouldBeEquivalentTo("post-options line 1");
+            lines[5].ShouldBeEquivalentTo("post-options line 2");
             // Teardown
         }
 
@@ -80,13 +80,13 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
 
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            Assert.Equal("pre-options", lines[0]);
-            Assert.Equal("--stringvalue    Define a string value here.", lines[1]);
-            Assert.Equal("--shape          Define a enum value here. Valid values: Circle, Square,", lines[2]);
-            Assert.Equal("Triangle", lines[3]);
-            Assert.Equal("--help           Display this help screen.", lines[4]);
-            Assert.Equal("--version        Display version information.", lines[5]);
-            Assert.Equal("post-options", lines[6]);
+            lines[0].ShouldBeEquivalentTo("pre-options");
+            lines[1].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
+            lines[2].ShouldBeEquivalentTo("--shape          Define a enum value here. Valid values: Circle, Square,");
+            lines[3].ShouldBeEquivalentTo("Triangle");
+            lines[4].ShouldBeEquivalentTo("--help           Display this help screen.");
+            lines[5].ShouldBeEquivalentTo("--version        Display version information.");
+            lines[6].ShouldBeEquivalentTo("post-options");
             // Teardown
         }
 
@@ -103,12 +103,12 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
 
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            Assert.Equal("pre-options", lines[0]);
-            Assert.Equal("--stringvalue    Define a string value here.", lines[1]);
-            Assert.Equal("--shape          Define a enum value here.", lines[2]);
-            Assert.Equal("--help           Display this help screen.", lines[3]);
-            Assert.Equal("--version        Display version information.", lines[4]);
-            Assert.Equal("post-options", lines[5]);
+            lines[0].ShouldBeEquivalentTo("pre-options");
+            lines[1].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
+            lines[2].ShouldBeEquivalentTo("--shape          Define a enum value here.");
+            lines[3].ShouldBeEquivalentTo("--help           Display this help screen.");
+            lines[4].ShouldBeEquivalentTo("--version        Display version information.");
+            lines[5].ShouldBeEquivalentTo("post-options");
             // Teardown
         }
 
@@ -123,7 +123,7 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
 
-            Assert.Equal("i FILE, input-file=FILE    Required. Specify input FILE to be processed.", lines[2]);
+            lines[2].ShouldBeEquivalentTo("i FILE, input-file=FILE    Required. Specify input FILE to be processed.");
             // Teardown
         }
 
@@ -157,13 +157,13 @@ namespace CommandLine.Tests.Unit.Text
             sut.AddOptions(new FakeOptionsWithLongDescriptionAndNoSpaces());
 
             // Verify outcome
-            var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[2].Should().Be("  v, verbose    Before ");
-            lines[3].Should().Be("                012345678901234567890123");
-            lines[4].Should().Be("                After");
-            lines[5].Should().Be("  input-file    Before ");
-            lines[6].Should().Be("                012345678901234567890123");
-            lines[7].Should().Be("                456789 After");
+            var lines = sut.ToString().ToNotEmptyLines();
+            lines[1].Should().Be("  v, verbose    Before ");
+            lines[2].Should().Be("                012345678901234567890123");
+            lines[3].Should().Be("                After");
+            lines[4].Should().Be("  input-file    Before ");
+            lines[5].Should().Be("                012345678901234567890123");
+            lines[6].Should().Be("                456789 After");
             // Teardown
         }
 
@@ -179,7 +179,7 @@ namespace CommandLine.Tests.Unit.Text
                 .AddPostOptionsLine("Before 0123456789012345678901234567890123456789 After");
 
             // Verify outcome
-            var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var lines = sut.ToString().ToNotEmptyLines();
             lines[1].Should().Be("Before ");
             lines[2].Should().Be("0123456789012345678901234567890123456789");
             lines[3].Should().Be("012 After");
@@ -221,8 +221,6 @@ namespace CommandLine.Tests.Unit.Text
                             return "ERR " + ((UnknownOptionError)err).Token;
                         case ErrorType.MissingRequiredOptionError:
                             return "ERR " + ((MissingRequiredOptionError)err).NameInfo.NameText;
-                        //case ErrorType.MutuallyExclusiveSetError:
-                        //    return "ERR " + ((MutuallyExclusiveSetError)err).NameInfo.NameText;
                         case ErrorType.SequenceOutOfRangeError:
                             return "ERR " + ((SequenceOutOfRangeError)err).NameInfo.NameText;
                         case ErrorType.NoVerbSelectedError:
@@ -246,7 +244,6 @@ namespace CommandLine.Tests.Unit.Text
             Assert.Equal("  ERR x, switch", lines[1]);
             Assert.Equal("  ERR unknown", lines[2]);
             Assert.Equal("  ERR missing", lines[3]);
-            //Assert.Equal("  ERR z", lines[4]);
             Assert.Equal("  ERR s, sequence", lines[4]);
             Assert.Equal("  ERR no-verb-selected", lines[5]);
             Assert.Equal("  ERR badverb", lines[6]);
@@ -270,16 +267,15 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
-
-            Assert.True(lines[0].StartsWith("CommandLine", StringComparison.Ordinal));
-            Assert.True(lines[1].StartsWith("Copyright (c)", StringComparison.Ordinal));
-            Assert.Equal("ERROR(S):", lines[2]);
-            Assert.Equal("Token 'badtoken' is not recognized.", lines[3]);
-            Assert.Equal("A sequence option 'i' is defined with few items than required.", lines[4]);
-            Assert.Equal("--stringvalue    Define a string value here.", lines[5]);
-            Assert.Equal("-i               Define a int sequence here.", lines[6]);
-            Assert.Equal("-x               Define a boolean or switch value here.", lines[7]);
-            Assert.Equal("--help           Display this help screen.", lines[8]);
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[2].ShouldBeEquivalentTo("ERROR(S):");
+            lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
+            lines[4].ShouldBeEquivalentTo("A sequence option 'i' is defined with few items than required.");
+            lines[5].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
+            lines[6].ShouldBeEquivalentTo("-i               Define a int sequence here.");
+            lines[7].ShouldBeEquivalentTo("-x               Define a boolean or switch value here.");
+            lines[8].ShouldBeEquivalentTo("--help           Display this help screen.");
             // Teardown
         }
 
@@ -300,12 +296,12 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-            Assert.True(lines[0].StartsWith("CommandLine", StringComparison.Ordinal));
-            Assert.True(lines[1].StartsWith("Copyright (c)", StringComparison.Ordinal));
-            Assert.Equal("-p, --patch    Use the interactive patch selection interface to chose which", lines[2]);
-            Assert.Equal("changes to commit.", lines[3]);
-            Assert.Equal("--amend        Used to amend the tip of the current branch.", lines[4]);
-            Assert.Equal("--help         Display this help screen.", lines[5]);
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[2].ShouldBeEquivalentTo("-p, --patch    Use the interactive patch selection interface to chose which");
+            lines[3].ShouldBeEquivalentTo("changes to commit.");
+            lines[4].ShouldBeEquivalentTo("--amend        Used to amend the tip of the current branch.");
+            lines[5].ShouldBeEquivalentTo("--help         Display this help screen.");
             // Teardown
         }
 
@@ -326,13 +322,13 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-            Assert.True(lines[0].StartsWith("CommandLine", StringComparison.Ordinal));
-            Assert.True(lines[1].StartsWith("Copyright (c)", StringComparison.Ordinal));
-            Assert.Equal("add        Add file contents to the index.", lines[2]);
-            Assert.Equal("commit     Record changes to the repository.", lines[3]);
-            Assert.Equal("clone      Clone a repository into a new directory.", lines[4]);
-            Assert.Equal("help       Display more information on a specific command.", lines[5]);
-            Assert.Equal("version    Display version information.", lines[6]);
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[2].ShouldBeEquivalentTo("add        Add file contents to the index.");
+            lines[3].ShouldBeEquivalentTo("commit     Record changes to the repository.");
+            lines[4].ShouldBeEquivalentTo("clone      Clone a repository into a new directory.");
+            lines[5].ShouldBeEquivalentTo("help       Display more information on a specific command.");
+            lines[6].ShouldBeEquivalentTo("version    Display version information.");
             // Teardown
         }
 
@@ -349,15 +345,15 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
 
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            Assert.Equal("pre-options", lines[0]);
-            Assert.Equal("--stringvalue=STR            Define a string value here.", lines[1]);
-            Assert.Equal("-i INTSEQ                    Define a int sequence here.", lines[2]);
-            Assert.Equal("-x                           Define a boolean or switch value here.", lines[3]);
-            Assert.Equal("--help                       Display this help screen.", lines[4]);
-            Assert.Equal("--version                    Display version information.", lines[5]);
-            Assert.Equal("number (pos. 0) NUM          Define a long value here.", lines[6]);
-            Assert.Equal("paintcolor (pos. 1) COLOR    Define a color value here.", lines[7]);
-            Assert.Equal("post-options", lines[8]);
+            lines[0].ShouldBeEquivalentTo("pre-options");
+            lines[1].ShouldBeEquivalentTo("--stringvalue=STR            Define a string value here.");
+            lines[2].ShouldBeEquivalentTo("-i INTSEQ                    Define a int sequence here.");
+            lines[3].ShouldBeEquivalentTo("-x                           Define a boolean or switch value here.");
+            lines[4].ShouldBeEquivalentTo("--help                       Display this help screen.");
+            lines[5].ShouldBeEquivalentTo("--version                    Display version information.");
+            lines[6].ShouldBeEquivalentTo("number (pos. 0) NUM          Define a long value here.");
+            lines[7].ShouldBeEquivalentTo("paintcolor (pos. 1) COLOR    Define a color value here.");
+            lines[8].ShouldBeEquivalentTo("post-options", lines[8]);
             // Teardown
         }
     }
