@@ -138,12 +138,12 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[2].Should().Be("  v, verbose    This is the description"); //"The first line should have the arguments and the start of the Help Text.");
+            lines[2].ShouldBeEquivalentTo("  v, verbose    This is the description"); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
-            lines[3].Should().Be("                of the verbosity to ");
-            lines[4].Should().Be("                test out the wrapping ");
-            lines[5].Should().Be("                capabilities of the ");
-            lines[6].Should().Be("                Help Text.");
+            lines[3].ShouldBeEquivalentTo("                of the verbosity to ");
+            lines[4].ShouldBeEquivalentTo("                test out the wrapping ");
+            lines[5].ShouldBeEquivalentTo("                capabilities of the ");
+            lines[6].ShouldBeEquivalentTo("                Help Text.");
             // Teardown
         }
 
@@ -158,12 +158,12 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines();
-            lines[1].Should().Be("  v, verbose    Before ");
-            lines[2].Should().Be("                012345678901234567890123");
-            lines[3].Should().Be("                After");
-            lines[4].Should().Be("  input-file    Before ");
-            lines[5].Should().Be("                012345678901234567890123");
-            lines[6].Should().Be("                456789 After");
+            lines[1].ShouldBeEquivalentTo("  v, verbose    Before ");
+            lines[2].ShouldBeEquivalentTo("                012345678901234567890123");
+            lines[3].ShouldBeEquivalentTo("                After");
+            lines[4].ShouldBeEquivalentTo("  input-file    Before ");
+            lines[5].ShouldBeEquivalentTo("                012345678901234567890123");
+            lines[6].ShouldBeEquivalentTo("                456789 After");
             // Teardown
         }
 
@@ -180,12 +180,12 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines();
-            lines[1].Should().Be("Before ");
-            lines[2].Should().Be("0123456789012345678901234567890123456789");
-            lines[3].Should().Be("012 After");
-            lines[lines.Length - 3].Should().Be("Before ");
-            lines[lines.Length - 2].Should().Be("0123456789012345678901234567890123456789");
-            lines[lines.Length - 1].Should().Be(" After");
+            lines[1].ShouldBeEquivalentTo("Before ");
+            lines[2].ShouldBeEquivalentTo("0123456789012345678901234567890123456789");
+            lines[3].ShouldBeEquivalentTo("012 After");
+            lines[lines.Length - 3].ShouldBeEquivalentTo("Before ");
+            lines[lines.Length - 2].ShouldBeEquivalentTo("0123456789012345678901234567890123456789");
+            lines[lines.Length - 1].ShouldBeEquivalentTo(" After");
 
             // Teardown
         }
