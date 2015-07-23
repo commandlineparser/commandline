@@ -56,14 +56,14 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
 
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            Assert.Equal("pre-options", lines[0]);
-            Assert.Equal("--stringvalue    Define a string value here.", lines[1]);
-            Assert.Equal("-i               Define a int sequence here.", lines[2]);
-            Assert.Equal("-x               Define a boolean or switch value here.", lines[3]);
-            Assert.Equal("--help           Display this help screen.", lines[4]);
-            Assert.Equal("--version        Display version information.", lines[5]);
-            Assert.Equal("value pos. 0     Define a long value here.", lines[6]);
-            Assert.Equal("post-options", lines[7]);
+            lines[0].ShouldBeEquivalentTo("pre-options");
+            lines[1].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
+            lines[2].ShouldBeEquivalentTo("-i               Define a int sequence here.");
+            lines[3].ShouldBeEquivalentTo("-x               Define a boolean or switch value here.");
+            lines[4].ShouldBeEquivalentTo("--help           Display this help screen.");
+            lines[5].ShouldBeEquivalentTo("--version        Display version information.");
+            lines[6].ShouldBeEquivalentTo("value pos. 0     Define a long value here.");
+            lines[7].ShouldBeEquivalentTo("post-options");
             // Teardown
         }
 
