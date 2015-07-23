@@ -218,6 +218,7 @@ Latest Changes:
   - PR #205 (by @forki) Merged.
   - Internal refactorings.
   - Refactoring with `RailwaySharp.ErrorHandling`.
+  - Test project refactoring.
 
 Contact:
 ---

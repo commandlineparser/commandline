@@ -1,3 +1,7 @@
+2015-07-23    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Test project refactoring.
+
 2015-07-21    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Internal refactorings (using CSharpx.EnumerableExtensions).
