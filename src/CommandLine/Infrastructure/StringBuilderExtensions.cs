@@ -67,10 +67,11 @@ namespace CommandLine.Infrastructure
 
         public static StringBuilder TrimEnd(this StringBuilder builder, char c)
         {
-            return builder.Remove(builder.Length - 1, 1);
+            return builder.Length > 0
+                ? builder.Remove(builder.Length - 1, 1) : builder;
         }
         public static StringBuilder TrimEndIfMatch(this StringBuilder builder, char c)        {
-            if (builder[builder.Length] == c)
-                builder.Remove(builder.Length - 1, 1);            return builder;
-        }    }
+            if (builder.Length > 0)
+                if (builder[builder.Length - 1] == c)
+                    builder.Remove(builder.Length - 1, 1);            return builder;        }    }
 }

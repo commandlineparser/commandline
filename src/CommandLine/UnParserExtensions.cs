@@ -15,7 +15,7 @@ namespace CommandLine
     /// </summary>
     public static class UnParserExtensions
     {
-        public static string FormatCommandLine<T>(T options)
+        public static string FormatCommandLine<T>(this Parser parser, T options)
         {
             if (options == null) throw new ArgumentNullException("options");
 
@@ -25,16 +25,24 @@ namespace CommandLine
             ReflectionHelper.GetAttribute<VerbAttribute>()
                 .Return(verb => builder.Append(verb.Name).Append(' '), builder);
 
-            var specs = type.GetSpecifications(pi =>
-                Tuple.Create(Specification.FromProperty(pi),
-                pi.GetValue(options, null)));
-            var optSpecs = specs.OfType<Tuple<OptionSpecification, object>>()
-                .Where(tuple => tuple.Item1.TargetType != TargetType.Switch && !((bool)tuple.Item2));
-            var valSpecs = specs.OfType<Tuple<ValueSpecification, object>>().OrderBy(v => v.Item1.Index);
+            var specs =
+                from info in
+                    type.GetSpecifications(
+                        pi => new { Specification = Specification.FromProperty(pi), Value = pi.GetValue(options, null) })
+                where !info.Value.IsEmpty()
+                select info;
+            var optSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
+                let o = (OptionSpecification)info.Specification
+                where o.TargetType != TargetType.Switch || (o.TargetType == TargetType.Switch && ((bool)info.Value))
+                select info;
+            var valSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Value)
+                let v = (ValueSpecification)info.Specification
+                orderby v.Index
+                select info;
 
-            optSpecs.ForEach(opt => builder.Append(FormatOption(opt)).Append(' '));
+            optSpecs.ForEach(opt => builder.Append(FormatOption((OptionSpecification)opt.Specification, opt.Value)).Append(' '));
             builder.TrimEndIfMatch(' ');
-            valSpecs.ForEach(val => builder.Append(FormatValue(val.Item1, val.Item2)).Append(' '));
+            valSpecs.ForEach(val => builder.Append(FormatValue(val.Specification, val.Value)).Append(' '));
             builder.TrimEndIfMatch(' ');
 
             return builder.ToString();
@@ -46,24 +54,23 @@ namespace CommandLine
             switch (spec.TargetType)
             {
                 case TargetType.Scalar:
-                    builder.Append(UnParseValue(value));
+                    builder.Append(FormatWithQuotesIfString(value));
                     builder.Append(' ');
                     break;
                 case TargetType.Sequence:
                     var sep = spec.SeperatorOrSpace();
-                    Func<object, object> unParse = v
-                        => sep == ' ' ? UnParseValue(v) : v;
+                    Func<object, object> fmtWithQuotesIfStr = v
+                        => sep == ' ' ? FormatWithQuotesIfString(v) : v;
                     var e = ((IEnumerable)value).GetEnumerator();
                     while (e.MoveNext())
-                        builder.Append(unParse(e.Current)).Append(sep);
-                    if (builder[builder.Length] == ' ')
-                        builder.Remove(0, builder.Length - 1);
+                        builder.Append(fmtWithQuotesIfStr(e.Current)).Append(sep);
+                    builder.TrimEndIfMatch(' ');
                     break;
             }
             return builder.ToString();
         }
 
-        private static object UnParseValue(object value)
+        private static object FormatWithQuotesIfString(object value)
         {
             Func<string, string> doubQt = v
                 => v.Contains("\"") ? v.Replace("\"", "\\\"") : v;
@@ -79,23 +86,29 @@ namespace CommandLine
                 .Return(o => o.Separator != '\0' ? o.Separator : ' ', ' ');
         }
 
-        private static string FormatOption(Tuple<OptionSpecification, object> optionSpec)
+        private static string FormatOption(OptionSpecification spec, object value)
         {
-            var spec = optionSpec.Item1;
-            var value = optionSpec.Item2;
-            var builder = new StringBuilder()
+            return new StringBuilder()
                     .Append(spec.FormatName())
                     .Append(' ')
-                    .Append(FormatValue(spec, value));
-            if (builder[builder.Length] == ' ')
-                builder.Remove(0, builder.Length - 1);
-            return builder.ToString();
+                    .Append(FormatValue(spec, value))
+                    .TrimEndIfMatch(' ')
+                .ToString();
         }
 
         private static string FormatName(this OptionSpecification optionSpec)
         {
             return optionSpec.LongName.Length > 0
                 ? "--".JoinTo(optionSpec.LongName) : "-".JoinTo(optionSpec.ShortName);
+        }
+
+        private static bool IsEmpty(this object value)
+        {
+            if (value == null) return true;
+            if (value is ValueType && value.Equals(value.GetType().GetDefaultValue())) return true;
+            if (value is string && ((string)value).Length == 0) return true;
+            if (value is IEnumerable && !((IEnumerable)value).GetEnumerator().MoveNext()) return true;
+            return false;
         }
     }
 }

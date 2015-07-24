@@ -5,12 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
+
+using CommandLine.Tests.Fakes;
+
+using Xunit;
 using FluentAssertions;
 
 namespace CommandLine.Tests.Unit
 {
     public class UnParserExtensionsTests
     {
+        [Theory]        [MemberData("UnParseData")]        public static void UnParsing_instance_returns_command_line(FakeOptions options, string result)        {            new Parser()                .FormatCommandLine(options)                .ShouldBeEquivalentTo(result);        }
+
+        public static IEnumerable<object> UnParseData
+        {            get            {                yield return new object[] { new FakeOptions { BoolValue = true }, "-x" };            }        }
     }
 }

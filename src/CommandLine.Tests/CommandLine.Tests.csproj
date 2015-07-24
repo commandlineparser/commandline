@@ -111,6 +111,7 @@
     <Compile Include="Unit\ParserResultExtensionsTests.cs" />
     <Compile Include="Unit\ParserTests.cs" />
     <Compile Include="Unit\Text\HelpTextTests.cs" />
+    <Compile Include="Unit\UnParserExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CommandLine.Tests.Fakes
 {
-    class FakeOptions
+    public class FakeOptions
     {
         [Option(HelpText = "Define a string value here.")]
         public string StringValue { get; set; }
