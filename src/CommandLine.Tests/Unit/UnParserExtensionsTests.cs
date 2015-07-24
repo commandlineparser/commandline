@@ -19,6 +19,7 @@ namespace CommandLine.Tests.Unit
 
         public static IEnumerable<object> UnParseData
         {            get            {
-                yield return new object[] { new FakeOptions(), "" };                yield return new object[] { new FakeOptions { BoolValue = true }, "-x" };            }        }
+                yield return new object[] { new FakeOptions(), "" };                yield return new object[] { new FakeOptions { BoolValue = true }, "-x" };
+                yield return new object[] { new FakeOptions { IntSequence = new [] {1, 2, 3} }, "-i 1 2 3" };            }        }
     }
 }
