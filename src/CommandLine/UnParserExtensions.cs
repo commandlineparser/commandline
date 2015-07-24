@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CommandLine
 {
-    public static class UnParser
+    public static class UnParserExtensions
     {
     }
 }

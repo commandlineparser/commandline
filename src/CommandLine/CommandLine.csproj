@@ -140,7 +140,7 @@
     </Compile>
     <Compile Include="Text\SentenceBuilder.cs" />
     <Compile Include="Text\StringBuilderExtensions.cs" />
-    <Compile Include="UnParser.cs" />
+    <Compile Include="UnParserExtensions.cs" />
     <Compile Include="ValueAttribute.cs" />
     <Compile Include="VerbAttribute.cs" />
   </ItemGroup>
