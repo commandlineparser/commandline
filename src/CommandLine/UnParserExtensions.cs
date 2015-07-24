@@ -90,8 +90,8 @@ namespace CommandLine
         {
             return new StringBuilder()
                     .Append(spec.FormatName())
-                    .Append(' ')
-                    .Append(FormatValue(spec, value))
+                    .AppendWhen(spec.TargetType != TargetType.Switch, ' ')
+                    .AppendWhen(spec.TargetType != TargetType.Switch, FormatValue(spec, value))
                     .TrimEndIfMatch(' ')
                 .ToString();
         }
