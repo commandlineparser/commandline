@@ -63,5 +63,14 @@ namespace CommandLine.Infrastructure
         public static int SafeLength(this StringBuilder builder)
         {
             return builder == null ? 0 : builder.Length;
-        }    }
+        }
+
+        public static StringBuilder TrimEnd(this StringBuilder builder, char c)
+        {
+            return builder.Remove(builder.Length - 1, 1);
+        }
+        public static StringBuilder TrimEndIfMatch(this StringBuilder builder, char c)        {
+            if (builder[builder.Length] == c)
+                builder.Remove(builder.Length - 1, 1);            return builder;
+        }    }
 }

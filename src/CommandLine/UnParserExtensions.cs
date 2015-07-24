@@ -17,17 +17,25 @@ namespace CommandLine
     {
         public static string FormatCommandLine<T>(T options)
         {
-            var specs = options.GetType().GetSpecifications(pi =>
+            if (options == null) throw new ArgumentNullException("options");
+
+            var type = options.GetType();
+            var builder = new StringBuilder();
+
+            ReflectionHelper.GetAttribute<VerbAttribute>()
+                .Return(verb => builder.Append(verb.Name).Append(' '), builder);
+
+            var specs = type.GetSpecifications(pi =>
                 Tuple.Create(Specification.FromProperty(pi),
                 pi.GetValue(options, null)));
             var optSpecs = specs.OfType<Tuple<OptionSpecification, object>>()
                 .Where(tuple => tuple.Item1.TargetType != TargetType.Switch && !((bool)tuple.Item2));
             var valSpecs = specs.OfType<Tuple<ValueSpecification, object>>().OrderBy(v => v.Item1.Index);
 
-            var builder = new StringBuilder();
             optSpecs.ForEach(opt => builder.Append(FormatOption(opt)).Append(' '));
-            builder.Remove(0, builder.Length);
-            //value
+            builder.TrimEndIfMatch(' ');
+            valSpecs.ForEach(val => builder.Append(FormatValue(val.Item1, val.Item2)).Append(' '));
+            builder.TrimEndIfMatch(' ');
 
             return builder.ToString();
         }
@@ -38,17 +46,31 @@ namespace CommandLine
             switch (spec.TargetType)
             {
                 case TargetType.Scalar:
-                    builder.Append(value);
+                    builder.Append(UnParseValue(value));
                     builder.Append(' ');
                     break;
                 case TargetType.Sequence:
-                    //var sep = 
+                    var sep = spec.SeperatorOrSpace();
+                    Func<object, object> unParse = v
+                        => sep == ' ' ? UnParseValue(v) : v;
                     var e = ((IEnumerable)value).GetEnumerator();
                     while (e.MoveNext())
-                        builder.Append(e.Current).Append(' ');
+                        builder.Append(unParse(e.Current)).Append(sep);
+                    if (builder[builder.Length] == ' ')
+                        builder.Remove(0, builder.Length - 1);
                     break;
             }
             return builder.ToString();
+        }
+
+        private static object UnParseValue(object value)
+        {
+            Func<string, string> doubQt = v
+                => v.Contains("\"") ? v.Replace("\"", "\\\"") : v;
+
+            return (value as string)
+                .ToMaybe()
+                .Return(v => v.Contains(' ') ? "\"".JoinTo(doubQt(v), "\"") : v, value);
         }
 
         private static char SeperatorOrSpace(this Specification spec)
