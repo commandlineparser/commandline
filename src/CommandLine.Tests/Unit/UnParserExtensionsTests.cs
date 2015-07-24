@@ -20,6 +20,10 @@ namespace CommandLine.Tests.Unit
         public static IEnumerable<object> UnParseData
         {            get            {
                 yield return new object[] { new FakeOptions(), "" };                yield return new object[] { new FakeOptions { BoolValue = true }, "-x" };
-                yield return new object[] { new FakeOptions { IntSequence = new [] {1, 2, 3} }, "-i 1 2 3" };            }        }
+                yield return new object[] { new FakeOptions { IntSequence = new [] {1, 2, 3} }, "-i 1 2 3" };
+                yield return new object[] { new FakeOptions { StringValue = "nospaces" }, "--stringvalue nospaces" };
+                yield return new object[] { new FakeOptions { StringValue = " with spaces " }, "--stringvalue \" with spaces \"" };
+                yield return new object[] { new FakeOptions { StringValue = "with\"quote" }, "--stringvalue \"with\\\"quote\"" };
+                yield return new object[] { new FakeOptions { StringValue = "with \"quotes\" spaced" }, "--stringvalue \"with \\\"quotes\\\" spaced\"" };            }        }
     }
 }

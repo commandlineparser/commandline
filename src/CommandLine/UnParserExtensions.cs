@@ -77,7 +77,8 @@ namespace CommandLine
 
             return (value as string)
                 .ToMaybe()
-                .Return(v => v.Contains(' ') ? "\"".JoinTo(doubQt(v), "\"") : v, value);
+                .Return(v => v.Contains(' ') || v.Contains("\"")
+                    ? "\"".JoinTo(doubQt(v), "\"") : v, value);
         }
 
         private static char SeperatorOrSpace(this Specification spec)
