@@ -43,9 +43,9 @@ namespace CommandLine
             optSpecs.ForEach(opt => builder.Append(FormatOption((OptionSpecification)opt.Specification, opt.Value)).Append(' '));
             builder.TrimEndIfMatch(' ');
             valSpecs.ForEach(val => builder.Append(FormatValue(val.Specification, val.Value)).Append(' '));
-            builder.TrimEndIfMatch(' ');
 
-            return builder.ToString();
+            return builder
+                .ToString().TrimEnd(' ');
         }
 
         private static string FormatValue(Specification spec, object value)
