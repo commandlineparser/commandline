@@ -3,7 +3,7 @@
 using System;
 using System.Text;
 
-namespace CommandLine.Text
+namespace CommandLine.Infrastructure
 {
     static class StringBuilderExtensions
     {        public static StringBuilder AppendWhen(this StringBuilder builder, bool condition, params string[] values)        {

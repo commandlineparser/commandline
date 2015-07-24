@@ -139,7 +139,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Text\SentenceBuilder.cs" />
-    <Compile Include="Text\StringBuilderExtensions.cs" />
+    <Compile Include="Infrastructure\StringBuilderExtensions.cs" />
     <Compile Include="UnParserExtensions.cs" />
     <Compile Include="ValueAttribute.cs" />
     <Compile Include="VerbAttribute.cs" />

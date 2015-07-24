@@ -1,13 +1,11 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using CommandLine.Core;
 using CommandLine.Infrastructure;
-using CommandLine.Text; // TODO: move down StringBuilderExtensions type
 using CSharpx;
 
 namespace CommandLine
@@ -22,7 +20,8 @@ namespace CommandLine
             var specs = options.GetType().GetSpecifications(pi =>
                 Tuple.Create(Specification.FromProperty(pi),
                 pi.GetValue(options, null)));
-            var optSpecs = specs.OfType<Tuple<OptionSpecification, object>>();
+            var optSpecs = specs.OfType<Tuple<OptionSpecification, object>>()
+                .Where(tuple => tuple.Item1.TargetType != TargetType.Switch && !((bool)tuple.Item2));
             var valSpecs = specs.OfType<Tuple<ValueSpecification, object>>().OrderBy(v => v.Item1.Index);
 
             var builder = new StringBuilder();
@@ -33,15 +32,42 @@ namespace CommandLine
             return builder.ToString();
         }
 
+        private static string FormatValue(Specification spec, object value)
+        {
+            var builder = new StringBuilder();
+            switch (spec.TargetType)
+            {
+                case TargetType.Scalar:
+                    builder.Append(value);
+                    builder.Append(' ');
+                    break;
+                case TargetType.Sequence:
+                    //var sep = 
+                    var e = ((IEnumerable)value).GetEnumerator();
+                    while (e.MoveNext())
+                        builder.Append(e.Current).Append(' ');
+                    break;
+            }
+            return builder.ToString();
+        }
+
+        private static char SeperatorOrSpace(this Specification spec)
+        {
+            return (spec as OptionSpecification).ToMaybe()
+                .Return(o => o.Separator != '\0' ? o.Separator : ' ', ' ');
+        }
+
         private static string FormatOption(Tuple<OptionSpecification, object> optionSpec)
         {
             var spec = optionSpec.Item1;
             var value = optionSpec.Item2;
-            return new StringBuilder()
+            var builder = new StringBuilder()
                     .Append(spec.FormatName())
                     .Append(' ')
-                    .Append(value)
-                      .ToString();
+                    .Append(FormatValue(spec, value));
+            if (builder[builder.Length] == ' ')
+                builder.Remove(0, builder.Length - 1);
+            return builder.ToString();
         }
 
         private static string FormatName(this OptionSpecification optionSpec)
