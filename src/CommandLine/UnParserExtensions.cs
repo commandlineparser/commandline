@@ -34,6 +34,7 @@ namespace CommandLine
             var optSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                 let o = (OptionSpecification)info.Specification
                 where o.TargetType != TargetType.Switch || (o.TargetType == TargetType.Switch && ((bool)info.Value))
+                orderby o.UniqueName()
                 select info;
             var valSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Value)
                 let v = (ValueSpecification)info.Specification
@@ -55,7 +56,6 @@ namespace CommandLine
             {
                 case TargetType.Scalar:
                     builder.Append(FormatWithQuotesIfString(value));
-                    builder.Append(' ');
                     break;
                 case TargetType.Sequence:
                     var sep = spec.SeperatorOrSpace();
@@ -91,9 +91,8 @@ namespace CommandLine
         {
             return new StringBuilder()
                     .Append(spec.FormatName())
-                    .AppendWhen(spec.TargetType != TargetType.Switch, ' ')
+                    .Append(' ')
                     .AppendWhen(spec.TargetType != TargetType.Switch, FormatValue(spec, value))
-                    .TrimEndIfMatch(' ')
                 .ToString();
         }
 
