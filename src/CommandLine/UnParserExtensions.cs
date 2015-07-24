@@ -94,7 +94,8 @@ namespace CommandLine
 
         private static string FormatName(this OptionSpecification optionSpec)
         {
-            return optionSpec.LongName.Length > 0 ? "--".JoinTo(optionSpec.LongName) : "-".JoinTo(optionSpec.ShortName);
+            return optionSpec.LongName.Length > 0
+                ? "--".JoinTo(optionSpec.LongName) : "-".JoinTo(optionSpec.ShortName);
         }
     }
 }
