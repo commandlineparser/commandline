@@ -2,6 +2,7 @@
 
   * Adding unparse support.
   * PR #207 Merged.
+  * Using new Paket-friendly CSharpx and RailwaySharp.
 
 2015-07-23    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 

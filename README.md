@@ -222,6 +222,7 @@ Latest Changes:
   - Test project refactoring.
   - Issue #186 Implemented: Adding unparse support.
   - PR #207 Merged.
+  - Using new Paket-friendly CSharpx and RailwaySharp.
 
 Contact:
 ---
