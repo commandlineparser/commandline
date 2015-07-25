@@ -8,6 +8,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using CommandLine.Infrastructure;
 
+using CSharpx;
+
 namespace CommandLine.Core
 {
     internal static class ReflectionExtensions
@@ -23,11 +25,22 @@ namespace CommandLine.Core
                    select selector(g.First());
         }
 
+        public static Maybe<VerbAttribute> GetVerbSpecification(this Type type)
+        {
+            return
+                (from attr in
+                 type.FlattenHierarchy().SelectMany(x => x.GetCustomAttributes(typeof(VerbAttribute), true))
+                 let vattr = (VerbAttribute)attr
+                 select vattr)
+                    .SingleOrDefault()
+                    .ToMaybe();
+        }
+
         private static IEnumerable<Type> FlattenHierarchy(this Type type)
         {
             if (type == null)
             {
-                yield break;         
+                yield break;
             }
             yield return type;
             foreach (var @interface in type.SafeGetInterfaces())

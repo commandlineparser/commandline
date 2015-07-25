@@ -22,7 +22,7 @@ namespace CommandLine
             var type = options.GetType();
             var builder = new StringBuilder();
 
-            ReflectionHelper.GetAttribute<VerbAttribute>()
+            type.GetVerbSpecification()
                 .Return(verb => builder.Append(verb.Name).Append(' '), builder);
 
             var specs =

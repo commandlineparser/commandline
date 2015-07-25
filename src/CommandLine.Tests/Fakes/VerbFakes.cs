@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace CommandLine.Tests.Fakes
 {
     [Verb("add", HelpText = "Add file contents to the index.")]
-    class AddOptions
+    public class AddOptions
     {
         [Option('p', "patch", SetName = "mode",
             HelpText = "Interactively choose hunks of patch between the index and the work tree and add them to the index.")]
@@ -20,7 +20,7 @@ namespace CommandLine.Tests.Fakes
     }
 
     [Verb("commit", HelpText = "Record changes to the repository.")]
-    class CommitOptions
+    public class CommitOptions
     {
         [Option('p', "patch",
             HelpText = "Use the interactive patch selection interface to chose which changes to commit.")]
@@ -31,7 +31,7 @@ namespace CommandLine.Tests.Fakes
     }
 
     [Verb("clone", HelpText = "Clone a repository into a new directory.")]
-    class CloneOptions
+    public class CloneOptions
     {
         [Option("no-hardlinks",
             HelpText = "Optimize the cloning process from a repository on a local filesystem by copying files.")]
@@ -46,7 +46,7 @@ namespace CommandLine.Tests.Fakes
     }
 
     [Verb("sequence", HelpText = "Sequence options test.")]
-    class SequenceOptions
+    public class SequenceOptions
     {
         [Option("long-seq", Separator = ';')]
         public IEnumerable<long> LongSequence { get; set; }

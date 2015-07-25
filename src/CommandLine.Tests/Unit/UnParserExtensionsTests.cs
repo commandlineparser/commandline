@@ -17,6 +17,15 @@ namespace CommandLine.Tests.Unit
     {
         [Theory]        [MemberData("UnParseData")]        public static void UnParsing_instance_returns_command_line(FakeOptions options, string result)        {            new Parser()                .FormatCommandLine(options)                .ShouldBeEquivalentTo(result);        }
 
+        [Theory]
+        [MemberData("UnParseDataVerbs")]
+        public static void UnParsing_instance_returns_command_line_for_verbs(AddOptions options, string result)
+        {
+            new Parser()
+                .FormatCommandLine(options)
+                .ShouldBeEquivalentTo(result);
+        }
+
         public static IEnumerable<object> UnParseData
         {            get            {
                 yield return new object[] { new FakeOptions(), "" };
@@ -29,5 +38,9 @@ namespace CommandLine.Tests.Unit
                 yield return new object[] { new FakeOptions { LongValue = 123456789 }, "123456789" };
                 yield return new object[] { new FakeOptions { BoolValue = true, IntSequence = new[] { 1, 2, 3 }, StringValue = "nospaces", LongValue = 123456789 }, "-i 1 2 3 --stringvalue nospaces -x 123456789" };
                 yield return new object[] { new FakeOptions { BoolValue = true, IntSequence = new[] { 1, 2, 3 }, StringValue = "with \"quotes\" spaced", LongValue = 123456789 }, "-i 1 2 3 --stringvalue \"with \\\"quotes\\\" spaced\" -x 123456789" };            }        }
-    }
+
+        public static IEnumerable<object> UnParseDataVerbs        {            get            {
+                yield return new object[] { new AddOptions(), "add" };            }        }
+
+    }
 }
