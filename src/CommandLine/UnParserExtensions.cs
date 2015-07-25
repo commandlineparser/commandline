@@ -15,6 +15,13 @@ namespace CommandLine
     /// </summary>
     public static class UnParserExtensions
     {
+        /// <summary>
+        /// Format a command line argument string from a parsed instance. 
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="options"/>.</typeparam>
+        /// <param name="parser">Parser instance.</param>
+        /// <param name="options">A parsed (or manually correctly constructed instance).</param>
+        /// <returns>A string with command line arguments.</returns>
         public static string FormatCommandLine<T>(this Parser parser, T options)
         {
             if (options == null) throw new ArgumentNullException("options");
