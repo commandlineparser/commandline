@@ -29,3 +29,4 @@ TestResult.xml
 *.old
 StyleCop.Cache
 .paket/paket.exe
+.fake
