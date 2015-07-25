@@ -4,11 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-
-using CommandLine.Tests.Fakes;
-
-using Xunit;
+using System.Threading.Tasks;using CommandLine.Tests.Fakes;using Xunit;
 using FluentAssertions;
 
 namespace CommandLine.Tests.Unit
