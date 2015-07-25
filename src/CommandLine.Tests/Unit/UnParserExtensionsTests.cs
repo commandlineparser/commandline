@@ -40,7 +40,9 @@ namespace CommandLine.Tests.Unit
                 yield return new object[] { new FakeOptions { BoolValue = true, IntSequence = new[] { 1, 2, 3 }, StringValue = "with \"quotes\" spaced", LongValue = 123456789 }, "-i 1 2 3 --stringvalue \"with \\\"quotes\\\" spaced\" -x 123456789" };            }        }
 
         public static IEnumerable<object> UnParseDataVerbs        {            get            {
-                yield return new object[] { new AddOptions(), "add" };            }        }
+                yield return new object[] { new AddOptions(), "add" };
+                yield return new object[] { new AddOptions { Patch = true, FileName = "mysource.cs" }, "add --patch mysource.cs" };
+                yield return new object[] { new AddOptions { Force = true, FileName = "mysource.fs" }, "add --force mysource.fs" };            }        }
 
     }
 }
