@@ -22,6 +22,15 @@ namespace CommandLine.Tests.Unit
                 .ShouldBeEquivalentTo(result);
         }
 
+        [Theory]
+        [MemberData("UnParseDataImmutable")]
+        public static void UnParsing_immutable_instance_returns_command_line(FakeImmutableOptions options, string result)
+        {
+            new Parser()
+                .FormatCommandLine(options)
+                .ShouldBeEquivalentTo(result);
+        }
+
         public static IEnumerable<object> UnParseData
         {            get            {
                 yield return new object[] { new FakeOptions(), "" };
@@ -38,5 +47,22 @@ namespace CommandLine.Tests.Unit
         public static IEnumerable<object> UnParseDataVerbs        {            get            {
                 yield return new object[] { new AddOptions(), "add" };
                 yield return new object[] { new AddOptions { Patch = true, FileName = "mysource.cs" }, "add --patch mysource.cs" };
-                yield return new object[] { new AddOptions { Force = true, FileName = "mysource.fs" }, "add --force mysource.fs" };            }        }    }
+                yield return new object[] { new AddOptions { Force = true, FileName = "mysource.fs" }, "add --force mysource.fs" };            }        }
+
+        public static IEnumerable<object> UnParseDataImmutable
+        {
+            get
+            {
+                yield return new object[] { new FakeImmutableOptions("", Enumerable.Empty<int>(), default(bool), default(long)), "" };
+                yield return new object[] { new FakeImmutableOptions ("", Enumerable.Empty<int>(), true, default(long) ), "-x" };
+                yield return new object[] { new FakeImmutableOptions ("", new[] { 1, 2, 3 }, default(bool), default(long) ), "-i 1 2 3" };
+                yield return new object[] { new FakeImmutableOptions ("nospaces", Enumerable.Empty<int>(), default(bool), default(long)), "--stringvalue nospaces" };
+                yield return new object[] { new FakeImmutableOptions (" with spaces ", Enumerable.Empty<int>(), default(bool), default(long)), "--stringvalue \" with spaces \"" };
+                yield return new object[] { new FakeImmutableOptions ("with\"quote", Enumerable.Empty<int>(), default(bool), default(long)), "--stringvalue \"with\\\"quote\"" };
+                yield return new object[] { new FakeImmutableOptions ("with \"quotes\" spaced", Enumerable.Empty<int>(), default(bool), default(long)), "--stringvalue \"with \\\"quotes\\\" spaced\"" };
+                yield return new object[] { new FakeImmutableOptions ("", Enumerable.Empty<int>(), default(bool), 123456789), "123456789" };
+                yield return new object[] { new FakeImmutableOptions ("nospaces", new[] { 1, 2, 3 }, true, 123456789), "-i 1 2 3 --stringvalue nospaces -x 123456789" };
+                yield return new object[] { new FakeImmutableOptions ("with \"quotes\" spaced", new[] { 1, 2, 3 }, true, 123456789), "-i 1 2 3 --stringvalue \"with \\\"quotes\\\" spaced\" -x 123456789" };
+            }
+        }    }
 }
