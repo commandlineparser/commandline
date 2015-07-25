@@ -30,7 +30,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;CSX_EITHER_INTERNAL; CSX_REM_EITHER_BEYOND_2; CSX_ENUM_INTERNAL; ERRH_INTERNAL; ERRH_DISABLE_INLINE_METHODS; CSX_MAYBE_INTERNAL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\CommandLine.XML</DocumentationFile>
