@@ -11,7 +11,7 @@ using CSharpx;
 namespace CommandLine
 {
     /// <summary>
-    /// Defines overloads to unparse options instance.
+    /// Adds a method to unparse options instance.
     /// </summary>
     public static class UnParserExtensions
     {
