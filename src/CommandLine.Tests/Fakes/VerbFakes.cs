@@ -7,11 +7,11 @@ namespace CommandLine.Tests.Fakes
     [Verb("add", HelpText = "Add file contents to the index.")]
     public class AddOptions
     {
-        [Option('p', "patch", SetName = "mode",
+        [Option('p', "patch", SetName = "mode-p",
             HelpText = "Interactively choose hunks of patch between the index and the work tree and add them to the index.")]
         public bool Patch { get; set; }
 
-        [Option('f', "force", SetName = "mode",
+        [Option('f', "force", SetName = "mode-f",
             HelpText = "Allow adding otherwise ignored files.")]
         public bool Force { get; set; }
 
