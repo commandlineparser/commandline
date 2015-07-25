@@ -49,6 +49,10 @@ Public API:
 ---
 Latest changes are recorded from Version 1.9.4.91, please refer to [this document](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md).
 
+Used by:
+---
+- [FSharp.Formatting](https://github.com/tpetricek/FSharp.Formatting) by @tpetricek.
+
 Notes:
 ---
 The project is well suited to be included in your application. If you don't merge it to your project tree, you must reference ``CommandLine.dll`` and import ``CommandLine`` and ``CommandLine.Text`` namespaces (or install via NuGet). The help text builder and support types are in the ``CommandLine.Text`` namespace that is loosely coupled with the parser. It is good to know that the ``HelpText`` class will avoid a lot of repetitive coding.
