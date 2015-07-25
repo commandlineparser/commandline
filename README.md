@@ -3,7 +3,7 @@
 [![Nuget](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 
-Command Line Parser Library 2.0.99.0 alpha for CLR.
+Command Line Parser Library 2.0.101.0 alpha for CLR.
 ===
 The Command Line Parser Library offers CLR applications a clean and concise API for manipulating command line arguments and related tasks, such as defining switches, options and verb commands. It allows you to display a help screen with a high degree of customization and a simple way to report syntax errors to the end user.
 
@@ -28,8 +28,9 @@ At glance:
   - Map to sequences (``IEnumerable<T>``) or scalar types, including enum and ``Nullable<T>``.
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
   - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Latest-Version#verbs) as ``git commit -a``.
-  - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
+  - Unparsing support: ``CommandLine.Parser.Default.FormatCommandLine<T>(T options)``.
   - F#-friendly with support for ``option<'a>``, see [demo](https://github.com/gsscoder/commandline/blob/master/demo/fsharp-demo.fsx).
+  - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
   - C# demo: source [here](https://github.com/gsscoder/commandline/tree/master/demo/ReadText.Demo).
 
 To install:
@@ -219,6 +220,7 @@ Latest Changes:
   - Internal refactorings.
   - Refactoring with `RailwaySharp.ErrorHandling`.
   - Test project refactoring.
+  - Issue #186 Implemented: Adding unparse support.
 
 Contact:
 ---
