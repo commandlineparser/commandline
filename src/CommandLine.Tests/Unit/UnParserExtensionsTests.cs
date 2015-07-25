@@ -38,7 +38,5 @@ namespace CommandLine.Tests.Unit
         public static IEnumerable<object> UnParseDataVerbs        {            get            {
                 yield return new object[] { new AddOptions(), "add" };
                 yield return new object[] { new AddOptions { Patch = true, FileName = "mysource.cs" }, "add --patch mysource.cs" };
-                yield return new object[] { new AddOptions { Force = true, FileName = "mysource.fs" }, "add --force mysource.fs" };            }        }
-
-    }
+                yield return new object[] { new AddOptions { Force = true, FileName = "mysource.fs" }, "add --force mysource.fs" };            }        }    }
 }
