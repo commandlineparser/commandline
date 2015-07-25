@@ -26,7 +26,7 @@ namespace CommandLine.Core
             return from t in tokens.Pairwise(
                 (f, s) =>
                         f.IsName()
-                            ? f.Text.ToKeyValuePair(tokens.SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Select(x => x.Text).ToArray())
+                            ? f.Text.ToKeyValuePair(tokens.SkipWhile(t => !t.Equals(f)).SkipWhile(t => t.Equals(f)).TakeWhile(v => v.IsValue()).Select(x => x.Text).ToArray())
                             : string.Empty.ToKeyValuePair())
                    where t.Key.Length > 0 && t.Value.Any()
                    select t;
