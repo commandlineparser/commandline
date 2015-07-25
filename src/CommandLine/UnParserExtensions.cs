@@ -51,7 +51,8 @@ namespace CommandLine
 
             optSpecs.ForEach(
                 opt => builder.Append(FormatOption((OptionSpecification)opt.Specification, opt.Value)).Append(' '));
-            builder.TrimEndIfMatch(' ');
+            if (!valSpecs.Any() || builder.TrailingSpaces() > 1)
+                builder.TrimEndIfMatch(' ');
             valSpecs.ForEach(
                 val => builder.Append(FormatValue(val.Specification, val.Value)).Append(' '));
 

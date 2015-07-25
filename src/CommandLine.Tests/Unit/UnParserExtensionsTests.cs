@@ -5,10 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;using CommandLine.Tests.Fakes;using Xunit;
-using FluentAssertions;
-
-using Microsoft.FSharp.Core;
-
+using FluentAssertions;using Microsoft.FSharp.Core;
 namespace CommandLine.Tests.Unit
 {
     public class UnParserExtensionsTests
