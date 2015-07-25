@@ -3,7 +3,7 @@
 [![Nuget](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 
-Command Line Parser Library 2.0.103.0 alpha for CLR.
+Command Line Parser Library 2.0.107.0 alpha for CLR.
 ===
 The Command Line Parser Library offers CLR applications a clean and concise API for manipulating command line arguments and related tasks, such as defining switches, options and verb commands. It allows you to display a help screen with a high degree of customization and a simple way to report syntax errors to the end user.
 
@@ -223,6 +223,7 @@ Latest Changes:
   - Issue #186 Implemented: Adding unparse support.
   - PR #207 Merged.
   - Using new Paket-friendly CSharpx and RailwaySharp.
+  - Added F# option support to `FormatCommandLine()`.
 
 Contact:
 ---

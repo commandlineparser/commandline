@@ -3,6 +3,7 @@
   * Adding unparse support.
   * PR #207 Merged.
   * Using new Paket-friendly CSharpx and RailwaySharp.
+  * Added F# option support to FormatCommandLine().
 
 2015-07-23    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
