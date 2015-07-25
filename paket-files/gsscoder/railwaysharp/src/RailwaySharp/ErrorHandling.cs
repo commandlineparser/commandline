@@ -1,20 +1,20 @@
-﻿//#define ERRH_PUBLIC // Comment this to set visibility to internal.
-//#define ERRH_INLINE_METHODS // Comment this to disable method inlining when compiling for <= NET 4.0.
-//#define ERRH_BUILTIN_ENUMEXT // Comment this to use CSharpx.EnumerableExtensions.
-#define ERRH_BUILTIN_UNIT // Comment this to use CSharpx.Unit.
+﻿//Use project level define(s) when referencing with Paket.
+//#define ERRH_INTERNAL // Uncomment this to set visibility to internal.
+//#define ERRH_DISABLE_INLINE_METHODS // Uncomment this to enable method inlining when compiling for >= NET 4.5.
+//#define ERRH_BUILTIN_TYPES // Uncomment this to use built-in types, instead of CSharpx.EnumerableExtensions and CSharpx.Unit.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-#if !ERRH_BUILTIN_ENUMEXT || !ERRH_BUILTIN_UNIT
+#if !ERRH_BUILTIN_TYPES
 using CSharpx;
 #endif
 
 namespace RailwaySharp.ErrorHandling
 {
     #region Enumerable Extensions
-#if ERRH_BUILTIN_ENUMEXT
+#if ERRH_BUILTIN_TYPES
     static class EnumerableExtensions
     {
         private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
@@ -123,8 +123,8 @@ namespace RailwaySharp.ErrorHandling
     #endregion
 
     #region Unit Type
-#if ERRH_BUILTIN_UNIT
-#if ERRH_PUBLIC
+#if ERRH_BUILTIN_TYPES
+#if !ERRH_INTERNAL
     public
 #endif
     struct Unit : IEquatable<Unit>
@@ -170,7 +170,7 @@ namespace RailwaySharp.ErrorHandling
     /// <summary>
     /// Tuple for <see cref="RailwaySharp.ErrorHandling.Ok{TSuccess, TMessage}"/> type. 
     /// </summary>
-#if ERRH_PUBLIC
+#if !ERRH_INTERNAL
     public
 #endif
     sealed class OkPair<TSuccess, TMessage> : IEquatable<OkPair<TSuccess, TMessage>>
@@ -235,7 +235,7 @@ namespace RailwaySharp.ErrorHandling
         }
     }
 
-#if ERRH_PUBLIC
+#if !ERRH_INTERNAL
     public
 #endif
     static class OkPair
@@ -260,7 +260,7 @@ namespace RailwaySharp.ErrorHandling
     }
     #endregion
 
-#if ERRH_PUBLIC
+#if !ERRH_INTERNAL
     public
 #endif
     enum ResultType
@@ -274,7 +274,7 @@ namespace RailwaySharp.ErrorHandling
     /// </summary>
     /// <typeparam name="TSuccess">Type that models the result of a successful computation.</typeparam>
     /// <typeparam name="TMessage">Type that model a message related to a computation.</typeparam> 
-#if ERRH_PUBLIC
+#if !ERRH_INTERNAL
     public
 #endif 
     abstract class Result<TSuccess, TMessage>
@@ -315,7 +315,7 @@ namespace RailwaySharp.ErrorHandling
     /// </summary>
     /// <typeparam name="TSuccess">Type that models the result of a successful computation.</typeparam>
     /// <typeparam name="TMessage">Type that model a message related to a computation.</typeparam> 
-#if ERRH_PUBLIC
+#if !ERRH_INTERNAL
     public
 #endif 
     sealed class Ok<TSuccess, TMessage> : Result<TSuccess, TMessage>
@@ -339,7 +339,7 @@ namespace RailwaySharp.ErrorHandling
     /// </summary>
     /// <typeparam name="TSuccess">Type that models the result of a successful computation.</typeparam>
     /// <typeparam name="TMessage">Type that model a message related to a computation.</typeparam> 
-#if ERRH_PUBLIC
+#if !ERRH_INTERNAL
     public
 #endif
     sealed class Bad<TSuccess, TMessage> : Result<TSuccess, TMessage>
@@ -358,7 +358,7 @@ namespace RailwaySharp.ErrorHandling
         }
     }
 
-#if ERRH_PUBLIC
+#if !ERRH_INTERNAL
     public
 #endif
     static class Result
@@ -422,7 +422,7 @@ namespace RailwaySharp.ErrorHandling
         }
     }
 
-#if ERRH_PUBLIC
+#if !ERRH_INTERNAL
     public
 #endif
     static class Trial
@@ -430,7 +430,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Wraps a value in a Success.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess, TMessage> Ok<TSuccess, TMessage>(TSuccess value)
@@ -441,7 +441,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Wraps a value in a Success.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess, TMessage> Pass<TSuccess, TMessage>(TSuccess value)
@@ -452,7 +452,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Wraps a value in a Success and adds a message.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess, TMessage> Warn<TSuccess, TMessage>(TMessage message, TSuccess value)
@@ -463,7 +463,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Wraps a message in a Failure.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess, TMessage> Fail<TSuccess, TMessage>(TMessage message)
@@ -474,7 +474,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Returns true if the result was not successful.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static bool Failed<TSuccess, TMessage>(Result<TSuccess, TMessage> result)
@@ -485,7 +485,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Takes a Result and maps it with successFunc if it is a Success otherwise it maps it with failureFunc.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TResult Either<TSuccess, TMessage, TResult>(
@@ -506,7 +506,7 @@ namespace RailwaySharp.ErrorHandling
         /// If the given result is a Success the wrapped value will be returned. 
         /// Otherwise the function throws an exception with Failure message of the result.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TSuccess ReturnOrFail<TSuccess, TMessage>(Result<TSuccess, TMessage> result)
@@ -524,7 +524,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Appends the given messages with the messages in the given result.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess, TMessage> MergeMessages<TSuccess, TMessage>(
@@ -546,7 +546,7 @@ namespace RailwaySharp.ErrorHandling
         /// If the result is a Success it executes the given function on the value.
         /// Otherwise the exisiting failure is propagated.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess, TMessage> Bind<TValue, TSuccess, TMessage>(
@@ -565,7 +565,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Flattens a nested result given the Failure types are equal.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess, TMessage> Flatten<TSuccess, TMessage>(
@@ -578,7 +578,7 @@ namespace RailwaySharp.ErrorHandling
         /// If the wrapped function is a success and the given result is a success the function is applied on the value. 
         /// Otherwise the exisiting error messages are propagated.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess, TMessage> Apply<TValue, TSuccess, TMessage>(
@@ -612,7 +612,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Lifts a function into a Result container and applies it on the given result.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess, TMessage> Lift<TValue, TSuccess, TMessage>(
@@ -625,7 +625,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Promote a function to a monad/applicative, scanning the monadic/applicative arguments from left to right.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TSuccess1, TMessage1> Lift2<TSuccess, TMessage, TSuccess1, TMessage1>(
@@ -640,7 +640,7 @@ namespace RailwaySharp.ErrorHandling
         /// Collects a sequence of Results and accumulates their values.
         /// If the sequence contains an error the error will be propagated.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<IEnumerable<TSuccess>, TMessage> Collect<TSuccess, TMessage>(
@@ -680,7 +680,7 @@ namespace RailwaySharp.ErrorHandling
     /// <summary>
     /// Extensions methods for easier usage.
     /// </summary>
-#if ERRH_PUBLIC
+#if !ERRH_INTERNAL
     public
 #endif
     static class ResultExtensions
@@ -688,7 +688,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Allows pattern matching on Results.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static void Match<TSuccess, TMessage>(this Result<TSuccess, TMessage> result,
@@ -708,7 +708,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Allows pattern matching on Results.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TResult Either<TSuccess, TMessage, TResult>(this Result<TSuccess, TMessage> result,
@@ -727,7 +727,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Lifts a Func into a Result and applies it on the given result.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TResult, TMessage> Map<TSuccess, TMessage, TResult>(this Result<TSuccess, TMessage> result,
@@ -740,7 +740,7 @@ namespace RailwaySharp.ErrorHandling
         /// Collects a sequence of Results and accumulates their values.
         /// If the sequence contains an error the error will be propagated.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<IEnumerable<TSuccess>, TMessage> Collect<TSuccess, TMessage>(
@@ -753,7 +753,7 @@ namespace RailwaySharp.ErrorHandling
         /// Collects a sequence of Results and accumulates their values.
         /// If the sequence contains an error the error will be propagated.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<IEnumerable<TSuccess>, TMessage> Flatten<TSuccess, TMessage>(this Result<IEnumerable<Result<TSuccess, TMessage>>, TMessage> result)
@@ -779,7 +779,7 @@ namespace RailwaySharp.ErrorHandling
         /// If the result is a Success it executes the given Func on the value.
         /// Otherwise the exisiting failure is propagated.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TResult, TMessage> SelectMany<TSuccess, TMessage, TResult>(this Result<TSuccess, TMessage> result,
@@ -793,7 +793,7 @@ namespace RailwaySharp.ErrorHandling
         /// If the result of the Func is a Success it maps it using the given Func.
         /// Otherwise the exisiting failure is propagated.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TResult, TMessage> SelectMany<TSuccess, TMessage, TValue, TResult>(
@@ -814,7 +814,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Lifts a Func into a Result and applies it on the given result.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static Result<TResult, TMessage> Select<TSuccess, TMessage, TResult>(this Result<TSuccess, TMessage> result,
@@ -826,7 +826,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Returns the error messages or fails if the result was a success.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IEnumerable<TMessage> FailedWith<TSuccess, TMessage>(this Result<TSuccess, TMessage> result)
@@ -846,7 +846,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Returns the result or fails if the result was an error.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static TSuccess SucceededWith<TSuccess, TMessage>(this Result<TSuccess, TMessage> result)
@@ -865,7 +865,7 @@ namespace RailwaySharp.ErrorHandling
         /// <summary>
         /// Always return all messages of computation.
         /// </summary>
-#if ERRH_INLINE_METHODS
+#if !ERRH_DISABLE_INLINE_METHODS
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         public static IEnumerable<TMessage> Messages<TSuccess, TMessage>(this Result<TSuccess, TMessage> result)

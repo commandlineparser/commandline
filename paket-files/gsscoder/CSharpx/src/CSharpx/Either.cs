@@ -1,21 +1,23 @@
-﻿//#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
-//#define CSHARPX_EITHER_3 // Comment this to remove Either<T1, T2, T3> and realted functions.
-//#define CSHARPX_EITHER_4 // Comment this to remove Either<T1, T2, T3, T4> and realted functions.
-//#define CSHARPX_EITHER_5 // Comment this to remove Either<T1, T2, T3, T4, T5> and realted functions.
-//#define CSHARPX_EITHER_6 // Comment this to remove Either<T1, T2, T3, T6, T5. T6> and realted functions.
-//#define CSHARPX_EITHER_7 // Comment this to remove Either<T1, T2, T3, T6, T5. T6, T7> and realted functions.
-#define CSHARPX_MAYBE_FUNC // Comment this to remove dependency from Maybe.cs.
+﻿//Use project level define(s) when referencing with Paket.
+//#define CSX_EITHER_INTERNAL // Uncomment this to set visibility to internal.
+//#define CSX_REM_EITHER_BEYOND_2 // Uncomment this to add Either beyond <T1, T2>.
+//#define CSX_REM_EITHER_3 // Uncomment this to add Either<T1, T2, T3> and realted functions.
+//#define CSX_REM_EITHER_4 // Uncomment this to add Either<T1, T2, T3, T4> and realted functions.
+//#define CSX_REM_EITHER_5 // Uncomment this to add Either<T1, T2, T3, T4, T5> and realted functions.
+//#define CSX_REM_EITHER_6 // Uncomment this to add Either<T1, T2, T3, T6, T5. T6> and realted functions.
+//#define CSX_REM_EITHER_7 // Uncomment this to add Either<T1, T2, T3, T6, T5. T6, T7> and realted functions.
+//#define CSX_REM_MAYBE_FUNC // Uncomment this to remove dependency to Maybe.cs.
 
 using System;
 
 namespace CSharpx
 {
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     enum Either2Type { Either1Of2, Either2Of2 }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     abstract class Either<T1, T2>
@@ -33,7 +35,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either1Of2<T1, T2> : Either<T1, T2>
@@ -52,7 +54,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either2Of2<T1, T2> : Either<T1, T2>
@@ -71,13 +73,14 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_EITHER_3
-#if CSHARPX_PUBLIC
+#if !CSX_REM_EITHER_BEYOND_2
+#if !CSX_REM_EITHER_3
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     enum Either3Type { Either1Of3, Either2Of3, Either3Of3 }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     abstract class Either<T1, T2, T3>
@@ -95,7 +98,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either1Of3<T1, T2, T3> : Either<T1, T2, T3>
@@ -114,7 +117,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either2Of3<T1, T2, T3> : Either<T1, T2, T3>
@@ -133,7 +136,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either3Of3<T1, T2, T3> : Either<T1, T2, T3>
@@ -153,13 +156,13 @@ namespace CSharpx
     }
 #endif
 
-#if CSHARPX_EITHER_4
-#if CSHARPX_PUBLIC
+#if !CSX_REM_EITHER_4
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     enum Either4Type { Either1Of4, Either2Of4, Either3Of4, Either4Of4 }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     abstract class Either<T1, T2, T3, T4>
@@ -177,7 +180,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either1Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
@@ -196,7 +199,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either2Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
@@ -215,7 +218,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either3Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
@@ -234,7 +237,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either4Of4<T1, T2, T3, T4> : Either<T1, T2, T3, T4>
@@ -254,13 +257,13 @@ namespace CSharpx
     }
 #endif
 
-#if CSHARPX_EITHER_5
-#if CSHARPX_PUBLIC
+#if !CSX_REM_EITHER_5
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     enum Either5Type { Either1Of5, Either2Of5, Either3Of5, Either4Of5, Either5Of5 }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     abstract class Either<T1, T2, T3, T4, T5>
@@ -278,7 +281,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either1Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
@@ -297,7 +300,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either2Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
@@ -316,7 +319,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either3Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
@@ -335,7 +338,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either4Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
@@ -354,7 +357,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either5Of5<T1, T2, T3, T4, T5> : Either<T1, T2, T3, T4, T5>
@@ -373,12 +376,12 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     enum Either6Type { Either1Of6, Either2Of6, Either3Of6, Either4Of6, Either5Of6, Either6Of6 }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     abstract class Either<T1, T2, T3, T4, T5, T6>
@@ -397,8 +400,8 @@ namespace CSharpx
     }
 #endif
 
-#if CSHARPX_EITHER_6
-#if CSHARPX_PUBLIC
+#if !CSX_REM_EITHER_6
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either1Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
@@ -417,7 +420,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either2Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
@@ -436,7 +439,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either3Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
@@ -455,7 +458,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either4Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
@@ -474,7 +477,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either5Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
@@ -493,7 +496,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either6Of6<T1, T2, T3, T4, T5, T6> : Either<T1, T2, T3, T4, T5, T6>
@@ -513,13 +516,13 @@ namespace CSharpx
     }
 #endif
 
-#if CSHARPX_EITHER_7
-#if CSHARPX_PUBLIC
+#if !CSX_REM_EITHER_7
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     enum Either7Type { Either1Of7, Either2Of7, Either3Of7, Either4Of7, Either5Of7, Either6Of7, Either7Of7 }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     abstract class Either<T1, T2, T3, T4, T5, T6, T7>
@@ -537,7 +540,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either1Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
@@ -556,7 +559,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either2Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
@@ -575,7 +578,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either3Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
@@ -594,7 +597,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either4Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
@@ -613,7 +616,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either5Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
@@ -632,7 +635,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either6Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
@@ -651,7 +654,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     sealed class Either7Of7<T1, T2, T3, T4, T5, T6, T7> : Either<T1, T2, T3, T4, T5, T6, T7>
@@ -670,8 +673,9 @@ namespace CSharpx
         }
     }
 #endif
+#endif
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     static class Either
@@ -687,7 +691,8 @@ namespace CSharpx
             return new Either2Of2<T1, T2>(value);
         }
 
-#if CSHARPX_EITHER_3
+#if !CSX_REM_EITHER_BEYOND_2
+#if !CSX_REM_EITHER_3
         public static Either<T1, T2, T3> New1Of3<T1, T2, T3>(T1 value)
         {
             return new Either1Of3<T1, T2, T3>(value);
@@ -704,7 +709,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_EITHER_4
+#if !CSX_REM_EITHER_4
         public static Either<T1, T2, T3, T4> New1Of4<T1, T2, T3, T4>(T1 value)
         {
             return new Either1Of4<T1, T2, T3, T4>(value);
@@ -726,7 +731,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_EITHER_5
+#if !CSX_REM_EITHER_5
         public static Either<T1, T2, T3, T4, T5> New1Of5<T1, T2, T3, T4, T5>(T1 value)
         {
             return new Either1Of5<T1, T2, T3, T4, T5>(value);
@@ -753,7 +758,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_EITHER_6
+#if !CSX_REM_EITHER_6
         public static Either<T1, T2, T3, T4, T5, T6> New1Of6<T1, T2, T3, T4, T5, T6>(T1 value)
         {
             return new Either1Of6<T1, T2, T3, T4, T5, T6>(value);
@@ -785,7 +790,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_EITHER_7
+#if !CSX_REM_EITHER_7
         public static Either<T1, T2, T3, T4, T5, T6, T7> New1Of7<T1, T2, T3, T4, T5, T6, T7>(T1 value)
         {
             return new Either1Of7<T1, T2, T3, T4, T5, T6, T7>(value);
@@ -820,6 +825,7 @@ namespace CSharpx
         {
             return new Either7Of7<T1, T2, T3, T4, T5, T6, T7>(value);
         }
+#endif
 #endif
         #endregion
 
@@ -947,7 +953,7 @@ namespace CSharpx
             return func2(y.Value);
         }
 
-#if CSHARPX_MAYBE_FUNC
+#if !CSX_REM_MAYBE_FUNC
         public static Either<T1, T2> OfMaybe<T1, T2>(Maybe<T1> maybe, T2 second)
         {
             if (maybe.Tag == MaybeType.Just)
@@ -959,7 +965,7 @@ namespace CSharpx
 #endif
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_EITHER_INTERNAL
     public
 #endif
     static class EitherExtensions
@@ -974,7 +980,8 @@ namespace CSharpx
             ifSecond(((Either2Of2<T1, T2>)either).Value);
         }
 
-#if CSHARPX_EITHER_3
+#if !CSX_REM_EITHER_BEYOND_2
+#if !CSX_REM_EITHER_3
         public static void Match<T1, T2, T3>(this Either<T1, T2, T3> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird)
         {
@@ -992,7 +999,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_EITHER_4
+#if !CSX_REM_EITHER_4
         public static void Match<T1, T2, T3, T4>(this Either<T1, T2, T3, T4> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird, Action<T4> ifFourth)
         {
@@ -1015,7 +1022,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_EITHER_5
+#if !CSX_REM_EITHER_5
         public static void Match<T1, T2, T3, T4, T5>(this Either<T1, T2, T3, T4, T5> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird, Action<T4> ifFourth, Action<T5> ifFifth)
         {
@@ -1043,7 +1050,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_EITHER_6
+#if !CSX_REM_EITHER_6
         public static void Match<T1, T2, T3, T4, T5, T6>(this Either<T1, T2, T3, T4, T5, T6> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird, Action<T4> ifFourth, Action<T5> ifFifth, Action<T6> ifSixth)
         {
@@ -1076,7 +1083,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_EITHER_7
+#if !CSX_REM_EITHER_7
         public static void Match<T1, T2, T3, T4, T5, T6, T7>(this Either<T1, T2, T3, T4, T5, T6, T7> either, Action<T1> ifFirst, Action<T2> ifSecond,
             Action<T3> ifThird, Action<T4> ifFourth, Action<T5> ifFifth, Action<T6> ifSixth,
             Action<T7> ifSeventh)
@@ -1113,6 +1120,7 @@ namespace CSharpx
             }
             ifSeventh(((Either7Of7<T1, T2, T3, T4, T5, T6, T7>)either).Value);
         }
+#endif
 #endif
     }
 }

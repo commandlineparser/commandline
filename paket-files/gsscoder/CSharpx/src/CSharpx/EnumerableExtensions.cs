@@ -1,18 +1,8 @@
-﻿// Most methods taken from code.google.com/p/morelinq/.
-
-//#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
-//#define CSHARPX_CARTESIAN // Comment this to remove Cartesian method.
-//#define CSHARPX_PREPEND // Comment this to remove Prepend method.
-//#define CSHARPX_CONCAT // Comment this to remove Concat methods (depend on Prepend).
-//#define CSHARPX_EXCLUDE // Comment this to remove Prepend method.
-#define CSHARPX_INDEX // Comment this to remove Index methods.
-#define CSHARPX_FOLD // Comment this to remove Fold methods (depend on Index).
-#define CSHARPX_FOREACH // Comment this to remove ForEach method.
-#define CSHARPX_PAIRWISE // Comment this to remove Index method.
-//#define CSHARPX_TODELIMITEDSTRING // Comment this to remove ToDelimitedString methods.
-#define CSHARPX_TAIL // Comment this to remove Tails methods.
-#define CSHARPX_MAYBE_FUNC // Comment this to remove dependency from Maybe.cs.
-#define CSHARPX_MEM // Comment this to remove Memorize, Meterialize methods.
+﻿//Use project level define(s) when referencing with Paket.
+//#define CSX_ENUM_INTERNAL // Uncomment this to set visibility to internal.
+//#define CSX_ENUM_REM_STD_FUNC // Uncomment this to remove standard functions.
+//#define CSX_REM_MAYBE_FUNC // Uncomment this to remove dependency to Maybe.cs.
+//#define CSX_REM_EXTRA_FUNC // Uncomment this to extra functions.
 
 using System;
 using System.Collections;
@@ -25,11 +15,12 @@ using LinqEnumerable = System.Linq.Enumerable;
 
 namespace CSharpx
 {
-#if CSHARPX_PUBLIC
+#if !CSX_ENUM_INTERNAL
     public
 #endif
     static partial class EnumerableExtensions
     {
+#if !CSX_ENUM_REM_STD_FUNC
         private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source,
             int count, Func<int, int, Exception> errorSelector)
         {
@@ -63,7 +54,6 @@ namespace CSharpx
             }
         }
 
-#if CSHARPX_CARTESIAN
         /// <summary>
         /// Returns the Cartesian product of two sequences by combining each element of the first set with each in the second
         /// and applying the user=define projection to the pair.
@@ -78,9 +68,7 @@ namespace CSharpx
                    from item2 in second // TODO buffer to avoid multiple enumerations
                    select resultSelector(item1, item2);
         }
-#endif
 
-#if CSHARPX_PREPEND
         /// <summary>
         /// Prepends a single value to a sequence.
         /// </summary>
@@ -90,9 +78,7 @@ namespace CSharpx
 
             return LinqEnumerable.Concat(LinqEnumerable.Repeat(value, 1), source);
         }
-#endif
 
-#if CSHARPX_CONCAT
         /// <summary>
         /// Returns a sequence consisting of the head element and the given tail elements.
         /// </summary>
@@ -112,9 +98,7 @@ namespace CSharpx
 
             return LinqEnumerable.Concat(head, LinqEnumerable.Repeat(tail, 1));
         }
-#endif
 
-#if CSHARPX_EXCLUDE
         /// <summary>
         /// Excludes <paramref name="count"/> elements from a sequence starting at a given index
         /// </summary>
@@ -145,9 +129,7 @@ namespace CSharpx
                     yield return iter.Current;
             }
         }
-#endif
 
-#if CSHARPX_INDEX
         /// <summary>
         /// Returns a sequence of <see cref="KeyValuePair{TKey,TValue}"/> 
         /// where the key is the zero-based index of the value in the source 
@@ -167,9 +149,7 @@ namespace CSharpx
         {
             return source.Select((item, index) => new KeyValuePair<int, TSource>(startIndex + index, item));
         }
-#endif
 
-#if CSHARPX_FOLD
         /// <summary>
         /// Returns the result of applying a function to a sequence of 
         /// 1 element.
@@ -244,9 +224,7 @@ namespace CSharpx
                         : "Sequence contains too many elements when exactly {0} {1} expected.";
             return new Exception(string.Format(message, count.ToString("N0"), count == 1 ? "was" : "were"));
         }
-#endif
 
-#if CSHARPX_FOREACH
         /// <summary>
         /// Immediately executes the given action on each element in the source sequence.
         /// </summary>
@@ -261,9 +239,7 @@ namespace CSharpx
                 action(element);
             }
         }
-#endif
 
-#if CSHARPX_PAIRWISE
         /// <summary>
         /// Returns a sequence resulting from applying a function to each 
         /// element in the source sequence and its 
@@ -296,9 +272,7 @@ namespace CSharpx
                 }
             }
         }
-#endif
 
-#if CSHARPX_TODELIMITEDSTRING
         /// <summary>
         /// Creates a delimited string from a sequence of values. The 
         /// delimiter used depends on the current culture of the executing thread.
@@ -338,7 +312,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_MAYBE_FUNC
+#if !CSX_REM_MAYBE_FUNC
         /// <summary>
         /// Safe function that returns Just(first element) or None.
         /// </summary>
@@ -353,7 +327,7 @@ namespace CSharpx
         }
 #endif
 
-#if CSHARPX_TAIL
+#if !CSX_REM_EXTRA_FUNC
         /// <summary>
         /// Return everything except first element and throws exception if empty.
         /// </summary>
@@ -381,9 +355,7 @@ namespace CSharpx
                         yield return e.Current;
             }
         }
-#endif
 
-#if CSHARPX_MEM
         /// <summary>
         /// Captures current state of a sequence.
         /// </summary>

@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CSX_EITHER_INTERNAL; CSX_REM_EITHER_BEYOND_2; CSX_ENUM_INTERNAL; ERRH_INTERNAL; ERRH_DISABLE_INLINE_METHODS; CSX_MAYBE_INTERNAL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\CommandLine.XML</DocumentationFile>

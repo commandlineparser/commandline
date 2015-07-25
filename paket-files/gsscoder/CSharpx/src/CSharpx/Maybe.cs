@@ -1,16 +1,17 @@
-﻿//#define CSHARPX_PUBLIC // Comment this to set visibility to internal.
-#define CSHARPX_EITHER_FUNC // Comment this to remove dependency from Either.cs.
+﻿//Use project level define(s) when referencing with Paket.
+//#define CSX_MAYBE_INTERNAL // Uncomment this to set visibility to internal.
+//#define CSX_REM_EITHER_FUNC // Uncomment this to remove dependency to Either.cs.
 
 using System;
 
 namespace CSharpx
 {
-#if CSHARPX_PUBLIC
+#if !CSX_MAYBE_INTERNAL
     public
 #endif
     enum MaybeType { Just, Nothing }
 
-#if CSHARPX_PUBLIC
+#if !CSX_MAYBE_INTERNAL
     public
 #endif
     abstract class Maybe<T>
@@ -41,7 +42,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_MAYBE_INTERNAL
     public
 #endif
     sealed class Nothing<T> : Maybe<T>
@@ -49,7 +50,7 @@ namespace CSharpx
         internal Nothing() : base(MaybeType.Nothing) { }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_MAYBE_INTERNAL
     public
 #endif
     sealed class Just<T> : Maybe<T>
@@ -68,7 +69,7 @@ namespace CSharpx
         }
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_MAYBE_INTERNAL
     public
 #endif
     static class Maybe
@@ -83,7 +84,7 @@ namespace CSharpx
             return new Just<T>(value);
         }
 
-#if CSHARPX_EITHER_FUNC
+#if !CSX_REM_EITHER_FUNC
         /// <summary>
         /// Maps Choice 1Of2 to Some value, otherwise None.
         /// </summary>
@@ -98,7 +99,7 @@ namespace CSharpx
 #endif
     }
 
-#if CSHARPX_PUBLIC
+#if !CSX_MAYBE_INTERNAL
     public
 #endif
     static class MaybeExtensions
