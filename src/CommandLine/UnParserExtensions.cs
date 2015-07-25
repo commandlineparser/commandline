@@ -35,8 +35,9 @@ namespace CommandLine
             var specs =
                 from info in
                     type.GetSpecifications(
-                        pi => new { Specification = Specification.FromProperty(pi), Value = pi.GetValue(options, null) })
-                where !info.Value.IsEmpty()
+                        pi => new { Specification = Specification.FromProperty(pi),
+                            Value = pi.GetValue(options, null).NormalizeValue(), PropertyValue = pi.GetValue(options, null) })
+                where !info.PropertyValue.IsEmpty()
                 select info;
             var optSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                 let o = (OptionSpecification)info.Specification
@@ -48,9 +49,11 @@ namespace CommandLine
                 orderby v.Index
                 select info;
 
-            optSpecs.ForEach(opt => builder.Append(FormatOption((OptionSpecification)opt.Specification, opt.Value)).Append(' '));
+            optSpecs.ForEach(
+                opt => builder.Append(FormatOption((OptionSpecification)opt.Specification, opt.Value)).Append(' '));
             builder.TrimEndIfMatch(' ');
-            valSpecs.ForEach(val => builder.Append(FormatValue(val.Specification, val.Value)).Append(' '));
+            valSpecs.ForEach(
+                val => builder.Append(FormatValue(val.Specification, val.Value)).Append(' '));
 
             return builder
                 .ToString().TrimEnd(' ');
@@ -109,9 +112,21 @@ namespace CommandLine
                 ? "--".JoinTo(optionSpec.LongName) : "-".JoinTo(optionSpec.ShortName);
         }
 
+        private static object NormalizeValue(this object value)
+        {
+            if (value != null
+                && ReflectionHelper.IsFSharpOptionType(value.GetType())
+                && FSharpOptionHelper.IsSome(value))
+            {
+                return FSharpOptionHelper.ValueOf(value);
+            }
+            return value;
+        }
+
         private static bool IsEmpty(this object value)
         {
             if (value == null) return true;
+            if (ReflectionHelper.IsFSharpOptionType(value.GetType()) && !FSharpOptionHelper.IsSome(value)) return true;
             if (value is ValueType && value.Equals(value.GetType().GetDefaultValue())) return true;
             if (value is string && ((string)value).Length == 0) return true;
             if (value is IEnumerable && !((IEnumerable)value).GetEnumerator().MoveNext()) return true;

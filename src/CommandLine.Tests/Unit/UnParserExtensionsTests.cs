@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;using CommandLine.Tests.Fakes;using Xunit;
 using FluentAssertions;
 
-namespace CommandLine.Tests.Unit
+using Microsoft.FSharp.Core;
+
+namespace CommandLine.Tests.Unit
 {
     public class UnParserExtensionsTests
     {
@@ -25,6 +27,15 @@ namespace CommandLine.Tests.Unit
         [Theory]
         [MemberData("UnParseDataImmutable")]
         public static void UnParsing_immutable_instance_returns_command_line(FakeImmutableOptions options, string result)
+        {
+            new Parser()
+                .FormatCommandLine(options)
+                .ShouldBeEquivalentTo(result);
+        }
+
+        [Theory]
+        [MemberData("UnParseDataFSharpOption")]
+        public static void UnParsing_instance_with_fsharp_option_returns_command_line(FakeOptionsWithFSharpOption options, string result)
         {
             new Parser()
                 .FormatCommandLine(options)
@@ -63,6 +74,17 @@ namespace CommandLine.Tests.Unit
                 yield return new object[] { new FakeImmutableOptions ("", Enumerable.Empty<int>(), default(bool), 123456789), "123456789" };
                 yield return new object[] { new FakeImmutableOptions ("nospaces", new[] { 1, 2, 3 }, true, 123456789), "-i 1 2 3 --stringvalue nospaces -x 123456789" };
                 yield return new object[] { new FakeImmutableOptions ("with \"quotes\" spaced", new[] { 1, 2, 3 }, true, 123456789), "-i 1 2 3 --stringvalue \"with \\\"quotes\\\" spaced\" -x 123456789" };
+            }
+        }
+
+        public static IEnumerable<object> UnParseDataFSharpOption
+        {
+            get
+            {
+                yield return new object[] { new FakeOptionsWithFSharpOption(), "" };
+                yield return new object[] { new FakeOptionsWithFSharpOption { FileName = FSharpOption<string>.Some("myfile.bin") }, "--filename myfile.bin" };
+                yield return new object[] { new FakeOptionsWithFSharpOption { Offset = FSharpOption<int>.Some(123456789) }, "123456789" };
+                yield return new object[] { new FakeOptionsWithFSharpOption { FileName = FSharpOption<string>.Some("myfile.bin"), Offset = FSharpOption<int>.Some(123456789) }, "--filename myfile.bin 123456789" };
             }
         }    }
 }

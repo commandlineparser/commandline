@@ -4,7 +4,7 @@ using Microsoft.FSharp.Core;
 
 namespace CommandLine.Tests.Fakes
 {
-    class FakeOptionsWithFSharpOption
+    public class FakeOptionsWithFSharpOption
     {
         [Option]
         public FSharpOption<string> FileName { get; set; }
