@@ -70,11 +70,11 @@ namespace CommandLine
                     break;
                 case TargetType.Sequence:
                     var sep = spec.SeperatorOrSpace();
-                    Func<object, object> fmtWithQuotesIfStr = v
+                    Func<object, object> format = v
                         => sep == ' ' ? FormatWithQuotesIfString(v) : v;
                     var e = ((IEnumerable)value).GetEnumerator();
                     while (e.MoveNext())
-                        builder.Append(fmtWithQuotesIfStr(e.Current)).Append(sep);
+                        builder.Append(format(e.Current)).Append(sep);
                     builder.TrimEndIfMatch(' ');
                     break;
             }
