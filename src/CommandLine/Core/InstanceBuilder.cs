@@ -132,6 +132,20 @@ namespace CommandLine.Core
             return allErrors.Any()
                 ? (ParserResult<T>)new NotParsed<T>(instance, allErrors)
                 : (ParserResult<T>)new Parsed<T>(instance);
+
+            //ParserResult<T> parserResult = tokenizerResult
+            //    .TupledWith(optionSpecPropsResult, valueSpecPropsResult, Tuple.Create(missingValueErrors, validationErrors))
+            //    .Either(
+            //        (_, tokenErrs, __, optionErrs, ___, valueErrs, moreErrs) =>
+            //            {
+            //                var missing = moreErrs.Item1;
+            //                var validation = moreErrs.Item2;
+
+            //            },
+            //        (_, __, ___) => { },
+            //        (_, __, ___) => { }
+            //    );
         }
+
     }
 }
