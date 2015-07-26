@@ -40,7 +40,7 @@ namespace CommandLine.Core
         {
             if (arguments.Empty())
             {
-                return MakeNotParsed(types, new NoVerbSelectedError());
+                return MakeNotParsed(new NullInstance().GetType(), types, new NoVerbSelectedError());
             }
 
             var firstArg = arguments.First();
@@ -52,11 +52,11 @@ namespace CommandLine.Core
             var verbs = Verb.SelectFromTypes(types);
 
             return preprocCompare("help")
-                ? MakeNotParsed(types,
+                ? MakeNotParsed(new NullInstance().GetType(), types,
                     MakeHelpVerbRequestedError(verbs,
                         arguments.Skip(1).SingleOrDefault() ?? string.Empty, nameComparer))
                 : preprocCompare("version")
-                    ? MakeNotParsed(types, new VersionRequestedError())
+                    ? MakeNotParsed(new NullInstance().GetType(), types, new VersionRequestedError())
                     : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
         }
 
@@ -71,13 +71,12 @@ namespace CommandLine.Core
                 ? InstanceBuilder.Build(
                     Maybe.Just<Func<object>>(
                         () =>
-                            verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First()))
-                                .Item2.AutoDefault()),
+                            verbs.Single(v => nameComparer.Equals(v.Item1.Name, arguments.First())).Item2.AutoDefault()),
                     tokenizer,
                     arguments.Skip(1),
                     nameComparer,
                     parsingCulture)
-                : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
+                : MakeNotParsed(new NullInstance().GetType(), verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
         }
 
         private static HelpVerbRequestedError MakeHelpVerbRequestedError(
@@ -94,9 +93,10 @@ namespace CommandLine.Core
                 : new HelpVerbRequestedError(null, null, false);
         }
 
-        private static NotParsed<object> MakeNotParsed(IEnumerable<Type> types, params Error[] errors)
+        private static NotParsed<object> MakeNotParsed(Type typeInfo, IEnumerable<Type> types, params Error[] errors)
         {
-            return new NotParsed<object>(new NullInstance(), types, errors);
+            //return new NotParsed<object>(new NullInstance(), types, errors);
+            return new NotParsed<object>(typeInfo, types, errors);
         }
     }
 }

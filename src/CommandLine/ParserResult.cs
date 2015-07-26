@@ -30,13 +30,16 @@ namespace CommandLine
     public abstract class ParserResult<T>
     {
         private readonly ParserResultType tag;
-        private readonly T value;
+        //private readonly T value;
         private readonly IEnumerable<Type> verbTypes;
+        private readonly Type typeInfo;
 
-        internal ParserResult(ParserResultType tag, T value, IEnumerable<Type> verbTypes)
+        //internal ParserResult(ParserResultType tag, T value, IEnumerable<Type> verbTypes)
+        internal ParserResult(ParserResultType tag, Type typeInfo, IEnumerable<Type> verbTypes)
         {
             this.tag = tag;
-            this.value = value;
+            //this.value = value;
+            this.typeInfo = typeInfo;
             this.verbTypes = verbTypes;
         }
 
@@ -48,15 +51,20 @@ namespace CommandLine
             get { return this.tag; }
         }
 
+        internal Type TypeInfo
+        {
+            get { return typeInfo; }
+        }
+
         internal IEnumerable<Type> VerbTypes
         {
             get { return verbTypes; }
         }
 
-        internal T Value
-        {
-            get { return value; }
-        }
+        //internal T Value
+        //{
+        //    get { return value; }
+        //}
     }
 
     /// <summary>
@@ -65,9 +73,13 @@ namespace CommandLine
     /// <typeparam name="T">The type with attributes that define the syntax of parsing rules.</typeparam>
     public sealed class Parsed<T> : ParserResult<T>, IEquatable<Parsed<T>>
     {
+        private readonly T value;
+
         internal Parsed(T value, IEnumerable<Type> verbTypes)
-            : base(ParserResultType.Parsed, value, verbTypes)
+            : base(ParserResultType.Parsed, value.GetType(), verbTypes)
+            //: base(ParserResultType.Parsed, value, verbTypes)
         {
+            this.value = value;
         }
 
         internal Parsed(T value)
@@ -78,9 +90,11 @@ namespace CommandLine
         /// <summary>
         /// Gets the instance with parsed values.
         /// </summary>
-        public new T Value
+        //public new T Value
+        public T Value
         {
-            get { return base.Value; }
+            //get { return base.Value; }
+            get { return value; }
         }
 
         /// <summary>
@@ -105,7 +119,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return new { ParserResultType = this.Tag, Value, VerbTypes }.GetHashCode();
+            return new { Tag, Value, VerbTypes }.GetHashCode();
         }
 
         /// <summary>
@@ -134,14 +148,18 @@ namespace CommandLine
     {
         private readonly IEnumerable<Error> errors;
 
-        internal NotParsed(T value, IEnumerable<Type> verbTypes, IEnumerable<Error> errors)
-            : base(ParserResultType.NotParsed, value, verbTypes)
+        //internal NotParsed(T value, IEnumerable<Type> verbTypes, IEnumerable<Error> errors)
+        //    : base(ParserResultType.NotParsed, value, verbTypes)
+        internal NotParsed(Type typeInfo, IEnumerable<Type> verbTypes, IEnumerable<Error> errors)
+            : base(ParserResultType.NotParsed, typeInfo, verbTypes)
         {
             this.errors = errors;
         }
 
-        internal NotParsed(T value, IEnumerable<Error> errors)
-            : this(value, Enumerable.Empty<Type>(), errors)
+        //internal NotParsed(T value, IEnumerable<Error> errors)
+        //    : this(value, Enumerable.Empty<Type>(), errors)
+        internal NotParsed(Type typeInfo, IEnumerable<Error> errors)
+            : this(typeInfo, Enumerable.Empty<Type>(), errors)
         {
         }
 
@@ -176,7 +194,8 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return new { Value, Errors }.GetHashCode();
+            //return new { Value, Errors }.GetHashCode();
+            return new { Tag, Errors }.GetHashCode();
         }
 
         /// <summary>
@@ -203,7 +222,7 @@ namespace CommandLine
         {
             var notParsed = parserResult as NotParsed<T>;
             if (notParsed != null)
-                return new NotParsed<T>(notParsed.Value, func(notParsed.Errors));
+                return new NotParsed<T>(notParsed.TypeInfo, func(notParsed.Errors));
             return parserResult;
         }
     }

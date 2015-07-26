@@ -74,7 +74,7 @@ namespace CommandLine.Tests.Unit
             var result = sut.ParseArguments<FakeOptions>(new[] { "--stringvalue=strvalue", "-i1", "2", "3" });
 
             // Verify outcome
-            result.Value.ShouldBeEquivalentTo(expectedOptions);
+            ((Parsed<FakeOptions>)result).Value.ShouldBeEquivalentTo(expectedOptions);
             // Teardown
         }
 
@@ -96,7 +96,7 @@ namespace CommandLine.Tests.Unit
                 new[] { "--stringvalue", "astring", "--", "20", "--aaa", "-b", "--ccc", "30" });
 
             // Verify outcome
-            result.Value.ShouldBeEquivalentTo(expectedOptions);
+            ((Parsed<FakeOptionsWithValues>)result).Value.ShouldBeEquivalentTo(expectedOptions);
             // Teardown
         }
 
@@ -117,8 +117,8 @@ namespace CommandLine.Tests.Unit
                 typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
 
             // Verify outcome
-            Assert.IsType<AddOptions>(result.Value);
-            result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
+            Assert.IsType<AddOptions>(((Parsed<object>)result).Value);
+            ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             // Teardown
         }
 
@@ -139,8 +139,8 @@ namespace CommandLine.Tests.Unit
                 typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
 
             // Verify outcome
-            Assert.IsType<CloneOptions>(result.Value);
-            result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
+            Assert.IsType<CloneOptions>(((Parsed<object>)result).Value);
+            ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             // Teardown
         }
 
@@ -160,8 +160,8 @@ namespace CommandLine.Tests.Unit
                 new[] { "clone", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" });
 
             // Verify outcome
-            Assert.IsType<CloneOptions>(result.Value);
-            result.Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
+            Assert.IsType<CloneOptions>(((Parsed<object>)result).Value);
+            ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             // Teardown
         }
 
@@ -177,7 +177,7 @@ namespace CommandLine.Tests.Unit
             var result = sut.ParseArguments<FakeImmutableOptions>(new[] { "--stringvalue=strvalue", "-i1", "2", "3" });
 
             // Verify outcome
-            result.Value.ShouldBeEquivalentTo(expectedOptions);
+            ((Parsed<FakeImmutableOptions>)result).Value.ShouldBeEquivalentTo(expectedOptions);
             // Teardown
         }
 

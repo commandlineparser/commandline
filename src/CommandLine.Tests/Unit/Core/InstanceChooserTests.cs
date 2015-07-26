@@ -26,7 +26,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.IsType<NullInstance>(result.Value);
+            //Assert.IsType<NullInstance>(result.Value);
             Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
             // Teardown
         }
@@ -45,7 +45,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.IsType<NullInstance>(result.Value);
+            //Assert.IsType<NullInstance>(result.Value);
             Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
             // Teardown
         }
@@ -64,7 +64,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.IsType<NullInstance>(result.Value);
+            //Assert.IsType<NullInstance>(result.Value);
             Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
             // Teardown
         }
@@ -83,7 +83,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.IsType<NullInstance>(result.Value);
+            //Assert.IsType<NullInstance>(result.Value);
             Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
             // Teardown
         }
@@ -102,8 +102,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.IsType<AddOptions>(result.Value);
-            expected.ShouldBeEquivalentTo(result.Value);
+            Assert.IsType<AddOptions>(((Parsed<object>)result).Value);
+            expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }
 
@@ -121,8 +121,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.IsType<ImmutableAddOptions>(result.Value);
-            expected.ShouldBeEquivalentTo(result.Value);
+            Assert.IsType<ImmutableAddOptions>(((Parsed<object>)result).Value);
+            expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }
     
@@ -140,8 +140,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.IsType<SequenceOptions>(result.Value);
-            expected.ShouldBeEquivalentTo(result.Value);
+            Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
+            expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }
 
@@ -163,8 +163,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.IsType<SequenceOptions>(result.Value);
-            expected.ShouldBeEquivalentTo(result.Value);
+            Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
+            expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }
     }

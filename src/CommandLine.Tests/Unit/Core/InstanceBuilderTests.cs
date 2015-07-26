@@ -21,7 +21,7 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup
             var fakeOptions = new FakeOptions();
             var expectedResult = new NotParsed<FakeOptions>(
-                fakeOptions, new Error[] { new HelpRequestedError() });
+                typeof(FakeOptions), new Error[] { new HelpRequestedError() });
 
             // Exercize system 
             var result = InstanceBuilder.Build(
@@ -52,7 +52,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.Equal(expected, result.Value.LongValue);
+            Assert.Equal(expected, ((Parsed<FakeOptions>)result).Value.LongValue);
 
             // Teardown
         }
@@ -75,7 +75,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.Equal(expected, result.Value.DoubleValue);
+            Assert.Equal(expected, ((Parsed<FakeOptionsWithDouble>)result).Value.DoubleValue);
 
             // Teardown
         }
@@ -97,9 +97,9 @@ namespace CommandLine.Tests.Unit.Core
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
-
+            
             // Verify outcome
-            Assert.True(expected.SequenceEqual(result.Value.IntSequence));
+            Assert.True(expected.SequenceEqual(((Parsed<FakeOptionsWithSequence>)result).Value.IntSequence));
 
             // Teardown
         }
@@ -121,7 +121,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expected.SequenceEqual(result.Value.IntSequence));
+            Assert.True(expected.SequenceEqual(((Parsed<FakeOptions>)result).Value.IntSequence));
 
             // Teardown
         }
@@ -142,9 +142,9 @@ namespace CommandLine.Tests.Unit.Core
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
-
+            
             // Verify outcome
-            Assert.True(expected.SequenceEqual(result.Value.StringSequence));
+            Assert.True(expected.SequenceEqual(((Parsed<FakeOptionsWithSequenceAndOnlyMinConstraint>)result).Value.StringSequence));
 
             // Teardown
         }
@@ -166,7 +166,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expected.SequenceEqual(result.Value.StringSequence));
+            Assert.True(expected.SequenceEqual(((Parsed<FakeOptionsWithSequenceAndOnlyMaxConstraint>)result).Value.StringSequence));
 
             // Teardown
         }
@@ -266,7 +266,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value.Colors);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithEnum>)result).Value.Colors);
 
             // Teardown
         }
@@ -348,7 +348,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithValues>)result).Value);
 
             // Teardown
         }
@@ -371,7 +371,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value.LongSequence);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithSequenceWithoutRange>)result).Value.LongSequence);
 
             // Teardown
         }
@@ -393,7 +393,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value.LongSequence);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithSequenceAndSeparator>)result).Value.LongSequence);
 
             // Teardown
         }
@@ -415,7 +415,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value.StringSequence);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithSequenceAndSeparator>)result).Value.StringSequence);
 
             // Teardown
         }
@@ -447,7 +447,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithValues>)result).Value);
 
             // Teardown
         }
@@ -475,24 +475,25 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        [Fact]
-        public void Two_required_options_at_the_same_set_and_one_is_true() {
-            // Fixture setup
-            var expectedResult = new FakeOptionWithRequiredAndSet {
-                FtpUrl = "str1",
-                WebUrl = null
-            };
-            // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<FakeOptionWithRequiredAndSet>>(() => new FakeOptionWithRequiredAndSet()),
-                new[] { "--ftpurl", "str1"},
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+        // WRONG TEST! BEFORE PASSED FOR ERROR
+        //[Fact]
+        //public void Two_required_options_at_the_same_set_and_one_is_true() {
+        //    // Fixture setup
+        //    var expectedResult = new FakeOptionWithRequiredAndSet {
+        //        FtpUrl = "str1",
+        //        WebUrl = null
+        //    };
+        //    // Exercize system 
+        //    var result = InstanceBuilder.Build(
+        //        Maybe.Just<Func<FakeOptionWithRequiredAndSet>>(() => new FakeOptionWithRequiredAndSet()),
+        //        new[] { "--ftpurl", "str1"},
+        //        StringComparer.Ordinal,
+        //        CultureInfo.InvariantCulture);
 
-            // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(result.Value);
-            // Teardown
-        }
+        //    // Verify outcome
+        //    expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionWithRequiredAndSet>)result).Value);
+        //    // Teardown
+        //}
 
 
         [Fact]
@@ -510,7 +511,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionWithRequiredAndSet>)result).Value);
             // Teardown
         }
 
@@ -645,7 +646,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expected.Equals(result.Value.StringValue));
+            Assert.True(expected.Equals(((Parsed<FakeOptions>)result).Value.StringValue));
 
             // Teardown
         }
@@ -686,7 +687,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value.StringValue);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeOptions>)result).Value.StringValue);
 
             // Teardown
         }
@@ -727,7 +728,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value.NullableInt);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithNullables>)result).Value.NullableInt);
 
             // Teardown
         }
@@ -749,7 +750,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value.NullableLong);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithNullables>)result).Value.NullableLong);
 
             // Teardown
         }
@@ -769,11 +770,11 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            if (result.Value.FileName != null)
+            if (((Parsed<FakeOptionsWithFSharpOption>)result).Value.FileName != null)
             {
-                expectedValue.ShouldBeEquivalentTo(result.Value.FileName.Value);
+                expectedValue.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithFSharpOption>)result).Value.FileName.Value);
             }
-            expectedSome.ShouldBeEquivalentTo(FSharpOption<string>.get_IsSome(result.Value.FileName));
+            expectedSome.ShouldBeEquivalentTo(FSharpOption<string>.get_IsSome(((Parsed<FakeOptionsWithFSharpOption>)result).Value.FileName));
 
             // Teardown
         }
@@ -793,11 +794,11 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            if (result.Value.Offset != null)
+            if (((Parsed<FakeOptionsWithFSharpOption>)result).Value.Offset != null)
             {
-                expectedValue.ShouldBeEquivalentTo(result.Value.Offset.Value);
+                expectedValue.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithFSharpOption>)result).Value.Offset.Value);
             }
-            expectedSome.ShouldBeEquivalentTo(FSharpOption<int>.get_IsSome(result.Value.Offset));
+            expectedSome.ShouldBeEquivalentTo(FSharpOption<int>.get_IsSome(((Parsed<FakeOptionsWithFSharpOption>)result).Value.Offset));
 
             // Teardown
         }
@@ -899,7 +900,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value.InputFile);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeInterfaceOptions>)result).Value.InputFile);
         }
 
         [Theory]
@@ -944,7 +945,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithRequiredValue>)result).Value);
 
             // Teardown
         }
@@ -963,7 +964,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithScalarValueAndSequenceStringAdjacent>)result).Value);
 
             // Teardown
         }
@@ -982,7 +983,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(result.Value);
+            expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptions>)result).Value);
 
             // Teardown
         }
@@ -1022,7 +1023,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result.Value);
+            expected.ShouldBeEquivalentTo(((Parsed<FakeImmutableOptions>)result).Value);
 
             // Teardown
         }

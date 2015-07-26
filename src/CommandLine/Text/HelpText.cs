@@ -234,7 +234,7 @@ namespace CommandLine.Text
             }
             else
             {
-                auto.AddOptions(parserResult.Value);
+                auto.AddOptions(parserResult);
             }
 
             return auto;
@@ -272,7 +272,7 @@ namespace CommandLine.Text
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             if (err.Matched)
             {
-                var pr = new NotParsed<object>(err.Type.AutoDefault(), Enumerable.Empty<Error>());
+                var pr = new NotParsed<object>(err.Type, Enumerable.Empty<Error>());
                 return AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current));
             }
 
@@ -348,12 +348,13 @@ namespace CommandLine.Text
         /// </summary>
         /// <param name="options">The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>
-        public HelpText AddOptions<T>(T options)
+        public HelpText AddOptions<T>(ParserResult<T> result)
         {
-            if (Equals(options, default(T))) throw new ArgumentNullException("options");
+            //if (Equals(options, default(T))) throw new ArgumentNullException("options");
+            if (result == null) throw new ArgumentNullException("result");
 
             return AddOptionsImpl(
-                this.GetSpecificationsFromType(options),
+                this.GetSpecificationsFromType(result.TypeInfo),
                 SentenceBuilder.RequiredWord(),
                 MaximumDisplayWidth);
         }
@@ -381,12 +382,13 @@ namespace CommandLine.Text
         /// <param name="maximumLength">The maximum length of the help screen.</param>
         /// <param name="options">The instance that collected command line arguments parsed with the <see cref="Parser"/> class.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>    
-        public HelpText AddOptions<T>(int maximumLength, T options)
+        public HelpText AddOptions<T>(int maximumLength, ParserResult<T> result)
         {
-            if (Equals(options, default(T))) throw new ArgumentNullException("options");
+            //if (Equals(options, default(T))) throw new ArgumentNullException("options");
+            if (result == null) throw new ArgumentNullException("result");
 
             return AddOptionsImpl(
-                this.GetSpecificationsFromType(options),
+                this.GetSpecificationsFromType(result.TypeInfo),
                 SentenceBuilder.RequiredWord(),
                 maximumLength);
         }
@@ -512,9 +514,9 @@ namespace CommandLine.Text
             builder.Append(value);
         }
 
-        private IEnumerable<Specification> GetSpecificationsFromType<T>(T options)
+        private IEnumerable<Specification> GetSpecificationsFromType(Type type)
         {
-            var specs = options.GetType().GetSpecifications(Specification.FromProperty);
+            var specs = type.GetSpecifications(Specification.FromProperty);
             var optionSpecs = specs
                 .OfType<OptionSpecification>()
                 .Concat(new[] { this.MakeHelpEntry(), this.MakeVersionEntry() });

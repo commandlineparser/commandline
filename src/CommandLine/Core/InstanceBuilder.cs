@@ -62,7 +62,7 @@ namespace CommandLine.Core
                 var preprocessorErrors = arguments.Preprocess(PreprocessorGuards.Lookup(nameComparer));
                 if (preprocessorErrors.Any())
                 {
-                    return new NotParsed<T>(makeDefault(), preprocessorErrors);
+                    return new NotParsed<T>(makeDefault().GetType(), preprocessorErrors);
                 }
             }
 
@@ -130,7 +130,7 @@ namespace CommandLine.Core
                 .Concat(validationErrors);
 
             return allErrors.Any()
-                ? (ParserResult<T>)new NotParsed<T>(instance, allErrors)
+                ? (ParserResult<T>)new NotParsed<T>(instance.GetType(), allErrors)
                 : (ParserResult<T>)new Parsed<T>(instance);
         }
     }
