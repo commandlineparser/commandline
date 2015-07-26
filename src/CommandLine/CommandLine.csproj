@@ -79,6 +79,7 @@
     <Compile Include="Core\Sequence.cs" />
     <Compile Include="Core\Switch.cs" />
     <Compile Include="Core\TokenPartitions.cs" />
+    <Compile Include="ErrorExtensions.cs" />
     <Compile Include="Infrastructure\EnumerableExtensions`1.cs" />
     <Compile Include="Core\InstanceChooser.cs" />
     <Compile Include="Core\Tokenizer.cs">
