@@ -6,6 +6,38 @@ using System.Linq;
 
 namespace CommandLine
 {
+    sealed class TypeInfo
+    {
+        private readonly Type single;
+        private readonly IEnumerable<Type> multiple; 
+
+        private TypeInfo(Type single, IEnumerable<Type> multiple)
+        {
+            this.single = single;
+            this.multiple = multiple;
+        }
+
+        public Type Single
+        {
+            get { return single; }
+        }
+
+        public IEnumerable<Type> Multiple
+        {
+            get { return multiple; }
+        }
+
+        public static TypeInfo Create(Type single)
+        {
+            return new TypeInfo(single, Enumerable.Empty<Type>());
+        }
+
+        public static TypeInfo Create(Type single, IEnumerable<Type> multiple)
+        {
+            return new TypeInfo(single, multiple);
+        }
+    }
+
     /// <summary>
     /// Discriminator enumeration of <see cref="CommandLine.ParserResultType"/> derivates.
     /// </summary>
