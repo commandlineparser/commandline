@@ -221,7 +221,6 @@ Latest Changes:
   - Issue #203 Implemented.
   - Issue #204 (reported by @Kimi-Arthur) Fixed.
   - PR #205 (by @forki) Merged.
-  - Internal refactorings.
   - Refactoring with `RailwaySharp.ErrorHandling`.
   - Test project refactoring.
   - Issue #186 Implemented: Adding unparse support.
@@ -229,6 +228,7 @@ Latest Changes:
   - Using new Paket-friendly CSharpx and RailwaySharp.
   - Added F# option support to `FormatCommandLine()`.
   - `ParserResult<T>` internally refactored, minor breaking changes to `HelpText`.
+  - Internal refactorings.
 
 Contact:
 ---
