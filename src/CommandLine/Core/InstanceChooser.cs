@@ -40,7 +40,7 @@ namespace CommandLine.Core
         {
             if (arguments.Empty())
             {
-                return MakeNotParsed(new NullInstance().GetType(), types, new NoVerbSelectedError());
+                return MakeNotParsed(types, new NoVerbSelectedError());
             }
 
             var firstArg = arguments.First();
@@ -52,11 +52,11 @@ namespace CommandLine.Core
             var verbs = Verb.SelectFromTypes(types);
 
             return preprocCompare("help")
-                ? MakeNotParsed(new NullInstance().GetType(), types,
+                ? MakeNotParsed(types,
                     MakeHelpVerbRequestedError(verbs,
                         arguments.Skip(1).SingleOrDefault() ?? string.Empty, nameComparer))
                 : preprocCompare("version")
-                    ? MakeNotParsed(new NullInstance().GetType(), types, new VersionRequestedError())
+                    ? MakeNotParsed(types, new VersionRequestedError())
                     : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
         }
 
@@ -76,7 +76,7 @@ namespace CommandLine.Core
                     arguments.Skip(1),
                     nameComparer,
                     parsingCulture)
-                : MakeNotParsed(new NullInstance().GetType(), verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
+                : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
         }
 
         private static HelpVerbRequestedError MakeHelpVerbRequestedError(
@@ -93,10 +93,9 @@ namespace CommandLine.Core
                 : new HelpVerbRequestedError(null, null, false);
         }
 
-        private static NotParsed<object> MakeNotParsed(Type typeInfo, IEnumerable<Type> types, params Error[] errors)
+        private static NotParsed<object> MakeNotParsed(IEnumerable<Type> types, params Error[] errors)
         {
-            //return new NotParsed<object>(new NullInstance(), types, errors);
-            return new NotParsed<object>(typeInfo, types, errors);
+            return new NotParsed<object>(typeof(NullInstance), types, errors);
         }
     }
 }
