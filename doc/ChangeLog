@@ -1,3 +1,7 @@
+2015-07-26    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * ParserResult<T> internally refactored, minor breaking changes to HelpText.
+
 2015-07-25    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Adding unparse support.
