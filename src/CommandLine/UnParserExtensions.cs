@@ -33,12 +33,13 @@ namespace CommandLine
                 .Return(verb => builder.Append(verb.Name).Append(' '), builder);
 
             var specs =
-                from info in
+                (from info in
                     type.GetSpecifications(
                         pi => new { Specification = Specification.FromProperty(pi),
                             Value = pi.GetValue(options, null).NormalizeValue(), PropertyValue = pi.GetValue(options, null) })
                 where !info.PropertyValue.IsEmpty()
-                select info;
+                select info)
+                    .Memorize();
             var optSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                 let o = (OptionSpecification)info.Specification
                 where o.TargetType != TargetType.Switch || (o.TargetType == TargetType.Switch && ((bool)info.Value))
