@@ -74,13 +74,13 @@ namespace CommandLine.Core
                 tokens,
                 name => TypeLookup.FindTypeDescriptorAndSibling(name, optionSpecs, nameComparer));
 
-            var optionSpecProps = OptionMapper.MapValues(
+            var optionSpecPropsResult = OptionMapper.MapValues(
                 (from pt in specProps where pt.Specification.IsOption() select pt),
                 partitions.Options,
                 (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture),
                 nameComparer);
 
-            var valueSpecProps = ValueMapper.MapValues(
+            var valueSpecPropsResult = ValueMapper.MapValues(
                 (from pt in specProps where pt.Specification.IsValue() select pt),
                     partitions.Values,
                 (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture));
@@ -89,8 +89,8 @@ namespace CommandLine.Core
                                      select new MissingValueOptionError(
                                          optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer)).FromOptionSpecification());
 
-            var specPropsWithValue = optionSpecProps.SucceededWith()
-                .Concat(valueSpecProps.SucceededWith());
+            var specPropsWithValue = optionSpecPropsResult.SucceededWith()
+                .Concat(valueSpecPropsResult.SucceededWith());
 
             T instance;
             if (typeInfo.IsMutable())
@@ -125,8 +125,8 @@ namespace CommandLine.Core
 
             var allErrors = tokenizerResult.SuccessfulMessages()
                 .Concat(missingValueErrors)
-                .Concat(optionSpecProps.SuccessfulMessages())
-                .Concat(valueSpecProps.SuccessfulMessages())
+                .Concat(optionSpecPropsResult.SuccessfulMessages())
+                .Concat(valueSpecPropsResult.SuccessfulMessages())
                 .Concat(validationErrors);
 
             return allErrors.Any()
