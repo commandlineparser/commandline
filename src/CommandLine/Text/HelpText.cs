@@ -620,7 +620,7 @@ namespace CommandLine.Text
                 do
                 {
                     var wordBuffer = 0;
-                    var words = optionHelpText.Split(new[] { ' ' });
+                    var words = optionHelpText.Split(' ');
                     for (var i = 0; i < words.Length; i++)
                     {
                         if (words[i].Length < (widthOfHelpText - wordBuffer))
