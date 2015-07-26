@@ -95,7 +95,7 @@ namespace CommandLine.Core
 
         private static NotParsed<object> MakeNotParsed(IEnumerable<Type> types, params Error[] errors)
         {
-            return new NotParsed<object>(typeof(NullInstance), types, errors);
+            return new NotParsed<object>(TypeInfo.Create(typeof(NullInstance), types), errors);
         }
     }
 }
