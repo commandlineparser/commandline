@@ -62,14 +62,12 @@ namespace CommandLine
     public abstract class ParserResult<T>
     {
         private readonly ParserResultType tag;
-        private readonly IEnumerable<Type> verbTypes;
-        private readonly Type typeInfo;
+        private readonly TypeInfo typeInfo;
 
-        internal ParserResult(ParserResultType tag, Type typeInfo, IEnumerable<Type> verbTypes)
+        internal ParserResult(ParserResultType tag, TypeInfo typeInfo)
         {
             this.tag = tag;
             this.typeInfo = typeInfo;
-            this.verbTypes = verbTypes;
         }
 
         /// <summary>
@@ -80,14 +78,9 @@ namespace CommandLine
             get { return this.tag; }
         }
 
-        internal Type TypeInfo
+        internal TypeInfo TypeInfo
         {
             get { return typeInfo; }
-        }
-
-        internal IEnumerable<Type> VerbTypes
-        {
-            get { return verbTypes; }
         }
     }
 
@@ -99,16 +92,10 @@ namespace CommandLine
     {
         private readonly T value;
 
-        internal Parsed(T value, IEnumerable<Type> verbTypes)
-            : base(ParserResultType.Parsed, value.GetType(), verbTypes)
-            //: base(ParserResultType.Parsed, value, verbTypes)
+        internal Parsed(T value, TypeInfo typeInfo)
+            : base(ParserResultType.Parsed, typeInfo)
         {
             this.value = value;
-        }
-
-        internal Parsed(T value)
-            : this(value, Enumerable.Empty<Type>())
-        {
         }
 
         /// <summary>
@@ -141,7 +128,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return new { Tag, Value, VerbTypes }.GetHashCode();
+            return new { Tag, Value }.GetHashCode();
         }
 
         /// <summary>
@@ -157,8 +144,7 @@ namespace CommandLine
             }
 
             return this.Tag.Equals(other.Tag)
-                    && Value.Equals(other.Value)
-                    && VerbTypes.SequenceEqual(other.VerbTypes);
+                    && Value.Equals(other.Value);
         }
     }
 
@@ -170,17 +156,11 @@ namespace CommandLine
     {
         private readonly IEnumerable<Error> errors;
 
-        internal NotParsed(Type typeInfo, IEnumerable<Type> verbTypes, IEnumerable<Error> errors)
-            : base(ParserResultType.NotParsed, typeInfo, verbTypes)
+        internal NotParsed(TypeInfo typeInfo, IEnumerable<Error> errors)
+            : base(ParserResultType.NotParsed, typeInfo)
         {
             this.errors = errors;
         }
-
-        internal NotParsed(Type typeInfo, IEnumerable<Error> errors)
-            : this(typeInfo, Enumerable.Empty<Type>(), errors)
-        {
-        }
-
 
         /// <summary>
         /// Gets the sequence of parsing errors.
