@@ -9,7 +9,7 @@ namespace CommandLine
     /// <summary>
     /// Provides convenience extension methods for <see cref="CommandLine.ParserResult{T}"/>.
     /// </summary>
-    public static class ParserResultExtensions
+    public static partial class ParserResultExtensions
     {
         /// <summary>
         /// Executes <see cref="Action{T}"/> if <see cref="CommandLine.ParserResult{T}"/> contains

@@ -195,13 +195,16 @@ namespace CommandLine
         }
     }
 
-    internal static class NotParsedExtensions
+    partial class ParserResultExtensions
     {
-        public static NotParsed<T> MapErrors<T>(
-            this NotParsed<T> parserResult,
+        internal static ParserResult<T> MapErrors<T>(
+            this ParserResult<T> parserResult,
             Func<IEnumerable<Error>, IEnumerable<Error>> func)
         {
-            return new NotParsed<T>(parserResult.Value, func(parserResult.Errors));
+            var notParsed = parserResult as NotParsed<T>;
+            if (notParsed != null)
+                return new NotParsed<T>(notParsed.Value, func(notParsed.Errors));
+            return parserResult;
         }
     }
 }
