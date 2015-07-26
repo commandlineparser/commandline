@@ -23,4 +23,4 @@ GITHUB
     src/CSharpx/Maybe.cs (e078c7f441aec196db027375f5d822607d3c1249)
   remote: gsscoder/railwaysharp
   specs:
-    src/RailwaySharp/ErrorHandling.cs (ff199e05c9864dcec824d746ac0cdc5e39870099)
+    src/RailwaySharp/ErrorHandling.cs (7fd66f6c67cf8ccdbc616799d545b2ccfa692f1d)
