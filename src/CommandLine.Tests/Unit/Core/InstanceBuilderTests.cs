@@ -475,27 +475,6 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        // WRONG TEST! BEFORE PASSED FOR ERROR
-        //[Fact]
-        //public void Two_required_options_at_the_same_set_and_one_is_true() {
-        //    // Fixture setup
-        //    var expectedResult = new FakeOptionWithRequiredAndSet {
-        //        FtpUrl = "str1",
-        //        WebUrl = null
-        //    };
-        //    // Exercize system 
-        //    var result = InstanceBuilder.Build(
-        //        Maybe.Just<Func<FakeOptionWithRequiredAndSet>>(() => new FakeOptionWithRequiredAndSet()),
-        //        new[] { "--ftpurl", "str1"},
-        //        StringComparer.Ordinal,
-        //        CultureInfo.InvariantCulture);
-
-        //    // Verify outcome
-        //    expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionWithRequiredAndSet>)result).Value);
-        //    // Teardown
-        //}
-
-
         [Fact]
         public void Two_required_options_at_the_same_set_and_both_are_true() {
             // Fixture setup
