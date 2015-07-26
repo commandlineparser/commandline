@@ -123,13 +123,13 @@ namespace CommandLine.Core
             var validationErrors = specPropsWithValue.Validate(
                 SpecificationPropertyRules.Lookup(tokens));
 
-            var allErrors = tokenizerResult.SuccessfulMessages()
-                .Concat(missingValueErrors)
-                .Concat(optionSpecPropsResult.SuccessfulMessages())
-                .Concat(valueSpecPropsResult.SuccessfulMessages())
-                .Concat(validationErrors);
-
-            return allErrors.ToParserResult(instance);
+            return tokenizerResult
+                .SuccessfulMessages()
+                    .Concat(missingValueErrors)
+                    .Concat(optionSpecPropsResult.SuccessfulMessages())
+                    .Concat(valueSpecPropsResult.SuccessfulMessages())
+                    .Concat(validationErrors)
+                .ToParserResult(instance);
         }
     }
 }
