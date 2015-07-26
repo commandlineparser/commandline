@@ -129,9 +129,7 @@ namespace CommandLine.Core
                 .Concat(valueSpecPropsResult.SuccessfulMessages())
                 .Concat(validationErrors);
 
-            return allErrors.Any()
-                ? (ParserResult<T>)new NotParsed<T>(instance.GetType().ToTypeInfo(), allErrors)
-                : (ParserResult<T>)new Parsed<T>(instance);
+            return allErrors.ToParserResult(instance);
         }
     }
 }
