@@ -21,7 +21,7 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup
             var fakeOptions = new FakeOptions();
             var expectedResult = new NotParsed<FakeOptions>(
-                typeof(FakeOptions), new Error[] { new HelpRequestedError() });
+                TypeInfo.Create(typeof(FakeOptions)), new Error[] { new HelpRequestedError() });
 
             // Exercize system 
             var result = InstanceBuilder.Build(

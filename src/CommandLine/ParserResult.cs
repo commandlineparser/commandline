@@ -98,6 +98,11 @@ namespace CommandLine
             this.value = value;
         }
 
+        internal Parsed(T value)
+            : this(value, TypeInfo.Create(value.GetType()))
+        {
+        }
+
         /// <summary>
         /// Gets the instance with parsed values.
         /// </summary>

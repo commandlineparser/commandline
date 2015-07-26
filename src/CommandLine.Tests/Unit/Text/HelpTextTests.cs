@@ -50,7 +50,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut = new HelpText { AddDashesToOption = true }
                 .AddPreOptionsLine("pre-options")
-                .AddOptions(new NotParsed<FakeOptions>(typeof(FakeOptions), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<FakeOptions>(TypeInfo.Create(typeof(FakeOptions)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome
@@ -74,7 +74,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut = new HelpText { AddDashesToOption = true, AddEnumValuesToHelpText = true }
                 .AddPreOptionsLine("pre-options")
-                .AddOptions(new NotParsed<FakeOptionsWithHelpTextEnum>(typeof(FakeOptionsWithHelpTextEnum), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<FakeOptionsWithHelpTextEnum>(TypeInfo.Create(typeof(FakeOptionsWithHelpTextEnum)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome
@@ -97,7 +97,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut = new HelpText { AddDashesToOption = true }
                 .AddPreOptionsLine("pre-options")
-                .AddOptions(new NotParsed<FakeOptionsWithHelpTextEnum>(typeof(FakeOptionsWithHelpTextEnum), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<FakeOptionsWithHelpTextEnum>(TypeInfo.Create(typeof(FakeOptionsWithHelpTextEnum)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome
@@ -119,7 +119,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut =
                 new HelpText("Meta Value.").AddOptions(
-                    new NotParsed<FakeOptionsWithMetaValue>(typeof(FakeOptionsWithMetaValue), Enumerable.Empty<Error>()));
+                    new NotParsed<FakeOptionsWithMetaValue>(TypeInfo.Create(typeof(FakeOptionsWithMetaValue)), Enumerable.Empty<Error>()));
 
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
@@ -137,7 +137,7 @@ namespace CommandLine.Tests.Unit.Text
             sut.MaximumDisplayWidth = 40;
             sut.AddOptions(
                 new NotParsed<FakeOptionsWithLongDescription>(
-                    typeof(FakeOptionsWithLongDescription),
+                    TypeInfo.Create(typeof(FakeOptionsWithLongDescription)),
                     Enumerable.Empty<Error>()));
 
             // Verify outcome
@@ -160,7 +160,7 @@ namespace CommandLine.Tests.Unit.Text
             sut.MaximumDisplayWidth = 40;
             sut.AddOptions(
                 new NotParsed<FakeOptionsWithLongDescriptionAndNoSpaces>(
-                    typeof(FakeOptionsWithLongDescriptionAndNoSpaces),
+                    TypeInfo.Create(typeof(FakeOptionsWithLongDescriptionAndNoSpaces)),
                     Enumerable.Empty<Error>()));
 
             // Verify outcome
@@ -182,7 +182,7 @@ namespace CommandLine.Tests.Unit.Text
             var sut = new HelpText("Heading Info.");
             sut.MaximumDisplayWidth = 40;
             sut.AddPreOptionsLine("Before 0123456789012345678901234567890123456789012 After")
-                .AddOptions(new NotParsed<FakeOptionsForHelp>(typeof(FakeOptionsForHelp), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<FakeOptionsForHelp>(TypeInfo.Create(typeof(FakeOptionsForHelp)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("Before 0123456789012345678901234567890123456789 After");
 
             // Verify outcome
@@ -202,7 +202,7 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             var fakeResult = new NotParsed<object>(
-                typeof(NullInstance),
+                TypeInfo.Create(typeof(NullInstance)),
                 new Error[]
                     {
                         new BadFormatTokenError("badtoken"),
@@ -262,7 +262,7 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             var fakeResult = new NotParsed<FakeOptions>(
-                typeof(FakeOptions),
+                TypeInfo.Create(typeof(FakeOptions)),
                 new Error[]
                     {
                         new BadFormatTokenError("badtoken"),
@@ -291,7 +291,7 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             var fakeResult = new NotParsed<object>(
-                typeof(NullInstance),
+                TypeInfo.Create(typeof(NullInstance)),
                 new Error[]
                     {
                         new HelpVerbRequestedError("commit", typeof(CommitOptions), true)
@@ -319,8 +319,8 @@ namespace CommandLine.Tests.Unit.Text
             var verbTypes = Enumerable.Empty<Type>().Concat(
                 new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) });
             var fakeResult = new NotParsed<object>(
-                typeof(NullInstance),
-                verbTypes,
+                TypeInfo.Create(typeof(NullInstance),
+                    verbTypes),
                 new Error[] { new HelpVerbRequestedError(null, null, false) });
 
             // Exercize system
@@ -346,7 +346,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut = new HelpText { AddDashesToOption = true }
                 .AddPreOptionsLine("pre-options")
-                .AddOptions(new NotParsed<FakeOptionsWithHelpTextValue>(typeof(FakeOptionsWithHelpTextValue), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<FakeOptionsWithHelpTextValue>(TypeInfo.Create(typeof(FakeOptionsWithHelpTextValue)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome

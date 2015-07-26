@@ -227,10 +227,10 @@ namespace CommandLine.Text
                 usage.FromJust().AddToHelpText(auto, true);
             }
 
-            if ((verbsIndex && parserResult.VerbTypes.Any()) || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
+            if ((verbsIndex && parserResult.TypeInfo.Multiple.Any()) || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
             {
                 auto.AddDashesToOption = false;
-                auto.AddVerbs(parserResult.VerbTypes.ToArray());
+                auto.AddVerbs(parserResult.TypeInfo.Multiple.ToArray());
             }
             else
             {
@@ -272,7 +272,7 @@ namespace CommandLine.Text
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             if (err.Matched)
             {
-                var pr = new NotParsed<object>(err.Type, Enumerable.Empty<Error>());
+                var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
                 return AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current));
             }
 
@@ -354,7 +354,7 @@ namespace CommandLine.Text
             if (result == null) throw new ArgumentNullException("result");
 
             return AddOptionsImpl(
-                this.GetSpecificationsFromType(result.TypeInfo),
+                this.GetSpecificationsFromType(result.TypeInfo.Single),
                 SentenceBuilder.RequiredWord(),
                 MaximumDisplayWidth);
         }
@@ -388,7 +388,7 @@ namespace CommandLine.Text
             if (result == null) throw new ArgumentNullException("result");
 
             return AddOptionsImpl(
-                this.GetSpecificationsFromType(result.TypeInfo),
+                this.GetSpecificationsFromType(result.TypeInfo.Single),
                 SentenceBuilder.RequiredWord(),
                 maximumLength);
         }
