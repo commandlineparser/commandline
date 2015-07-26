@@ -160,5 +160,10 @@ namespace CommandLine.Core
  
             return ReflectionHelper.CreateDefaultImmutableInstance(type, ctorTypes);
         }
+
+        public static TypeInfo ToTypeInfo(this Type type)
+        {
+            return TypeInfo.Create(type);
+        }
     }
 }
