@@ -62,7 +62,7 @@ namespace CommandLine.Core
 
             var flattened = exploded.SelectMany(x => x);
 
-            return Result.Succeed(flattened, tokenizerResult.Messages());
+            return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
         }
 
         private static IEnumerable<Token> TokenizeShortName(

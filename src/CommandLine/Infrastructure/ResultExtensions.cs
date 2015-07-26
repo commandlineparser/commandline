@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +10,14 @@ namespace CommandLine.Infrastructure
 {
     static class ResultExtensions
     {
-        public static IEnumerable<TMessage> Messages<TSuccess, TMessage>(this Result<TSuccess, TMessage> result)
+        public static IEnumerable<TMessage> SuccessfulMessages<TSuccess, TMessage>(this Result<TSuccess, TMessage> result)
         {
             if (result.Tag == ResultType.Ok)
             {
                 var ok = (Ok<TSuccess, TMessage>)result;
                 return ok.Value.Messages;
             }
-            var bad = (Bad<TSuccess, TMessage>)result;
-            return bad.Messages;
+            return Enumerable.Empty<TMessage>();
         }
     }
 }
