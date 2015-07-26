@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CSharpx
+namespace CommandLine.Infrastructure
 {
-    static partial class EnumerableExtensions
+    static class EnumerableExtensions
     {
         public static int IndexOf<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
         {
