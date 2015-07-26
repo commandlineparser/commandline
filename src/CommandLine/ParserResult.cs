@@ -30,15 +30,12 @@ namespace CommandLine
     public abstract class ParserResult<T>
     {
         private readonly ParserResultType tag;
-        //private readonly T value;
         private readonly IEnumerable<Type> verbTypes;
         private readonly Type typeInfo;
 
-        //internal ParserResult(ParserResultType tag, T value, IEnumerable<Type> verbTypes)
         internal ParserResult(ParserResultType tag, Type typeInfo, IEnumerable<Type> verbTypes)
         {
             this.tag = tag;
-            //this.value = value;
             this.typeInfo = typeInfo;
             this.verbTypes = verbTypes;
         }
@@ -60,11 +57,6 @@ namespace CommandLine
         {
             get { return verbTypes; }
         }
-
-        //internal T Value
-        //{
-        //    get { return value; }
-        //}
     }
 
     /// <summary>
@@ -90,10 +82,8 @@ namespace CommandLine
         /// <summary>
         /// Gets the instance with parsed values.
         /// </summary>
-        //public new T Value
         public T Value
         {
-            //get { return base.Value; }
             get { return value; }
         }
 
@@ -148,16 +138,12 @@ namespace CommandLine
     {
         private readonly IEnumerable<Error> errors;
 
-        //internal NotParsed(T value, IEnumerable<Type> verbTypes, IEnumerable<Error> errors)
-        //    : base(ParserResultType.NotParsed, value, verbTypes)
         internal NotParsed(Type typeInfo, IEnumerable<Type> verbTypes, IEnumerable<Error> errors)
             : base(ParserResultType.NotParsed, typeInfo, verbTypes)
         {
             this.errors = errors;
         }
 
-        //internal NotParsed(T value, IEnumerable<Error> errors)
-        //    : this(value, Enumerable.Empty<Type>(), errors)
         internal NotParsed(Type typeInfo, IEnumerable<Error> errors)
             : this(typeInfo, Enumerable.Empty<Type>(), errors)
         {
