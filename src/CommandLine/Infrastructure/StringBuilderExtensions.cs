@@ -80,6 +80,19 @@ namespace CommandLine.Infrastructure
                 ? builder.TrimEndIfMatch(c)
                 : builder;
         }
-        public static int TrailingSpaces(this StringBuilder builder)        {            var asString = builder.ToString();
-            return asString.Length - asString.TrimEnd(' ').Length;        }    }
+
+        public static int TrailingSpaces(this StringBuilder builder)
+        {
+            var bound = builder.Length - 1;
+            if (builder.Length == 0) return 0;
+            if (builder[bound] != ' ') return 0;
+            var c = 0;
+            for (var i = bound; i <= bound; i--)
+            {
+                if (i < 0) break;
+                if (builder[i] != ' ') break;
+                c++;
+            }
+            return c;
+        }    }
 }
