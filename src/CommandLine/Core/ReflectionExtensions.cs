@@ -179,10 +179,20 @@ namespace CommandLine.Core
         public static object StaticProperty(this Type type, string name)
         {
             return type.InvokeMember(
-                "None",
+                name,
                 BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static,
                 null,
                 null,
+                new object[] { });
+        }
+
+        public static object InstanceProperty(this Type type, string name, object target)
+        {
+            return type.InvokeMember(
+                name,
+                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance,
+                null,
+                target,
                 new object[] { });
         }
     }
