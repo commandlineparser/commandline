@@ -12,7 +12,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal static class ReflectionExtensions
+    static class ReflectionExtensions
     {
         public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
         {
