@@ -22,11 +22,6 @@ namespace CommandLine
         private bool groupSwitches;
         private bool useEqualToken;
 
-        public UnParserSettings()
-        {
-            nameStyleFormat = NameStyleFormat.PreferLongName;
-        }
-
         public NameStyleFormat NameStyleFormat
         {
             get { return nameStyleFormat; }
@@ -49,7 +44,7 @@ namespace CommandLine
     }
 
     /// <summary>
-    /// Adds a method to unparse options instance.
+    /// Provides overloads to unparse options instance.
     /// </summary>
     public static class UnParserExtensions
     {
@@ -62,7 +57,25 @@ namespace CommandLine
         /// <returns>A string with command line arguments.</returns>
         public static string FormatCommandLine<T>(this Parser parser, T options)
         {
+            return parser.FormatCommandLine(options, config => config.NameStyleFormat = NameStyleFormat.PreferLongName);
+        }
+
+        /// <summary>
+        /// Format a command line argument string from a parsed instance. 
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="options"/>.</typeparam>
+        /// <param name="parser">Parser instance.</param>
+        /// <param name="options">A parsed (or manually correctly constructed instance).</param>
+        /// <param name="configuration">The <see cref="Action{UnParserSettings}"/> lambda used to configure
+        /// aspects and behaviors of the unparsersing process.</param>
+        /// <returns>A string with command line arguments.</returns>
+        public static string FormatCommandLine<T>(this Parser parser, T options, Action<UnParserSettings> configuration)
+        {
             if (options == null) throw new ArgumentNullException("options");
+
+            var settings = new UnParserSettings();
+            configuration(settings);
+            settings.Consumed = true;
 
             var type = options.GetType();
             var builder = new StringBuilder();
@@ -78,6 +91,13 @@ namespace CommandLine
                 where !info.PropertyValue.IsEmpty()
                 select info)
                     .Memorize();
+
+            var switches = Enumerable.Repeat(new { Specification = "" }, 0);
+            if (settings.GroupSwitches)
+            {
+                
+            }
+
             var optSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                 let o = (OptionSpecification)info.Specification
                 where o.TargetType != TargetType.Switch || (o.TargetType == TargetType.Switch && ((bool)info.Value))
@@ -89,7 +109,7 @@ namespace CommandLine
                 select info;
 
             optSpecs.ForEach(
-                opt => builder.Append(FormatOption((OptionSpecification)opt.Specification, opt.Value)).Append(' '));
+                opt => builder.Append(FormatOption((OptionSpecification)opt.Specification, opt.Value, settings)).Append(' '));
             if (!valSpecs.Any() || builder.TrailingSpaces() > 1)
                 builder.TrimEndIfMatch(' ');
             valSpecs.ForEach(
@@ -137,18 +157,18 @@ namespace CommandLine
                 .Return(o => o.Separator != '\0' ? o.Separator : ' ', ' ');
         }
 
-        private static string FormatOption(OptionSpecification spec, object value)
+        private static string FormatOption(OptionSpecification spec, object value, UnParserSettings settings)
         {
             return new StringBuilder()
-                    .Append(spec.FormatName())
+                    .Append(spec.FormatName(settings.NameStyleFormat))
                     .Append(' ')
                     .AppendWhen(spec.TargetType != TargetType.Switch, FormatValue(spec, value))
                 .ToString();
         }
 
-        private static string FormatName(this OptionSpecification optionSpec)
+        private static string FormatName(this OptionSpecification optionSpec, NameStyleFormat nameStyle)
         {
-            return optionSpec.LongName.Length > 0
+            return optionSpec.LongName.Length > 0 && nameStyle == NameStyleFormat.PreferLongName
                 ? "--".JoinTo(optionSpec.LongName) : "-".JoinTo(optionSpec.ShortName);
         }
 
