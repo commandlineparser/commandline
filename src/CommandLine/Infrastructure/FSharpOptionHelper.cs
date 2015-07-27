@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Reflection;
+
+using CommandLine.Core;
+
 using Microsoft.FSharp.Core;
 
 namespace CommandLine.Infrastructure
@@ -55,12 +58,8 @@ namespace CommandLine.Infrastructure
             var optionType = typeof(FSharpOption<>);
             var typedType = optionType.MakeGenericType(GetUnderlyingType(value.GetType()));
 
-            return (bool)typedType.InvokeMember(
-                "get_IsSome",
-                BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
-                null,
-                null,
-                new [] { value });
+            return (bool)typedType.StaticMethod(
+                "get_IsSome", value);
         }
     }
 }
