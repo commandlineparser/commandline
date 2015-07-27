@@ -36,8 +36,6 @@ namespace CommandLine.Core
         /// </summary>
         private readonly Type conversionType;
         private readonly TargetType targetType;
-        private static readonly Lazy<EmptySpecification> DefaultEmpty =
-            new Lazy<EmptySpecification>(() => new EmptySpecification()); 
 
         protected Specification(SpecificationType tag, bool required, Maybe<int> min, Maybe<int> max,
             Maybe<object> defaultValue, string helpText, string metaValue, IEnumerable<string> enumValues,
@@ -132,21 +130,6 @@ namespace CommandLine.Core
             }
 
             throw new InvalidOperationException();
-        }
-
-        public static Specification Empty
-        {
-            get { return DefaultEmpty.Value; }
-        }
-
-        private sealed class EmptySpecification : Specification
-        {
-            public EmptySpecification()
-                : base(SpecificationType.Option, false, Maybe.Nothing<int>(), Maybe.Nothing<int>(),
-                    Maybe.Nothing<object>(), string.Empty, string.Empty, Enumerable.Empty<string>(),
-                    typeof(Nothing<object>), TargetType.Switch)
-            {
-            }
         }
     }
 }
