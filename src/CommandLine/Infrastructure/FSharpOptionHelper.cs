@@ -37,12 +37,9 @@ namespace CommandLine.Infrastructure
             var optionType = typeof(FSharpOption<>);
             var typedType = optionType.MakeGenericType(GetUnderlyingType(value.GetType()));
 
-            return typedType.InvokeMember(
+            return typedType.InstanceProperty(
                 "Value",
-                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance,
-                null,
-                value,
-                new object[] { });
+                value);
         }
 
         public static bool IsSome(object value)
