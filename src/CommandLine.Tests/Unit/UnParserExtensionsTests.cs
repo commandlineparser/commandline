@@ -1,10 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;using CommandLine.Tests.Fakes;using Xunit;
+using System.Linq;using CommandLine.Tests.Fakes;using Xunit;
 using FluentAssertions;using Microsoft.FSharp.Core;
 namespace CommandLine.Tests.Unit
 {
@@ -46,6 +43,15 @@ using FluentAssertions;using Microsoft.FSharp.Core;
             new Parser()
                 .FormatCommandLine(options, config => config.GroupSwitches = true)
                 .ShouldBeEquivalentTo("-hi --input input.bin");
+        }
+
+        [Fact]
+        public static void UnParsing_instance_with_equal_token_returns_command_line_with_long_option_using_equal_sign()
+        {
+            var options = new FakeOptions { BoolValue = true, IntSequence = new[] { 1, 2, 3 }, StringValue = "nospaces", LongValue = 123456789 };
+            new Parser()
+                .FormatCommandLine(options, config => config.UseEqualToken = true)
+                .ShouldBeEquivalentTo("-i 1 2 3 --stringvalue=nospaces -x 123456789");
         }
 
         public static IEnumerable<object> UnParseData
