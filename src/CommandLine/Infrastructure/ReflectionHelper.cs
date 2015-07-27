@@ -8,7 +8,7 @@ using CSharpx;
 
 namespace CommandLine.Infrastructure
 {
-    internal static class ReflectionHelper
+    static class ReflectionHelper
     {
         public static Maybe<TAttribute> GetAttribute<TAttribute>()
             where TAttribute : Attribute
