@@ -4,7 +4,7 @@ namespace CommandLine.Tests.Fakes
 {
     public class FakeOptionsWithSwitches
     {
-        [Option("--input")]
+        [Option("input")]
         public string InputFile { get; set; }
 
         [Option('o')]
