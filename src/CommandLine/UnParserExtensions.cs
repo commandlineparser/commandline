@@ -10,6 +10,44 @@ using CSharpx;
 
 namespace CommandLine
 {
+    public enum NameStyleFormat
+    {
+        PreferLongName,
+        PerferShortName,
+    }
+
+    public class UnParserSettings
+    {
+        private NameStyleFormat nameStyleFormat;
+        private bool groupSwitches;
+        private bool useEqualToken;
+
+        public UnParserSettings()
+        {
+            nameStyleFormat = NameStyleFormat.PreferLongName;
+        }
+
+        public NameStyleFormat NameStyleFormat
+        {
+            get { return nameStyleFormat; }
+            set { PopsicleSetter.Set(Consumed, ref nameStyleFormat, value); }
+        }
+
+        public bool GroupSwitches
+        {
+            get { return groupSwitches; }
+            set { PopsicleSetter.Set(Consumed, ref groupSwitches, value); }
+        }
+
+        public bool UseEqualToken
+        {
+            get { return useEqualToken; }
+            set { PopsicleSetter.Set(Consumed, ref useEqualToken, value); }
+        }
+
+        internal bool Consumed { get; set; }
+    }
+
     /// <summary>
     /// Adds a method to unparse options instance.
     /// </summary>
