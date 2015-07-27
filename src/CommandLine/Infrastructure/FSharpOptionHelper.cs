@@ -28,12 +28,8 @@ namespace CommandLine.Infrastructure
             var optionType = typeof(FSharpOption<>);
             var typedType = optionType.MakeGenericType(type);
 
-            return typedType.InvokeMember(
-                "None",
-                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static,
-                null,
-                null,
-                new object[] {});
+            return typedType.StaticProperty(
+                "None");
         }
 
         public static object ValueOf(object value)
