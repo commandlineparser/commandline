@@ -165,5 +165,15 @@ namespace CommandLine.Core
         {
             return TypeInfo.Create(type);
         }
+
+        public static object StaticMethod(this Type type, string name, params object[] args)
+        {
+            return type.InvokeMember(
+                name,
+                BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
+                null,
+                null,
+                args);
+        }
     }
 }
