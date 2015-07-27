@@ -175,5 +175,15 @@ namespace CommandLine.Core
                 null,
                 args);
         }
+
+        public static object StaticProperty(this Type type, string name)
+        {
+            return type.InvokeMember(
+                "None",
+                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static,
+                null,
+                null,
+                new object[] { });
+        }
     }
 }

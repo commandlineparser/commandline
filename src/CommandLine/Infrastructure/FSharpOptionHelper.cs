@@ -19,12 +19,8 @@ namespace CommandLine.Infrastructure
             var optionType = typeof(FSharpOption<>);
             var typedType = optionType.MakeGenericType(type);
 
-            return typedType.InvokeMember(
-                "Some",
-                BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
-                null,
-                null,
-                new [] { value });
+            return typedType.StaticMethod(
+                "Some", value);
         }
 
         public static object None(Type type)
