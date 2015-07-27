@@ -39,6 +39,15 @@ using FluentAssertions;using Microsoft.FSharp.Core;
                 .ShouldBeEquivalentTo(result);
         }
 
+        [Fact]
+        public static void UnParsing_instance_with_group_switches_returns_command_line_with_switches_grouped()
+        {
+            var options = new FakeOptionsWithSwitches { InputFile = "input.bin", HumanReadable = true, IgnoreWarnings = true };
+            new Parser()
+                .FormatCommandLine(options, config => config.GroupSwitches = true)
+                .ShouldBeEquivalentTo("-hi --input input.bin");
+        }
+
         public static IEnumerable<object> UnParseData
         {            get            {
                 yield return new object[] { new FakeOptions(), "" };
@@ -83,5 +92,6 @@ using FluentAssertions;using Microsoft.FSharp.Core;
                 yield return new object[] { new FakeOptionsWithFSharpOption { Offset = FSharpOption<int>.Some(123456789) }, "123456789" };
                 yield return new object[] { new FakeOptionsWithFSharpOption { FileName = FSharpOption<string>.Some("myfile.bin"), Offset = FSharpOption<int>.Some(123456789) }, "--filename myfile.bin 123456789" };
             }
-        }    }
+        }
+    }
 }

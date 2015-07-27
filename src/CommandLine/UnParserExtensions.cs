@@ -115,7 +115,8 @@ namespace CommandLine
                 select info;
 
             builder = settings.GroupSwitches && shortSwitches.Any()
-                ? builder.Append('-').Append(shortSwitches.Select(info => ((OptionSpecification)info.Specification).ShortName)).Append(' ')
+                ? builder.Append('-').Append(string.Join(string.Empty, shortSwitches.Select(
+                    info => ((OptionSpecification)info.Specification).ShortName).ToArray())).Append(' ')
                 : builder;
             builder
                 .TrimEndIfMatchWhen(!optSpecs.Any() || builder.TrailingSpaces() > 1, ' ');
