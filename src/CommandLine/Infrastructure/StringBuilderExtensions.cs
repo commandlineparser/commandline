@@ -74,6 +74,11 @@ namespace CommandLine.Infrastructure
             if (builder.Length > 0)
                 if (builder[builder.Length - 1] == c)
                     builder.Remove(builder.Length - 1, 1);            return builder;        }
+
+        public static StringBuilder TrimEndIfMatchWhen(this StringBuilder builder, bool condition, char c)
+        {
+            return condition ? builder.TrimEndIfMatch(c) : builder;
+        }
         public static int TrailingSpaces(this StringBuilder builder)        {            var asString = builder.ToString();
             return asString.Length - asString.TrimEnd(' ').Length;        }    }
 }

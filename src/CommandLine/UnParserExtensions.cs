@@ -92,26 +92,37 @@ namespace CommandLine
                 select info)
                     .Memorize();
 
-            var switches = Enumerable.Repeat(new { Specification = "" }, 0);
-            if (settings.GroupSwitches)
-            {
-                
-            }
-
-            var optSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
+            var allOptSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                 let o = (OptionSpecification)info.Specification
                 where o.TargetType != TargetType.Switch || (o.TargetType == TargetType.Switch && ((bool)info.Value))
                 orderby o.UniqueName()
                 select info;
+
+            var shortSwitches = from info in allOptSpecs
+                let o = (OptionSpecification)info.Specification
+                where o.TargetType == TargetType.Switch
+                where o.ShortName.Length > 0
+                orderby o.UniqueName()
+                select info;
+
+            var optSpecs = settings.GroupSwitches
+                ? allOptSpecs.Where(info => !shortSwitches.Contains(info))
+                : allOptSpecs;
+
             var valSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Value)
                 let v = (ValueSpecification)info.Specification
                 orderby v.Index
                 select info;
 
+            builder = settings.GroupSwitches && shortSwitches.Any()
+                ? builder.Append('-').Append(shortSwitches.Select(info => ((OptionSpecification)info.Specification).ShortName)).Append(' ')
+                : builder;
+            builder
+                .TrimEndIfMatchWhen(!optSpecs.Any() || builder.TrailingSpaces() > 1, ' ');
             optSpecs.ForEach(
                 opt => builder.Append(FormatOption((OptionSpecification)opt.Specification, opt.Value, settings)).Append(' '));
-            if (!valSpecs.Any() || builder.TrailingSpaces() > 1)
-                builder.TrimEndIfMatch(' ');
+            builder
+                .TrimEndIfMatchWhen(!valSpecs.Any() || builder.TrailingSpaces() > 1, ' ');
             valSpecs.ForEach(
                 val => builder.Append(FormatValue(val.Specification, val.Value)).Append(' '));
 
@@ -160,16 +171,22 @@ namespace CommandLine
         private static string FormatOption(OptionSpecification spec, object value, UnParserSettings settings)
         {
             return new StringBuilder()
-                    .Append(spec.FormatName(settings.NameStyleFormat))
-                    .Append(' ')
+                    .Append(spec.FormatName(settings))
                     .AppendWhen(spec.TargetType != TargetType.Switch, FormatValue(spec, value))
                 .ToString();
         }
 
-        private static string FormatName(this OptionSpecification optionSpec, NameStyleFormat nameStyle)
+        private static string FormatName(this OptionSpecification optionSpec, UnParserSettings settings)
         {
-            return optionSpec.LongName.Length > 0 && nameStyle == NameStyleFormat.PreferLongName
-                ? "--".JoinTo(optionSpec.LongName) : "-".JoinTo(optionSpec.ShortName);
+            var longName =
+                optionSpec.LongName.Length > 0
+                && settings.NameStyleFormat == NameStyleFormat.PreferLongName;
+            return
+                new StringBuilder(longName
+                    ? "--".JoinTo(optionSpec.LongName)
+                    : "-".JoinTo(optionSpec.ShortName))
+                        .AppendIf(longName && settings.UseEqualToken, "=", " ")
+                    .ToString();
         }
 
         private static object NormalizeValue(this object value)
