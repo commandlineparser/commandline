@@ -275,18 +275,14 @@ namespace CommandLine.Text
             if (current == null) throw new ArgumentNullException("current");
 
             if (FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors).Empty())
-            {
                 return current;
-            }
 
             var errors = RenderParsingErrorsText(parserResult,
                 current.SentenceBuilder.FormatError,
                 current.SentenceBuilder.FormatMutuallyExclusiveSetErrors,
                 2); // indent with two spaces
             if (string.IsNullOrEmpty(errors))
-            {
                 return current;
-            }
 
             current.AddPreOptionsLine(
                 string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText()));
