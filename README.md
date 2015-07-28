@@ -228,8 +228,8 @@ Latest Changes:
   - Using new Paket-friendly CSharpx and RailwaySharp.
   - Added F# option support to `FormatCommandLine()`.
   - `ParserResult<T>` internally refactored, minor breaking changes to `HelpText`.
-  - Internal refactorings.
   - Added `FormatCommandLine()` overload with settings.
+  - Internal refactorings.
 
 Contact:
 ---
