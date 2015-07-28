@@ -383,7 +383,7 @@ namespace CommandLine.Text
             if (types == null) throw new ArgumentNullException("types");
             if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
-            return AddOptionsImpl(this.AdaptVerbsToSpecifications(types), SentenceBuilder.RequiredWord(), maximumLength);
+            return AddOptionsImpl(AdaptVerbsToSpecifications(types), SentenceBuilder.RequiredWord(), maximumLength);
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace CommandLine.Text
                             verbTuple.Item1.Name,
                             false,
                             verbTuple.Item1.HelpText,
-                            string.Empty)).Concat(new[] { this.MakeHelpEntry(), this.MakeVersionEntry() });
+                            string.Empty)).Concat(new[] { MakeHelpEntry(), MakeVersionEntry() });
         }
 
         private HelpText AddOptionsImpl(
@@ -670,8 +670,8 @@ namespace CommandLine.Text
                 (length, spec) =>
                     {
                         var specLength = spec.Tag == SpecificationType.Option
-                            ? this.GetMaxOptionLength((OptionSpecification)spec)
-                            : this.GetMaxValueLength((ValueSpecification)spec);
+                            ? GetMaxOptionLength((OptionSpecification)spec)
+                            : GetMaxValueLength((ValueSpecification)spec);
 
                         return Math.Max(length, specLength);
                     });
