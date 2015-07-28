@@ -111,7 +111,7 @@ namespace CommandLine.Text
                                     return seqOutRange.NameInfo.Equals(NameInfo.EmptyName)
                                                ? "A sequence value not bound to option name is defined with few items than required."
                                                : "A sequence option '".JoinTo(seqOutRange.NameInfo.NameText,
-                                                    "' is defined with few items than required.");
+                                                    "' is defined with fewer or more items than required.");
                                 case ErrorType.BadVerbSelectedError:
                                     return "Verb '".JoinTo(((BadVerbSelectedError)error).Token, "' is not recognized.");
                                 case ErrorType.NoVerbSelectedError:
