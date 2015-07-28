@@ -478,19 +478,19 @@ namespace CommandLine.Tests.Unit.Core
         [Fact]
         public void Two_required_options_at_the_same_set_and_both_are_true() {
             // Fixture setup
-            var expectedResult = new FakeOptionWithRequiredAndSet {
+            var expectedResult = new FakeOptionsWithRequiredAndSet {
                 FtpUrl = "str1",
                 WebUrl = "str2"
             };
             // Exercize system 
             var result = InstanceBuilder.Build(
-                Maybe.Just<Func<FakeOptionWithRequiredAndSet>>(() => new FakeOptionWithRequiredAndSet()),
+                Maybe.Just<Func<FakeOptionsWithRequiredAndSet>>(() => new FakeOptionsWithRequiredAndSet()),
                 new[] { "--ftpurl", "str1", "--weburl", "str2" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionWithRequiredAndSet>)result).Value);
+            expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithRequiredAndSet>)result).Value);
             // Teardown
         }
 
@@ -504,13 +504,13 @@ namespace CommandLine.Tests.Unit.Core
             };
             // Exercize system 
             var result = InstanceBuilder.Build(
-                Maybe.Just<Func<FakeOptionWithRequiredAndSet>>(() => new FakeOptionWithRequiredAndSet()),
+                Maybe.Just<Func<FakeOptionsWithRequiredAndSet>>(() => new FakeOptionsWithRequiredAndSet()),
                 new[] {""},
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionWithRequiredAndSet>)result).Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithRequiredAndSet>)result).Errors));
             
             // Teardown
         }

@@ -2,7 +2,7 @@
 
 namespace CommandLine.Tests.Fakes
 {
-    public class FakeOptionWithRequiredAndSet {
+    public class FakeOptionsWithRequiredAndSet {
         [Option("ftpurl", SetName = "SetA", Required = true)]
         public string FtpUrl { get; set; }
 
