@@ -246,7 +246,8 @@ namespace CommandLine.Text
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
         {
-            if (parserResult.Tag != ParserResultType.NotParsed) throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
+            if (parserResult.Tag != ParserResultType.NotParsed)
+                throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
 
             var errors = ((NotParsed<T>)parserResult).Errors;
 
@@ -257,13 +258,10 @@ namespace CommandLine.Text
                 return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
-            if (err.Matched)
-            {
-                var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
-                return AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current));
-            }
-
-            return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), true);
+            var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
+            return err.Matched
+                ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current))
+                : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), true);
         }
 
         /// <summary>
