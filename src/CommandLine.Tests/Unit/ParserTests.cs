@@ -20,7 +20,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(with => with.HelpWriter = writer);
 
             // Exercize system
-            sut.ParseArguments<FakeOptionWithRequired>(new string[] { });
+            sut.ParseArguments<FakeOptionsWithRequired>(new string[] { });
 
             // Verify outcome
             var text = writer.ToString();

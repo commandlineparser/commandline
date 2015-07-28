@@ -523,13 +523,13 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceBuilder.Build(
-                Maybe.Just<Func<FakeOptionWithRequired>>(() => new FakeOptionWithRequired()),
+                Maybe.Just<Func<FakeOptionsWithRequired>>(() => new FakeOptionsWithRequired()),
                 new string[] { },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionWithRequired>)result).Errors));
+            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithRequired>)result).Errors));
  
             // Teardown
         }
