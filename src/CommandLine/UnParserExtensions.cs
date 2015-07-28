@@ -10,30 +10,51 @@ using CSharpx;
 
 namespace CommandLine
 {
+    /// <summary>
+    /// Defines format of options name.
+    /// </summary>
     public enum NameStyleFormat
     {
+        /// <summary>
+        /// Favors choice of long name.
+        /// </summary>
         PreferLongName,
-        PerferShortName,
+        /// <summary>
+        /// Favors choice of short name.
+        /// </summary>
+        PerferShortName
     }
 
+    /// <summary>
+    /// Provides settings for when formatting command line from an options instance../>.
+    /// </summary>
     public class UnParserSettings
     {
         private NameStyleFormat nameStyleFormat;
         private bool groupSwitches;
         private bool useEqualToken;
 
+        /// <summary>
+        /// Gets or sets the style for format options name.
+        /// </summary>
         public NameStyleFormat NameStyleFormat
         {
             get { return nameStyleFormat; }
             set { PopsicleSetter.Set(Consumed, ref nameStyleFormat, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether unparsing process shall group switches.
+        /// </summary>
         public bool GroupSwitches
         {
             get { return groupSwitches; }
             set { PopsicleSetter.Set(Consumed, ref groupSwitches, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether unparsing process shall use equal sign with long names.
+        /// </summary>
         public bool UseEqualToken
         {
             get { return useEqualToken; }
