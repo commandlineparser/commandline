@@ -496,7 +496,7 @@ namespace CommandLine.Text
             var specs = type.GetSpecifications(Specification.FromProperty);
             var optionSpecs = specs
                 .OfType<OptionSpecification>()
-                .Concat(new[] { this.MakeHelpEntry(), this.MakeVersionEntry() });
+                .Concat(new[] { MakeHelpEntry(), MakeVersionEntry() });
             var valueSpecs = specs
                 .OfType<ValueSpecification>()
                 .OrderBy(v => v.Index);
@@ -578,19 +578,13 @@ namespace CommandLine.Text
             var optionHelpText = specification.HelpText;
 
             if (addEnumValuesToHelpText && specification.EnumValues.Any())
-            {
                 optionHelpText += " Valid values: " + string.Join(", ", specification.EnumValues);
-            }
 
-            if (specification.DefaultValue.IsJust())
-            {
-                optionHelpText = "(Default: {0}) ".FormatLocal(specification.DefaultValue.FromJust()) + optionHelpText;
-            }
+            specification.DefaultValue.Do(
+                defaultValue => optionHelpText = "(Default: {0}) ".FormatLocal(defaultValue) + optionHelpText);
 
             if (specification.Required)
-            {
                 optionHelpText = "{0} ".FormatInvariant(requiredWord) + optionHelpText;
-            }
 
             if (!string.IsNullOrEmpty(optionHelpText))
             {
