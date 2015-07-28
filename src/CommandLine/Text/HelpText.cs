@@ -335,7 +335,7 @@ namespace CommandLine.Text
             if (result == null) throw new ArgumentNullException("result");
 
             return AddOptionsImpl(
-                this.GetSpecificationsFromType(result.TypeInfo.Single),
+                GetSpecificationsFromType(result.TypeInfo.Single),
                 SentenceBuilder.RequiredWord(),
                 MaximumDisplayWidth);
         }
@@ -352,7 +352,7 @@ namespace CommandLine.Text
             if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
             return AddOptionsImpl(
-                this.AdaptVerbsToSpecifications(types),
+                AdaptVerbsToSpecifications(types),
                 SentenceBuilder.RequiredWord(),
                 MaximumDisplayWidth);
         }
@@ -365,11 +365,10 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>    
         public HelpText AddOptions<T>(int maximumLength, ParserResult<T> result)
         {
-            //if (Equals(options, default(T))) throw new ArgumentNullException("options");
             if (result == null) throw new ArgumentNullException("result");
 
             return AddOptionsImpl(
-                this.GetSpecificationsFromType(result.TypeInfo.Single),
+                GetSpecificationsFromType(result.TypeInfo.Single),
                 SentenceBuilder.RequiredWord(),
                 maximumLength);
         }
@@ -408,9 +407,7 @@ namespace CommandLine.Text
             var meaningfulErrors =
                 FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors);
             if (meaningfulErrors.Empty())
-            {
                 return string.Empty;
-            }
 
             var text = new StringBuilder();
             meaningfulErrors
@@ -423,11 +420,10 @@ namespace CommandLine.Text
                             text.AppendLine(line.ToString());
                         });
 
-            text.AppendIfNotEmpty(
+            return text.AppendIfNotEmpty(
                 formatMutuallyExclusiveSetErrors(
-                    meaningfulErrors.OfType<MutuallyExclusiveSetError>()));
-
-            return text.ToString();
+                    meaningfulErrors.OfType<MutuallyExclusiveSetError>()))
+                .ToString();
         }
 
         /// <summary>
