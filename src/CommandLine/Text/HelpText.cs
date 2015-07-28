@@ -215,17 +215,11 @@ namespace CommandLine.Text
                 }
             }
 
-            var license = ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>();
-            if (license.IsJust())
-            {
-                license.FromJust().AddToHelpText(auto, true);
-            }
-
-            var usage = ReflectionHelper.GetAttribute<AssemblyUsageAttribute>();
-            if (usage.IsJust())
-            {
-                usage.FromJust().AddToHelpText(auto, true);
-            }
+            ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>()
+                .Do(license => license.AddToHelpText(auto, true));
+          
+            ReflectionHelper.GetAttribute<AssemblyUsageAttribute>()
+                .Do(usage => usage.AddToHelpText(auto, true));
 
             if ((verbsIndex && parserResult.TypeInfo.Multiple.Any()) || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
             {
