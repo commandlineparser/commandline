@@ -246,22 +246,15 @@ namespace CommandLine.Text
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
         {
-            if (parserResult.Tag != ParserResultType.NotParsed)
-            {
-                throw new InvalidOperationException();
-            }
+            if (parserResult.Tag != ParserResultType.NotParsed) throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
 
             var errors = ((NotParsed<T>)parserResult).Errors;
 
             if (errors.Any(e => e.Tag == ErrorType.VersionRequestedError))
-            {
                 return new HelpText(HeadingInfo.Default).AddPreOptionsLine(Environment.NewLine);
-            }
 
             if (!errors.Any(e => e.Tag == ErrorType.HelpVerbRequestedError))
-            {
                 return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
-            }
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             if (err.Matched)
