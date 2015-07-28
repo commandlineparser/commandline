@@ -85,7 +85,7 @@
     <Compile Include="Fakes\FakeOptionsWithValues.cs" />
     <Compile Include="Fakes\FakeOptions.cs" />
     <Compile Include="Fakes\FakeOptionsWithRequiredValue.cs" />
-    <Compile Include="Fakes\FakeOptionWithTwoRequired.cs" />
+    <Compile Include="Fakes\FakeOptionsWithTwoRequired.cs" />
     <Compile Include="Fakes\FakeOptionsWithRequired.cs" />
     <Compile Include="Fakes\FakeOptionsWithRequiredAndSet.cs" />
     <Compile Include="Fakes\HelpFakes.cs" />
