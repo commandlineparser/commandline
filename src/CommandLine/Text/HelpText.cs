@@ -227,9 +227,7 @@ namespace CommandLine.Text
                 auto.AddVerbs(parserResult.TypeInfo.Multiple.ToArray());
             }
             else
-            {
                 auto.AddOptions(parserResult);
-            }
 
             return auto;
         }
@@ -479,9 +477,7 @@ namespace CommandLine.Text
                         break;
                     }
                     else
-                    {
                         break;
-                    }
                 }
                 value = value.Substring(Math.Min(wordBuffer, value.Length));
                 builder.AppendWhen(value.Length > 0, Environment.NewLine);
@@ -611,9 +607,7 @@ namespace CommandLine.Text
                             break;
                         }
                         else
-                        {
                             break;
-                        }
                     }
 
                     optionHelpText = optionHelpText.Substring(Math.Min(wordBuffer, optionHelpText.Length)).Trim();
@@ -693,17 +687,13 @@ namespace CommandLine.Text
 
             var metaLength = 0;
             if (spec.MetaValue.Length > 0)
-            {
                 metaLength = spec.MetaValue.Length + 1;
-            }
 
             if (hasShort)
             {
                 ++specLength;
                 if (AddDashesToOption)
-                {
                     ++specLength;
-                }
 
                 specLength += metaLength;
             }
@@ -712,17 +702,13 @@ namespace CommandLine.Text
             {
                 specLength += spec.LongName.Length;
                 if (AddDashesToOption)
-                {
                     specLength += 2;
-                }
 
                 specLength += metaLength;
             }
 
             if (hasShort && hasLong)
-            {
                 specLength += 2; // ", "
-            }
 
             return specLength;
         }
@@ -735,18 +721,12 @@ namespace CommandLine.Text
 
             var metaLength = 0;
             if (spec.MetaValue.Length > 0)
-            {
                 metaLength = spec.MetaValue.Length + 1;
-            }
 
             if (hasMeta)
-            {
                 specLength += spec.MetaName.Length + spec.Index.ToStringInvariant().Length + 8; //METANAME (pos. N)
-            }
             else
-            {
                 specLength += spec.Index.ToStringInvariant().Length + 11; // "value pos. N"
-            }
 
             specLength += metaLength;
 
