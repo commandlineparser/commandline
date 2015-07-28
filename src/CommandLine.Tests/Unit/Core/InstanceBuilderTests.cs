@@ -978,13 +978,13 @@ namespace CommandLine.Tests.Unit.Core
         {
             // Exercize system 
             var result = InstanceBuilder.Build(
-                Maybe.Just<Func<FakeOptionWithTwoRequired>>(() => new FakeOptionWithTwoRequired()),
+                Maybe.Just<Func<FakeOptionsWithTwoRequired>>(() => new FakeOptionsWithTwoRequired()),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            var errors = ((NotParsed<FakeOptionWithTwoRequired>)result).Errors;
+            var errors = ((NotParsed<FakeOptionsWithTwoRequired>)result).Errors;
             errors.OfType<MissingRequiredOptionError>().Should().HaveCount(x => x == expected);
         }
 
