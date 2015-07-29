@@ -112,4 +112,17 @@ namespace CommandLine.Text
                 && Sample.Equals(other.Sample);
         }
     }
+
+    static class ExampleExtensions
+    {
+        public static Example WithGroupDescription(this Example example, string newGroupDescription)
+        {
+            return new Example(
+                example.Group,
+                newGroupDescription,
+                example.HelpText,
+                example.FormatStyles,
+                example.Sample);
+        }
+    }
 }
