@@ -133,6 +133,7 @@
     <Compile Include="Text\CopyrightInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Text\Example.cs" />
     <Compile Include="Text\HeadingInfo.cs">
       <SubType>Code</SubType>
     </Compile>
