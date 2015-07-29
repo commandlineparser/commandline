@@ -1,11 +1,12 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CommandLine.Text
 {
-    public sealed class Example<T>
+    public sealed class Example<T> : IEquatable<Example<T>>
     {
         private readonly string group;
         private readonly string helpText;
@@ -37,22 +38,65 @@ namespace CommandLine.Text
 
         public string Group
         {
-            get { return group }
+            get { return group; }
         }
 
         public string HelpText
         {
-            get { return helpText }
+            get { return helpText; }
         }
 
         public IEnumerable<UnParserSettings> FormatStyles
         {
-            get { return this.formatStyles }
+            get { return this.formatStyles; }
         }
 
         public T Sample
         {
-            get { return sample }
+            get { return sample; }
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object"/> to compare with the current <see cref="System.Object"/>.</param>
+        /// <returns><value>true</value> if the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>; otherwise, <value>false</value>.</returns>
+        public override bool Equals(object obj)
+        {
+            var other = obj as Example<T>;
+            if (other != null)
+            {
+                return Equals(other);
+            }
+
+            return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type.
+        /// </summary>
+        /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
+        public override int GetHashCode()
+        {
+            return new { Group, HelpText, FormatStyles, Sample }.GetHashCode();
+        }
+
+        /// <summary>
+        /// Returns a value that indicates whether the current instance and a specified <see cref="CommandLine.Text.Example{T}"/> have the same value.
+        /// </summary>
+        /// <param name="other">The <see cref="CommandLine.Text.Example{T}"/> instance to compare.</param>
+        /// <returns><value>true</value> if this instance of <see cref="CommandLine.Text.Example{T}"/> and <paramref name="other"/> have the same value; otherwise, <value>false</value>.</returns>
+        public bool Equals(Example<T> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return Group.Equals(other.Group)
+                && HelpText.Equals(other.HelpText)
+                && FormatStyles.SequenceEqual(other.FormatStyles)
+                && Sample.Equals(other.Sample);
         }
     }
 }
