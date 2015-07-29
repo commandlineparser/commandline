@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Reflection;
+
 using CommandLine.Infrastructure;
 using CommandLine.Core;
 using CSharpx;
@@ -501,15 +503,19 @@ namespace CommandLine.Text
                 .Concat(valueSpecs);
         }
 
-        //private IEnumerable<Example> GetUsageFromType(Type type)
-        //{
-        //    return type.GetUsageData().Return(
-        //        tuple =>
-        //        {
-        //            var prop = tuple.Item1;
-        //            var attr = tuple.Item2;
-        //        });
-        //}
+        private Maybe<Tuple<IDictionary<string, string>, IEnumerable<Example>>> GetUsageFromType(Type type)
+        {
+            return type.GetUsageData().Map(
+                tuple =>
+                {
+                    var prop = tuple.Item1;
+                    var attr = tuple.Item2;
+
+                    var examples = (IEnumerable<Example>)prop.GetValue(null, BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty, null, null, null);
+
+                    return Tuple.Create(attr.Groups, examples);
+                });
+        }
 
         private IEnumerable<Specification> AdaptVerbsToSpecifications(IEnumerable<Type> types)
         {
