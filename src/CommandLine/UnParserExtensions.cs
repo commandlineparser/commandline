@@ -10,39 +10,14 @@ using CSharpx;
 
 namespace CommandLine
 {
-    ///// <summary>
-    ///// Defines format of options name.
-    ///// </summary>
-    //public enum NameStyleFormat
-    //{
-    //    /// <summary>
-    //    /// Favors choice of long name.
-    //    /// </summary>
-    //    PreferLongName,
-    //    /// <summary>
-    //    /// Favors choice of short name.
-    //    /// </summary>
-    //    PerferShortName
-    //}
-
     /// <summary>
     /// Provides settings for when formatting command line from an options instance../>.
     /// </summary>
     public class UnParserSettings
     {
-        //private NameStyleFormat nameStyleFormat;
         private bool preferShortName;
         private bool groupSwitches;
         private bool useEqualToken;
-
-        ///// <summary>
-        ///// Gets or sets the style for format options name.
-        ///// </summary>
-        //public NameStyleFormat NameStyleFormat
-        //{
-        //    get { return nameStyleFormat; }
-        //    set { PopsicleSetter.Set(Consumed, ref nameStyleFormat, value); }
-        //}
 
         /// <summary>
         /// Gets or sets a value indicating whether unparsing process shall prefer short or long names.
