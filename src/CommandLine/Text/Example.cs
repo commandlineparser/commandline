@@ -9,16 +9,23 @@ namespace CommandLine.Text
     public sealed class Example : IEquatable<Example>
     {
         private readonly string group;
+        private readonly string groupDescription;
         private readonly string helpText;
         private readonly IEnumerable<UnParserSettings> formatStyles;
         private readonly object sample;
 
-        public Example(string group, string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
+        internal Example(string group, string groupDescription, string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
         {
             this.group = group;
+            this.group = groupDescription;
             this.helpText = helpText;
             this.formatStyles = formatStyles;
             this.sample = sample;
+        }
+
+        public Example(string group, string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
+            : this(group, string.Empty, helpText, formatStyles, sample)
+        {
         }
 
         public Example(string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
@@ -39,6 +46,11 @@ namespace CommandLine.Text
         public string Group
         {
             get { return group; }
+        }
+
+        internal string GroupDescription
+        {
+            get { return groupDescription }
         }
 
         public string HelpText
@@ -78,7 +90,7 @@ namespace CommandLine.Text
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return new { Group, HelpText, FormatStyles, Sample }.GetHashCode();
+            return new { Group, GroupDescription, HelpText, FormatStyles, Sample }.GetHashCode();
         }
 
         /// <summary>
@@ -94,6 +106,7 @@ namespace CommandLine.Text
             }
 
             return Group.Equals(other.Group)
+                && GroupDescription.Equals(other.GroupDescription)
                 && HelpText.Equals(other.HelpText)
                 && FormatStyles.SequenceEqual(other.FormatStyles)
                 && Sample.Equals(other.Sample);
