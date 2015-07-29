@@ -503,7 +503,7 @@ namespace CommandLine.Text
                 .Concat(valueSpecs);
         }
 
-        private Maybe<Tuple<IDictionary<string, string>, IEnumerable<Example>>> GetUsageFromType(Type type)
+        private static Maybe<Tuple<IDictionary<string, string>, IEnumerable<Example>>> GetUsageFromType(Type type)
         {
             return type.GetUsageData().Map(
                 tuple =>
