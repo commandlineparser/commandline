@@ -6,14 +6,14 @@ using System.Linq;
 
 namespace CommandLine.Text
 {
-    public sealed class Example<T> : IEquatable<Example<T>>
+    public sealed class Example : IEquatable<Example>
     {
         private readonly string group;
         private readonly string helpText;
         private readonly IEnumerable<UnParserSettings> formatStyles;
-        private readonly T sample;
+        private readonly object sample;
 
-        public Example(string group, string helpText, IEnumerable<UnParserSettings> formatStyles, T sample)
+        public Example(string group, string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
         {
             this.group = group;
             this.helpText = helpText;
@@ -21,17 +21,17 @@ namespace CommandLine.Text
             this.sample = sample;
         }
 
-        public Example(string helpText, IEnumerable<UnParserSettings> formatStyles, T sample)
+        public Example(string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
             : this(string.Empty, helpText, formatStyles, sample)
         {  
         }
 
-        public Example(string helpText, UnParserSettings formatStyle, T sample)
+        public Example(string helpText, UnParserSettings formatStyle, object sample)
             : this(string.Empty, helpText, new[] { formatStyle }, sample)
         {
         }
 
-        public Example(string helpText, T sample)
+        public Example(string helpText, object sample)
             : this(string.Empty, helpText, Enumerable.Empty<UnParserSettings>(), sample)
         {
         }
@@ -51,7 +51,7 @@ namespace CommandLine.Text
             get { return this.formatStyles; }
         }
 
-        public T Sample
+        public object Sample
         {
             get { return sample; }
         }
@@ -63,7 +63,7 @@ namespace CommandLine.Text
         /// <returns><value>true</value> if the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>; otherwise, <value>false</value>.</returns>
         public override bool Equals(object obj)
         {
-            var other = obj as Example<T>;
+            var other = obj as Example;
             if (other != null)
             {
                 return Equals(other);
@@ -82,11 +82,11 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Returns a value that indicates whether the current instance and a specified <see cref="CommandLine.Text.Example{T}"/> have the same value.
+        /// Returns a value that indicates whether the current instance and a specified <see cref="CommandLine.Text.Example"/> have the same value.
         /// </summary>
-        /// <param name="other">The <see cref="CommandLine.Text.Example{T}"/> instance to compare.</param>
-        /// <returns><value>true</value> if this instance of <see cref="CommandLine.Text.Example{T}"/> and <paramref name="other"/> have the same value; otherwise, <value>false</value>.</returns>
-        public bool Equals(Example<T> other)
+        /// <param name="other">The <see cref="CommandLine.Text.Example"/> instance to compare.</param>
+        /// <returns><value>true</value> if this instance of <see cref="CommandLine.Text.Example"/> and <paramref name="other"/> have the same value; otherwise, <value>false</value>.</returns>
+        public bool Equals(Example other)
         {
             if (other == null)
             {

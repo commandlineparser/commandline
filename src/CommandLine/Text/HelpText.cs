@@ -501,6 +501,11 @@ namespace CommandLine.Text
                 .Concat(valueSpecs);
         }
 
+        //private IEnumerable<Example<>> GetUsageFromType(Type type)
+        //{
+            
+        //}
+
         private IEnumerable<Specification> AdaptVerbsToSpecifications(IEnumerable<Type> types)
         {
             return (from verbTuple in Verb.SelectFromTypes(types)
