@@ -515,10 +515,12 @@ namespace CommandLine.Text
                         .GetValue(null, BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty, null, null, null);
                     var groups = attr.Groups;
 
-                    return examples
-                        .Select(example => groups.ContainsKey(example.Group)
-                            ? example.WithGroupDescription(groups[example.Group])
-                            : example);
+                    return examples.Select(example => groups.ContainsKey(example.Group)
+                        ? example.WithGroupDescription(groups[example.Group])
+                        : example)
+                            .OrderBy(x => x.Group)
+                            .ThenBy(x => x.GroupDescription)
+                        .Memorize();
                 });
         }
 
