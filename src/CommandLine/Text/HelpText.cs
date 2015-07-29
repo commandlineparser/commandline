@@ -503,7 +503,7 @@ namespace CommandLine.Text
                 .Concat(valueSpecs);
         }
 
-        private static Maybe<Tuple<IDictionary<string, string>, IEnumerable<Example>>> GetUsageFromType(Type type)
+        private static Maybe<IEnumerable<Example>> GetUsageFromType(Type type)
         {
             return type.GetUsageData().Map(
                 tuple =>
@@ -511,9 +511,14 @@ namespace CommandLine.Text
                     var prop = tuple.Item1;
                     var attr = tuple.Item2;
 
-                    var examples = (IEnumerable<Example>)prop.GetValue(null, BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty, null, null, null);
+                    var examples = (IEnumerable<Example>)prop
+                        .GetValue(null, BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty, null, null, null);
+                    var groups = attr.Groups;
 
-                    return Tuple.Create(attr.Groups, examples);
+                    return examples
+                        .Select(example => groups.ContainsKey(example.Group)
+                            ? example.WithGroupDescription(groups[example.Group])
+                            : example);
                 });
         }
 
