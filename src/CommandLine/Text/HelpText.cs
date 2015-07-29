@@ -501,9 +501,14 @@ namespace CommandLine.Text
                 .Concat(valueSpecs);
         }
 
-        //private IEnumerable<Example<>> GetUsageFromType(Type type)
+        //private IEnumerable<Example> GetUsageFromType(Type type)
         //{
-            
+        //    return type.GetUsageData().Return(
+        //        tuple =>
+        //        {
+        //            var prop = tuple.Item1;
+        //            var attr = tuple.Item2;
+        //        });
         //}
 
         private IEnumerable<Specification> AdaptVerbsToSpecifications(IEnumerable<Type> types)

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using CommandLine.Infrastructure;
+using CommandLine.Text;
 
 using CSharpx;
 
@@ -34,6 +35,17 @@ namespace CommandLine.Core
                  select vattr)
                     .SingleOrDefault()
                     .ToMaybe();
+        }
+
+        public static Maybe<Tuple<PropertyInfo, UsageAttribute>> GetUsageData(this Type type)
+        {
+            return
+                (from pi in type.FlattenHierarchy().SelectMany(x => x.GetProperties())
+                    let attrs = pi.GetCustomAttributes(true)
+                    where attrs.OfType<UsageAttribute>().Any()
+                    select Tuple.Create(pi, (UsageAttribute)attrs.First()))
+                        .SingleOrDefault()
+                        .ToMaybe();
         }
 
         private static IEnumerable<Type> FlattenHierarchy(this Type type)
