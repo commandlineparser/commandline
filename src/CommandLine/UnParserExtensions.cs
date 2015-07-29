@@ -10,37 +10,47 @@ using CSharpx;
 
 namespace CommandLine
 {
-    /// <summary>
-    /// Defines format of options name.
-    /// </summary>
-    public enum NameStyleFormat
-    {
-        /// <summary>
-        /// Favors choice of long name.
-        /// </summary>
-        PreferLongName,
-        /// <summary>
-        /// Favors choice of short name.
-        /// </summary>
-        PerferShortName
-    }
+    ///// <summary>
+    ///// Defines format of options name.
+    ///// </summary>
+    //public enum NameStyleFormat
+    //{
+    //    /// <summary>
+    //    /// Favors choice of long name.
+    //    /// </summary>
+    //    PreferLongName,
+    //    /// <summary>
+    //    /// Favors choice of short name.
+    //    /// </summary>
+    //    PerferShortName
+    //}
 
     /// <summary>
     /// Provides settings for when formatting command line from an options instance../>.
     /// </summary>
     public class UnParserSettings
     {
-        private NameStyleFormat nameStyleFormat;
+        //private NameStyleFormat nameStyleFormat;
+        private bool preferShortName;
         private bool groupSwitches;
         private bool useEqualToken;
 
+        ///// <summary>
+        ///// Gets or sets the style for format options name.
+        ///// </summary>
+        //public NameStyleFormat NameStyleFormat
+        //{
+        //    get { return nameStyleFormat; }
+        //    set { PopsicleSetter.Set(Consumed, ref nameStyleFormat, value); }
+        //}
+
         /// <summary>
-        /// Gets or sets the style for format options name.
+        /// Gets or sets a value indicating whether unparsing process shall prefer short or long names.
         /// </summary>
-        public NameStyleFormat NameStyleFormat
+        public bool PreferShortName
         {
-            get { return nameStyleFormat; }
-            set { PopsicleSetter.Set(Consumed, ref nameStyleFormat, value); }
+            get { return preferShortName; }
+            set { PopsicleSetter.Set(Consumed, ref preferShortName, value); }
         }
 
         /// <summary>
@@ -78,7 +88,7 @@ namespace CommandLine
         /// <returns>A string with command line arguments.</returns>
         public static string FormatCommandLine<T>(this Parser parser, T options)
         {
-            return parser.FormatCommandLine(options, config => config.NameStyleFormat = NameStyleFormat.PreferLongName);
+            return parser.FormatCommandLine(options, config => {});
         }
 
         /// <summary>
@@ -202,7 +212,7 @@ namespace CommandLine
         {
             var longName =
                 optionSpec.LongName.Length > 0
-                && settings.NameStyleFormat == NameStyleFormat.PreferLongName;
+                && !settings.PreferShortName;
             return
                 new StringBuilder(longName
                     ? "--".JoinTo(optionSpec.LongName)

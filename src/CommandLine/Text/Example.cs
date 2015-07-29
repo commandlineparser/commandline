@@ -50,7 +50,7 @@ namespace CommandLine.Text
 
         internal string GroupDescription
         {
-            get { return groupDescription }
+            get { return groupDescription; }
         }
 
         public string HelpText
