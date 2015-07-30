@@ -69,8 +69,8 @@ using FluentAssertions;using Microsoft.FSharp.Core;
 
         public static IEnumerable<object> UnParseDataVerbs        {            get            {
                 yield return new object[] { new AddOptions(), "add" };
-                yield return new object[] { new AddOptions { Patch = true, FileName = "mysource.cs" }, "add -p mysource.cs" };
-                yield return new object[] { new AddOptions { Force = true, FileName = "mysource.fs" }, "add -f mysource.fs" };            }        }
+                yield return new object[] { new AddOptions { Patch = true, FileName = "mysource.cs" }, "add --patch mysource.cs" };
+                yield return new object[] { new AddOptions { Force = true, FileName = "mysource.fs" }, "add --force mysource.fs" };            }        }
 
         public static IEnumerable<object> UnParseDataImmutable
         {

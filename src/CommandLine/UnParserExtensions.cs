@@ -197,13 +197,13 @@ namespace CommandLine
         {
             var longName =
                 optionSpec.LongName.Length > 0
-                && !settings.PreferShortName
-                && optionSpec.ConversionType != typeof(bool);
+                && !settings.PreferShortName;
+
             return
                 new StringBuilder(longName
                     ? "--".JoinTo(optionSpec.LongName)
                     : "-".JoinTo(optionSpec.ShortName))
-                        .AppendIf(longName && settings.UseEqualToken, "=", " ")
+                        .AppendIf(longName && settings.UseEqualToken && optionSpec.ConversionType != typeof(bool), "=", " ")
                     .ToString();
         }
 
