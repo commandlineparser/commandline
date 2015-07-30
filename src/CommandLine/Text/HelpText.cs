@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Reflection;
-
 using CommandLine.Infrastructure;
 using CommandLine.Core;
 using CSharpx;
@@ -468,11 +467,23 @@ namespace CommandLine.Text
         /// <returns>Resulting formatted text.</returns>
         public static string RenderUsageText<T>(ParserResult<T> parserResult, Func<Example, Example> mapperFunc)
         {
+            return string.Join(Environment.NewLine, RenderUsageTextAsLines(parserResult, mapperFunc));
+        }
+
+        /// <summary>
+        /// Builds a string sequence with usage text block created using <see cref="CommandLine.Text.UsageAttribute"/> data and metadata.
+        /// </summary>
+        /// <typeparam name="T">Type of parsing computation result.</typeparam>
+        /// <param name="parserResult">A parsing computation result.</param>
+        /// <param name="mapperFunc">A mapping lambda normally used to translate text in other languages.</param>
+        /// <returns>Resulting formatted text.</returns>
+        public static IEnumerable<string> RenderUsageTextAsLines<T>(ParserResult<T> parserResult, Func<Example, Example> mapperFunc)
+        {
             if (parserResult == null) throw new ArgumentNullException("parserResult");
 
             var usage = GetUsageFromType(parserResult.TypeInfo.Current);
             if (usage.MatchNothing())
-                return string.Empty;
+                yield break;
 
             var usageTuple = usage.FromJust();
             var examples = usageTuple.Item2;
@@ -483,8 +494,8 @@ namespace CommandLine.Text
             {
                 var example = mapperFunc(e);
                 var exampleText = new StringBuilder(example.HelpText)
-                    .Append(':')
-                    .Append(Environment.NewLine);
+                    .Append(':');
+                yield return exampleText.ToString();
                 var styles = example.GetFormatStylesOrDefault();
                 foreach (var s in styles)
                 {
@@ -493,18 +504,14 @@ namespace CommandLine.Text
                         .Append(' ')
                         .Append(Parser.Default.FormatCommandLine(example.Sample,
                             config =>
-                                {
-                                    config.PreferShortName = s.PreferShortName;
-                                    config.GroupSwitches = s.GroupSwitches;
-                                    config.UseEqualToken = s.UseEqualToken;
-                                }))
-                        .Append(Environment.NewLine);
-                    exampleText.Append(commandLine);
+                            {
+                                config.PreferShortName = s.PreferShortName;
+                                config.GroupSwitches = s.GroupSwitches;
+                                config.UseEqualToken = s.UseEqualToken;
+                            }));
+                    yield return commandLine.ToString();
                 }
-                text.Append(exampleText);
             }
-
-            return text.ToString();
         }
 
         /// <summary>
