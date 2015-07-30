@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using CommandLine.Infrastructure;
-
 namespace CommandLine.Text
 {
+    /// <summary>
+    /// Models a command line usage example.
+    /// </summary>
     public sealed class Example : IEquatable<Example>
     {
         private readonly string helpText;
@@ -25,26 +26,46 @@ namespace CommandLine.Text
             this.sample = sample;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.Example"/> class.
+        /// </summary>
+        /// <param name="helpText">Example description.</param>
+        /// <param name="formatStyle">A <see cref="CommandLine.UnParserSettings"/> instance that defines command line arguments format.</param>
+        /// <param name="sample">A sample instance.</param>
         public Example(string helpText, UnParserSettings formatStyle, object sample)
             : this(helpText, new[] { formatStyle }, sample)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.Example"/> class.
+        /// </summary>
+        /// <param name="helpText">Example description.</param>
+        /// <param name="sample">A sample instance.</param>
         public Example(string helpText, object sample)
             : this(helpText, Enumerable.Empty<UnParserSettings>(), sample)
         {
         }
 
+        /// <summary>
+        /// Example description. 
+        /// </summary>
         public string HelpText
         {
             get { return helpText; }
         }
-
+        
+        /// <summary>
+        /// A sequence of format styles.
+        /// </summary>
         public IEnumerable<UnParserSettings> FormatStyles
         {
             get { return this.formatStyles; }
         }
 
+        /// <summary>
+        /// A sample instance.
+        /// </summary>
         public object Sample
         {
             get { return sample; }
