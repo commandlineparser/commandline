@@ -428,6 +428,11 @@ namespace CommandLine.Text
 
         public static string RenderUsageText<T>(ParserResult<T> parserResult)
         {
+            return RenderUsageText(parserResult, example => example);
+        }
+
+        public static string RenderUsageText<T>(ParserResult<T> parserResult, Func<Example, Example> mapperFunc)
+        {
             if (parserResult == null) throw new ArgumentNullException("parserResult");
 
             var usage = GetUsageFromType(parserResult.TypeInfo.Current);
@@ -441,18 +446,19 @@ namespace CommandLine.Text
             var text = new StringBuilder();
             foreach (var e in examples)
             {
+                var example = mapperFunc(e);
                 var exampleText = new StringBuilder()
-                    .Append(e.HelpText)
+                    .Append(example.HelpText)
                     .Append(':')
                     .Append(Environment.NewLine);
-                var styles = e.GetFormatStylesOrDefault();
+                var styles = example.GetFormatStylesOrDefault();
                 foreach (var s in styles)
                 {
                     var commandLine = new StringBuilder()
                         .Append(2.Spaces())
                         .Append(appAlias)
                         .Append(' ')
-                        .Append(Parser.Default.FormatCommandLine(e.Sample,
+                        .Append(Parser.Default.FormatCommandLine(example.Sample,
                             config =>
                                 {
                                     config.PreferShortName = s.PreferShortName;
