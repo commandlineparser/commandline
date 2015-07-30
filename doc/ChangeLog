@@ -1,6 +1,7 @@
 2015-07-30    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
-  *Issue #208 Implemented (extended usage text support).
+  * Issue #208 Implemented (extended usage text support).
+  * Minor HelpText refactorings.
 
 2015-07-28    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
