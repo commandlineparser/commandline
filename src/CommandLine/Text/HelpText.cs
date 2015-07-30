@@ -222,11 +222,11 @@ namespace CommandLine.Text
             ReflectionHelper.GetAttribute<AssemblyUsageAttribute>()
                 .Do(usage => usage.AddToHelpText(auto, true));
 
-            var usageText = HelpText.RenderUsageText(parserResult, onExample);
-            if (usageText.Length > 0)
+            var usageLines = HelpText.RenderUsageTextAsLines(parserResult, onExample);
+            if (usageLines.Any())
             {
                 auto.AddPreOptionsLine(auto.SentenceBuilder.UsageHeadingText());
-                auto.AddPreOptionsText(usageText);
+                auto.AddPreOptionsLines(usageLines);
             }
 
             if ((verbsIndex && parserResult.TypeInfo.Choices.Any())
@@ -329,6 +329,18 @@ namespace CommandLine.Text
         public HelpText AddPostOptionsLine(string value)
         {
             return AddLine(postOptionsHelp, value);
+        }
+
+        public HelpText AddPreOptionsLines(IEnumerable<string> lines)
+        {
+            lines.ForEach(line => AddPreOptionsLine(line));
+            return this;
+        }
+
+        public HelpText AddPostOptionsLines(IEnumerable<string> lines)
+        {
+            lines.ForEach(line => AddPostOptionsLine(line));
+            return this;
         }
 
         public HelpText AddPreOptionsText(string text)
