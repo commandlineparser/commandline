@@ -426,12 +426,38 @@ namespace CommandLine.Text
                 .ToString();
         }
 
-        //public static string RenderUsageText<T>(ParserResult<T> parserResult)
-        //{
-        //    if (parserResult == null) throw new ArgumentNullException("parserResult");
+        public static string RenderUsageText<T>(ParserResult<T> parserResult)
+        {
+            if (parserResult == null) throw new ArgumentNullException("parserResult");
 
-        //    var examples = GetUsageFromType()
-        //}
+            var examples = GetUsageFromType(parserResult.TypeInfo.Current)
+                .Return(x => x, Enumerable.Empty<Example>());
+            if (examples.Empty())
+                return string.Empty;
+
+            var grouped = from e in examples
+                          group e by e.Group into g
+                          select new { Group = g.Key, Examples = g.ToList() };
+            var text = new StringBuilder();
+            foreach (var g in grouped)
+            {
+                var indent = 0;
+                var groupText = new StringBuilder();
+                var hasGroupDesc = g.Examples.First().GroupDescription.Length > 0;
+                if (hasGroupDesc) indent = 2;
+                groupText
+                    .AppendWhen(hasGroupDesc, g.Examples.First().GroupDescription, ":", Environment.NewLine)
+                    .AppendWhen(indent > 0, indent.Spaces());
+                foreach (var e in g.Examples)
+                {
+                    var exampleText = new StringBuilder(e.HelpText)
+                        .Append(':')
+                        .Append(Environment.NewLine);
+                    indent += 2;
+
+                }
+            }
+        }
 
         /// <summary>
         /// Returns the help screen as a <see cref="System.String"/>.
