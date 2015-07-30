@@ -191,11 +191,13 @@ namespace CommandLine.Text
         /// </returns>
         /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
         /// <param name='onError'>A delegate used to customize the text block of reporting parsing errors text block.</param>
+        /// <param name='onExample'>A delegate used to customize <see cref="CommandLine.Text.Example"/> model used to render text block of usage examples.</param>
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
         /// <remarks>The parameter <paramref name="verbsIndex"/> is not ontly a metter of formatting, it controls whether to handle verbs or options.</remarks>
         public static HelpText AutoBuild<T>(
             ParserResult<T> parserResult,
             Func<HelpText, HelpText> onError,
+            Func<Example, Example> onExample, 
             bool verbsIndex = false)
         {
             var auto = new HelpText {
@@ -217,11 +219,16 @@ namespace CommandLine.Text
 
             ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>()
                 .Do(license => license.AddToHelpText(auto, true));
-          
+
             ReflectionHelper.GetAttribute<AssemblyUsageAttribute>()
                 .Do(usage => usage.AddToHelpText(auto, true));
 
-            if ((verbsIndex && parserResult.TypeInfo.Choices.Any()) || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
+            var usageText = HelpText.RenderUsageText(parserResult, onExample);
+            if (usageText.Length == 0)
+                auto.AddPreOptionsLine(usageText);
+
+            if ((verbsIndex && parserResult.TypeInfo.Choices.Any())
+                || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
             {
                 auto.AddDashesToOption = false;
                 auto.AddVerbs(parserResult.TypeInfo.Choices.ToArray());
@@ -253,13 +260,13 @@ namespace CommandLine.Text
                 return new HelpText(HeadingInfo.Default).AddPreOptionsLine(Environment.NewLine);
 
             if (!errors.Any(e => e.Tag == ErrorType.HelpVerbRequestedError))
-                return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current));
+                return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e);
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
             return err.Matched
-                ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current))
-                : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), true);
+                ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current), e => e)
+                : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, true);
         }
 
         /// <summary>
