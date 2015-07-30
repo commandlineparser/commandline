@@ -363,5 +363,15 @@ namespace CommandLine.Tests.Unit.Text
             lines[8].ShouldBeEquivalentTo("post-options", lines[8]);
             // Teardown
         }
+
+        [Fact]
+        public static void RenderUsageText_returns_properly_formatted_text()
+        {
+            // Fixture setup
+            //ParserResult<> result = 
+            // Exercize system 
+            // Verify outcome
+            // Teardown
+        }
     }
 }
