@@ -10,8 +10,6 @@ namespace CommandLine.Text
 {
     public sealed class Example : IEquatable<Example>
     {
-        //private readonly string group;
-        //private readonly string groupDescription;
         private readonly string helpText;
         private readonly IEnumerable<UnParserSettings> formatStyles;
         private readonly object sample;
@@ -97,18 +95,6 @@ namespace CommandLine.Text
 
     static class ExampleExtensions
     {
-        //public static Example WithGroupDescription(this Example example, string newGroupDescription)
-        //{
-        //    if (string.IsNullOrEmpty(newGroupDescription)) throw new ArgumentException("newGroupDescription can't be null or empty", "newGroupDescription");
-
-        //    return new Example(
-        //        example.Group,
-        //        newGroupDescription,
-        //        example.HelpText,
-        //        example.FormatStyles,
-        //        example.Sample);
-        //}
-
         public static IEnumerable<UnParserSettings> GetFormatStylesOrDefault(this Example example)
         {
             return example.FormatStyles.Any()
