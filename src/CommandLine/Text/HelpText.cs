@@ -454,6 +454,7 @@ namespace CommandLine.Text
                         .Append(':')
                         .Append(Environment.NewLine);
                     indent += 2;
+                    exampleText.Append(indent.Spaces());
 
                 }
             }

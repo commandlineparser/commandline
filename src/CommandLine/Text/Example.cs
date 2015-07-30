@@ -16,6 +16,12 @@ namespace CommandLine.Text
 
         internal Example(string group, string groupDescription, string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
         {
+            if (group == null) throw new ArgumentNullException("group");
+            if (groupDescription == null) throw new ArgumentNullException("groupDescription");
+            if (string.IsNullOrEmpty(helpText)) throw new ArgumentException("helpText can't be null or empty", "helpText");
+            if (formatStyles == null) throw new ArgumentNullException("formatStyles");
+            if (sample == null) throw new ArgumentNullException("sample");
+
             this.group = group;
             this.group = groupDescription;
             this.helpText = helpText;
