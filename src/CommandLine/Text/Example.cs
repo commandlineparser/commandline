@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using CommandLine.Infrastructure;
+
 namespace CommandLine.Text
 {
     public sealed class Example : IEquatable<Example>
@@ -123,12 +125,21 @@ namespace CommandLine.Text
     {
         public static Example WithGroupDescription(this Example example, string newGroupDescription)
         {
+            if (string.IsNullOrEmpty(newGroupDescription)) throw new ArgumentException("newGroupDescription can't be null or empty", "newGroupDescription");
+
             return new Example(
                 example.Group,
                 newGroupDescription,
                 example.HelpText,
                 example.FormatStyles,
                 example.Sample);
+        }
+
+        public static IEnumerable<UnParserSettings> GetFormatStylesOrDefault(this Example example)
+        {
+            return example.FormatStyles.Any()
+                ? example.FormatStyles
+                : new[] { new UnParserSettings { Consumed = true } };
         }
     }
 }
