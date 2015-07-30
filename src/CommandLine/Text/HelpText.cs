@@ -456,19 +456,17 @@ namespace CommandLine.Text
             var examples = usageTuple.Item2;
             var appAlias = usageTuple.Item1.ApplicationAlias ?? ReflectionHelper.GetAssemblyName();
 
-            var text = new StringBuilder();
+            var text = new StringBuilder(BuilderCapacity);
             foreach (var e in examples)
             {
                 var example = mapperFunc(e);
-                var exampleText = new StringBuilder()
-                    .Append(example.HelpText)
+                var exampleText = new StringBuilder(example.HelpText)
                     .Append(':')
                     .Append(Environment.NewLine);
                 var styles = example.GetFormatStylesOrDefault();
                 foreach (var s in styles)
                 {
-                    var commandLine = new StringBuilder()
-                        .Append(2.Spaces())
+                    var commandLine = new StringBuilder(2.Spaces())
                         .Append(appAlias)
                         .Append(' ')
                         .Append(Parser.Default.FormatCommandLine(example.Sample,
