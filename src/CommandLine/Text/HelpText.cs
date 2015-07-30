@@ -430,10 +430,13 @@ namespace CommandLine.Text
         {
             if (parserResult == null) throw new ArgumentNullException("parserResult");
 
-            var examples = GetUsageFromType(parserResult.TypeInfo.Current)
-                .Return(x => x, Enumerable.Empty<Example>());
-            if (examples.Empty())
+            var usage = GetUsageFromType(parserResult.TypeInfo.Current);
+            if (usage.MatchNothing())
                 return string.Empty;
+
+            var usageTuple = usage.FromJust();
+            var examples = usageTuple.Item2;
+            var appAlias = usageTuple.Item1.ApplicationAlias ?? ReflectionHelper.GetAssemblyName();
 
             var text = new StringBuilder();
             foreach (var e in examples)
@@ -447,6 +450,8 @@ namespace CommandLine.Text
                 {
                     var commandLine = new StringBuilder()
                         .Append(2.Spaces())
+                        .Append(appAlias)
+                        .Append(' ')
                         .Append(Parser.Default.FormatCommandLine(e.Sample,
                             config =>
                                 {
@@ -540,7 +545,7 @@ namespace CommandLine.Text
                 .Concat(valueSpecs);
         }
 
-        private static Maybe<IEnumerable<Example>> GetUsageFromType(Type type)
+        private static Maybe<Tuple<UsageAttribute, IEnumerable<Example>>> GetUsageFromType(Type type)
         {
             return type.GetUsageData().Map(
                 tuple =>
@@ -550,14 +555,15 @@ namespace CommandLine.Text
 
                     var examples = (IEnumerable<Example>)prop
                         .GetValue(null, BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty, null, null, null);
-                    var groups = attr.Groups;
+                    //var groups = attr.Groups;
 
-                    return examples.Select(example => groups.ContainsKey(example.Group)
-                        ? example.WithGroupDescription(groups[example.Group])
-                        : example)
-                            .OrderBy(x => x.Group)
-                            .ThenBy(x => x.GroupDescription)
-                        .Memorize();
+                    //return examples.Select(example => groups.ContainsKey(example.Group)
+                    //    ? example.WithGroupDescription(groups[example.Group])
+                    //    : example)
+                    //        .OrderBy(x => x.Group)
+                    //        .ThenBy(x => x.GroupDescription)
+                    //    .Memorize();
+                    return Tuple.Create(attr, examples);
                 });
         }
 
