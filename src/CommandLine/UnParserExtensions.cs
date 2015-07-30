@@ -137,7 +137,12 @@ namespace CommandLine
             builder
                 .TrimEndIfMatchWhen(!optSpecs.Any() || builder.TrailingSpaces() > 1, ' ');
             optSpecs.ForEach(
-                opt => builder.Append(FormatOption((OptionSpecification)opt.Specification, opt.Value, settings)).Append(' '));
+                opt =>
+                    builder
+                        .TrimEndIfMatchWhen(builder.TrailingSpaces() > 1, ' ')
+                        .Append(FormatOption((OptionSpecification)opt.Specification, opt.Value, settings))
+                        .Append(' ')
+                );
             builder
                 .TrimEndIfMatchWhen(!valSpecs.Any() || builder.TrailingSpaces() > 1, ' ');
             valSpecs.ForEach(
