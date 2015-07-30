@@ -212,9 +212,7 @@ namespace CommandLine.Text
                 errors = ((NotParsed<T>)parserResult).Errors;
 
                 if (FilterMeaningfulErrors(errors).Any())
-                {
                     auto = onError(auto);
-                }
             }
 
             ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>()
