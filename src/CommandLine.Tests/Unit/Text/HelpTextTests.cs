@@ -379,13 +379,13 @@ namespace CommandLine.Tests.Unit.Text
             var lines = text.ToNotEmptyLines();
 
             // Teardown
-            //lines[0].ShouldBeEquivalentTo("Normal scenario:");
-            //lines[1].ShouldBeEquivalentTo("  mono testapp.exe --input file.bin --output out.bin");
-            //lines[2].ShouldBeEquivalentTo("Logging warnings:");
-            //lines[3].ShouldBeEquivalentTo("  mono testapp.exe -w --input file.bin");
-            //lines[4].ShouldBeEquivalentTo("Logging errors:");
-            //lines[5].ShouldBeEquivalentTo("  mono testapp.exe -w --input file.bin");
-
+            lines[0].ShouldBeEquivalentTo("Normal scenario:");
+            lines[1].ShouldBeEquivalentTo("  mono testapp.exe --input file.bin --output out.bin");
+            lines[2].ShouldBeEquivalentTo("Logging warnings:");
+            lines[3].ShouldBeEquivalentTo("  mono testapp.exe -w --input file.bin");
+            lines[4].ShouldBeEquivalentTo("Logging errors:");
+            lines[5].ShouldBeEquivalentTo("  mono testapp.exe -w --input file.bin");
+            lines[6].ShouldBeEquivalentTo("  mono testapp.exe --input=file.bin -w");
         }
     }
 }

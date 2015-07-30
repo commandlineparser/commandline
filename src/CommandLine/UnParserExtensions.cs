@@ -197,7 +197,8 @@ namespace CommandLine
         {
             var longName =
                 optionSpec.LongName.Length > 0
-                && !settings.PreferShortName;
+                && !settings.PreferShortName
+                && optionSpec.ConversionType != typeof(bool);
             return
                 new StringBuilder(longName
                     ? "--".JoinTo(optionSpec.LongName)
