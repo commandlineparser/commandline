@@ -224,7 +224,7 @@ namespace CommandLine.Text
                 .Do(usage => usage.AddToHelpText(auto, true));
 
             var usageText = HelpText.RenderUsageText(parserResult, onExample);
-            if (usageText.Length == 0)
+            if (usageText.Length > 0)
                 auto.AddPreOptionsLine(usageText);
 
             if ((verbsIndex && parserResult.TypeInfo.Choices.Any())
@@ -327,6 +327,20 @@ namespace CommandLine.Text
         public HelpText AddPostOptionsLine(string value)
         {
             return AddLine(postOptionsHelp, value);
+        }
+
+        public HelpText AddPreOptionsText(string text)
+        {
+            var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            lines.ForEach(line => AddPreOptionsLine(line));
+            return this;
+        }
+
+        public HelpText AddPostOptionsText(string text)
+        {
+            var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            lines.ForEach(line => AddPostOptionsLine(line));
+            return this;
         }
 
         /// <summary>

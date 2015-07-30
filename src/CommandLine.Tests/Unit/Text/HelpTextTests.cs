@@ -387,5 +387,34 @@ namespace CommandLine.Tests.Unit.Text
             lines[5].ShouldBeEquivalentTo("  mono testapp.exe -w --input file.bin");
             lines[6].ShouldBeEquivalentTo("  mono testapp.exe --input=file.bin --warns");
         }
+
+        [Fact]
+        public void Invoke_AutoBuild_for_Options_with_Usage_returns_appropriate_formatted_text()
+        {
+            // Fixture setup
+            var fakeResult = new NotParsed<FakeOptionsWithUsageText>(
+                TypeInfo.Create(typeof(FakeOptionsWithUsageText)),
+                new Error[]
+                    {
+                        new BadFormatTokenError("badtoken")
+                    });
+
+            // Exercize system
+            var helpText = HelpText.AutoBuild(fakeResult);
+
+            // Verify outcome
+            var text = helpText.ToString();
+            var lines = text.ToNotEmptyLines().TrimStringArray();
+            //lines[0].Should().StartWithEquivalent("CommandLine");
+            //lines[1].Should().StartWithEquivalent("Copyright (c)");
+            //lines[2].ShouldBeEquivalentTo("ERROR(S):");
+            //lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
+            //lines[4].ShouldBeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
+            //lines[5].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
+            //lines[6].ShouldBeEquivalentTo("-i               Define a int sequence here.");
+            //lines[7].ShouldBeEquivalentTo("-x               Define a boolean or switch value here.");
+            //lines[8].ShouldBeEquivalentTo("--help           Display this help screen.");
+            // Teardown
+        }
     }
 }
