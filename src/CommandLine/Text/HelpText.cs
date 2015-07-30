@@ -426,6 +426,13 @@ namespace CommandLine.Text
                 .ToString();
         }
 
+        public static string RenderUsageText<T>(ParserResult<T> parserResult)
+        {
+            if (parserResult == null) throw new ArgumentNullException("parserResult");
+
+
+        }
+
         /// <summary>
         /// Returns the help screen as a <see cref="System.String"/>.
         /// </summary>
