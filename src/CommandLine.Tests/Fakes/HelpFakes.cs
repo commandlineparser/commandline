@@ -58,12 +58,14 @@ namespace CommandLine.Tests.Fakes
         [Option('e', "Log errors.")]
         public bool LogError { get; set; }
 
-        [Usage]
+        [Usage(ApplicationAlias = "mono testapp.exe")]
         public static IEnumerable<Example> Examples
         {
             get
             {
-                yield return new Example("grp1", "Logging warnings", new[] { new UnParserSettings { GroupSwitches = true } } , new FakeOptionsWithUsageText { InputFile = "file.bin", LogWarning = true });
+                yield return new Example("Normal scenario", new FakeOptionsWithUsageText { InputFile = "file.bin", OutputFile = "out.bin" });
+                yield return new Example("Logging warnings", UnParserSettings.WithGroupSwitchesOnly() , new FakeOptionsWithUsageText { InputFile = "file.bin", LogWarning = true });
+                yield return new Example("Logging errors", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new FakeOptionsWithUsageText { InputFile = "file.bin", LogWarning = true });
             }
         }
     }

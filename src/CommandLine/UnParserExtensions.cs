@@ -46,6 +46,16 @@ namespace CommandLine
             set { PopsicleSetter.Set(Consumed, ref useEqualToken, value); }
         }
 
+        public static UnParserSettings WithGroupSwitchesOnly()
+        {
+            return new UnParserSettings { GroupSwitches = true };
+        }
+
+        public static UnParserSettings WithUseEqualTokenOnly()
+        {
+            return new UnParserSettings { UseEqualToken = true };
+        }
+
         internal bool Consumed { get; set; }
     }
 
