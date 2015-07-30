@@ -459,6 +459,14 @@ namespace CommandLine.Text
                 RenderParsingErrorsTextAsLines(parserResult, formatError, formatMutuallyExclusiveSetErrors, indent));
         }
 
+        /// <summary>
+        /// Builds a sequence of string that contains a parsing error message.
+        /// </summary>
+        /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
+        /// <param name="formatError">The error formatting delegate.</param>
+        /// <param name="formatMutuallyExclusiveSetErrors">The specialized <see cref="CommandLine.MutuallyExclusiveSetError"/> sequence formatting delegate.</param>
+        /// <param name="indent">Number of spaces used to indent text.</param>
+        /// <returns>A sequence of <see cref="System.String"/> that contains the parsing error message.</returns>
         public static IEnumerable<string> RenderParsingErrorsTextAsLines<T>(
             ParserResult<T> parserResult,
             Func<Error, string> formatError,
