@@ -3,7 +3,7 @@
 [![Nuget](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 
-Command Line Parser Library 2.0.201.0 alpha for CLR.
+Command Line Parser Library 2.0.205.0 alpha for CLR.
 ===
 The Command Line Parser Library offers CLR applications a clean and concise API for manipulating command line arguments and related tasks, such as defining switches, options and verb commands. It allows you to display a help screen with a high degree of customization and a simple way to report syntax errors to the end user.
 
@@ -229,8 +229,8 @@ Latest Changes:
   - Added F# option support to `FormatCommandLine()`.
   - `ParserResult<T>` internally refactored, minor breaking changes to `HelpText`.
   - Added `FormatCommandLine()` overload with settings.
-  - Internal refactorings.
   - Issue #208 Implemented (extended usage text support).
+  - Internal/external refactorings.
 
 Contact:
 ---
