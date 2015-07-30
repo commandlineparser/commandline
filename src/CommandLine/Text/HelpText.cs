@@ -435,44 +435,31 @@ namespace CommandLine.Text
             if (examples.Empty())
                 return string.Empty;
 
-            var grouped = from e in examples
-                          group e by e.Group into g
-                          select new { Group = g.Key, Examples = g.ToList() };
             var text = new StringBuilder();
-            foreach (var g in grouped)
+            foreach (var e in examples)
             {
-                var baseIndent = 0;
-                var groupText = new StringBuilder();
-                var hasGroupDesc = g.Examples.First().GroupDescription.Length > 0;
-                if (hasGroupDesc) baseIndent = 2;
-                groupText
-                    .AppendWhen(hasGroupDesc, g.Examples.First().GroupDescription, ":", Environment.NewLine);                   
-                foreach (var e in g.Examples)
+                var exampleText = new StringBuilder()
+                    .Append(e.HelpText)
+                    .Append(':')
+                    .Append(Environment.NewLine);
+                var styles = e.GetFormatStylesOrDefault();
+                foreach (var s in styles)
                 {
-                    var exampleText = new StringBuilder()
-                        .AppendWhen(baseIndent > 0, baseIndent.Spaces())
-                        .Append(e.HelpText)
-                        .Append(':')
+                    var commandLine = new StringBuilder()
+                        .Append(2.Spaces())
+                        .Append(Parser.Default.FormatCommandLine(e.Sample,
+                            config =>
+                                {
+                                    config.PreferShortName = s.PreferShortName;
+                                    config.GroupSwitches = s.GroupSwitches;
+                                    config.UseEqualToken = s.UseEqualToken;
+                                }))
                         .Append(Environment.NewLine);
-                    var styles = e.GetFormatStylesOrDefault();
-                    foreach (var s in styles)
-                    {
-                        var commandLine = new StringBuilder()
-                            .Append((baseIndent + 2).Spaces())
-                            .Append(Parser.Default.FormatCommandLine(e.Sample,
-                                config =>
-                                    {
-                                        config.PreferShortName = s.PreferShortName;
-                                        config.GroupSwitches = s.GroupSwitches;
-                                        config.UseEqualToken = s.UseEqualToken;
-                                    }))
-                            .Append(Environment.NewLine);
-                        exampleText.Append(commandLine);
-                    }
-                    groupText.Append(exampleText);
+                    exampleText.Append(commandLine);
                 }
-                text.Append(groupText);
+                text.Append(exampleText);
             }
+
             return text.ToString();
         }
 

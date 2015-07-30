@@ -1,5 +1,8 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
+using System.Collections.Generic;
+using CommandLine.Text;
+
 namespace CommandLine.Tests.Fakes
 {
     class FakeOptionsForHelp
@@ -36,5 +39,32 @@ namespace CommandLine.Tests.Fakes
 
         [Option("input-file", HelpText = "Before 012345678901234567890123456789 After")]
         public string FileName { get; set; }
+    }
+
+    class FakeOptionsWithUsageText
+    {
+        [Option('i',"input", HelpText = "Set input file.")]
+        public string InputFile { get; set; }
+
+        [Option('i', "output", HelpText = "Set output file.")]
+        public string OutputFile { get; set; }
+
+        [Option(HelpText = "Set verbosity level.")]
+        public bool Verbose { get; set; }
+
+        [Option('w', "Log warnings.")]
+        public bool LogWarning { get; set; }
+
+        [Option('e', "Log errors.")]
+        public bool LogError { get; set; }
+
+        [Usage]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                yield return new Example("grp1", "Logging warnings", new[] { new UnParserSettings { GroupSwitches = true } } , new FakeOptionsWithUsageText { InputFile = "file.bin", LogWarning = true });
+            }
+        }
     }
 }
