@@ -315,6 +315,7 @@ namespace CommandLine.Text
         /// Adds a text line after copyright and before options usage strings.
         /// </summary>
         /// <param name="value">A <see cref="System.String"/> instance.</param>
+        /// <returns>Updated <see cref="CommandLine.Text.HelpText"/> instance.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="value"/> is null or empty string.</exception>
         public HelpText AddPreOptionsLine(string value)
         {
@@ -325,24 +326,40 @@ namespace CommandLine.Text
         /// Adds a text line at the bottom, after options usage string.
         /// </summary>
         /// <param name="value">A <see cref="System.String"/> instance.</param>
+        /// <returns>Updated <see cref="CommandLine.Text.HelpText"/> instance.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="value"/> is null or empty string.</exception>
         public HelpText AddPostOptionsLine(string value)
         {
             return AddLine(postOptionsHelp, value);
         }
 
+        /// <summary>
+        /// Adds text lines after copyright and before options usage strings.
+        /// </summary>
+        /// <param name="lines">A <see cref="System.String"/> sequence of line to add.</param>
+        /// <returns>Updated <see cref="CommandLine.Text.HelpText"/> instance.</returns>
         public HelpText AddPreOptionsLines(IEnumerable<string> lines)
         {
             lines.ForEach(line => AddPreOptionsLine(line));
             return this;
         }
 
+        /// <summary>
+        /// Adds text lines at the bottom, after options usage string.
+        /// </summary>
+        /// <param name="lines">A <see cref="System.String"/> sequence of line to add.</param>
+        /// <returns>Updated <see cref="CommandLine.Text.HelpText"/> instance.</returns>
         public HelpText AddPostOptionsLines(IEnumerable<string> lines)
         {
             lines.ForEach(line => AddPostOptionsLine(line));
             return this;
         }
 
+        /// <summary>
+        /// Adds a text block of lines after copyright and before options usage strings.
+        /// </summary>
+        /// <param name="text">A <see cref="System.String"/> text block.</param>
+        /// <returns>Updated <see cref="CommandLine.Text.HelpText"/> instance.</returns>
         public HelpText AddPreOptionsText(string text)
         {
             var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
@@ -350,6 +367,11 @@ namespace CommandLine.Text
             return this;
         }
 
+        /// <summary>
+        /// Adds a text block of lines at the bottom, after options usage string.
+        /// </summary>
+        /// <param name="text">A <see cref="System.String"/> text block.</param>
+        /// <returns>Updated <see cref="CommandLine.Text.HelpText"/> instance.</returns>
         public HelpText AddPostOptionsText(string text)
         {
             var lines = text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
