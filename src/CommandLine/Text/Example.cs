@@ -15,7 +15,13 @@ namespace CommandLine.Text
         private readonly IEnumerable<UnParserSettings> formatStyles;
         private readonly object sample;
 
-        internal Example(string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.Text.Example"/> class.
+        /// </summary>
+        /// <param name="helpText">Example description.</param>
+        /// <param name="formatStyles">A <see cref="CommandLine.UnParserSettings"/> instances sequence that defines command line arguments format.</param>
+        /// <param name="sample">A sample instance.</param>
+        public Example(string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
         {
             if (string.IsNullOrEmpty(helpText)) throw new ArgumentException("helpText can't be null or empty", "helpText");
             if (formatStyles == null) throw new ArgumentNullException("formatStyles");
