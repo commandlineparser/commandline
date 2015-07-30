@@ -384,8 +384,8 @@ namespace CommandLine.Tests.Unit.Text
             lines[2].ShouldBeEquivalentTo("Logging warnings:");
             lines[3].ShouldBeEquivalentTo("  mono testapp.exe -w --input file.bin");
             lines[4].ShouldBeEquivalentTo("Logging errors:");
-            lines[5].ShouldBeEquivalentTo("  mono testapp.exe -w --input file.bin");
-            lines[6].ShouldBeEquivalentTo("  mono testapp.exe --input=file.bin --warns");
+            lines[5].ShouldBeEquivalentTo("  mono testapp.exe -e --input file.bin");
+            lines[6].ShouldBeEquivalentTo("  mono testapp.exe --errs --input=file.bin");
         }
 
         [Fact]
@@ -415,8 +415,8 @@ namespace CommandLine.Tests.Unit.Text
             lines[7].ShouldBeEquivalentTo("Logging warnings:");
             lines[8].ShouldBeEquivalentTo("mono testapp.exe -w --input file.bin");
             lines[9].ShouldBeEquivalentTo("Logging errors:");
-            lines[10].ShouldBeEquivalentTo("mono testapp.exe -w --input file.bin");
-            lines[11].ShouldBeEquivalentTo("mono testapp.exe --input=file.bin --warns");
+            lines[10].ShouldBeEquivalentTo("mono testapp.exe -e --input file.bin");
+            lines[11].ShouldBeEquivalentTo("mono testapp.exe --errs --input=file.bin");
             lines[12].ShouldBeEquivalentTo("-i, --input     Set input file.");
             lines[13].ShouldBeEquivalentTo("-i, --output    Set output file.");
             lines[14].ShouldBeEquivalentTo("--verbose       Set verbosity level.");

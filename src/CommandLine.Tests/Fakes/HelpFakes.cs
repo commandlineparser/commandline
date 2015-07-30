@@ -65,7 +65,7 @@ namespace CommandLine.Tests.Fakes
             {
                 yield return new Example("Normal scenario", new FakeOptionsWithUsageText { InputFile = "file.bin", OutputFile = "out.bin" });
                 yield return new Example("Logging warnings", UnParserSettings.WithGroupSwitchesOnly() , new FakeOptionsWithUsageText { InputFile = "file.bin", LogWarning = true });
-                yield return new Example("Logging errors", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new FakeOptionsWithUsageText { InputFile = "file.bin", LogWarning = true });
+                yield return new Example("Logging errors", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new FakeOptionsWithUsageText { InputFile = "file.bin", LogError = true });
             }
         }
     }
