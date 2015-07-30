@@ -8,23 +8,23 @@ namespace CommandLine
 {
     sealed class TypeInfo
     {
-        private readonly Type single;
-        private readonly IEnumerable<Type> multiple; 
+        private readonly Type current;
+        private readonly IEnumerable<Type> choices; 
 
-        private TypeInfo(Type single, IEnumerable<Type> multiple)
+        private TypeInfo(Type current, IEnumerable<Type> choices)
         {
-            this.single = single;
-            this.multiple = multiple;
+            this.current = current;
+            this.choices = choices;
         }
 
-        public Type Single
+        public Type Current
         {
-            get { return single; }
+            get { return this.current; }
         }
 
-        public IEnumerable<Type> Multiple
+        public IEnumerable<Type> Choices
         {
-            get { return multiple; }
+            get { return this.choices; }
         }
 
         public static TypeInfo Create(Type single)

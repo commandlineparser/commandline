@@ -223,10 +223,10 @@ namespace CommandLine.Text
             ReflectionHelper.GetAttribute<AssemblyUsageAttribute>()
                 .Do(usage => usage.AddToHelpText(auto, true));
 
-            if ((verbsIndex && parserResult.TypeInfo.Multiple.Any()) || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
+            if ((verbsIndex && parserResult.TypeInfo.Choices.Any()) || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
             {
                 auto.AddDashesToOption = false;
-                auto.AddVerbs(parserResult.TypeInfo.Multiple.ToArray());
+                auto.AddVerbs(parserResult.TypeInfo.Choices.ToArray());
             }
             else
                 auto.AddOptions(parserResult);
@@ -335,7 +335,7 @@ namespace CommandLine.Text
             if (result == null) throw new ArgumentNullException("result");
 
             return AddOptionsImpl(
-                GetSpecificationsFromType(result.TypeInfo.Single),
+                GetSpecificationsFromType(result.TypeInfo.Current),
                 SentenceBuilder.RequiredWord(),
                 MaximumDisplayWidth);
         }
@@ -368,7 +368,7 @@ namespace CommandLine.Text
             if (result == null) throw new ArgumentNullException("result");
 
             return AddOptionsImpl(
-                GetSpecificationsFromType(result.TypeInfo.Single),
+                GetSpecificationsFromType(result.TypeInfo.Current),
                 SentenceBuilder.RequiredWord(),
                 maximumLength);
         }
@@ -426,12 +426,12 @@ namespace CommandLine.Text
                 .ToString();
         }
 
-        public static string RenderUsageText<T>(ParserResult<T> parserResult)
-        {
-            if (parserResult == null) throw new ArgumentNullException("parserResult");
+        //public static string RenderUsageText<T>(ParserResult<T> parserResult)
+        //{
+        //    if (parserResult == null) throw new ArgumentNullException("parserResult");
 
-
-        }
+        //    var examples = GetUsageFromType()
+        //}
 
         /// <summary>
         /// Returns the help screen as a <see cref="System.String"/>.
