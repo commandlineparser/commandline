@@ -368,9 +368,16 @@ namespace CommandLine.Tests.Unit.Text
         public static void RenderUsageText_returns_properly_formatted_text()
         {
             // Fixture setup
-            //ParserResult<> result = 
-            // Exercize system 
+            ParserResult<FakeOptionsWithUsageText> result =
+                new NotParsed<FakeOptionsWithUsageText>(
+                    TypeInfo.Create(typeof(FakeOptionsWithUsageText)), Enumerable.Empty<Error>());
+            
+            // Exercize system
+            var text = HelpText.RenderUsageText(result);
+
             // Verify outcome
+            var lines = text.ToNotEmptyLines().TrimStringArray();
+
             // Teardown
         }
     }
