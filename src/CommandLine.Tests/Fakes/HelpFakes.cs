@@ -52,10 +52,10 @@ namespace CommandLine.Tests.Fakes
         [Option(HelpText = "Set verbosity level.")]
         public bool Verbose { get; set; }
 
-        [Option('w', "Log warnings.")]
+        [Option('w', "warns", HelpText = "Log warnings.")]
         public bool LogWarning { get; set; }
 
-        [Option('e', "Log errors.")]
+        [Option('e', "errs", HelpText = "Log errors.")]
         public bool LogError { get; set; }
 
         [Usage(ApplicationAlias = "mono testapp.exe")]
