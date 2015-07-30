@@ -441,23 +441,39 @@ namespace CommandLine.Text
             var text = new StringBuilder();
             foreach (var g in grouped)
             {
-                var indent = 0;
+                var baseIndent = 0;
                 var groupText = new StringBuilder();
                 var hasGroupDesc = g.Examples.First().GroupDescription.Length > 0;
-                if (hasGroupDesc) indent = 2;
+                if (hasGroupDesc) baseIndent = 2;
                 groupText
-                    .AppendWhen(hasGroupDesc, g.Examples.First().GroupDescription, ":", Environment.NewLine)
-                    .AppendWhen(indent > 0, indent.Spaces());
+                    .AppendWhen(hasGroupDesc, g.Examples.First().GroupDescription, ":", Environment.NewLine);                   
                 foreach (var e in g.Examples)
                 {
-                    var exampleText = new StringBuilder(e.HelpText)
+                    var exampleText = new StringBuilder()
+                        .AppendWhen(baseIndent > 0, baseIndent.Spaces())
+                        .Append(e.HelpText)
                         .Append(':')
                         .Append(Environment.NewLine);
-                    indent += 2;
-                    exampleText.Append(indent.Spaces());
-
+                    var styles = e.GetFormatStylesOrDefault();
+                    foreach (var s in styles)
+                    {
+                        var commandLine = new StringBuilder()
+                            .Append((baseIndent + 2).Spaces())
+                            .Append(Parser.Default.FormatCommandLine(e.Sample,
+                                config =>
+                                    {
+                                        config.PreferShortName = s.PreferShortName;
+                                        config.GroupSwitches = s.GroupSwitches;
+                                        config.UseEqualToken = s.UseEqualToken;
+                                    }))
+                            .Append(Environment.NewLine);
+                        exampleText.Append(commandLine);
+                    }
+                    groupText.Append(exampleText);
                 }
+                text.Append(groupText);
             }
+            return text.ToString();
         }
 
         /// <summary>
