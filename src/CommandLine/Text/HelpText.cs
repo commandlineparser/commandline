@@ -481,6 +481,35 @@ namespace CommandLine.Text
                 .ToString();
         }
 
+        public static IEnumerable<string> RenderParsingErrorsTextAsLines<T>(
+            ParserResult<T> parserResult,
+            Func<Error, string> formatError,
+            Func<IEnumerable<MutuallyExclusiveSetError>, string> formatMutuallyExclusiveSetErrors,
+            int indent)
+        {
+            if (parserResult == null) throw new ArgumentNullException("parserResult");
+
+            var meaningfulErrors =
+                FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors);
+            if (meaningfulErrors.Empty())
+                yield break;
+
+            var text = new StringBuilder();
+            foreach(var error in  meaningfulErrors
+                .Where(e => e.Tag != ErrorType.MutuallyExclusiveSetError))
+            {
+                var line = new StringBuilder(indent.Spaces())
+                    .Append(formatError(error));
+                yield return line.ToString();
+            }
+
+            var mutuallyErrs = 
+                formatMutuallyExclusiveSetErrors(
+                    meaningfulErrors.OfType<MutuallyExclusiveSetError>());
+            if (mutuallyErrs.Length > 0)
+                yield return mutuallyErrs;
+        }
+
         /// <summary>
         /// Builds a string with usage text block created using <see cref="CommandLine.Text.UsageAttribute"/> data and metadata.
         /// </summary>
