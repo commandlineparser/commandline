@@ -125,7 +125,8 @@ namespace CommandLine.Tests.Fakes
             HelpText = "Suppress summary message.")]
         public bool Quiet { get; set; }
 
-        [Value(0)]
+        [Value(0, MetaName = "URLS",
+            HelpText = "A list of url(s) to clone.")]
         public IEnumerable<string> Urls { get; set; }
 
         [Usage(ApplicationAlias = "git")]
@@ -133,7 +134,8 @@ namespace CommandLine.Tests.Fakes
         {
             get
             {
-                yield return new Example("Cloning", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new CloneOptionsWithUsage { NoHardLinks = true, Urls = new[] { "https://github.com/gsscoder/csharpx" } });
+                yield return new Example("Cloning quietly", new CloneOptionsWithUsage { Quiet = true, Urls = new[] { "https://github.com/gsscoder/railwaysharp" } });
+                yield return new Example("Cloning without hard links", new CloneOptionsWithUsage { NoHardLinks = true, Urls = new[] { "https://github.com/gsscoder/csharpx" } });
             }
         }
     }

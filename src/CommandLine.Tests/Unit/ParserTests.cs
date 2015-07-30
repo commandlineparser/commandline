@@ -372,21 +372,27 @@ namespace CommandLine.Tests.Unit
 
             // Exercize system
             sut.ParseArguments<AddOptionsWithUsage, CommitOptionsWithUsage, CloneOptionsWithUsage>(
-                new [] { "commit" });
+                new [] { "clone", "--badoption=@bad?value" });
             var result = help.ToString();
 
             // Verify outcome
-            //result.Length.Should().BeGreaterThan(0);
-            //var lines = result.ToNotEmptyLines().TrimStringArray();
-            //lines[0].Should().StartWithEquivalent("CommandLine");
-            //lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
-            //lines[2].ShouldBeEquivalentTo("ERROR(S):");
-            //lines[3].ShouldBeEquivalentTo("No verb selected.");
-            //lines[4].ShouldBeEquivalentTo("add        Add file contents to the index.");
-            //lines[5].ShouldBeEquivalentTo("commit     Record changes to the repository.");
-            //lines[6].ShouldBeEquivalentTo("clone      Clone a repository into a new directory.");
-            //lines[7].ShouldBeEquivalentTo("help       Display more information on a specific command.");
-            //lines[8].ShouldBeEquivalentTo("version    Display version information.");
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[2].ShouldBeEquivalentTo("ERROR(S):");
+            lines[3].ShouldBeEquivalentTo("Option 'badoption' is unknown.");
+            lines[4].ShouldBeEquivalentTo("USAGE:");
+            lines[5].ShouldBeEquivalentTo("Cloning quietly:");
+            lines[6].ShouldBeEquivalentTo("git clone --quiet https://github.com/gsscoder/railwaysharp");
+            lines[7].ShouldBeEquivalentTo("Cloning without hard links:");
+            lines[8].ShouldBeEquivalentTo("git clone --no-hardlinks https://github.com/gsscoder/csharpx");
+            lines[9].ShouldBeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
+            lines[10].ShouldBeEquivalentTo("filesystem by copying files.");
+            lines[11].ShouldBeEquivalentTo("-q, --quiet       Suppress summary message.");
+            lines[12].ShouldBeEquivalentTo("--help            Display this help screen.");
+            lines[13].ShouldBeEquivalentTo("--version         Display version information.");
+            lines[14].ShouldBeEquivalentTo("URLS (pos. 0)     A list of url(s) to clone.");
+
             // Teardown
         }
     }
