@@ -426,11 +426,24 @@ namespace CommandLine.Text
                 .ToString();
         }
 
+        /// <summary>
+        /// Builds a string with usage text block created using <see cref="CommandLine.Text.UsageAttribute"/> data and metadata.
+        /// </summary>
+        /// <typeparam name="T">Type of parsing computation result.</typeparam>
+        /// <param name="parserResult">A parsing computation result.</param>
+        /// <returns>Resulting formatted text.</returns>
         public static string RenderUsageText<T>(ParserResult<T> parserResult)
         {
             return RenderUsageText(parserResult, example => example);
         }
 
+        /// <summary>
+        /// Builds a string with usage text block created using <see cref="CommandLine.Text.UsageAttribute"/> data and metadata.
+        /// </summary>
+        /// <typeparam name="T">Type of parsing computation result.</typeparam>
+        /// <param name="parserResult">A parsing computation result.</param>
+        /// <param name="mapperFunc">A mapping lambda normally used to translate text in other languages.</param>
+        /// <returns>Resulting formatted text.</returns>
         public static string RenderUsageText<T>(ParserResult<T> parserResult, Func<Example, Example> mapperFunc)
         {
             if (parserResult == null) throw new ArgumentNullException("parserResult");
