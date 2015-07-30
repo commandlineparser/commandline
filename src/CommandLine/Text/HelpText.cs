@@ -225,7 +225,10 @@ namespace CommandLine.Text
 
             var usageText = HelpText.RenderUsageText(parserResult, onExample);
             if (usageText.Length > 0)
-                auto.AddPreOptionsLine(usageText);
+            {
+                auto.AddPreOptionsLine(auto.SentenceBuilder.UsageHeadingText());
+                auto.AddPreOptionsText(usageText);
+            }
 
             if ((verbsIndex && parserResult.TypeInfo.Choices.Any())
                 || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))

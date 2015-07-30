@@ -405,15 +405,26 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var text = helpText.ToString();
             var lines = text.ToNotEmptyLines().TrimStringArray();
-            //lines[0].Should().StartWithEquivalent("CommandLine");
-            //lines[1].Should().StartWithEquivalent("Copyright (c)");
-            //lines[2].ShouldBeEquivalentTo("ERROR(S):");
-            //lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
-            //lines[4].ShouldBeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
-            //lines[5].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
-            //lines[6].ShouldBeEquivalentTo("-i               Define a int sequence here.");
-            //lines[7].ShouldBeEquivalentTo("-x               Define a boolean or switch value here.");
-            //lines[8].ShouldBeEquivalentTo("--help           Display this help screen.");
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[2].ShouldBeEquivalentTo("ERROR(S):");
+            lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
+            lines[4].ShouldBeEquivalentTo("USAGE:");
+            lines[5].ShouldBeEquivalentTo("Normal scenario:");
+            lines[6].ShouldBeEquivalentTo("mono testapp.exe --input file.bin --output out.bin");
+            lines[7].ShouldBeEquivalentTo("Logging warnings:");
+            lines[8].ShouldBeEquivalentTo("mono testapp.exe -w --input file.bin");
+            lines[9].ShouldBeEquivalentTo("Logging errors:");
+            lines[10].ShouldBeEquivalentTo("mono testapp.exe -w --input file.bin");
+            lines[11].ShouldBeEquivalentTo("mono testapp.exe --input=file.bin --warns");
+            lines[12].ShouldBeEquivalentTo("-i, --input     Set input file.");
+            lines[13].ShouldBeEquivalentTo("-i, --output    Set output file.");
+            lines[14].ShouldBeEquivalentTo("--verbose       Set verbosity level.");
+            lines[15].ShouldBeEquivalentTo("-w, --warns     Log warnings.");
+            lines[16].ShouldBeEquivalentTo("-e, --errs      Log errors.");
+            lines[17].ShouldBeEquivalentTo("--help          Display this help screen.");
+            lines[18].ShouldBeEquivalentTo("--version       Display version information.");
+
             // Teardown
         }
     }

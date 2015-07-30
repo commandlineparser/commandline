@@ -34,6 +34,8 @@ namespace CommandLine.Text
         /// </summary>
         public abstract Func<string> ErrorsHeadingText { get; }
 
+        public abstract Func<string> UsageHeadingText { get; } 
+
         /// <summary>
         /// Get a delegate that returns the help text of help command.
         /// The delegates should accept a boolean that is equal <value>true</value> for options; otherwise <value>false</value> for verbs.
@@ -64,6 +66,11 @@ namespace CommandLine.Text
             public override Func<string> ErrorsHeadingText
             {
                 get { return () => "ERROR(S):"; }
+            }
+
+            public override Func<string> UsageHeadingText
+            {
+                get { return () => "USAGE:"; }
             }
 
             public override Func<bool, string> HelpCommandText
