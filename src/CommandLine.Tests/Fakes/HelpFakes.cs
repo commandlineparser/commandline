@@ -83,6 +83,15 @@ namespace CommandLine.Tests.Fakes
 
         [Value(0)]
         public string FileName { get; set; }
+
+        [Usage(ApplicationAlias = "git")]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                yield return new Example("Forcing file", new AddOptions { FileName = "README.md", Force = true });
+            }
+        }
     }
 
     [Verb("commit", HelpText = "Record changes to the repository.")]
@@ -94,6 +103,15 @@ namespace CommandLine.Tests.Fakes
 
         [Option("amend", HelpText = "Used to amend the tip of the current branch.")]
         public bool Amend { get; set; }
+
+        [Usage(ApplicationAlias = "git")]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                yield return new Example("Committing work", new CommitOptionsWithUsage { Patch = true });
+            }
+        }
     }
 
     [Verb("clone", HelpText = "Clone a repository into a new directory.")]
@@ -109,5 +127,14 @@ namespace CommandLine.Tests.Fakes
 
         [Value(0)]
         public IEnumerable<string> Urls { get; set; }
+
+        [Usage(ApplicationAlias = "git")]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                yield return new Example("Cloning", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new CloneOptionsWithUsage { NoHardLinks = true, Urls = new[] { "https://github.com/gsscoder/csharpx" } });
+            }
+        }
     }
 }
