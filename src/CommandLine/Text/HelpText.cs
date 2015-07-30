@@ -284,19 +284,16 @@ namespace CommandLine.Text
             if (FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors).Empty())
                 return current;
 
-            var errors = RenderParsingErrorsText(parserResult,
+            var errors = RenderParsingErrorsTextAsLines(parserResult,
                 current.SentenceBuilder.FormatError,
                 current.SentenceBuilder.FormatMutuallyExclusiveSetErrors,
                 2); // indent with two spaces
-            if (string.IsNullOrEmpty(errors))
+            if (errors.Empty())
                 return current;
 
             current.AddPreOptionsLine(
                 string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText()));
-            var lines = errors.Split(
-                new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines.ForEach(
-                line => current.AddPreOptionsLine(line));
+            current.AddPreOptionsLines(errors);
 
             return current;
         }
@@ -475,7 +472,6 @@ namespace CommandLine.Text
             if (meaningfulErrors.Empty())
                 yield break;
 
-            var text = new StringBuilder();
             foreach(var error in  meaningfulErrors
                 .Where(e => e.Tag != ErrorType.MutuallyExclusiveSetError))
             {
@@ -488,7 +484,12 @@ namespace CommandLine.Text
                 formatMutuallyExclusiveSetErrors(
                     meaningfulErrors.OfType<MutuallyExclusiveSetError>());
             if (mutuallyErrs.Length > 0)
-                yield return mutuallyErrs;
+            {
+                var lines = mutuallyErrs
+                    .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                foreach (var line in lines)
+                    yield return line;
+            }
         }
 
         /// <summary>
