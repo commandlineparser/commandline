@@ -457,28 +457,9 @@ namespace CommandLine.Text
             Func<IEnumerable<MutuallyExclusiveSetError>, string> formatMutuallyExclusiveSetErrors,
             int indent)
         {
-            if (parserResult == null) throw new ArgumentNullException("parserResult");
-
-            var meaningfulErrors =
-                FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors);
-            if (meaningfulErrors.Empty())
-                return string.Empty;
-
-            var text = new StringBuilder();
-            meaningfulErrors
-                .Where(e => e.Tag != ErrorType.MutuallyExclusiveSetError)
-                .ForEach(
-                    error =>
-                        {
-                            var line = new StringBuilder(indent.Spaces())
-                                .Append(formatError(error)); 
-                            text.AppendLine(line.ToString());
-                        });
-
-            return text.AppendIfNotEmpty(
-                formatMutuallyExclusiveSetErrors(
-                    meaningfulErrors.OfType<MutuallyExclusiveSetError>()))
-                .ToString();
+            return string.Join(
+                Environment.NewLine,
+                RenderParsingErrorsTextAsLines(parserResult, formatError, formatMutuallyExclusiveSetErrors, indent));
         }
 
         public static IEnumerable<string> RenderParsingErrorsTextAsLines<T>(
