@@ -40,7 +40,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var text = writer.ToString();
-            Assert.True(text.Length > 0);
+            text.Should().NotBeEmpty();
             // Teardown
         }
 
@@ -56,7 +56,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var text = writer.ToString();
-            Assert.True(text.Length > 0);
+            text.Should().NotBeEmpty();
             // Teardown
         }
 
@@ -286,7 +286,6 @@ namespace CommandLine.Tests.Unit
             var result = help.ToString();
 
             // Verify outcome
-            result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
@@ -332,7 +331,6 @@ namespace CommandLine.Tests.Unit
             var result = help.ToString();
 
             // Verify outcome
-            result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
