@@ -27,14 +27,14 @@ namespace CommandLine
             get { return this.choices; }
         }
 
-        public static TypeInfo Create(Type single)
+        public static TypeInfo Create(Type current)
         {
-            return new TypeInfo(single, Enumerable.Empty<Type>());
+            return new TypeInfo(current, Enumerable.Empty<Type>());
         }
 
-        public static TypeInfo Create(Type single, IEnumerable<Type> multiple)
+        public static TypeInfo Create(Type current, IEnumerable<Type> choices)
         {
-            return new TypeInfo(single, multiple);
+            return new TypeInfo(current, choices);
         }
     }
 
