@@ -26,6 +26,7 @@ At glance:
   - Automatic or one line help screen generator: ``HelpText.AutoBuild(...)``.
     - Supports `--help`, `--version`, `version` and `help [verb]` by default.
   - Map to sequences (``IEnumerable<T>``) or scalar types, including enum and ``Nullable<T>``.
+  - You can also map to every type with a constructor that accepts a string (like ``System.Uri``).
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
   - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Latest-Version#verbs) as ``git commit -a``.
   - Unparsing support: ``CommandLine.Parser.Default.FormatCommandLine<T>(T options)``.
