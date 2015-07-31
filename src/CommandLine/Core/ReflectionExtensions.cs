@@ -8,7 +8,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using CommandLine.Infrastructure;
 using CommandLine.Text;
-
 using CSharpx;
 
 namespace CommandLine.Core
@@ -206,6 +205,22 @@ namespace CommandLine.Core
                 null,
                 target,
                 new object[] { });
+        }
+
+        public static bool IsPrimitiveEx(this Type type)
+        {
+            return
+                type.IsValueType ||
+                type.IsPrimitive ||
+                new [] { 
+                    typeof(string),
+                    typeof(decimal),
+                    typeof(DateTime),
+                    typeof(DateTimeOffset),
+                    typeof(TimeSpan),
+                    typeof(Guid)
+                }.Contains(type) ||
+                Convert.GetTypeCode(type) != TypeCode.Object;
         }
     }
 }
