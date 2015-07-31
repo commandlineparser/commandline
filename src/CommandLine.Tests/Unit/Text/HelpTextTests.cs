@@ -209,7 +209,6 @@ namespace CommandLine.Tests.Unit.Text
                         new MissingValueOptionError(new NameInfo("x", "switch")),
                         new UnknownOptionError("unknown"),
                         new MissingRequiredOptionError(new NameInfo("", "missing")),
-                        //new MutuallyExclusiveSetError(new NameInfo("z", ""), string.Empty),
                         new SequenceOutOfRangeError(new NameInfo("s", "sequence")),
                         new NoVerbSelectedError(),
                         new BadVerbSelectedError("badverb"),
