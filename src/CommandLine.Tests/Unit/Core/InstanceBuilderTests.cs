@@ -1007,6 +1007,25 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Fact]
+        public static void Parse_to_type_with_single_string_ctor_builds_up_correct_instance()
+        {
+            // Fixture setup
+            var expectedResult = new FakeOptionsWithSimpleType { EndPoint = new Uri("http://localhost/test/"), MyValue = new MySimpleType("custom-value") };
+
+            // Exercize system 
+            var result = InstanceBuilder.Build(
+                Maybe.Just<Func<FakeOptionsWithSimpleType>>(() => new FakeOptionsWithSimpleType()),
+                new[] { "--endpoint=http://localhost/test/", "custom-value" },
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture);
+
+            // Verify outcome
+            expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithSimpleType>)result).Value);
+
+            // Teardown
+        }
+
         public static IEnumerable<object> RequiredValueStringData
         {
             get
