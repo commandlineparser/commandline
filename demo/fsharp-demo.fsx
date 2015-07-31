@@ -1,13 +1,18 @@
 ﻿#r "./../src/CommandLine/bin/Debug/CommandLine.dll"
 
 open CommandLine
+open CommandLine.Text
 
 type options = {
     [<Option(HelpText = "Input a string value here.", Default="中文")>] stringValue : string;
     [<Option('i', Min = 3, Max = 4, HelpText = "Input a int sequence here.")>] intSequence : seq<int>;
     [<Option('x', HelpText = "Define a switch (boolean) here.")>] boolValue : bool;
-    [<Value(0, MetaName = "longvalue", HelpText = "A long scalar here.")>] longValue : int64 option;
-  }
+    [<Value(0, MetaName = "longvalue", HelpText = "A long scalar here.")>] longValue : int64 option; }
+    with
+        [<Usage(ApplicationAlias = "fsi fsharp-demo.fsx")>]
+        static member examples
+            with get() = seq {
+               yield Example("Supply some values", {stringValue = "hello"; boolValue = true; intSequence = seq {1..3}; longValue = Some 10L }) }
 
 let formatLong o =
   match o with
