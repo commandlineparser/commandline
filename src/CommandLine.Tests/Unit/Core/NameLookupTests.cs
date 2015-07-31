@@ -28,5 +28,4 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
     }
-   
 }
