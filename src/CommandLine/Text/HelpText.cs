@@ -291,11 +291,10 @@ namespace CommandLine.Text
             if (errors.Empty())
                 return current;
 
-            current.AddPreOptionsLine(
-                string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText()));
-            current.AddPreOptionsLines(errors);
-
-            return current;
+            return current
+                .AddPreOptionsLine(
+                    string.Concat(Environment.NewLine, current.SentenceBuilder.ErrorsHeadingText()))
+                .AddPreOptionsLines(errors);
         }
 
         /// <summary>
