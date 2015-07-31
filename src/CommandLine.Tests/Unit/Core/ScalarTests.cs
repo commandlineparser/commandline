@@ -22,7 +22,7 @@ namespace CommandLine.Tests.Unit.Core
                         ? Maybe.Just(TypeDescriptor.Create(TargetType.Scalar, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
-            expected.ShouldAllBeEquivalentTo(result);
+            expected.ShouldBeEquivalentTo(result);
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace CommandLine.Tests.Unit.Core
                         ? Maybe.Just(TypeDescriptor.Create(TargetType.Scalar, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
-            expected.ShouldAllBeEquivalentTo(result);
+            expected.ShouldBeEquivalentTo(result);
         }
     }
 }
