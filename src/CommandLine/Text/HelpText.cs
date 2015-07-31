@@ -437,7 +437,10 @@ namespace CommandLine.Text
             if (types == null) throw new ArgumentNullException("types");
             if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
-            return AddOptionsImpl(AdaptVerbsToSpecifications(types), SentenceBuilder.RequiredWord(), maximumLength);
+            return AddOptionsImpl(
+                AdaptVerbsToSpecifications(types),
+                SentenceBuilder.RequiredWord(),
+                maximumLength);
         }
 
         /// <summary>
