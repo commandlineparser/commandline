@@ -6,6 +6,9 @@ using System.Linq;
 using CommandLine.Core;
 using Xunit;
 using CSharpx;
+
+using FluentAssertions;
+
 using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Tests.Unit.Core
@@ -31,7 +34,7 @@ namespace CommandLine.Tests.Unit.Core
                         optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.InvariantCulture));
 
             // Verify outcome
-            Assert.True(expectedTokens.SequenceEqual(((Ok<IEnumerable<Token>, Error>)result).Value.Success));
+            ((Ok<IEnumerable<Token>, Error>)result).Value.Success.ShouldBeEquivalentTo(expectedTokens);
 
             // Teardown
         }
@@ -55,7 +58,7 @@ namespace CommandLine.Tests.Unit.Core
                         optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.InvariantCulture));
 
             // Verify outcome
-            Assert.True(expectedTokens.SequenceEqual(((Ok<IEnumerable<Token>, Error>)result).Value.Success));
+            ((Ok<IEnumerable<Token>, Error>)result).Value.Success.ShouldBeEquivalentTo(expectedTokens);
 
             // Teardown
         }
