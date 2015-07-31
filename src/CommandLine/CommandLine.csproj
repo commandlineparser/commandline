@@ -71,7 +71,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseAttribute.cs" />
-    <Compile Include="Core\ArgumentsExtension.cs" />
+    <Compile Include="Core\ArgumentsExtensions.cs" />
     <Compile Include="Core\KeyValuePairHelper.cs" />
     <Compile Include="Core\PreprocessorGuards.cs" />
     <Compile Include="Core\TypeDescriptor.cs" />
