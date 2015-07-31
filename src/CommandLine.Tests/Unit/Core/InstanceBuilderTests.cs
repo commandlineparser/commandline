@@ -31,7 +31,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.Equals(result));
+            result.ShouldBeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -52,7 +52,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.Equal(expected, ((Parsed<FakeOptions>)result).Value.LongValue);
+            ((Parsed<FakeOptions>)result).Value.LongValue.ShouldBeEquivalentTo(expected);
 
             // Teardown
         }
@@ -75,7 +75,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.Equal(expected, ((Parsed<FakeOptionsWithDouble>)result).Value.DoubleValue);
+            ((Parsed<FakeOptionsWithDouble>)result).Value.DoubleValue.ShouldBeEquivalentTo(expected);
 
             // Teardown
         }
@@ -99,8 +99,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
             
             // Verify outcome
-            Assert.True(expected.SequenceEqual(((Parsed<FakeOptionsWithSequence>)result).Value.IntSequence));
-
+            ((Parsed<FakeOptionsWithSequence>)result).Value.IntSequence.ShouldBeEquivalentTo(expected);
+            
             // Teardown
         }
 
@@ -121,8 +121,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expected.SequenceEqual(((Parsed<FakeOptions>)result).Value.IntSequence));
-
+            ((Parsed<FakeOptions>)result).Value.IntSequence.ShouldBeEquivalentTo(expected);
+            
             // Teardown
         }
 
@@ -144,7 +144,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
             
             // Verify outcome
-            Assert.True(expected.SequenceEqual(((Parsed<FakeOptionsWithSequenceAndOnlyMinConstraint>)result).Value.StringSequence));
+            ((Parsed<FakeOptionsWithSequenceAndOnlyMinConstraint>)result).Value.StringSequence.ShouldBeEquivalentTo(expected);
 
             // Teardown
         }
@@ -166,7 +166,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expected.SequenceEqual(((Parsed<FakeOptionsWithSequenceAndOnlyMaxConstraint>)result).Value.StringSequence));
+            ((Parsed<FakeOptionsWithSequenceAndOnlyMaxConstraint>)result).Value.StringSequence.ShouldBeEquivalentTo(expected);
 
             // Teardown
         }
@@ -185,7 +185,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceAndOnlyMinConstraint>)result).Errors));
+            ((NotParsed<FakeOptionsWithSequenceAndOnlyMinConstraint>)result).Errors.ShouldBeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -204,7 +204,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceAndOnlyMinConstraintAsValue>)result).Errors));
+            ((NotParsed<FakeOptionsWithSequenceAndOnlyMinConstraintAsValue>)result).Errors.ShouldBeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -223,7 +223,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceAndOnlyMaxConstraint>)result).Errors));
+            ((NotParsed<FakeOptionsWithSequenceAndOnlyMaxConstraint>)result).Errors.ShouldBeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -242,7 +242,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue>)result).Errors));
+            ((NotParsed<FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue>)result).Errors.ShouldBeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -285,7 +285,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithEnum>)result).Errors));
+            ((NotParsed<FakeOptionsWithEnum>)result).Errors.ShouldBeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -304,7 +304,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithEnum>)result).Errors));
+            ((NotParsed<FakeOptionsWithEnum>)result).Errors.ShouldBeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -323,7 +323,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithEnum>)result).Errors));
+            ((NotParsed<FakeOptionsWithEnum>)result).Errors.ShouldBeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -470,7 +470,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSets>)result).Errors));
+            ((NotParsed<FakeOptionsWithSets>)result).Errors.ShouldBeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -510,8 +510,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithRequiredAndSet>)result).Errors));
-            
+            ((NotParsed<FakeOptionsWithRequiredAndSet>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
             // Teardown
         }
 
@@ -529,8 +529,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithRequired>)result).Errors));
- 
+            ((NotParsed<FakeOptionsWithRequired>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
             // Teardown
         }
 
@@ -548,8 +548,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptions>)result).Errors));
- 
+            ((NotParsed<FakeOptions>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
             // Teardown
         }
 
@@ -567,8 +567,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptions>)result).Errors));
- 
+            ((NotParsed<FakeOptions>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
             // Teardown
         }
 
@@ -586,8 +586,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptions>)result).Errors));
- 
+            ((NotParsed<FakeOptions>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
             // Teardown
         }
 
@@ -605,8 +605,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptions>)result).Errors));
- 
+            ((NotParsed<FakeOptions>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
             // Teardown
         }
 
@@ -625,7 +625,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expected.Equals(((Parsed<FakeOptions>)result).Value.StringValue));
+            ((Parsed<FakeOptions>)result).Value.StringValue.ShouldBeEquivalentTo(expected);
 
             // Teardown
         }
@@ -644,8 +644,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithRequiredValue>)result).Errors));
- 
+            ((NotParsed<FakeOptionsWithRequiredValue>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
             // Teardown
         }
 
@@ -685,8 +685,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            Assert.True(expectedResult.SequenceEqual(((NotParsed<FakeOptionsWithSequenceMinMaxEqual>)result).Errors));
- 
+            ((NotParsed<FakeOptionsWithSequenceMinMaxEqual>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
             // Teardown
         }
 
