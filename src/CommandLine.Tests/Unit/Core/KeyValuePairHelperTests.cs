@@ -62,6 +62,5 @@ namespace CommandLine.Tests.Unit.Core
                 Assert.Equal(value.Expected.Value, value.Result.Value);
             }
         }
-
     }
 }
