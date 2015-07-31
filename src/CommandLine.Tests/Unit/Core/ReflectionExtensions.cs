@@ -1,7 +1,6 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
 
 using CommandLine.Core;
-using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
 using Xunit;
