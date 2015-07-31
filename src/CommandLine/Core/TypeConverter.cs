@@ -73,7 +73,24 @@ namespace CommandLine.Core
                     ? input.ToBoolean() : conversionType.IsEnum
                         ? input.ToEnum(conversionType) : safeChangeType();
             };
-            return Either.Protect(changeType, value);
+
+            Func<string, object> makeType = input =>
+            {
+                try
+                {
+                    var ctor = conversionType.GetConstructor(new[] { typeof(string) });
+                    return ctor.Invoke(new object[] { input });
+                }
+                catch (Exception)
+                {
+                    throw new FormatException("Destination conversion type must have a constructor that accepts a string.");
+                }
+            };
+
+            return Either.Protect(
+                conversionType.IsPrimitiveEx() || ReflectionHelper.IsFSharpOptionType(conversionType)
+                    ? changeType
+                    : makeType, value);
         }
 
         private static object ToEnum(this string value, Type conversionType)
