@@ -26,8 +26,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            //Assert.IsType<NullInstance>(result.Value);
-            Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
+            ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
+
             // Teardown
         }
 
@@ -45,8 +45,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            //Assert.IsType<NullInstance>(result.Value);
-            Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
+            ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
+
             // Teardown
         }
 
@@ -64,8 +64,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            //Assert.IsType<NullInstance>(result.Value);
-            Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
+            ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
+
             // Teardown
         }
 
@@ -83,8 +83,8 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture);
 
             // Verify outcome
-            //Assert.IsType<NullInstance>(result.Value);
-            Assert.True(expectedErrors.SequenceEqual(((NotParsed<object>)result).Errors));
+            ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
+
             // Teardown
         }
 
