@@ -542,7 +542,6 @@ namespace CommandLine.Text
             var examples = usageTuple.Item2;
             var appAlias = usageTuple.Item1.ApplicationAlias ?? ReflectionHelper.GetAssemblyName();
 
-            var text = new StringBuilder(BuilderCapacity);
             foreach (var e in examples)
             {
                 var example = mapperFunc(e);
