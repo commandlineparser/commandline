@@ -49,11 +49,15 @@ namespace CommandLine.Text
         public abstract Func<bool, string> VersionCommandText { get; } 
 
         /// <summary>
-        /// Gets a delegate that handle singular error formatting.
-        /// The delegates should accept an <see cref="Error"/> instance as input.
+        /// Gets a delegate that handles singular error formatting.
+        /// The delegates should accept an <see cref="Error"/> and returns a string.
         /// </summary>
         public abstract Func<Error, string> FormatError { get; }
 
+        /// <summary>
+        /// Gets a delegate that handles mutually exclusive set errors formatting.
+        /// The delegates must accept a sequence of <see cref="MutuallyExclusiveSetError"/> and returns a string.
+        /// </summary>
         public abstract Func<IEnumerable<MutuallyExclusiveSetError>, string> FormatMutuallyExclusiveSetErrors { get; }
 
         private class DefaultSentenceBuilder : SentenceBuilder 
