@@ -30,10 +30,13 @@ namespace CommandLine.Text
         public abstract Func<string> RequiredWord { get; }
 
         /// <summary>
-        /// Gets a delegate that returns that error heading text.
+        /// Gets a delegate that returns that errors block heading text.
         /// </summary>
         public abstract Func<string> ErrorsHeadingText { get; }
 
+        /// <summary>
+        /// Gets a delegate that returns usage text block heading text.
+        /// </summary>
         public abstract Func<string> UsageHeadingText { get; } 
 
         /// <summary>
