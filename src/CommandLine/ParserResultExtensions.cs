@@ -12,13 +12,13 @@ namespace CommandLine
     public static partial class ParserResultExtensions
     {
         /// <summary>
-        /// Executes <see cref="Action{T}"/> if <see cref="CommandLine.ParserResult{T}"/> contains
+        /// Executes <paramref name="action"/> if <see cref="CommandLine.ParserResult{T}"/> contains
         /// parsed values.
         /// </summary>
         /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
         /// <param name="result">An <see cref="CommandLine.ParserResult{T}"/> instance.</param>
         /// <param name="action">The <see cref="Action{T}"/> to execute.</param>
-        /// <returns>The same <see cref="result"/> instance.</returns>
+        /// <returns>The same <paramref name="result"/> instance.</returns>
         public static ParserResult<T> WithParsed<T>(this ParserResult<T> result, Action<T> action)
         {
             var parsed = result as Parsed<T>;
@@ -30,12 +30,12 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Executes <see cref="Action{T}"/> if parsed values are of <typeparamref name="T"/>.
+        /// Executes <paramref name="action"/> if parsed values are of <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
         /// <param name="result">An verb result instance.</param>
         /// <param name="action">The <see cref="Action{T}"/> to execute.</param>
-        /// <returns>The same <see cref="result"/> instance.</returns>
+        /// <returns>The same <paramref name="result"/> instance.</returns>
         public static ParserResult<object> WithParsed<T>(this ParserResult<object> result, Action<T> action)
         {
             var parsed = result as Parsed<object>;
@@ -50,13 +50,13 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Executes <param name="action"/> if <see cref="CommandLine.ParserResult{T}"/> lacks
+        /// Executes <paramref name="action"/> if <see cref="CommandLine.ParserResult{T}"/> lacks
         /// parsed values and contains errors.
         /// </summary>
         /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
         /// <param name="result">An <see cref="CommandLine.ParserResult{T}"/> instance.</param>
         /// <param name="action">The <see cref="System.Action"/> delegate to execute.</param>
-        /// <returns>The same <see cref="result"/> instance.</returns>
+        /// <returns>The same <paramref name="result"/> instance.</returns>
         public static ParserResult<T> WithNotParsed<T>(this ParserResult<T> result, Action<IEnumerable<Error>> action)
         {
             var notParsed = result as NotParsed<T>;
