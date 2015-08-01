@@ -378,8 +378,8 @@ namespace CommandLine.Text
         /// <summary>
         /// Adds a text block with options usage string.
         /// </summary>
-        /// <param name="options">The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>
+        /// <param name="result">The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
+        /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="result"/> is null.</exception>
         public HelpText AddOptions<T>(ParserResult<T> result)
         {
             //if (Equals(options, default(T))) throw new ArgumentNullException("options");

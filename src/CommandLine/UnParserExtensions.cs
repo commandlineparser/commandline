@@ -46,11 +46,19 @@ namespace CommandLine
             set { PopsicleSetter.Set(Consumed, ref useEqualToken, value); }
         }
 
+        /// <summary>
+        /// Factory method that creates an instance of <see cref="CommandLine.UnParserSettings"/> with GroupSwitches set to true.
+        /// </summary>
+        /// <returns>A properly initalized <see cref="CommandLine.UnParserSettings"/> instance.</returns>
         public static UnParserSettings WithGroupSwitchesOnly()
         {
             return new UnParserSettings { GroupSwitches = true };
         }
 
+        /// <summary>
+        /// Factory method that creates an instance of <see cref="CommandLine.UnParserSettings"/> with UseEqualToken set to true.
+        /// </summary>
+        /// <returns>A properly initalized <see cref="CommandLine.UnParserSettings"/> instance.</returns>
         public static UnParserSettings WithUseEqualTokenOnly()
         {
             return new UnParserSettings { UseEqualToken = true };
