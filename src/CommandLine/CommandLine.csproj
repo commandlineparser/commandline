@@ -150,12 +150,18 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
+       Other similar extension points exist, see Microsoft.Common.targets.  
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="BeforeBuild" DependsOnTargets="PaketInstall">      
+  </Target>
+  <Target Name="BootstrapPaket" Condition="!Exists('$(SolutionDir).paket/paket.bootstrapper.exe)')">  
+    <Exec Command="$(SolutionDir).paket/paket.bootstrapper.exe" />
+  </Target>
+  <Target Name="PaketInstall" DependsOnTargets="BootstrapPaket" Condition="!Exists('$(SolutionDir)paket-files')">  
+    <Exec Command="$(SolutionDir).paket/paket install" />
+  </Target>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0' Or $(TargetFrameworkVersion) == 'v3.5')">
       <ItemGroup>
