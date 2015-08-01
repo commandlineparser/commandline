@@ -382,7 +382,6 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="result"/> is null.</exception>
         public HelpText AddOptions<T>(ParserResult<T> result)
         {
-            //if (Equals(options, default(T))) throw new ArgumentNullException("options");
             if (result == null) throw new ArgumentNullException("result");
 
             return AddOptionsImpl(
