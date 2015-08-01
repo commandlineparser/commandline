@@ -378,7 +378,7 @@ namespace CommandLine.Text
         /// <summary>
         /// Adds a text block with options usage string.
         /// </summary>
-        /// <param name="result">The instance that collected command line arguments parsed with <see cref="Parser"/> class.</param>
+        /// <param name="result">A parsing computation result.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="result"/> is null.</exception>
         public HelpText AddOptions<T>(ParserResult<T> result)
         {
@@ -411,8 +411,8 @@ namespace CommandLine.Text
         /// Adds a text block with options usage string.
         /// </summary>
         /// <param name="maximumLength">The maximum length of the help screen.</param>
-        /// <param name="options">The instance that collected command line arguments parsed with the <see cref="Parser"/> class.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="options"/> is null.</exception>    
+        /// <param name="result">A parsing computation result.</param>
+        /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="result"/> is null.</exception>    
         public HelpText AddOptions<T>(int maximumLength, ParserResult<T> result)
         {
             if (result == null) throw new ArgumentNullException("result");
