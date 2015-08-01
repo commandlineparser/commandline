@@ -148,7 +148,7 @@ namespace CommandLine.Text
 
         /// <summary>
         /// Gets or sets a value indicating whether the format of options should contain dashes.
-        /// It modifies behavior of <see cref="AddOptions{T}(T)"/> method.
+        /// It modifies behavior of <see cref="AddOptions{T}(ParserResult{T})"/> method.
         /// </summary>
         public bool AddDashesToOption
         {
