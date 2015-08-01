@@ -38,19 +38,19 @@ namespace CommandLine.Text
 
         /// <summary>
         /// Get a delegate that returns the help text of help command.
-        /// The delegates should accept a boolean that is equal <value>true</value> for options; otherwise <value>false</value> for verbs.
+        /// The delegates must accept a boolean that is equal <value>true</value> for options; otherwise <value>false</value> for verbs.
         /// </summary>
         public abstract Func<bool, string> HelpCommandText { get; }
 
         /// <summary>
         /// Get a delegate that returns the help text of vesion command.
-        /// The delegates should accept a boolean that is equal <value>true</value> for options; otherwise <value>false</value> for verbs.
+        /// The delegates must accept a boolean that is equal <value>true</value> for options; otherwise <value>false</value> for verbs.
         /// </summary>
         public abstract Func<bool, string> VersionCommandText { get; } 
 
         /// <summary>
         /// Gets a delegate that handles singular error formatting.
-        /// The delegates should accept an <see cref="Error"/> and returns a string.
+        /// The delegates must accept an <see cref="Error"/> and returns a string.
         /// </summary>
         public abstract Func<Error, string> FormatError { get; }
 
