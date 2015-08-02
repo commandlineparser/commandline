@@ -220,9 +220,9 @@ namespace CommandLine.Text
                 .Do(license => license.AddToHelpText(auto, true));
 
             var usageAttr = ReflectionHelper.GetAttribute<AssemblyUsageAttribute>();
-            var usageLines = HelpText.RenderUsageTextAsLines(parserResult, onExample);
+            var usageLines = HelpText.RenderUsageTextAsLines(parserResult, onExample).ToMaybe();
 
-            if (usageAttr.IsJust() || usageLines.Any())
+            if (usageAttr.IsJust() || usageLines.IsJust())
             {
                 var heading = auto.SentenceBuilder.UsageHeadingText();
                 if (heading.Length > 0)
@@ -232,8 +232,8 @@ namespace CommandLine.Text
             usageAttr.Do(
                 usage => usage.AddToHelpText(auto, true));
             
-            if (usageLines.Any())
-                auto.AddPreOptionsLines(usageLines);
+            usageLines.Do(
+                lines => auto.AddPreOptionsLines(lines));
 
             if ((verbsIndex && parserResult.TypeInfo.Choices.Any())
                 || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
