@@ -27,3 +27,4 @@ TestResult.xml
 StyleCop.Cache
 .paket/paket.exe
 .fake
+*.cache

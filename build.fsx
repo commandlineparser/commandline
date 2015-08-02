@@ -26,7 +26,7 @@ Target "BuildLib" (fun _ ->
 )
 
 Target "BuildTest" (fun _ ->
-    !! "src/CommandLine.Tests/CommandLine.Tests.csproj"
+    !! "tests/CommandLine.Tests/CommandLine.Tests.csproj"
         |> MSBuildDebug testDir "Build"
         |> Log "TestBuild-Output: "
 )
@@ -36,26 +36,6 @@ Target "Test" (fun _ ->
     !! (testDir @@ "\CommandLine.Tests.dll") 
       |> xUnit2 (fun p -> {p with HtmlOutputPath = Some(testDir @@ "xunit.html")})
 )
-
-//Target "Package" (fun _ ->
-//    let net40Dir = packagingDir @@ "lib/net40/"
-//    CleanDir net40Dir
-//    CopyFile net40Dir (buildDir @@ "CommandLine.dll")
-//    CopyFile net40Dir (buildDir @@ "CommandLine.dll.XML") 
-//    
-//    NuGet (fun p -> 
-//        {p with
-//            Authors = authors
-//            Project = "CommandLineParser"
-//            Description = projectDescription                               
-//            OutputPath = packagingDir
-//            Summary = projectSummary
-//            WorkingDir = packagingDir
-//            Version = buildVersion
-//            //AccessKey = myAccesskey
-//            Publish = false})    
-//            "CommandLine.nuspec"
-//)
 
 // Dependencies
 "Clean"
