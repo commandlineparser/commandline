@@ -219,15 +219,21 @@ namespace CommandLine.Text
             ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>()
                 .Do(license => license.AddToHelpText(auto, true));
 
-            ReflectionHelper.GetAttribute<AssemblyUsageAttribute>()
-                .Do(usage => usage.AddToHelpText(auto, true));
-
+            var usageAttr = ReflectionHelper.GetAttribute<AssemblyUsageAttribute>();
             var usageLines = HelpText.RenderUsageTextAsLines(parserResult, onExample);
-            if (usageLines.Any())
+
+            if (usageAttr.IsJust() || usageLines.Any())
             {
-                auto.AddPreOptionsLine(auto.SentenceBuilder.UsageHeadingText());
-                auto.AddPreOptionsLines(usageLines);
+                var heading = auto.SentenceBuilder.UsageHeadingText();
+                if (heading.Length > 0)
+                    auto.AddPreOptionsLine(heading);
             }
+
+            usageAttr.Do(
+                usage => usage.AddToHelpText(auto, true));
+            
+            if (usageLines.Any())
+                auto.AddPreOptionsLines(usageLines);
 
             if ((verbsIndex && parserResult.TypeInfo.Choices.Any())
                 || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))

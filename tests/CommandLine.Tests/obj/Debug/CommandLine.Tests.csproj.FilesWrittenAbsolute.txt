@@ -1,9 +1,0 @@
-/Users/giacomo/Projects_VM/CommandLine/src/CommandLine.Tests/obj/Debug/.NETFramework,Version=v4.0.AssemblyAttribute.cs
-/Users/giacomo/Projects_VM/CommandLine/build/CommandLine.Tests.dll.mdb
-/Users/giacomo/Projects_VM/CommandLine/build/CommandLine.Tests.dll
-/Users/giacomo/Projects_VM/CommandLine/src/CommandLine.Tests/obj/Debug/CommandLine.Tests.dll
-/Users/giacomo/Projects_VM/CommandLine/src/CommandLine.Tests/obj/Debug/CommandLine.Tests.dll.mdb
-/Users/giacomo/Projects_VM/CommandLine/build/test/CommandLine.Tests.dll.mdb
-/Users/giacomo/Projects_VM/CommandLine/build/test/CommandLine.Tests.dll
-/Users/giacomo/Projects_VM/CommandLine/src/CommandLine.Tests/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/Users/giacomo/Projects_VM/CommandLine/build/test/xunit.execution.desktop.dll

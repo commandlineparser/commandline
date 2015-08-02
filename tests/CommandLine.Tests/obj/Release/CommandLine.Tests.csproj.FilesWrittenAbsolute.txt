@@ -1,5 +1,0 @@
-/Users/giacomo/Projects_VM/CommandLine/src/CommandLine.Tests/obj/Release/.NETFramework,Version=v4.0.AssemblyAttribute.cs
-/Users/giacomo/Projects_VM/CommandLine/build/CommandLine.Tests.dll.mdb
-/Users/giacomo/Projects_VM/CommandLine/build/CommandLine.Tests.dll
-/Users/giacomo/Projects_VM/CommandLine/src/CommandLine.Tests/obj/Release/CommandLine.Tests.dll
-/Users/giacomo/Projects_VM/CommandLine/src/CommandLine.Tests/obj/Release/CommandLine.Tests.dll.mdb
