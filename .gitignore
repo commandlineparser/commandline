@@ -2,12 +2,8 @@ src/CommandLine/bin/*
 src/CommandLine/obj
 demo/ReadText.Demo/bin/*
 demo/ReadText.Demo/obj
-src/CommandLine.Tests/bin/*
-src/CommandLine.Tests/obj
-src/CommandLine.FSharp/bin/*
-src/CommandLine.FSharp/obj
-src/CommandLine.FSharp.Tests/bin/*
-src/CommandLine.FSharp.Tests/obj
+tests/CommandLine.Tests/bin/*
+tests/CommandLine.Tests/obj
 src/templates/CSharpTemplate/bin/*
 src/templates/CSharpTemplate/obj 
 src/templates/VBNetTemplate/bin/*
@@ -21,8 +17,8 @@ paket-files
 \#*\#
 *.pidb
 *.test-cache
-src/CommandLine/test-results/*
-src/CommandLine.Tests/test-results/*
+tests/CommandLine/test-results/*
+tests/CommandLine.Tests/test-results/*
 *.DS_Store
 *.csproj.user
 TestResult.xml

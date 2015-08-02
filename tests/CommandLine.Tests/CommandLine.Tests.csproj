@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SharedAssemblyInfo.cs">
+    <Compile Include="..\..\src\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Fakes\FakeOptionsWithSimpleType.cs" />
@@ -121,7 +121,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CommandLine\CommandLine.csproj">
+    <ProjectReference Include="..\..\src\CommandLine\CommandLine.csproj">
       <Project>{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}</Project>
       <Name>CommandLine</Name>
     </ProjectReference>
