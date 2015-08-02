@@ -48,7 +48,7 @@ To build:
 
 Public API:
 ---
-Latest changes are recorded from Version 1.9.4.91, please refer to [this document](https://github.com/gsscoder/commandline/blob/master/doc/PublicAPI.md).
+Latest changes are recorded from Version 1.9.4.91, please refer to [this document](https://github.com/gsscoder/commandline/blob/master/docs/PublicAPI.md).
 
 Used by:
 ---
