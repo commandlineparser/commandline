@@ -16,7 +16,7 @@ Terse syntax C# command line parser for .NET with F# support.
   <div class="span1"></div>
   <div class="span6">
     <div class="well well-small" id="nuget">
-      CommandLineParser can be <a href="https://nuget.org/packages/UnionArgParser">installed from NuGet</a>:
+      CommandLineParser can be <a href="https://nuget.org/packages/CommandLineParser">installed from NuGet</a>:
       <pre>PM> Install-Package CommandLineParser -Pre</pre>
     </div>
   </div>
