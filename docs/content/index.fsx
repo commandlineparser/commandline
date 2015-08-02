@@ -56,6 +56,8 @@ and it will be used to build up this record instance:
 
 ## Documentation
 
+  * [Tutorial](tutorial.html) A short walkthrough of CommandLineParser features.
+
   * [GitHub Wiki](https://github.com/gsscoder/commandline/wiki/Latest-Version)
 
 ## Contributing and copyright
