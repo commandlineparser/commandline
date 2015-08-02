@@ -3,7 +3,13 @@ NUGET
   specs:
     FAKE (4.0.2)
     FluentAssertions (3.4.1)
+    FSharp.Compiler.Service (1.4.0.1)
     FSharp.Core (4.0.0.1)
+    FSharp.Formatting (2.10.0)
+      FSharp.Compiler.Service (>= 0.0.87)
+      FSharpVSPowerTools.Core (1.8.0)
+    FSharpVSPowerTools.Core (1.8.0)
+      FSharp.Compiler.Service (>= 0.0.87)
     xunit (2.0.0)
       xunit.assert (2.0.0)
       xunit.core (2.0.0)
