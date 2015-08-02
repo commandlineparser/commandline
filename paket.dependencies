@@ -6,6 +6,7 @@ nuget FluentAssertions
 nuget xunit
 nuget xunit.runner.visualstudio version_in_path: true
 nuget xunit.runner.console
+nuget FSharp.Formatting
 
 github gsscoder/CSharpx src/CSharpx/Maybe.cs
 github gsscoder/CSharpx src/CSharpx/Either.cs
