@@ -1,4 +1,4 @@
-﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See doc/License.md in the project root for license information.
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
 using System;
 using System.Text;
@@ -6,8 +6,15 @@ using System.Text;
 namespace CommandLine.Infrastructure
 {
     static class StringBuilderExtensions
-    {        public static StringBuilder AppendWhen(this StringBuilder builder, bool condition, params string[] values)        {
-            if (condition)                foreach (var value in values)                    builder.Append(value);            return builder;        }
+    {
+        public static StringBuilder AppendWhen(this StringBuilder builder, bool condition, params string[] values)
+        {
+            if (condition)
+                foreach (var value in values)
+                    builder.Append(value);
+
+            return builder;
+        }
 
         public static StringBuilder AppendWhen(this StringBuilder builder, bool condition, params char[] values)
         {
@@ -56,7 +63,13 @@ namespace CommandLine.Infrastructure
 
             return builder;
         }
-        public static string SafeToString(this StringBuilder builder)        {            return builder == null                ? string.Empty                : builder.ToString();        }
+
+        public static string SafeToString(this StringBuilder builder)
+        {
+            return builder == null
+                ? string.Empty
+                : builder.ToString();
+        }
 
         public static int SafeLength(this StringBuilder builder)
         {
@@ -69,10 +82,15 @@ namespace CommandLine.Infrastructure
                 ? builder.Remove(builder.Length - 1, 1)
                 : builder;
         }
-        public static StringBuilder TrimEndIfMatch(this StringBuilder builder, char c)        {
+
+        public static StringBuilder TrimEndIfMatch(this StringBuilder builder, char c)
+        {
             if (builder.Length > 0)
                 if (builder[builder.Length - 1] == c)
-                    builder.Remove(builder.Length - 1, 1);            return builder;        }
+                    builder.Remove(builder.Length - 1, 1);
+
+            return builder;
+        }
 
         public static StringBuilder TrimEndIfMatchWhen(this StringBuilder builder, bool condition, char c)
         {
@@ -94,5 +112,6 @@ namespace CommandLine.Infrastructure
                 c++;
             }
             return c;
-        }    }
+        }
+    }
 }
