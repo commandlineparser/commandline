@@ -5,13 +5,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "src\CommandL
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Welcome", ".Welcome", "{D9C1F005-94A7-4A2A-81F3-9C053D5A6AEC}"
 	ProjectSection(SolutionItems) = preProject
-		doc\LICENSE = doc\LICENSE
+		License.md = License.md
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FSharp", "FSharp", "{751E6303-1623-4418-B298-4FF97DA5C86E}"
 	ProjectSection(SolutionItems) = preProject
-		fsxdemo\cmdlinelib.fsx = fsxdemo\cmdlinelib.fsx
+		demo\fsharp-demo.fsx = demo\fsharp-demo.fsx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A6C99AE7-2FE1-4393-9281-7BFCF46A6F53}"
