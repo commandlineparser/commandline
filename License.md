@@ -1,7 +1,4 @@
-Command Line Parser Library
-
-Author:
-  Giacomo Stelluti Scala (gsscoder@gmail.com)
+The MIT License (MIT)
 
 Copyright (c) 2005 - 2015 Giacomo Stelluti Scala & Contributors
 
