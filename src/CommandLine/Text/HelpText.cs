@@ -916,7 +916,9 @@ namespace CommandLine.Text
                     .Append(item.ToStringLocal())
                     .Append(" ");
 
-            return builder.Length > 0 ? builder.ToString(0, builder.Length - 1) : string.Empty;
+            return builder.Length > 0
+                ? builder.ToString(0, builder.Length - 1)
+                : string.Empty;
         }
     }
 }
