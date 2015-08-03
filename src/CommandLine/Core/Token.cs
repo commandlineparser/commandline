@@ -74,9 +74,22 @@ namespace CommandLine.Core
 
     class Value : Token, IEquatable<Value>
     {
+        private readonly bool explicitlyAssigned;
+
         public Value(string text)
+            : this(text, false)
+        {
+        }
+
+        public Value(string text, bool explicitlyAssigned)
             : base(TokenType.Value, text)
         {
+            this.explicitlyAssigned = explicitlyAssigned;
+        }
+
+        public bool ExplicitlyAssigned
+        {
+            get { return explicitlyAssigned; }
         }
 
         public override bool Equals(object obj)
