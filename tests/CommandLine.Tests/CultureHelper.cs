@@ -10,9 +10,15 @@ using System.Threading.Tasks;
 
 namespace CommandLine.Tests
 {
+    struct CultureHandlers
+    {
+        public Action Changer;
+        public Action Resetter;
+    }
+
     static class CultureHelper
     {
-        public static Tuple<Action, Action> MakeCultureHandlers(CultureInfo newCulture)
+        public static CultureHandlers MakeCultureHandlers(CultureInfo newCulture)
         {
             var currentCulutre = Thread.CurrentThread.CurrentCulture;
 
@@ -20,7 +26,7 @@ namespace CommandLine.Tests
 
             Action resetter = () => Thread.CurrentThread.CurrentCulture = currentCulutre;
 
-            return Tuple.Create(changer, resetter);
+            return new CultureHandlers { Changer = changer, Resetter = resetter };
         }
     }
 }
