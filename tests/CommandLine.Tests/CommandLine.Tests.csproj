@@ -57,6 +57,7 @@
     <Compile Include="..\..\src\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Fakes\FakeOptionsWithDefaultSetToSequence.cs" />
     <Compile Include="Fakes\FakeOptionsWithSimpleType.cs" />
     <Compile Include="Fakes\FakeOptionsWithSwitches.cs" />
     <Compile Include="Fakes\FakeOptionsWithTwoRequiredAndSets.cs" />
