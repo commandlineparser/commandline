@@ -898,7 +898,7 @@ namespace CommandLine.Text
             return specLength;
         }
 
-        private static string FormatDefaultValue(object value)
+        private static string FormatDefaultValue<T>(T value)
         {
             if (value is bool)
                 return value.ToStringLocal().ToLowerInvariant();
