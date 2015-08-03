@@ -127,14 +127,20 @@ namespace CommandLine.Core
                 SpecificationPropertyRules.Lookup(tokens));
 
             var allErrors =
-                tokenizerResult.SuccessfulMessages()
-                    .Concat(missingValueErrors)
-                    .Concat(optionSpecPropsResult.SuccessfulMessages())
-                    .Concat(valueSpecPropsResult.SuccessfulMessages())
-                    .Concat(validationErrors);
+                tokenizerResult
+                    .SuccessfulMessages()
+                        .Concat(missingValueErrors)
+                        .Concat(optionSpecPropsResult.SuccessfulMessages())
+                        .Concat(valueSpecPropsResult.SuccessfulMessages())
+                        .Concat(validationErrors)
+                    .Memorize();
+
+            var warnings =
+                from e in allErrors where nonFatalErrors.Contains(e.Tag)
+                select e;
 
             return allErrors
-                .Where(e => !nonFatalErrors.Contains(e.Tag))
+                .Except(warnings)
                 .ToParserResult(instance);
         }
     }
