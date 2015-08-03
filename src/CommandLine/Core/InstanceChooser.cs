@@ -16,7 +16,8 @@ namespace CommandLine.Core
             IEnumerable<Type> types,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
-            CultureInfo parsingCulture)
+            CultureInfo parsingCulture,
+            IEnumerable<ErrorType> nonFatalErrors)
         {
             return Choose(
                 (args, optionSpecs) =>
@@ -28,7 +29,8 @@ namespace CommandLine.Core
                 types,
                 arguments,
                 nameComparer,
-                parsingCulture);
+                parsingCulture,
+                nonFatalErrors);
         }
 
         public static ParserResult<object> Choose(
@@ -36,7 +38,8 @@ namespace CommandLine.Core
             IEnumerable<Type> types,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
-            CultureInfo parsingCulture)
+            CultureInfo parsingCulture,
+            IEnumerable<ErrorType> nonFatalErrors)
         {
             if (arguments.Empty())
             {
@@ -57,7 +60,7 @@ namespace CommandLine.Core
                         arguments.Skip(1).SingleOrDefault() ?? string.Empty, nameComparer))
                 : preprocCompare("version")
                     ? MakeNotParsed(types, new VersionRequestedError())
-                    : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture);
+                    : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture, nonFatalErrors);
         }
 
         private static ParserResult<object> MatchVerb(
@@ -65,7 +68,8 @@ namespace CommandLine.Core
             IEnumerable<Tuple<Verb, Type>> verbs,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
-            CultureInfo parsingCulture)
+            CultureInfo parsingCulture,
+            IEnumerable<ErrorType> nonFatalErrors)
         {
             return verbs.Any(a => nameComparer.Equals(a.Item1.Name, arguments.First()))
                 ? InstanceBuilder.Build(
@@ -75,7 +79,8 @@ namespace CommandLine.Core
                     tokenizer,
                     arguments.Skip(1),
                     nameComparer,
-                    parsingCulture)
+                    parsingCulture,
+                    nonFatalErrors)
                 : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
         }
 
