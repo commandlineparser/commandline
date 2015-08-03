@@ -24,7 +24,7 @@ namespace CommandLine.Core
 
         public static Token Value(string text)
         {
-            return Value(text);
+            return new Value(text);
         }
 
         public TokenType Tag
