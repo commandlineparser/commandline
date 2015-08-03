@@ -393,5 +393,14 @@ namespace CommandLine.Tests.Unit
 
             // Teardown
         }
+
+        [Fact]
+        public void When_IgnoreUnknownArguments_is_set_valid_unknown_arguments_avoid_a_failure_parsing()
+        {
+            // Fixture setup
+            // Exercize system
+            // Verify outcome
+            // Teardown
+        }
     }
 }
