@@ -2,11 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-
 using CommandLine.Core;
-using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
 using FluentAssertions;
