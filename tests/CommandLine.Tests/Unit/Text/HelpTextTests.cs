@@ -434,13 +434,16 @@ namespace CommandLine.Tests.Unit.Text
         public void Default_set_to_sequence_should_be_properly_printed()
         {
             // Fixture setup
+            var handlers = new CultureInfo("en-US").MakeCultureHandlers();
             var fakeResult =
                 new NotParsed<FakeOptionsWithDefaultSetToSequence>(
                     typeof(FakeOptionsWithDefaultSetToSequence).ToTypeInfo(),
                     new Error[] { new BadFormatTokenError("badtoken") });
 
             // Exercize system
+            handlers.ChangeCulture();
             var helpText = HelpText.AutoBuild(fakeResult);
+            handlers.ResetCulture();
 
             // Verify outcome
             var text = helpText.ToString();

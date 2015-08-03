@@ -12,8 +12,8 @@ namespace CommandLine.Tests
 {
     struct CultureHandlers
     {
-        public Action Changer;
-        public Action Resetter;
+        public Action ChangeCulture;
+        public Action ResetCulture;
     }
 
     static class CultureInfoExtensions
@@ -26,7 +26,7 @@ namespace CommandLine.Tests
 
             Action resetter = () => Thread.CurrentThread.CurrentCulture = currentCulutre;
 
-            return new CultureHandlers { Changer = changer, Resetter = resetter };
+            return new CultureHandlers { ChangeCulture = changer, ResetCulture = resetter };
         }
     }
 }
