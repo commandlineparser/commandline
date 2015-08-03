@@ -2,7 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
+
 using CommandLine.Core;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
@@ -437,6 +440,7 @@ namespace CommandLine.Tests.Unit.Text
                     new Error[] { new BadFormatTokenError("badtoken") });
 
             // Exercize system
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             var helpText = HelpText.AutoBuild(fakeResult);
 
             // Verify outcome
