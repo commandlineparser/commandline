@@ -443,9 +443,9 @@ namespace CommandLine.Tests.Unit.Text
             var text = helpText.ToString();
             var lines = text.ToNotEmptyLines().TrimStringArray();
 
-            lines[4].Should().Be("-z, --strarr    (Default: a b c)");
-            lines[5].Should().Be("-y, --intarr    (Default: 1 2 3)");
-            lines[6].Should().Be("-q, --dblarr    (Default: 1.1 2.2 3.3)");
+            lines[4].Should().Be("-z, --strseq    (Default: a b c)");
+            lines[5].Should().Be("-y, --intseq    (Default: 1 2 3)");
+            lines[6].Should().Be("-q, --dblseq    (Default: 1.1 2.2 3.3)");
 
             // Teardown
         }
