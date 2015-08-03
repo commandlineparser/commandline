@@ -440,7 +440,6 @@ namespace CommandLine.Tests.Unit.Text
                     new Error[] { new BadFormatTokenError("badtoken") });
 
             // Exercize system
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             var helpText = HelpText.AutoBuild(fakeResult);
 
             // Verify outcome

@@ -16,9 +16,9 @@ namespace CommandLine.Tests
         public Action Resetter;
     }
 
-    static class CultureHelper
+    static class CultureInfoExtensions
     {
-        public static CultureHandlers MakeCultureHandlers(CultureInfo newCulture)
+        public static CultureHandlers MakeCultureHandlers(this CultureInfo newCulture)
         {
             var currentCulutre = Thread.CurrentThread.CurrentCulture;
 
