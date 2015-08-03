@@ -28,3 +28,4 @@ StyleCop.Cache
 .paket/paket.exe
 .fake
 *.cache
+docs/output/*
