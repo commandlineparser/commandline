@@ -79,6 +79,20 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_repeated_options_with_default_parser()
+        {
+            // Fixture setup
+            var sut = Parser.Default;
+
+            // Exercize system
+            var result = sut.ParseArguments<FakeOptionsWithSwitches>(new[] { "-i", "-i", "-o", "file" });
+
+            // Verify outcome
+            Assert.IsType<NotParsed<FakeOptionsWithSwitches>>(result);
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_options_with_double_dash()
         {
             // Fixture setup
@@ -141,6 +155,22 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             Assert.IsType<CloneOptions>(((Parsed<object>)result).Value);
             ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
+            // Teardown
+        }
+
+        [Fact]
+        public void Parse_repeated_options_with_default_parser_in_verbs_scenario()
+        {
+            // Fixture setup
+            var sut = Parser.Default;
+
+            // Exercize system
+            var result = sut.ParseArguments(
+                new[] { "clone", "-q", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" },
+                typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
+
+            // Verify outcome
+            Assert.IsType<NotParsed<object>>(result);
             // Teardown
         }
 
