@@ -97,7 +97,8 @@ namespace CommandLine
                     (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     args,
                     settings.NameComparer,
-                    settings.ParsingCulture),
+                    settings.ParsingCulture,
+                    HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
 
@@ -124,7 +125,8 @@ namespace CommandLine
                     (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     args,
                     settings.NameComparer,
-                    settings.ParsingCulture),
+                    settings.ParsingCulture,
+                    HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
 
@@ -152,7 +154,8 @@ namespace CommandLine
                     types,
                     args,
                     settings.NameComparer,
-                    settings.ParsingCulture),
+                    settings.ParsingCulture,
+                    HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
 
@@ -184,19 +187,24 @@ namespace CommandLine
         private static ParserResult<T> MakeParserResult<T>(Func<ParserResult<T>> parseFunc, ParserSettings settings)
         {
             return DisplayHelp(
-                HandleUnknownArguments(
-                    parseFunc(),
-                    settings.IgnoreUnknownArguments),
+                parseFunc(),
                 settings.HelpWriter);
         }
 
-        private static ParserResult<T> HandleUnknownArguments<T>(ParserResult<T> parserResult, bool ignoreUnknownArguments)
+        //private static ParserResult<T> HandleUnknownArguments<T>(ParserResult<T> parserResult, bool ignoreUnknownArguments)
+        //{
+        //    return ignoreUnknownArguments
+        //               ? parserResult.Tag == ParserResultType.NotParsed
+        //                    ? ((NotParsed<T>)parserResult).MapErrors(errs => errs.Where(e => e.Tag != ErrorType.UnknownOptionError))
+        //                    : parserResult
+        //               : parserResult;
+        //}
+
+        private static IEnumerable<ErrorType> HandleUnknownArguments(bool ignoreUnknownArguments)
         {
             return ignoreUnknownArguments
-                       ? parserResult.Tag == ParserResultType.NotParsed
-                            ? ((NotParsed<T>)parserResult).MapErrors(errs => errs.Where(e => e.Tag != ErrorType.UnknownOptionError))
-                            : parserResult
-                       : parserResult;
+                ? Enumerable.Empty<ErrorType>().Concat(ErrorType.UnknownOptionError)
+                : Enumerable.Empty<ErrorType>();
         }
 
         private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter)
