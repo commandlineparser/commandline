@@ -27,6 +27,11 @@ namespace CommandLine.Core
             return new Value(text);
         }
 
+        public static Token Value(string text, bool explicitlyAssigned)
+        {
+            return new Value(text, explicitlyAssigned);
+        }
+
         public TokenType Tag
         {
             get { return tag; }
