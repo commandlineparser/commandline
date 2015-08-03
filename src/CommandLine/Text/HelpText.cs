@@ -742,7 +742,7 @@ namespace CommandLine.Text
                 optionHelpText += " Valid values: " + string.Join(", ", specification.EnumValues);
 
             specification.DefaultValue.Do(
-                defaultValue => optionHelpText = "(Default: {0}) ".FormatLocal(defaultValue) + optionHelpText);
+                defaultValue => optionHelpText = "(Default: {0}) ".FormatInvariant(FormatDefaultValue(defaultValue)) + optionHelpText);
 
             if (specification.Required)
                 optionHelpText = "{0} ".FormatInvariant(requiredWord) + optionHelpText;
