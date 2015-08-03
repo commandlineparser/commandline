@@ -13,7 +13,7 @@ namespace CommandLine.Core
     {
         public static Result<IEnumerable<Token>, Error> Tokenize(
             IEnumerable<string> arguments,
-            Func<string, bool> nameLookup)
+            Func<string, NameLookupResult> nameLookup)
         {
             var errors = new List<Error>();
             Action<Error> onError = errors.Add;
@@ -26,7 +26,7 @@ namespace CommandLine.Core
                                      : TokenizeShortName(arg, nameLookup)
                           select token).Memorize();
 
-            var unkTokens = (from t in tokens where t.IsName() && !nameLookup(t.Text) select t).Memorize();
+            var unkTokens = (from t in tokens where t.IsName() && nameLookup(t.Text) == NameLookupResult.NoOptionFound select t).Memorize();
 
             return Result.Succeed(tokens.Where(x => !unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
@@ -67,7 +67,7 @@ namespace CommandLine.Core
 
         private static IEnumerable<Token> TokenizeShortName(
             string value,
-            Func<string, bool> nameLookup)
+            Func<string, NameLookupResult> nameLookup)
         {
             if (value.Length > 1 || value[0] == '-' || value[1] != '-')
             {
@@ -85,27 +85,22 @@ namespace CommandLine.Core
                     yield break;
                 }
 
-                var first = text.Substring(0, 1);
-                yield return Token.Name(first);
-
-                var seen = new List<char> { first[0] };
-
-                foreach (var c in text.Substring(1))
+                var i = 0;
+                foreach (var c in text)
                 {
                     var n = new string(c, 1);
-                    if (!seen.Contains(c) && nameLookup(n))
-                    {
-                        seen.Add(c);
-                        yield return Token.Name(n);
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    var r = nameLookup(n);
+                    // Assume first char is an option
+                    if (i > 0 && r == NameLookupResult.NoOptionFound) break;
+                    i++;
+                    yield return Token.Name(n);
+                    // If option expects a value (other than a boolean), assume following chars are that value
+                    if (r == NameLookupResult.OtherOptionFound) break;
                 }
-                if (seen.Count() < text.Length)
+
+                if (i < text.Length)
                 {
-                    yield return Token.Value(text.Substring(seen.Count()));
+                    yield return Token.Value(text.Substring(i));
                 }
             }
         }

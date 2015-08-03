@@ -7,11 +7,22 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
+    enum NameLookupResult
+    {
+        NoOptionFound,
+        BooleanOptionFound,
+        OtherOptionFound
+    }
+
     static class NameLookup
     {
-        public static bool Contains(string name, IEnumerable<OptionSpecification> specifications, StringComparer comparer)
+        public static NameLookupResult Contains(string name, IEnumerable<OptionSpecification> specifications, StringComparer comparer)
         {
-            return specifications.Any(a => name.MatchName(a.ShortName, a.LongName, comparer));
+            var option = specifications.FirstOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer));
+            if (option == null) return NameLookupResult.NoOptionFound;
+            return option.ConversionType == typeof(bool)
+                ? NameLookupResult.BooleanOptionFound
+                : NameLookupResult.OtherOptionFound;
         }
 
         public static Maybe<char> HavingSeparator(string name, IEnumerable<OptionSpecification> specifications,

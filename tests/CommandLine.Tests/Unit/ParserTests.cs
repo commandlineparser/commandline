@@ -78,6 +78,25 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+        [Theory]
+        [InlineData("file", new[] { "-o", "file" })]
+        [InlineData("file", new[] { "-ofile" })]
+        [InlineData("hile", new[] { "-o", "hile" })]
+        [InlineData("hile", new[] { "-ohile" })]
+        public void Parse_options_with_short_name(string outputFile, string[] args)
+        {
+            // Fixture setup
+            var expectedOptions = new FakeOptionsWithSwitches { OutputFile = outputFile };
+            var sut = new Parser();
+
+            // Exercize system
+            var result = sut.ParseArguments<FakeOptionsWithSwitches>(args);
+
+            // Verify outcome
+            ((Parsed<FakeOptionsWithSwitches>)result).Value.ShouldBeEquivalentTo(expectedOptions);
+            // Teardown
+        }
+
         [Fact]
         public void Parse_options_with_double_dash()
         {
@@ -140,6 +159,28 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             Assert.IsType<CloneOptions>(((Parsed<object>)result).Value);
+            ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("blabla", new[] { "commit", "-m", "blabla" })]
+        [InlineData("blabla", new[] { "commit", "-mblabla" })]
+        [InlineData("plapla", new[] { "commit", "-m", "plapla" })]
+        [InlineData("plapla", new[] { "commit", "-mplapla" })]
+        public void Parse_options_with_short_name_in_verbs_scenario(string message, string[] args)
+        {
+            // Fixture setup
+            var expectedOptions = new CommitOptions() { Message = message };
+            var sut = new Parser();
+
+            // Exercize system
+            var result = sut.ParseArguments(
+                args,
+                typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
+
+            // Verify outcome
+            Assert.IsType<CommitOptions>(((Parsed<object>)result).Value);
             ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             // Teardown
         }

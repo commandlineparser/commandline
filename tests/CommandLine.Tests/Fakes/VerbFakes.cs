@@ -28,6 +28,9 @@ namespace CommandLine.Tests.Fakes
 
         [Option("amend", HelpText = "Used to amend the tip of the current branch.")]
         public bool Amend { get; set; }
+
+        [Option('m', "message", HelpText = "Use the given message as the commit message.")]
+        public string Message { get; set; }
     }
 
     [Verb("clone", HelpText = "Clone a repository into a new directory.")]

@@ -304,10 +304,11 @@ namespace CommandLine.Tests.Unit.Text
 
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].Should().StartWithEquivalent("Copyright (c)");
-            lines[2].ShouldBeEquivalentTo("-p, --patch    Use the interactive patch selection interface to chose which");
+            lines[2].ShouldBeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
             lines[3].ShouldBeEquivalentTo("changes to commit.");
-            lines[4].ShouldBeEquivalentTo("--amend        Used to amend the tip of the current branch.");
-            lines[5].ShouldBeEquivalentTo("--help         Display this help screen.");
+            lines[4].ShouldBeEquivalentTo("--amend          Used to amend the tip of the current branch.");
+            lines[5].ShouldBeEquivalentTo("-m, --message    Use the given message as the commit message.");
+            lines[6].ShouldBeEquivalentTo("--help           Display this help screen.");
             // Teardown
         }
 
