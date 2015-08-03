@@ -26,6 +26,7 @@ let info =
 #I "../../packages/FSharpVSPowerTools.Core/lib/net45"
 #I "../../packages/FSharp.Formatting/lib/net40"
 #r "../../packages/FAKE/tools/FakeLib.dll"
+#load "../../packages/FSharp.Formatting/FSharp.Formatting.fsx"
 #r "FSharp.Markdown.dll"
 #r "FSharp.Literate.dll"
 #r "FSharp.CodeFormat.dll"
