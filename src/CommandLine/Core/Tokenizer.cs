@@ -18,13 +18,14 @@ namespace CommandLine.Core
             var errors = new List<Error>();
             Action<Error> onError = errors.Add;
 
-            var tokens = (from arg in arguments
+            var tokens = Normalize((from arg in arguments
                           from token in !arg.StartsWith("-", StringComparison.Ordinal)
                                ? new[] { Token.Value(arg) }
                                : arg.StartsWith("--", StringComparison.Ordinal)
                                      ? TokenizeLongName(arg, onError)
                                      : TokenizeShortName(arg, nameLookup)
-                          select token).Memorize();
+                          select token), nameLookup)
+                            .Memorize();
 
             var unkTokens = (from t in tokens where t.IsName() && !nameLookup(t.Text) select t).Memorize();
 
@@ -65,11 +66,9 @@ namespace CommandLine.Core
             return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
         }
 
-        public static Result<IEnumerable<Token>, Error> Normalize(
-            Result<IEnumerable<Token>, Error> tokenizerResult, Func<string, bool> nameLookup)
+        private static IEnumerable<Token> Normalize(
+            IEnumerable<Token> tokens, Func<string, bool> nameLookup)
         {
-            var tokens = tokenizerResult.SucceededWith();
-
             var indexes =
                 from i in
                     tokens.Select(
@@ -91,7 +90,7 @@ namespace CommandLine.Core
 
             var normalized = tokens.Except(toExclude);
 
-            return Result.Succeed(normalized, tokenizerResult.SuccessfulMessages());
+            return normalized;
         }
 
         private static IEnumerable<Token> TokenizeShortName(
