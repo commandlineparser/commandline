@@ -73,7 +73,7 @@ namespace CommandLine.Core
             var normalized =
                 tokens.Pairwise(
                     (f, s) =>
-                        f.IsName() && s.IsValue() && nameLookup(f.Text) && ((Value)s).ExplicitlyAssigned
+                        f.IsName() && s.IsValue() && !nameLookup(f.Text) && ((Value)s).ExplicitlyAssigned
                             ? Enumerable.Empty<Token>().Concat(f)
                             : Enumerable.Empty<Token>().Concat(new[] { f, s }));
 

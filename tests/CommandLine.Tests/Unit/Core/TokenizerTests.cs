@@ -62,6 +62,15 @@ namespace CommandLine.Tests.Unit.Core
 
             // Teardown
         }
+
+        [Fact]
+        public void Normalize_should_remove_all_value_with_explicit_assignment_of_existing_name()
+        {
+            // Fixture setup
+            var expectedTokens = new[] { Token.Name("x"), Token.Name("string-seq"),
+                Token.Value("aaa"), Token.Value("bb"),  Token.Name("unknown"), Token.Value("value0", true), Token.Name("switch") };
+        
+        }
     }
    
 }
