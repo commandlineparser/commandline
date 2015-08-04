@@ -130,7 +130,7 @@ namespace CommandLine.Core
                 }
                 var parts = text.Split('=');
                 yield return Token.Name(parts[0]);
-                yield return Token.Value(parts[1]);
+                yield return Token.Value(parts[1], true);
             }
         }
     }
