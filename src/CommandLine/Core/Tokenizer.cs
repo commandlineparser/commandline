@@ -70,16 +70,28 @@ namespace CommandLine.Core
         {
             var tokens = tokenizerResult.SucceededWith();
 
-            var normalized =
-                tokens.Pairwise(
-                    (f, s) =>
-                        f.IsName() && s.IsValue() && !nameLookup(f.Text) && ((Value)s).ExplicitlyAssigned
-                            ? Enumerable.Empty<Token>().Concat(f)
-                            : Enumerable.Empty<Token>().Concat(new[] { f, s }));
+            var indexes =
+                from i in
+                    tokens.Select(
+                        (t, i) =>
+                        {
+                            var prev = tokens.ElementAtOrDefault(i - 1).ToMaybe();
+                            return t.IsValue() && ((Value)t).ExplicitlyAssigned
+                                   && prev.Return(p => p.IsName() && !nameLookup(p.Text), false)
+                                ? Maybe.Just(i)
+                                : Maybe.Nothing<int>();
+                        }).Where(i => i.IsJust())
+                select i.FromJust();
 
-            var flattened = normalized.SelectMany(x => x);
+            var toExclude =
+                from t in
+                    tokens.Select((t, i) => indexes.Contains(i) ? Maybe.Just(t) : Maybe.Nothing<Token>())
+                        .Where(t => t.IsJust())
+                select t.FromJust();
 
-            return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
+            var normalized = tokens.Except(toExclude);
+
+            return Result.Succeed(normalized, tokenizerResult.SuccessfulMessages());
         }
 
         private static IEnumerable<Token> TokenizeShortName(

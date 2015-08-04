@@ -71,7 +71,7 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup
             var expectedTokens = new[] {
                 Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
-                Token.Name("unknown"), Token.Value("value0", true), Token.Name("switch") };
+                Token.Name("unknown"), Token.Name("switch") };
             Func<string, bool> nameLookup =
                 name => name.Equals("x") || name.Equals("string-seq") || name.Equals("switch");
 
@@ -83,7 +83,7 @@ namespace CommandLine.Tests.Unit.Core
                             .Concat(
                                 new[] {
                                     Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
-                                    Token.Name("unknown"), Token.Name("switch") }),
+                                    Token.Name("unknown"), Token.Value("value0", true), Token.Name("switch") }),
                         Enumerable.Empty<Error>()),
                     nameLookup);
 
