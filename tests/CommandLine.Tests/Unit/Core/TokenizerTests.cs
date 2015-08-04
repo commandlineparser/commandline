@@ -88,7 +88,6 @@ namespace CommandLine.Tests.Unit.Core
                     ,nameLookup);
 
             // Verify outcome
-            //((Ok<IEnumerable<Token>, Error>)result).Value.Success.ShouldBeEquivalentTo(expectedTokens);
             result.ShouldBeEquivalentTo(expectedTokens);
 
             // Teardown
