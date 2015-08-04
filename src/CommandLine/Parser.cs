@@ -181,7 +181,7 @@ namespace CommandLine
                             Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer)))
                 : Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer));
             var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, settings.NameComparer));
-            return Tokenizer.Normalize(explodedTokens, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer));
+            return explodedTokens;
         }
 
         private static ParserResult<T> MakeParserResult<T>(Func<ParserResult<T>> parseFunc, ParserSettings settings)
@@ -190,15 +190,6 @@ namespace CommandLine
                 parseFunc(),
                 settings.HelpWriter);
         }
-
-        //private static ParserResult<T> HandleUnknownArguments<T>(ParserResult<T> parserResult, bool ignoreUnknownArguments)
-        //{
-        //    return ignoreUnknownArguments
-        //               ? parserResult.Tag == ParserResultType.NotParsed
-        //                    ? ((NotParsed<T>)parserResult).MapErrors(errs => errs.Where(e => e.Tag != ErrorType.UnknownOptionError))
-        //                    : parserResult
-        //               : parserResult;
-        //}
 
         private static IEnumerable<ErrorType> HandleUnknownArguments(bool ignoreUnknownArguments)
         {
