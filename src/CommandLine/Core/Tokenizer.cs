@@ -65,6 +65,23 @@ namespace CommandLine.Core
             return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
         }
 
+        public static Result<IEnumerable<Token>, Error> Normalize(
+            Result<IEnumerable<Token>, Error> tokenizerResult, Func<string, bool> nameLookup)
+        {
+            var tokens = tokenizerResult.SucceededWith();
+
+            var normalized =
+                tokens.Pairwise(
+                    (f, s) =>
+                        f.IsName() && s.IsValue() && nameLookup(f.Text) && ((Value)s).ExplicitlyAssigned
+                            ? Enumerable.Empty<Token>().Concat(f)
+                            : Enumerable.Empty<Token>().Concat(new[] { f, s }));
+
+            var flattened = normalized.SelectMany(x => x);
+
+            return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
+        }
+
         private static IEnumerable<Token> TokenizeShortName(
             string value,
             Func<string, bool> nameLookup)
