@@ -78,17 +78,18 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system
             var result =
                 Tokenizer.Normalize(
-                    Result.Succeed(
+                    //Result.Succeed(
                         Enumerable.Empty<Token>()
                             .Concat(
                                 new[] {
                                     Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
-                                    Token.Name("unknown"), Token.Value("value0", true), Token.Name("switch") }),
-                        Enumerable.Empty<Error>()),
-                    nameLookup);
+                                    Token.Name("unknown"), Token.Value("value0", true), Token.Name("switch") })
+                        //,Enumerable.Empty<Error>()),
+                    ,nameLookup);
 
             // Verify outcome
-            ((Ok<IEnumerable<Token>, Error>)result).Value.Success.ShouldBeEquivalentTo(expectedTokens);
+            //((Ok<IEnumerable<Token>, Error>)result).Value.Success.ShouldBeEquivalentTo(expectedTokens);
+            result.ShouldBeEquivalentTo(expectedTokens);
 
             // Teardown
         }

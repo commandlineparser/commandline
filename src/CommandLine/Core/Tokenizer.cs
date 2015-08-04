@@ -18,18 +18,20 @@ namespace CommandLine.Core
             var errors = new List<Error>();
             Action<Error> onError = errors.Add;
 
-            var tokens = Normalize((from arg in arguments
+            var tokens = (from arg in arguments
                           from token in !arg.StartsWith("-", StringComparison.Ordinal)
                                ? new[] { Token.Value(arg) }
                                : arg.StartsWith("--", StringComparison.Ordinal)
                                      ? TokenizeLongName(arg, onError)
                                      : TokenizeShortName(arg, nameLookup)
-                          select token), nameLookup)
+                          select token)
                             .Memorize();
 
-            var unkTokens = (from t in tokens where t.IsName() && !nameLookup(t.Text) select t).Memorize();
+            var normalized = Normalize(tokens, nameLookup);
 
-            return Result.Succeed(tokens.Where(x => !unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
+            var unkTokens = (from t in normalized where t.IsName() && !nameLookup(t.Text) select t).Memorize();
+
+            return Result.Succeed(normalized.Where(x => !unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
 
         public static Result<IEnumerable<Token>, Error> PreprocessDashDash(
@@ -66,7 +68,7 @@ namespace CommandLine.Core
             return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
         }
 
-        private static IEnumerable<Token> Normalize(
+        internal static IEnumerable<Token> Normalize(
             IEnumerable<Token> tokens, Func<string, bool> nameLookup)
         {
             var indexes =
