@@ -2,8 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using CommandLine.Infrastructure;
+using System.Threading;
+
+using CommandLine.Core;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
 using FluentAssertions;
@@ -424,6 +427,32 @@ namespace CommandLine.Tests.Unit.Text
             lines[16].ShouldBeEquivalentTo("-e, --errs      Log errors.");
             lines[17].ShouldBeEquivalentTo("--help          Display this help screen.");
             lines[18].ShouldBeEquivalentTo("--version       Display version information.");
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Default_set_to_sequence_should_be_properly_printed()
+        {
+            // Fixture setup
+            var handlers = new CultureInfo("en-US").MakeCultureHandlers();
+            var fakeResult =
+                new NotParsed<FakeOptionsWithDefaultSetToSequence>(
+                    typeof(FakeOptionsWithDefaultSetToSequence).ToTypeInfo(),
+                    new Error[] { new BadFormatTokenError("badtoken") });
+
+            // Exercize system
+            handlers.ChangeCulture();
+            var helpText = HelpText.AutoBuild(fakeResult);
+            handlers.ResetCulture();
+
+            // Verify outcome
+            var text = helpText.ToString();
+            var lines = text.ToNotEmptyLines().TrimStringArray();
+
+            lines[4].Should().Be("-z, --strseq    (Default: a b c)");
+            lines[5].Should().Be("-y, --intseq    (Default: 1 2 3)");
+            lines[6].Should().Be("-q, --dblseq    (Default: 1.1 2.2 3.3)");
 
             // Teardown
         }

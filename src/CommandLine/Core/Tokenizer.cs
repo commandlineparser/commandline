@@ -15,6 +15,14 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             Func<string, NameLookupResult> nameLookup)
         {
+            return Tokenizer.Tokenize(arguments, nameLookup, tokens => tokens);
+        }
+
+        public static Result<IEnumerable<Token>, Error> Tokenize(
+            IEnumerable<string> arguments,
+            Func<string, NameLookupResult> nameLookup,
+            Func<IEnumerable<Token>, IEnumerable<Token>> normalize)
+        {
             var errors = new List<Error>();
             Action<Error> onError = errors.Add;
 
@@ -24,11 +32,14 @@ namespace CommandLine.Core
                                : arg.StartsWith("--", StringComparison.Ordinal)
                                      ? TokenizeLongName(arg, onError)
                                      : TokenizeShortName(arg, nameLookup)
-                          select token).Memorize();
+                          select token)
+                            .Memorize();
 
-            var unkTokens = (from t in tokens where t.IsName() && nameLookup(t.Text) == NameLookupResult.NoOptionFound select t).Memorize();
+            var normalized = normalize(tokens);
 
-            return Result.Succeed(tokens.Where(x => !unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
+            var unkTokens = (from t in normalized where t.IsName() && nameLookup(t.Text) == NameLookupResult.NoOptionFound select t).Memorize();
+
+            return Result.Succeed(normalized.Where(x => !unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
 
         public static Result<IEnumerable<Token>, Error> PreprocessDashDash(
@@ -50,7 +61,7 @@ namespace CommandLine.Core
         {
             var tokens = tokenizerResult.SucceededWith();
 
-            var replaces = tokens.Select((t,i) =>
+            var replaces = tokens.Select((t, i) =>
                 optionSequenceWithSeparatorLookup(t.Text)
                     .Return(sep => Tuple.Create(i + 1, sep),
                         Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0);
@@ -58,11 +69,38 @@ namespace CommandLine.Core
             var exploded = tokens.Select((t, i) =>
                         replaces.FirstOrDefault(x => x.Item1 == i).ToMaybe()
                             .Return(r => t.Text.Split(r.Item2).Select(Token.Value),
-                                Enumerable.Empty<Token>().Concat(new[]{ t })));
+                                Enumerable.Empty<Token>().Concat(new[] { t })));
 
             var flattened = exploded.SelectMany(x => x);
 
             return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
+        }
+
+        internal static IEnumerable<Token> Normalize(
+            IEnumerable<Token> tokens, Func<string, bool> nameLookup)
+        {
+            var indexes =
+                from i in
+                    tokens.Select(
+                        (t, i) =>
+                        {
+                            var prev = tokens.ElementAtOrDefault(i - 1).ToMaybe();
+                            return t.IsValue() && ((Value)t).ExplicitlyAssigned
+                                   && prev.Return(p => p.IsName() && !nameLookup(p.Text), false)
+                                ? Maybe.Just(i)
+                                : Maybe.Nothing<int>();
+                        }).Where(i => i.IsJust())
+                select i.FromJust();
+
+            var toExclude =
+                from t in
+                    tokens.Select((t, i) => indexes.Contains(i) ? Maybe.Just(t) : Maybe.Nothing<Token>())
+                        .Where(t => t.IsJust())
+                select t.FromJust();
+
+            var normalized = tokens.Except(toExclude);
+
+            return normalized;
         }
 
         private static IEnumerable<Token> TokenizeShortName(
@@ -125,7 +163,7 @@ namespace CommandLine.Core
                 }
                 var parts = text.Split('=');
                 yield return Token.Name(parts[0]);
-                yield return Token.Value(parts[1]);
+                yield return Token.Value(parts[1], true);
             }
         }
     }

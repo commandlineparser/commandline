@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -64,10 +65,7 @@ namespace CommandLine.Tests.Unit
         public void Parse_options()
         {
             // Fixture setup
-            var expectedOptions = new FakeOptions
-                {
-                    StringValue = "strvalue", IntSequence = new[] { 1, 2, 3 }
-                };
+            var expectedOptions = new FakeOptions { StringValue = "strvalue", IntSequence = new[] { 1, 2, 3 } };
             var sut = new Parser();
 
             // Exercize system
@@ -98,21 +96,36 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_repeated_options_with_default_parser()
+        {
+            // Fixture setup
+            var sut = Parser.Default;
+
+            // Exercize system
+            var result = sut.ParseArguments<FakeOptionsWithSwitches>(new[] { "-i", "-i", "-o", "file" });
+
+            // Verify outcome
+            Assert.IsType<NotParsed<FakeOptionsWithSwitches>>(result);
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_options_with_double_dash()
         {
             // Fixture setup
             var expectedOptions = new FakeOptionsWithValues
-                {
-                    StringValue = "astring",
-                    LongValue = 20L,
-                    StringSequence = new[] { "--aaa", "-b", "--ccc" },
-                    IntValue = 30
-                };
+                                  {
+                                      StringValue = "astring",
+                                      LongValue = 20L,
+                                      StringSequence = new[] { "--aaa", "-b", "--ccc" },
+                                      IntValue = 30
+                                  };
             var sut = new Parser(with => with.EnableDashDash = true);
 
             // Exercize system
-            var result = sut.ParseArguments<FakeOptionsWithValues>(
-                new[] { "--stringvalue", "astring", "--", "20", "--aaa", "-b", "--ccc", "30" });
+            var result =
+                sut.ParseArguments<FakeOptionsWithValues>(
+                    new[] { "--stringvalue", "astring", "--", "20", "--aaa", "-b", "--ccc", "30" });
 
             // Verify outcome
             ((Parsed<FakeOptionsWithValues>)result).Value.ShouldBeEquivalentTo(expectedOptions);
@@ -123,17 +136,15 @@ namespace CommandLine.Tests.Unit
         public void Parse_options_with_double_dash_in_verbs_scenario()
         {
             // Fixture setup
-            var expectedOptions = new AddOptions
-                {
-                    Patch = true,
-                    FileName = "--strange-fn"
-                };
+            var expectedOptions = new AddOptions { Patch = true, FileName = "--strange-fn" };
             var sut = new Parser(with => with.EnableDashDash = true);
 
             // Exercize system
             var result = sut.ParseArguments(
                 new[] { "add", "-p", "--", "--strange-fn" },
-                typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
+                typeof(AddOptions),
+                typeof(CommitOptions),
+                typeof(CloneOptions));
 
             // Verify outcome
             Assert.IsType<AddOptions>(((Parsed<object>)result).Value);
@@ -146,16 +157,24 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var expectedOptions = new CloneOptions
-                {
-                    Quiet = true,
-                    Urls = new[] { "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" }
-                };
+                                  {
+                                      Quiet = true,
+                                      Urls =
+                                          new[]
+                                          {
+                                              "http://gsscoder.github.com/",
+                                              "http://yes-to-nooo.github.com/"
+                                          }
+                                  };
             var sut = new Parser();
 
             // Exercize system
-            var result = sut.ParseArguments(
-                new[] { "clone", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" },
-                typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
+            var result =
+                sut.ParseArguments(
+                    new[] { "clone", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" },
+                    typeof(AddOptions),
+                    typeof(CommitOptions),
+                    typeof(CloneOptions));
 
             // Verify outcome
             Assert.IsType<CloneOptions>(((Parsed<object>)result).Value);
@@ -186,19 +205,41 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_repeated_options_with_default_parser_in_verbs_scenario()
+        {
+            // Fixture setup
+            var sut = Parser.Default;
+
+            // Exercize system
+            var result = sut.ParseArguments(
+                new[] { "clone", "-q", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" },
+                typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
+
+            // Verify outcome
+            Assert.IsType<NotParsed<object>>(result);
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_verbs_using_generic_overload()
         {
             // Fixture setup
             var expectedOptions = new CloneOptions
-            {
-                Quiet = true,
-                Urls = new[] { "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" }
-            };
+                                  {
+                                      Quiet = true,
+                                      Urls =
+                                          new[]
+                                          {
+                                              "http://gsscoder.github.com/",
+                                              "http://yes-to-nooo.github.com/"
+                                          }
+                                  };
             var sut = new Parser();
 
             // Exercize system
-            var result = sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(
-                new[] { "clone", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" });
+            var result =
+                sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(
+                    new[] { "clone", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" });
 
             // Verify outcome
             Assert.IsType<CloneOptions>(((Parsed<object>)result).Value);
@@ -210,8 +251,7 @@ namespace CommandLine.Tests.Unit
         public void Parse_to_immutable_instance()
         {
             // Fixture setup
-            var expectedOptions = new FakeImmutableOptions(
-                "strvalue", new[] { 1, 2, 3 }, default(bool), default(long));
+            var expectedOptions = new FakeImmutableOptions("strvalue", new[] { 1, 2, 3 }, default(bool), default(long));
             var sut = new Parser();
 
             // Exercize system
@@ -297,7 +337,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
-            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new string [] { });
+            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new string[] { });
             var result = help.ToString();
 
             // Verify outcome
@@ -323,7 +363,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
-            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new [] { "--help" });
+            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new[] { "--help" });
             var result = help.ToString();
 
             // Verify outcome
@@ -367,8 +407,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
-            sut.ParseArguments<FakeOptionsWithTwoRequiredAndSets>(
-                new[] { "--weburl=value.com", "--ftpurl=value.org" });
+            sut.ParseArguments<FakeOptionsWithTwoRequiredAndSets>(new[] { "--weburl=value.com", "--ftpurl=value.org" });
             var result = help.ToString();
 
             // Verify outcome
@@ -411,7 +450,7 @@ namespace CommandLine.Tests.Unit
 
             // Exercize system
             sut.ParseArguments<AddOptionsWithUsage, CommitOptionsWithUsage, CloneOptionsWithUsage>(
-                new [] { "clone", "--badoption=@bad?value" });
+                new[] { "clone", "--badoption=@bad?value" });
             var result = help.ToString();
 
             // Verify outcome
@@ -433,6 +472,63 @@ namespace CommandLine.Tests.Unit
             lines[14].ShouldBeEquivalentTo("URLS (pos. 0)     A list of url(s) to clone.");
 
             // Teardown
+        }
+
+        [Theory]
+        [MemberData("IgnoreUnknownArgumentsData")]
+        public void When_IgnoreUnknownArguments_is_set_valid_unknown_arguments_avoid_a_failure_parsing(
+            string[] arguments,
+            FakeOptions expected)
+        {
+            // Fixture setup
+            var sut = new Parser(config => config.IgnoreUnknownArguments = true);
+
+            // Exercize system
+            var result = sut.ParseArguments<FakeOptions>(arguments);
+
+            // Verify outcome
+            result.Tag.ShouldBeEquivalentTo(ParserResultType.Parsed);
+            result.WithParsed(opts => opts.ShouldBeEquivalentTo(expected));
+
+            // Teardown
+        }
+
+        [Theory]
+        [MemberData("IgnoreUnknownArgumentsForVerbsData")]
+        public void When_IgnoreUnknownArguments_is_set_valid_unknown_arguments_avoid_a_failure_parsing_for_verbs(
+            string[] arguments,
+            CommitOptions expected)
+        {
+            // Fixture setup
+            var sut = new Parser(config => config.IgnoreUnknownArguments = true);
+
+            // Exercize system
+            var result = sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(arguments);
+
+            // Verify outcome
+            result.Tag.ShouldBeEquivalentTo(ParserResultType.Parsed);
+            result.WithParsed(opts => opts.ShouldBeEquivalentTo(expected));
+
+            // Teardown
+        }
+
+        public static IEnumerable<object> IgnoreUnknownArgumentsData
+        {
+            get
+            {
+                yield return new object[] { new[] { "--stringvalue=strdata0", "--unknown=valid" }, new FakeOptions { StringValue = "strdata0", IntSequence = Enumerable.Empty<int>() } };
+                yield return new object[] { new[] { "--stringvalue=strdata0", "1234", "--unknown", "-i", "1", "2", "3" }, new FakeOptions { StringValue = "strdata0", LongValue = 1234L, IntSequence = new[] { 1, 2, 3 } } };
+                yield return new object[] { new[] { "--stringvalue=strdata0", "-u" }, new FakeOptions { StringValue = "strdata0", IntSequence = Enumerable.Empty<int>() } };
+            }
+        }
+
+        public static IEnumerable<object> IgnoreUnknownArgumentsForVerbsData
+        {
+            get
+            {
+                yield return new object[] { new[] { "commit", "-up" }, new CommitOptions { Patch =  true } };
+                yield return new object[] { new[] { "commit", "--amend", "--unknown", "valid" }, new CommitOptions { Amend = true } };
+            }
         }
     }
 }

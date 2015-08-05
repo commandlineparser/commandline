@@ -1,6 +1,7 @@
 // Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -741,7 +742,7 @@ namespace CommandLine.Text
                 optionHelpText += " Valid values: " + string.Join(", ", specification.EnumValues);
 
             specification.DefaultValue.Do(
-                defaultValue => optionHelpText = "(Default: {0}) ".FormatLocal(defaultValue) + optionHelpText);
+                defaultValue => optionHelpText = "(Default: {0}) ".FormatInvariant(FormatDefaultValue(defaultValue)) + optionHelpText);
 
             if (specification.Required)
                 optionHelpText = "{0} ".FormatInvariant(requiredWord) + optionHelpText;
@@ -895,6 +896,29 @@ namespace CommandLine.Text
             specLength += metaLength;
 
             return specLength;
+        }
+
+        private static string FormatDefaultValue<T>(T value)
+        {
+            if (value is bool)
+                return value.ToStringLocal().ToLowerInvariant();
+
+            if (value is string)
+                return value.ToStringLocal();
+
+            var asEnumerable = value as IEnumerable;
+            if (asEnumerable == null)
+                return value.ToStringLocal();
+
+            var builder = new StringBuilder();
+            foreach (var item in asEnumerable)
+                builder
+                    .Append(item.ToStringLocal())
+                    .Append(" ");
+
+            return builder.Length > 0
+                ? builder.ToString(0, builder.Length - 1)
+                : string.Empty;
         }
     }
 }

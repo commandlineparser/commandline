@@ -16,7 +16,8 @@ namespace CommandLine.Core
             Maybe<Func<T>> factory,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
-            CultureInfo parsingCulture)
+            CultureInfo parsingCulture,
+            IEnumerable<ErrorType> nonFatalErrors)
         {
             return Build(
                 factory,
@@ -30,7 +31,8 @@ namespace CommandLine.Core
                     },
                 arguments,
                 nameComparer,
-                parsingCulture);
+                parsingCulture,
+                nonFatalErrors);
         }
 
         public static ParserResult<T> Build<T>(
@@ -38,7 +40,8 @@ namespace CommandLine.Core
             Func<IEnumerable<string>, IEnumerable<OptionSpecification>, Result<IEnumerable<Token>, Error>> tokenizer,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
-            CultureInfo parsingCulture)
+            CultureInfo parsingCulture,
+            IEnumerable<ErrorType> nonFatalErrors)
         {
             var typeInfo = factory.Return(f => f().GetType(), typeof(T));
 
@@ -123,12 +126,21 @@ namespace CommandLine.Core
             var validationErrors = specPropsWithValue.Validate(
                 SpecificationPropertyRules.Lookup(tokens));
 
-            return tokenizerResult
-                .SuccessfulMessages()
-                    .Concat(missingValueErrors)
-                    .Concat(optionSpecPropsResult.SuccessfulMessages())
-                    .Concat(valueSpecPropsResult.SuccessfulMessages())
-                    .Concat(validationErrors)
+            var allErrors =
+                tokenizerResult
+                    .SuccessfulMessages()
+                        .Concat(missingValueErrors)
+                        .Concat(optionSpecPropsResult.SuccessfulMessages())
+                        .Concat(valueSpecPropsResult.SuccessfulMessages())
+                        .Concat(validationErrors)
+                    .Memorize();
+
+            var warnings =
+                from e in allErrors where nonFatalErrors.Contains(e.Tag)
+                select e;
+
+            return allErrors
+                .Except(warnings)
                 .ToParserResult(instance);
         }
     }

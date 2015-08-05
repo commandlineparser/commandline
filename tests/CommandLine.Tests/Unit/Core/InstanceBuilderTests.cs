@@ -28,7 +28,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => fakeOptions),
                 new[] { "--help" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             result.ShouldBeEquivalentTo(expectedResult);
@@ -49,7 +50,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((Parsed<FakeOptions>)result).Value.LongValue.ShouldBeEquivalentTo(expected);
@@ -72,7 +74,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithDouble>>(() => new FakeOptionsWithDouble()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((Parsed<FakeOptionsWithDouble>)result).Value.DoubleValue.ShouldBeEquivalentTo(expected);
@@ -96,7 +99,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequence>>(() => new FakeOptionsWithSequence()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
             
             // Verify outcome
             ((Parsed<FakeOptionsWithSequence>)result).Value.IntSequence.ShouldBeEquivalentTo(expected);
@@ -118,7 +122,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((Parsed<FakeOptions>)result).Value.IntSequence.ShouldBeEquivalentTo(expected);
@@ -141,7 +146,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMinConstraint>>(() => new FakeOptionsWithSequenceAndOnlyMinConstraint()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
             
             // Verify outcome
             ((Parsed<FakeOptionsWithSequenceAndOnlyMinConstraint>)result).Value.StringSequence.ShouldBeEquivalentTo(expected);
@@ -163,7 +169,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMaxConstraint>>(() => new FakeOptionsWithSequenceAndOnlyMaxConstraint()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((Parsed<FakeOptionsWithSequenceAndOnlyMaxConstraint>)result).Value.StringSequence.ShouldBeEquivalentTo(expected);
@@ -182,7 +189,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMinConstraint>>(() => new FakeOptionsWithSequenceAndOnlyMinConstraint()),
                 new[] { "-s" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithSequenceAndOnlyMinConstraint>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -201,7 +209,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMinConstraintAsValue>>(() => new FakeOptionsWithSequenceAndOnlyMinConstraintAsValue()),
                 new string[] { },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithSequenceAndOnlyMinConstraintAsValue>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -220,7 +229,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMaxConstraint>>(() => new FakeOptionsWithSequenceAndOnlyMaxConstraint()),
                 new[] { "--string-seq=one", "two", "three", "this-is-too-much" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithSequenceAndOnlyMaxConstraint>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -239,7 +249,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue>>(() => new FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue()),
                 new[] { "one", "two", "three", "this-is-too-much" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithSequenceAndOnlyMaxConstraintAsValue>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -263,7 +274,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithEnum>>(() => new FakeOptionsWithEnum()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithEnum>)result).Value.Colors);
@@ -282,7 +294,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithEnum>>(() => new FakeOptionsWithEnum()),
                 new[] { "--colors", "3" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithEnum>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -301,7 +314,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithEnum>>(() => new FakeOptionsWithEnum()),
                 new[] { "--colors", "Yellow" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithEnum>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -320,7 +334,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithEnum>>(() => new FakeOptionsWithEnum()),
                 new[] { "--colors", "RED" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithEnum>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -345,7 +360,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithValues>>(() => new FakeOptionsWithValues()),
                 new[] { "10", "a", "b", "c", "20" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithValues>)result).Value);
@@ -368,7 +384,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceWithoutRange>>(() => new FakeOptionsWithSequenceWithoutRange()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithSequenceWithoutRange>)result).Value.LongSequence);
@@ -390,7 +407,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceAndSeparator>>(() => new FakeOptionsWithSequenceAndSeparator()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithSequenceAndSeparator>)result).Value.LongSequence);
@@ -412,7 +430,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceAndSeparator>>(() => new FakeOptionsWithSequenceAndSeparator()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithSequenceAndSeparator>)result).Value.StringSequence);
@@ -444,7 +463,8 @@ namespace CommandLine.Tests.Unit.Core
                         args => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, StringComparer.Ordinal))),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithValues>)result).Value);
@@ -467,7 +487,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSets>>(() => new FakeOptionsWithSets()),
                 new[] { "--weburl", "http://mywebsite.org/", "--ftpurl", "fpt://ftpsite.org/" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithSets>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -487,7 +508,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithRequiredAndSet>>(() => new FakeOptionsWithRequiredAndSet()),
                 new[] { "--ftpurl", "str1", "--weburl", "str2" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithRequiredAndSet>)result).Value);
@@ -507,7 +529,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithRequiredAndSet>>(() => new FakeOptionsWithRequiredAndSet()),
                 new[] {""},
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithRequiredAndSet>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -526,7 +549,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithRequired>>(() => new FakeOptionsWithRequired()),
                 new string[] { },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithRequired>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -545,7 +569,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new [] { "-i", "10" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptions>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -564,7 +589,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new[] { "--stringvalue", "abc", "--xyz" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptions>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -583,7 +609,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new[] { "-z", "-x" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptions>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -602,7 +629,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new[] { "-zx" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptions>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -622,7 +650,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((Parsed<FakeOptions>)result).Value.StringValue.ShouldBeEquivalentTo(expected);
@@ -641,7 +670,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithRequiredValue>>(() => new FakeOptionsWithRequiredValue()),
                 new string[] { },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithRequiredValue>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -663,7 +693,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeOptions>)result).Value.StringValue);
@@ -682,7 +713,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSequenceMinMaxEqual>>(() => new FakeOptionsWithSequenceMinMaxEqual()),
                 new[] { "one", "two", "this-is-too-much" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptionsWithSequenceMinMaxEqual>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -704,7 +736,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithNullables>>(() => new FakeOptionsWithNullables()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithNullables>)result).Value.NullableInt);
@@ -726,7 +759,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithNullables>>(() => new FakeOptionsWithNullables()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithNullables>)result).Value.NullableLong);
@@ -746,7 +780,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithFSharpOption>>(() => new FakeOptionsWithFSharpOption()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             if (((Parsed<FakeOptionsWithFSharpOption>)result).Value.FileName != null)
@@ -770,7 +805,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithFSharpOption>>(() => new FakeOptionsWithFSharpOption()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             if (((Parsed<FakeOptionsWithFSharpOption>)result).Value.Offset != null)
@@ -791,7 +827,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithMinZero>>(() => new FakeOptionsWithMinZero()),
                 new string[] {},
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             Assert.Throws<ApplicationException>(test);
@@ -805,7 +842,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithMaxZero>>(() => new FakeOptionsWithMaxZero()),
                 new string[] { },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             Assert.Throws<ApplicationException>(test);
@@ -819,7 +857,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithMinMaxZero>>(() => new FakeOptionsWithMinMaxZero()),
                 new string[] { },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             Assert.Throws<ApplicationException>(test);
@@ -838,7 +877,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithNamedAndEmptySets>>(() => new FakeOptionsWithNamedAndEmptySets()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             if (type == ParserResultType.NotParsed)
@@ -860,7 +900,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<FakeOptions>)result).Errors.Should().HaveCount(x => x == expected);
@@ -876,7 +917,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeInterfaceOptions>>(() => new FakeInterfaceOptions()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeInterfaceOptions>)result).Value.InputFile);
@@ -897,7 +939,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithTwoRequiredAndSets>>(() => new FakeOptionsWithTwoRequiredAndSets()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             if (type == ParserResultType.NotParsed)
@@ -921,7 +964,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithRequiredValue>>(() => new FakeOptionsWithRequiredValue()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithRequiredValue>)result).Value);
@@ -940,7 +984,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithScalarValueAndSequenceStringAdjacent>>(() => new FakeOptionsWithScalarValueAndSequenceStringAdjacent()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithScalarValueAndSequenceStringAdjacent>)result).Value);
@@ -959,7 +1004,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptions>>(() => new FakeOptions()),
                 new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptions>)result).Value);
@@ -981,7 +1027,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithTwoRequired>>(() => new FakeOptionsWithTwoRequired()),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             var errors = ((NotParsed<FakeOptionsWithTwoRequired>)result).Errors;
@@ -999,7 +1046,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Nothing<Func<FakeImmutableOptions>>(),
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<FakeImmutableOptions>)result).Value);
@@ -1018,7 +1066,8 @@ namespace CommandLine.Tests.Unit.Core
                 Maybe.Just<Func<FakeOptionsWithSimpleType>>(() => new FakeOptionsWithSimpleType()),
                 new[] { "--endpoint=http://localhost/test/", "custom-value" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             expectedResult.ShouldBeEquivalentTo(((Parsed<FakeOptionsWithSimpleType>)result).Value);

@@ -23,7 +23,8 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
                 new string[] { },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
@@ -42,7 +43,8 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
                 new[] { "help" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
@@ -61,7 +63,8 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
                 new[] { "help", "commit" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
@@ -80,7 +83,8 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
                 new[] { "help", "earthunderalienattack" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
@@ -99,7 +103,8 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
                 new[] { "add", "--patch", "dummy.bin" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             Assert.IsType<AddOptions>(((Parsed<object>)result).Value);
@@ -118,7 +123,8 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { typeof(ImmutableAddOptions), typeof(ImmutableCommitOptions), typeof(ImmutableCloneOptions) },
                 new[] { "add", "--patch", "dummy.bin" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             Assert.IsType<ImmutableAddOptions>(((Parsed<object>)result).Value);
@@ -137,7 +143,8 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions), typeof(SequenceOptions) },
                 new[] { "sequence", "-s", "aa", "b" },
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
@@ -160,7 +167,8 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions), typeof(SequenceOptions) },
                 arguments,
                 StringComparer.Ordinal,
-                CultureInfo.InvariantCulture);
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
 
             // Verify outcome
             Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);

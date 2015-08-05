@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommandLine.Core;
+using CommandLine.Infrastructure;
+
 using Xunit;
 using CSharpx;
 
@@ -59,6 +61,34 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             ((Ok<IEnumerable<Token>, Error>)result).Value.Success.ShouldBeEquivalentTo(expectedTokens);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Normalize_should_remove_all_value_with_explicit_assignment_of_existing_name()
+        {
+            // Fixture setup
+            var expectedTokens = new[] {
+                Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
+                Token.Name("unknown"), Token.Name("switch") };
+            Func<string, bool> nameLookup =
+                name => name.Equals("x") || name.Equals("string-seq") || name.Equals("switch");
+
+            // Exercize system
+            var result =
+                Tokenizer.Normalize(
+                    //Result.Succeed(
+                        Enumerable.Empty<Token>()
+                            .Concat(
+                                new[] {
+                                    Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
+                                    Token.Name("unknown"), Token.Value("value0", true), Token.Name("switch") })
+                        //,Enumerable.Empty<Error>()),
+                    ,nameLookup);
+
+            // Verify outcome
+            result.ShouldBeEquivalentTo(expectedTokens);
 
             // Teardown
         }

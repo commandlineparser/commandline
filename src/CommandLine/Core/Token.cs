@@ -6,12 +6,12 @@ namespace CommandLine.Core
 {
     internal enum TokenType { Name, Value }
 
-    internal class Token : IEquatable<Token>
+    abstract class Token
     {
         private readonly TokenType tag;
         private readonly string text;
 
-        private Token(TokenType tag, string text)
+        protected Token(TokenType tag, string text)
         {
             this.tag = tag;
             this.text = text;
@@ -19,12 +19,17 @@ namespace CommandLine.Core
 
         public static Token Name(string text)
         {
-            return new Token(TokenType.Name, text);
+            return new Name(text);
         }
 
         public static Token Value(string text)
         {
-            return new Token(TokenType.Value, text);
+            return new Value(text);
+        }
+
+        public static Token Value(string text, bool explicitlyAssigned)
+        {
+            return new Value(text, explicitlyAssigned);
         }
 
         public TokenType Tag
@@ -36,10 +41,18 @@ namespace CommandLine.Core
         {
             get { return text; }
         }
+    }
+
+    class Name : Token, IEquatable<Name>
+    {
+        public Name(string text)
+            : base(TokenType.Name, text)
+        {
+        }
 
         public override bool Equals(object obj)
         {
-            var other = obj as Token;
+            var other = obj as Name;
             if (other != null)
             {
                 return Equals(other);
@@ -53,7 +66,7 @@ namespace CommandLine.Core
             return new {Tag, Text}.GetHashCode();
         }
 
-        public bool Equals(Token other)
+        public bool Equals(Name other)
         {
             if (other == null)
             {
@@ -64,7 +77,54 @@ namespace CommandLine.Core
         }
     }
 
-    internal static class TokenExtensions
+    class Value : Token, IEquatable<Value>
+    {
+        private readonly bool explicitlyAssigned;
+
+        public Value(string text)
+            : this(text, false)
+        {
+        }
+
+        public Value(string text, bool explicitlyAssigned)
+            : base(TokenType.Value, text)
+        {
+            this.explicitlyAssigned = explicitlyAssigned;
+        }
+
+        public bool ExplicitlyAssigned
+        {
+            get { return explicitlyAssigned; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Value;
+            if (other != null)
+            {
+                return Equals(other);
+            }
+
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return new { Tag, Text }.GetHashCode();
+        }
+
+        public bool Equals(Value other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return Tag.Equals(other.Tag) && Text.Equals(other.Text);
+        }
+    }
+
+    static class TokenExtensions
     {
         public static bool IsName(this Token token)
         {

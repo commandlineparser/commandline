@@ -1,6 +1,15 @@
+2015-08-05    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Issue #218 Fixed (IgnoreUnknownArguments).
+
+2015-08-03    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Issue #65 (re) Fixed for 2.0.x library.
+
 2015-08-02    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Changes in usage text handling.
+  * PR #215 (by @Thilas) Merged.
 
 2015-08-01    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
