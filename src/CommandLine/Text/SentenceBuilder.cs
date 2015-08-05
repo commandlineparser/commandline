@@ -130,6 +130,9 @@ namespace CommandLine.Text
                                     return "Verb '".JoinTo(((BadVerbSelectedError)error).Token, "' is not recognized.");
                                 case ErrorType.NoVerbSelectedError:
                                     return "No verb selected.";
+                                case ErrorType.RepeatedOptionError:
+                                    return "Option '".JoinTo(((RepeatedOptionError)error).NameInfo.NameText,
+                                        "' is defined multiple times.");
                             }
                             throw new InvalidOperationException();
                         };

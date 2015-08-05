@@ -239,6 +239,7 @@ Latest Changes:
   - Changes in usage text handling.
   - Issue #65 (re) Fixed for 2.0.x library.
   - Issue #218 Fixed (IgnoreUnknownArguments).
+  - PR #215 (by @Thilas) Merged.
 
 Contact:
 ---
