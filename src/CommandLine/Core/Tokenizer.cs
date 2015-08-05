@@ -15,6 +15,14 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             Func<string, bool> nameLookup)
         {
+            return Tokenizer.Tokenize(arguments, nameLookup, tokens => tokens);
+        }
+
+        public static Result<IEnumerable<Token>, Error> Tokenize(
+            IEnumerable<string> arguments,
+            Func<string, bool> nameLookup,
+            Func<IEnumerable<Token>, IEnumerable<Token>> normalize)
+        {
             var errors = new List<Error>();
             Action<Error> onError = errors.Add;
 
@@ -27,7 +35,7 @@ namespace CommandLine.Core
                           select token)
                             .Memorize();
 
-            var normalized = Normalize(tokens, nameLookup);
+            var normalized = normalize(tokens);
 
             var unkTokens = (from t in normalized where t.IsName() && !nameLookup(t.Text) select t).Memorize();
 

@@ -174,12 +174,17 @@ namespace CommandLine
                 IEnumerable<OptionSpecification> optionSpecs,
                 ParserSettings settings)
         {
+            var normalize = settings.IgnoreUnknownArguments
+                ? toks => Tokenizer.Normalize(toks,
+                    name => NameLookup.Contains(name, optionSpecs, settings.NameComparer))
+                : new Func<IEnumerable<Token>, IEnumerable<Token>>(toks => toks);
+
             var tokens = settings.EnableDashDash
                 ? Tokenizer.PreprocessDashDash(
                         arguments,
                         args =>
-                            Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer)))
-                : Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer));
+                            Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer), normalize))
+                : Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, settings.NameComparer), normalize);
             var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, settings.NameComparer));
             return explodedTokens;
         }
