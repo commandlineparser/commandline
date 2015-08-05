@@ -427,6 +427,8 @@ namespace CommandLine.Tests.Unit
             get
             {
                 yield return new object[] { new[] { "--stringvalue=strdata0", "--unknown=valid" }, new FakeOptions { StringValue = "strdata0", IntSequence = Enumerable.Empty<int>() } };
+                yield return new object[] { new[] { "--stringvalue=strdata0", "1234", "--unknown", "-i", "1", "2", "3" }, new FakeOptions { StringValue = "strdata0", LongValue = 1234L, IntSequence = new[] { 1, 2, 3 } } };
+                yield return new object[] { new[] { "--stringvalue=strdata0", "-u" }, new FakeOptions { StringValue = "strdata0", IntSequence = Enumerable.Empty<int>() } };
             }
         }
     }
