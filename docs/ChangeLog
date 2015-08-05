@@ -1,3 +1,7 @@
+2015-08-05    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Issue #218 Fixed (IgnoreUnknownArguments).
+
 2015-08-03    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Issue #65 (re) Fixed for 2.0.x library.
