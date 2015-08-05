@@ -456,6 +456,7 @@ namespace CommandLine.Tests.Unit
             get
             {
                 yield return new object[] { new[] { "commit", "-up" }, new CommitOptions { Patch =  true } };
+                yield return new object[] { new[] { "commit", "--amend", "--unknown", "valid" }, new CommitOptions { Amend = true } };
             }
         }
     }
