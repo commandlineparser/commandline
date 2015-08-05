@@ -237,6 +237,7 @@ Latest Changes:
   - Test refactorings.
   - Fixing XML comments.
   - Changes in usage text handling.
+  - PR #215 (by @Thilas) Merged.
 
 Contact:
 ---
