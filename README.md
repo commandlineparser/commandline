@@ -241,6 +241,7 @@ Latest Changes:
   - Issue #218 Fixed (IgnoreUnknownArguments).
   - PR #215 (by @Thilas) Merged.
   - PR #216 (by @Thilas) Merged.
+  - Issue #217 Fixed.
 
 Contact:
 ---
