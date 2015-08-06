@@ -1,3 +1,7 @@
+2015-08-06    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * PR #216 (by @Thilas) Merged.
+
 2015-08-05    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Issue #218 Fixed (IgnoreUnknownArguments).

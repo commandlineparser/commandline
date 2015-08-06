@@ -2,7 +2,7 @@
 <package xmlns='http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd'>
     <metadata>
         <id>CommandLineParser</id>
-        <version>2.0.227-beta</version>
+        <version>2.0.231-beta</version>
         <title>Command Line Parser Library</title>
         <authors>Giacomo Stelluti Scala</authors>
         <description>Terse syntax C# command line parser for .NET with F# support. The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</description>
