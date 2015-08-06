@@ -23,6 +23,7 @@ namespace CommandLine
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name");
 
             this.name = name;
+            this.helpText = string.Empty;
         }
 
         /// <summary>
