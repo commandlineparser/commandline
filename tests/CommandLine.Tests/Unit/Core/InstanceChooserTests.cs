@@ -20,7 +20,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceChooser.Choose(
-                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
+                new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
                 new string[] { },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
@@ -40,7 +40,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceChooser.Choose(
-                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
+                new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
                 new[] { "help" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
@@ -56,11 +56,11 @@ namespace CommandLine.Tests.Unit.Core
         public void Explicit_help_request_for_a_valid_verb_generates_HelpVerbRequestedError_with_appropriate_data()
         {
             // Fixture setup
-            var expectedErrors = new[] { new HelpVerbRequestedError("commit", typeof(CommitOptions), true) };
+            var expectedErrors = new[] { new HelpVerbRequestedError("commit", typeof(Commit_Verb), true) };
 
             // Exercize system 
             var result = InstanceChooser.Choose(
-                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
+                new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
                 new[] { "help", "commit" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
@@ -80,7 +80,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceChooser.Choose(
-                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
+                new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
                 new[] { "help", "earthunderalienattack" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
@@ -96,18 +96,18 @@ namespace CommandLine.Tests.Unit.Core
         public void Parse_existing_verb_returns_verb_instance()
         {
             // Fixture setup
-            var expected = new AddOptions { Patch = true, FileName = "dummy.bin"};
+            var expected = new Add_Verb { Patch = true, FileName = "dummy.bin"};
 
             // Exercize system 
             var result = InstanceChooser.Choose(
-                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) },
+                new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
                 new[] { "add", "--patch", "dummy.bin" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
 
             // Verify outcome
-            Assert.IsType<AddOptions>(((Parsed<object>)result).Value);
+            Assert.IsType<Add_Verb>(((Parsed<object>)result).Value);
             expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }
@@ -140,7 +140,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceChooser.Choose(
-                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions), typeof(SequenceOptions) },
+                new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb), typeof(SequenceOptions) },
                 new[] { "sequence", "-s", "aa", "b" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
@@ -164,7 +164,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system 
             var result = InstanceChooser.Choose(
-                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions), typeof(SequenceOptions) },
+                new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb), typeof(SequenceOptions) },
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,

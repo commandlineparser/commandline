@@ -296,7 +296,7 @@ namespace CommandLine.Tests.Unit.Text
                 TypeInfo.Create(typeof(NullInstance)),
                 new Error[]
                     {
-                        new HelpVerbRequestedError("commit", typeof(CommitOptions), true)
+                        new HelpVerbRequestedError("commit", typeof(Commit_Verb), true)
                     });
 
             // Exercize system
@@ -320,7 +320,7 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             var verbTypes = Enumerable.Empty<Type>().Concat(
-                new[] { typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions) });
+                new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) });
             var fakeResult = new NotParsed<object>(
                 TypeInfo.Create(typeof(NullInstance),
                     verbTypes),

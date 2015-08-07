@@ -89,7 +89,7 @@ namespace CommandLine.Tests.Fakes
         {
             get
             {
-                yield return new Example("Forcing file", new AddOptions { FileName = "README.md", Force = true });
+                yield return new Example("Forcing file", new Add_Verb { FileName = "README.md", Force = true });
             }
         }
     }

@@ -22,10 +22,10 @@ namespace CommandLine.Tests.Unit
 
         [Theory]
         [MemberData("UnParseDataVerbs")]
-        public static void UnParsing_instance_returns_command_line_for_verbs(AddOptions options, string result)
+        public static void UnParsing_instance_returns_command_line_for_verbs(Add_Verb verb, string result)
         {
             new Parser()
-                .FormatCommandLine(options)
+                .FormatCommandLine(verb)
                 .ShouldBeEquivalentTo(result);
         }
 
@@ -87,9 +87,9 @@ namespace CommandLine.Tests.Unit
         {
             get
             {
-                yield return new object[] { new AddOptions(), "add" };
-                yield return new object[] { new AddOptions { Patch = true, FileName = "mysource.cs" }, "add --patch mysource.cs" };
-                yield return new object[] { new AddOptions { Force = true, FileName = "mysource.fs" }, "add --force mysource.fs" };
+                yield return new object[] { new Add_Verb(), "add" };
+                yield return new object[] { new Add_Verb { Patch = true, FileName = "mysource.cs" }, "add --patch mysource.cs" };
+                yield return new object[] { new Add_Verb { Force = true, FileName = "mysource.fs" }, "add --force mysource.fs" };
             }
         }
 

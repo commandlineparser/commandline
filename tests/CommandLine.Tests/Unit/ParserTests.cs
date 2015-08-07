@@ -37,7 +37,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(with => with.HelpWriter = writer);
 
             // Exercize system
-            sut.ParseArguments(new string[] { }, typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
+            sut.ParseArguments(new string[] { }, typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb));
 
             // Verify outcome
             var text = writer.ToString();
@@ -53,7 +53,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(with => with.HelpWriter = writer);
 
             // Exercize system
-            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new string[] { });
+            sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new string[] { });
 
             // Verify outcome
             var text = writer.ToString();
@@ -136,18 +136,18 @@ namespace CommandLine.Tests.Unit
         public void Parse_options_with_double_dash_in_verbs_scenario()
         {
             // Fixture setup
-            var expectedOptions = new AddOptions { Patch = true, FileName = "--strange-fn" };
+            var expectedOptions = new Add_Verb { Patch = true, FileName = "--strange-fn" };
             var sut = new Parser(with => with.EnableDashDash = true);
 
             // Exercize system
             var result = sut.ParseArguments(
                 new[] { "add", "-p", "--", "--strange-fn" },
-                typeof(AddOptions),
-                typeof(CommitOptions),
-                typeof(CloneOptions));
+                typeof(Add_Verb),
+                typeof(Commit_Verb),
+                typeof(Clone_Verb));
 
             // Verify outcome
-            Assert.IsType<AddOptions>(((Parsed<object>)result).Value);
+            Assert.IsType<Add_Verb>(((Parsed<object>)result).Value);
             ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             // Teardown
         }
@@ -156,7 +156,7 @@ namespace CommandLine.Tests.Unit
         public void Parse_verbs()
         {
             // Fixture setup
-            var expectedOptions = new CloneOptions
+            var expectedOptions = new Clone_Verb
                                   {
                                       Quiet = true,
                                       Urls =
@@ -172,12 +172,12 @@ namespace CommandLine.Tests.Unit
             var result =
                 sut.ParseArguments(
                     new[] { "clone", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" },
-                    typeof(AddOptions),
-                    typeof(CommitOptions),
-                    typeof(CloneOptions));
+                    typeof(Add_Verb),
+                    typeof(Commit_Verb),
+                    typeof(Clone_Verb));
 
             // Verify outcome
-            Assert.IsType<CloneOptions>(((Parsed<object>)result).Value);
+            Assert.IsType<Clone_Verb>(((Parsed<object>)result).Value);
             ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             // Teardown
         }
@@ -190,16 +190,16 @@ namespace CommandLine.Tests.Unit
         public void Parse_options_with_short_name_in_verbs_scenario(string message, string[] args)
         {
             // Fixture setup
-            var expectedOptions = new CommitOptions() { Message = message };
+            var expectedOptions = new Commit_Verb() { Message = message };
             var sut = new Parser();
 
             // Exercize system
             var result = sut.ParseArguments(
                 args,
-                typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
+                typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb));
 
             // Verify outcome
-            Assert.IsType<CommitOptions>(((Parsed<object>)result).Value);
+            Assert.IsType<Commit_Verb>(((Parsed<object>)result).Value);
             ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             // Teardown
         }
@@ -213,7 +213,7 @@ namespace CommandLine.Tests.Unit
             // Exercize system
             var result = sut.ParseArguments(
                 new[] { "clone", "-q", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" },
-                typeof(AddOptions), typeof(CommitOptions), typeof(CloneOptions));
+                typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb));
 
             // Verify outcome
             Assert.IsType<NotParsed<object>>(result);
@@ -224,7 +224,7 @@ namespace CommandLine.Tests.Unit
         public void Parse_verbs_using_generic_overload()
         {
             // Fixture setup
-            var expectedOptions = new CloneOptions
+            var expectedOptions = new Clone_Verb
                                   {
                                       Quiet = true,
                                       Urls =
@@ -238,11 +238,11 @@ namespace CommandLine.Tests.Unit
 
             // Exercize system
             var result =
-                sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(
+                sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
                     new[] { "clone", "-q", "http://gsscoder.github.com/", "http://yes-to-nooo.github.com/" });
 
             // Verify outcome
-            Assert.IsType<CloneOptions>(((Parsed<object>)result).Value);
+            Assert.IsType<Clone_Verb>(((Parsed<object>)result).Value);
             ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
             // Teardown
         }
@@ -337,7 +337,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
-            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new string[] { });
+            sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new string[] { });
             var result = help.ToString();
 
             // Verify outcome
@@ -363,7 +363,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
-            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new[] { "--help" });
+            sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new[] { "--help" });
             var result = help.ToString();
 
             // Verify outcome
@@ -388,7 +388,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
-            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new[] { command });
+            sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new[] { command });
             var result = help.ToString();
 
             // Verify outcome
@@ -433,7 +433,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
-            sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(new[] { "commit", "--help" });
+            sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new[] { "commit", "--help" });
             var result = help.ToString();
 
             // Verify outcome
@@ -497,13 +497,13 @@ namespace CommandLine.Tests.Unit
         [MemberData("IgnoreUnknownArgumentsForVerbsData")]
         public void When_IgnoreUnknownArguments_is_set_valid_unknown_arguments_avoid_a_failure_parsing_for_verbs(
             string[] arguments,
-            CommitOptions expected)
+            Commit_Verb expected)
         {
             // Fixture setup
             var sut = new Parser(config => config.IgnoreUnknownArguments = true);
 
             // Exercize system
-            var result = sut.ParseArguments<AddOptions, CommitOptions, CloneOptions>(arguments);
+            var result = sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(arguments);
 
             // Verify outcome
             result.Tag.ShouldBeEquivalentTo(ParserResultType.Parsed);
@@ -526,8 +526,8 @@ namespace CommandLine.Tests.Unit
         {
             get
             {
-                yield return new object[] { new[] { "commit", "-up" }, new CommitOptions { Patch =  true } };
-                yield return new object[] { new[] { "commit", "--amend", "--unknown", "valid" }, new CommitOptions { Amend = true } };
+                yield return new object[] { new[] { "commit", "-up" }, new Commit_Verb { Patch =  true } };
+                yield return new object[] { new[] { "commit", "--amend", "--unknown", "valid" }, new Commit_Verb { Amend = true } };
             }
         }
     }

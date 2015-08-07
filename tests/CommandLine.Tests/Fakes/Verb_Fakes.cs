@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace CommandLine.Tests.Fakes
 {
     [Verb("add", HelpText = "Add file contents to the index.")]
-    public class AddOptions
+    public class Add_Verb
     {
         [Option('p', "patch", SetName = "mode-p",
             HelpText = "Interactively choose hunks of patch between the index and the work tree and add them to the index.")]
@@ -20,7 +20,7 @@ namespace CommandLine.Tests.Fakes
     }
 
     [Verb("commit", HelpText = "Record changes to the repository.")]
-    public class CommitOptions
+    public class Commit_Verb
     {
         [Option('p', "patch",
             HelpText = "Use the interactive patch selection interface to chose which changes to commit.")]
@@ -34,7 +34,7 @@ namespace CommandLine.Tests.Fakes
     }
 
     [Verb("clone", HelpText = "Clone a repository into a new directory.")]
-    public class CloneOptions
+    public class Clone_Verb
     {
         [Option("no-hardlinks",
             HelpText = "Optimize the cloning process from a repository on a local filesystem by copying files.")]
@@ -58,7 +58,7 @@ namespace CommandLine.Tests.Fakes
         public IEnumerable<string> StringSequence { get; set; }
     }
 
-    abstract class BaseFileOptions
+    abstract class Base_Class_For_Verb
     {
         [Option('p', "patch", SetName = "mode",
            HelpText = "Interactively choose hunks of patch between the index and the work tree and add them to the index.")]
@@ -69,7 +69,7 @@ namespace CommandLine.Tests.Fakes
     }
 
     [Verb("derivedadd", HelpText = "Add file contents to the index.")]
-    class DerivedAddOptions : BaseFileOptions
+    class Derived_Verb : Base_Class_For_Verb
     {
         [Option('f', "force", SetName = "mode",
             HelpText = "Allow adding otherwise ignored files.")]
