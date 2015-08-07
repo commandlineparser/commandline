@@ -71,7 +71,7 @@ namespace CommandLine
     {
         private readonly ErrorType tag;
 
-        internal Error(ErrorType tag)
+        protected Error(ErrorType tag)
         {
             this.tag = tag;
         }
