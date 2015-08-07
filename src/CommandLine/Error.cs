@@ -77,7 +77,7 @@ namespace CommandLine
         /// </summary>
         /// <param name="tag">Type discriminator tag.</param>
         /// <param name="stopsProcessing">Tells if error stops parsing process.</param>
-        internal Error(ErrorType tag, bool stopsProcessing)
+        protected internal Error(ErrorType tag, bool stopsProcessing)
         {
             this.tag = tag;
             this.stopsProcessing = stopsProcessing;
@@ -87,7 +87,7 @@ namespace CommandLine
         /// Initializes a new instance of the <see cref="CommandLine.Error"/> class.
         /// </summary>
         /// <param name="tag">Type discriminator tag.</param>
-        internal Error(ErrorType tag)
+        protected internal Error(ErrorType tag)
             : this(tag, false)
         {
         }
@@ -157,7 +157,7 @@ namespace CommandLine
     {
         private readonly string token;
 
-        internal TokenError(ErrorType tag, string token)
+        protected internal TokenError(ErrorType tag, string token)
             : base(tag)
         {
             if (token == null) throw new ArgumentNullException("token");
@@ -232,7 +232,7 @@ namespace CommandLine
     {
         private readonly NameInfo nameInfo;
 
-        internal NamedError(ErrorType tag, NameInfo nameInfo)
+        protected internal NamedError(ErrorType tag, NameInfo nameInfo)
             : base(tag)
         {
             this.nameInfo = nameInfo;
