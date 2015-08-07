@@ -242,6 +242,7 @@ Latest Changes:
   - PR #215 (by @Thilas) Merged.
   - PR #216 (by @Thilas) Merged.
   - Issue #217 Fixed.
+  - Renaming tests fakes.
 
 Contact:
 ---
