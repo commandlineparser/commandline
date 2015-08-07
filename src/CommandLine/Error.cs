@@ -388,7 +388,7 @@ namespace CommandLine
     public sealed class HelpRequestedError : Error
     {
         internal HelpRequestedError()
-            : base(ErrorType.HelpRequestedError)
+            : base(ErrorType.HelpRequestedError, true)
         {
         }
     }
@@ -403,7 +403,7 @@ namespace CommandLine
         private readonly bool matched;
 
         internal HelpVerbRequestedError(string verb, Type type, bool matched)
-            : base(ErrorType.HelpVerbRequestedError)
+            : base(ErrorType.HelpVerbRequestedError, true)
         {
             this.verb = verb;
             this.type = type;
@@ -452,7 +452,7 @@ namespace CommandLine
     public sealed class VersionRequestedError : Error
     {
         internal VersionRequestedError()
-            : base(ErrorType.VersionRequestedError)
+            : base(ErrorType.VersionRequestedError, true)
         {
         }
     }
