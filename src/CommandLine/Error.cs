@@ -77,7 +77,7 @@ namespace CommandLine
         /// </summary>
         /// <param name="tag">Type discriminator tag.</param>
         /// <param name="stopsProcessing">Tells if error stops parsing process.</param>
-        protected Error(ErrorType tag, bool stopsProcessing)
+        internal Error(ErrorType tag, bool stopsProcessing)
         {
             this.tag = tag;
             this.stopsProcessing = stopsProcessing;
@@ -87,7 +87,7 @@ namespace CommandLine
         /// Initializes a new instance of the <see cref="CommandLine.Error"/> class.
         /// </summary>
         /// <param name="tag">Type discriminator tag.</param>
-        protected Error(ErrorType tag)
+        internal Error(ErrorType tag)
             : this(tag, false)
         {
         }
