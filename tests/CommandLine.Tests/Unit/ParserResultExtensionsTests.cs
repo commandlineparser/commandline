@@ -19,7 +19,7 @@ namespace CommandLine.Tests.Unit
         public static void Invoke_parsed_lambda_when_parsed()
         {
             var expected = string.Empty;
-            Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" })
+            Parser.Default.ParseArguments<Simple_Options>(new[] { "--stringvalue", "value" })
                 .WithParsed(opts => expected = opts.StringValue);
 
             "value".ShouldBeEquivalentTo(expected);
@@ -42,7 +42,7 @@ namespace CommandLine.Tests.Unit
         public static void Invoke_not_parsed_lambda_when_not_parsed()
         {
             var expected = "a default";
-            Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
+            Parser.Default.ParseArguments<Simple_Options>(new[] { "-i", "aaa" })
                 .WithNotParsed(_ => expected = "changed");
 
             "changed".ShouldBeEquivalentTo(expected);
@@ -65,7 +65,7 @@ namespace CommandLine.Tests.Unit
         public static void Invoke_proper_lambda_when_parsed()
         {
             var expected = string.Empty;
-            Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" })
+            Parser.Default.ParseArguments<Simple_Options>(new[] { "--stringvalue", "value" })
                 .WithParsed(opts => expected = opts.StringValue)
                 .WithNotParsed(_ => expected = "changed");
 
@@ -76,7 +76,7 @@ namespace CommandLine.Tests.Unit
         public static void Invoke_proper_lambda_when_not_parsed()
         {
             var expected = "a default";
-            Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
+            Parser.Default.ParseArguments<Simple_Options>(new[] { "-i", "aaa" })
                 .WithParsed(opts => expected = opts.StringValue)
                 .WithNotParsed(_ => expected = "changed");
 
@@ -86,7 +86,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public static void Turn_sucessful_parsing_into_exit_code()
         {
-            var expected = Parser.Default.ParseArguments<FakeOptions>(new[] { "--stringvalue", "value" })
+            var expected = Parser.Default.ParseArguments<Simple_Options>(new[] { "--stringvalue", "value" })
                 .Return(_ => 0, _ => -1);
 
             0.ShouldBeEquivalentTo(expected);
@@ -109,7 +109,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public static void Turn_failed_parsing_into_exit_code()
         {
-            var expected = Parser.Default.ParseArguments<FakeOptions>(new[] { "-i", "aaa" })
+            var expected = Parser.Default.ParseArguments<Simple_Options>(new[] { "-i", "aaa" })
                 .Return(_ => 0, _ => -1);
 
             (-1).ShouldBeEquivalentTo(expected);

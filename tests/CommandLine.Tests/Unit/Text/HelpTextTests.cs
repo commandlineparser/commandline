@@ -53,7 +53,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut = new HelpText { AddDashesToOption = true }
                 .AddPreOptionsLine("pre-options")
-                .AddOptions(new NotParsed<FakeOptions>(TypeInfo.Create(typeof(FakeOptions)), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(Simple_Options)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome
@@ -77,7 +77,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut = new HelpText { AddDashesToOption = true, AddEnumValuesToHelpText = true }
                 .AddPreOptionsLine("pre-options")
-                .AddOptions(new NotParsed<FakeOptionsWithHelpTextEnum>(TypeInfo.Create(typeof(FakeOptionsWithHelpTextEnum)), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<Options_With_Enum_Having_HelpText>(TypeInfo.Create(typeof(Options_With_Enum_Having_HelpText)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome
@@ -100,7 +100,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut = new HelpText { AddDashesToOption = true }
                 .AddPreOptionsLine("pre-options")
-                .AddOptions(new NotParsed<FakeOptionsWithHelpTextEnum>(TypeInfo.Create(typeof(FakeOptionsWithHelpTextEnum)), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<Options_With_Enum_Having_HelpText>(TypeInfo.Create(typeof(Options_With_Enum_Having_HelpText)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome
@@ -122,7 +122,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut =
                 new HelpText("Meta Value.").AddOptions(
-                    new NotParsed<FakeOptionsWithMetaValue>(TypeInfo.Create(typeof(FakeOptionsWithMetaValue)), Enumerable.Empty<Error>()));
+                    new NotParsed<Options_With_MetaValue>(TypeInfo.Create(typeof(Options_With_MetaValue)), Enumerable.Empty<Error>()));
 
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
@@ -263,8 +263,8 @@ namespace CommandLine.Tests.Unit.Text
         public void Invoke_AutoBuild_for_Options_returns_appropriate_formatted_text()
         {
             // Fixture setup
-            var fakeResult = new NotParsed<FakeOptions>(
-                TypeInfo.Create(typeof(FakeOptions)),
+            var fakeResult = new NotParsed<Simple_Options>(
+                TypeInfo.Create(typeof(Simple_Options)),
                 new Error[]
                     {
                         new BadFormatTokenError("badtoken"),
@@ -349,7 +349,7 @@ namespace CommandLine.Tests.Unit.Text
             // Exercize system 
             var sut = new HelpText { AddDashesToOption = true }
                 .AddPreOptionsLine("pre-options")
-                .AddOptions(new NotParsed<FakeOptionsWithHelpTextValue>(TypeInfo.Create(typeof(FakeOptionsWithHelpTextValue)), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<Options_With_HelpText_And_MetaValue>(TypeInfo.Create(typeof(Options_With_HelpText_And_MetaValue)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome
@@ -437,8 +437,8 @@ namespace CommandLine.Tests.Unit.Text
             // Fixture setup
             var handlers = new CultureInfo("en-US").MakeCultureHandlers();
             var fakeResult =
-                new NotParsed<FakeOptionsWithDefaultSetToSequence>(
-                    typeof(FakeOptionsWithDefaultSetToSequence).ToTypeInfo(),
+                new NotParsed<Options_With_Default_Set_To_Sequence>(
+                    typeof(Options_With_Default_Set_To_Sequence).ToTypeInfo(),
                     new Error[] { new BadFormatTokenError("badtoken") });
 
             // Exercize system

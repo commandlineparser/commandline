@@ -12,13 +12,13 @@ namespace CommandLine.Tests.Unit.Infrastructure
         [Fact]
         public static void Class_with_public_set_properties_or_fields_is_ranked_mutable()
         {
-            typeof(FakeOptions).IsMutable().Should().BeTrue();
+            typeof(Simple_Options).IsMutable().Should().BeTrue();
         }
 
         [Fact]
         public static void Class_without_public_set_properties_or_fields_is_ranked_immutable()
         {
-            typeof(FakeImmutableOptions).IsMutable().Should().BeFalse();
+            typeof(Immutable_Simple_Options).IsMutable().Should().BeFalse();
         }
     }
 }

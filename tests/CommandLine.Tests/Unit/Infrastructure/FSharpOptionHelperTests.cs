@@ -44,7 +44,7 @@ namespace CommandLine.Tests.Unit.Infrastructure
 
         private PropertyInfo TestData
         {
-            get { return typeof(FakeOptionsWithFSharpOption).GetProperty("FileName", BindingFlags.Public | BindingFlags.Instance); }
+            get { return typeof(Options_With_FSharpOption).GetProperty("FileName", BindingFlags.Public | BindingFlags.Instance); }
         }
     }
 }
