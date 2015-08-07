@@ -14,5 +14,10 @@ namespace CommandLine
                 ? (ParserResult<T>)new NotParsed<T>(instance.GetType().ToTypeInfo(), errors)
                 : (ParserResult<T>)new Parsed<T>(instance);
         }
+
+        public static IEnumerable<Error> OnlyMeaningfulErrors(this IEnumerable<Error> errors)
+        {
+            return errors.Where(e => !e.StopsProcessing);
+        }
     }
 }
