@@ -7,7 +7,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal static class SpecificationPropertyExtensions
+    static class SpecificationPropertyExtensions
     {
         public static SpecificationProperty WithSpecification(this SpecificationProperty specProp, Specification newSpecification)
         {

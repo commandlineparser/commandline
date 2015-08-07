@@ -8,7 +8,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal static class Sequence
+    static class Sequence
     {
         public static IEnumerable<Token> Partition(
             IEnumerable<Token> tokens,

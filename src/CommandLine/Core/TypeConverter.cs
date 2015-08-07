@@ -9,7 +9,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal static class TypeConverter
+    static class TypeConverter
     {
         public static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, bool scalar, CultureInfo conversionCulture)
         {

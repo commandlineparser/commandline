@@ -7,7 +7,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal sealed class OptionSpecification : Specification
+    sealed class OptionSpecification : Specification
     {
         private readonly string shortName;
         private readonly string longName;

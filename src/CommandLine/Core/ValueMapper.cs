@@ -9,7 +9,7 @@ using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Core
 {
-    internal static class ValueMapper
+    static class ValueMapper
     {
         public static Result<
             IEnumerable<SpecificationProperty>, Error>

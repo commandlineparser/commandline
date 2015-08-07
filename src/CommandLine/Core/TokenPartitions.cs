@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CommandLine.Core
 {
-    internal class TokenPartitions
+    class TokenPartitions
     {
         private readonly IEnumerable<KeyValuePair<string, IEnumerable<string>>> options;
         private readonly IEnumerable<string> values;

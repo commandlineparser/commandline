@@ -6,7 +6,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal sealed class ValueSpecification : Specification
+    sealed class ValueSpecification : Specification
     {
         private readonly int index;
         private readonly string metaName;

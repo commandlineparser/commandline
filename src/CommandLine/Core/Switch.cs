@@ -7,7 +7,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal static class Switch
+    static class Switch
     {
         public static IEnumerable<Token> Partition(
             IEnumerable<Token> tokens,

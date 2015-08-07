@@ -7,7 +7,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal static class TypeLookup
+    static class TypeLookup
     {
         public static Maybe<TypeDescriptor> FindTypeDescriptor(
             string name,

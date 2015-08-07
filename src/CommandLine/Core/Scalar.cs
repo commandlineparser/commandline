@@ -8,7 +8,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal static class Scalar
+    static class Scalar
     {
         public static IEnumerable<Token> Partition(
             IEnumerable<Token> tokens,

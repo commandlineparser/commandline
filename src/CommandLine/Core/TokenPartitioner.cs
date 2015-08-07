@@ -7,7 +7,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal static class TokenPartitioner
+    static class TokenPartitioner
     {
         public static
             TokenPartitions Partition(

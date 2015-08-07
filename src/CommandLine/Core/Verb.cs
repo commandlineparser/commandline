@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace CommandLine.Core
 {
-    internal sealed class Verb
+    sealed class Verb
     {
         private readonly string name;
         private readonly string helpText;

@@ -4,7 +4,7 @@ using System;
 
 namespace CommandLine.Core
 {
-    internal static class NameExtensions
+    static class NameExtensions
     {
         public static bool MatchName(this string value, string shortName, string longName, StringComparer comparer)
         {

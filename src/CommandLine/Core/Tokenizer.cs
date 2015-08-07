@@ -9,7 +9,7 @@ using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Core
 {
-    internal static class Tokenizer
+    static class Tokenizer
     {
         public static Result<IEnumerable<Token>, Error> Tokenize(
             IEnumerable<string> arguments,

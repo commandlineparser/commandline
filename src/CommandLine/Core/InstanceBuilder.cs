@@ -10,7 +10,7 @@ using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Core
 {
-    internal static class InstanceBuilder
+    static class InstanceBuilder
     {
         public static ParserResult<T> Build<T>(
             Maybe<Func<T>> factory,

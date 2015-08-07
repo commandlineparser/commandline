@@ -6,7 +6,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal class SpecificationProperty
+    class SpecificationProperty
     {
         private readonly Specification specification;
         private readonly PropertyInfo property;

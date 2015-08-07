@@ -10,7 +10,7 @@ using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Core
 {
-    internal static class InstanceChooser
+    static class InstanceChooser
     {
         public static ParserResult<object> Choose(
             IEnumerable<Type> types,

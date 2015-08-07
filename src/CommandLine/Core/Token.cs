@@ -4,7 +4,7 @@ using System;
 
 namespace CommandLine.Core
 {
-    internal enum TokenType { Name, Value }
+    enum TokenType { Name, Value }
 
     abstract class Token
     {

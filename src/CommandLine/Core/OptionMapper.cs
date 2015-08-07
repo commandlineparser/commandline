@@ -8,7 +8,7 @@ using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Core
 {
-    internal static class OptionMapper
+    static class OptionMapper
     {
         public static Result<
             IEnumerable<SpecificationProperty>, Error>

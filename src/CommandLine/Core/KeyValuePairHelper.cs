@@ -6,7 +6,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    internal static class KeyValuePairHelper
+    static class KeyValuePairHelper
     {
         public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForSwitch(
             IEnumerable<Token> tokens)
