@@ -5,13 +5,13 @@ using System.Collections.Generic;
 namespace CommandLine.Tests.Fakes
 {
     [Verb("add", HelpText = "Add file contents to the index.")]
-    class ImmutableAddOptions
+    class Immutable_Add_Verb
     {
         private readonly bool patch;
         private readonly bool force;
         private readonly string fileName;
 
-        public ImmutableAddOptions(bool patch, bool force, string fileName)
+        public Immutable_Add_Verb(bool patch, bool force, string fileName)
         {
             this.patch = patch;
             this.force = force;
@@ -31,12 +31,12 @@ namespace CommandLine.Tests.Fakes
     }
 
     [Verb("commit", HelpText = "Record changes to the repository.")]
-    class ImmutableCommitOptions
+    class Immutable_Commit_Verb
     {
         private readonly bool patch;
         private readonly bool amend;
 
-        public ImmutableCommitOptions(bool patch, bool amend)
+        public Immutable_Commit_Verb(bool patch, bool amend)
         {
             this.patch = patch;
             this.amend = amend;
@@ -51,13 +51,13 @@ namespace CommandLine.Tests.Fakes
     }
 
     [Verb("clone", HelpText = "Clone a repository into a new directory.")]
-    class ImmutableCloneOptions
+    class Immutable_Clone_Verb
     {
         private readonly bool noHardLinks;
         private readonly bool quiet;
         private readonly IEnumerable<string> urls;
 
-        public ImmutableCloneOptions(bool noHardLinks, bool quiet, IEnumerable<string> urls)
+        public Immutable_Clone_Verb(bool noHardLinks, bool quiet, IEnumerable<string> urls)
         {
             this.noHardLinks = noHardLinks;
             this.quiet = quiet;

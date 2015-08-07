@@ -116,18 +116,18 @@ namespace CommandLine.Tests.Unit.Core
         public void Parse_existing_verb_returns_verb_immutable_instance()
         {
             // Fixture setup
-            var expected = new ImmutableAddOptions(true, default(bool), "dummy.bin");
+            var expected = new Immutable_Add_Verb(true, default(bool), "dummy.bin");
 
             // Exercize system 
             var result = InstanceChooser.Choose(
-                new[] { typeof(ImmutableAddOptions), typeof(ImmutableCommitOptions), typeof(ImmutableCloneOptions) },
+                new[] { typeof(Immutable_Add_Verb), typeof(Immutable_Commit_Verb), typeof(Immutable_Clone_Verb) },
                 new[] { "add", "--patch", "dummy.bin" },
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
 
             // Verify outcome
-            Assert.IsType<ImmutableAddOptions>(((Parsed<object>)result).Value);
+            Assert.IsType<Immutable_Add_Verb>(((Parsed<object>)result).Value);
             expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }

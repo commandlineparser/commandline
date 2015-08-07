@@ -93,7 +93,7 @@
     <Compile Include="Fakes\Options_With_Required_Set_To_True_Within_Same_Set.cs" />
     <Compile Include="Fakes\Help_Fakes.cs" />
     <Compile Include="Fakes\IInterface_With_Two_Scalar_Options.cs" />
-    <Compile Include="Fakes\ImmutableVerbFakes.cs" />
+    <Compile Include="Fakes\Immutable_Verb_Fakes.cs" />
     <Compile Include="Fakes\Verb_Fakes.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Unit\Core\InstanceChooserTests.cs" />
