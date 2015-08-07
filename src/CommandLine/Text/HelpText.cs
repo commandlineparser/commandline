@@ -598,7 +598,6 @@ namespace CommandLine.Text
 
         private static IEnumerable<Error> FilterMeaningfulErrors(IEnumerable<Error> errors)
         {
-            //return errors.Where(e => e.Tag != ErrorType.HelpRequestedError && e.Tag != ErrorType.HelpVerbRequestedError);
             return errors.Where(e => !e.StopsProcessing);
         }
 
