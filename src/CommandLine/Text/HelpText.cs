@@ -213,7 +213,7 @@ namespace CommandLine.Text
             {
                 errors = ((NotParsed<T>)parserResult).Errors;
 
-                if (FilterMeaningfulErrors(errors).Any())
+                if (errors.OnlyMeaningfulErrors().Any())
                     auto = onError(auto);
             }
 
@@ -288,7 +288,7 @@ namespace CommandLine.Text
             if (parserResult == null) throw new ArgumentNullException("parserResult");
             if (current == null) throw new ArgumentNullException("current");
 
-            if (FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors).Empty())
+            if (((NotParsed<T>)parserResult).Errors.OnlyMeaningfulErrors().Empty())
                 return current;
 
             var errors = RenderParsingErrorsTextAsLines(parserResult,
@@ -484,7 +484,7 @@ namespace CommandLine.Text
             if (parserResult == null) throw new ArgumentNullException("parserResult");
 
             var meaningfulErrors =
-                FilterMeaningfulErrors(((NotParsed<T>)parserResult).Errors);
+                ((NotParsed<T>)parserResult).Errors.OnlyMeaningfulErrors();
             if (meaningfulErrors.Empty())
                 yield break;
 
@@ -596,10 +596,10 @@ namespace CommandLine.Text
                 .ToString();
         }
 
-        private static IEnumerable<Error> FilterMeaningfulErrors(IEnumerable<Error> errors)
-        {
-            return errors.Where(e => !e.StopsProcessing);
-        }
+        //private static IEnumerable<Error> FilterMeaningfulErrors(IEnumerable<Error> errors)
+        //{
+        //    return errors.Where(e => !e.StopsProcessing);
+        //}
 
         private static void AddLine(StringBuilder builder, string value, int maximumLength)
         {
