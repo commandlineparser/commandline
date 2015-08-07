@@ -5,7 +5,7 @@ using CommandLine.Text;
 
 namespace CommandLine.Tests.Fakes
 {
-    class FakeOptionsForHelp
+    class Simple_Options_Without_HelpText
     {
         [Option('v', "verbose")]
         public bool Verbose { get; set; }
@@ -14,7 +14,7 @@ namespace CommandLine.Tests.Fakes
         public string FileName { get; set; }
     }
 
-    class FakeOptionsWithDescription
+    class Simple_Options_With_HelpText_Set
     {
         [Option('v', "verbose", HelpText = "Comment extensively every operation.")]
         public bool Verbose { get; set; }
@@ -23,7 +23,7 @@ namespace CommandLine.Tests.Fakes
         public string FileName { get; set; }
     }
 
-    class FakeOptionsWithLongDescription
+    class Simple_Options_With_HelpText_Set_To_Long_Description
     {
         [Option('v', "verbose", HelpText = "This is the description of the verbosity to test out the wrapping capabilities of the Help Text.")]
         public bool Verbose { get; set; }
@@ -32,7 +32,7 @@ namespace CommandLine.Tests.Fakes
         public string FileName { get; set; }
     }
 
-    class FakeOptionsWithLongDescriptionAndNoSpaces
+    class Simple_Options_With_HelpText_Set_To_Long_Description_Without_Spaces
     {
         [Option('v', "verbose", HelpText = "Before 012345678901234567890123 After")]
         public bool Verbose { get; set; }
@@ -41,7 +41,7 @@ namespace CommandLine.Tests.Fakes
         public string FileName { get; set; }
     }
 
-    class FakeOptionsWithUsageText
+    class Options_With_Usage_Attribute
     {
         [Option('i',"input", HelpText = "Set input file.")]
         public string InputFile { get; set; }
@@ -63,15 +63,15 @@ namespace CommandLine.Tests.Fakes
         {
             get
             {
-                yield return new Example("Normal scenario", new FakeOptionsWithUsageText { InputFile = "file.bin", OutputFile = "out.bin" });
-                yield return new Example("Logging warnings", UnParserSettings.WithGroupSwitchesOnly() , new FakeOptionsWithUsageText { InputFile = "file.bin", LogWarning = true });
-                yield return new Example("Logging errors", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new FakeOptionsWithUsageText { InputFile = "file.bin", LogError = true });
+                yield return new Example("Normal scenario", new Options_With_Usage_Attribute { InputFile = "file.bin", OutputFile = "out.bin" });
+                yield return new Example("Logging warnings", UnParserSettings.WithGroupSwitchesOnly() , new Options_With_Usage_Attribute { InputFile = "file.bin", LogWarning = true });
+                yield return new Example("Logging errors", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new Options_With_Usage_Attribute { InputFile = "file.bin", LogError = true });
             }
         }
     }
 
     [Verb("add", HelpText = "Add file contents to the index.")]
-    public class AddOptionsWithUsage
+    public class Add_Verb_With_Usage_Attribute
     {
         [Option('p', "patch", SetName = "mode-p",
             HelpText = "Interactively choose hunks of patch between the index and the work tree and add them to the index.")]
@@ -95,7 +95,7 @@ namespace CommandLine.Tests.Fakes
     }
 
     [Verb("commit", HelpText = "Record changes to the repository.")]
-    public class CommitOptionsWithUsage
+    public class Commit_Verb_With_Usage_Attribute
     {
         [Option('p', "patch",
             HelpText = "Use the interactive patch selection interface to chose which changes to commit.")]
@@ -109,13 +109,13 @@ namespace CommandLine.Tests.Fakes
         {
             get
             {
-                yield return new Example("Committing work", new CommitOptionsWithUsage { Patch = true });
+                yield return new Example("Committing work", new Commit_Verb_With_Usage_Attribute { Patch = true });
             }
         }
     }
 
     [Verb("clone", HelpText = "Clone a repository into a new directory.")]
-    public class CloneOptionsWithUsage
+    public class Clone_Verb_With_Usage_Attribute
     {
         [Option("no-hardlinks",
             HelpText = "Optimize the cloning process from a repository on a local filesystem by copying files.")]
@@ -134,8 +134,8 @@ namespace CommandLine.Tests.Fakes
         {
             get
             {
-                yield return new Example("Cloning quietly", new CloneOptionsWithUsage { Quiet = true, Urls = new[] { "https://github.com/gsscoder/railwaysharp" } });
-                yield return new Example("Cloning without hard links", new CloneOptionsWithUsage { NoHardLinks = true, Urls = new[] { "https://github.com/gsscoder/csharpx" } });
+                yield return new Example("Cloning quietly", new Clone_Verb_With_Usage_Attribute { Quiet = true, Urls = new[] { "https://github.com/gsscoder/railwaysharp" } });
+                yield return new Example("Cloning without hard links", new Clone_Verb_With_Usage_Attribute { NoHardLinks = true, Urls = new[] { "https://github.com/gsscoder/csharpx" } });
             }
         }
     }

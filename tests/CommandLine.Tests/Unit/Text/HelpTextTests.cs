@@ -139,8 +139,8 @@ namespace CommandLine.Tests.Unit.Text
             var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
             sut.MaximumDisplayWidth = 40;
             sut.AddOptions(
-                new NotParsed<FakeOptionsWithLongDescription>(
-                    TypeInfo.Create(typeof(FakeOptionsWithLongDescription)),
+                new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description>(
+                    TypeInfo.Create(typeof(Simple_Options_With_HelpText_Set_To_Long_Description)),
                     Enumerable.Empty<Error>()));
 
             // Verify outcome
@@ -162,8 +162,8 @@ namespace CommandLine.Tests.Unit.Text
             var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
             sut.MaximumDisplayWidth = 40;
             sut.AddOptions(
-                new NotParsed<FakeOptionsWithLongDescriptionAndNoSpaces>(
-                    TypeInfo.Create(typeof(FakeOptionsWithLongDescriptionAndNoSpaces)),
+                new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description_Without_Spaces>(
+                    TypeInfo.Create(typeof(Simple_Options_With_HelpText_Set_To_Long_Description_Without_Spaces)),
                     Enumerable.Empty<Error>()));
 
             // Verify outcome
@@ -185,7 +185,7 @@ namespace CommandLine.Tests.Unit.Text
             var sut = new HelpText("Heading Info.");
             sut.MaximumDisplayWidth = 40;
             sut.AddPreOptionsLine("Before 0123456789012345678901234567890123456789012 After")
-                .AddOptions(new NotParsed<FakeOptionsForHelp>(TypeInfo.Create(typeof(FakeOptionsForHelp)), Enumerable.Empty<Error>()))
+                .AddOptions(new NotParsed<Simple_Options_Without_HelpText>(TypeInfo.Create(typeof(Simple_Options_Without_HelpText)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("Before 0123456789012345678901234567890123456789 After");
 
             // Verify outcome
@@ -371,9 +371,9 @@ namespace CommandLine.Tests.Unit.Text
         public static void RenderUsageText_returns_properly_formatted_text()
         {
             // Fixture setup
-            ParserResult<FakeOptionsWithUsageText> result =
-                new NotParsed<FakeOptionsWithUsageText>(
-                    TypeInfo.Create(typeof(FakeOptionsWithUsageText)), Enumerable.Empty<Error>());
+            ParserResult<Options_With_Usage_Attribute> result =
+                new NotParsed<Options_With_Usage_Attribute>(
+                    TypeInfo.Create(typeof(Options_With_Usage_Attribute)), Enumerable.Empty<Error>());
             
             // Exercize system
             var text = HelpText.RenderUsageText(result);
@@ -395,8 +395,8 @@ namespace CommandLine.Tests.Unit.Text
         public void Invoke_AutoBuild_for_Options_with_Usage_returns_appropriate_formatted_text()
         {
             // Fixture setup
-            var fakeResult = new NotParsed<FakeOptionsWithUsageText>(
-                TypeInfo.Create(typeof(FakeOptionsWithUsageText)),
+            var fakeResult = new NotParsed<Options_With_Usage_Attribute>(
+                TypeInfo.Create(typeof(Options_With_Usage_Attribute)),
                 new Error[]
                     {
                         new BadFormatTokenError("badtoken")

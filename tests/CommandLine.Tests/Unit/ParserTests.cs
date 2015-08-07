@@ -449,7 +449,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(config => config.HelpWriter = help);
 
             // Exercize system
-            sut.ParseArguments<AddOptionsWithUsage, CommitOptionsWithUsage, CloneOptionsWithUsage>(
+            sut.ParseArguments<Add_Verb_With_Usage_Attribute, Commit_Verb_With_Usage_Attribute, Clone_Verb_With_Usage_Attribute>(
                 new[] { "clone", "--badoption=@bad?value" });
             var result = help.ToString();
 
