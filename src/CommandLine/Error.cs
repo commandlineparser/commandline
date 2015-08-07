@@ -70,10 +70,17 @@ namespace CommandLine
     public abstract class Error : IEquatable<Error>
     {
         private readonly ErrorType tag;
+        private readonly bool stopsProcessing;
 
-        protected Error(ErrorType tag)
+        protected Error(ErrorType tag, bool stopsProcessing)
         {
             this.tag = tag;
+            this.stopsProcessing = stopsProcessing;
+        }
+
+        protected Error(ErrorType tag)
+            : this(tag, false)
+        {
         }
 
         /// <summary>
@@ -82,6 +89,11 @@ namespace CommandLine
         public ErrorType Tag
         {
             get { return tag; }
+        }
+
+        public bool StopsProcessing
+        {
+            get { return stopsProcessing; }
         }
 
         /// <summary>
