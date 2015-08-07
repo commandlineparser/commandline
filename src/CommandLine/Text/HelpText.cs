@@ -213,7 +213,7 @@ namespace CommandLine.Text
             {
                 errors = ((NotParsed<T>)parserResult).Errors;
 
-                if (errors.OnlyMeaningfulErrors().Any())
+                if (errors.OnlyMeaningfulOnes().Any())
                     auto = onError(auto);
             }
 
@@ -288,7 +288,7 @@ namespace CommandLine.Text
             if (parserResult == null) throw new ArgumentNullException("parserResult");
             if (current == null) throw new ArgumentNullException("current");
 
-            if (((NotParsed<T>)parserResult).Errors.OnlyMeaningfulErrors().Empty())
+            if (((NotParsed<T>)parserResult).Errors.OnlyMeaningfulOnes().Empty())
                 return current;
 
             var errors = RenderParsingErrorsTextAsLines(parserResult,
@@ -484,7 +484,7 @@ namespace CommandLine.Text
             if (parserResult == null) throw new ArgumentNullException("parserResult");
 
             var meaningfulErrors =
-                ((NotParsed<T>)parserResult).Errors.OnlyMeaningfulErrors();
+                ((NotParsed<T>)parserResult).Errors.OnlyMeaningfulOnes();
             if (meaningfulErrors.Empty())
                 yield break;
 

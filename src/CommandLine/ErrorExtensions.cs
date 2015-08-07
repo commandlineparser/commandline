@@ -15,7 +15,7 @@ namespace CommandLine
                 : (ParserResult<T>)new Parsed<T>(instance);
         }
 
-        public static IEnumerable<Error> OnlyMeaningfulErrors(this IEnumerable<Error> errors)
+        public static IEnumerable<Error> OnlyMeaningfulOnes(this IEnumerable<Error> errors)
         {
             return errors.Where(e => !e.StopsProcessing);
         }
