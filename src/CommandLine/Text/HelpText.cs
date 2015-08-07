@@ -596,11 +596,6 @@ namespace CommandLine.Text
                 .ToString();
         }
 
-        //private static IEnumerable<Error> FilterMeaningfulErrors(IEnumerable<Error> errors)
-        //{
-        //    return errors.Where(e => !e.StopsProcessing);
-        //}
-
         private static void AddLine(StringBuilder builder, string value, int maximumLength)
         {
             builder.AppendWhen(builder.Length > 0, Environment.NewLine);
