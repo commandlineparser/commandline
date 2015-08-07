@@ -100,6 +100,10 @@ namespace CommandLine
             get { return tag; }
         }
 
+        /// <summary>
+        /// Tells if error stops parsing process.
+        /// Filtered by <see cref="CommandLine.ErrorExtensions.OnlyMeaningfulOnes(System.Collections.Generic.IEnumerable{Error})"/>.
+        /// </summary>
         public bool StopsProcessing
         {
             get { return stopsProcessing; }
