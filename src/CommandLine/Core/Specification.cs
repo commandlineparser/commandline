@@ -31,9 +31,7 @@ namespace CommandLine.Core
         private readonly string helpText;
         private readonly string metaValue;
         private readonly IEnumerable<string> enumValues;
-        /// <summary>
         /// This information is denormalized to decouple Specification from PropertyInfo.
-        /// </summary>
         private readonly Type conversionType;
         private readonly TargetType targetType;
 
