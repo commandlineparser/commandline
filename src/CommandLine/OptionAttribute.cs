@@ -88,10 +88,7 @@ namespace CommandLine
             get { return setName; }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
+                if (value == null) throw new ArgumentNullException("value");
 
                 setName = value;
             }
