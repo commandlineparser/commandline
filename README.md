@@ -74,7 +74,7 @@ class Options {
 
   [Option(Default = "中文",
     HelpText = "Content language.")]
-  public Language { get; set; }
+  public string Language { get; set; }
 
   [Value(0, MetaName = "offset",
     HelpText = "File offset.")]
