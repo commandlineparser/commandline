@@ -216,17 +216,4 @@ namespace CommandLine
             return this.Tag.Equals(other.Tag) && Errors.SequenceEqual(other.Errors);
         }
     }
-
-    partial class ParserResultExtensions
-    {
-        internal static ParserResult<T> MapErrors<T>(
-            this ParserResult<T> parserResult,
-            Func<IEnumerable<Error>, IEnumerable<Error>> func)
-        {
-            var notParsed = parserResult as NotParsed<T>;
-            if (notParsed != null)
-                return new NotParsed<T>(notParsed.TypeInfo, func(notParsed.Errors));
-            return parserResult;
-        }
-    }
 }
