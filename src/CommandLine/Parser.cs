@@ -208,7 +208,7 @@ namespace CommandLine
             parserResult.WithNotParsed(
                 errors =>
                     Maybe.Merge(errors.ToMaybe(), helpWriter.ToMaybe())
-                        .Do((errs, writer) => writer.Write(HelpText.AutoBuild(parserResult)))
+                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult)))
                 );
 
             return parserResult;
