@@ -197,7 +197,6 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            //return new { Value, Errors }.GetHashCode();
             return new { Tag, Errors }.GetHashCode();
         }
 
