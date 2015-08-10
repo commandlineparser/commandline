@@ -149,7 +149,7 @@ namespace CommandLine
             }
 
             return this.Tag.Equals(other.Tag)
-                    && Value.Equals(other.Value);
+                && Value.Equals(other.Value);
         }
     }
 
@@ -212,7 +212,8 @@ namespace CommandLine
                 return false;
             }
 
-            return this.Tag.Equals(other.Tag) && Errors.SequenceEqual(other.Errors);
+            return this.Tag.Equals(other.Tag)
+                && Errors.SequenceEqual(other.Errors);
         }
     }
 }
