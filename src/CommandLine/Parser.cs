@@ -205,13 +205,11 @@ namespace CommandLine
 
         private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter)
         {
-            if (parserResult.Tag == ParserResultType.NotParsed)
-            {
-                if (((NotParsed<T>)parserResult).Errors.Any())
-                {
-                    helpWriter.ToMaybe().Do(writer => writer.Write(HelpText.AutoBuild(parserResult)));
-                }
-            }
+            parserResult.WithNotParsed(
+                errors =>
+                    Maybe.Merge(errors.ToMaybe(), helpWriter.ToMaybe())
+                        .Do((errs, writer) => writer.Write(HelpText.AutoBuild(parserResult)))
+                );
 
             return parserResult;
         }
