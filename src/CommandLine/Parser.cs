@@ -216,17 +216,12 @@ namespace CommandLine
 
         private void Dispose(bool disposing)
         {
-            if (disposed)
-            {
-                return;
-            }
+            if (disposed) return;
 
             if (disposing)
             {
                 if (settings != null)
-                {
                     settings.Dispose();
-                }
 
                 disposed = true;
             }
