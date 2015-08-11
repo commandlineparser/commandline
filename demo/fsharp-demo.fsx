@@ -5,7 +5,7 @@ open CommandLine.Text
 
 type options = {
     [<Option(HelpText = "Input a string value here.", Default="中文")>] stringValue : string;
-    [<Option('i', Min = 3, Max = 4, HelpText = "Input a int sequence here.")>] intSequence : seq<int>;
+    [<Option('i', Min = 3, Max = 4, HelpText = "Input a int sequence here.")>] intSequence : int seq;
     [<Option('x', HelpText = "Define a switch (boolean) here.")>] boolValue : bool;
     [<Value(0, MetaName = "longvalue", HelpText = "A long scalar here.")>] longValue : int64 option; }
     with
@@ -20,7 +20,7 @@ let formatLong o =
     | _ -> "{None}"
 
 let formatInput (o : options)  =
-    sprintf "--stringvalue: %s\n-i: %A\n-x: %b\nvalue: %s\n" o.stringValue (Array.ofSeq o.intSequence) o.boolValue (formatLong o.longValue)
+    sprintf "--stringvalue: %s\n-i: %A\n-x: %b\nvalue: %s\n" o.stringValue o.intSequence o.boolValue (formatLong o.longValue)
 
 let inline (|Success|Fail|) (result : ParserResult<'a>) =
   match result with
