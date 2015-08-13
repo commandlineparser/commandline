@@ -9,6 +9,5 @@ nuget xunit.runner.console
 nuget FSharp.Formatting
 
 github gsscoder/CSharpx src/CSharpx/Maybe.cs
-github gsscoder/CSharpx src/CSharpx/Either.cs
 github gsscoder/CSharpx src/CSharpx/EnumerableExtensions.cs
 github gsscoder/railwaysharp src/RailwaySharp/ErrorHandling.cs

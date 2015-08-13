@@ -50,10 +50,6 @@
       <Paket>True</Paket>
       <Link>Infrastructure/EnumerableExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\paket-files\gsscoder\CSharpx\src\CSharpx\Either.cs">
-      <Paket>True</Paket>
-      <Link>Infrastructure/Either.cs</Link>
-    </Compile>
     <Compile Include="..\..\paket-files\gsscoder\CSharpx\src\CSharpx\Maybe.cs">
       <Paket>True</Paket>
       <Link>Infrastructure/Maybe.cs</Link>
@@ -154,12 +150,12 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Target Name="BeforeBuild" DependsOnTargets="PaketInstall">      
+  <Target Name="BeforeBuild" DependsOnTargets="PaketInstall">
   </Target>
-  <Target Name="BootstrapPaket" Condition="!Exists('$(SolutionDir).paket/paket.bootstrapper.exe)')">  
+  <Target Name="BootstrapPaket" Condition="!Exists('$(SolutionDir).paket/paket.bootstrapper.exe)')">
     <Exec Command="$(SolutionDir).paket/paket.bootstrapper.exe" />
   </Target>
-  <Target Name="PaketInstall" DependsOnTargets="BootstrapPaket" Condition="!Exists('$(SolutionDir)paket-files')">  
+  <Target Name="PaketInstall" DependsOnTargets="BootstrapPaket" Condition="!Exists('$(SolutionDir)paket-files')">
     <Exec Command="$(SolutionDir).paket/paket install" />
   </Target>
   <Choose>
