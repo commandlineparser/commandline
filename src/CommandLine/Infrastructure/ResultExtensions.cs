@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using CSharpx;
+
 using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Infrastructure
@@ -18,6 +21,16 @@ namespace CommandLine.Infrastructure
                 return ok.Value.Messages;
             }
             return Enumerable.Empty<TMessage>();
+        }
+
+        public static Maybe<TSuccess> ToMaybe<TSuccess, TMessage>(this Result<TSuccess, TMessage> result)
+        {
+            if (result.Tag == ResultType.Ok)
+            {
+                var ok = (Ok<TSuccess, TMessage>)result;
+                return Maybe.Just(ok.Value.Success);
+            }
+            return Maybe.Nothing<TSuccess>();
         }
     }
 }

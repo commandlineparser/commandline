@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using CommandLine.Infrastructure;
 using CSharpx;
+using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Core
 {
@@ -37,14 +38,14 @@ namespace CommandLine.Core
         private static Maybe<object> ChangeTypeScalar(string value, Type conversionType, CultureInfo conversionCulture)
         {
             var result = ChangeTypeScalarImpl(value, conversionType, conversionCulture);
-            result.Match(_ => { }, e => e.RethrowWhenAbsentIn(
+            result.Match((_,__) => { }, e => e.First().RethrowWhenAbsentIn(
                 new[] { typeof(InvalidCastException), typeof(FormatException), typeof(OverflowException) }));
-            return Maybe.OfEither(result);
+            return result.ToMaybe();
         }
 
-        private static Either<object, Exception> ChangeTypeScalarImpl(string value, Type conversionType, CultureInfo conversionCulture)
+        private static Result<object, Exception> ChangeTypeScalarImpl(string value, Type conversionType, CultureInfo conversionCulture)
         {
-            Func<string, object> changeType = input =>
+            Func<object> changeType = () =>
             {
                 Func<object> safeChangeType = () =>
                 {
@@ -61,25 +62,25 @@ namespace CommandLine.Core
                     Func<object> withValue =
                         () =>
                             isFsOption
-                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(input, type, conversionCulture))
-                                : Convert.ChangeType(input, type, conversionCulture);
+                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(value, type, conversionCulture))
+                                : Convert.ChangeType(value, type, conversionCulture);
 
                     Func<object> empty = () => isFsOption ? FSharpOptionHelper.None(type) : null;
 
-                    return (input == null) ? empty() : withValue();
+                    return (value == null) ? empty() : withValue();
                 };
 
-                return input.IsBooleanString()
-                    ? input.ToBoolean() : conversionType.IsEnum
-                        ? input.ToEnum(conversionType) : safeChangeType();
+                return value.IsBooleanString()
+                    ? value.ToBoolean() : conversionType.IsEnum
+                        ? value.ToEnum(conversionType) : safeChangeType();
             };
 
-            Func<string, object> makeType = input =>
+            Func<object> makeType = () =>
             {
                 try
                 {
                     var ctor = conversionType.GetConstructor(new[] { typeof(string) });
-                    return ctor.Invoke(new object[] { input });
+                    return ctor.Invoke(new object[] { value });
                 }
                 catch (Exception)
                 {
@@ -87,10 +88,10 @@ namespace CommandLine.Core
                 }
             };
 
-            return Either.Protect(
+            return Result.Try(
                 conversionType.IsPrimitiveEx() || ReflectionHelper.IsFSharpOptionType(conversionType)
                     ? changeType
-                    : makeType, value);
+                    : makeType);
         }
 
         private static object ToEnum(this string value, Type conversionType)
