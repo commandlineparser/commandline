@@ -1,3 +1,7 @@
+2015-08-14    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Internal refactoring.
+
 2015-08-13    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Replacing Either<L,R> with Result<TSucc, TMsg>.

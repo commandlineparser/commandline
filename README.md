@@ -244,8 +244,8 @@ Latest Changes:
   - Issue #217 Fixed.
   - Renaming tests fakes.
   - Issue #220 Implemented.
-  - Internal refactoring.
   - Replacing Either<L,R> with Result<TSucc, TMsg>.
+  - Internal refactoring.
 
 Contact:
 ---
