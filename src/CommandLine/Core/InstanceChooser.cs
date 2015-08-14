@@ -41,26 +41,28 @@ namespace CommandLine.Core
             CultureInfo parsingCulture,
             IEnumerable<ErrorType> nonFatalErrors)
         {
-            if (arguments.Empty())
+            Func<ParserResult<object>> choose = () =>
             {
-                return MakeNotParsed(types, new NoVerbSelectedError());
-            }
+                var firstArg = arguments.First();
 
-            var firstArg = arguments.First();
+                Func<string, bool> preprocCompare = command =>
+                        nameComparer.Equals(command, firstArg) ||
+                        nameComparer.Equals(string.Concat("--", command), firstArg);
 
-            Func<string, bool> preprocCompare = command =>
-                    nameComparer.Equals(command, firstArg) ||
-                    nameComparer.Equals(string.Concat("--", command), firstArg);
+                var verbs = Verb.SelectFromTypes(types);
 
-            var verbs = Verb.SelectFromTypes(types);
+                return preprocCompare("help")
+                    ? MakeNotParsed(types,
+                        MakeHelpVerbRequestedError(verbs,
+                            arguments.Skip(1).SingleOrDefault() ?? string.Empty, nameComparer))
+                    : preprocCompare("version")
+                        ? MakeNotParsed(types, new VersionRequestedError())
+                        : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture, nonFatalErrors);
+            };
 
-            return preprocCompare("help")
-                ? MakeNotParsed(types,
-                    MakeHelpVerbRequestedError(verbs,
-                        arguments.Skip(1).SingleOrDefault() ?? string.Empty, nameComparer))
-                : preprocCompare("version")
-                    ? MakeNotParsed(types, new VersionRequestedError())
-                    : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture, nonFatalErrors);
+            return arguments.Any()
+                ? choose()
+                : MakeNotParsed(types, new NoVerbSelectedError());
         }
 
         private static ParserResult<object> MatchVerb(
