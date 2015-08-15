@@ -15,18 +15,15 @@ namespace CommandLine.Tests.Unit.Core
     {
         private static ParserResult<object> InvokeChoose(
             IEnumerable<Type> types,
-            IEnumerable<string> arguments,
-            StringComparer nameComparer,
-            CultureInfo parsingCulture,
-            IEnumerable<ErrorType> nonFatalErrors)
+            IEnumerable<string> arguments)
         {
             return InstanceChooser.Choose(
                 (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
                 types,
                 arguments,
-                nameComparer,
-                parsingCulture,
-                nonFatalErrors);
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
         }
 
         [Fact]
