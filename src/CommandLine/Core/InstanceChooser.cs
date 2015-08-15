@@ -13,27 +13,6 @@ namespace CommandLine.Core
     static class InstanceChooser
     {
         public static ParserResult<object> Choose(
-            IEnumerable<Type> types,
-            IEnumerable<string> arguments,
-            StringComparer nameComparer,
-            CultureInfo parsingCulture,
-            IEnumerable<ErrorType> nonFatalErrors)
-        {
-            return Choose(
-                (args, optionSpecs) =>
-                    {
-                        var tokens = Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer));
-                        var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
-                        return explodedTokens;
-                    },
-                types,
-                arguments,
-                nameComparer,
-                parsingCulture,
-                nonFatalErrors);
-        }
-
-        public static ParserResult<object> Choose(
             Func<IEnumerable<string>, IEnumerable<OptionSpecification>, Result<IEnumerable<Token>, Error>> tokenizer,
             IEnumerable<Type> types,
             IEnumerable<string> arguments,
