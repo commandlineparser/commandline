@@ -76,7 +76,7 @@ namespace CommandLine.Core
             return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
         }
 
-        internal static IEnumerable<Token> Normalize(
+        public static IEnumerable<Token> Normalize(
             IEnumerable<Token> tokens, Func<string, bool> nameLookup)
         {
             var indexes =
