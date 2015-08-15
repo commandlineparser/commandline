@@ -33,12 +33,9 @@ namespace CommandLine.Tests.Unit.Core
             var expectedErrors = new[] { new NoVerbSelectedError() };
 
             // Exercize system 
-            var result = InstanceChooser.Choose(
+            var result = InvokeChoose(
                 new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
-                new string[] { },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+                new string[] { });
 
             // Verify outcome
             ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
@@ -53,12 +50,9 @@ namespace CommandLine.Tests.Unit.Core
             var expectedErrors = new[] { new HelpVerbRequestedError(null, null, false) };
 
             // Exercize system 
-            var result = InstanceChooser.Choose(
+            var result = InvokeChoose(
                 new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
-                new[] { "help" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+                new[] { "help" });
 
             // Verify outcome
             ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
@@ -73,12 +67,9 @@ namespace CommandLine.Tests.Unit.Core
             var expectedErrors = new[] { new HelpVerbRequestedError("commit", typeof(Commit_Verb), true) };
 
             // Exercize system 
-            var result = InstanceChooser.Choose(
+            var result = InvokeChoose(
                 new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
-                new[] { "help", "commit" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+                new[] { "help", "commit" });
 
             // Verify outcome
             ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
@@ -93,12 +84,9 @@ namespace CommandLine.Tests.Unit.Core
             var expectedErrors = new[] { new HelpVerbRequestedError(null, null, false) };
 
             // Exercize system 
-            var result = InstanceChooser.Choose(
+            var result = InvokeChoose(
                 new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
-                new[] { "help", "earthunderalienattack" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+                new[] { "help", "earthunderalienattack" });
 
             // Verify outcome
             ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
@@ -113,12 +101,9 @@ namespace CommandLine.Tests.Unit.Core
             var expected = new Add_Verb { Patch = true, FileName = "dummy.bin"};
 
             // Exercize system 
-            var result = InstanceChooser.Choose(
+            var result = InvokeChoose(
                 new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb) },
-                new[] { "add", "--patch", "dummy.bin" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+                new[] { "add", "--patch", "dummy.bin" });
 
             // Verify outcome
             Assert.IsType<Add_Verb>(((Parsed<object>)result).Value);
@@ -133,12 +118,9 @@ namespace CommandLine.Tests.Unit.Core
             var expected = new Immutable_Add_Verb(true, default(bool), "dummy.bin");
 
             // Exercize system 
-            var result = InstanceChooser.Choose(
+            var result = InvokeChoose(
                 new[] { typeof(Immutable_Add_Verb), typeof(Immutable_Commit_Verb), typeof(Immutable_Clone_Verb) },
-                new[] { "add", "--patch", "dummy.bin" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+                new[] { "add", "--patch", "dummy.bin" });
 
             // Verify outcome
             Assert.IsType<Immutable_Add_Verb>(((Parsed<object>)result).Value);
@@ -153,12 +135,9 @@ namespace CommandLine.Tests.Unit.Core
             var expected = new SequenceOptions { LongSequence = new long[] { }, StringSequence = new[] { "aa", "b" } };
 
             // Exercize system 
-            var result = InstanceChooser.Choose(
+            var result = InvokeChoose(
                 new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb), typeof(SequenceOptions) },
-                new[] { "sequence", "-s", "aa", "b" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+                new[] { "sequence", "-s", "aa", "b" });
 
             // Verify outcome
             Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
@@ -177,12 +156,9 @@ namespace CommandLine.Tests.Unit.Core
             var expected = new SequenceOptions { LongSequence = new long[] { }, StringSequence = expectedString };
 
             // Exercize system 
-            var result = InstanceChooser.Choose(
+            var result = InvokeChoose(
                 new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb), typeof(SequenceOptions) },
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+                arguments);
 
             // Verify outcome
             Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
