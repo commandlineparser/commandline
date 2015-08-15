@@ -30,7 +30,6 @@ namespace CommandLine.Tests.Unit.Core
         public void Explicit_help_request_generates_help_requested_error()
         {
             // Fixture setup
-            var fakeOptions = new Simple_Options();
             var expectedResult = new NotParsed<Simple_Options>(
                 TypeInfo.Create(typeof(Simple_Options)), new Error[] { new HelpRequestedError() });
 
