@@ -25,7 +25,17 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
         }
-        
+
+        private static ParserResult<T> InvokeBuildImmutable<T>(string[] args)
+        {
+            return InstanceBuilder.Build(
+                Maybe.Nothing<Func<T>>(),
+                args,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
+        }
+
         [Fact]
         public void Explicit_help_request_generates_help_requested_error()
         {
@@ -52,12 +62,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                arguments);
 
             // Verify outcome
             ((Parsed<Simple_Options>)result).Value.LongValue.ShouldBeEquivalentTo(expected);
@@ -76,12 +82,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options_With_Double_Value>>(() => new Simple_Options_With_Double_Value()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options_With_Double_Value>(
+                arguments);
 
             // Verify outcome
             ((Parsed<Simple_Options_With_Double_Value>)result).Value.DoubleValue.ShouldBeEquivalentTo(expected);
@@ -101,13 +103,9 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence>>(() => new Options_With_Sequence()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
-            
+            var result = InvokeBuild<Options_With_Sequence>(
+                arguments);
+
             // Verify outcome
             ((Parsed<Options_With_Sequence>)result).Value.IntSequence.ShouldBeEquivalentTo(expected);
             
@@ -124,12 +122,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                arguments);
 
             // Verify outcome
             ((Parsed<Simple_Options>)result).Value.IntSequence.ShouldBeEquivalentTo(expected);
@@ -148,13 +142,9 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup with attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_And_Only_Min_Constraint>>(() => new Options_With_Sequence_And_Only_Min_Constraint()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
-            
+            var result = InvokeBuild<Options_With_Sequence_And_Only_Min_Constraint>(
+                arguments);
+
             // Verify outcome
             ((Parsed<Options_With_Sequence_And_Only_Min_Constraint>)result).Value.StringSequence.ShouldBeEquivalentTo(expected);
 
@@ -171,12 +161,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup with attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_And_Only_Max_Constraint>>(() => new Options_With_Sequence_And_Only_Max_Constraint()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Sequence_And_Only_Max_Constraint>(
+                arguments);
 
             // Verify outcome
             ((Parsed<Options_With_Sequence_And_Only_Max_Constraint>)result).Value.StringSequence.ShouldBeEquivalentTo(expected);
@@ -191,12 +177,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new MissingValueOptionError(new NameInfo("s", "string-seq")) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_And_Only_Min_Constraint>>(() => new Options_With_Sequence_And_Only_Min_Constraint()),
-                new[] { "-s" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Sequence_And_Only_Min_Constraint>(
+                new[] { "-s" });
 
             // Verify outcome
             ((NotParsed<Options_With_Sequence_And_Only_Min_Constraint>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -211,12 +193,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_And_Only_Min_Constraint_For_Value>>(() => new Options_With_Sequence_And_Only_Min_Constraint_For_Value()),
-                new string[] { },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Sequence_And_Only_Min_Constraint_For_Value>(
+                new string[] { });
 
             // Verify outcome
             ((NotParsed<Options_With_Sequence_And_Only_Min_Constraint_For_Value>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -231,12 +209,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new SequenceOutOfRangeError(new NameInfo("s", "string-seq")) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_And_Only_Max_Constraint>>(() => new Options_With_Sequence_And_Only_Max_Constraint()),
-                new[] { "--string-seq=one", "two", "three", "this-is-too-much" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Sequence_And_Only_Max_Constraint>(
+                new[] { "--string-seq=one", "two", "three", "this-is-too-much" });
 
             // Verify outcome
             ((NotParsed<Options_With_Sequence_And_Only_Max_Constraint>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -251,12 +225,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_And_Only_Max_Constraint_For_Value>>(() => new Options_With_Sequence_And_Only_Max_Constraint_For_Value()),
-                new[] { "one", "two", "three", "this-is-too-much" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Sequence_And_Only_Max_Constraint_For_Value>(
+                new[] { "one", "two", "three", "this-is-too-much" });
 
             // Verify outcome
             ((NotParsed<Options_With_Sequence_And_Only_Max_Constraint_For_Value>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -276,12 +246,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attribute
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options_With_Enum>>(() => new Simple_Options_With_Enum()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options_With_Enum>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Simple_Options_With_Enum>)result).Value.Colors);
@@ -296,12 +262,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new BadFormatConversionError(new NameInfo("", "colors")) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options_With_Enum>>(() => new Simple_Options_With_Enum()),
-                new[] { "--colors", "3" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options_With_Enum>(
+                new[] { "--colors", "3" });
 
             // Verify outcome
             ((NotParsed<Simple_Options_With_Enum>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -316,12 +278,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new BadFormatConversionError(new NameInfo("", "colors")) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options_With_Enum>>(() => new Simple_Options_With_Enum()),
-                new[] { "--colors", "Yellow" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options_With_Enum>(
+                new[] { "--colors", "Yellow" });
 
             // Verify outcome
             ((NotParsed<Simple_Options_With_Enum>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -336,12 +294,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new BadFormatConversionError(new NameInfo("", "colors")) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options_With_Enum>>(() => new Simple_Options_With_Enum()),
-                new[] { "--colors", "RED" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options_With_Enum>(
+                new[] { "--colors", "RED" });
 
             // Verify outcome
             ((NotParsed<Simple_Options_With_Enum>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -362,12 +316,8 @@ namespace CommandLine.Tests.Unit.Core
                 };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options_With_Values>>(() => new Simple_Options_With_Values()),
-                new[] { "10", "a", "b", "c", "20" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options_With_Values>(
+                new[] { "10", "a", "b", "c", "20" });
 
             // Verify outcome
             expectedResult.ShouldBeEquivalentTo(((Parsed<Simple_Options_With_Values>)result).Value);
@@ -386,12 +336,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_Without_Range_For_Value>>(() => new Options_With_Sequence_Without_Range_For_Value()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Sequence_Without_Range_For_Value>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Options_With_Sequence_Without_Range_For_Value>)result).Value.LongSequence);
@@ -409,12 +355,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_Having_Separator_Set>>(() => new Options_With_Sequence_Having_Separator_Set()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Sequence_Having_Separator_Set>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Options_With_Sequence_Having_Separator_Set>)result).Value.LongSequence);
@@ -432,12 +374,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_Having_Separator_Set>>(() => new Options_With_Sequence_Having_Separator_Set()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Sequence_Having_Separator_Set>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Options_With_Sequence_Having_Separator_Set>)result).Value.StringSequence);
@@ -489,12 +427,8 @@ namespace CommandLine.Tests.Unit.Core
                 };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Two_Sets>>(() => new Options_With_Two_Sets()),
-                new[] { "--weburl", "http://mywebsite.org/", "--ftpurl", "fpt://ftpsite.org/" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Two_Sets>(
+                new[] { "--weburl", "http://mywebsite.org/", "--ftpurl", "fpt://ftpsite.org/" });
 
             // Verify outcome
             ((NotParsed<Options_With_Two_Sets>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -510,12 +444,8 @@ namespace CommandLine.Tests.Unit.Core
                 WebUrl = "str2"
             };
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Required_Set_To_True_Within_Same_Set>>(() => new Options_With_Required_Set_To_True_Within_Same_Set()),
-                new[] { "--ftpurl", "str1", "--weburl", "str2" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Required_Set_To_True_Within_Same_Set>(
+                new[] { "--ftpurl", "str1", "--weburl", "str2" });
 
             // Verify outcome
             expectedResult.ShouldBeEquivalentTo(((Parsed<Options_With_Required_Set_To_True_Within_Same_Set>)result).Value);
@@ -531,12 +461,8 @@ namespace CommandLine.Tests.Unit.Core
                 new MissingRequiredOptionError(new NameInfo("", "weburl"))
             };
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Required_Set_To_True_Within_Same_Set>>(() => new Options_With_Required_Set_To_True_Within_Same_Set()),
-                new[] {""},
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Required_Set_To_True_Within_Same_Set>(
+                new string[] { });
 
             // Verify outcome
             ((NotParsed<Options_With_Required_Set_To_True_Within_Same_Set>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -551,12 +477,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new MissingRequiredOptionError(new NameInfo("", "str")) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Required_Set_To_True>>(() => new Options_With_Required_Set_To_True()),
-                new string[] { },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Required_Set_To_True>(
+                new string[] { });
 
             // Verify outcome
             ((NotParsed<Options_With_Required_Set_To_True>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -571,12 +493,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new SequenceOutOfRangeError(new NameInfo("i", "")) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                new [] { "-i", "10" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                new[] { "-i", "10" });
 
             // Verify outcome
             ((NotParsed<Simple_Options>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -591,12 +509,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new UnknownOptionError("xyz") };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                new[] { "--stringvalue", "abc", "--xyz" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                new[] { "--stringvalue", "abc", "--xyz" });
 
             // Verify outcome
             ((NotParsed<Simple_Options>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -611,12 +525,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new UnknownOptionError("z") };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                new[] { "-z", "-x" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                new[] { "-z", "-x" });
 
             // Verify outcome
             ((NotParsed<Simple_Options>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -631,12 +541,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new UnknownOptionError("z") };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                new[] { "-zx" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                new[] { "-zx" });
 
             // Verify outcome
             ((NotParsed<Simple_Options>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -652,12 +558,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                arguments);
 
             // Verify outcome
             ((Parsed<Simple_Options>)result).Value.StringValue.ShouldBeEquivalentTo(expected);
@@ -672,12 +574,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new MissingRequiredOptionError(NameInfo.EmptyName) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Required_Set_To_True_For_Values>>(() => new Options_With_Required_Set_To_True_For_Values()),
-                new string[] { },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Required_Set_To_True_For_Values>(
+                new string[] { });
 
             // Verify outcome
             ((NotParsed<Options_With_Required_Set_To_True_For_Values>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -695,12 +593,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Simple_Options>)result).Value.StringValue);
@@ -715,12 +609,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Sequence_Having_Both_Min_And_Max_Equal>>(() => new Options_With_Sequence_Having_Both_Min_And_Max_Equal()),
-                new[] { "one", "two", "this-is-too-much" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Sequence_Having_Both_Min_And_Max_Equal>(
+                new[] { "one", "two", "this-is-too-much" });
 
             // Verify outcome
             ((NotParsed<Options_With_Sequence_Having_Both_Min_And_Max_Equal>)result).Errors.ShouldBeEquivalentTo(expectedResult);
@@ -738,12 +628,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Nullables>>(() => new Options_With_Nullables()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Nullables>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Options_With_Nullables>)result).Value.NullableInt);
@@ -761,12 +647,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Nullables>>(() => new Options_With_Nullables()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Nullables>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Options_With_Nullables>)result).Value.NullableLong);
@@ -782,12 +664,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_FSharpOption>>(() => new Options_With_FSharpOption()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_FSharpOption>(
+                arguments);
 
             // Verify outcome
             if (((Parsed<Options_With_FSharpOption>)result).Value.FileName != null)
@@ -807,12 +685,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_FSharpOption>>(() => new Options_With_FSharpOption()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_FSharpOption>(
+                arguments);
 
             // Verify outcome
             if (((Parsed<Options_With_FSharpOption>)result).Value.Offset != null)
@@ -829,12 +703,8 @@ namespace CommandLine.Tests.Unit.Core
         public void Min_constraint_set_to_zero_throws_exception()
         {
             // Exercize system 
-            Action test = () => InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Min_Set_To_Zero>>(() => new Options_With_Min_Set_To_Zero()),
-                new string[] {},
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            Action test = () => InvokeBuild<Options_With_Min_Set_To_Zero>(
+                new string[] { });
 
             // Verify outcome
             Assert.Throws<ApplicationException>(test);
@@ -844,12 +714,8 @@ namespace CommandLine.Tests.Unit.Core
         public void Max_constraint_set_to_zero_throws_exception()
         {
             // Exercize system 
-            Action test = () => InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Max_Set_To_Zero>>(() => new Options_With_Max_Set_To_Zero()),
-                new string[] { },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            Action test = () => InvokeBuild<Options_With_Max_Set_To_Zero>(
+                new string[] { });
 
             // Verify outcome
             Assert.Throws<ApplicationException>(test);
@@ -859,12 +725,8 @@ namespace CommandLine.Tests.Unit.Core
         public void Min_and_max_constraint_set_to_zero_throws_exception()
         {
             // Exercize system 
-            Action test = () => InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Both_Min_And_Max_Set_To_Zero>>(() => new Options_With_Both_Min_And_Max_Set_To_Zero()),
-                new string[] { },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            Action test = () => InvokeBuild<Options_With_Both_Min_And_Max_Set_To_Zero>(
+                new string[] { });
 
             // Verify outcome
             Assert.Throws<ApplicationException>(test);
@@ -879,12 +741,8 @@ namespace CommandLine.Tests.Unit.Core
         public void Empty_set_options_allowed_with_mutually_exclusive_sets(string[] arguments, ParserResultType type, int expected)
         {
             // Exercize system
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Named_And_Empty_Sets>>(() => new Options_With_Named_And_Empty_Sets()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Named_And_Empty_Sets>(
+                arguments);
 
             // Verify outcome
             if (type == ParserResultType.NotParsed)
@@ -902,12 +760,8 @@ namespace CommandLine.Tests.Unit.Core
         public void Specifying_options_two_or_more_times_generates_RepeatedOptionError(string[] arguments, int expected)
         {
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                arguments);
 
             // Verify outcome
             ((NotParsed<Simple_Options>)result).Errors.Should().HaveCount(x => x == expected);
@@ -919,12 +773,8 @@ namespace CommandLine.Tests.Unit.Core
         public void Can_define_options_on_interface_properties(string[] arguments, string expected)
         {
             // Exercize system
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Interface>>(() => new Options_With_Interface()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Interface>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Options_With_Interface>)result).Value.InputFile);
@@ -941,12 +791,8 @@ namespace CommandLine.Tests.Unit.Core
         public void Enforce_required_within_mutually_exclusive_set_only(string[] arguments, ParserResultType type, int expected)
         {
             // Exercize system
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Two_Option_Required_Set_To_True_And_Two_Sets>>(() => new Options_With_Two_Option_Required_Set_To_True_And_Two_Sets()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Two_Option_Required_Set_To_True_And_Two_Sets>(
+                arguments);
 
             // Verify outcome
             if (type == ParserResultType.NotParsed)
@@ -966,12 +812,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Required_Set_To_True_For_Values>>(() => new Options_With_Required_Set_To_True_For_Values()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Required_Set_To_True_For_Values>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Options_With_Required_Set_To_True_For_Values>)result).Value);
@@ -986,12 +828,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Scalar_Value_And_Adjacent_SequenceString>>(() => new Options_With_Scalar_Value_And_Adjacent_SequenceString()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Scalar_Value_And_Adjacent_SequenceString>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Options_With_Scalar_Value_And_Adjacent_SequenceString>)result).Value);
@@ -1006,12 +844,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new Simple_Options { StringValue="strval0", IntSequence=new[] { 9, 7, 8 }, BoolValue = true,  LongValue = 9876543210L };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => new Simple_Options()),
-                new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" });
 
             // Verify outcome
             expectedResult.ShouldBeEquivalentTo(((Parsed<Simple_Options>)result).Value);
@@ -1029,12 +863,8 @@ namespace CommandLine.Tests.Unit.Core
         public void Breaking_required_constraint_generate_MissingRequiredOptionError(string[] arguments, int expected)
         {
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Two_Options_Having_Required_Set_To_True>>(() => new Options_With_Two_Options_Having_Required_Set_To_True()),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Two_Options_Having_Required_Set_To_True>(
+                arguments);
 
             // Verify outcome
             var errors = ((NotParsed<Options_With_Two_Options_Having_Required_Set_To_True>)result).Errors;
@@ -1048,12 +878,8 @@ namespace CommandLine.Tests.Unit.Core
             // Fixture setup in attributes
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Nothing<Func<Immutable_Simple_Options>>(),
-                arguments,
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuildImmutable<Immutable_Simple_Options>(
+                arguments);
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Immutable_Simple_Options>)result).Value);
@@ -1068,12 +894,8 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new Options_With_Uri_And_SimpleType { EndPoint = new Uri("http://localhost/test/"), MyValue = new MySimpleType("custom-value") };
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Options_With_Uri_And_SimpleType>>(() => new Options_With_Uri_And_SimpleType()),
-                new[] { "--endpoint=http://localhost/test/", "custom-value" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Options_With_Uri_And_SimpleType>(
+                new[] { "--endpoint=http://localhost/test/", "custom-value" });
 
             // Verify outcome
             expectedResult.ShouldBeEquivalentTo(((Parsed<Options_With_Uri_And_SimpleType>)result).Value);
