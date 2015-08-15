@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using CommandLine.Core;
@@ -11,7 +12,23 @@ using Xunit;
 namespace CommandLine.Tests.Unit.Core
 {
     public class InstanceChooserTests
-    {        
+    {
+        private static ParserResult<object> InvokeChoose(
+            IEnumerable<Type> types,
+            IEnumerable<string> arguments,
+            StringComparer nameComparer,
+            CultureInfo parsingCulture,
+            IEnumerable<ErrorType> nonFatalErrors)
+        {
+            return InstanceChooser.Choose(
+                (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
+                types,
+                arguments,
+                nameComparer,
+                parsingCulture,
+                nonFatalErrors);
+        }
+
         [Fact]
         public void Parse_empty_array_returns_NullInstance()
         {
