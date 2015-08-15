@@ -15,6 +15,17 @@ namespace CommandLine.Tests.Unit.Core
 {
     public class InstanceBuilderTests
     {
+        private static ParserResult<T> InvokeBuild<T>(string[] args)
+            where T : new()
+        {
+            return InstanceBuilder.Build(
+                Maybe.Just<Func<T>>(() => new T()),
+                args,
+                StringComparer.Ordinal,
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
+        }
+        
         [Fact]
         public void Explicit_help_request_generates_help_requested_error()
         {
@@ -24,12 +35,8 @@ namespace CommandLine.Tests.Unit.Core
                 TypeInfo.Create(typeof(Simple_Options)), new Error[] { new HelpRequestedError() });
 
             // Exercize system 
-            var result = InstanceBuilder.Build(
-                Maybe.Just<Func<Simple_Options>>(() => fakeOptions),
-                new[] { "--help" },
-                StringComparer.Ordinal,
-                CultureInfo.InvariantCulture,
-                Enumerable.Empty<ErrorType>());
+            var result = InvokeBuild<Simple_Options>(
+                new[] { "--help" });
 
             // Verify outcome
             result.ShouldBeEquivalentTo(expectedResult);
