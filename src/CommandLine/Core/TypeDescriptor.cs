@@ -5,7 +5,7 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    sealed class TypeDescriptor
+    struct TypeDescriptor
     {
         private readonly TargetType targetType;
         private readonly Maybe<int> maxItems;
@@ -33,7 +33,7 @@ namespace CommandLine.Core
             get { return this.nextValue; }
         }
 
-        public static TypeDescriptor Create(TargetType tag, Maybe<int> maximumItems, TypeDescriptor next = null)
+        public static TypeDescriptor Create(TargetType tag, Maybe<int> maximumItems, TypeDescriptor next = default(TypeDescriptor))
         {
             if (maximumItems == null) throw new ArgumentNullException("maximumItems");
 
@@ -45,7 +45,7 @@ namespace CommandLine.Core
     {
         public static TypeDescriptor WithNextValue(this TypeDescriptor descriptor, Maybe<TypeDescriptor> nextValue)
         {
-            return TypeDescriptor.Create(descriptor.TargetType, descriptor.MaxItems, nextValue.Return(n => n, null));
+            return TypeDescriptor.Create(descriptor.TargetType, descriptor.MaxItems, nextValue.Return(n => n, default(TypeDescriptor)));
         }
     }
 }
