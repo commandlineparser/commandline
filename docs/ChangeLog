@@ -1,3 +1,7 @@
+2015-08-15    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Centralizing Tokenizer configuration.
+
 2015-08-14    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Internal refactoring.
