@@ -9,18 +9,6 @@ namespace CommandLine.Core
 {
     static class TypeLookup
     {
-        public static Maybe<TypeDescriptor> FindTypeDescriptor(
-            string name,
-            IEnumerable<OptionSpecification> specifications,
-            StringComparer comparer)
-        {
-            var info = specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
-                .ToMaybe()
-                    .Map(
-                        s => TypeDescriptor.Create(s.TargetType, s.Max));
-            return info;
-        }
-
         public static Maybe<TypeDescriptor> FindTypeDescriptorAndSibling(
             string name,
             IEnumerable<OptionSpecification> specifications,
