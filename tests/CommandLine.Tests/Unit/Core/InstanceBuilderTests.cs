@@ -15,22 +15,24 @@ namespace CommandLine.Tests.Unit.Core
 {
     public class InstanceBuilderTests
     {
-        private static ParserResult<T> InvokeBuild<T>(string[] args)
+        private static ParserResult<T> InvokeBuild<T>(string[] arguments)
             where T : new()
         {
             return InstanceBuilder.Build(
                 Maybe.Just<Func<T>>(() => new T()),
-                args,
+                (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
         }
 
-        private static ParserResult<T> InvokeBuildImmutable<T>(string[] args)
+        private static ParserResult<T> InvokeBuildImmutable<T>(string[] arguments)
         {
             return InstanceBuilder.Build(
                 Maybe.Nothing<Func<T>>(),
-                args,
+                                (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
+                arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());

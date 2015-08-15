@@ -14,29 +14,6 @@ namespace CommandLine.Core
     {
         public static ParserResult<T> Build<T>(
             Maybe<Func<T>> factory,
-            IEnumerable<string> arguments,
-            StringComparer nameComparer,
-            CultureInfo parsingCulture,
-            IEnumerable<ErrorType> nonFatalErrors)
-        {
-            return Build(
-                factory,
-                (args, optionSpecs) =>
-                    {
-                        var tokens = Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer));
-                        var explodedTokens = Tokenizer.ExplodeOptionList(
-                            tokens,
-                            name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
-                        return explodedTokens;
-                    },
-                arguments,
-                nameComparer,
-                parsingCulture,
-                nonFatalErrors);
-        }
-
-        public static ParserResult<T> Build<T>(
-            Maybe<Func<T>> factory,
             Func<IEnumerable<string>, IEnumerable<OptionSpecification>, Result<IEnumerable<Token>, Error>> tokenizer,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
