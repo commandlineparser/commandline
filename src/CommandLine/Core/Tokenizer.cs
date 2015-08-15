@@ -103,6 +103,33 @@ namespace CommandLine.Core
             return normalized;
         }
 
+        public static Func<
+                    IEnumerable<string>,
+                    IEnumerable<OptionSpecification>,
+                    Result<IEnumerable<Token>, Error>>
+            ConfigureTokenizer(
+                    StringComparer nameComparer,
+                    bool ignoreUnknownArguments,
+                    bool enableDashDash)
+        {
+            return (arguments, optionSpecs) =>
+                {
+                    var normalize = ignoreUnknownArguments
+                        ? toks => Tokenizer.Normalize(toks,
+                            name => NameLookup.Contains(name, optionSpecs, nameComparer) != NameLookupResult.NoOptionFound)
+                        : new Func<IEnumerable<Token>, IEnumerable<Token>>(toks => toks);
+
+                    var tokens = enableDashDash
+                        ? Tokenizer.PreprocessDashDash(
+                                arguments,
+                                args =>
+                                    Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer), normalize))
+                        : Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, nameComparer), normalize);
+                    var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
+                    return explodedTokens;
+                };
+        }
+
         private static IEnumerable<Token> TokenizeShortName(
             string value,
             Func<string, NameLookupResult> nameLookup)
