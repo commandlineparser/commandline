@@ -31,7 +31,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             return InstanceBuilder.Build(
                 Maybe.Nothing<Func<T>>(),
-                                (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
+                (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
