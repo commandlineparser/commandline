@@ -474,6 +474,34 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+        [Fact]
+        public void Specific_verb_help_screen_should_be_displayed_regardless_other_argument()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
+                new[] { "help", "clone", "extra-arg" });
+            var result = help.ToString();
+
+            // Verify outcome
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[2].ShouldBeEquivalentTo("ERROR(S):");
+            lines[3].ShouldBeEquivalentTo("Option 'extra-arg' is unknown.");
+            lines[4].ShouldBeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
+            lines[5].ShouldBeEquivalentTo("filesystem by copying files.");
+            lines[6].ShouldBeEquivalentTo("-q, --quiet       Suppress summary message.");
+            lines[7].ShouldBeEquivalentTo("--help            Display this help screen.");
+            lines[8].ShouldBeEquivalentTo("--version         Display version information.");
+            lines[9].ShouldBeEquivalentTo("URLS (pos. 0)     A list of url(s) to clone.");
+
+            // Teardown
+        }
+
         [Theory]
         [MemberData("IgnoreUnknownArgumentsData")]
         public void When_IgnoreUnknownArguments_is_set_valid_unknown_arguments_avoid_a_failure_parsing(
