@@ -33,7 +33,7 @@ namespace CommandLine.Core
                 return preprocCompare("help")
                     ? MakeNotParsed(types,
                         MakeHelpVerbRequestedError(verbs,
-                            arguments.Skip(1).SingleOrDefault() ?? string.Empty, nameComparer))
+                            arguments.Skip(1).FirstOrDefault() ?? string.Empty, nameComparer))
                     : preprocCompare("version")
                         ? MakeNotParsed(types, new VersionRequestedError())
                         : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture, nonFatalErrors);
