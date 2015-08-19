@@ -538,6 +538,34 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+        [Fact]
+        public void Properly_formatted_help_screen_excludes_help_as_unknown_option()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
+                new[] { "clone", "--bad-arg", "--help" });
+            var result = help.ToString();
+
+            // Verify outcome
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[2].ShouldBeEquivalentTo("ERROR(S):");
+            lines[3].ShouldBeEquivalentTo("Option 'bad-arg' is unknown.");
+            lines[4].ShouldBeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
+            lines[5].ShouldBeEquivalentTo("filesystem by copying files.");
+            lines[6].ShouldBeEquivalentTo("-q, --quiet       Suppress summary message.");
+            lines[7].ShouldBeEquivalentTo("--help            Display this help screen.");
+            lines[8].ShouldBeEquivalentTo("--version         Display version information.");
+            lines[9].ShouldBeEquivalentTo("value pos. 0");
+
+            // Teardown
+        }
+
         public static IEnumerable<object> IgnoreUnknownArgumentsData
         {
             get
