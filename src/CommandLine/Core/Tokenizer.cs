@@ -90,13 +90,13 @@ namespace CommandLine.Core
                                 ? Maybe.Just(i)
                                 : Maybe.Nothing<int>();
                         }).Where(i => i.IsJust())
-                select i.FromJust();
+                select i.FromJustStrict();
 
             var toExclude =
                 from t in
                     tokens.Select((t, i) => indexes.Contains(i) ? Maybe.Just(t) : Maybe.Nothing<Token>())
                         .Where(t => t.IsJust())
-                select t.FromJust();
+                select t.FromJustStrict();
 
             var normalized = tokens.Except(toExclude);
 

@@ -546,7 +546,7 @@ namespace CommandLine.Text
             if (usage.MatchNothing())
                 yield break;
 
-            var usageTuple = usage.FromJust();
+            var usageTuple = usage.FromJustStrict();
             var examples = usageTuple.Item2;
             var appAlias = usageTuple.Item1.ApplicationAlias ?? ReflectionHelper.GetAssemblyName();
 

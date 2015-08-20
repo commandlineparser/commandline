@@ -102,8 +102,8 @@ namespace CommandLine.Core
                         .Where(sp => sp.Specification.TargetType == TargetType.Sequence)
                         .Where(sp => sp.Value.IsJust())
                         .Where(sp =>
-                            (sp.Specification.Min.IsJust() && ((Array)sp.Value.FromJust()).Length < sp.Specification.Min.FromJust())
-                            || (sp.Specification.Max.IsJust() && ((Array)sp.Value.FromJust()).Length > sp.Specification.Max.FromJust())
+                            (sp.Specification.Min.IsJust() && ((Array)sp.Value.FromJustStrict()).Length < sp.Specification.Min.FromJustStrict())
+                            || (sp.Specification.Max.IsJust() && ((Array)sp.Value.FromJustStrict()).Length > sp.Specification.Max.FromJustStrict())
                         );
                     if (options.Any())
                     {

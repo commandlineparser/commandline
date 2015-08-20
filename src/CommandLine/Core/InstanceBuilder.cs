@@ -76,11 +76,11 @@ namespace CommandLine.Core
                 {
                     var mutable = factory.Return(f => f(), Activator.CreateInstance<T>());
                     mutable =
-                        mutable.SetProperties(specPropsWithValue, sp => sp.Value.IsJust(), sp => sp.Value.FromJust())
+                        mutable.SetProperties(specPropsWithValue, sp => sp.Value.IsJust(), sp => sp.Value.FromJustStrict())
                             .SetProperties(
                                 specPropsWithValue,
                                 sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
-                                sp => sp.Specification.DefaultValue.FromJust())
+                                sp => sp.Specification.DefaultValue.FromJustStrict())
                             .SetProperties(
                                 specPropsWithValue,
                                 sp =>

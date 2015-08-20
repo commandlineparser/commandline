@@ -78,7 +78,7 @@ namespace CommandLine.Core
                 case TargetType.Sequence:
                     if (specification.Max.IsJust())
                     {
-                        return Maybe.Just(specification.Max.FromJust());
+                        return Maybe.Just(specification.Max.FromJustStrict());
                     }
                     break;
             }

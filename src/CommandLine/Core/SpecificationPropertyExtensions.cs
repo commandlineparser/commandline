@@ -31,7 +31,7 @@ namespace CommandLine.Core
                     return specProp.Property.PropertyType.GetGenericArguments()
                              .SingleOrDefault()
                              .ToMaybe()
-                             .FromJust(
+                             .FromJustStrict(
                                  new InvalidOperationException("Sequence properties should be of type IEnumerable<T>."));
                 default:
                     return specProp.Property.PropertyType;
