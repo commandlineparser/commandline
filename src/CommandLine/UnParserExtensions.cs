@@ -105,7 +105,7 @@ namespace CommandLine
             var builder = new StringBuilder();
 
             type.GetVerbSpecification()
-                .Return(verb => builder.Append(verb.Name).Append(' '), builder);
+                .MapMaybe(verb => builder.Append(verb.Name).Append(' '), builder);
 
             var specs =
                 (from info in
@@ -188,14 +188,14 @@ namespace CommandLine
 
             return (value as string)
                 .ToMaybe()
-                .Return(v => v.Contains(' ') || v.Contains("\"")
+                .MapMaybe(v => v.Contains(' ') || v.Contains("\"")
                     ? "\"".JoinTo(doubQt(v), "\"") : v, value);
         }
 
         private static char SeperatorOrSpace(this Specification spec)
         {
             return (spec as OptionSpecification).ToMaybe()
-                .Return(o => o.Separator != '\0' ? o.Separator : ' ', ' ');
+                .MapMaybe(o => o.Separator != '\0' ? o.Separator : ' ', ' ');
         }
 
         private static string FormatOption(OptionSpecification spec, object value, UnParserSettings settings)

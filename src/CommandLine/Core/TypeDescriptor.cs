@@ -45,7 +45,7 @@ namespace CommandLine.Core
     {
         public static TypeDescriptor WithNextValue(this TypeDescriptor descriptor, Maybe<TypeDescriptor> nextValue)
         {
-            return TypeDescriptor.Create(descriptor.TargetType, descriptor.MaxItems, nextValue.Return(n => n, default(TypeDescriptor)));
+            return TypeDescriptor.Create(descriptor.TargetType, descriptor.MaxItems, nextValue.MapMaybe(n => n, default(TypeDescriptor)));
         }
     }
 }

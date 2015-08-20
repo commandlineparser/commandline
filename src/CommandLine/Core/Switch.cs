@@ -14,7 +14,7 @@ namespace CommandLine.Core
             Func<string, Maybe<TypeDescriptor>> typeLookup)
         {
             return from t in tokens
-                   where typeLookup(t.Text).Return(info => t.IsName() && info.TargetType == TargetType.Switch, false)
+                   where typeLookup(t.Text).MapMaybe(info => t.IsName() && info.TargetType == TargetType.Switch, false)
                    select t;
         }
     }

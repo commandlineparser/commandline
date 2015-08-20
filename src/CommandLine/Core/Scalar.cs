@@ -17,7 +17,7 @@ namespace CommandLine.Core
             return from tseq in tokens.Pairwise(
                 (f, s) =>
                         f.IsName() && s.IsValue()
-                            ? typeLookup(f.Text).Return(info =>
+                            ? typeLookup(f.Text).MapMaybe(info =>
                                     info.TargetType == TargetType.Scalar ? new[] { f, s } : new Token[] { }, new Token[] { })
                                     : new Token[] { })
                    from t in tseq
