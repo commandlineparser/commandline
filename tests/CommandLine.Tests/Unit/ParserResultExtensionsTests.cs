@@ -81,7 +81,7 @@ namespace CommandLine.Tests.Unit
         public static void Turn_sucessful_parsing_into_exit_code()
         {
             var expected = Parser.Default.ParseArguments<Simple_Options>(new[] { "--stringvalue", "value" })
-                .Return(_ => 0, _ => -1);
+                .MapResult(_ => 0, _ => -1);
 
             0.ShouldBeEquivalentTo(expected);
         }
@@ -91,7 +91,7 @@ namespace CommandLine.Tests.Unit
         {
             var expected = Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
                 new[] { "clone", "https://value.org/user/file.git" })
-                .Return(
+                .MapResult(
                     (Add_Verb opts) => 0,
                     (Commit_Verb opts) => 1,
                     (Clone_Verb opts) => 2,
@@ -104,7 +104,7 @@ namespace CommandLine.Tests.Unit
         public static void Turn_failed_parsing_into_exit_code()
         {
             var expected = Parser.Default.ParseArguments<Simple_Options>(new[] { "-i", "aaa" })
-                .Return(_ => 0, _ => -1);
+                .MapResult(_ => 0, _ => -1);
 
             (-1).ShouldBeEquivalentTo(expected);
         }
@@ -114,7 +114,7 @@ namespace CommandLine.Tests.Unit
         {
             var expected = Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
                 new[] { "undefined", "-xyz" })
-                .Return(
+                .MapResult(
                     (Add_Verb opts) => 0,
                     (Commit_Verb opts) => 1,
                     (Clone_Verb opts) => 2,
@@ -142,7 +142,7 @@ namespace CommandLine.Tests.Unit
         {
             var expected = Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb, Derived_Verb>(
                 new[] { "derivedadd", "dummy.bin" })
-                .Return(
+                .MapResult(
                     (Base_Class_For_Verb opts) => 1,
                     errs => 2);
 
@@ -154,7 +154,7 @@ namespace CommandLine.Tests.Unit
         {
             var expected = Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb, Derived_Verb>(
                 new[] { "derivedadd", "dummy.bin" })
-                .Return(
+                .MapResult(
                     (Add_Verb opts) => 0,
                     (Commit_Verb opts) => 1,
                     (Clone_Verb opts) => 2,
