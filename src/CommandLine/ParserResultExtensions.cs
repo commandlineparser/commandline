@@ -75,7 +75,7 @@ namespace CommandLine
         /// <param name="parsedFunc">Lambda executed on successful parsing.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<TSource, TResult>(this ParserResult<TSource> result,
+        public static TResult MapResult<TSource, TResult>(this ParserResult<TSource> result,
             Func<TSource, TResult> parsedFunc,
             Func<IEnumerable<Error>, TResult> notParsedFunc)
         {
@@ -96,7 +96,7 @@ namespace CommandLine
         /// <param name="parsedFunc1">Lambda executed on successful parsing of <typeparamref name="T1"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<IEnumerable<Error>, TResult> notParsedFunc)
         {
@@ -123,7 +123,7 @@ namespace CommandLine
         /// <param name="parsedFunc2">Lambda executed on successful parsing of <typeparamref name="T2"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<IEnumerable<Error>, TResult> notParsedFunc)
@@ -157,7 +157,7 @@ namespace CommandLine
         /// <param name="parsedFunc3">Lambda executed on successful parsing of <typeparamref name="T3"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -198,7 +198,7 @@ namespace CommandLine
         /// <param name="parsedFunc4">Lambda executed on successful parsing of <typeparamref name="T4"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -246,7 +246,7 @@ namespace CommandLine
         /// <param name="parsedFunc5">Lambda executed on successful parsing of <typeparamref name="T5"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -301,7 +301,7 @@ namespace CommandLine
         /// <param name="parsedFunc6">Lambda executed on successful parsing of <typeparamref name="T6"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -363,7 +363,7 @@ namespace CommandLine
         /// <param name="parsedFunc7">Lambda executed on successful parsing of <typeparamref name="T7"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -432,7 +432,7 @@ namespace CommandLine
         /// <param name="parsedFunc8">Lambda executed on successful parsing of <typeparamref name="T8"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -508,7 +508,7 @@ namespace CommandLine
         /// <param name="parsedFunc9">Lambda executed on successful parsing of <typeparamref name="T9"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -591,7 +591,7 @@ namespace CommandLine
         /// <param name="parsedFunc10">Lambda executed on successful parsing of <typeparamref name="T10"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -681,7 +681,7 @@ namespace CommandLine
         /// <param name="parsedFunc11">Lambda executed on successful parsing of <typeparamref name="T11"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -778,7 +778,7 @@ namespace CommandLine
         /// <param name="parsedFunc12">Lambda executed on successful parsing of <typeparamref name="T12"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -882,7 +882,7 @@ namespace CommandLine
         /// <param name="parsedFunc13">Lambda executed on successful parsing of <typeparamref name="T13"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -993,7 +993,7 @@ namespace CommandLine
         /// <param name="parsedFunc14">Lambda executed on successful parsing of <typeparamref name="T14"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -1111,7 +1111,7 @@ namespace CommandLine
         /// <param name="parsedFunc15">Lambda executed on successful parsing of <typeparamref name="T15"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
@@ -1236,7 +1236,7 @@ namespace CommandLine
         /// <param name="parsedFunc16">Lambda executed on successful parsing of <typeparamref name="T16"/>.</param>
         /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
         /// <returns>The new value.</returns>
-        public static TResult Return<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(this ParserResult<object> result,
+        public static TResult MapResult<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, TResult>(this ParserResult<object> result,
             Func<T1, TResult> parsedFunc1,
             Func<T2, TResult> parsedFunc2,
             Func<T3, TResult> parsedFunc3,
