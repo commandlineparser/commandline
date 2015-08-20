@@ -87,7 +87,7 @@ Consume them:
 static int Main(string[] args) {
   var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
   var exitCode = result
-    .Return(
+    .MapResult(
       options = > {
         if (options.Verbose) Console.WriteLine("Filenames: {0}", string.Join(",", options.InputFiles.ToArray()));
         return 0; },
@@ -134,7 +134,7 @@ class CloneOptions {
 
 int Main(string[] args) {
   return CommandLine.Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions>(args)
-    .Return(
+    .MapResult(
       (AddOptions opts) => RunAddAndReturnExitCode(opts),
       (CommitOptions opts) => RunCommitAndReturnExitCode(opts),
       (CloneOptions opts) => RunCloneAndReturnExitCode(opts),
