@@ -1,3 +1,7 @@
+2015-08-20    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+* All ParserResult<T>.Return renamed to MapResult.
+
 2015-08-19    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
 * Issue #225 (reported by @rmunn) Fixed.
