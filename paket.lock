@@ -1,7 +1,7 @@
 NUGET
   remote: https://nuget.org/api/v2
   specs:
-    FAKE (4.1.1)
+    FAKE (4.1.4)
     FluentAssertions (3.5.0)
     FSharp.Compiler.Service (1.4.0.1)
     FSharp.Core (4.0.0.1)
@@ -24,8 +24,8 @@ NUGET
 GITHUB
   remote: gsscoder/CSharpx
   specs:
-    src/CSharpx/EnumerableExtensions.cs (28f1241a83448cb7c7b956579be09dac3fa3ec42)
-    src/CSharpx/Maybe.cs (28f1241a83448cb7c7b956579be09dac3fa3ec42)
+    src/CSharpx/EnumerableExtensions.cs (6c94f04f67ce53ac44c512427c99195f245ecf72)
+    src/CSharpx/Maybe.cs (6c94f04f67ce53ac44c512427c99195f245ecf72)
   remote: gsscoder/railwaysharp
   specs:
     src/RailwaySharp/ErrorHandling.cs (a21b10fe991dbf5e591f1378451fe787e5dab82e)
