@@ -41,7 +41,7 @@ namespace ReadText.Demo
 
             var result = Parser.Default.ParseArguments<HeadOptions, TailOptions>(args);
             var texts = result
-                .Return(
+                .MapResult(
                     (HeadOptions opts) => Tuple.Create(header(opts), reader(opts)),
                     (TailOptions opts) => Tuple.Create(header(opts), reader(opts)),
                     _ => MakeError());
