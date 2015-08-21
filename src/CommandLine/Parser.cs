@@ -188,13 +188,6 @@ namespace CommandLine
                 settings.HelpWriter);
         }
 
-        private static IEnumerable<ErrorType> HandleUnknownArguments(bool ignoreUnknownArguments)
-        {
-            return ignoreUnknownArguments
-                ? Enumerable.Empty<ErrorType>().Concat(ErrorType.UnknownOptionError)
-                : Enumerable.Empty<ErrorType>();
-        }
-
         private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter)
         {
             parserResult.WithNotParsed(
@@ -204,6 +197,13 @@ namespace CommandLine
                 );
 
             return parserResult;
+        }
+
+        private static IEnumerable<ErrorType> HandleUnknownArguments(bool ignoreUnknownArguments)
+        {
+            return ignoreUnknownArguments
+                ? Enumerable.Empty<ErrorType>().Concat(ErrorType.UnknownOptionError)
+                : Enumerable.Empty<ErrorType>();
         }
 
         private void Dispose(bool disposing)
