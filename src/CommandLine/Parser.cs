@@ -92,7 +92,7 @@ namespace CommandLine
                 : Maybe.Nothing<Func<T>>();
 
             return MakeParserResult(
-                () => InstanceBuilder.Build(
+                InstanceBuilder.Build(
                     factory,
                     (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     args,
@@ -120,7 +120,7 @@ namespace CommandLine
             if (args == null) throw new ArgumentNullException("args");
 
             return MakeParserResult(
-                () => InstanceBuilder.Build(
+                InstanceBuilder.Build(
                     Maybe.Just(factory),
                     (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     args,
@@ -149,7 +149,7 @@ namespace CommandLine
             if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
             return MakeParserResult(
-                () => InstanceChooser.Choose(
+                InstanceChooser.Choose(
                     (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     types,
                     args,
@@ -181,10 +181,10 @@ namespace CommandLine
                     settings.EnableDashDash)(arguments, optionSpecs);
         }
 
-        private static ParserResult<T> MakeParserResult<T>(Func<ParserResult<T>> parseFunc, ParserSettings settings)
+        private static ParserResult<T> MakeParserResult<T>(ParserResult<T> parserResult, ParserSettings settings)
         {
             return DisplayHelp(
-                parseFunc(),
+                parserResult,
                 settings.HelpWriter);
         }
 
