@@ -73,7 +73,7 @@ namespace CommandLine.Core
             return verb.Length > 0
                 ? verbs.SingleOrDefault(v => nameComparer.Equals(v.Item1.Name, verb))
                         .ToMaybe()
-                        .MapMaybeOrDefault(
+                        .MapValueOrDefault(
                             v => new HelpVerbRequestedError(v.Item1.Name, v.Item2, true),
                             new HelpVerbRequestedError(null, null, false))
                 : new HelpVerbRequestedError(null, null, false);

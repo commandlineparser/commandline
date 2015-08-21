@@ -63,12 +63,12 @@ namespace CommandLine.Core
 
             var replaces = tokens.Select((t, i) =>
                 optionSequenceWithSeparatorLookup(t.Text)
-                    .MapMaybeOrDefault(sep => Tuple.Create(i + 1, sep),
+                    .MapValueOrDefault(sep => Tuple.Create(i + 1, sep),
                         Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0);
 
             var exploded = tokens.Select((t, i) =>
                         replaces.FirstOrDefault(x => x.Item1 == i).ToMaybe()
-                            .MapMaybeOrDefault(r => t.Text.Split(r.Item2).Select(Token.Value),
+                            .MapValueOrDefault(r => t.Text.Split(r.Item2).Select(Token.Value),
                                 Enumerable.Empty<Token>().Concat(new[] { t })));
 
             var flattened = exploded.SelectMany(x => x);
@@ -86,7 +86,7 @@ namespace CommandLine.Core
                         {
                             var prev = tokens.ElementAtOrDefault(i - 1).ToMaybe();
                             return t.IsValue() && ((Value)t).ExplicitlyAssigned
-                                   && prev.MapMaybeOrDefault(p => p.IsName() && !nameLookup(p.Text), false)
+                                   && prev.MapValueOrDefault(p => p.IsName() && !nameLookup(p.Text), false)
                                 ? Maybe.Just(i)
                                 : Maybe.Nothing<int>();
                         }).Where(i => i.IsJust())

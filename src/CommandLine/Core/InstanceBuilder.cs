@@ -20,7 +20,7 @@ namespace CommandLine.Core
             CultureInfo parsingCulture,
             IEnumerable<ErrorType> nonFatalErrors)
         {
-            var typeInfo = factory.MapMaybeOrDefault(f => f().GetType(), typeof(T));
+            var typeInfo = factory.MapValueOrDefault(f => f().GetType(), typeof(T));
 
             var specProps = typeInfo.GetSpecifications(pi => SpecificationProperty.Create(
                     Specification.FromProperty(pi), pi, Maybe.Nothing<object>()));
@@ -33,7 +33,7 @@ namespace CommandLine.Core
 
             Func<T> makeDefault = () =>
                 typeof(T).IsMutable()
-                    ? factory.MapMaybeOrDefault(f => f(), Activator.CreateInstance<T>())
+                    ? factory.MapValueOrDefault(f => f(), Activator.CreateInstance<T>())
                     : ReflectionHelper.CreateDefaultImmutableInstance<T>(
                         (from p in specProps select p.Specification.ConversionType).ToArray());
 
@@ -74,7 +74,7 @@ namespace CommandLine.Core
 
                 Func<T> buildMutable = () =>
                 {
-                    var mutable = factory.MapMaybeOrDefault(f => f(), Activator.CreateInstance<T>());
+                    var mutable = factory.MapValueOrDefault(f => f(), Activator.CreateInstance<T>());
                     mutable =
                         mutable.SetProperties(specPropsWithValue, sp => sp.Value.IsJust(), sp => sp.Value.FromJustOrFail())
                             .SetProperties(
@@ -96,9 +96,9 @@ namespace CommandLine.Core
                     var values = (from prms in ctor.GetParameters()
                         join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower()
                         select
-                            sp.Value.MapMaybeOrDefault(
+                            sp.Value.MapValueOrDefault(
                                 v => v,
-                                sp.Specification.DefaultValue.MapMaybeOrDefault(
+                                sp.Specification.DefaultValue.MapValueOrDefault(
                                     d => d,
                                     sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();
                     var immutable = (T)ctor.Invoke(values);

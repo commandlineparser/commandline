@@ -17,7 +17,7 @@ namespace CommandLine.Core
             return from tseq in tokens.Pairwise(
                 (f, s) =>
                         f.IsName() && s.IsValue()
-                            ? typeLookup(f.Text).MapMaybeOrDefault(info =>
+                            ? typeLookup(f.Text).MapValueOrDefault(info =>
                                    info.TargetType == TargetType.Sequence
                                         ? new[] { f }.Concat(tokens.OfSequence(f, info))
                                         : new Token[] { }, new Token[] { })
@@ -31,8 +31,8 @@ namespace CommandLine.Core
             var nameIndex = tokens.IndexOf(t => t.Equals(nameToken));
             if (nameIndex >= 0)
             {
-                return info.NextValue.MapMaybeOrDefault(
-                    _ => info.MaxItems.MapMaybeOrDefault(
+                return info.NextValue.MapValueOrDefault(
+                    _ => info.MaxItems.MapValueOrDefault(
                             n => tokens.Skip(nameIndex + 1).Take(n),
                                  tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue())),
                     tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue()));

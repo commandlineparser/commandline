@@ -31,7 +31,7 @@ namespace CommandLine.Core
             return specifications.SingleOrDefault(
                 a => name.MatchName(a.ShortName, a.LongName, comparer) && a.Separator != '\0')
                 .ToMaybe()
-                .MapMaybeOrDefault(spec => Maybe.Just(spec.Separator), Maybe.Nothing<char>());
+                .MapValueOrDefault(spec => Maybe.Just(spec.Separator), Maybe.Nothing<char>());
         }
 
     }

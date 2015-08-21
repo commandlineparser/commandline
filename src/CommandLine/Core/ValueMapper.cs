@@ -37,7 +37,7 @@ namespace CommandLine.Core
                 yield break;
             }
             var pt = specProps.First();
-            var taken = values.Take(pt.Specification.CountOfMaxNumberOfValues().MapMaybeOrDefault(n => n, values.Count()));
+            var taken = values.Take(pt.Specification.CountOfMaxNumberOfValues().MapValueOrDefault(n => n, values.Count()));
             if (taken.Empty())
             {
                 yield return
@@ -58,7 +58,7 @@ namespace CommandLine.Core
 
             yield return
                 converter(taken, pt.Property.PropertyType, pt.Specification.TargetType != TargetType.Sequence)
-                    .MapMaybeOrDefault(
+                    .MapValueOrDefault(
                         converted => Tuple.Create(pt.WithValue(Maybe.Just(converted)), Maybe.Nothing<Error>()),
                         Tuple.Create<SpecificationProperty, Maybe<Error>>(
                             pt, Maybe.Just<Error>(new BadFormatConversionError(NameInfo.EmptyName))));

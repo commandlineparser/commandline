@@ -15,7 +15,7 @@ namespace CommandLine.Core
                     Func<IEnumerable<string>, IEnumerable<Error>>
                 > preprocessorLookup)
         {
-            return preprocessorLookup.TryHead().MapMaybeOrDefault(
+            return preprocessorLookup.TryHead().MapValueOrDefault(
                 func =>
                     {
                         var errors = func(arguments);

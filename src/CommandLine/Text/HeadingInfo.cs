@@ -45,11 +45,11 @@ namespace CommandLine.Text
             get
             {
                 var title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
-                    .MapMaybeOrDefault(
+                    .MapValueOrDefault(
                         titleAttribute => Path.GetFileNameWithoutExtension(titleAttribute.Title),
                         ReflectionHelper.GetAssemblyName());
                 var version = ReflectionHelper.GetAttribute<AssemblyInformationalVersionAttribute>()
-                    .MapMaybeOrDefault(
+                    .MapValueOrDefault(
                         versionAttribute => versionAttribute.InformationalVersion,
                         ReflectionHelper.GetAssemblyVersion());
                 return new HeadingInfo(title, version);
