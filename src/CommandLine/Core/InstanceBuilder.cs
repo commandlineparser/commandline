@@ -20,7 +20,7 @@ namespace CommandLine.Core
             CultureInfo parsingCulture,
             IEnumerable<ErrorType> nonFatalErrors)
         {
-            var typeInfo = factory.MapMaybe(f => f().GetType(), typeof(T));
+            var typeInfo = factory.MapMaybeOrDefault(f => f().GetType(), typeof(T));
 
             var specProps = typeInfo.GetSpecifications(pi => SpecificationProperty.Create(
                     Specification.FromProperty(pi), pi, Maybe.Nothing<object>()));
@@ -33,7 +33,7 @@ namespace CommandLine.Core
 
             Func<T> makeDefault = () =>
                 typeof(T).IsMutable()
-                    ? factory.MapMaybe(f => f(), Activator.CreateInstance<T>())
+                    ? factory.MapMaybeOrDefault(f => f(), Activator.CreateInstance<T>())
                     : ReflectionHelper.CreateDefaultImmutableInstance<T>(
                         (from p in specProps select p.Specification.ConversionType).ToArray());
 
@@ -74,13 +74,13 @@ namespace CommandLine.Core
 
                 Func<T> buildMutable = () =>
                 {
-                    var mutable = factory.MapMaybe(f => f(), Activator.CreateInstance<T>());
+                    var mutable = factory.MapMaybeOrDefault(f => f(), Activator.CreateInstance<T>());
                     mutable =
-                        mutable.SetProperties(specPropsWithValue, sp => sp.Value.IsJust(), sp => sp.Value.FromJustStrict())
+                        mutable.SetProperties(specPropsWithValue, sp => sp.Value.IsJust(), sp => sp.Value.FromJustOrFail())
                             .SetProperties(
                                 specPropsWithValue,
                                 sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
-                                sp => sp.Specification.DefaultValue.FromJustStrict())
+                                sp => sp.Specification.DefaultValue.FromJustOrFail())
                             .SetProperties(
                                 specPropsWithValue,
                                 sp =>
@@ -96,9 +96,9 @@ namespace CommandLine.Core
                     var values = (from prms in ctor.GetParameters()
                         join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower()
                         select
-                            sp.Value.MapMaybe(
+                            sp.Value.MapMaybeOrDefault(
                                 v => v,
-                                sp.Specification.DefaultValue.MapMaybe(
+                                sp.Specification.DefaultValue.MapMaybeOrDefault(
                                     d => d,
                                     sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();
                     var immutable = (T)ctor.Invoke(values);

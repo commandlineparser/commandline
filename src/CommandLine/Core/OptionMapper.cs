@@ -24,9 +24,9 @@ namespace CommandLine.Core
                             s =>
                             s.Key.MatchName(((OptionSpecification)pt.Specification).ShortName, ((OptionSpecification)pt.Specification).LongName, comparer))
                                .ToMaybe()
-                               .MapMaybe(sequence =>
+                               .MapMaybeOrDefault(sequence =>
                                     converter(sequence.Value, pt.Property.PropertyType, pt.Specification.TargetType != TargetType.Sequence)
-                                    .MapMaybe(converted =>
+                                    .MapMaybeOrDefault(converted =>
                                             Tuple.Create(
                                                 pt.WithValue(Maybe.Just(converted)),
                                                 Maybe.Nothing<Error>()),

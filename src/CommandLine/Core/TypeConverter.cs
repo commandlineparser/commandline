@@ -25,7 +25,7 @@ namespace CommandLine.Core
                 conversionType.GetGenericArguments()
                               .SingleOrDefault()
                               .ToMaybe()
-                              .FromJustStrict(
+                              .FromJustOrFail(
                                   new ApplicationException("Non scalar properties should be sequence of type IEnumerable<T>."));
 
             var converted = values.Select(value => ChangeTypeScalar(value, type, conversionCulture));

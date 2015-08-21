@@ -102,11 +102,11 @@ namespace CommandLine.Text
                 switch (copyrightAttr.Tag)
                 {
                     case MaybeType.Just:
-                        return new CopyrightInfo(copyrightAttr.FromJustStrict());
+                        return new CopyrightInfo(copyrightAttr.FromJustOrFail());
                     default:
                         // if no copyright attribute exist but a company attribute does, use it as copyright holder
                         return new CopyrightInfo(
-                                ReflectionHelper.GetAttribute<AssemblyCompanyAttribute>().FromJustStrict(
+                                ReflectionHelper.GetAttribute<AssemblyCompanyAttribute>().FromJustOrFail(
                                     new InvalidOperationException("CopyrightInfo::Default requires that you define AssemblyCopyrightAttribute or AssemblyCompanyAttribute.")
                                 ).Company,
                                 DateTime.Now.Year);
