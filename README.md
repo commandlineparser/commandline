@@ -53,6 +53,8 @@ Latest changes are recorded from Version 1.9.4.91, please refer to [this documen
 Used by:
 ---
 - [FSharp.Formatting](https://github.com/tpetricek/FSharp.Formatting) by @tpetricek.
+- [MiniDumper](https://github.com/goldshtn/minidumper) by @goldshtn.
+- Various commercial products.
 
 Notes:
 ---
