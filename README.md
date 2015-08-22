@@ -54,6 +54,7 @@ Used by:
 ---
 - [FSharp.Formatting](https://github.com/tpetricek/FSharp.Formatting) by @tpetricek.
 - [MiniDumper](https://github.com/goldshtn/minidumper) by @goldshtn.
+- [Google APIs Client Library for .NET](https://github.com/google/google-api-dotnet-client) by Google.
 - Various commercial products.
 
 Notes:
