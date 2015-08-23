@@ -387,6 +387,10 @@ namespace CommandLine.Tests.Unit.Text
             lines[4].ShouldBeEquivalentTo("Logging errors:");
             lines[5].ShouldBeEquivalentTo("  mono testapp.exe -e --input file.bin");
             lines[6].ShouldBeEquivalentTo("  mono testapp.exe --errs --input=file.bin");
+            lines[7].ShouldBeEquivalentTo("List:");
+            lines[8].ShouldBeEquivalentTo("  mono testapp.exe -l 1,2");
+            lines[9].ShouldBeEquivalentTo("Value:");
+            lines[10].ShouldBeEquivalentTo("  mono testapp.exe value");
         }
 
         [Fact]
@@ -418,13 +422,19 @@ namespace CommandLine.Tests.Unit.Text
             lines[9].ShouldBeEquivalentTo("Logging errors:");
             lines[10].ShouldBeEquivalentTo("mono testapp.exe -e --input file.bin");
             lines[11].ShouldBeEquivalentTo("mono testapp.exe --errs --input=file.bin");
-            lines[12].ShouldBeEquivalentTo("-i, --input     Set input file.");
-            lines[13].ShouldBeEquivalentTo("-i, --output    Set output file.");
-            lines[14].ShouldBeEquivalentTo("--verbose       Set verbosity level.");
-            lines[15].ShouldBeEquivalentTo("-w, --warns     Log warnings.");
-            lines[16].ShouldBeEquivalentTo("-e, --errs      Log errors.");
-            lines[17].ShouldBeEquivalentTo("--help          Display this help screen.");
-            lines[18].ShouldBeEquivalentTo("--version       Display version information.");
+            lines[12].ShouldBeEquivalentTo("List:");
+            lines[13].ShouldBeEquivalentTo("mono testapp.exe -l 1,2");
+            lines[14].ShouldBeEquivalentTo("Value:");
+            lines[15].ShouldBeEquivalentTo("mono testapp.exe value");
+            lines[16].ShouldBeEquivalentTo("-i, --input     Set input file.");
+            lines[17].ShouldBeEquivalentTo("-i, --output    Set output file.");
+            lines[18].ShouldBeEquivalentTo("--verbose       Set verbosity level.");
+            lines[19].ShouldBeEquivalentTo("-w, --warns     Log warnings.");
+            lines[20].ShouldBeEquivalentTo("-e, --errs      Log errors.");
+            lines[21].ShouldBeEquivalentTo("-l              List.");
+            lines[22].ShouldBeEquivalentTo("--help          Display this help screen.");
+            lines[23].ShouldBeEquivalentTo("--version       Display version information.");
+            lines[24].ShouldBeEquivalentTo("value pos. 0    Value.");
 
             // Teardown
         }

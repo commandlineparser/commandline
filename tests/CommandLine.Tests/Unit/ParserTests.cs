@@ -460,16 +460,18 @@ namespace CommandLine.Tests.Unit
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("Option 'badoption' is unknown.");
             lines[4].ShouldBeEquivalentTo("USAGE:");
-            lines[5].ShouldBeEquivalentTo("Cloning quietly:");
-            lines[6].ShouldBeEquivalentTo("git clone --quiet https://github.com/gsscoder/railwaysharp");
-            lines[7].ShouldBeEquivalentTo("Cloning without hard links:");
-            lines[8].ShouldBeEquivalentTo("git clone --no-hardlinks https://github.com/gsscoder/csharpx");
-            lines[9].ShouldBeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
-            lines[10].ShouldBeEquivalentTo("filesystem by copying files.");
-            lines[11].ShouldBeEquivalentTo("-q, --quiet       Suppress summary message.");
-            lines[12].ShouldBeEquivalentTo("--help            Display this help screen.");
-            lines[13].ShouldBeEquivalentTo("--version         Display version information.");
-            lines[14].ShouldBeEquivalentTo("URLS (pos. 0)     A list of url(s) to clone.");
+            lines[5].ShouldBeEquivalentTo("Basic cloning:");
+            lines[6].ShouldBeEquivalentTo("git clone https://github.com/gsscoder/csharpx");
+            lines[7].ShouldBeEquivalentTo("Cloning quietly:");
+            lines[8].ShouldBeEquivalentTo("git clone --quiet https://github.com/gsscoder/railwaysharp");
+            lines[9].ShouldBeEquivalentTo("Cloning without hard links:");
+            lines[10].ShouldBeEquivalentTo("git clone --no-hardlinks https://github.com/gsscoder/csharpx");
+            lines[11].ShouldBeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
+            lines[12].ShouldBeEquivalentTo("filesystem by copying files.");
+            lines[13].ShouldBeEquivalentTo("-q, --quiet       Suppress summary message.");
+            lines[14].ShouldBeEquivalentTo("--help            Display this help screen.");
+            lines[15].ShouldBeEquivalentTo("--version         Display version information.");
+            lines[16].ShouldBeEquivalentTo("URLS (pos. 0)     A list of url(s) to clone.");
 
             // Teardown
         }
