@@ -22,23 +22,23 @@ Current Release:
 
 At glance:
 ---
-  - One line parsing using default singleton: ``CommandLine.Parser.Default.ParseArguments(...)``.
-  - Automatic or one line help screen generator: ``HelpText.AutoBuild(...)``.
+  - One line parsing using default singleton: `CommandLine.Parser.Default.ParseArguments(...)`.
+  - Automatic or one line help screen generator: `HelpText.AutoBuild(...)`.
     - Supports `--help`, `--version`, `version` and `help [verb]` by default.
-  - Map to sequences (``IEnumerable<T>``) or scalar types, including enum and ``Nullable<T>``.
-  - You can also map to every type with a constructor that accepts a string (like ``System.Uri``).
+  - Map to sequences (`IEnumerable<T>`) or scalar types, including enum and `Nullable<T>`.
+  - You can also map to every type with a constructor that accepts a string (like `System.Uri`).
   - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
-  - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Latest-Version#verbs) as ``git commit -a``.
-  - Unparsing support: ``CommandLine.Parser.Default.FormatCommandLine<T>(T options)``.
-  - F#-friendly with support for ``option<'a>``, see [demo](https://github.com/gsscoder/commandline/blob/master/demo/fsharp-demo.fsx).
+  - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Latest-Version#verbs) as `git commit -a`.
+  - Unparsing support: `CommandLine.Parser.Default.FormatCommandLine<T>(T options)`.
+  - F#-friendly with support for `option<'a>`, see [demo](https://github.com/gsscoder/commandline/blob/master/demo/fsharp-demo.fsx).
   - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
   - C# demo: source [here](https://github.com/gsscoder/commandline/tree/master/demo/ReadText.Demo).
 
 To install:
 ---
-  - NuGet way (latest stable): ``Install-Package CommandLineParser``
-  - NuGet way (latest version): ``Install-Package CommandLineParser -pre``
-  - XCOPY way: ``cp -r ClonedRepo/src/CommandLine To/Your/Project/Dir``
+  - NuGet way (latest stable): `Install-Package CommandLineParser`
+  - NuGet way (latest version): `Install-Package CommandLineParser -pre`
+  - XCOPY way: `cp -r ClonedRepo/src/CommandLine To/Your/Project/Dir`
 
 To build:
 ---
@@ -60,7 +60,7 @@ Used by:
 
 Notes:
 ---
-The project is well suited to be included in your application. If you don't merge it to your project tree, you must reference ``CommandLine.dll`` and import ``CommandLine`` and ``CommandLine.Text`` namespaces (or install via NuGet). The help text builder and support types are in the ``CommandLine.Text`` namespace that is loosely coupled with the parser. It is good to know that the ``HelpText`` class will avoid a lot of repetitive coding.
+The project is well suited to be included in your application. If you don't merge it to your project tree, you must reference `CommandLine.dll` and import `CommandLine` and `CommandLine.Text` namespaces (or install via NuGet). The help text builder and support types are in the `CommandLine.Text` namespace that is loosely coupled with the parser. It is good to know that the `HelpText` class will avoid a lot of repetitive coding.
 
 **C#:**
 
