@@ -10,7 +10,11 @@ namespace CommandLine.Core
     static class TokenPartitioner
     {
         public static
-            TokenPartitions Partition(
+            Tuple<
+                IEnumerable<KeyValuePair<string, IEnumerable<string>>>,
+                IEnumerable<string>,
+                IEnumerable<Token>
+            > Partition(
                 IEnumerable<Token> tokens,
                 Func<string, Maybe<TypeDescriptor>> typeLookup)
         {
@@ -25,7 +29,7 @@ namespace CommandLine.Core
             var values = nonOptions.Where(v => v.IsValue()).Memorize();
             var errors = nonOptions.Except(values).Memorize();
 
-            return TokenPartitions.Create(
+            return Tuple.Create(
                     KeyValuePairHelper.ForSwitch(switches)
                         .Concat(KeyValuePairHelper.ForScalar(scalars))
                         .Concat(KeyValuePairHelper.ForSequence(sequences)),
