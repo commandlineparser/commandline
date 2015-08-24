@@ -49,22 +49,25 @@ namespace CommandLine.Core
                 var partitions = TokenPartitioner.Partition(
                     tokens,
                     name => TypeLookup.FindTypeDescriptorAndSibling(name, optionSpecs, nameComparer));
+                var optionsPartition = partitions.Item1;
+                var valuesPartition = partitions.Item2;
+                var errorsPartition = partitions.Item3;
 
                 var optionSpecPropsResult =
                     OptionMapper.MapValues(
                         (from pt in specProps where pt.Specification.IsOption() select pt),
-                        partitions.Options,
+                        optionsPartition,
                         (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture),
                         nameComparer);
 
                 var valueSpecPropsResult =
                     ValueMapper.MapValues(
                         (from pt in specProps where pt.Specification.IsValue() select pt),
-                        partitions.Values,
+                        valuesPartition,
                         (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture));
 
-                var missingValueErrors = from token in partitions.Errors
-                    select
+                var missingValueErrors = from token in errorsPartition
+                                         select
                         new MissingValueOptionError(
                             optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer))
                                 .FromOptionSpecification());
