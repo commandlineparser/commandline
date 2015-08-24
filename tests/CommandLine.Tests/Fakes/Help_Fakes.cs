@@ -59,7 +59,7 @@ namespace CommandLine.Tests.Fakes
         public bool LogError { get; set; }
 
         [Option('l', Separator = ',', HelpText = "List.")]
-        public IEnumerable<int> List { get; set; }
+        public IEnumerable<int> Sequence { get; set; }
 
         [Value(0, HelpText = "Value.")]
         public string Value { get; set; }
@@ -72,7 +72,7 @@ namespace CommandLine.Tests.Fakes
                 yield return new Example("Normal scenario", new Options_With_Usage_Attribute { InputFile = "file.bin", OutputFile = "out.bin" });
                 yield return new Example("Logging warnings", UnParserSettings.WithGroupSwitchesOnly() , new Options_With_Usage_Attribute { InputFile = "file.bin", LogWarning = true });
                 yield return new Example("Logging errors", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new Options_With_Usage_Attribute { InputFile = "file.bin", LogError = true });
-                yield return new Example("List", new Options_With_Usage_Attribute { List = new[] { 1, 2 } });
+                yield return new Example("List", new Options_With_Usage_Attribute { Sequence = new[] { 1, 2 } });
                 yield return new Example("Value", new Options_With_Usage_Attribute { Value = "value" });
             }
         }
