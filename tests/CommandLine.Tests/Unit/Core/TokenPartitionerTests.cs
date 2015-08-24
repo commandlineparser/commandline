@@ -32,7 +32,8 @@ namespace CommandLine.Tests.Unit.Core
                 );
 
             // Verify outcome
-            Assert.True(expectedSequence.All(a => result.Options.Any(r => a.Key.Equals(r.Key) && a.Value.SequenceEqual(r.Value))));
+            var options = result.Item1;
+            Assert.True(expectedSequence.All(a => options.Any(r => a.Key.Equals(r.Key) && a.Value.SequenceEqual(r.Value))));
 
             // Teardown
         }
@@ -58,7 +59,8 @@ namespace CommandLine.Tests.Unit.Core
                 );
 
             // Verify outcome
-            Assert.True(expectedSequence.All(a => result.Options.Any(r => a.Key.Equals(r.Key) && a.Value.SequenceEqual(r.Value))));
+            var options = result.Item1;
+            Assert.True(expectedSequence.All(a => options.Any(r => a.Key.Equals(r.Key) && a.Value.SequenceEqual(r.Value))));
 
             // Teardown
         }

@@ -11,9 +11,9 @@ namespace CommandLine.Core
     {
         public static
             Tuple<
-                IEnumerable<KeyValuePair<string, IEnumerable<string>>>,
-                IEnumerable<string>,
-                IEnumerable<Token>
+                IEnumerable<KeyValuePair<string, IEnumerable<string>>>, // options
+                IEnumerable<string>,                                    // values
+                IEnumerable<Token>                                      // errors
             > Partition(
                 IEnumerable<Token> tokens,
                 Func<string, Maybe<TypeDescriptor>> typeLookup)

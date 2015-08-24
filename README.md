@@ -112,7 +112,7 @@ type options = {
 ```
 Consume them:
 ```fsharp
-let main argv = 
+let main argv =
   let result = CommandLine.Parser.Default.ParseArguments<options>(argv)
   match result with
   | :? Parsed<options> as parsed -> run parsed.Value
@@ -255,6 +255,7 @@ Latest Changes:
   - Issue #225/b (reported by @rmunn) Fixed.
   - All `ParserResult<T>.Return` renamed to `MapResult`.
   - PR #227 (by @Thilas) Merged.
+  - Reverted back to `Tuple<...>` instead of `TokePartitions` type.
 
 Contact:
 ---
