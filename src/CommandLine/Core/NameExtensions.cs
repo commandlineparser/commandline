@@ -16,8 +16,8 @@ namespace CommandLine.Core
         public static NameInfo FromOptionSpecification(this OptionSpecification specification)
         {
             return new NameInfo(
-                specification.LongName,
-                specification.ShortName);
+                specification.ShortName,
+                specification.LongName);
         }
 
         public static NameInfo FromSpecification(this Specification specification)
