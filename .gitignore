@@ -29,3 +29,4 @@ StyleCop.Cache
 .fake
 *.cache
 docs/output/*
+paket.lock
