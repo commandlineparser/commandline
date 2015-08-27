@@ -1,5 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using CommandLine.Tests.Fakes;
 using Xunit;
@@ -64,6 +66,17 @@ namespace CommandLine.Tests.Unit
                 .WithNotParsed(_ => expected = "changed");
 
             "value".ShouldBeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public static void Invoke_not_parsed_lambda_when_parsed_With_Options_With_SetName_That_Ends_With_Previous_SetName()
+        {
+            var expected = string.Empty;
+            Parser.Default.ParseArguments<Options_With_SetName_That_Ends_With_Previous_SetName>(new[] { "--weburl", "value", "--somethingelse", "othervalue" })
+                .WithParsed(opts => expected = opts.WebUrl)
+                .WithNotParsed(err => expected = "changed");
+
+            "changed".ShouldBeEquivalentTo(expected);
         }
 
         [Fact]

@@ -59,6 +59,7 @@
     </Compile>
     <Compile Include="CultureInfoExtensions.cs" />
     <Compile Include="Fakes\Options_With_Default_Set_To_Sequence.cs" />
+    <Compile Include="Fakes\Options_With_SetName_That_Ends_With_Previous_SetName.cs" />
     <Compile Include="Fakes\Options_With_Uri_And_SimpleType.cs" />
     <Compile Include="Fakes\Options_With_Switches.cs" />
     <Compile Include="Fakes\Options_With_Two_Option_Required_Set_To_True_And_Two_Sets.cs" />
