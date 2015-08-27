@@ -160,7 +160,7 @@ namespace CommandLine.Text
                                 var incompat = string.Join(
                                     string.Empty,
                                     (from x in
-                                    (from s in bySet where !s.SetName.EndsWith(set.SetName) from e in s.Errors select e)
+                                         (from s in bySet where !s.SetName.Equals(set.SetName) from e in s.Errors select e)
                                         .Distinct()
                                     select "'".JoinTo(x.NameInfo.NameText, "', ")).ToArray());
 
