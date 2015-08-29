@@ -249,7 +249,6 @@ Latest Changes:
   - Renaming tests fakes.
   - Issue #220 Implemented.
   - Replacing Either<L,R> with Result<TSucc, TMsg>.
-  - Internal refactoring.
   - Centralizing `Tokenizer` configuration.
   - Issue #225 (reported by @rmunn) Fixed.
   - Issue #225/b (reported by @rmunn) Fixed.
@@ -257,6 +256,7 @@ Latest Changes:
   - PR #227 (by @Thilas) Merged.
   - Reverted back to `Tuple<...>` instead of `TokePartitions` type.
   - PR #227 (by @cfeilen) Merged.
+  - Internal refactoring.
 
 Contact:
 ---
