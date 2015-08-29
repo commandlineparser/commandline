@@ -99,10 +99,8 @@ namespace CommandLine.Core
                     var values = (from prms in ctor.GetParameters()
                         join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower()
                         select
-                            sp.Value.MapValueOrDefault(
-                                v => v,
-                                sp.Specification.DefaultValue.MapValueOrDefault(
-                                    d => d,
+                            sp.Value.GetValueOrDefault(
+                                sp.Specification.DefaultValue.GetValueOrDefault(
                                     sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();
                     var immutable = (T)ctor.Invoke(values);
                     return immutable;

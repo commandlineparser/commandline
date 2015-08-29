@@ -37,7 +37,7 @@ namespace CommandLine.Core
                 yield break;
             }
             var pt = specProps.First();
-            var taken = values.Take(pt.Specification.CountOfMaxNumberOfValues().MapValueOrDefault(n => n, values.Count()));
+            var taken = values.Take(pt.Specification.CountOfMaxNumberOfValues().GetValueOrDefault(values.Count()));
             if (taken.Empty())
             {
                 yield return
