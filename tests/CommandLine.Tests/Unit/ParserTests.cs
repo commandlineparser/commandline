@@ -571,12 +571,22 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public static void Breaking_mutually_exclusive_set_constraint_with_set_name_with_partial_string_right_side_equality_gererates_MissingValueOptionError()
         {
-            var expected = string.Empty;
-            Parser.Default.ParseArguments<Options_With_SetName_That_Ends_With_Previous_SetName>(new[] { "--weburl", "value", "--somethingelse", "othervalue" })
-                .WithParsed(opts => expected = opts.WebUrl)
-                .WithNotParsed(err => expected = "changed");
+            // Fixture setup
+            var expectedResult = new[]
+                {
+                    new MutuallyExclusiveSetError(new NameInfo("", "weburl"), string.Empty),
+                    new MutuallyExclusiveSetError(new NameInfo("", "somethingelese"), string.Empty)
+                };
+            var sut = new Parser();
 
-            "changed".ShouldBeEquivalentTo(expected);
+            // Exercize system 
+            var result = sut.ParseArguments<Options_With_SetName_That_Ends_With_Previous_SetName>(
+                new[] { "--weburl", "value", "--somethingelse", "othervalue" });
+
+            // Verify outcome
+            ((NotParsed<Options_With_SetName_That_Ends_With_Previous_SetName>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
+            // Teardown
         }
 
         public static IEnumerable<object> IgnoreUnknownArgumentsData
