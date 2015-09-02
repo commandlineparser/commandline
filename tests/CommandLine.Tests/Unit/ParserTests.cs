@@ -568,6 +568,17 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+        [Fact]
+        public static void Invoke_not_parsed_lambda_when_parsed_With_Options_With_SetName_That_Ends_With_Previous_SetName()
+        {
+            var expected = string.Empty;
+            Parser.Default.ParseArguments<Options_With_SetName_That_Ends_With_Previous_SetName>(new[] { "--weburl", "value", "--somethingelse", "othervalue" })
+                .WithParsed(opts => expected = opts.WebUrl)
+                .WithNotParsed(err => expected = "changed");
+
+            "changed".ShouldBeEquivalentTo(expected);
+        }
+
         public static IEnumerable<object> IgnoreUnknownArgumentsData
         {
             get
