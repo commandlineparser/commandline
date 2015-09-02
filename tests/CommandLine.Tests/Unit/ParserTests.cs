@@ -568,6 +568,27 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+        [Fact]
+        public static void Breaking_mutually_exclusive_set_constraint_with_set_name_with_partial_string_right_side_equality_gererates_MissingValueOptionError()
+        {
+            // Fixture setup
+            var expectedResult = new[]
+                {
+                    new MutuallyExclusiveSetError(new NameInfo("", "weburl"), string.Empty),
+                    new MutuallyExclusiveSetError(new NameInfo("", "somethingelese"), string.Empty)
+                };
+            var sut = new Parser();
+
+            // Exercize system 
+            var result = sut.ParseArguments<Options_With_SetName_That_Ends_With_Previous_SetName>(
+                new[] { "--weburl", "value", "--somethingelse", "othervalue" });
+
+            // Verify outcome
+            ((NotParsed<Options_With_SetName_That_Ends_With_Previous_SetName>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+
+            // Teardown
+        }
+
         public static IEnumerable<object> IgnoreUnknownArgumentsData
         {
             get
