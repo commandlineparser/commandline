@@ -569,7 +569,7 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public static void Invoke_not_parsed_lambda_when_parsed_With_Options_With_SetName_That_Ends_With_Previous_SetName()
+        public static void Breaking_mutually_exclusive_set_constraint_with_set_name_with_partial_string_right_side_equality_gererates_MissingValueOptionError()
         {
             var expected = string.Empty;
             Parser.Default.ParseArguments<Options_With_SetName_That_Ends_With_Previous_SetName>(new[] { "--weburl", "value", "--somethingelse", "othervalue" })
