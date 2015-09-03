@@ -258,6 +258,7 @@ Latest Changes:
   - PR #227 (by @cfeilen) Merged.
   - Internal refactoring.
   - PR #231 (by @kshanafelt) Merged.
+  - Updated RailwaySharp source reference.
 
 Contact:
 ---
