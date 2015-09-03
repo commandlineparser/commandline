@@ -38,7 +38,7 @@ namespace CommandLine.Tests.Unit.Core
                 StringComparer.InvariantCulture);
 
             // Verify outcome
-            Assert.NotNull(((Ok<IEnumerable<SpecificationProperty>, Error>)result).Value.Success.Single(
+            Assert.NotNull(((Ok<IEnumerable<SpecificationProperty>, Error>)result).Success.Single(
                 a => a.Specification.IsOption()
                 && ((OptionSpecification)a.Specification).ShortName.Equals("x")
                 && (bool)((Just<object>)a.Value).Value));
