@@ -18,7 +18,7 @@ namespace CommandLine.Infrastructure
             if (result.Tag == ResultType.Ok)
             {
                 var ok = (Ok<TSuccess, TMessage>)result;
-                return ok.Value.Messages;
+                return ok.Messages;
             }
             return Enumerable.Empty<TMessage>();
         }
@@ -28,7 +28,7 @@ namespace CommandLine.Infrastructure
             if (result.Tag == ResultType.Ok)
             {
                 var ok = (Ok<TSuccess, TMessage>)result;
-                return Maybe.Just(ok.Value.Success);
+                return Maybe.Just(ok.Success);
             }
             return Maybe.Nothing<TSuccess>();
         }
