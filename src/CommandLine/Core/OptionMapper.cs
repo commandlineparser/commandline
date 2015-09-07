@@ -11,7 +11,7 @@ namespace CommandLine.Core
     static class OptionMapper
     {
         public static Result<
-            IEnumerable<SpecificationProperty>, Error>
+                IEnumerable<SpecificationProperty>, Error>
             MapValues(
                 IEnumerable<SpecificationProperty> propertyTuples,
                 IEnumerable<KeyValuePair<string, IEnumerable<string>>> options,
@@ -19,25 +19,34 @@ namespace CommandLine.Core
                 StringComparer comparer)
         {
             var sequencesAndErrors = propertyTuples
-                .Select(pt =>
-                    options.FirstOrDefault(
-                            s =>
-                            s.Key.MatchName(((OptionSpecification)pt.Specification).ShortName, ((OptionSpecification)pt.Specification).LongName, comparer))
-                               .ToMaybe()
-                               .MapValueOrDefault(sequence =>
-                                    converter(sequence.Value, pt.Property.PropertyType, pt.Specification.TargetType != TargetType.Sequence)
-                                    .MapValueOrDefault(converted =>
-                                            Tuple.Create(
-                                                pt.WithValue(Maybe.Just(converted)),
-                                                Maybe.Nothing<Error>()),
-                                            Tuple.Create<SpecificationProperty, Maybe<Error>>(
-                                                pt,
-                                                Maybe.Just<Error>(new BadFormatConversionError(((OptionSpecification)pt.Specification).FromOptionSpecification())))),
-                                Tuple.Create(pt, Maybe.Nothing<Error>()))
+                .Select(
+                    pt =>
+                    {
+                        var matched = options.FirstOrDefault(s =>
+                            s.Key.MatchName(((OptionSpecification)pt.Specification).ShortName, ((OptionSpecification)pt.Specification).LongName, comparer)).ToMaybe();
+                        return matched.IsJust()
+                            ? (
+                                from sequence in matched
+                                from converted in
+                                    converter(
+                                        sequence.Value,
+                                        pt.Property.PropertyType,
+                                        pt.Specification.TargetType != TargetType.Sequence)
+                                select Tuple.Create(
+                                    pt.WithValue(Maybe.Just(converted)), Maybe.Nothing<Error>())
+                               )
+                                .GetValueOrDefault(
+                                    Tuple.Create<SpecificationProperty, Maybe<Error>>(
+                                        pt,
+                                        Maybe.Just<Error>(
+                                            new BadFormatConversionError(
+                                                ((OptionSpecification)pt.Specification).FromOptionSpecification()))))
+                            : Tuple.Create(pt, Maybe.Nothing<Error>());
+                    }
                 );
             return Result.Succeed(
                 sequencesAndErrors.Select(se => se.Item1),
                 sequencesAndErrors.Select(se => se.Item2).OfType<Just<Error>>().Select(se => se.Value));
         }
-    }
+}
 }
