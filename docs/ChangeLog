@@ -1,3 +1,7 @@
+2015-09-07    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Internal refactoring on OptionMapper.
+
 2015-09-03    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Updated RailwaySharp source reference.

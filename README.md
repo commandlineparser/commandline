@@ -256,9 +256,9 @@ Latest Changes:
   - PR #227 (by @Thilas) Merged.
   - Reverted back to `Tuple<...>` instead of `TokePartitions` type.
   - PR #227 (by @cfeilen) Merged.
-  - Internal refactoring.
   - PR #231 (by @kshanafelt) Merged.
   - Updated RailwaySharp source reference.
+  - Internal refactoring.
 
 Contact:
 ---
