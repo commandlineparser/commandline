@@ -259,6 +259,7 @@ Latest Changes:
   - PR #231 (by @kshanafelt) Merged.
   - Updated RailwaySharp source reference.
   - Internal refactoring.
+  - Added properties test project using FsCheck.
 
 Contact:
 ---

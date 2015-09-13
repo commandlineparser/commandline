@@ -1,3 +1,7 @@
+2015-09-13    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Added properties test project using FsCheck.
+  
 2015-09-07    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Internal refactoring on OptionMapper.
