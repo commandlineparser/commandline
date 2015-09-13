@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\src\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Fakes\Scalar_String_Mutable.cs" />
     <Compile Include="ParserProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
