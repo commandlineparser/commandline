@@ -19,6 +19,8 @@ NUGET
       System.Threading (>= 4.0.10)
       System.Threading.Tasks (>= 4.0.10)
       System.Xml.XDocument (>= 4.0.10)
+    FsCheck (2.0.7)
+      FSharp.Core (>= 3.1.2.5)
     FSharp.Compiler.Service (1.4.0.1)
     FSharp.Core (4.0.0.1)
     FSharp.Formatting (2.10.0)
@@ -234,8 +236,8 @@ NUGET
 GITHUB
   remote: gsscoder/CSharpx
   specs:
-    src/CSharpx/EnumerableExtensions.cs (0ba3f3bd09e467bb8ae1c0e0efc0593587aebc70)
-    src/CSharpx/Maybe.cs (0ba3f3bd09e467bb8ae1c0e0efc0593587aebc70)
+    src/CSharpx/EnumerableExtensions.cs (1ae4e7b6ac1b19493f333e23c9ae636a01b23862)
+    src/CSharpx/Maybe.cs (1ae4e7b6ac1b19493f333e23c9ae636a01b23862)
   remote: gsscoder/railwaysharp
   specs:
-    src/RailwaySharp/ErrorHandling.cs (b8eb4b35dce318601e50d76ada5d098776dcf057)
+    src/RailwaySharp/ErrorHandling.cs (fa4f11173e470d558df80987e69e6ab10f977fcd)
