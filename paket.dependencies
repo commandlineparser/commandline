@@ -7,6 +7,7 @@ nuget xunit
 nuget xunit.runner.visualstudio version_in_path: true
 nuget xunit.runner.console
 nuget FSharp.Formatting
+nuget FsCheck
 
 github gsscoder/CSharpx src/CSharpx/Maybe.cs
 github gsscoder/CSharpx src/CSharpx/EnumerableExtensions.cs
