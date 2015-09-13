@@ -4,6 +4,8 @@ demo/ReadText.Demo/bin/*
 demo/ReadText.Demo/obj
 tests/CommandLine.Tests/bin/*
 tests/CommandLine.Tests/obj
+tests/CommandLine.Properties.Tests/bin/*
+tests/CommandLine.Properties.Tests/obj
 src/templates/CSharpTemplate/bin/*
 src/templates/CSharpTemplate/obj 
 src/templates/VBNetTemplate/bin/*
