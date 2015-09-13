@@ -17,10 +17,10 @@ namespace CommandLine.Tests.Properties
         [Fact]
         public void Parsing_a_string_returns_original_string()
         {
-            Prop.ForAll<string>(
+            Prop.ForAll<NonNull<string>>(
                 x =>
                 {
-                    var result = Sut.ParseArguments<Scalar_String_Mutable>(new[] { "--stringvalue", x });
+                    var result = Sut.ParseArguments<Scalar_String_Mutable>(new[] { "--stringvalue", x.As<string>() });
                     ((Parsed<Scalar_String_Mutable>)result).Value.StringValue.ShouldBeEquivalentTo(x);
                 }).QuickCheckThrowOnFailure();
         }
