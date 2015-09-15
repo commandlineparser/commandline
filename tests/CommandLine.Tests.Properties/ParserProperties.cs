@@ -20,7 +20,7 @@ namespace CommandLine.Tests.Properties
             Prop.ForAll<NonNull<string>>(
                 x =>
                 {
-                    var value = x.As<string>();
+                    var value = x.Get;
                     var result = Sut.ParseArguments<Scalar_String_Mutable>(new[] { "--stringvalue", value });
                     ((Parsed<Scalar_String_Mutable>)result).Value.StringValue.ShouldBeEquivalentTo(value);
                 }).QuickCheckThrowOnFailure();
