@@ -1,3 +1,7 @@
+2015-09-22    Giacomo Stelluti Scala  <gsscoder@gmail.com>
+
+  * Issue #241 (reported by @pvmraghunandan) Fixed.
+
 2015-09-13    Giacomo Stelluti Scala  <gsscoder@gmail.com>
 
   * Added properties test project using FsCheck.
