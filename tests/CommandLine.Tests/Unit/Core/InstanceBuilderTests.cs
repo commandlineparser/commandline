@@ -905,6 +905,22 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Theory]
+        [InlineData(new[] { "--stringvalue", "x-" }, "x-")]
+        public void Parse_string_with_dashes_except_in_beginning(string[] arguments, string expected)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options>(
+                arguments);
+
+            // Verify outcome
+            expected.ShouldBeEquivalentTo(((Parsed<Simple_Options>)result).Value.StringValue);
+
+            // Teardown
+        }
+
         public static IEnumerable<object> RequiredValueStringData
         {
             get
