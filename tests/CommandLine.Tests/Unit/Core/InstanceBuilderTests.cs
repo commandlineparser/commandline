@@ -907,6 +907,13 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [InlineData(new[] { "--stringvalue", "x-" }, "x-")]
+        [InlineData(new[] { "--stringvalue", "x--" }, "x--")]
+        [InlineData(new[] { "--stringvalue", "x---" }, "x---")]
+        [InlineData(new[] { "--stringvalue=x-x" }, "x-x")]
+        [InlineData(new[] { "--stringvalue=x--x" }, "x--x")]
+        [InlineData(new[] { "--stringvalue=x---x" }, "x---x")]
+        [InlineData(new[] { "--stringvalue", "5366ebc4-7aa7-4d5a-909c-a415a291a5ad" }, "5366ebc4-7aa7-4d5a-909c-a415a291a5ad")]
+        [InlineData(new[] { "--stringvalue=5366ebc4-7aa7-4d5a-909c-a415a291a5ad" }, "5366ebc4-7aa7-4d5a-909c-a415a291a5ad")]
         public void Parse_string_with_dashes_except_in_beginning(string[] arguments, string expected)
         {
             // Fixture setup in attributes
