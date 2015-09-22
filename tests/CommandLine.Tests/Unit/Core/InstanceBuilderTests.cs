@@ -932,7 +932,7 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [MemberData("GuidData")]
-        public void Parse_Guid(string[] arguments, Guid expected)
+        public void Parse_Guid(string[] arguments, Options_With_Guid expected)
         {
             // Fixture setup in attributes
 
@@ -941,7 +941,7 @@ namespace CommandLine.Tests.Unit.Core
                 arguments);
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(((Parsed<Options_With_Guid>)result).Value.TransactionId);
+            expected.ShouldBeEquivalentTo(((Parsed<Options_With_Guid>)result).Value);
 
             // Teardown
         }
@@ -989,7 +989,7 @@ namespace CommandLine.Tests.Unit.Core
             get
             {
                 var guid0 = Guid.NewGuid();
-                yield return new object[] { new[] { "txid", guid0.ToStringInvariant() }, new Options_With_Guid { TransactionId = guid0 } };
+                yield return new object[] { new[] { "--txid", guid0.ToStringInvariant() }, new Options_With_Guid { TransactionId = guid0 } };
             }
         }
     }

@@ -4,7 +4,7 @@ using System;
 
 namespace CommandLine.Tests.Fakes
 {
-    class Options_With_Guid
+    public class Options_With_Guid
     {
         [Option('t', "txid")]
         public Guid TransactionId { get; set; }
