@@ -932,7 +932,7 @@ namespace CommandLine.Tests.Unit.Core
 
         [Theory]
         [MemberData("GuidData")]
-        public void Parse_Guid(string[] arguments, string expected)
+        public void Parse_Guid(string[] arguments, Guid expected)
         {
             // Fixture setup in attributes
 
