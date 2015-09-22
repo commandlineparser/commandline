@@ -6,6 +6,8 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.FSharp.Core;
 using CommandLine.Core;
+using CommandLine.Infrastructure;
+
 using CSharpx;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
@@ -928,6 +930,22 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Theory]
+        [MemberData("GuidData")]
+        public void Parse_Guid(string[] arguments, string expected)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InvokeBuild<Options_With_Guid>(
+                arguments);
+
+            // Verify outcome
+            expected.ShouldBeEquivalentTo(((Parsed<Options_With_Guid>)result).Value.TransactionId);
+
+            // Teardown
+        }
+
         public static IEnumerable<object> RequiredValueStringData
         {
             get
@@ -963,6 +981,15 @@ namespace CommandLine.Tests.Unit.Core
                 yield return new object[] { new[] { "-x" }, new Immutable_Simple_Options("", new int[] { }, true, default(long)) };
                 yield return new object[] { new[] { "9876543210" }, new Immutable_Simple_Options("", new int[] { }, default(bool), 9876543210L) };
                 yield return new object[] { new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" }, new Immutable_Simple_Options("strval0", new[] { 9, 7, 8 }, true, 9876543210L) };
+            }
+        }
+
+        public static IEnumerable<object> GuidData
+        {
+            get
+            {
+                var guid0 = Guid.NewGuid();
+                yield return new object[] { new[] { "txid", guid0.ToStringInvariant() }, new Options_With_Guid { TransactionId = guid0 } };
             }
         }
     }

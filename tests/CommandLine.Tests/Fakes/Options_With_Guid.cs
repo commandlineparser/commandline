@@ -6,7 +6,7 @@ namespace CommandLine.Tests.Fakes
 {
     class Options_With_Guid
     {
-        [Option]
+        [Option('t', "txid")]
         public Guid TransactionId { get; set; }
     }
 }
