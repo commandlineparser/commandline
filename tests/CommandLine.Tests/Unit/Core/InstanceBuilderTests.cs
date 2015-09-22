@@ -892,7 +892,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public static void Parse_to_type_with_single_string_ctor_builds_up_correct_instance()
+        public void Parse_to_type_with_single_string_ctor_builds_up_correct_instance()
         {
             // Fixture setup
             var expectedResult = new Options_With_Uri_And_SimpleType { EndPoint = new Uri("http://localhost/test/"), MyValue = new MySimpleType("custom-value") };
