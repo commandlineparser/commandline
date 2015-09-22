@@ -989,7 +989,11 @@ namespace CommandLine.Tests.Unit.Core
             get
             {
                 var guid0 = Guid.NewGuid();
+                var guid1 = Guid.NewGuid();
                 yield return new object[] { new[] { "--txid", guid0.ToStringInvariant() }, new Options_With_Guid { TransactionId = guid0 } };
+                yield return new object[] { new[] { "--txid=" + guid1.ToStringInvariant() }, new Options_With_Guid { TransactionId = guid1 } };
+                yield return new object[] { new[] { "-t", guid0.ToStringInvariant() }, new Options_With_Guid { TransactionId = guid0 } };
+                yield return new object[] { new[] { "-t" + guid1.ToStringInvariant() }, new Options_With_Guid { TransactionId = guid1 } };
             }
         }
     }
