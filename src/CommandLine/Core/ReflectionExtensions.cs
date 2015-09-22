@@ -210,17 +210,16 @@ namespace CommandLine.Core
         public static bool IsPrimitiveEx(this Type type)
         {
             return
-                type.IsValueType ||
-                type.IsPrimitive ||
-                new [] { 
-                    typeof(string),
-                    typeof(decimal),
-                    typeof(DateTime),
-                    typeof(DateTimeOffset),
-                    typeof(TimeSpan),
-                    typeof(Guid)
-                }.Contains(type) ||
-                Convert.GetTypeCode(type) != TypeCode.Object;
+                   (type.IsValueType && type != typeof(Guid))
+                || type.IsPrimitive
+                || new [] { 
+                     typeof(string)
+                    ,typeof(decimal)
+                    ,typeof(DateTime)
+                    ,typeof(DateTimeOffset)
+                    ,typeof(TimeSpan)
+                   }.Contains(type)
+                || Convert.GetTypeCode(type) != TypeCode.Object;
         }
     }
 }
