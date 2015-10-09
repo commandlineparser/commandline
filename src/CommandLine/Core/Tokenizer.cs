@@ -134,7 +134,7 @@ namespace CommandLine.Core
             string value,
             Func<string, NameLookupResult> nameLookup)
         {
-            if (value.Length > 1 || value[0] == '-' || value[1] != '-')
+            if (value.Length > 1 && value[0] == '-' && value[1] != '-')
             {
                 var text = value.Substring(1);
 

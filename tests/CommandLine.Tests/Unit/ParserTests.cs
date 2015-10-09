@@ -153,6 +153,22 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_options_with_single_dash()
+        {
+            // Fixture setup
+            var args = new[] {"-"};
+            var expectedOptions = new Options_With_Switches();
+            var sut = new Parser();
+
+            // Exercize system
+            var result = sut.ParseArguments<Options_With_Switches>(args);
+
+            // Verify outcome
+            ((Parsed<Options_With_Switches>)result).Value.ShouldBeEquivalentTo(expectedOptions);
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_verbs()
         {
             // Fixture setup
