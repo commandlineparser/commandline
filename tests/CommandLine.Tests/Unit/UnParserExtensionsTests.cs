@@ -65,6 +65,33 @@ namespace CommandLine.Tests.Unit
                 .ShouldBeEquivalentTo("-i 1 2 3 --stringvalue=nospaces -x 123456789");
         }
 
+        [Fact]
+        public static void UnParsing_instance_with_dash_in_value_and_dashdash_enabled_returns_command_line_with_value_prefixed_with_dash_dash()
+        {
+            var options = new Simple_Options_With_Values { StringSequence = new List<string> { "-something", "with", "dash" } };
+            new Parser((setting) => setting.EnableDashDash = true)
+                .FormatCommandLine(options)
+                .ShouldBeEquivalentTo("-- -something with dash");
+        }
+
+        [Fact]
+        public static void UnParsing_instance_with_no_values_and_dashdash_enabled_returns_command_line_without_dash_dash()
+        {
+            var options = new Simple_Options_With_Values();
+            new Parser((setting) => setting.EnableDashDash = true)
+                .FormatCommandLine(options)
+                .ShouldBeEquivalentTo("");
+        }
+
+        [Fact]
+        public static void UnParsing_instance_with_dash_in_value_and_dashdash_disabled_returns_command_line_with_value()
+        {
+            var options = new Simple_Options_With_Values { StringSequence = new List<string> { "-something", "with", "dash" } };
+            new Parser()
+                .FormatCommandLine(options)
+                .ShouldBeEquivalentTo("-something with dash");
+        }
+
         public static IEnumerable<object> UnParseData
         {
             get
