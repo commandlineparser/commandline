@@ -149,10 +149,7 @@ namespace CommandLine
                         .Append(' ')
                 );
 
-            if (valSpecs.Any() && parser.Settings.EnableDashDash)
-            {
-                builder.Append("-- ");
-            }
+            builder.AppendWhen(valSpecs.Any() && parser.Settings.EnableDashDash, "-- ");
 
             valSpecs.ForEach(
                 val => builder.Append(FormatValue(val.Specification, val.Value)).Append(' '));
