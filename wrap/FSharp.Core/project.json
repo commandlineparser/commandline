@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "dnxcore50": {
+      "bin": {
+        "assembly": "../../src/CommandLine.dotnet/bin/portable-dotnet/Debug/FSharp.Core.dll"
+      }
+    }
+  }
+}

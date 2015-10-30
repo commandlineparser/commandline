@@ -439,6 +439,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
+#if !PLATFORM_DOTNET
         [Fact]
         public void Default_set_to_sequence_should_be_properly_printed()
         {
@@ -464,5 +465,6 @@ namespace CommandLine.Tests.Unit.Text
 
             // Teardown
         }
+#endif
     }
 }

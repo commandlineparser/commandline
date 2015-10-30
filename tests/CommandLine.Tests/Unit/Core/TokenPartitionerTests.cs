@@ -28,7 +28,11 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system 
             var result = TokenPartitioner.Partition(
                 new[] { Token.Name("i"), Token.Value("10"), Token.Value("20"), Token.Value("30"), Token.Value("40") },
+#if !PLATFORM_DOTNET
                 name => TypeLookup.FindTypeDescriptorAndSibling(name, specs, StringComparer.InvariantCulture)
+#else
+                name => TypeLookup.FindTypeDescriptorAndSibling(name, specs, StringComparer.Ordinal)
+#endif
                 );
 
             // Verify outcome
@@ -55,7 +59,11 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system 
             var result = TokenPartitioner.Partition(
                 new[] { Token.Name("i"), Token.Value("10"), Token.Value("10"), Token.Value("30"), Token.Value("40") },
+#if !PLATFORM_DOTNET
                 name => TypeLookup.FindTypeDescriptorAndSibling(name, specs, StringComparer.InvariantCulture)
+#else
+                name => TypeLookup.FindTypeDescriptorAndSibling(name, specs, StringComparer.Ordinal)
+#endif
                 );
 
             // Verify outcome

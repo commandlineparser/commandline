@@ -12,6 +12,7 @@ namespace CommandLine.Tests
         public Action ResetCulture;
     }
 
+#if !PLATFORM_DOTNET
     static class CultureInfoExtensions
     {
         public static CultureHandlers MakeCultureHandlers(this CultureInfo newCulture)
@@ -25,4 +26,5 @@ namespace CommandLine.Tests
             return new CultureHandlers { ChangeCulture = changer, ResetCulture = resetter };
         }
     }
+#endif
 }

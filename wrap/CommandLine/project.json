@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "dnxcore50": {
+      "bin": {
+        "assembly": "../../src/CommandLine.dotnet/bin/portable-dotnet/Debug/CommandLine.dll",
+        "pdb": "../../src/CommandLine.dotnet/bin/portable-dotnet/Debug/CommandLine.pdb"
+      },
+      "dependencies": {
+        "FSharp.Core": "1.0.0-*"
+      }
+    }
+  }
+}

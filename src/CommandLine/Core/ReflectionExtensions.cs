@@ -196,7 +196,7 @@ namespace CommandLine.Core
                 args);
 #else
             var methodInfo = type.GetMethod(name, BindingFlags.Public | BindingFlags.Static);
-            return methodInfo.Invoke(null, null);
+            return methodInfo.Invoke(null, args);
 #endif
 
 
