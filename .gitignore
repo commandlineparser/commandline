@@ -33,3 +33,5 @@ StyleCop.Cache
 .fake
 *.cache
 docs/output/*
+artifacts/*
+.vs/*
