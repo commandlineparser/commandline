@@ -1,4 +1,7 @@
 ﻿using System;
+#if PLATFORM_DOTNET
+using System.Reflection;
+#endif
 using CommandLine.Core;
 using Microsoft.FSharp.Core;
 

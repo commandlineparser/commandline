@@ -1,5 +1,7 @@
 src/CommandLine/bin/*
 src/CommandLine/obj
+src/CommandLine.dotnet/bin/*
+src/CommandLine.dotnet/obj
 demo/ReadText.Demo/bin/*
 demo/ReadText.Demo/obj
 tests/CommandLine.Tests/bin/*

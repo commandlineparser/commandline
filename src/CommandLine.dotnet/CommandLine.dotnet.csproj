@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1E72E75F-888A-400E-865C-44251B8013E1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CommandLine</RootNamespace>
+    <AssemblyName>CommandLine</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\portable-dotnet\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CSX_EITHER_INTERNAL; CSX_REM_EITHER_BEYOND_2; CSX_ENUM_INTERNAL; ERRH_INTERNAL; ERRH_DISABLE_INLINE_METHODS; CSX_MAYBE_INTERNAL; CSX_REM_EITHER_FUNC;PLATFORM_DOTNET</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\portable-dotnet\Release\</OutputPath>
+    <DefineConstants>TRACE;CSX_EITHER_INTERNAL; CSX_REM_EITHER_BEYOND_2; CSX_ENUM_INTERNAL; ERRH_INTERNAL; ERRH_DISABLE_INLINE_METHODS; CSX_MAYBE_INTERNAL; CSX_REM_EITHER_FUNC;PLATFORM_DOTNET</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\paket-files\gsscoder\railwaysharp\src\RailwaySharp\ErrorHandling.cs">
+      <Paket>True</Paket>
+      <Link>Infrastructure/ErrorHandling.cs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\gsscoder\CSharpx\src\CSharpx\EnumerableExtensions.cs">
+      <Paket>True</Paket>
+      <Link>Infrastructure/EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\gsscoder\CSharpx\src\CSharpx\Maybe.cs">
+      <Paket>True</Paket>
+      <Link>Infrastructure/Maybe.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\CommandLine\BaseAttribute.cs" />
+    <Compile Include="..\CommandLine\Core\ArgumentsExtensions.cs" />
+    <Compile Include="..\CommandLine\Core\KeyValuePairHelper.cs" />
+    <Compile Include="..\CommandLine\Core\PreprocessorGuards.cs" />
+    <Compile Include="..\CommandLine\Core\TypeDescriptor.cs" />
+    <Compile Include="..\CommandLine\Core\Scalar.cs" />
+    <Compile Include="..\CommandLine\Core\Sequence.cs" />
+    <Compile Include="..\CommandLine\Core\Switch.cs" />
+    <Compile Include="..\CommandLine\ErrorExtensions.cs" />
+    <Compile Include="..\CommandLine\Infrastructure\EnumerableExtensions`1.cs" />
+    <Compile Include="..\CommandLine\Core\InstanceChooser.cs" />
+    <Compile Include="..\CommandLine\Core\Tokenizer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\CommandLine\Core\Verb.cs" />
+    <Compile Include="..\CommandLine\Infrastructure\ExceptionExtensions.cs" />
+    <Compile Include="..\CommandLine\Infrastructure\FSharpOptionHelper.cs" />
+    <Compile Include="..\CommandLine\Infrastructure\PopsicleSetter.cs" />
+    <Compile Include="..\CommandLine\Infrastructure\ReflectionHelper.cs" />
+    <Compile Include="..\CommandLine\Infrastructure\ResultExtensions.cs" />
+    <Compile Include="..\CommandLine\Infrastructure\StringExtensions.cs" />
+    <Compile Include="..\CommandLine\NameInfo.cs" />
+    <Compile Include="..\CommandLine\NullInstance.cs" />
+    <Compile Include="..\CommandLine\Core\OptionMapper.cs" />
+    <Compile Include="..\CommandLine\Core\SpecificationPropertyRules.cs" />
+    <Compile Include="..\CommandLine\Core\SpecificationGuards.cs" />
+    <Compile Include="..\CommandLine\Core\TypeLookup.cs" />
+    <Compile Include="..\CommandLine\Core\ValueMapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\CommandLine\Core\SpecificationPropertyExtensions.cs" />
+    <Compile Include="..\CommandLine\Core\SpecificationExtensions.cs" />
+    <Compile Include="..\CommandLine\Core\NameLookup.cs" />
+    <Compile Include="..\CommandLine\Core\SpecificationProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\CommandLine\Core\ReflectionExtensions.cs" />
+    <Compile Include="..\CommandLine\Core\TokenPartitioner.cs" />
+    <Compile Include="..\CommandLine\Core\TypeConverter.cs" />
+    <Compile Include="..\CommandLine\Core\ValueSpecification.cs" />
+    <Compile Include="..\CommandLine\Core\InstanceBuilder.cs" />
+    <Compile Include="..\CommandLine\Core\OptionSpecification.cs" />
+    <Compile Include="..\CommandLine\Core\Specification.cs" />
+    <Compile Include="..\CommandLine\Core\Token.cs" />
+    <Compile Include="..\CommandLine\Error.cs" />
+    <Compile Include="..\CommandLine\OptionAttribute.cs" />
+    <Compile Include="..\CommandLine\Parser.cs" />
+    <Compile Include="..\CommandLine\ParserExtensions.cs" />
+    <Compile Include="..\CommandLine\ParserResult.cs" />
+    <Compile Include="..\CommandLine\ParserResultExtensions.cs" />
+    <Compile Include="..\CommandLine\ParserSettings.cs" />
+    <Compile Include="..\CommandLine\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\CommandLine\Core\NameExtensions.cs" />
+    <Compile Include="..\CommandLine\Text\AssemblyLicenseAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\CommandLine\Text\AssemblyUsageAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\CommandLine\Text\CopyrightInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\CommandLine\Text\Example.cs" />
+    <Compile Include="..\CommandLine\Text\HeadingInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\CommandLine\Text\HelpText.cs" />
+    <Compile Include="..\CommandLine\Text\MultiLineTextAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\CommandLine\Text\SentenceBuilder.cs" />
+    <Compile Include="..\CommandLine\Infrastructure\StringBuilderExtensions.cs" />
+    <Compile Include="..\CommandLine\Text\UsageAttribute.cs" />
+    <Compile Include="..\CommandLine\UnParserExtensions.cs" />
+    <Compile Include="..\CommandLine\ValueAttribute.cs" />
+    <Compile Include="..\CommandLine\VerbAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FSharp.Core">
+      <HintPath>..\..\packages\FSharp.Core\lib\portable-net45+netcore45+wpa81+wp8\FSharp.Core.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Target Name="BeforeBuild" DependsOnTargets="PaketInstall">
+  </Target>
+  <Target Name="BootstrapPaket" Condition="!Exists('$(SolutionDir).paket/paket.bootstrapper.exe)')">
+    <Exec Command="$(SolutionDir).paket/paket.bootstrapper.exe" />
+  </Target>
+  <Target Name="PaketInstall" DependsOnTargets="BootstrapPaket" Condition="!Exists('$(SolutionDir)paket-files')">
+    <Exec Command="$(SolutionDir).paket/paket install" />
+  </Target>
+</Project>
