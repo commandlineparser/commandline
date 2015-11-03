@@ -6,13 +6,13 @@ using System.Threading;
 
 namespace CommandLine.Tests
 {
+#if !PLATFORM_DOTNET
     struct CultureHandlers
     {
         public Action ChangeCulture;
         public Action ResetCulture;
     }
 
-#if !PLATFORM_DOTNET
     static class CultureInfoExtensions
     {
         public static CultureHandlers MakeCultureHandlers(this CultureInfo newCulture)
