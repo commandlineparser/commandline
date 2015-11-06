@@ -266,6 +266,6 @@ Latest Changes:
 Contact:
 ---
 Giacomo Stelluti Scala
-  - gsscoder AT gmail DOT com
+  - gsscoder AT gmail DOT com (_use this for everything that is not available via GitHub features_)
   - [Blog](http://gsscoder.blogspot.it)
   - [Twitter](http://twitter.com/gsscoder)
