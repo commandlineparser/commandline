@@ -23,7 +23,7 @@
 
 	"frameworks": {
 		"dnxcore50": {
-			"compilationOptions": { "define": [ "PLATFORM_DOTNET" ] },
+			"compilationOptions": { "define": [ "PLATFORM_DOTNET" ], "keyFile": "../../CommandLine.snk" },
       "dependencies": {
         "CommandLine": "1.0.0-*",
         "System.Collections.Specialized": "4.0.0",

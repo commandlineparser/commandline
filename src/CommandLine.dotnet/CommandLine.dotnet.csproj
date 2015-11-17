@@ -40,7 +40,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
