@@ -6,6 +6,8 @@ demo/ReadText.Demo/bin/*
 demo/ReadText.Demo/obj
 tests/CommandLine.Tests/bin/*
 tests/CommandLine.Tests/obj
+tests/CommandLine.dnx.Tests/bin/*
+tests/CommandLine.dnx.Tests/obj
 tests/CommandLine.Tests.Properties/bin/*
 tests/CommandLine.Tests.Properties/obj
 src/templates/CSharpTemplate/bin/*
@@ -35,3 +37,5 @@ StyleCop.Cache
 docs/output/*
 artifacts/*
 .vs/*
+*.xproj.user
+*.nuget.targets
