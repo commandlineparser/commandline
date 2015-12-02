@@ -82,8 +82,7 @@ class Options {
 
   [Value(0, MetaName = "offset",
     HelpText = "File offset.")]
-  public long? Offset { get; set;}
-  }
+  public long? Offset { get; set; }
 }
 ```
 Consume them:
