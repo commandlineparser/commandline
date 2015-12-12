@@ -150,7 +150,7 @@ namespace CommandLine.Text
         internal HelpText AddToHelpText(HelpText helpText, Func<string, HelpText> func)
         {
             var strArray = new[] { line1, line2, line3, line4, line5 };
-            return strArray.Aggregate(helpText, (current, line) => func(line));
+            return strArray.Take(GetLastLineWithText(strArray)).Aggregate(helpText, (current, line) => func(line));
         }
 
         internal HelpText AddToHelpText(HelpText helpText, bool before)
