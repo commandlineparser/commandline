@@ -9,6 +9,9 @@ namespace CommandLine.Tests.Fakes
         [Option(HelpText = "Define a string value here.")]
         public string StringValue { get; set; }
 
+        [Option('s', "shortandlong", HelpText = "Example with both short and long name.")]
+        public string ShortAndLong { get; set; }
+
         [Option('i', Min = 3, Max = 4, HelpText = "Define a int sequence here.")]
         public IEnumerable<int> IntSequence { get; set; }
 

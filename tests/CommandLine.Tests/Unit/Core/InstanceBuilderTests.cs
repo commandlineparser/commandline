@@ -772,6 +772,42 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
+        [InlineData(new[] { "-s", "abc", "-s", "def" }, 1)]
+        public void Specifying_options_two_or_more_times_with_short_options_generates_RepeatedOptionError(string[] arguments, int expected)
+        {
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options>(
+                arguments);
+
+            // Verify outcome
+            ((NotParsed<Simple_Options>)result).Errors.Should().HaveCount(x => x == expected);
+        }
+
+        [Theory]
+        [InlineData(new[] { "--shortandlong", "abc", "--shortandlong", "def" }, 1)]
+        public void Specifying_options_two_or_more_times_with_long_options_generates_RepeatedOptionError(string[] arguments, int expected)
+        {
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options>(
+                arguments);
+
+            // Verify outcome
+            ((NotParsed<Simple_Options>)result).Errors.Should().HaveCount(x => x == expected);
+        }
+
+        [Theory]
+        [InlineData(new[] { "-s", "abc", "--shortandlong", "def" }, 1)]
+        public void Specifying_options_two_or_more_times_with_mixed_short_long_options_generates_RepeatedOptionError(string[] arguments, int expected)
+        {
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options>(
+                arguments);
+
+            // Verify outcome
+            ((NotParsed<Simple_Options>)result).Errors.Should().HaveCount(x => x == expected);
+        }
+
+        [Theory]
         [InlineData(new[] { "--inputfile=file1.bin" }, "file1.bin")]
         [InlineData(new[] { "--inputfile", "file2.txt" }, "file2.txt")]
         public void Can_define_options_on_interface_properties(string[] arguments, string expected)

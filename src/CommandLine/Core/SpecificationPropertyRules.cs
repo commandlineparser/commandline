@@ -123,13 +123,19 @@ namespace CommandLine.Core
                                 where sp.Specification.IsOption()
                                 where sp.Value.IsJust()
                                 select (OptionSpecification)sp.Specification;
-                    var options = from t in tokens
-                                  where t.IsName()
-                                  join o in specs on t.Text equals o.UniqueName() into to
-                                  from o in to.DefaultIfEmpty()
-                                  where o != null
-                                  select new { o.ShortName, o.LongName };
-                    var groups = from x in options
+                    var shortOptions = from t in tokens
+                                       where t.IsName()
+                                       join o in specs on t.Text equals o.ShortName into to
+                                       from o in to.DefaultIfEmpty()
+                                       where o != null
+                                       select new { o.ShortName, o.LongName };
+                    var longOptions = from t in tokens
+                                       where t.IsName()
+                                       join o in specs on t.Text equals o.LongName into to
+                                       from o in to.DefaultIfEmpty()
+                                       where o != null
+                                       select new { o.ShortName, o.LongName };
+                    var groups = from x in shortOptions.Concat(longOptions)
                                  group x by x into g
                                  let count = g.Count()
                                  select new { Value = g.Key, Count = count };

@@ -107,7 +107,7 @@ namespace CommandLine.Core
                 };
 
                 var instance = typeInfo.IsMutable() ? buildMutable() : buildImmutable();
-
+                
                 var validationErrors = specPropsWithValue.Validate(SpecificationPropertyRules.Lookup(tokens));
 
                 var allErrors =
