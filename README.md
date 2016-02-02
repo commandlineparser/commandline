@@ -145,6 +145,35 @@ int Main(string[] args) {
 }
 ```
 
+**F#:**
+```fsharp
+open CommandLine
+
+[<Verb("add", HelpText = "Add file contents to the index.")>]
+type AddOptions = {
+  // normal options here
+}
+[<Verb("commit", HelpText = "Record changes to the repository.")>]
+type CommitOptions = {
+  // normal options here
+}
+[<Verb("clone", HelpText = "Clone a repository into a new directory.")>]
+type CloneOptions = {
+  // normal options here
+}
+
+[<EntryPoint>]
+let main args =
+  let result = Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions> args
+  match result with
+  | :? CommandLine.Parsed<obj> as command ->
+    match command.Value with
+    | :? AddOptions as opts -> RunAddAndReturnExitCode opts
+    | :? CommitOptions as opts -> RunCommitAndReturnExitCode opts
+    | :? CloneOptions as opts -> RunCloneAndReturnExitCode opts
+  | :? CommandLine.NotParsed<obj> -> 1
+```
+
 Acknowledgements:
 ---
 [![Jet Brains ReSharper](/art/resharper-logo.png)](http://www.jetbrains.com/resharper/)
