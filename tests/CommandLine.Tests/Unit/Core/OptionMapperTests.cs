@@ -38,11 +38,7 @@ namespace CommandLine.Tests.Unit.Core
                 specProps.Where(pt => pt.Specification.IsOption()),
                 tokenPartitions,
                 (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, CultureInfo.InvariantCulture),
-#if !PLATFORM_DOTNET
-                StringComparer.InvariantCulture
-#else
                 StringComparer.Ordinal
-#endif
                 );
 
             // Verify outcome
