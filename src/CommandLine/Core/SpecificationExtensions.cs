@@ -47,11 +47,7 @@ namespace CommandLine.Core
             {
                 if (specifications.Any(spec => guard.Item1(spec)))
                 {
-#if !PLATFORM_DOTNET
-                    throw new ApplicationException(guard.Item2);
-#else
-                    throw new Exception(guard.Item2);
-#endif
+                    throw new InvalidOperationException(guard.Item2);
                 }
             }
 

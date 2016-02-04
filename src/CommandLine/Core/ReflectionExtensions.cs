@@ -98,11 +98,7 @@ namespace CommandLine.Core
         private static T SetValue<T>(this PropertyInfo property, T instance, object value)
         {
             Action<Exception> fail = inner => {
-#if !PLATFORM_DOTNET
-                throw new ApplicationException("Cannot set value to target instance.", inner);
-#else
-                throw new Exception("Cannot set value to target instance.", inner);
-#endif
+                throw new InvalidOperationException("Cannot set value to target instance.", inner);
             };
             
             try

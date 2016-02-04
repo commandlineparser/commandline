@@ -711,11 +711,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-#if !PLATFORM_DOTNET
-            Assert.Throws<ApplicationException>(test);
-#else
-            Assert.Throws<Exception>(test);
-#endif
+            Assert.Throws<InvalidOperationException>(test);
         }
 
         [Fact]
@@ -726,11 +722,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-#if !PLATFORM_DOTNET
-            Assert.Throws<ApplicationException>(test);
-#else
-            Assert.Throws<Exception>(test);
-#endif
+            Assert.Throws<InvalidOperationException>(test);
         }
 
         [Fact]
@@ -741,11 +733,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-#if !PLATFORM_DOTNET
-            Assert.Throws<ApplicationException>(test);
-#else
-            Assert.Throws<Exception>(test);
-#endif
+            Assert.Throws<InvalidOperationException>(test);
         }
 
         [Theory]

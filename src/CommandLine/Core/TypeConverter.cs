@@ -29,11 +29,7 @@ namespace CommandLine.Core
                               .SingleOrDefault()
                               .ToMaybe()
                               .FromJustOrFail(
-#if !PLATFORM_DOTNET
-                                  new ApplicationException("Non scalar properties should be sequence of type IEnumerable<T>.")
-#else
-                                  new Exception("Non scalar properties should be sequence of type IEnumerable<T>.")
-#endif
+                                  new InvalidOperationException("Non scalar properties should be sequence of type IEnumerable<T>.")
                     );
 
             var converted = values.Select(value => ChangeTypeScalar(value, type, conversionCulture));
