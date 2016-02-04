@@ -187,49 +187,20 @@ namespace CommandLine.Core
 
         public static object StaticMethod(this Type type, string name, params object[] args)
         {
-#if !PLATFORM_DOTNET
-            return type.InvokeMember(
-                name,
-                BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
-                null,
-                null,
-                args);
-#else
             var methodInfo = type.GetMethod(name, BindingFlags.Public | BindingFlags.Static);
             return methodInfo.Invoke(null, args);
-#endif
-
-
         }
 
         public static object StaticProperty(this Type type, string name)
         {
-#if !PLATFORM_DOTNET
-            return type.InvokeMember(
-                name,
-                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static,
-                null,
-                null,
-                new object[] { });
-#else
             var propertyInfo = type.GetProperty(name, BindingFlags.Public | BindingFlags.Static);
             return propertyInfo.GetGetMethod().Invoke(null, null);
-#endif
         }
 
         public static object InstanceProperty(this Type type, string name, object target)
         {
-#if !PLATFORM_DOTNET
-            return type.InvokeMember(
-                name,
-                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance,
-                null,
-                target,
-                new object[] { });
-#else
             var propertyInfo = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             return propertyInfo.GetGetMethod().Invoke(target, null);
-#endif
         }
 
         public static bool IsPrimitiveEx(this Type type)
