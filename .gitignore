@@ -39,3 +39,4 @@ artifacts/*
 .vs/*
 *.xproj.user
 *.nuget.targets
+*.lock.json
