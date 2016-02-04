@@ -220,9 +220,7 @@ namespace CommandLine.Core
         {
             return type;
         }
-#endif
-
-#if PLATFORM_DOTNET
+#else
         public static Attribute[] GetCustomAttributes(this Type type, Type attributeType, bool inherit)
         {
             return type.GetTypeInfo().GetCustomAttributes(attributeType, inherit).ToArray();
