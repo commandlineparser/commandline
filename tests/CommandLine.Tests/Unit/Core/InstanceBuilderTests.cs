@@ -25,6 +25,7 @@ namespace CommandLine.Tests.Unit.Core
                 (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
                 arguments,
                 StringComparer.Ordinal,
+                false,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
         }
@@ -36,6 +37,7 @@ namespace CommandLine.Tests.Unit.Core
                 (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
                 arguments,
                 StringComparer.Ordinal,
+                false,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
         }
@@ -411,6 +413,7 @@ namespace CommandLine.Tests.Unit.Core
                         args => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, StringComparer.Ordinal))),
                 arguments,
                 StringComparer.Ordinal,
+                false,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
 

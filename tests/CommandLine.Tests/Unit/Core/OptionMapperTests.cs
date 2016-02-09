@@ -34,7 +34,7 @@ namespace CommandLine.Tests.Unit.Core
             var result = OptionMapper.MapValues(
                 specProps.Where(pt => pt.Specification.IsOption()),
                 tokenPartitions,
-                (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, CultureInfo.InvariantCulture),
+                (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, CultureInfo.InvariantCulture, false),
                 StringComparer.InvariantCulture);
 
             // Verify outcome
