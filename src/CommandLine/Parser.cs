@@ -97,7 +97,7 @@ namespace CommandLine
                     (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     args,
                     settings.NameComparer,
-                    settings.CaseInsensitiveValues,
+                    settings.CaseInsensitiveEnumValues,
                     settings.ParsingCulture,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
@@ -126,7 +126,7 @@ namespace CommandLine
                     (arguments, optionSpecs) => Tokenize(arguments, optionSpecs, settings),
                     args,
                     settings.NameComparer,
-                    settings.CaseInsensitiveValues,
+                    settings.CaseInsensitiveEnumValues,
                     settings.ParsingCulture,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);

@@ -15,7 +15,7 @@ namespace CommandLine
     {
         private bool disposed;
         private bool caseSensitive;
-        private bool caseInsensitiveValues;
+        private bool caseInsensitiveEnumValues;
         private TextWriter helpWriter;
         private bool ignoreUnknownArguments;
         private CultureInfo parsingCulture;
@@ -27,7 +27,7 @@ namespace CommandLine
         public ParserSettings()
         {
             caseSensitive = true;
-            caseInsensitiveValues = false;
+            caseInsensitiveEnumValues = false;
             parsingCulture = CultureInfo.InvariantCulture;
         }
 
@@ -54,10 +54,10 @@ namespace CommandLine
         /// Gets or sets a value indicating whether perform case sensitive comparisons of <i>values</i>.
         /// Note that case insensitivity only applies to <i>values</i>, not the parameters.
         /// </summary>
-        public bool CaseInsensitiveValues
+        public bool CaseInsensitiveEnumValues
         {
-            get { return caseInsensitiveValues; }
-            set { PopsicleSetter.Set(Consumed, ref caseInsensitiveValues, value); }
+            get { return caseInsensitiveEnumValues; }
+            set { PopsicleSetter.Set(Consumed, ref caseInsensitiveEnumValues, value); }
         }
 
         /// <summary>
