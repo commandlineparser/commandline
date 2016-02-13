@@ -204,8 +204,6 @@
     <Compile Include="..\CommandLine\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-
-
     <Compile Include="..\CommandLine\Text\AssemblyLicenseAttribute.cs">
       <Link>Text\AssemblyLicenseAttribute.cs</Link>
     </Compile>
@@ -250,10 +248,8 @@
     <Reference Include="FSharp.Core">
       <HintPath>..\..\packages\FSharp.Core\lib\portable-net45+netcore45+wpa81+wp8\FSharp.Core.dll</HintPath>
       <Private>True</Private>
-      <Paket>True</Paket>
     </Reference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  </ItemGroup>  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="AfterBuild">

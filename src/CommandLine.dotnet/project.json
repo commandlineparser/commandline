@@ -1,8 +1,8 @@
 ﻿{
   "supports": {
-    "net46.app": {},
-    "uwp.10.0.app": {},
-    "dnxcore50.app": {}
+    "net46.app": { },
+    "uwp.10.0.app": { },
+    "dnxcore50.app": { }
   },
   "dependencies": {
     "Microsoft.CSharp": "4.0.0",
@@ -22,7 +22,7 @@
   },
   "frameworks": {
     "dotnet": {
-      "imports": "portable-net452+win81"
+      "imports": "portable-net45+netcore45+wpa81+wp8"
     }
   }
 }
