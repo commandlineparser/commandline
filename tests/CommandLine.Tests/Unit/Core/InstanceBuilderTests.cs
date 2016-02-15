@@ -25,6 +25,20 @@ namespace CommandLine.Tests.Unit.Core
                 (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
                 arguments,
                 StringComparer.Ordinal,
+                false,
+                CultureInfo.InvariantCulture,
+                Enumerable.Empty<ErrorType>());
+        }
+
+        private static ParserResult<T> InvokeBuildEnumValuesCaseIgnore<T>(string[] arguments)
+            where T : new()
+        {
+            return InstanceBuilder.Build(
+                Maybe.Just<Func<T>>(() => new T()),
+                (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
+                arguments,
+                StringComparer.Ordinal,
+                true,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
         }
@@ -36,6 +50,7 @@ namespace CommandLine.Tests.Unit.Core
                 (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
                 arguments,
                 StringComparer.Ordinal,
+                false,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
         }
@@ -259,6 +274,27 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Theory]
+        [InlineData(new[] { "--colors", "red" }, Colors.Red)]
+        [InlineData(new[] { "--colors", "green" }, Colors.Green)]
+        [InlineData(new[] { "--colors", "blue" }, Colors.Blue)]
+        [InlineData(new[] { "--colors", "0" }, Colors.Red)]
+        [InlineData(new[] { "--colors", "1" }, Colors.Green)]
+        [InlineData(new[] { "--colors", "2" }, Colors.Blue)]
+        public void Parse_enum_value_ignore_case(string[] arguments, Colors expected)
+        {
+            // Fixture setup in attribute
+
+            // Exercize system 
+            var result = InvokeBuildEnumValuesCaseIgnore<Simple_Options_With_Enum>(
+                arguments);
+
+            // Verify outcome
+            expected.ShouldBeEquivalentTo(((Parsed<Simple_Options_With_Enum>)result).Value.Colors);
+
+            // Teardown
+        }
+
         [Fact]
         public void Parse_enum_value_with_wrong_index_generates_BadFormatConversionError()
         {
@@ -411,6 +447,7 @@ namespace CommandLine.Tests.Unit.Core
                         args => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, StringComparer.Ordinal))),
                 arguments,
                 StringComparer.Ordinal,
+                false,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
 
