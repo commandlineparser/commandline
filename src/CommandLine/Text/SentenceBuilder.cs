@@ -15,14 +15,18 @@ namespace CommandLine.Text
     public abstract class SentenceBuilder
     {
         /// <summary>
-        /// Create the default instance of <see cref="CommandLine.Text.SentenceBuilder"/>,
-        /// localized in English.
+        /// Create instance of <see cref="CommandLine.Text.SentenceBuilder"/>,
         /// </summary>
-        /// <returns>The default <see cref="CommandLine.Text.SentenceBuilder"/> instance.</returns>
-        public static SentenceBuilder CreateDefault()
+        /// <returns>The <see cref="CommandLine.Text.SentenceBuilder"/> instance.</returns>
+        public static SentenceBuilder Create()
         {
-            return new DefaultSentenceBuilder();
+            return Factory();
         }
+
+        /// <summary>
+        /// Factory to allow custom SentenceBuilder injection
+        /// </summary>
+        public static Func<SentenceBuilder> Factory { get; set; } = () => new DefaultSentenceBuilder();
 
         /// <summary>
         /// Gets a delegate that returns the word 'required'.
