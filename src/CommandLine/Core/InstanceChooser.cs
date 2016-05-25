@@ -60,6 +60,7 @@ namespace CommandLine.Core
                     tokenizer,
                     arguments.Skip(1),
                     nameComparer,
+                    false,
                     parsingCulture,
                     nonFatalErrors)
                 : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));

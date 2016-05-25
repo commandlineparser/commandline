@@ -2,9 +2,11 @@
 [![Nuget](https://img.shields.io/nuget/dt/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
+[![Join the gitter chat!](https://badges.gitter.im/gsscoder/commandline.svg)](https://gitter.im/gsscoder/commandline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Command Line Parser Library 2.0.275.0 beta for CLR.
 ===
+
 The Command Line Parser Library offers CLR applications a clean and concise API for manipulating command line arguments and related tasks, such as defining switches, options and verb commands. It allows you to display a help screen with a high degree of customization and a simple way to report syntax errors to the end user.
 
 Everything that is boring and repetitive about parsing command line arguments is delegated to the library, letting developers concentrate on core logic. It's written in **C#** and doesn't depend on other packages.
@@ -82,8 +84,7 @@ class Options {
 
   [Value(0, MetaName = "offset",
     HelpText = "File offset.")]
-  public long? Offset { get; set;}
-  }
+  public long? Offset { get; set; }
 }
 ```
 Consume them:
@@ -144,6 +145,35 @@ int Main(string[] args) {
       (CloneOptions opts) => RunCloneAndReturnExitCode(opts),
       errs => 1);
 }
+```
+
+**F#:**
+```fsharp
+open CommandLine
+
+[<Verb("add", HelpText = "Add file contents to the index.")>]
+type AddOptions = {
+  // normal options here
+}
+[<Verb("commit", HelpText = "Record changes to the repository.")>]
+type CommitOptions = {
+  // normal options here
+}
+[<Verb("clone", HelpText = "Clone a repository into a new directory.")>]
+type CloneOptions = {
+  // normal options here
+}
+
+[<EntryPoint>]
+let main args =
+  let result = Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions> args
+  match result with
+  | :? CommandLine.Parsed<obj> as command ->
+    match command.Value with
+    | :? AddOptions as opts -> RunAddAndReturnExitCode opts
+    | :? CommitOptions as opts -> RunCommitAndReturnExitCode opts
+    | :? CloneOptions as opts -> RunCloneAndReturnExitCode opts
+  | :? CommandLine.NotParsed<obj> -> 1
 ```
 
 Acknowledgements:
@@ -266,6 +296,6 @@ Latest Changes:
 Contact:
 ---
 Giacomo Stelluti Scala
-  - gsscoder AT gmail DOT com
+  - gsscoder AT gmail DOT com (_use this for everything that is not available via GitHub features_)
   - [Blog](http://gsscoder.blogspot.it)
   - [Twitter](http://twitter.com/gsscoder)

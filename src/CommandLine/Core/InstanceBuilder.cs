@@ -20,6 +20,7 @@ namespace CommandLine.Core
             Func<IEnumerable<string>, IEnumerable<OptionSpecification>, Result<IEnumerable<Token>, Error>> tokenizer,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
+            bool ignoreValueCase,
             CultureInfo parsingCulture,
             IEnumerable<ErrorType> nonFatalErrors)
         {
@@ -60,14 +61,14 @@ namespace CommandLine.Core
                     OptionMapper.MapValues(
                         (from pt in specProps where pt.Specification.IsOption() select pt),
                         optionsPartition,
-                        (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture),
+                        (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture, ignoreValueCase),
                         nameComparer);
 
                 var valueSpecPropsResult =
                     ValueMapper.MapValues(
                         (from pt in specProps where pt.Specification.IsValue() select pt),
                         valuesPartition,
-                        (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture));
+                        (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture, ignoreValueCase));
 
                 var missingValueErrors = from token in errorsPartition
                                          select
@@ -110,7 +111,7 @@ namespace CommandLine.Core
                 };
 
                 var instance = typeInfo.IsMutable() ? buildMutable() : buildImmutable();
-
+                
                 var validationErrors = specPropsWithValue.Validate(SpecificationPropertyRules.Lookup(tokens));
 
                 var allErrors =

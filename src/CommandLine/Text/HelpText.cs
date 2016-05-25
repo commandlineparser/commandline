@@ -35,7 +35,7 @@ namespace CommandLine.Text
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class.
         /// </summary>
         public HelpText()
-            : this(SentenceBuilder.CreateDefault(), string.Empty, string.Empty)
+            : this(SentenceBuilder.Create(), string.Empty, string.Empty)
         {
         }
 
@@ -58,7 +58,7 @@ namespace CommandLine.Text
         /// <param name="heading">An heading string or an instance of <see cref="CommandLine.Text.HeadingInfo"/>.</param>
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="heading"/> is null or empty string.</exception>
         public HelpText(string heading)
-            : this(SentenceBuilder.CreateDefault(), heading, string.Empty)
+            : this(SentenceBuilder.Create(), heading, string.Empty)
         {
         }
 
@@ -81,7 +81,7 @@ namespace CommandLine.Text
         /// <param name="copyright">A string with copyright or an instance of <see cref="CommandLine.Text.CopyrightInfo"/>.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when one or more parameters are null or empty strings.</exception>
         public HelpText(string heading, string copyright)
-            : this(SentenceBuilder.CreateDefault(), heading, copyright)
+            : this(SentenceBuilder.Create(), heading, copyright)
         {
         }
 

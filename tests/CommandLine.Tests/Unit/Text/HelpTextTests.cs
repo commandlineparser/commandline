@@ -58,13 +58,14 @@ namespace CommandLine.Tests.Unit.Text
 
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
             lines[0].ShouldBeEquivalentTo("pre-options");
-            lines[1].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
-            lines[2].ShouldBeEquivalentTo("-i               Define a int sequence here.");
-            lines[3].ShouldBeEquivalentTo("-x               Define a boolean or switch value here.");
-            lines[4].ShouldBeEquivalentTo("--help           Display this help screen.");
-            lines[5].ShouldBeEquivalentTo("--version        Display version information.");
-            lines[6].ShouldBeEquivalentTo("value pos. 0     Define a long value here.");
-            lines[7].ShouldBeEquivalentTo("post-options");
+            lines[1].ShouldBeEquivalentTo("--stringvalue         Define a string value here.");
+            lines[2].ShouldBeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
+            lines[3].ShouldBeEquivalentTo("-i                    Define a int sequence here.");
+            lines[4].ShouldBeEquivalentTo("-x                    Define a boolean or switch value here.");
+            lines[5].ShouldBeEquivalentTo("--help                Display this help screen.");
+            lines[6].ShouldBeEquivalentTo("--version             Display version information.");
+            lines[7].ShouldBeEquivalentTo("value pos. 0          Define a long value here.");
+            lines[8].ShouldBeEquivalentTo("post-options");
             // Teardown
         }
 
@@ -279,10 +280,11 @@ namespace CommandLine.Tests.Unit.Text
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
             lines[4].ShouldBeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
-            lines[5].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
-            lines[6].ShouldBeEquivalentTo("-i               Define a int sequence here.");
-            lines[7].ShouldBeEquivalentTo("-x               Define a boolean or switch value here.");
-            lines[8].ShouldBeEquivalentTo("--help           Display this help screen.");
+            lines[5].ShouldBeEquivalentTo("--stringvalue         Define a string value here.");
+            lines[6].ShouldBeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
+            lines[7].ShouldBeEquivalentTo("-i                    Define a int sequence here.");
+            lines[8].ShouldBeEquivalentTo("-x                    Define a boolean or switch value here.");
+            lines[9].ShouldBeEquivalentTo("--help                Display this help screen.");
             // Teardown
         }
 
