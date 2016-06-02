@@ -605,6 +605,26 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+        [Fact]
+        public static void Arguments_with_the_same_values_when_unknown_arguments_are_ignored()
+        {
+            var sameValues = new[] { "--stringvalue=test", "--shortandlong=test" };
+            var sut = new Parser(parserSettings => { parserSettings.IgnoreUnknownArguments = true; });
+            var result = sut.ParseArguments<Simple_Options>(sameValues);
+
+            result.MapResult(_ => true, _ => false).Should().BeTrue();
+        }
+
+        [Fact]
+        public static void Arguments_with_the_different_values_when_unknown_arguments_are_ignored()
+        {
+            var sameValues = new[] { "--stringvalue=test1", "--shortandlong=test2" };
+            var sut = new Parser(parserSettings => { parserSettings.IgnoreUnknownArguments = true; });
+            var result = sut.ParseArguments<Simple_Options>(sameValues);
+
+            result.MapResult(_ => true, _ => false).Should().BeTrue();
+        }
+
         public static IEnumerable<object> IgnoreUnknownArgumentsData
         {
             get

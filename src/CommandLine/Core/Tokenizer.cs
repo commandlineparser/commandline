@@ -98,7 +98,7 @@ namespace CommandLine.Core
                         .Where(t => t.IsJust())
                 select t.FromJustOrFail();
 
-            var normalized = tokens.Except(toExclude);
+            var normalized = tokens.Where(t => toExclude.Contains(t) == false);
 
             return normalized;
         }
