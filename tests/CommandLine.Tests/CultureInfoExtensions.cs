@@ -6,6 +6,7 @@ using System.Threading;
 
 namespace CommandLine.Tests
 {
+#if !PLATFORM_DOTNET
     struct CultureHandlers
     {
         public Action ChangeCulture;
@@ -25,4 +26,5 @@ namespace CommandLine.Tests
             return new CultureHandlers { ChangeCulture = changer, ResetCulture = resetter };
         }
     }
+#endif
 }

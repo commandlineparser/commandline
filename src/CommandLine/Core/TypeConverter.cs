@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+#if PLATFORM_DOTNET
+using System.Reflection;
+#endif
 using CommandLine.Infrastructure;
 using CSharpx;
 using RailwaySharp.ErrorHandling;
@@ -26,7 +29,8 @@ namespace CommandLine.Core
                               .SingleOrDefault()
                               .ToMaybe()
                               .FromJustOrFail(
-                                  new ApplicationException("Non scalar properties should be sequence of type IEnumerable<T>."));
+                                  new InvalidOperationException("Non scalar properties should be sequence of type IEnumerable<T>.")
+                    );
 
             var converted = values.Select(value => ChangeTypeScalar(value, type, conversionCulture, ignoreValueCase));
 
@@ -71,7 +75,7 @@ namespace CommandLine.Core
                 };
 
                 return value.IsBooleanString()
-                    ? value.ToBoolean() : conversionType.IsEnum
+                    ? value.ToBoolean() : conversionType.GetTypeInfo().IsEnum
                         ? value.ToEnum(conversionType, ignoreValueCase) : safeChangeType();
             };
 

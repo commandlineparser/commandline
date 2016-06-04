@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+#if PLATFORM_DOTNET
+using System.Reflection;
+#endif
 using CommandLine.Core;
 using CommandLine.Tests.Fakes;
 using Xunit;
@@ -35,7 +38,8 @@ namespace CommandLine.Tests.Unit.Core
                 specProps.Where(pt => pt.Specification.IsOption()),
                 tokenPartitions,
                 (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, CultureInfo.InvariantCulture, false),
-                StringComparer.InvariantCulture);
+                StringComparer.Ordinal
+                );
 
             // Verify outcome
             Assert.NotNull(((Ok<IEnumerable<SpecificationProperty>, Error>)result).Success.Single(

@@ -748,7 +748,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-            Assert.Throws<ApplicationException>(test);
+            Assert.Throws<InvalidOperationException>(test);
         }
 
         [Fact]
@@ -759,7 +759,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-            Assert.Throws<ApplicationException>(test);
+            Assert.Throws<InvalidOperationException>(test);
         }
 
         [Fact]
@@ -770,7 +770,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-            Assert.Throws<ApplicationException>(test);
+            Assert.Throws<InvalidOperationException>(test);
         }
 
         [Theory]

@@ -13,7 +13,11 @@ namespace CommandLine.Infrastructure
         public static Maybe<TAttribute> GetAttribute<TAttribute>()
             where TAttribute : Attribute
         {
+#if !PLATFORM_DOTNET
             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+#else
+            var assembly = typeof(ReflectionHelper).GetTypeInfo().Assembly;
+#endif
             var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
 
             return attributes.Length > 0
@@ -23,13 +27,21 @@ namespace CommandLine.Infrastructure
 
         public static string GetAssemblyName()
         {
+#if !PLATFORM_DOTNET
             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+#else
+            var assembly = typeof(ReflectionHelper).GetTypeInfo().Assembly;
+#endif
             return assembly.GetName().Name;
         }
 
         public static string GetAssemblyVersion()
         {
+#if !PLATFORM_DOTNET
             var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+#else
+            var assembly = typeof(ReflectionHelper).GetTypeInfo().Assembly;
+#endif
             return assembly.GetName().Version.ToStringInvariant();
         }
 

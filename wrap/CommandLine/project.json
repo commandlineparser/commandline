@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "netstandard1.3": {
+      "bin": {
+        "assembly": "../../src/CommandLine.dotnet/bin/portable-dotnet/{configuration}/CommandLine.dll",
+        "pdb": "../../src/CommandLine.dotnet/bin/portable-dotnet/{configuration}/CommandLine.pdb"
+      },
+      "dependencies": {
+        "FSharp.Core": "1.0.0-*"
+      }
+    }
+  }
+}

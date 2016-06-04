@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "netstandard1.3": {
+      "bin": {
+        "assembly": "../../src/CommandLine.dotnet/bin/portable-dotnet/{configuration}/FSharp.Core.dll"
+      }
+    }
+  }
+}

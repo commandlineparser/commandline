@@ -58,7 +58,7 @@ namespace CommandLine.Core
             {
                 yield return @interface;
             }
-            foreach (var @interface in FlattenHierarchy(type.BaseType))
+            foreach (var @interface in FlattenHierarchy(type.GetTypeInfo().BaseType))
             {
                 yield return @interface;
             }
@@ -97,16 +97,20 @@ namespace CommandLine.Core
 
         private static T SetValue<T>(this PropertyInfo property, T instance, object value)
         {
-            Action<Exception> fail = inner => { throw new ApplicationException("Cannot set value to target instance.", inner); };
+            Action<Exception> fail = inner => {
+                throw new InvalidOperationException("Cannot set value to target instance.", inner);
+            };
             
             try
             {
                 property.SetValue(instance, value, null);
             }
+#if !PLATFORM_DOTNET
             catch (TargetException e)
             {
                 fail(e);
             }
+#endif
             catch (TargetParameterCountException e)
             {
                 fail(e);
@@ -153,7 +157,7 @@ namespace CommandLine.Core
             {
                 return string.Empty;
             }
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 return type.GetGenericArguments()[0].CreateEmptyArray();
             }
@@ -179,39 +183,27 @@ namespace CommandLine.Core
 
         public static object StaticMethod(this Type type, string name, params object[] args)
         {
-            return type.InvokeMember(
-                name,
-                BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
-                null,
-                null,
-                args);
+            var methodInfo = type.GetMethod(name, BindingFlags.Public | BindingFlags.Static);
+            return methodInfo.Invoke(null, args);
         }
 
         public static object StaticProperty(this Type type, string name)
         {
-            return type.InvokeMember(
-                name,
-                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static,
-                null,
-                null,
-                new object[] { });
+            var propertyInfo = type.GetProperty(name, BindingFlags.Public | BindingFlags.Static);
+            return propertyInfo.GetGetMethod().Invoke(null, null);
         }
 
         public static object InstanceProperty(this Type type, string name, object target)
         {
-            return type.InvokeMember(
-                name,
-                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance,
-                null,
-                target,
-                new object[] { });
+            var propertyInfo = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
+            return propertyInfo.GetGetMethod().Invoke(target, null);
         }
 
         public static bool IsPrimitiveEx(this Type type)
         {
             return
-                   (type.IsValueType && type != typeof(Guid))
-                || type.IsPrimitive
+                   (type.GetTypeInfo().IsValueType && type != typeof(Guid))
+                || type.GetTypeInfo().IsPrimitive
                 || new [] { 
                      typeof(string)
                     ,typeof(decimal)
@@ -221,5 +213,23 @@ namespace CommandLine.Core
                    }.Contains(type)
                 || Convert.GetTypeCode(type) != TypeCode.Object;
         }
+
+
+#if !PLATFORM_DOTNET
+        public static Type GetTypeInfo(this Type type)
+        {
+            return type;
+        }
+#else
+        public static Attribute[] GetCustomAttributes(this Type type, Type attributeType, bool inherit)
+        {
+            return type.GetTypeInfo().GetCustomAttributes(attributeType, inherit).ToArray();
+        }
+
+        public static Attribute[] GetCustomAttributes(this Assembly assembly, Type attributeType, bool inherit)
+        {
+            return assembly.GetCustomAttributes(attributeType).ToArray();
+        }
+#endif
     }
 }

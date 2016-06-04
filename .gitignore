@@ -1,9 +1,13 @@
 src/CommandLine/bin/*
 src/CommandLine/obj
+src/CommandLine.dotnet/bin/*
+src/CommandLine.dotnet/obj
 demo/ReadText.Demo/bin/*
 demo/ReadText.Demo/obj
 tests/CommandLine.Tests/bin/*
 tests/CommandLine.Tests/obj
+tests/CommandLine.DotNet.Tests/bin/*
+tests/CommandLine.DotNet.Tests/obj
 tests/CommandLine.Tests.Properties/bin/*
 tests/CommandLine.Tests.Properties/obj
 src/templates/CSharpTemplate/bin/*
@@ -31,3 +35,8 @@ StyleCop.Cache
 .fake
 *.cache
 docs/output/*
+artifacts/*
+.vs/*
+*.xproj.user
+*.nuget.targets
+*.lock.json
