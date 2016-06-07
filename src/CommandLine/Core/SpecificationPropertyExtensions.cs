@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 #endif
 using CSharpx;
+using System.Reflection;
 
 namespace CommandLine.Core
 {
@@ -31,7 +32,7 @@ namespace CommandLine.Core
             switch (specProp.Specification.TargetType)
             {
                 case TargetType.Sequence:
-                    return specProp.Property.PropertyType.GetGenericArguments()
+                    return specProp.Property.PropertyType.GetTypeInfo().GetGenericArguments()
                              .SingleOrDefault()
                              .ToMaybe()
                              .FromJustOrFail(

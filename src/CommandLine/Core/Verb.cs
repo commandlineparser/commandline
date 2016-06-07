@@ -44,7 +44,7 @@ namespace CommandLine.Core
         public static IEnumerable<Tuple<Verb, Type>> SelectFromTypes(IEnumerable<Type> types)
         {
             return from type in types
-                   let attrs = type.GetCustomAttributes(typeof(VerbAttribute), true)
+                   let attrs = type.GetTypeInfo().GetCustomAttributes(typeof(VerbAttribute), true).ToArray()
                    where attrs.Length == 1
                    select Tuple.Create(
                        FromAttribute((VerbAttribute)attrs.Single()),

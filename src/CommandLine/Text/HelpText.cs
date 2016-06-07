@@ -654,7 +654,12 @@ namespace CommandLine.Text
                     var prop = tuple.Item1;
                     var attr = tuple.Item2;
 
-                    var examples = (IEnumerable<Example>)prop.GetGetMethod().Invoke(null, null);
+#if NETSTANDARD1_5
+                    var examples = (IEnumerable<Example>)prop.GetValue(null);
+#else
+                    var examples = (IEnumerable<Example>)prop
+                        .GetValue(null, BindingFlags.Public | BindingFlags.Static | BindingFlags.GetProperty, null, null, null);
+#endif
 
                     return Tuple.Create(attr, examples);
                 });
