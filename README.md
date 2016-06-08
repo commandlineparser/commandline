@@ -17,6 +17,7 @@ Compatibility:
 ---
   - .NET Framework 4.0+
   - Mono 2.1+ Profile
+  - .Net Core - Note: support for Core is currently limited to an [alternate branch](https://github.com/gsscoder/commandline/tree/dotnet-core) while we wait for release of 1.0. If you have suggestions or changes for support of .Net Core, please submit a pull request to that branch until it's merged into master.
 
 Current Release:
 ---
