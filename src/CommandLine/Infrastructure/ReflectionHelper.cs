@@ -16,8 +16,6 @@ namespace CommandLine.Infrastructure
             var assembly = GetExecutingOrEntryAssembly();
 
 #if NET40
-            var assembly = typeof(ReflectionHelper).GetTypeInfo().Assembly;
-#endif
             var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
 #else
             var attributes = assembly.GetCustomAttributes<TAttribute>().ToArray();

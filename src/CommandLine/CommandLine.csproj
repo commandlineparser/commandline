@@ -69,7 +69,6 @@
     <Compile Include="BaseAttribute.cs" />
     <Compile Include="CommandLineException.cs" />
     <Compile Include="Core\ArgumentsExtensions.cs" />
-    <Compile Include="Core\Compatibility.cs" />
     <Compile Include="Core\KeyValuePairHelper.cs" />
     <Compile Include="Core\PreprocessorGuards.cs" />
     <Compile Include="Core\TypeDescriptor.cs" />
