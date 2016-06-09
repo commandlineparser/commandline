@@ -1,0 +1,56 @@
+﻿{
+  "version": "2.0.275-*",
+  "authors": [
+    "Giacomo Stelluti Scala"
+  ],
+  "title": "Command Line Parser Library",
+  "description": "Terse syntax C# command line parser for .NET with F# support. The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.",
+  "packOptions": {
+    "licenseUrl": "https://raw.githubusercontent.com/gsscoder/commandline/master/doc/LICENSE",
+    "owners": [
+      "gimmemoore",
+      "gsscoder"
+    ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/gsscoder/commandline"
+    }
+  },
+  "dependencies": {
+    "FSharp.Core": "4.0.0.1"
+  },
+  "buildOptions": {
+    "keyFile": "../../CommandLine.snk",
+    "strongName": true,
+    "define": [
+      "CSX_REM_EITHER_FUNC"
+    ],
+    "compile": {
+      "include": [
+        "**/*.cs",
+        "../../paket-files/**/*.cs"
+      ]
+    }
+  },
+  "frameworks": {
+    "netstandard1.5": {
+      "dependencies": {
+        "NETStandard.Library": "1.5.0-rc2-24027",
+        "System.Linq.Expressions": "4.0.11-rc2-24027"
+      },
+      "imports": [ "netcore45" ]
+    },
+    "net40": {
+      "frameworkAssemblies": { },
+      "buildOptions": {
+        "define": [ "ERRH_DISABLE_INLINE_METHODS", "NET40" ]
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": { }
+    }
+  },
+  "runtimes": {
+    "win7-x64": { }
+  }
+}

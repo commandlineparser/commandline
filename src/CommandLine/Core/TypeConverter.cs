@@ -10,6 +10,7 @@ using System.Reflection;
 using CommandLine.Infrastructure;
 using CSharpx;
 using RailwaySharp.ErrorHandling;
+using System.Reflection;
 
 namespace CommandLine.Core
 {
@@ -25,7 +26,8 @@ namespace CommandLine.Core
         private static Maybe<object> ChangeTypeSequence(IEnumerable<string> values, Type conversionType, CultureInfo conversionCulture, bool ignoreValueCase)
         {
             var type =
-                conversionType.GetGenericArguments()
+                conversionType.GetTypeInfo()
+                              .GetGenericArguments()
                               .SingleOrDefault()
                               .ToMaybe()
                               .FromJustOrFail(
@@ -83,7 +85,7 @@ namespace CommandLine.Core
             {
                 try
                 {
-                    var ctor = conversionType.GetConstructor(new[] { typeof(string) });
+                    var ctor = conversionType.GetTypeInfo().GetConstructor(new[] { typeof(string) });
                     return ctor.Invoke(new object[] { value });
                 }
                 catch (Exception)

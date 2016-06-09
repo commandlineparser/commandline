@@ -13,12 +13,13 @@ namespace CommandLine.Infrastructure
         public static Maybe<TAttribute> GetAttribute<TAttribute>()
             where TAttribute : Attribute
         {
-#if !PLATFORM_DOTNET
-            var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-#else
-            var assembly = typeof(ReflectionHelper).GetTypeInfo().Assembly;
-#endif
+            var assembly = GetExecutingOrEntryAssembly();
+
+#if NET40
             var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
+#else
+            var attributes = assembly.GetCustomAttributes<TAttribute>().ToArray();
+#endif
 
             return attributes.Length > 0
                 ? Maybe.Just((TAttribute)attributes[0])
@@ -27,21 +28,13 @@ namespace CommandLine.Infrastructure
 
         public static string GetAssemblyName()
         {
-#if !PLATFORM_DOTNET
-            var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-#else
-            var assembly = typeof(ReflectionHelper).GetTypeInfo().Assembly;
-#endif
+            var assembly = GetExecutingOrEntryAssembly();
             return assembly.GetName().Name;
         }
 
         public static string GetAssemblyVersion()
         {
-#if !PLATFORM_DOTNET
-            var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-#else
-            var assembly = typeof(ReflectionHelper).GetTypeInfo().Assembly;
-#endif
+            var assembly = GetExecutingOrEntryAssembly();
             return assembly.GetName().Version.ToStringInvariant();
         }
 
@@ -54,7 +47,7 @@ namespace CommandLine.Infrastructure
         public static T CreateDefaultImmutableInstance<T>(Type[] constructorTypes)
         {
             var t = typeof(T);
-            var ctor = t.GetConstructor(constructorTypes);
+            var ctor = t.GetTypeInfo().GetConstructor(constructorTypes);
             var values = (from prms in ctor.GetParameters()
                           select prms.ParameterType.CreateDefaultForImmutable()).ToArray();
             return (T)ctor.Invoke(values);
@@ -62,10 +55,21 @@ namespace CommandLine.Infrastructure
 
         public static object CreateDefaultImmutableInstance(Type type, Type[] constructorTypes)
         {
-            var ctor = type.GetConstructor(constructorTypes);
+            var ctor = type.GetTypeInfo().GetConstructor(constructorTypes);
             var values = (from prms in ctor.GetParameters()
                           select prms.ParameterType.CreateDefaultForImmutable()).ToArray();
             return ctor.Invoke(values);
+        }
+
+        private static Assembly GetExecutingOrEntryAssembly()
+        {
+            var assembly = Assembly.GetEntryAssembly();
+
+#if !NETSTANDARD1_5
+            assembly = assembly ?? Assembly.GetExecutingAssembly();
+#endif
+
+            return assembly;
         }
     }
 }
