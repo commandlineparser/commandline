@@ -16,14 +16,11 @@
       "url": "https://github.com/gsscoder/commandline"
     }
   },
-  "dependencies": {
-    "FSharp.Core": "4.0.0.1"
-  },
   "buildOptions": {
     "keyFile": "../../CommandLine.snk",
     "strongName": true,
     "define": [
-      "CSX_REM_EITHER_FUNC"
+      "CSX_REM_EITHER_FUNC", "SKIP_FSHARP"
     ],
     "compile": {
       "include": [
