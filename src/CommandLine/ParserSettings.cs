@@ -13,6 +13,8 @@ namespace CommandLine
     /// </summary>
     public class ParserSettings : IDisposable
     {
+        private const int DefaultMaximumLength = 80; // default console width
+
         private bool disposed;
         private bool caseSensitive;
         private bool caseInsensitiveEnumValues;
@@ -20,6 +22,7 @@ namespace CommandLine
         private bool ignoreUnknownArguments;
         private CultureInfo parsingCulture;
         private bool enableDashDash;
+        private int maximumDisplayWidth;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
@@ -29,6 +32,14 @@ namespace CommandLine
             caseSensitive = true;
             caseInsensitiveEnumValues = false;
             parsingCulture = CultureInfo.InvariantCulture;
+            try
+            {
+                maximumDisplayWidth = Console.WindowWidth;
+            }
+            catch (IOException)
+            {
+                maximumDisplayWidth = DefaultMaximumLength;
+            }
         }
 
         /// <summary>
@@ -112,6 +123,15 @@ namespace CommandLine
         {
             get { return enableDashDash; }
             set { PopsicleSetter.Set(Consumed, ref enableDashDash, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the maximum width of the display.  This determines word wrap when displaying the text.
+        /// </summary>
+        public int MaximumDisplayWidth
+        {
+            get { return maximumDisplayWidth; }
+            set { maximumDisplayWidth = value; }
         }
 
         internal StringComparer NameComparer

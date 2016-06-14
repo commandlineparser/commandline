@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Linq;
 using System.Reflection;
@@ -23,7 +24,7 @@ namespace CommandLine.Text
         private readonly StringBuilder preOptionsHelp;
         private readonly StringBuilder postOptionsHelp;
         private readonly SentenceBuilder sentenceBuilder;
-        private int? maximumDisplayWidth;
+        private int maximumDisplayWidth;
         private string heading;
         private string copyright;
         private bool additionalNewLineAfterOption;
@@ -101,7 +102,14 @@ namespace CommandLine.Text
 
             preOptionsHelp = new StringBuilder(BuilderCapacity);
             postOptionsHelp = new StringBuilder(BuilderCapacity);
-
+            try
+            {
+                maximumDisplayWidth = Console.WindowWidth;
+            }
+            catch (IOException)
+            {
+                maximumDisplayWidth = DefaultMaximumLength;
+            }
             this.sentenceBuilder = sentenceBuilder;
             this.heading = heading;
             this.copyright = copyright;
@@ -143,7 +151,7 @@ namespace CommandLine.Text
         /// <value>The maximum width of the display.</value>
         public int MaximumDisplayWidth
         {
-            get { return maximumDisplayWidth.HasValue ? maximumDisplayWidth.Value : DefaultMaximumLength; }
+            get { return maximumDisplayWidth; }
             set { maximumDisplayWidth = value; }
         }
 
@@ -193,18 +201,22 @@ namespace CommandLine.Text
         /// <param name='onError'>A delegate used to customize the text block of reporting parsing errors text block.</param>
         /// <param name='onExample'>A delegate used to customize <see cref="CommandLine.Text.Example"/> model used to render text block of usage examples.</param>
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
+        /// <param name="maxDisplayWidth">The maximum width of the display.</param>
         /// <remarks>The parameter <paramref name="verbsIndex"/> is not ontly a metter of formatting, it controls whether to handle verbs or options.</remarks>
         public static HelpText AutoBuild<T>(
             ParserResult<T> parserResult,
             Func<HelpText, HelpText> onError,
             Func<Example, Example> onExample, 
-            bool verbsIndex = false)
+            bool verbsIndex = false,
+            int maxDisplayWidth = DefaultMaximumLength)
         {
-            var auto = new HelpText {
+            var auto = new HelpText
+            {
                 Heading = HeadingInfo.Default,
                 Copyright = CopyrightInfo.Default,
                 AdditionalNewLineAfterOption = true,
-                AddDashesToOption = !verbsIndex
+                AddDashesToOption = !verbsIndex,
+                MaximumDisplayWidth = maxDisplayWidth
             };
 
             var errors = Enumerable.Empty<Error>();
@@ -253,12 +265,13 @@ namespace CommandLine.Text
         /// automatically handling verbs or options scenario.
         /// </summary>
         /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
+        /// <param name="maxDisplayWidth">The maximum width of the display.</param>
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
-        public static HelpText AutoBuild<T>(ParserResult<T> parserResult)
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = DefaultMaximumLength)
         {
             if (parserResult.Tag != ParserResultType.NotParsed)
                 throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
@@ -266,16 +279,16 @@ namespace CommandLine.Text
             var errors = ((NotParsed<T>)parserResult).Errors;
 
             if (errors.Any(e => e.Tag == ErrorType.VersionRequestedError))
-                return new HelpText(HeadingInfo.Default).AddPreOptionsLine(Environment.NewLine);
+                return new HelpText(HeadingInfo.Default){MaximumDisplayWidth = maxDisplayWidth }.AddPreOptionsLine(Environment.NewLine);
 
             if (!errors.Any(e => e.Tag == ErrorType.HelpVerbRequestedError))
-                return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e);
+                return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, maxDisplayWidth: maxDisplayWidth);
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
             return err.Matched
-                ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current), e => e)
-                : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, true);
+                ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current), e => e, maxDisplayWidth: maxDisplayWidth)
+                : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, true, maxDisplayWidth);
         }
 
         /// <summary>
