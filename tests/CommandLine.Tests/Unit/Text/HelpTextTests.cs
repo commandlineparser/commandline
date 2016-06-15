@@ -131,7 +131,7 @@ namespace CommandLine.Tests.Unit.Text
         }
 
         [Fact]
-        public void When_help_text_is_longer_than_width_it_will_wrap_around_as_if_in_a_column()
+        public void When_help_text_is_longer_than_width_it_will_wrap_around_as_if_in_a_column_given_width_of_40()
         {
             // Fixture setup
             // Exercize system 
@@ -150,6 +150,28 @@ namespace CommandLine.Tests.Unit.Text
             lines[4].ShouldBeEquivalentTo("                test out the wrapping ");
             lines[5].ShouldBeEquivalentTo("                capabilities of the ");
             lines[6].ShouldBeEquivalentTo("                Help Text.");
+            // Teardown
+        }
+
+
+
+        [Fact]
+        public void When_help_text_is_longer_than_width_it_will_wrap_around_as_if_in_a_column_given_width_of_100()
+        {
+            // Fixture setup
+            // Exercize system 
+            var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131")) { MaximumDisplayWidth = 100} ;
+            //sut.MaximumDisplayWidth = 100;
+            sut.AddOptions(
+                new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description>(
+                    TypeInfo.Create(typeof(Simple_Options_With_HelpText_Set_To_Long_Description)),
+                    Enumerable.Empty<Error>()));
+
+            // Verify outcome
+            var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            lines[2].ShouldBeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the wrapping capabilities of "); //"The first line should have the arguments and the start of the Help Text.");
+            //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
+            lines[3].ShouldBeEquivalentTo("                the Help Text.");
             // Teardown
         }
 
@@ -312,6 +334,32 @@ namespace CommandLine.Tests.Unit.Text
             lines[4].ShouldBeEquivalentTo("--amend          Used to amend the tip of the current branch.");
             lines[5].ShouldBeEquivalentTo("-m, --message    Use the given message as the commit message.");
             lines[6].ShouldBeEquivalentTo("--help           Display this help screen.");
+            // Teardown
+        }
+
+        [Fact]
+        public void Invoke_AutoBuild_for_Verbs_with_specific_verb_returns_appropriate_formatted_text_given_display_width_100()
+        {
+            // Fixture setup
+            var fakeResult = new NotParsed<object>(
+                TypeInfo.Create(typeof(NullInstance)),
+                new Error[]
+                    {
+                        new HelpVerbRequestedError("commit", typeof(Commit_Verb), true)
+                    });
+
+            // Exercize system
+            var helpText = HelpText.AutoBuild(fakeResult, maxDisplayWidth: 100);            
+
+            // Verify outcome
+            var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
+
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[2].ShouldBeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which changes to commit.");
+            lines[3].ShouldBeEquivalentTo("--amend          Used to amend the tip of the current branch.");
+            lines[4].ShouldBeEquivalentTo("-m, --message    Use the given message as the commit message.");
+            lines[5].ShouldBeEquivalentTo("--help           Display this help screen.");
             // Teardown
         }
 
