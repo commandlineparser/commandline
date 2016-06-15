@@ -25,6 +25,7 @@ namespace CommandLine.Core
     {
         private readonly SpecificationType tag;
         private readonly bool required;
+        private readonly bool hidden;
         private readonly Maybe<int> min;
         private readonly Maybe<int> max;
         private readonly Maybe<object> defaultValue;
@@ -37,7 +38,7 @@ namespace CommandLine.Core
 
         protected Specification(SpecificationType tag, bool required, Maybe<int> min, Maybe<int> max,
             Maybe<object> defaultValue, string helpText, string metaValue, IEnumerable<string> enumValues,
-            Type conversionType, TargetType targetType)
+            Type conversionType, TargetType targetType, bool hidden = false)
         {
             this.tag = tag;
             this.required = required;
@@ -49,6 +50,7 @@ namespace CommandLine.Core
             this.helpText = helpText;
             this.metaValue = metaValue;
             this.enumValues = enumValues;
+            this.hidden = hidden;
         }
 
         public SpecificationType Tag 
@@ -99,6 +101,11 @@ namespace CommandLine.Core
         public TargetType TargetType
         {
             get { return targetType; }
+        }
+
+        public bool Hidden
+        {
+            get { return hidden; }
         }
 
         public static Specification FromProperty(PropertyInfo property)

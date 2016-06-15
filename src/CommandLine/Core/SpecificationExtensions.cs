@@ -33,7 +33,8 @@ namespace CommandLine.Core
                 specification.MetaValue,
                 specification.EnumValues,
                 specification.ConversionType,
-                specification.TargetType);
+                specification.TargetType,
+                specification.Hidden);
         }
 
         public static string UniqueName(this OptionSpecification specification)
