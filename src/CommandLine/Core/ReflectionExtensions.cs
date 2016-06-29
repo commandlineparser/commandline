@@ -242,7 +242,7 @@ namespace CommandLine.Core
         }
 
 
-#if !PLATFORM_DOTNET
+#if NET40
         public static Type GetTypeInfo(this Type type)
         {
             return type;
@@ -250,7 +250,7 @@ namespace CommandLine.Core
 #else
         public static Attribute[] GetCustomAttributes(this Type type, Type attributeType, bool inherit)
         {
-            return type.GetTypeInfo().GetCustomAttributes(attributeType, inherit).ToArray();
+            return type.GetTypeInfo().GetCustomAttributes(attributeType, inherit).OfType<Attribute>().ToArray();
         }
 
         public static Attribute[] GetCustomAttributes(this Assembly assembly, Type attributeType, bool inherit)

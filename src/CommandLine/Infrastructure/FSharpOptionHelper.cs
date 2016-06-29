@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !SKIP_FSHARP
+using System;
 #if PLATFORM_DOTNET
 using System.Reflection;
 #endif
@@ -51,3 +52,4 @@ namespace CommandLine.Infrastructure
         }
     }
 }
+#endif

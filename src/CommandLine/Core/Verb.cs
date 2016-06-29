@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if PLATFORM_DOTNET
+#if !NET40
 using System.Reflection;
 #endif
 
