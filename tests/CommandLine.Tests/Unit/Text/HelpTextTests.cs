@@ -275,8 +275,14 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[1].ShouldBeEquivalentTo("Copyright (c)");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
             lines[4].ShouldBeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
@@ -305,8 +311,14 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[1].ShouldBeEquivalentTo("Copyright (c)");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
             lines[3].ShouldBeEquivalentTo("changes to commit.");
             lines[4].ShouldBeEquivalentTo("--amend          Used to amend the tip of the current branch.");
@@ -332,8 +344,14 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[1].ShouldBeEquivalentTo("Copyright (c)");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("add        Add file contents to the index.");
             lines[3].ShouldBeEquivalentTo("commit     Record changes to the repository.");
             lines[4].ShouldBeEquivalentTo("clone      Clone a repository into a new directory.");
@@ -412,8 +430,14 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var text = helpText.ToString();
             var lines = text.ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[1].ShouldBeEquivalentTo("Copyright (c)");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
             lines[4].ShouldBeEquivalentTo("USAGE:");
