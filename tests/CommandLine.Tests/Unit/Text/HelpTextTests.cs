@@ -277,7 +277,7 @@ namespace CommandLine.Tests.Unit.Text
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c)");
+            lines[1].Should().StartWithEquivalent("Copyright (c)");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -313,7 +313,7 @@ namespace CommandLine.Tests.Unit.Text
 
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c)");
+            lines[1].Should().StartWithEquivalent("Copyright (c)");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -346,7 +346,7 @@ namespace CommandLine.Tests.Unit.Text
 
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c)");
+            lines[1].Should().StartWithEquivalent("Copyright (c)");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -432,7 +432,7 @@ namespace CommandLine.Tests.Unit.Text
             var lines = text.ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c)");
+            lines[1].Should().StartWithEquivalent("Copyright (c)");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
