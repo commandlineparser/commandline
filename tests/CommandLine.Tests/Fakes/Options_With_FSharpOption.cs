@@ -1,5 +1,6 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
+#if !SKIP_FSHARP
 using Microsoft.FSharp.Core;
 
 namespace CommandLine.Tests.Fakes
@@ -13,3 +14,4 @@ namespace CommandLine.Tests.Fakes
         public FSharpOption<int> Offset { get; set; }
     }
 }
+#endif
