@@ -6,6 +6,7 @@ using System.Linq;
 using CommandLine.Infrastructure;
 using CSharpx;
 using RailwaySharp.ErrorHandling;
+using System.Text.RegularExpressions;
 
 namespace CommandLine.Core
 {
@@ -188,9 +189,19 @@ namespace CommandLine.Core
                     onError(new BadFormatTokenError(value));
                     yield break;
                 }
-                var parts = text.Split('=');
-                yield return Token.Name(parts[0]);
-                yield return Token.Value(parts[1], true);
+
+                var tokenMatch = Regex.Match(text, "^([^=]+)=([^ ].*)$");
+
+                if (tokenMatch.Success)
+                {
+                    yield return Token.Name(tokenMatch.Groups[1].Value);
+                    yield return Token.Value(tokenMatch.Groups[2].Value, true);
+                }
+                else
+                {
+                    onError(new BadFormatTokenError(value));
+                    yield break;
+                }
             }
         }
     }
