@@ -92,6 +92,41 @@ namespace CommandLine.Tests.Unit.Core
 
             // Teardown
         }
+
+        [Fact]
+        public void Should_properly_parse_option_with_equals_in_value()
+        {
+            /**
+             * This is how the arg. would look in `static void Main(string[] args)`
+             * if passed from the command-line and the option-value wrapped in quotes.
+             * Ex.) ./app --connectionString="Server=localhost;Data Source..."
+             */
+            var args = new[] { "--connectionString=Server=localhost;Data Source=(LocalDB)\v12.0;Initial Catalog=temp;" };
+
+            var result = Tokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound, token => token);
+
+            var tokens = result.SucceededWith();
+
+            Assert.NotNull(tokens);
+            Assert.Equal(2, tokens.Count());
+            Assert.Equal("connectionString", tokens.First().Text);
+            Assert.Equal("Server=localhost;Data Source=(LocalDB)\v12.0;Initial Catalog=temp;", tokens.Last().Text);
+        }
+
+        [Fact]
+        public void Should_return_error_if_option_format_with_equals_is_not_correct()
+        {
+            var args = new[] { "--option1 = fail", "--option2= fail" };
+
+            var result = Tokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound, token => token);
+
+            var tokens = result.SuccessfulMessages();
+
+            Assert.NotNull(tokens);
+            Assert.Equal(2, tokens.Count());
+            Assert.Equal(ErrorType.BadFormatTokenError, tokens.First().Tag);
+            Assert.Equal(ErrorType.BadFormatTokenError, tokens.Last().Tag);
+        }
     }
    
 }
