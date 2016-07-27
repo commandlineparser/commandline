@@ -683,7 +683,8 @@ namespace CommandLine.Text
                             verbTuple.Item1.Name,
                             false,
                             verbTuple.Item1.HelpText,
-                            string.Empty)).Concat(new[] { MakeHelpEntry(), MakeVersionEntry() });
+                            string.Empty,
+                            verbTuple.Item1.Hidden)).Concat(new[] { MakeHelpEntry(), MakeVersionEntry() });
         }
 
         private HelpText AddOptionsImpl(
@@ -711,7 +712,8 @@ namespace CommandLine.Text
                 "help",
                 false,
                 sentenceBuilder.HelpCommandText(AddDashesToOption),
-                string.Empty);
+                string.Empty,
+                false);
         }
 
         private OptionSpecification MakeVersionEntry()
@@ -721,7 +723,8 @@ namespace CommandLine.Text
                 "version",
                 false,
                 sentenceBuilder.VersionCommandText(AddDashesToOption),
-                string.Empty);
+                string.Empty,
+                false);
         }
 
         private HelpText AddPreOptionsLine(string value, int maximumLength)
@@ -733,6 +736,9 @@ namespace CommandLine.Text
 
         private HelpText AddOption(string requiredWord, int maxLength, Specification specification, int widthOfHelpText)
         {
+            if (specification.Hidden)
+                return this;
+
             optionsHelp.Append("  ");
             var name = new StringBuilder(maxLength)
                 .BimapIf(
@@ -841,13 +847,15 @@ namespace CommandLine.Text
         {
             return specifications.Aggregate(0,
                 (length, spec) =>
-                    {
-                        var specLength = spec.Tag == SpecificationType.Option
+                {
+                    if (spec.Hidden)
+                        return length;
+                    var specLength = spec.Tag == SpecificationType.Option
                             ? GetMaxOptionLength((OptionSpecification)spec)
                             : GetMaxValueLength((ValueSpecification)spec);
 
-                        return Math.Max(length, specLength);
-                    });
+                    return Math.Max(length, specLength);
+                });
         }
 
 

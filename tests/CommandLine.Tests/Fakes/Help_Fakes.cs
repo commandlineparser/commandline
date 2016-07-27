@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using CommandLine.Text;
+using Microsoft.FSharp.Collections;
 
 namespace CommandLine.Tests.Fakes
 {
@@ -12,6 +13,9 @@ namespace CommandLine.Tests.Fakes
 
         [Option("input-file")]
         public string FileName { get; set; }
+
+        [Option("secert-option", Hidden = true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
+        public string SecertOption { get; set; }
     }
 
     class Simple_Options_With_HelpText_Set
@@ -21,6 +25,9 @@ namespace CommandLine.Tests.Fakes
 
         [Option('i', "input-file", Required = true, HelpText = "Specify input file to be processed.")]
         public string FileName { get; set; }
+
+        [Option("secert-option", Hidden = true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
+        public string SecertOption { get; set; }
     }
 
     class Simple_Options_With_HelpText_Set_To_Long_Description
@@ -30,6 +37,9 @@ namespace CommandLine.Tests.Fakes
 
         [Option("input-file", HelpText = "This is a very long description of the Input File argument that gets passed in.  It should  be passed in as a string.")]
         public string FileName { get; set; }
+
+        [Option("secert-option", Hidden =  true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
+        public string SecertOption { get; set; }
     }
 
     class Simple_Options_With_HelpText_Set_To_Long_Description_Without_Spaces
@@ -39,6 +49,9 @@ namespace CommandLine.Tests.Fakes
 
         [Option("input-file", HelpText = "Before 012345678901234567890123456789 After")]
         public string FileName { get; set; }
+
+        [Option("secert-option", Hidden = true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
+        public string SecertOption { get; set; }
     }
 
     class Options_With_Usage_Attribute
@@ -64,6 +77,9 @@ namespace CommandLine.Tests.Fakes
         [Value(0, HelpText = "Value.")]
         public string Value { get; set; }
 
+        [Option("secert-option", Hidden = true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
+        public string SecertOption { get; set; }
+
         [Usage(ApplicationAlias = "mono testapp.exe")]
         public static IEnumerable<Example> Examples
         {
@@ -76,6 +92,16 @@ namespace CommandLine.Tests.Fakes
                 yield return new Example("Value", new Options_With_Usage_Attribute { Value = "value" });
             }
         }
+    }
+
+    [Verb("secert", Hidden = true, HelpText = "This is a secert hidden verb that should never be visible to the user via help text.")]
+    public class Secert_Verb
+    {
+        [Option('f', "force", SetName = "mode-f", HelpText = "Allow adding otherwise ignored files.")]
+        public bool Force { get; set; }
+
+        [Option("secert-option", Hidden = true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
+        public string SecertOption { get; set; }
     }
 
     [Verb("add", HelpText = "Add file contents to the index.")]
@@ -91,6 +117,9 @@ namespace CommandLine.Tests.Fakes
 
         [Value(0)]
         public string FileName { get; set; }
+
+        [Option("secert-option", Hidden = true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
+        public string SecertOption { get; set; }
 
         [Usage(ApplicationAlias = "git")]
         public static IEnumerable<Example> Examples
@@ -112,6 +141,9 @@ namespace CommandLine.Tests.Fakes
         [Option("amend", HelpText = "Used to amend the tip of the current branch.")]
         public bool Amend { get; set; }
 
+        [Option("secert-option", Hidden = true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
+        public string SecertOption { get; set; }
+
         [Usage(ApplicationAlias = "git")]
         public static IEnumerable<Example> Examples
         {
@@ -132,6 +164,9 @@ namespace CommandLine.Tests.Fakes
         [Option('q', "quiet",
             HelpText = "Suppress summary message.")]
         public bool Quiet { get; set; }
+
+        [Option("secert-option", Hidden = true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
+        public string SecertOption { get; set; }
 
         [Value(0, MetaName = "URLS",
             HelpText = "A list of url(s) to clone.")]

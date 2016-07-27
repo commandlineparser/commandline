@@ -492,6 +492,91 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+         [Fact]
+        public void Properly_formatted_help_screen_is_displayed_when_there_is_a_hidden_verb()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { });
+            var result = help.ToString();
+            
+            // Verify outcome
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[2].ShouldBeEquivalentTo("ERROR(S):");
+            lines[3].ShouldBeEquivalentTo("No verb selected.");
+            lines[4].ShouldBeEquivalentTo("add        Add file contents to the index.");
+            lines[5].ShouldBeEquivalentTo("help       Display more information on a specific command.");
+            lines[6].ShouldBeEquivalentTo("version    Display version information.");
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Properly_formatted_help_screen_is_displayed_when_there_is_a_hidden_verb_selected_usage_displays_with_hidden_option()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { "secert", "--help" });
+            var result = help.ToString();
+            
+            // Verify outcome
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().StartWithEquivalent("CommandLine");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[2].ShouldBeEquivalentTo("-f, --force    Allow adding otherwise ignored files.");
+            lines[3].ShouldBeEquivalentTo("--help         Display this help screen.");
+            lines[4].ShouldBeEquivalentTo("--version      Display version information.");
+
+            // Teardown
+        }
+        
+        [Fact]
+        public void Parse_options_when_given_hidden_verb()
+        {
+            // Fixture setup
+            var expectedOptions = new Secert_Verb { Force = true, SecertOption = null};
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            var result = sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { "secert", "--force" });
+            
+
+            // Verify outcome
+            result.Tag.ShouldBeEquivalentTo(ParserResultType.Parsed);
+            result.GetType().Should().Be<Parsed<object>>();
+            result.TypeInfo.Current.Should().Be<Secert_Verb>();
+            ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
+            // Teardown
+        }
+
+        [Fact]
+        public void Parse_options_when_given_hidden_verb_with_hidden_option()
+        {
+            // Fixture setup
+            var expectedOptions = new Secert_Verb { Force = true, SecertOption = "shhh" };
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            var result = sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { "secert", "--force", "--secert-option", "shhh" });
+            
+            // Verify outcome
+            result.Tag.ShouldBeEquivalentTo(ParserResultType.Parsed);
+            result.GetType().Should().Be<Parsed<object>>();
+            result.TypeInfo.Current.Should().Be<Secert_Verb>();
+            ((Parsed<object>)result).Value.ShouldBeEquivalentTo(expectedOptions, o => o.RespectingRuntimeTypes());
+            // Teardown
+        }
+
         [Fact]
         public void Specific_verb_help_screen_should_be_displayed_regardless_other_argument()
         {

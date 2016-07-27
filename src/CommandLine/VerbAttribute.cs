@@ -35,6 +35,15 @@ namespace CommandLine
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether a command line verb is visible in the help text.
+        /// </summary>
+        public bool Hidden
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets a short description of this command line option. Usually a sentence summary. 
         /// </summary>
         public string HelpText

@@ -152,7 +152,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[6].ShouldBeEquivalentTo("                Help Text.");
             // Teardown
         }
-
+        
 
 
         [Fact]
@@ -161,7 +161,6 @@ namespace CommandLine.Tests.Unit.Text
             // Fixture setup
             // Exercize system 
             var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131")) { MaximumDisplayWidth = 100} ;
-            //sut.MaximumDisplayWidth = 100;
             sut.AddOptions(
                 new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description>(
                     TypeInfo.Create(typeof(Simple_Options_With_HelpText_Set_To_Long_Description)),
@@ -172,6 +171,25 @@ namespace CommandLine.Tests.Unit.Text
             lines[2].ShouldBeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the wrapping capabilities of "); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
             lines[3].ShouldBeEquivalentTo("                the Help Text.");
+            // Teardown
+        }
+
+        [Fact]
+        public void When_help_text_has_hidden_option_it_should_not_be_added_to_help_text_output()
+        {
+            // Fixture setup
+            // Exercize system 
+            var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
+            sut.AddOptions(
+                new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description>(
+                    TypeInfo.Create(typeof(Simple_Options_With_HelpText_Set_To_Long_Description)),
+                    Enumerable.Empty<Error>()));
+
+            // Verify outcome
+            var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            lines[2].ShouldBeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the "); //"The first line should have the arguments and the start of the Help Text.");
+            //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
+            lines[3].ShouldBeEquivalentTo("                wrapping capabilities of the Help Text.");
             // Teardown
         }
 
@@ -458,7 +476,7 @@ namespace CommandLine.Tests.Unit.Text
             var helpText = HelpText.AutoBuild(fakeResult);
 
             // Verify outcome
-            var text = helpText.ToString();
+            var text = helpText.ToString();            
             var lines = text.ToNotEmptyLines().TrimStringArray();
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].Should().StartWithEquivalent("Copyright (c)");
