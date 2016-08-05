@@ -1,7 +1,7 @@
 {
   "projects": [
-    "tests/CommandLine.Tests",
-    "src/CommandLine"
+    "src",
+    "tests"
   ],
   "sdk": {
     "version": "1.0.0-preview2-003121"
