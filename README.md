@@ -94,7 +94,7 @@ static int Main(string[] args) {
   var result = CommandLine.Parser.Default.ParseArguments<Options>(args);
   var exitCode = result
     .MapResult(
-      options = > {
+      options => {
         if (options.Verbose) Console.WriteLine("Filenames: {0}", string.Join(",", options.InputFiles.ToArray()));
         return 0; },
       errors => {
