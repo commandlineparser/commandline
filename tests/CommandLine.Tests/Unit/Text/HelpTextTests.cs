@@ -384,8 +384,14 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which changes to commit.");
             lines[3].ShouldBeEquivalentTo("--amend          Used to amend the tip of the current branch.");
             lines[4].ShouldBeEquivalentTo("-m, --message    Use the given message as the commit message.");

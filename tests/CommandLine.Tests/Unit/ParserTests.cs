@@ -539,8 +539,14 @@ namespace CommandLine.Tests.Unit
             
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("No verb selected.");
             lines[4].ShouldBeEquivalentTo("add        Add file contents to the index.");
@@ -563,8 +569,14 @@ namespace CommandLine.Tests.Unit
             
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("-f, --force    Allow adding otherwise ignored files.");
             lines[3].ShouldBeEquivalentTo("--help         Display this help screen.");
             lines[4].ShouldBeEquivalentTo("--version      Display version information.");

@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using CommandLine.Text;
-using Microsoft.FSharp.Collections;
 
 namespace CommandLine.Tests.Fakes
 {
