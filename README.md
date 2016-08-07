@@ -120,6 +120,32 @@ let main argv =
   | :? Parsed<options> as parsed -> run parsed.Value
   | :? NotParsed<options> as notParsed -> fail notParsed.Errors
 ```
+**VB.NET:**
+```VB.NET
+Class Options
+	<CommandLine.Option('r', "read", Required := true,
+	HelpText:="Input files to be processed.")>
+	Public Property InputFiles As IEnumerable(Of String)
+
+    ' Omitting long name, default --verbose
+    <CommandLine.Option(
+	HelpText:="Prints all messages to standard output.")>
+	Public Property Verbose As Boolean
+
+	<CommandLine.Option(Default:="中文",
+	HelpText:="Content language.")>
+	Public Property Language As String
+
+	<CommandLine.Value(0, MetaName:="offset",
+	HelpText:="File offset.")>
+	Public Property Offset As Long?
+End Class
+```
+Consume them:
+```VB.NET
+TODO
+```
+
 
 For verbs:
 
@@ -175,6 +201,25 @@ let main args =
     | :? CommitOptions as opts -> RunCommitAndReturnExitCode opts
     | :? CloneOptions as opts -> RunCloneAndReturnExitCode opts
   | :? CommandLine.NotParsed<obj> -> 1
+```
+**VB.NET:**
+```VB.NET
+<CommandLine.Verb("add", HelpText:="Add file contents to the index.")>
+Public Class AddOptions
+	'Normal options here
+End Class
+<CommandLine.Verb("commit", HelpText:="Record changes to the repository.")>
+Public Class AddOptions
+	'Normal options here
+End Class
+<CommandLine.Verb("clone", HelpText:="Clone a repository into a new directory.")>
+Public Class AddOptions
+	'Normal options here
+End Class
+
+Public Shared Sub Main()
+	'TODO
+End Sub
 ```
 
 Acknowledgements:
