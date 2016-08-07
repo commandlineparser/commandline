@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+#if !SKIP_FSHARP
 using Microsoft.FSharp.Core;
+#endif
 using CommandLine.Core;
 using CommandLine.Infrastructure;
 
@@ -697,6 +699,7 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+#if !SKIP_FSHARP
         [Theory]
         [InlineData(new[] { "--filename", "log-20150626.txt" }, "log-20150626.txt", true)]
         [InlineData(new string[] { }, null, false)]
@@ -738,8 +741,9 @@ namespace CommandLine.Tests.Unit.Core
 
             // Teardown
         }
+#endif
 
-    
+
         [Fact]
         public void Min_constraint_set_to_zero_throws_exception()
         {
@@ -748,7 +752,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-            Assert.Throws<ApplicationException>(test);
+            Assert.Throws<InvalidOperationException>(test);
         }
 
         [Fact]
@@ -759,7 +763,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-            Assert.Throws<ApplicationException>(test);
+            Assert.Throws<InvalidOperationException>(test);
         }
 
         [Fact]
@@ -770,7 +774,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-            Assert.Throws<ApplicationException>(test);
+            Assert.Throws<InvalidOperationException>(test);
         }
 
         [Theory]

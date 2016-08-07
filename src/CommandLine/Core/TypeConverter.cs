@@ -4,9 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+#if PLATFORM_DOTNET
+using System.Reflection;
+#endif
 using CommandLine.Infrastructure;
 using CSharpx;
 using RailwaySharp.ErrorHandling;
+using System.Reflection;
 
 namespace CommandLine.Core
 {
@@ -22,11 +26,13 @@ namespace CommandLine.Core
         private static Maybe<object> ChangeTypeSequence(IEnumerable<string> values, Type conversionType, CultureInfo conversionCulture, bool ignoreValueCase)
         {
             var type =
-                conversionType.GetGenericArguments()
+                conversionType.GetTypeInfo()
+                              .GetGenericArguments()
                               .SingleOrDefault()
                               .ToMaybe()
                               .FromJustOrFail(
-                                  new ApplicationException("Non scalar properties should be sequence of type IEnumerable<T>."));
+                                  new InvalidOperationException("Non scalar properties should be sequence of type IEnumerable<T>.")
+                    );
 
             var converted = values.Select(value => ChangeTypeScalar(value, type, conversionCulture, ignoreValueCase));
 
@@ -53,25 +59,33 @@ namespace CommandLine.Core
 
                     Func<Type> getUnderlyingType =
                         () =>
+#if !SKIP_FSHARP
                             isFsOption
-                                ? FSharpOptionHelper.GetUnderlyingType(conversionType)
-                                : Nullable.GetUnderlyingType(conversionType);
+                                ? FSharpOptionHelper.GetUnderlyingType(conversionType) :
+#endif
+                                Nullable.GetUnderlyingType(conversionType);
 
                     var type = getUnderlyingType() ?? conversionType;
 
                     Func<object> withValue =
                         () =>
+#if !SKIP_FSHARP
                             isFsOption
-                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(value, type, conversionCulture))
-                                : Convert.ChangeType(value, type, conversionCulture);
+                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(value, type, conversionCulture)) :
+#endif
+                                Convert.ChangeType(value, type, conversionCulture);
 
+#if !SKIP_FSHARP
                     Func<object> empty = () => isFsOption ? FSharpOptionHelper.None(type) : null;
+#else
+                    Func<object> empty = () => null;
+#endif
 
                     return (value == null) ? empty() : withValue();
                 };
 
                 return value.IsBooleanString()
-                    ? value.ToBoolean() : conversionType.IsEnum
+                    ? value.ToBoolean() : conversionType.GetTypeInfo().IsEnum
                         ? value.ToEnum(conversionType, ignoreValueCase) : safeChangeType();
             };
 
@@ -79,7 +93,7 @@ namespace CommandLine.Core
             {
                 try
                 {
-                    var ctor = conversionType.GetConstructor(new[] { typeof(string) });
+                    var ctor = conversionType.GetTypeInfo().GetConstructor(new[] { typeof(string) });
                     return ctor.Invoke(new object[] { value });
                 }
                 catch (Exception)

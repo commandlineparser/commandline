@@ -48,7 +48,7 @@ namespace CommandLine.Core
             {
                 if (specifications.Any(spec => guard.Item1(spec)))
                 {
-                    throw new ApplicationException(guard.Item2);
+                    throw new InvalidOperationException(guard.Item2);
                 }
             }
 

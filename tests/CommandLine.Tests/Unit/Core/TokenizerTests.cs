@@ -33,8 +33,7 @@ namespace CommandLine.Tests.Unit.Core
                         Enumerable.Empty<Token>().Concat(new[] { Token.Name("i"), Token.Value("10"),
                             Token.Name("string-seq"), Token.Value("aaa,bb,cccc"), Token.Name("switch") }),
                         Enumerable.Empty<Error>()),
-                        optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.InvariantCulture));
-
+                        optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.Ordinal));
             // Verify outcome
             ((Ok<IEnumerable<Token>, Error>)result).Success.ShouldBeEquivalentTo(expectedTokens);
 
@@ -57,7 +56,7 @@ namespace CommandLine.Tests.Unit.Core
                         Enumerable.Empty<Token>().Concat(new[] { Token.Name("x"),
                             Token.Name("string-seq"), Token.Value("aaa,bb,cccc"), Token.Name("switch") }),
                         Enumerable.Empty<Error>()),
-                        optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.InvariantCulture));
+                        optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.Ordinal));
 
             // Verify outcome
             ((Ok<IEnumerable<Token>, Error>)result).Success.ShouldBeEquivalentTo(expectedTokens);

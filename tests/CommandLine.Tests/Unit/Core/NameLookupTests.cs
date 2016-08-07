@@ -20,8 +20,7 @@ namespace CommandLine.Tests.Unit.Core
                 false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '.', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence)};
 
             // Exercize system
-            var result = NameLookup.HavingSeparator("string-seq", specs, StringComparer.InvariantCulture);
-
+            var result = NameLookup.HavingSeparator("string-seq", specs, StringComparer.Ordinal);
             // Verify outcome
             expected.ShouldBeEquivalentTo(result);
 

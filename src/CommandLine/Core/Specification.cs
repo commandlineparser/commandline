@@ -115,7 +115,7 @@ namespace CommandLine.Core
             if (oa.Count() == 1)
             {
                 var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType,
-                    property.PropertyType.IsEnum
+                    property.PropertyType.GetTypeInfo().IsEnum
                         ? Enum.GetNames(property.PropertyType)
                         : Enumerable.Empty<string>());
                 if (spec.ShortName.Length == 0 && spec.LongName.Length == 0)
@@ -129,7 +129,7 @@ namespace CommandLine.Core
             if (va.Count() == 1)
             {
                 return ValueSpecification.FromAttribute(va.Single(), property.PropertyType,
-                    property.PropertyType.IsEnum
+                    property.PropertyType.GetTypeInfo().IsEnum
                         ? Enum.GetNames(property.PropertyType)
                         : Enumerable.Empty<string>());
             }

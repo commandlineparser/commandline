@@ -341,7 +341,12 @@ namespace CommandLine.Tests.Unit
             result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines.Should().HaveCount(x => x == 1);
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+#endif
             // Teardown
         }
 
@@ -359,8 +364,14 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("No verb selected.");
             lines[4].ShouldBeEquivalentTo("add        Add file contents to the index.");
@@ -384,8 +395,14 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("add        Add file contents to the index.");
             lines[3].ShouldBeEquivalentTo("commit     Record changes to the repository.");
             lines[4].ShouldBeEquivalentTo("clone      Clone a repository into a new directory.");
@@ -411,7 +428,12 @@ namespace CommandLine.Tests.Unit
             result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines.Should().HaveCount(x => x == 1);
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+#endif
             // Teardown
         }
 
@@ -428,8 +450,14 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("Option: 'weburl' is not compatible with: 'ftpurl'.");
             lines[4].ShouldBeEquivalentTo("Option: 'ftpurl' is not compatible with: 'weburl'.");
@@ -471,8 +499,14 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("Option 'badoption' is unknown.");
             lines[4].ShouldBeEquivalentTo("USAGE:");
@@ -591,8 +625,14 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
             lines[3].ShouldBeEquivalentTo("filesystem by copying files.");
             lines[4].ShouldBeEquivalentTo("-q, --quiet       Suppress summary message.");
@@ -655,8 +695,14 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
+#if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+#else
+            // Takes the name of the xUnit test program
+            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+#endif
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
             lines[3].ShouldBeEquivalentTo("Option 'bad-arg' is unknown.");
             lines[4].ShouldBeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");

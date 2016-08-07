@@ -4,9 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+#if PLATFORM_DOTNET
+using System.Reflection;
+#endif
 using CommandLine.Infrastructure;
 using CSharpx;
 using RailwaySharp.ErrorHandling;
+using System.Reflection;
 
 namespace CommandLine.Core
 {
@@ -90,13 +94,13 @@ namespace CommandLine.Core
                                 sp =>
                                     sp.Value.IsNothing() && sp.Specification.TargetType == TargetType.Sequence
                                     && sp.Specification.DefaultValue.MatchNothing(),
-                                sp => sp.Property.PropertyType.GetGenericArguments().Single().CreateEmptyArray());
+                                sp => sp.Property.PropertyType.GetTypeInfo().GetGenericArguments().Single().CreateEmptyArray());
                     return mutable;
                 };
 
                 Func<T> buildImmutable = () =>
                 {
-                    var ctor = typeInfo.GetConstructor((from sp in specProps select sp.Property.PropertyType).ToArray());
+                    var ctor = typeInfo.GetTypeInfo().GetConstructor((from sp in specProps select sp.Property.PropertyType).ToArray());
                     var values = (from prms in ctor.GetParameters()
                         join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower()
                         select
