@@ -4,7 +4,9 @@
 
   "dependencies": {
     "xunit": "2.1.0",
-    "CommandLine": "2.0.275"
+    "CommandLine": {
+      "target": "project"
+    }
   },
 
   "testRunner": "xunit",
