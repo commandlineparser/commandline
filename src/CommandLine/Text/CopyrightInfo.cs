@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
 using System;
+using System.Dynamic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -23,6 +24,17 @@ namespace CommandLine.Text
         private readonly int[] copyrightYears;
         private readonly string author;
         private readonly int builderSize;
+
+        /// <summary>
+        /// An empty object used for initialization.
+        /// </summary>
+        public static CopyrightInfo Empty 
+        {
+            get
+            {
+               return new CopyrightInfo("author", 1); 
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.CopyrightInfo"/> class

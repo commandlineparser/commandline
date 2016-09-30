@@ -34,6 +34,17 @@ namespace CommandLine.Text
         }
 
         /// <summary>
+        /// An empty object used for initialization. 
+        /// </summary>
+        public static HeadingInfo Empty
+        {
+            get
+            {
+                return new HeadingInfo("");
+            }
+        }
+
+        /// <summary>
         /// Gets the default heading instance.
         /// The title is retrieved from <see cref="AssemblyTitleAttribute"/>,
         /// or the assembly short name if its not defined.

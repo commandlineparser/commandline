@@ -212,12 +212,22 @@ namespace CommandLine.Text
         {
             var auto = new HelpText
             {
-                Heading = HeadingInfo.Default,
-                Copyright = CopyrightInfo.Default,
+                Heading = HeadingInfo.Empty,
+                Copyright = CopyrightInfo.Empty,
                 AdditionalNewLineAfterOption = true,
                 AddDashesToOption = !verbsIndex,
                 MaximumDisplayWidth = maxDisplayWidth
             };
+
+            try
+            {
+                auto.Heading = HeadingInfo.Default;
+                auto.Copyright = CopyrightInfo.Default;
+            }
+            catch (Exception)
+            {
+                auto = onError(auto);
+            }
 
             var errors = Enumerable.Empty<Error>();
 
