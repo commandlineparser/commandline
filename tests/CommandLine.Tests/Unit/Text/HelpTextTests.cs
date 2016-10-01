@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using CommandLine.Core;
+using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
+using CommandLine.Tests.Unit.Infrastructure;
 using CommandLine.Text;
 using FluentAssertions;
 using Xunit;
@@ -568,14 +570,23 @@ namespace CommandLine.Tests.Unit.Text
         [Fact]
         public void AutoBuild_when_no_assembly_attributes()
         {
-            ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
-                TypeInfo.Create(typeof(Simple_Options)),
-                new Error[]
-                    {
+            try
+            {
+                ReflectionHelper.SetAttributeOverride(new Dictionary<Type, Attribute>());
+
+                ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
+                    TypeInfo.Create(typeof(Simple_Options)),
+                    new Error[]
+                        {
                         new BadFormatTokenError("badtoken"),
                         new SequenceOutOfRangeError(new NameInfo("i", ""))
-                    });
-            HelpText helpText = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+                        });
+                HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+            }
+            finally
+            {
+                ReflectionHelper.SetAttributeOverride(null);
+            }
         }
     }
 }

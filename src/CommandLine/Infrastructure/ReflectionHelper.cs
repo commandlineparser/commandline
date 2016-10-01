@@ -15,11 +15,6 @@ namespace CommandLine.Infrastructure
 
         public static void SetAttributeOverride(IDictionary<Type, Attribute> overrides)
         {
-            if (overrides == null)
-            {
-                throw new ArgumentNullException(nameof(overrides));
-            }
-
             _overrides = overrides;
         }
 
@@ -27,9 +22,12 @@ namespace CommandLine.Infrastructure
             where TAttribute : Attribute
         {
             // Test support
-            if (_overrides != null && _overrides.ContainsKey(typeof (TAttribute)))
+            if (_overrides != null)
             {
-                return Maybe.Just((TAttribute) _overrides[typeof (TAttribute)]);
+                return
+                    _overrides.ContainsKey(typeof(TAttribute)) ?
+                        Maybe.Just((TAttribute)_overrides[typeof(TAttribute)]) :
+                        Maybe.Nothing< TAttribute>();
             }
 
             var assembly = GetExecutingOrEntryAssembly();
