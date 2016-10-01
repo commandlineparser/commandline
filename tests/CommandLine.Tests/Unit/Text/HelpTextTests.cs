@@ -579,8 +579,14 @@ namespace CommandLine.Tests.Unit.Text
 
                 ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
                     TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
-                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+                bool onErrorCalled = false;
+                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => 
+                {
+                    onErrorCalled = true;
+                    return ht;
+                }, ex => ex);
                 
+                onErrorCalled.Should().BeTrue();
                 actualResult.Copyright.Should().Be(expectedCopyright);
             }
             finally
@@ -605,8 +611,14 @@ namespace CommandLine.Tests.Unit.Text
 
                 ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
                     TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
-                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+                bool onErrorCalled = false;
+                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht =>
+                {
+                    onErrorCalled = true;
+                    return ht;
+                }, ex => ex);
 
+                onErrorCalled.Should().BeTrue();
                 actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
             }
             finally
@@ -630,8 +642,14 @@ namespace CommandLine.Tests.Unit.Text
 
                 ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
                     TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
-                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+                bool onErrorCalled = false;
+                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht =>
+                {
+                    onErrorCalled = true;
+                    return ht;
+                }, ex => ex);
 
+                onErrorCalled.Should().BeFalse(); // Other attributes have fallback logic
                 actualResult.Copyright.Should().Be(string.Format("Copyright (C) {0} {1}", DateTime.Now.Year, expectedCompany));
             }
             finally

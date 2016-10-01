@@ -28,7 +28,7 @@ namespace CommandLine.Infrastructure
         /// Attributes that replace the existing assembly attributes or null,
         /// to clear any testing attributes.
         /// </param>
-        public static void SetAttributeOverride(IList<Attribute> overrides)
+        public static void SetAttributeOverride(IEnumerable<Attribute> overrides)
         {
             if (overrides != null)
             {
@@ -46,7 +46,7 @@ namespace CommandLine.Infrastructure
             // Test support
             if (_overrides != null)
             {
-                return
+                return 
                     _overrides.ContainsKey(typeof(TAttribute)) ?
                         Maybe.Just((TAttribute)_overrides[typeof(TAttribute)]) :
                         Maybe.Nothing< TAttribute>();
