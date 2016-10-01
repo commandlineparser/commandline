@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CommandLine.Core;
@@ -10,9 +11,27 @@ namespace CommandLine.Infrastructure
 {
     static class ReflectionHelper
     {
+        private static IDictionary<Type, Attribute> _overrides;
+
+        public static void SetAttributeOverride(IDictionary<Type, Attribute> overrides)
+        {
+            if (overrides == null)
+            {
+                throw new ArgumentNullException(nameof(overrides));
+            }
+
+            _overrides = overrides;
+        }
+
         public static Maybe<TAttribute> GetAttribute<TAttribute>()
             where TAttribute : Attribute
         {
+            // Test support
+            if (_overrides != null && _overrides.ContainsKey(typeof (TAttribute)))
+            {
+                return Maybe.Just((TAttribute) _overrides[typeof (TAttribute)]);
+            }
+
             var assembly = GetExecutingOrEntryAssembly();
 
 #if NET40

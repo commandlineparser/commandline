@@ -564,5 +564,18 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 #endif
+
+        [Fact]
+        public void AutoBuild_when_no_assembly_attributes()
+        {
+            ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
+                TypeInfo.Create(typeof(Simple_Options)),
+                new Error[]
+                    {
+                        new BadFormatTokenError("badtoken"),
+                        new SequenceOutOfRangeError(new NameInfo("i", ""))
+                    });
+            HelpText helpText = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+        }
     }
 }
