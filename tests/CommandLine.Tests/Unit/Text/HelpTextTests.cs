@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using CommandLine.Core;
 using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
@@ -572,16 +573,75 @@ namespace CommandLine.Tests.Unit.Text
         {
             try
             {
+                string expectedCopyright = "Copyright (C) 1 author";
+
                 ReflectionHelper.SetAttributeOverride(new Dictionary<Type, Attribute>());
 
                 ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
-                    TypeInfo.Create(typeof(Simple_Options)),
-                    new Error[]
-                        {
-                        new BadFormatTokenError("badtoken"),
-                        new SequenceOutOfRangeError(new NameInfo("i", ""))
-                        });
-                HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+                    TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
+                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+                
+                actualResult.Copyright.Should().Be(expectedCopyright);
+            }
+            finally
+            {
+                ReflectionHelper.SetAttributeOverride(null);
+            }
+        }
+
+        [Fact]
+        public void AutoBuild_with_assembly_title_and_version_attributes_only()
+        {
+            try
+            {
+                string expectedTitle = "Title";
+                string expectedVersion = "1.2.3.4";
+
+                ReflectionHelper.SetAttributeOverride(new Dictionary<Type, Attribute>
+                {
+                    {
+                        typeof(AssemblyTitleAttribute),
+                        new AssemblyTitleAttribute(expectedTitle)
+                    },
+                    {
+                        typeof(AssemblyInformationalVersionAttribute),
+                        new AssemblyInformationalVersionAttribute(expectedVersion)
+                    }
+                });
+
+                ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
+                    TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
+                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+
+                actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
+            }
+            finally
+            {
+                ReflectionHelper.SetAttributeOverride(null);
+            }
+        }
+
+
+        [Fact]
+        public void AutoBuild_with_assembly_company_attribute_only()
+        {
+            try
+            {
+                string expectedCompany = "Company";
+
+                ReflectionHelper.SetAttributeOverride(new Dictionary<Type, Attribute>
+                {
+                    {
+                        typeof(AssemblyCompanyAttribute),
+                        new AssemblyCompanyAttribute(expectedCompany)
+                    }
+                });
+
+                ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
+                    TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
+                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+
+                actualResult.Copyright.Should().Be(string.Format("Copyright (C) {0} {1}", DateTime.Now.Year, expectedCompany));
             }
             finally
             {
