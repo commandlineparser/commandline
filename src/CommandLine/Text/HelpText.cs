@@ -17,7 +17,7 @@ namespace CommandLine.Text
     /// Provides means to format an help screen.
     /// You can assign it in place of a <see cref="System.String"/> instance.
     /// </summary>
-    public class HelpText: IEquatable<HelpText>
+    public class HelpText
     {
         private const int BuilderCapacity = 128;
         private const int DefaultMaximumLength = 80; // default console width
@@ -595,22 +595,6 @@ namespace CommandLine.Text
                     yield return commandLine.ToString();
                 }
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(HelpText other)
-        {
-            return other != null
-                && other.AddDashesToOption == AddDashesToOption
-                && other.AddEnumValuesToHelpText == AddEnumValuesToHelpText
-                && other.AdditionalNewLineAfterOption == AdditionalNewLineAfterOption
-                && other.Copyright.Equals(Copyright)
-                && other.Heading.Equals(Heading)
-                && other.MaximumDisplayWidth == MaximumDisplayWidth;
         }
 
         /// <summary>
