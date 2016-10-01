@@ -575,7 +575,7 @@ namespace CommandLine.Tests.Unit.Text
             {
                 string expectedCopyright = "Copyright (C) 1 author";
 
-                ReflectionHelper.SetAttributeOverride(new Dictionary<Type, Attribute>());
+                ReflectionHelper.SetAttributeOverride(new Attribute[0]);
 
                 ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
                     TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
@@ -597,16 +597,10 @@ namespace CommandLine.Tests.Unit.Text
                 string expectedTitle = "Title";
                 string expectedVersion = "1.2.3.4";
 
-                ReflectionHelper.SetAttributeOverride(new Dictionary<Type, Attribute>
+                ReflectionHelper.SetAttributeOverride(new Attribute[]
                 {
-                    {
-                        typeof(AssemblyTitleAttribute),
-                        new AssemblyTitleAttribute(expectedTitle)
-                    },
-                    {
-                        typeof(AssemblyInformationalVersionAttribute),
-                        new AssemblyInformationalVersionAttribute(expectedVersion)
-                    }
+                    new AssemblyTitleAttribute(expectedTitle),
+                    new AssemblyInformationalVersionAttribute(expectedVersion)
                 });
 
                 ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
@@ -629,12 +623,9 @@ namespace CommandLine.Tests.Unit.Text
             {
                 string expectedCompany = "Company";
 
-                ReflectionHelper.SetAttributeOverride(new Dictionary<Type, Attribute>
+                ReflectionHelper.SetAttributeOverride(new Attribute[]
                 {
-                    {
-                        typeof(AssemblyCompanyAttribute),
-                        new AssemblyCompanyAttribute(expectedCompany)
-                    }
+                    new AssemblyCompanyAttribute(expectedCompany)
                 });
 
                 ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using CommandLine.Core;
 using CSharpx;
 
@@ -11,11 +12,32 @@ namespace CommandLine.Infrastructure
 {
     static class ReflectionHelper
     {
-        private static IDictionary<Type, Attribute> _overrides;
+        /// <summary>
+        /// Per thread assembly attribute overrides for testing.
+        /// </summary>
+        [ThreadStatic] private static IDictionary<Type, Attribute> _overrides;
 
-        public static void SetAttributeOverride(IDictionary<Type, Attribute> overrides)
+        /// <summary>
+        /// Assembly attribute overrides for testing.
+        /// </summary>
+        /// <remarks>
+        /// The implementation will fail if two or more attributes of the same type
+        /// are included in <paramref name="overrides"/>.
+        /// </remarks>
+        /// <param name="overrides">
+        /// Attributes that replace the existing assembly attributes or null,
+        /// to clear any testing attributes.
+        /// </param>
+        public static void SetAttributeOverride(IList<Attribute> overrides)
         {
-            _overrides = overrides;
+            if (overrides != null)
+            {
+                _overrides = overrides.ToDictionary(attr => attr.GetType(), attr => attr);
+            }
+            else
+            {
+                _overrides = null;
+            }
         }
 
         public static Maybe<TAttribute> GetAttribute<TAttribute>()
