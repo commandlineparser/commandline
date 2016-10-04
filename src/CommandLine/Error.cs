@@ -157,6 +157,11 @@ namespace CommandLine
     {
         private readonly string token;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.TokenError"/> class.
+        /// </summary>
+        /// <param name="tag">Error type.</param>
+        /// <param name="token">Problematic token.</param>
         protected internal TokenError(ErrorType tag, string token)
             : base(tag)
         {
@@ -231,6 +236,12 @@ namespace CommandLine
     public abstract class NamedError : Error, IEquatable<NamedError>
     {
         private readonly NameInfo nameInfo;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.NamedError"/> class.
+        /// </summary>
+        /// <param name="tag">Error type.</param>
+        /// <param name="nameInfo">Problematic name.</param>
 
         protected internal NamedError(ErrorType tag, NameInfo nameInfo)
             : base(tag)
