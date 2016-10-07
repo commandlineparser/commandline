@@ -84,7 +84,7 @@ namespace CommandLine.Core
                     return (value == null) ? empty() : withValue();
                 };
 
-                return value.IsBooleanString()
+                return value.IsBooleanString() && conversionType == typeof(bool)
                     ? value.ToBoolean() : conversionType.GetTypeInfo().IsEnum
                         ? value.ToEnum(conversionType, ignoreValueCase) : safeChangeType();
             };
