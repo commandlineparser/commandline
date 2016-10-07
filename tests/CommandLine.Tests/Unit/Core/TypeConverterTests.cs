@@ -15,6 +15,12 @@ namespace CommandLine.Tests.Unit.Core
 {
     public class TypeConverterTests
     {
+        enum TestEnum
+        {
+            ValueA = 1,
+            ValueB = 2
+        }
+
         [Theory]
         [MemberData("ChangeType_scalars_source")]
         public void ChangeType_scalars(string testValue, Type destinationType, bool expectFail, object expectedResult)
@@ -86,6 +92,14 @@ namespace CommandLine.Tests.Unit.Core
 
                     new object[] {"", typeof (string), false, ""},
                     new object[] {"abcd", typeof (string), false, "abcd"},
+
+                    new object[] {"ValueA", typeof (TestEnum), false, TestEnum.ValueA},
+                    new object[] {"VALUEA", typeof (TestEnum), false, TestEnum.ValueA},
+                    new object[] {"ValueB", typeof(TestEnum), false, TestEnum.ValueB},
+                    new object[] {((int) TestEnum.ValueA).ToString(), typeof (TestEnum), false, TestEnum.ValueA},
+                    new object[] {((int) TestEnum.ValueB).ToString(), typeof (TestEnum), false, TestEnum.ValueB},
+                    new object[] {((int) TestEnum.ValueB + 1).ToString(), typeof (TestEnum), true, null},
+                    new object[] {((int) TestEnum.ValueA - 1).ToString(), typeof (TestEnum), true, null},
 
                     // Failed before #339
                     new object[] {"false", typeof (int), true, 0},
