@@ -112,6 +112,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit\Core\TokenTests.cs" />
+    <Compile Include="Unit\Core\TypeConverterTests.cs" />
     <Compile Include="Unit\Infrastructure\FSharpOptionHelperTests.cs" />
     <Compile Include="Unit\Core\ReflectionExtensions.cs" />
     <Compile Include="Unit\ParserResultExtensionsTests.cs" />

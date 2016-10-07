@@ -41,4 +41,5 @@ artifacts/*
 *.nuget.targets
 *.lock.json
 *.nuget.props
+*.DotSettings.user
 
