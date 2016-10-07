@@ -40,3 +40,5 @@ artifacts/*
 *.xproj.user
 *.nuget.targets
 *.lock.json
+*.nuget.props
+
