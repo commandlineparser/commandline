@@ -92,6 +92,9 @@ namespace CommandLine
         /// Gets or sets the <see cref="System.IO.TextWriter"/> used for help method output.
         /// Setting this property to null, will disable help screen.
         /// </summary>
+        /// <remarks>
+        /// It is the caller's responsibility to dispose or close the <see cref="TextWriter"/>.
+        /// </remarks>
         public TextWriter HelpWriter
         {
             get { return helpWriter; }
