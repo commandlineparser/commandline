@@ -165,11 +165,7 @@ namespace CommandLine
 
             if (disposing)
             {
-                if (HelpWriter != null)
-                {
-                    helpWriter.Dispose();
-                    helpWriter = null;
-                }
+                // Do not dispose HelpWriter. It is the caller's responsibility.
 
                 disposed = true;
             }

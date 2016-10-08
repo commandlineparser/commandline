@@ -115,6 +115,7 @@
     <Compile Include="Unit\Infrastructure\FSharpOptionHelperTests.cs" />
     <Compile Include="Unit\Core\ReflectionExtensions.cs" />
     <Compile Include="Unit\ParserResultExtensionsTests.cs" />
+    <Compile Include="Unit\ParserSettingsTests.cs" />
     <Compile Include="Unit\ParserTests.cs" />
     <Compile Include="Unit\Text\HelpTextTests.cs" />
     <Compile Include="Unit\UnParserExtensionsTests.cs" />
