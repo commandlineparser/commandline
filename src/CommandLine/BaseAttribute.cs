@@ -81,11 +81,6 @@ namespace CommandLine
             get { return @default; }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
                 @default = value;
             }
         }

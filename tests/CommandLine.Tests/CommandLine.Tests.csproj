@@ -98,6 +98,7 @@
     <Compile Include="Fakes\Immutable_Verb_Fakes.cs" />
     <Compile Include="Fakes\Verb_Fakes.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="Unit\BaseAttributeTests.cs" />
     <Compile Include="Unit\Core\InstanceChooserTests.cs" />
     <Compile Include="Unit\Core\KeyValuePairHelperTests.cs" />
     <Compile Include="Unit\Core\OptionMapperTests.cs" />
@@ -112,6 +113,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Unit\Core\TokenTests.cs" />
+    <Compile Include="Unit\Core\TypeConverterTests.cs" />
     <Compile Include="Unit\Infrastructure\FSharpOptionHelperTests.cs" />
     <Compile Include="Unit\Core\ReflectionExtensions.cs" />
     <Compile Include="Unit\ParserResultExtensionsTests.cs" />
