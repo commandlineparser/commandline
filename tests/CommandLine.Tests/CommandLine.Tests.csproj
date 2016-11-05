@@ -98,6 +98,7 @@
     <Compile Include="Fakes\Immutable_Verb_Fakes.cs" />
     <Compile Include="Fakes\Verb_Fakes.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="Unit\BaseAttributeTests.cs" />
     <Compile Include="Unit\Core\InstanceChooserTests.cs" />
     <Compile Include="Unit\Core\KeyValuePairHelperTests.cs" />
     <Compile Include="Unit\Core\OptionMapperTests.cs" />

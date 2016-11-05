@@ -786,5 +786,22 @@ namespace CommandLine.Tests.Unit
                 yield return new object[] { new[] { "commit", "--amend", "--unknown", "valid" }, new Commit_Verb { Amend = true } };
             }
         }
+
+        [Fact]
+        public static void Null_default()
+        {
+            Parser parser = new Parser();
+            parser.ParseArguments<NullDefaultCommandLineArguments>("".Split())
+                .WithParsed(r =>
+                {
+                    Assert.Equal(null, r.User);
+                });
+        }
+
+        public class NullDefaultCommandLineArguments
+        {
+            [Option('u', "user", Default = null)]
+            public string User { get; set; }
+        }
     }
 }
