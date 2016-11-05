@@ -7,13 +7,13 @@
     <authors>Giacomo Stelluti Scala</authors>
     <description>Terse syntax C# command line parser for .NET with F# support. The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</description>
     <releaseNotes />
-    <copyright>Copyright (c) 2005 - 2015 Giacomo Stelluti Scala</copyright>
-    <licenseUrl>https://raw.githubusercontent.com/gsscoder/commandline/master/doc/LICENSE</licenseUrl>
+    <copyright>Copyright (c) 2005 - 2016 Giacomo Stelluti Scala</copyright>
+    <licenseUrl>https://github.com/gsscoder/commandline/blob/master/License.md</licenseUrl>
     <projectUrl>https://github.com/gsscoder/commandline</projectUrl>
     <owners>Giacomo Stelluti Scala</owners>
     <iconUrl>https://raw.githubusercontent.com/gsscoder/commandline/master/art/CommandLine20.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <tags>command line argument option parser parsing library syntax shell</tags>
+    <tags>command line commandline argument option parser parsing library syntax shell</tags>
     <dependencies>
       <group targetFramework=".NETStandard1.3">
         <dependency id="System.Collections" version="4.0.11-rc2-24027" />

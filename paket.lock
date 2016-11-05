@@ -1,6 +1,5 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-  specs:
     FAKE (4.3.4)
     FluentAssertions (4.0)
       System.Collections (>= 4.0.10) - framework: dnxcore50
@@ -235,9 +234,7 @@ NUGET
     xunit.runner.visualstudio (2.1) - version_in_path: true
 GITHUB
   remote: gsscoder/CSharpx
-  specs:
     src/CSharpx/EnumerableExtensions.cs (1ae4e7b6ac1b19493f333e23c9ae636a01b23862)
     src/CSharpx/Maybe.cs (1ae4e7b6ac1b19493f333e23c9ae636a01b23862)
   remote: gsscoder/railwaysharp
-  specs:
     src/RailwaySharp/ErrorHandling.cs (fa4f11173e470d558df80987e69e6ab10f977fcd)

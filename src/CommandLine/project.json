@@ -47,10 +47,10 @@
       "imports": [ "netcore45" ]
     },
     "net40": {
-      "frameworkAssemblies": { },
-      "buildOptions": {
-        "define": [ "ERRH_DISABLE_INLINE_METHODS", "NET40" ]
-      }
+        "frameworkAssemblies": {},
+        "buildOptions": {
+            "define": [ "ERRH_DISABLE_INLINE_METHODS", "NET40" ]
+        }
     },
     "net45": {
       "frameworkAssemblies": { }
