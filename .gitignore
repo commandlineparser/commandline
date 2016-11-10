@@ -4,6 +4,8 @@ src/CommandLine.dotnet/bin/*
 src/CommandLine.dotnet/obj
 demo/ReadText.Demo/bin/*
 demo/ReadText.Demo/obj
+/demo/ReadText.Demo.VB/bin/*
+/demo/ReadText.Demo.VB/obj
 tests/CommandLine.Tests/bin/*
 tests/CommandLine.Tests/obj
 tests/CommandLine.DotNet.Tests/bin/*
