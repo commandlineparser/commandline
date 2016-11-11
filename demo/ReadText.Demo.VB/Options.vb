@@ -3,7 +3,7 @@ Imports CommandLine.Text
 
 Public Interface IOptions
 
-    <[Option]("n"c, "lines", SetName:="bylines", [Default]:=5UI, HelpText:="CPU source file to read.")>
+    <[Option]("n"c, "lines", SetName:="bylines", [Default]:=5UI, HelpText:="Lines to be printed from the beginning or end of the file.")>
     Property Lines As UInteger?
 
     <[Option]("c"c, "bytes", SetName:="bybytes", HelpText:="Bytes to be printed from the beginning or end of the file.")>
