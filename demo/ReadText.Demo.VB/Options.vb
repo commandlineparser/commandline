@@ -1,4 +1,5 @@
 ﻿Imports CommandLine
+Imports CommandLine.Text
 
 Public Interface IOptions
 
@@ -26,6 +27,16 @@ Public Class HeadOptions
     Public Property Quiet As Boolean Implements IOptions.Quiet
 
     Public Property FileName As String Implements IOptions.FileName
+
+    <Usage(ApplicationAlias:="ReadText.Demo.VB.exe")>
+    Public Shared ReadOnly Iterator Property IEnumerable() As IEnumerable(Of Example)
+        Get
+            Yield New Example("normal scenario", New HeadOptions With {.FileName = "file.bin"})
+            Yield New Example("specify bytes", New HeadOptions With {.FileName = "file.bin", .Bytes = 100})
+            Yield New Example("supress summary", UnParserSettings.WithGroupSwitchesOnly(), New HeadOptions With {.FileName = "file.bin", .Quiet = True})
+            Yield New Example("read more lines", New UnParserSettings() {UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly()}, New HeadOptions With {.FileName = "file.bin", .Lines = 10})
+        End Get
+    End Property
 
 End Class
 
