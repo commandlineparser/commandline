@@ -1,4 +1,6 @@
 using CommandLine;
+using CommandLine.Text;
+using System.Collections.Generic;
 
 namespace ReadText.Demo
 {
@@ -35,6 +37,18 @@ namespace ReadText.Demo
         public bool Quiet { get; set; }
 
         public string FileName { get; set; }
+
+        [Usage(ApplicationAlias = "ReadText.Demo.exe")]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                yield return new Example("normal scenario", new HeadOptions { FileName = "file.bin"});
+                yield return new Example("specify bytes", new HeadOptions { FileName = "file.bin", Bytes=100 });
+                yield return new Example("supress summary", UnParserSettings.WithGroupSwitchesOnly(), new HeadOptions { FileName = "file.bin", Quiet = true });
+                yield return new Example("read more lines", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new HeadOptions { FileName = "file.bin", Lines = 10 });
+            }
+        }
     }
 
     [Verb("tail", HelpText = "Displays last lines of a file.")]
