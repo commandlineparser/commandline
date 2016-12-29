@@ -206,7 +206,7 @@ namespace CommandLine.Text
         public static HelpText AutoBuild<T>(
             ParserResult<T> parserResult,
             Func<HelpText, HelpText> onError,
-            Func<Example, Example> onExample, 
+            Func<Example, Example> onExample,
             bool verbsIndex = false,
             int maxDisplayWidth = DefaultMaximumLength)
         {
@@ -254,7 +254,7 @@ namespace CommandLine.Text
 
             usageAttr.Do(
                 usage => usage.AddToHelpText(auto, true));
-            
+
             usageLines.Do(
                 lines => auto.AddPreOptionsLines(lines));
 
@@ -519,7 +519,7 @@ namespace CommandLine.Text
                 yield return line.ToString();
             }
 
-            var mutuallyErrs = 
+            var mutuallyErrs =
                 formatMutuallyExclusiveSetErrors(
                     meaningfulErrors.OfType<MutuallyExclusiveSetError>());
             if (mutuallyErrs.Length > 0)
@@ -619,8 +619,25 @@ namespace CommandLine.Text
                 .ToString();
         }
 
-        private static void AddLine(StringBuilder builder, string value, int maximumLength)
+        internal static void AddLine(StringBuilder builder, string value, int maximumLength)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (maximumLength < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            value = value.Trim();
+
             builder.AppendWhen(builder.Length > 0, Environment.NewLine);
             do
             {

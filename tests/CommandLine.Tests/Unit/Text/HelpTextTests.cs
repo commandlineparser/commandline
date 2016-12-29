@@ -12,6 +12,7 @@ using CommandLine.Tests.Unit.Infrastructure;
 using CommandLine.Text;
 using FluentAssertions;
 using Xunit;
+using System.Text;
 
 namespace CommandLine.Tests.Unit.Text
 {
@@ -656,6 +657,17 @@ namespace CommandLine.Tests.Unit.Text
             {
                 ReflectionHelper.SetAttributeOverride(null);
             }
+        }
+
+        [Fact]
+        public void Add_line_with_two_empty_spaces_at_the_end()
+        {
+            StringBuilder b = new StringBuilder();
+            HelpText.AddLine(b,
+                "Test  ",
+                1);
+
+            Assert.Equal("T" + Environment.NewLine + "e" + Environment.NewLine + "s" + Environment.NewLine + "t", b.ToString());
         }
     }
 }
