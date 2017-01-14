@@ -803,5 +803,20 @@ namespace CommandLine.Tests.Unit
             [Option('u', "user", Default = null)]
             public string User { get; set; }
         }
+
+        [Fact]
+        public void Parse_options_with_shuffled_index_values()
+        {
+            var parser = Parser.Default;
+            parser.ParseArguments<Options_With_Shuffled_Index_Values>(
+                new[] { "zero", "one", "two" })
+                .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
+                .WithParsed(args =>
+                {
+                    Assert.Equal("zero", args.Arg0);
+                    Assert.Equal("one", args.Arg1);
+                    Assert.Equal("two", args.Arg2);
+                });
+        }
     }
 }
