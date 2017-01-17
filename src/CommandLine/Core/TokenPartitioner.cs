@@ -28,7 +28,7 @@ namespace CommandLine.Core
                 .Where(t => !scalars.Contains(t, ReferenceEqualityComparer.Default))
                 .Where(t => !sequences.Contains(t, ReferenceEqualityComparer.Default)).Memorize();
             var values = nonOptions.Where(v => v.IsValue()).Memorize();
-            var errors = nonOptions.Except(values, ReferenceEqualityComparer.Default).Cast<Token>().Memorize();
+            var errors = nonOptions.Except(values, (IEqualityComparer<Token>)ReferenceEqualityComparer.Default).Memorize();
 
             return Tuple.Create(
                     KeyValuePairHelper.ForSwitch(switches)

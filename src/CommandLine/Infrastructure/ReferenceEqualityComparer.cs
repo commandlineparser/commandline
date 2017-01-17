@@ -13,7 +13,7 @@ namespace CommandLine.Infrastructure
 
         public new bool Equals(object x, object y)
         {
-            return x == y; // reference equality because operator== is static and resolved at compile-time
+            return ReferenceEquals(x, y);
         }
 
         public int GetHashCode(object obj)

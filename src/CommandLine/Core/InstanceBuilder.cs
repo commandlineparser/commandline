@@ -67,7 +67,7 @@ namespace CommandLine.Core
 
                 var valueSpecPropsResult =
                     ValueMapper.MapValues(
-                        (from pt in specProps where pt.Specification.IsValue() select pt),
+                        (from pt in specProps where pt.Specification.IsValue() orderby ((ValueSpecification)pt.Specification).Index select pt),
                         valuesPartition,
                         (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture, ignoreValueCase));
 
