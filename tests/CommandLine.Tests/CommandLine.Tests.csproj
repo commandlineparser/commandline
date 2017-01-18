@@ -60,6 +60,7 @@
     <Compile Include="CultureInfoExtensions.cs" />
     <Compile Include="Fakes\Options_With_Default_Set_To_Sequence.cs" />
     <Compile Include="Fakes\Options_With_Guid.cs" />
+    <Compile Include="Fakes\Options_With_Option_And_Value_Of_String_Type.cs" />
     <Compile Include="Fakes\Options_With_SetName_That_Ends_With_Previous_SetName.cs" />
     <Compile Include="Fakes\Options_With_Shuffled_Index_Values.cs" />
     <Compile Include="Fakes\Options_With_Uri_And_SimpleType.cs" />

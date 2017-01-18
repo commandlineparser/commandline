@@ -84,6 +84,7 @@
     <Compile Include="Infrastructure\ExceptionExtensions.cs" />
     <Compile Include="Infrastructure\FSharpOptionHelper.cs" />
     <Compile Include="Infrastructure\PopsicleSetter.cs" />
+    <Compile Include="Infrastructure\ReferenceEqualityComparer.cs" />
     <Compile Include="Infrastructure\ReflectionHelper.cs" />
     <Compile Include="Infrastructure\ResultExtensions.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />

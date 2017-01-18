@@ -805,6 +805,35 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_options_with_same_option_and_value_args()
+        {
+            var parser = Parser.Default;
+            parser.ParseArguments<Options_With_Option_And_Value_Of_String_Type>(
+                new[] { "arg", "-o", "arg" })
+                .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
+                .WithParsed(args =>
+                {
+                    Assert.Equal("arg", args.OptValue);
+                    Assert.Equal("arg", args.PosValue);
+                });
+        }
+
+        [Fact]
+        public void Parse_verb_with_same_option_and_value_args()
+        {
+            var parser = Parser.Default;
+            var result = parser.ParseArguments(
+                new[] { "test", "arg", "-o", "arg" }, 
+                typeof(Verb_With_Option_And_Value_Of_String_Type));
+            result
+                .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
+                .WithParsed<Verb_With_Option_And_Value_Of_String_Type>(args =>
+                {
+                    Assert.Equal("arg", args.OptValue);
+                    Assert.Equal("arg", args.PosValue);
+                });
+        }
+
         public void Parse_options_with_shuffled_index_values()
         {
             var parser = Parser.Default;

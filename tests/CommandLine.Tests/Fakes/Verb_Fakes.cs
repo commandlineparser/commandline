@@ -75,4 +75,14 @@ namespace CommandLine.Tests.Fakes
             HelpText = "Allow adding otherwise ignored files.")]
         public bool Force { get; set; }
     }
+
+    [Verb("test")]
+    class Verb_With_Option_And_Value_Of_String_Type
+    {
+        [Option('o', "opt")]
+        public string OptValue { get; set; }
+
+        [Value(0)]
+        public string PosValue { get; set; }
+    }
 }

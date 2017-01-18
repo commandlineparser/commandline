@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandLine.Infrastructure;
 using CSharpx;
 
 namespace CommandLine.Core
@@ -23,11 +24,11 @@ namespace CommandLine.Core
             var scalars = Scalar.Partition(tokenList, typeLookup).Memorize();
             var sequences = Sequence.Partition(tokenList, typeLookup).Memorize();
             var nonOptions = tokenList
-                .Where(t => !switches.Contains(t))
-                .Where(t => !scalars.Contains(t))
-                .Where(t => !sequences.Contains(t)).Memorize();
+                .Where(t => !switches.Contains(t, ReferenceEqualityComparer.Default))
+                .Where(t => !scalars.Contains(t, ReferenceEqualityComparer.Default))
+                .Where(t => !sequences.Contains(t, ReferenceEqualityComparer.Default)).Memorize();
             var values = nonOptions.Where(v => v.IsValue()).Memorize();
-            var errors = nonOptions.Except(values).Memorize();
+            var errors = nonOptions.Except(values, (IEqualityComparer<Token>)ReferenceEqualityComparer.Default).Memorize();
 
             return Tuple.Create(
                     KeyValuePairHelper.ForSwitch(switches)
