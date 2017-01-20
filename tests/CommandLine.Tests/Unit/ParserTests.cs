@@ -834,6 +834,7 @@ namespace CommandLine.Tests.Unit
                 });
         }
 
+        [Fact]
         public void Parse_options_with_shuffled_index_values()
         {
             var parser = Parser.Default;
