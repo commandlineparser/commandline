@@ -7,6 +7,8 @@
 Command Line Parser Library 2.0.275.0 beta for CLR.
 ===
 
+**Note:** the API surface has changed since 1.9.x and earlier. If you are looking for documentation on 1.9.x, please see [this branch](https://github.com/gsscoder/commandline/tree/stable-1.9.71.2)
+
 The Command Line Parser Library offers CLR applications a clean and concise API for manipulating command line arguments and related tasks, such as defining switches, options and verb commands. It allows you to display a help screen with a high degree of customization and a simple way to report syntax errors to the end user.
 
 Everything that is boring and repetitive about parsing command line arguments is delegated to the library, letting developers concentrate on core logic. It's written in **C#** and doesn't depend on other packages.
