@@ -81,7 +81,7 @@ class Options {
     HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
 
-  [Option(Default = "中文",
+  [Option(DefaultValue = "中文",
     HelpText = "Content language.")]
   public string Language { get; set; }
 
@@ -101,7 +101,7 @@ static int Main(string[] args) {
 type options = {
   [<Option('r', "read", Required = true, HelpText = "Input files.")>] files : seq<string>;
   [<Option(HelpText = "Prints all messages to standard output.")>] verbose : bool;
-  [<Option(Default = "русский", HelpText = "Content language.")>] language : string;
+  [<Option(DefaultValue = "русский", HelpText = "Content language.")>] language : string;
   [<Value(0, MetaName="offset", HelpText = "File offset.")>] offset : int64 option;
 }
 ```
@@ -125,7 +125,7 @@ Class Options
 	HelpText:="Prints all messages to standard output.")>
 	Public Property Verbose As Boolean
 
-	<CommandLine.Option(Default:="中文",
+	<CommandLine.Option(DefaultValue:="中文",
 	HelpText:="Content language.")>
 	Public Property Language As String
 
