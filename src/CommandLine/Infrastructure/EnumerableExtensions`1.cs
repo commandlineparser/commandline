@@ -33,5 +33,36 @@ namespace CommandLine.Infrastructure
         {
             return !source.Any();
         }
+
+        /// <summary>
+        /// Breaks a collection into groups of a specified size.
+        /// </summary>
+        /// <param name="source">A collection of <typeparam name="T"/>.
+        /// <param name="groupSize">The number of items each group shall contain.</param>
+        /// <returns>An enumeration of <typeparam name="T"/>[].</returns>
+        /// <remarks>An incomplete group at the end of the source collection will be silently dropped.</remarks>
+        public static IEnumerable<T[]> Group<T>(this IEnumerable<T> source, int groupSize)
+        {
+            if (groupSize < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(groupSize));
+            }
+
+            T[] group = new T[groupSize];
+            int groupIndex = 0;
+
+            foreach (var item in source)
+            {
+                group[groupIndex++] = item;
+
+                if (groupIndex == groupSize)
+                {
+                    yield return group;
+
+                    group = new T[groupSize];
+                    groupIndex = 0;
+                }
+            }
+        }
     }
 }
