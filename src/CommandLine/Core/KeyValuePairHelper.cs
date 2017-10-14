@@ -1,8 +1,9 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
+using CommandLine.Infrastructure;
+using CSharpx;
 using System.Collections.Generic;
 using System.Linq;
-using CSharpx;
 
 namespace CommandLine.Core
 {
@@ -17,7 +18,9 @@ namespace CommandLine.Core
         public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForScalar(
             IEnumerable<Token> tokens)
         {
-            return tokens.Pairwise((f, s) => f.Text.ToKeyValuePair(s.Text));
+            return tokens
+                .Group(2)
+                .Select((g) => g[0].Text.ToKeyValuePair(g[1].Text));
         }
 
         public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForSequence(
