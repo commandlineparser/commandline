@@ -152,7 +152,7 @@
   -->
   <Target Name="BeforeBuild" DependsOnTargets="PaketInstall">
   </Target>
-  <Target Name="BootstrapPaket" Condition="!Exists('$(SolutionDir).paket/paket.bootstrapper.exe)')">
+  <Target Name="BootstrapPaket" Condition="Exists('$(SolutionDir).paket/paket.bootstrapper.exe')">
     <Exec Command="$(SolutionDir).paket/paket.bootstrapper.exe" />
   </Target>
   <Target Name="PaketInstall" DependsOnTargets="BootstrapPaket" Condition="!Exists('$(SolutionDir)paket-files')">
