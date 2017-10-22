@@ -108,7 +108,7 @@ namespace CommandLine
         /// Grammar rules are defined decorating public properties with appropriate attributes.
         /// </summary>
         /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
-        /// <param name="factory">A <see cref="System.Func{T}"/> delegate used to intitalize the target instance.</param>
+        /// <param name="factory">A <see cref="System.Func{T}"/> delegate used to initialize the target instance.</param>
         /// <param name="args">A <see cref="System.String"/> array of command line arguments, normally supplied by application entry point.</param>
         /// <returns>A <see cref="CommandLine.ParserResult{T}"/> containing an instance of type <typeparamref name="T"/> with parsed values
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
@@ -143,7 +143,7 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown if <paramref name="types"/> array is empty.</exception>
-        /// <remarks>All types must expose a parameterless constructor. It's stronly recommended to use a generic overload.</remarks>
+        /// <remarks>All types must expose a parameterless constructor. It's strongly recommended to use a generic overload.</remarks>
         public ParserResult<object> ParseArguments(IEnumerable<string> args, params Type[] types)
         {
             if (args == null) throw new ArgumentNullException("args");
