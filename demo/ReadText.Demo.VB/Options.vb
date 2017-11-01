@@ -9,7 +9,7 @@ Public Interface IOptions
     <[Option]("c"c, "bytes", SetName:="bybytes", HelpText:="Bytes to be printed from the beginning or end of the file.")>
     Property Bytes As UInteger?
 
-    <[Option]("q"c, "quiet", HelpText:="Supresses summary messages.")>
+    <[Option]("q"c, "quiet", HelpText:="Suppresses summary messages.")>
     Property Quiet As Boolean
 
     <[Value](0, MetaName:="input file", Required:=True, HelpText:="Input file to be processed.")>
@@ -33,7 +33,7 @@ Public Class HeadOptions
         Get
             Yield New Example("normal scenario", New HeadOptions With {.FileName = "file.bin"})
             Yield New Example("specify bytes", New HeadOptions With {.FileName = "file.bin", .Bytes = 100})
-            Yield New Example("supress summary", UnParserSettings.WithGroupSwitchesOnly(), New HeadOptions With {.FileName = "file.bin", .Quiet = True})
+            Yield New Example("suppress summary", UnParserSettings.WithGroupSwitchesOnly(), New HeadOptions With {.FileName = "file.bin", .Quiet = True})
             Yield New Example("read more lines", New UnParserSettings() {UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly()}, New HeadOptions With {.FileName = "file.bin", .Lines = 10})
         End Get
     End Property

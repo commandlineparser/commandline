@@ -38,10 +38,11 @@ StyleCop.Cache
 *.cache
 docs/output/*
 artifacts/*
-.vs/*
 *.xproj.user
 *.nuget.targets
 *.lock.json
 *.nuget.props
 *.DotSettings.user
+# Visual Studio 2015 cache/options directory
+.vs/
 

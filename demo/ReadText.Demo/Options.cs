@@ -18,7 +18,7 @@ namespace ReadText.Demo
         uint? Bytes { get; set; }
 
         [Option('q', "quiet",
-            HelpText = "Supresses summary messages.")]
+            HelpText = "Suppresses summary messages.")]
         bool Quiet { get; set; }
 
         [Value(0, MetaName = "input file",
@@ -45,7 +45,7 @@ namespace ReadText.Demo
             {
                 yield return new Example("normal scenario", new HeadOptions { FileName = "file.bin"});
                 yield return new Example("specify bytes", new HeadOptions { FileName = "file.bin", Bytes=100 });
-                yield return new Example("supress summary", UnParserSettings.WithGroupSwitchesOnly(), new HeadOptions { FileName = "file.bin", Quiet = true });
+                yield return new Example("suppress summary", UnParserSettings.WithGroupSwitchesOnly(), new HeadOptions { FileName = "file.bin", Quiet = true });
                 yield return new Example("read more lines", new[] { UnParserSettings.WithGroupSwitchesOnly(), UnParserSettings.WithUseEqualTokenOnly() }, new HeadOptions { FileName = "file.bin", Lines = 10 });
             }
         }
