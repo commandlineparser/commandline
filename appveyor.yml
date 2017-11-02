@@ -3,9 +3,12 @@ version: 0.0.1.{build}
 clone_depth: 1
 pull_requests:
   do_not_increment_build_number: true
+cache:
+- packages -> paket.dependencies
 
 init:
   - git config --global core.autocrlf input
+
 
 build_script:
   - cmd: build.cmd
