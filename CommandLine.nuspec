@@ -33,12 +33,12 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\build\CommandLine.dll" target="lib\net40\CommandLine.dll" />
-    <file src="..\build\CommandLine.XML" target="lib\net40\CommandLine.XML" />
-    <file src="..\build\CommandLine.dll" target="lib\net45\CommandLine.dll" />
-    <file src="..\build\CommandLine.XML" target="lib\net45\CommandLine.XML" />
-    <file src="..\build\netstandard1.5\CommandLine.dll" target="lib\netstandard1.5\CommandLine.dll" />
-    <file src="..\build\CommandLine.XML" target="lib\netstandard1.5\CommandLine.xml" />
-    <file src="..\readme.md" target="readme.md" />
+    <file src="build\CommandLine.dll" target="lib\net40\CommandLine.dll" />
+    <file src="build\CommandLine.XML" target="lib\net40\CommandLine.XML" />
+    <file src="build\CommandLine.dll" target="lib\net45\CommandLine.dll" />
+    <file src="build\CommandLine.XML" target="lib\net45\CommandLine.XML" />
+    <file src="build\netstandard1.5\CommandLine.dll" target="lib\netstandard1.5\CommandLine.dll" />
+    <file src="build\CommandLine.XML" target="lib\netstandard1.5\CommandLine.xml" />
+    <file src="readme.md" target="readme.md" />
   </files>
 </package>
