@@ -13,7 +13,10 @@ init:
 build_script:
   - cmd: build.cmd
 
-test: off
+after_build:
+- cmd: nuget pack CommandLine.nuspec -version %APPVEYOR_BUILD_VERSION%
+
+test: off  #tests handled within FAKE build
 
 artifacts:
 - path: build/*.nupkg
