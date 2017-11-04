@@ -1,15 +1,23 @@
-[![Build status](https://img.shields.io/appveyor/ci/gsscoder/commandline.svg)](https://ci.appveyor.com/project/gsscoder/commandline)
+[![Build status](https://img.shields.io/appveyor/ci/commandlineparser/commandline.svg)](https://ci.appveyor.com/project/commandlineparser/commandline)
 [![Nuget](https://img.shields.io/nuget/dt/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Nuget](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
 [![Join the gitter chat!](https://badges.gitter.im/gsscoder/commandline.svg)](https://gitter.im/gsscoder/commandline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Command Line Parser Library 2.0.275.0 beta for CLR.
+Command Line Parser Library for CLR and NetStandard
 ===
 
 **Note:** the API surface has changed since 1.9.x and earlier. If you are looking for documentation on 1.9.x, please see [this branch](https://github.com/gsscoder/commandline/tree/stable-1.9.71.2)
 
 The Command Line Parser Library offers CLR applications a clean and concise API for manipulating command line arguments and related tasks, such as defining switches, options and verb commands. It allows you to display a help screen with a high degree of customization and a simple way to report syntax errors to the end user.
+
+```
+C:\Project> Nuget Install CommandLineParser
+
+or
+
+C:\Project> paket install CommandLineParser
+```
 
 Everything that is boring and repetitive about parsing command line arguments is delegated to the library, letting developers concentrate on core logic. It's written in **C#** and doesn't depend on other packages.
 
@@ -39,11 +47,21 @@ At glance:
   - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
   - C# demo: source [here](https://github.com/gsscoder/commandline/tree/master/demo/ReadText.Demo).
 
-To install:
+Integrate directly into your project
 ---
-  - NuGet way (latest stable): `Install-Package CommandLineParser`
-  - NuGet way (latest version): `Install-Package CommandLineParser -pre`
-  - XCOPY way: `cp -r ClonedRepo/src/CommandLine To/Your/Project/Dir`
+It is possible to integrate the CommandLineParser library directly into your project in two ways:
+
+First way is simply copy the .cs files into your project:
+```
+C:\Projects\MyProject> cp -r ClonedRepo/src/CommandLine To/Your/Project/Dir
+```
+
+You can also use ILMerge during your library build process:
+
+```
+C:\Projects\MyProject> msbuild MyProject.sln /p:Configuration=Release
+C:\Projects\MyProject> ilmerge bin\Release\MyProject.exe bin\Release\CommandLineParser.dll bin\Release\MyProject.merged.exe
+```
 
 To build:
 ---
