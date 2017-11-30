@@ -153,10 +153,6 @@ namespace CommandLine.Core
 
         public static object CreateDefaultForImmutable(this Type type)
         {
-            if (type == typeof(string))
-            {
-                return string.Empty;
-            }
             if (type.GetTypeInfo().IsGenericType && type.GetTypeInfo().GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 return type.GetTypeInfo().GetGenericArguments()[0].CreateEmptyArray();
