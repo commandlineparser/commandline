@@ -1,35 +1,27 @@
-src/CommandLine/bin/*
-src/CommandLine/obj
-src/CommandLine.dotnet/bin/*
-src/CommandLine.dotnet/obj
-demo/ReadText.Demo/bin/*
-demo/ReadText.Demo/obj
-/demo/ReadText.Demo.VB/bin/*
-/demo/ReadText.Demo.VB/obj
-tests/CommandLine.Tests/bin/*
-tests/CommandLine.Tests/obj
-tests/CommandLine.DotNet.Tests/bin/*
-tests/CommandLine.DotNet.Tests/obj
-tests/CommandLine.Tests.Properties/bin/*
-tests/CommandLine.Tests.Properties/obj
-src/templates/CSharpTemplate/bin/*
-src/templates/CSharpTemplate/obj 
-src/templates/VBNetTemplate/bin/*
-src/templates/VBNetTemplate/obj
+
+#ignore build outputs
+[B|b]in
+[O|o]bj
 build/*
+
+#ignore managed external libs
 packages
 paket-files
+
 *.suo
 *.userprefs
 *~
 \#*\#
 *.pidb
+
+#ignore Test results/temps
 *.test-cache
 tests/CommandLine/test-results/*
 tests/CommandLine.Tests/test-results/*
+TestResult.xml
+
 *.DS_Store
 *.csproj.user
-TestResult.xml
 *.nupkg
 *.old
 StyleCop.Cache
