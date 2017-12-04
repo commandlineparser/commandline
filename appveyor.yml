@@ -1,3 +1,4 @@
+#version should be changed with any pull requests
 version: 2.2.0.{build}
 
 clone_depth: 1
