@@ -1052,11 +1052,11 @@ namespace CommandLine.Tests.Unit.Core
         {
             get
             {
-                yield return new object[] { new string[] { }, new Immutable_Simple_Options("", new int[] { }, default(bool), default(long)) };
+                yield return new object[] { new string[] { }, new Immutable_Simple_Options(null, new int[] { }, default(bool), default(long)) };
                 yield return new object[] { new[] { "--stringvalue=strval0" }, new Immutable_Simple_Options("strval0", new int[] { }, default(bool), default(long)) };
-                yield return new object[] { new[] { "-i", "9", "7", "8" }, new Immutable_Simple_Options("", new[] { 9, 7, 8 }, default(bool), default(long)) };
-                yield return new object[] { new[] { "-x" }, new Immutable_Simple_Options("", new int[] { }, true, default(long)) };
-                yield return new object[] { new[] { "9876543210" }, new Immutable_Simple_Options("", new int[] { }, default(bool), 9876543210L) };
+                yield return new object[] { new[] { "-i", "9", "7", "8" }, new Immutable_Simple_Options(null, new[] { 9, 7, 8 }, default(bool), default(long)) };
+                yield return new object[] { new[] { "-x" }, new Immutable_Simple_Options(null, new int[] { }, true, default(long)) };
+                yield return new object[] { new[] { "9876543210" }, new Immutable_Simple_Options(null, new int[] { }, default(bool), 9876543210L) };
                 yield return new object[] { new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" }, new Immutable_Simple_Options("strval0", new[] { 9, 7, 8 }, true, 9876543210L) };
             }
         }
