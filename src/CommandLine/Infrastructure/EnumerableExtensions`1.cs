@@ -37,9 +37,9 @@ namespace CommandLine.Infrastructure
         /// <summary>
         /// Breaks a collection into groups of a specified size.
         /// </summary>
-        /// <param name="source">A collection of <typeparam name="T"/>.
+        /// <param name="source">A collection of <typeparam name="T"/>.</param>
         /// <param name="groupSize">The number of items each group shall contain.</param>
-        /// <returns>An enumeration of <typeparam name="T"/>[].</returns>
+        /// <returns>An enumeration of T[].</returns>
         /// <remarks>An incomplete group at the end of the source collection will be silently dropped.</remarks>
         public static IEnumerable<T[]> Group<T>(this IEnumerable<T> source, int groupSize)
         {

@@ -1,25 +1,51 @@
-version: 0.0.1.{build}
+#version should be changed with any pull requests
+version: 2.2.0.{build}
 
 clone_depth: 1
 pull_requests:
   do_not_increment_build_number: true
 
+cache:
+- packages -> paket.dependencies
+
 init:
-  - git config --global core.autocrlf input
+  - ps: >
+      git config --global core.autocrlf input
+      
+      if ($env:APPVEYOR_REPO_TAG -eq "true")
+      
+      {
+      
+        Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
+      
+      }
+      
+      else
+      
+      {
+        $ver = $env:APPVEYOR_BUILD_VERSION
+        $commit = $env:APPVEYOR_REPO_COMMIT.substring(0,7)
+        Update-AppveyorBuild -Version "$ver-$commit"
+      
+      }
 
 build_script:
   - cmd: build.cmd
 
-test: off
+after_build:
+- cmd: nuget pack CommandLine.nuspec -version %APPVEYOR_BUILD_VERSION%
+
+test: off  #tests handled within FAKE
 
 artifacts:
-- path: build/*.nupkg
+- path: '*.nupkg'
   name: NugetPackage
 
 deploy:
 - provider: NuGet
   api_key:
-    secure: sQzzieUQGkTU0CvzXLcv5Wph6K7h3T+8teovqwa/Dzk1p9WhpmuUHiRxd3U0YhqO
+    secure: +Zxb8M5W+UJV1yd9n8seu3PvH/hGNPEmgriGBnsSmtxjKPQAJ4+iL7tKAmfPHAuG
   artifact: 'NuGetPackage'
   on:
-    branch: release
+    branch: master
+    APPVEYOR_REPO_TAG: true
