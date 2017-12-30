@@ -9,15 +9,24 @@ cache:
 - packages -> paket.dependencies
 
 init:
-  - git config --global core.autocrlf input
-  - ps: >-
+  - ps: >
+      git config --global core.autocrlf input
+      
       if ($env:APPVEYOR_REPO_TAG -eq "true")
+      
       {
+      
         Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
+      
       }
+      
       else
+      
       {
-        Update-AppveyorBuild -Version "dev-$($env:APPVEYOR_REPO_COMMIT.substring(0,7))"
+        $ver = $env:APPVEYOR_BUILD_VERSION
+        $commit = $env:APPVEYOR_REPO_COMMIT.substring(0,7)
+        Update-AppveyorBuild -Version "$ver-$commit"
+      
       }
 
 build_script:
@@ -26,10 +35,10 @@ build_script:
 after_build:
 - cmd: nuget pack CommandLine.nuspec -version %APPVEYOR_BUILD_VERSION%
 
-test: off  #tests handled within FAKE build
+test: off  #tests handled within FAKE
 
 artifacts:
-- path: build/*.nupkg
+- path: '*.nupkg'
   name: NugetPackage
 
 deploy:
@@ -40,4 +49,3 @@ deploy:
   on:
     branch: master
     APPVEYOR_REPO_TAG: true
-
