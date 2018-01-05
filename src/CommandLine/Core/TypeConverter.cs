@@ -49,6 +49,11 @@ namespace CommandLine.Core
             return result.ToMaybe();
         }
 
+        private static object ConvertString(string value, Type type, CultureInfo conversionCulture)
+        {
+            return Convert.ChangeType(value, type, conversionCulture);
+        }
+        
         private static Result<object, Exception> ChangeTypeScalarImpl(string value, Type conversionType, CultureInfo conversionCulture, bool ignoreValueCase)
         {
             Func<object> changeType = () =>
@@ -71,10 +76,9 @@ namespace CommandLine.Core
                         () =>
 #if !SKIP_FSHARP
                             isFsOption
-                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(value, type, conversionCulture)) :
+                                ? FSharpOptionHelper.Some(type, ConvertString(value, type, conversionCulture)) :
 #endif
-                                Convert.ChangeType(value, type, conversionCulture);
-
+                                ConvertString(value, type, conversionCulture);
 #if !SKIP_FSHARP
                     Func<object> empty = () => isFsOption ? FSharpOptionHelper.None(type) : null;
 #else
