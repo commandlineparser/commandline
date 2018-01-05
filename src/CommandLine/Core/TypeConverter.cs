@@ -51,9 +51,17 @@ namespace CommandLine.Core
 
         private static object ConvertString(string value, Type type, CultureInfo conversionCulture)
         {
-            return Convert.ChangeType(value, type, conversionCulture);
+            try
+            {
+                return Convert.ChangeType(value, type, conversionCulture);
+            }
+            catch (InvalidCastException)
+            {
+                // Required for converting from string to TimeSpan because Convert.ChangeType can't
+                return System.ComponentModel.TypeDescriptor.GetConverter(type).ConvertFrom(null, conversionCulture, value);
+            }
         }
-        
+
         private static Result<object, Exception> ChangeTypeScalarImpl(string value, Type conversionType, CultureInfo conversionCulture, bool ignoreValueCase)
         {
             Func<object> changeType = () =>

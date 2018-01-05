@@ -1023,6 +1023,22 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Fact]
+        public void Parse_TimeSpan()
+        {
+            // Fixture setup
+            var expectedResult = new Options_With_TimeSpan { Duration = TimeSpan.FromMinutes(42) };
+
+            // Exercize system 
+            var result = InvokeBuild<Options_With_TimeSpan>(
+                new[] { "--duration=00:42:00" });
+
+            // Verify outcome
+            expectedResult.ShouldBeEquivalentTo(((Parsed<Options_With_TimeSpan>)result).Value);
+
+            // Teardown
+        }
+
         public static IEnumerable<object> RequiredValueStringData
         {
             get
