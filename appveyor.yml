@@ -36,6 +36,11 @@ test: off  #tests handled within FAKE
 artifacts:
 - path: '*.nupkg'
   name: NugetPackage
+  
+on_failure:
+- cmd: |
+    tree /f /a >files.lst
+    appveyor PushArtifact .\files.lst -DeploymentName "Failed Build File Listing"
 
 deploy:
 - provider: NuGet
