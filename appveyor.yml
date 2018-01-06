@@ -9,24 +9,20 @@ cache:
 - packages -> paket.dependencies
 
 init:
-  - ps: >
+  - ps: |
       git config --global core.autocrlf input
       
       if ($env:APPVEYOR_REPO_TAG -eq "true")
-      
       {
-      
-        Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
-      
+        $ver = $env:APPVEYOR_REPO_TAG_NAME
+        if($ver.StartsWith("v") -eq $true) { $ver = $version.Substring(1) }
+        Update-AppveyorBuild -Version $ver
       }
-      
       else
-      
       {
         $ver = $env:APPVEYOR_BUILD_VERSION
         $commit = $env:APPVEYOR_REPO_COMMIT.substring(0,7)
         Update-AppveyorBuild -Version "$ver-$commit"
-      
       }
 
 build_script:
