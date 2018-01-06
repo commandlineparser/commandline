@@ -1,35 +1,44 @@
 #version should be changed with any pull requests
-version: 2.2.0.{build}
+version: 2.1.{build}
 
 clone_depth: 1
 pull_requests:
   do_not_increment_build_number: true
 
-cache:
-- packages -> paket.dependencies
+#cache:
+#- packages -> paket.dependencies
+#- paket-files > paket.dependencies
 
 init:
   - ps: |
       git config --global core.autocrlf input
       
-      if ($env:APPVEYOR_REPO_TAG -eq "true")
-      {
+      if ($env:APPVEYOR_REPO_TAG -eq "true") {
         $ver = $env:APPVEYOR_REPO_TAG_NAME
         if($ver.StartsWith("v") -eq $true) { $ver = $version.Substring(1) }
         Update-AppveyorBuild -Version $ver
       }
-      else
-      {
+      elseif([System.String]::IsNullOrEmpty($env:APPVEYOR_PULL_REQUEST_NUMBER) -eq $true) {
         $ver = $env:APPVEYOR_BUILD_VERSION
         $commit = $env:APPVEYOR_REPO_COMMIT.substring(0,7)
         Update-AppveyorBuild -Version "$ver-$commit"
       }
 
+assembly_info:
+  file: src\SharedAssemblyInfo.cs
+  patch: true
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: $(APPVEYOR_BUILD_VERSION)
+
 build_script:
   - cmd: build.cmd
 
 after_build:
-- cmd: nuget pack CommandLine.nuspec -version %APPVEYOR_BUILD_VERSION%
+- ps: |
+    get-childitem build\* -include *.dll | foreach-object { "{0}`t{1}" -f $_.Name, [System.Diagnostics.FileVersionInfo]::GetVersionInfo($_).FileVersion }
+    
+    nuget pack CommandLine.nuspec -version "$env:APPVEYOR_BUILD_VERSION"
 
 test: off  #tests handled within FAKE
 
@@ -49,4 +58,4 @@ deploy:
   artifact: 'NuGetPackage'
   on:
     branch: master
-    APPVEYOR_REPO_TAG: true
+    APPVEYOR_REPO_TAG: trueX

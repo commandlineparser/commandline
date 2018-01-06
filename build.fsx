@@ -9,7 +9,7 @@ let packagingDir = "./nuget/"
 let authors = ["Giacomo Stelluti Scala"]
 let projectDescription = "The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks."
 let projectSummary = "Command Line Parser Library"
-let buildVersion = "2.0.0.0"
+let buildVersion = "2.2.0.0"
 
 Target "Clean" (fun _ ->
     CleanDirs [buildDir; testDir]
