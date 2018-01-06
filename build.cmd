@@ -30,4 +30,4 @@ dotnet restore
 :BUILD_NETSTD
 echo.
 echo dotnet build
-dotnet build --configuration Release --output Release\netstandard1.5 --framework netstandard1.5 src\commandline
+dotnet build --configuration Release --output build\netstandard1.5 --framework netstandard1.5 src\commandline
