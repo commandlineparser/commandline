@@ -15,7 +15,7 @@ init:
       
       if ($env:APPVEYOR_REPO_TAG -eq "true") {
         $ver = $env:APPVEYOR_REPO_TAG_NAME
-        if($ver.StartsWith("v") -eq $true) { $ver = $version.Substring(1) }
+        if($ver.StartsWith("v") -eq $true) { $ver = $ver.Substring(1) }
         Update-AppveyorBuild -Version $ver
       }
       elseif([System.String]::IsNullOrEmpty($env:APPVEYOR_PULL_REQUEST_NUMBER) -eq $true) {
