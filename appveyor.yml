@@ -16,20 +16,37 @@ init:
       if ($env:APPVEYOR_REPO_TAG -eq "true") {
         $ver = $env:APPVEYOR_REPO_TAG_NAME
         if($ver.StartsWith("v") -eq $true) { $ver = $ver.Substring(1) }
-        Update-AppveyorBuild -Version $ver
+
+        $env:APPVEYOR_BUILD_SEMVER = $ver
+        
+        if($ver.IndexOf("-") -gt -1) { 
+            $verPreId = $ver.Substring($ver.IndexOf("-")+1)
+            $ver = $ver.Substring(0,$ver.IndexOf("-"))
+        } else {
+            $verPreId = ""
+        }
+
+        if($verPreId -eq "") { $env:GITHUB_PRERELEASE="false" } else { $env:GITHUB_PRERELEASE="true" }
+
+        $env:APPVEYOR_BUILD_VERSION = $ver
+        $env:APPVEYOR_BUILD_VERSION_PREID = $verPreId
+        Update-AppveyorBuild -Version $ver        
       }
       elseif([System.String]::IsNullOrEmpty($env:APPVEYOR_PULL_REQUEST_NUMBER) -eq $true) {
         $ver = $env:APPVEYOR_BUILD_VERSION
         $commit = $env:APPVEYOR_REPO_COMMIT.substring(0,7)
-        Update-AppveyorBuild -Version "$ver-$commit"
+        $verInfo = "$ver-$commit"
+
+        $env:APPVEYOR_BUILD_SEMVER = $verInfo
+        Update-AppveyorBuild -Version $env:APPVEYOR_BUILD_SEMVER
       }
 
 assembly_info:
   file: src\SharedAssemblyInfo.cs
   patch: true
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: $(APPVEYOR_BUILD_VERSION)
+  assembly_version: $(APPVEYOR_BUILD_VERSION)
+  assembly_file_version: $(APPVEYOR_BUILD_VERSION)
+  assembly_informational_version: $(APPVEYOR_BUILD_SEMVER)
 
 build_script:
   - cmd: build.cmd
@@ -38,7 +55,7 @@ after_build:
 - ps: |
     get-childitem build\* -include *.dll | foreach-object { "{0}`t{1}" -f $_.Name, [System.Diagnostics.FileVersionInfo]::GetVersionInfo($_).FileVersion }
     
-    nuget pack CommandLine.nuspec -version "$env:APPVEYOR_BUILD_VERSION"
+    nuget pack CommandLine.nuspec -version "$env:APPVEYOR_BUILD_SEMVER"
 
 test: off  #tests handled within FAKE
 
@@ -57,6 +74,13 @@ deploy:
     secure: +Zxb8M5W+UJV1yd9n8seu3PvH/hGNPEmgriGBnsSmtxjKPQAJ4+iL7tKAmfPHAuG
   artifact: 'NuGetPackage'
   on:
-    branch: master
     APPVEYOR_REPO_TAG: true
+- provider: GitHub
+  auth_token:
+    secure: Km7E9dBin0YBa7/dFkZpyQ==
+  artifact: NugetPackage
+  prerelease: $(GITHUB_PRERELEASE)
+  on:
+    APPVEYOR_REPO_TAG: true
+
 
