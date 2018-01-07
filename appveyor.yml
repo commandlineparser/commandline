@@ -1,5 +1,5 @@
 #version should be changed with any pull requests
-version: 2.1.{build}
+version: 2.2.{build}
 
 clone_depth: 1
 pull_requests:
@@ -58,4 +58,5 @@ deploy:
   artifact: 'NuGetPackage'
   on:
     branch: master
-    APPVEYOR_REPO_TAG: trueX
+    APPVEYOR_REPO_TAG: true
+
