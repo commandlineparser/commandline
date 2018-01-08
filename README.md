@@ -22,25 +22,21 @@ C:\Project> paket install CommandLineParser
 
 __This library provides _hassle free_ command line parsing with a constantly updated API since 2005.__
 
-Compatibility:
-  - .NET Framework 4.0+
-  - Mono 2.1+ Profile
-  - .Net Core
-
 # At a glance:
 
+- Compatible with __.NET Framework 4.0+__, __Mono 2.1+ Profile__, and __.Net Core__
 - Doesn't depend on other packages (No dependencies beyond standard base libraries)
 - One line parsing using default singleton: `CommandLine.Parser.Default.ParseArguments(...)`.
 - Automatic or one line help screen generator: `HelpText.AutoBuild(...)`.
 - Supports `--help`, `--version`, `version` and `help [verb]` by default.
-- Map to sequences (`IEnumerable<T>`) or scalar types, including enum and `Nullable<T>`.
+- Map to sequences (via `IEnumerable<T>` and similar) and scalar types, including Enums and `Nullable<T>`.
 - You can also map to every type with a constructor that accepts a string (like `System.Uri`).
 - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
-- Define [verb commands](https://github.com/gsscoder/commandline/wiki/Latest-Version#verbs) as `git commit -a`.
+- Define [verb commands](https://github.com/gsscoder/commandline/wiki/Latest-Version#verbs) similar to `git commit -a`.
 - Unparsing support: `CommandLine.Parser.Default.FormatCommandLine<T>(T options)`.
 - F#-friendly with support for `option<'a>`, see [demo](https://github.com/gsscoder/commandline/blob/master/demo/fsharp-demo.fsx).
 - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
-- C# demo: source [here](https://github.com/gsscoder/commandline/tree/master/demo/ReadText.Demo).
+- C# demo: source [here](https://github.com/commandlineparser/commandline/tree/master/demo/ReadText.Demo).
 
 Used by several open source projects and by various commercial products: See the [wiki for listing](https://github.com/gsscoder/commandline/Used_By)
 
