@@ -130,7 +130,8 @@ End Class
 ### For verbs:
 
 1. Create separate option classes for each verb.  An options base class is supported.  
-2. Use MapResult to direct program flow to the verb that was parsed.
+2. Call ParseArguments with all the verb attribute decorated options classes.
+3. Use MapResult to direct program flow to the verb that was parsed.
 
 C# example:
 
