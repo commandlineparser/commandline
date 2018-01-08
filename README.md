@@ -66,12 +66,12 @@ internal class Options {
 
   // Omitting long name, defaults to name of property, ie "--verbose"
   [Option(
-	DefaultValue = false,
+	Default = false,
 	HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
   
   [Option("stdin",
-	DefaultValue = false
+	Default = false
 	HelpText = "Read from stdin")]
    public bool stdin { get; set; }
 
@@ -91,7 +91,7 @@ F# Examples:
 type options = {
   [<Option('r', "read", Required = true, HelpText = "Input files.")>] files : seq<string>;
   [<Option(HelpText = "Prints all messages to standard output.")>] verbose : bool;
-  [<Option(DefaultValue = "русский", HelpText = "Content language.")>] language : string;
+  [<Option(Default = "русский", HelpText = "Content language.")>] language : string;
   [<Value(0, MetaName="offset", HelpText = "File offset.")>] offset : int64 option;
 }
 
@@ -115,7 +115,7 @@ Class Options
 	HelpText:="Prints all messages to standard output.")>
 	Public Property Verbose As Boolean
 
-	<CommandLine.Option(DefaultValue:="中文",
+	<CommandLine.Option(Default:="中文",
 	HelpText:="Content language.")>
 	Public Property Language As String
 
