@@ -47,7 +47,7 @@ after_build:
     
     .\build-nuget-pack.cmd $env:BUILD_TARGET $env:NUSPEC_FILE
 
-test: off  #tests handled within FAKE
+test: auto
 
 artifacts:
 - path: 'Release/**/*.nupkg'
