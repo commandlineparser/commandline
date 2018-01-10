@@ -38,3 +38,4 @@ artifacts/*
 # Visual Studio 2015 cache/options directory
 .vs/
 
+[R|r]elease/** 
