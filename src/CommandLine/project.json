@@ -22,6 +22,7 @@
     "define": [
       "CSX_REM_EITHER_FUNC", "SKIP_FSHARP"
     ],
+    "xmlDoc": true,
     "compile": {
       "include": [
         "../CommandLine/**/*.cs",
