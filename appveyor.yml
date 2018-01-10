@@ -24,12 +24,22 @@ init:
         Update-AppveyorBuild -Version "$ver-$commit"
       }
 
+#version patching
 assembly_info:
   file: src\SharedAssemblyInfo.cs
   patch: true
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: $(APPVEYOR_BUILD_VERSION)
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+
 
 environment:
   matrix:
