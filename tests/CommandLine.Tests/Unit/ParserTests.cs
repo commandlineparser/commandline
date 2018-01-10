@@ -366,7 +366,7 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -397,7 +397,7 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -452,7 +452,7 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -501,7 +501,7 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -541,7 +541,7 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -571,7 +571,7 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -639,7 +639,7 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
@@ -709,7 +709,7 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2015 Giacomo Stelluti Scala");
+            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
