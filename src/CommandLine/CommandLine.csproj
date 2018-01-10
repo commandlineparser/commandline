@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CSX_EITHER_INTERNAL; CSX_REM_EITHER_BEYOND_2; CSX_ENUM_INTERNAL; ERRH_INTERNAL; ERRH_DISABLE_INLINE_METHODS; CSX_MAYBE_INTERNAL; CSX_REM_EITHER_FUNC;NET40</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CSX_EITHER_INTERNAL; CSX_REM_EITHER_BEYOND_2; CSX_ENUM_INTERNAL; ERRH_INTERNAL; ERRH_DISABLE_INLINE_METHODS; CSX_MAYBE_INTERNAL; CSX_REM_EITHER_FUNC;NET40;SKIP_FSHARP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\CommandLine.XML</DocumentationFile>
@@ -30,7 +30,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CSX_EITHER_INTERNAL; CSX_REM_EITHER_BEYOND_2; CSX_ENUM_INTERNAL; ERRH_INTERNAL; ERRH_DISABLE_INLINE_METHODS; CSX_MAYBE_INTERNAL; CSX_REM_EITHER_FUNC;NET40</DefineConstants>
+    <DefineConstants>TRACE;CSX_EITHER_INTERNAL; CSX_REM_EITHER_BEYOND_2; CSX_ENUM_INTERNAL; ERRH_INTERNAL; ERRH_DISABLE_INLINE_METHODS; CSX_MAYBE_INTERNAL; CSX_REM_EITHER_FUNC;NET40;SKIP_FSHARP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\CommandLine.XML</DocumentationFile>
@@ -57,7 +57,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
