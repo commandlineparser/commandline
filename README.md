@@ -225,6 +225,8 @@ Please consider sticking with the GNU getopt standard for command line parsing.
 
 Additionally, for easiest diff compares, please follow the project's tabs settings.  Utilizing the EditorConfig extension for Visual Studio/your favorite IDE is recommended.
 
+__And most importantly, please target the ```develop``` branch in your pull requests!__
+
 For more info, see the [wiki for details about contributing](https://github.com/gsscoder/commandline/wiki/Building_the_library) and for building the project.
 
 ## Main Contributors (alphabetical order):
