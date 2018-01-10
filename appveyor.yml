@@ -36,7 +36,7 @@ environment:
     - BUILD_TARGET: base
       NUSPEC_FILE: CommandLine
     - BUILD_TARGET: fsharp
-      NUSPEC_FILE: CommandLine.fsharp
+      NUSPEC_FILE: CommandLine.FSharp
 
 build_script:
   - cmd: build.cmd %BUILD_TARGET%
