@@ -14,11 +14,7 @@ The Command Line Parser Library offers CLR applications a clean and concise API 
 C:\Project> Nuget Install CommandLineParser
 ```
 
-or
-
-```
-C:\Project> paket install CommandLineParser
-```
+_NOTE: Mentioned F# Support is provided via ```CommandLineParser.FSharp``` package with FSharp dependencies._
 
 __This library provides _hassle free_ command line parsing with a constantly updated API since 2005.__
 
@@ -34,7 +30,7 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 - __Plug-In friendly__ architecture as explained [here](https://github.com/gsscoder/commandline/wiki/Plug-in-Friendly-Architecture).
 - Define [verb commands](https://github.com/gsscoder/commandline/wiki/Latest-Version#verbs) similar to `git commit -a`.
 - Unparsing support: `CommandLine.Parser.Default.FormatCommandLine<T>(T options)`.
-- F#-friendly with support for `option<'a>`, see [demo](https://github.com/gsscoder/commandline/blob/master/demo/fsharp-demo.fsx).
+- CommandLineParser.FSharp package is F#-friendly with support for `option<'a>`, see [demo](https://github.com/gsscoder/commandline/blob/master/demo/fsharp-demo.fsx).  _NOTE: This is a separate Nuget package._
 - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
 - C# demo: source [here](https://github.com/commandlineparser/commandline/tree/master/demo/ReadText.Demo).
 
