@@ -54,31 +54,28 @@ See more details in the [wiki for direct integrations](https://github.com/gsscod
 C# Examples:
 
 ```csharp
-internal class Options {
-  [Option('r',"read", 
-	Required = true,
-	HelpText = "Input files to be processed.")]
+class Options
+{
+  [Option('r', "read", Required = true, HelpText = "Input files to be processed.")]
   public IEnumerable<string> InputFiles { get; set; }
 
   // Omitting long name, defaults to name of property, ie "--verbose"
-  [Option(
-	DefaultValue = false,
-	HelpText = "Prints all messages to standard output.")]
+  [Option(Default = false, HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
-  
-  [Option("stdin",
-	DefaultValue = false
-	HelpText = "Read from stdin")]
-   public bool stdin { get; set; }
 
-  [Value(0, MetaName = "offset",
-	HelpText = "File offset.")]
+  [Option("stdin", Default = false, HelpText = "Read from stdin")]
+  public bool stdin { get; set; }
+
+  [Value(0, MetaName = "offset", HelpText = "File offset.")]
   public long? Offset { get; set; }
 }
 
-static int Main(string[] args) {
-  var options = new Options();
-  var isValid = CommandLine.Parser.Default.ParseArgumentsStrict(args, options);
+static void Main(string[] args)
+{
+  CommandLine.Parser.Default.ParseArguments<Options>(args)
+    .WithParsed<Options>(opts => RunOptionsAndReturnExitCode(opts))
+    .WithNotParsed<Options>((errs) => HandleParseError(errs));
+}
 ```
 
 F# Examples:
@@ -102,25 +99,25 @@ VB.Net:
 
 ```VB.NET
 Class Options
-	<CommandLine.Option('r', "read", Required := true,
-	HelpText:="Input files to be processed.")>
-	Public Property InputFiles As IEnumerable(Of String)
+    <CommandLine.Option("r", "read", Required:=True, HelpText:="Input files to be processed.")>
+    Public Property InputFiles As IEnumerable(Of String)
 
-	' Omitting long name, defaults to name of property, ie "--verbose"
-	<CommandLine.Option(
-	HelpText:="Prints all messages to standard output.")>
-	Public Property Verbose As Boolean
+    ' Omitting long name, defaults to name of property, ie "--verbose"
+    <CommandLine.Option(HelpText:="Prints all messages to standard output.")>
+    Public Property Verbose As Boolean
 
-	<CommandLine.Option(DefaultValue:="中文",
-	HelpText:="Content language.")>
-	Public Property Language As String
+    <CommandLine.Option([Default]:="中文", HelpText:="Content language.")>
+    Public Property Language As String
 
-	<CommandLine.Value(0, MetaName:="offset",
-	HelpText:="File offset.")>
-	Public Property Offset As Long?
+    <CommandLine.Value(0, MetaName:="offset", HelpText:="File offset.")>
+    Public Property Offset As Long?
 End Class
 
-'TODO
+Sub Main(ByVal args As String())
+    CommandLine.Parser.Default.ParseArguments(Of Options)(args) _
+        .WithParsed(Function(opts As Options) RunOptionsAndReturnExitCode(opts)) _
+        .WithNotParsed(Function(errs As IEnumerable(Of [Error])) 1)
+End Sub
 ```
 
 ### For verbs:
@@ -160,20 +157,26 @@ VB.Net example:
 ```VB.NET
 <CommandLine.Verb("add", HelpText:="Add file contents to the index.")>
 Public Class AddOptions
-	'Normal options here
+    'Normal options here
 End Class
 <CommandLine.Verb("commit", HelpText:="Record changes to the repository.")>
-Public Class AddOptions
-	'Normal options here
+Public Class CommitOptions
+    'Normal options here
 End Class
 <CommandLine.Verb("clone", HelpText:="Clone a repository into a new directory.")>
-Public Class AddOptions
-	'Normal options here
+Public Class CloneOptions
+    'Normal options here
 End Class
 
-Public Shared Sub Main()
-	'TODO
-End Sub
+Function Main(ByVal args As String()) As Integer
+    Return CommandLine.Parser.Default.ParseArguments(Of AddOptions, CommitOptions, CloneOptions)(args) _
+          .MapResult(
+              (Function(opts As AddOptions) RunAddAndReturnExitCode(opts)),
+              (Function(opts As CommitOptions) RunCommitAndReturnExitCode(opts)),
+              (Function(opts As CloneOptions) RunCloneAndReturnExitCode(opts)),
+              (Function(errs As IEnumerable(Of [Error])) 1)
+          )
+End Function
 ```
 
 F# Example:
