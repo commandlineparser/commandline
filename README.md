@@ -54,31 +54,28 @@ See more details in the [wiki for direct integrations](https://github.com/gsscod
 C# Examples:
 
 ```csharp
-internal class Options {
-  [Option('r',"read", 
-	Required = true,
-	HelpText = "Input files to be processed.")]
+class Options
+{
+  [Option('r', "read", Required = true, HelpText = "Input files to be processed.")]
   public IEnumerable<string> InputFiles { get; set; }
 
   // Omitting long name, defaults to name of property, ie "--verbose"
-  [Option(
-	DefaultValue = false,
-	HelpText = "Prints all messages to standard output.")]
+  [Option(Default = false, HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
-  
-  [Option("stdin",
-	DefaultValue = false
-	HelpText = "Read from stdin")]
-   public bool stdin { get; set; }
 
-  [Value(0, MetaName = "offset",
-	HelpText = "File offset.")]
+  [Option("stdin", Default = false, HelpText = "Read from stdin")]
+  public bool stdin { get; set; }
+
+  [Value(0, MetaName = "offset", HelpText = "File offset.")]
   public long? Offset { get; set; }
 }
 
-static int Main(string[] args) {
-  var options = new Options();
-  var isValid = CommandLine.Parser.Default.ParseArgumentsStrict(args, options);
+static void Main(string[] args)
+{
+  CommandLine.Parser.Default.ParseArguments<Options>(args)
+    .WithParsed<Options>(opts => RunOptionsAndReturnExitCode(opts))
+    .WithNotParsed<Options>((errs) => HandleParseError(errs));
+}
 ```
 
 F# Examples:
