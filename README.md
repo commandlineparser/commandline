@@ -102,25 +102,25 @@ VB.Net:
 
 ```VB.NET
 Class Options
-	<CommandLine.Option('r', "read", Required := true,
-	HelpText:="Input files to be processed.")>
-	Public Property InputFiles As IEnumerable(Of String)
+    <CommandLine.Option("r", "read", Required:=True, HelpText:="Input files to be processed.")>
+    Public Property InputFiles As IEnumerable(Of String)
 
-	' Omitting long name, defaults to name of property, ie "--verbose"
-	<CommandLine.Option(
-	HelpText:="Prints all messages to standard output.")>
-	Public Property Verbose As Boolean
+    ' Omitting long name, defaults to name of property, ie "--verbose"
+    <CommandLine.Option(HelpText:="Prints all messages to standard output.")>
+    Public Property Verbose As Boolean
 
-	<CommandLine.Option(DefaultValue:="中文",
-	HelpText:="Content language.")>
-	Public Property Language As String
+    <CommandLine.Option([Default]:="中文", HelpText:="Content language.")>
+    Public Property Language As String
 
-	<CommandLine.Value(0, MetaName:="offset",
-	HelpText:="File offset.")>
-	Public Property Offset As Long?
+    <CommandLine.Value(0, MetaName:="offset", HelpText:="File offset.")>
+    Public Property Offset As Long?
 End Class
 
-'TODO
+Sub Main(ByVal args As String())
+    CommandLine.Parser.Default.ParseArguments(Of Options)(args) _
+        .WithParsed(Function(opts As Options) RunOptionsAndReturnExitCode(opts)) _
+        .WithNotParsed(Function(errs As IEnumerable(Of [Error])) 1)
+End Sub
 ```
 
 ### For verbs:
@@ -173,12 +173,12 @@ End Class
 
 Function Main(ByVal args As String()) As Integer
     Return CommandLine.Parser.Default.ParseArguments(Of AddOptions, CommitOptions, CloneOptions)(args) _
-    .MapResult(
-        (Function(opts As AddOptions) RunAddAndReturnExitCode(opts)),
-        (Function(opts As CommitOptions) RunCommitAndReturnExitCode(opts)),
-        (Function(opts As CloneOptions) RunCloneAndReturnExitCode(opts)),
-        (Function(errs As IEnumerable(Of [Error])) 1)
-    )
+          .MapResult(
+              (Function(opts As AddOptions) RunAddAndReturnExitCode(opts)),
+              (Function(opts As CommitOptions) RunCommitAndReturnExitCode(opts)),
+              (Function(opts As CloneOptions) RunCloneAndReturnExitCode(opts)),
+              (Function(errs As IEnumerable(Of [Error])) 1)
+          )
 End Function
 ```
 
