@@ -160,20 +160,26 @@ VB.Net example:
 ```VB.NET
 <CommandLine.Verb("add", HelpText:="Add file contents to the index.")>
 Public Class AddOptions
-	'Normal options here
+    'Normal options here
 End Class
 <CommandLine.Verb("commit", HelpText:="Record changes to the repository.")>
-Public Class AddOptions
-	'Normal options here
+Public Class CommitOptions
+    'Normal options here
 End Class
 <CommandLine.Verb("clone", HelpText:="Clone a repository into a new directory.")>
-Public Class AddOptions
-	'Normal options here
+Public Class CloneOptions
+    'Normal options here
 End Class
 
-Public Shared Sub Main()
-	'TODO
-End Sub
+Function Main(ByVal args As String()) As Integer
+    Return CommandLine.Parser.Default.ParseArguments(Of AddOptions, CommitOptions, CloneOptions)(args) _
+    .MapResult(
+        (Function(opts As AddOptions) RunAddAndReturnExitCode(opts)),
+        (Function(opts As CommitOptions) RunCommitAndReturnExitCode(opts)),
+        (Function(opts As CloneOptions) RunCloneAndReturnExitCode(opts)),
+        (Function(errs As IEnumerable(Of [Error])) 1)
+    )
+End Function
 ```
 
 F# Example:
