@@ -17,6 +17,7 @@ namespace CommandLine.Core
             IEnumerable<Type> types,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
+            bool ignoreValueCase,
             CultureInfo parsingCulture,
             IEnumerable<ErrorType> nonFatalErrors)
         {
@@ -36,7 +37,7 @@ namespace CommandLine.Core
                             arguments.Skip(1).FirstOrDefault() ?? string.Empty, nameComparer))
                     : preprocCompare("version")
                         ? MakeNotParsed(types, new VersionRequestedError())
-                        : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture, nonFatalErrors);
+                        : MatchVerb(tokenizer, verbs, arguments, nameComparer, ignoreValueCase, parsingCulture, nonFatalErrors);
             };
 
             return arguments.Any()
@@ -49,6 +50,7 @@ namespace CommandLine.Core
             IEnumerable<Tuple<Verb, Type>> verbs,
             IEnumerable<string> arguments,
             StringComparer nameComparer,
+            bool ignoreValueCase,
             CultureInfo parsingCulture,
             IEnumerable<ErrorType> nonFatalErrors)
         {
@@ -60,7 +62,7 @@ namespace CommandLine.Core
                     tokenizer,
                     arguments.Skip(1),
                     nameComparer,
-                    false,
+                    ignoreValueCase,
                     parsingCulture,
                     nonFatalErrors)
                 : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
