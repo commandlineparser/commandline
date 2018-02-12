@@ -173,5 +173,10 @@ namespace CommandLine
                 disposed = true;
             }
         }
+        /// <summary>
+        /// This flag indicate if there is a line break between each option display in help
+        /// </summary>
+        public bool AdditionalNewLineAfterOption { get; set; } = true;
+        
     }
 }

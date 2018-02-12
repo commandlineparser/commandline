@@ -315,7 +315,7 @@ namespace CommandLine.Tests.Unit.Text
                     });
 
             // Exercize system
-            var helpText = HelpText.AutoBuild(fakeResult);
+            var helpText = HelpText.AutoBuild(fakeResult, new ParserSettings());
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
@@ -350,7 +350,7 @@ namespace CommandLine.Tests.Unit.Text
                     });
 
             // Exercize system
-            var helpText = HelpText.AutoBuild(fakeResult);
+            var helpText = HelpText.AutoBuild(fakeResult, new ParserSettings());
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
@@ -383,7 +383,7 @@ namespace CommandLine.Tests.Unit.Text
                     });
 
             // Exercize system
-            var helpText = HelpText.AutoBuild(fakeResult, maxDisplayWidth: 100);            
+            var helpText = HelpText.AutoBuild(fakeResult, new ParserSettings(), maxDisplayWidth: 100);            
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
@@ -415,7 +415,7 @@ namespace CommandLine.Tests.Unit.Text
                 new Error[] { new HelpVerbRequestedError(null, null, false) });
 
             // Exercize system
-            var helpText = HelpText.AutoBuild(fakeResult);
+            var helpText = HelpText.AutoBuild(fakeResult, new ParserSettings());
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
@@ -501,7 +501,7 @@ namespace CommandLine.Tests.Unit.Text
                     });
 
             // Exercize system
-            var helpText = HelpText.AutoBuild(fakeResult);
+            var helpText = HelpText.AutoBuild(fakeResult, new ParserSettings());
 
             // Verify outcome
             var text = helpText.ToString();            
@@ -554,7 +554,7 @@ namespace CommandLine.Tests.Unit.Text
 
             // Exercize system
             handlers.ChangeCulture();
-            var helpText = HelpText.AutoBuild(fakeResult);
+            var helpText = HelpText.AutoBuild(fakeResult, new ParserSettings());
             handlers.ResetCulture();
 
             // Verify outcome
@@ -585,7 +585,7 @@ namespace CommandLine.Tests.Unit.Text
                 {
                     onErrorCalled = true;
                     return ht;
-                }, ex => ex);
+                }, ex => ex, new ParserSettings());
                 
                 onErrorCalled.Should().BeTrue();
                 actualResult.Copyright.Should().Be(expectedCopyright);
@@ -617,7 +617,7 @@ namespace CommandLine.Tests.Unit.Text
                 {
                     onErrorCalled = true;
                     return ht;
-                }, ex => ex);
+                }, ex => ex, new ParserSettings());
 
                 onErrorCalled.Should().BeTrue();
                 actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
@@ -648,7 +648,7 @@ namespace CommandLine.Tests.Unit.Text
                 {
                     onErrorCalled = true;
                     return ht;
-                }, ex => ex);
+                }, ex => ex, new ParserSettings());
 
                 onErrorCalled.Should().BeFalse(); // Other attributes have fallback logic
                 actualResult.Copyright.Should().Be(string.Format("Copyright (C) {0} {1}", DateTime.Now.Year, expectedCompany));
