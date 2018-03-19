@@ -31,6 +31,8 @@ namespace CommandLine.Text
         private StringBuilder optionsHelp;
         private bool addDashesToOption;
         private bool addEnumValuesToHelpText;
+        private bool autoHelp;
+        private bool autoVersion;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class.
@@ -113,6 +115,8 @@ namespace CommandLine.Text
             this.sentenceBuilder = sentenceBuilder;
             this.heading = heading;
             this.copyright = copyright;
+            this.autoHelp = true;
+            this.autoVersion = true;
         }
 
         /// <summary>
@@ -181,6 +185,24 @@ namespace CommandLine.Text
         {
             get { return addEnumValuesToHelpText; }
             set { addEnumValuesToHelpText = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'help' should be supported.
+        /// </summary>
+        public bool AutoHelp
+        {
+            get { return autoHelp; }
+            set { autoHelp = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'version' should be supported.
+        /// </summary>
+        public bool AutoVersion
+        {
+            get { return autoVersion; }
+            set { autoVersion = value; }
         }
 
         /// <summary>
@@ -676,8 +698,11 @@ namespace CommandLine.Text
         {
             var specs = type.GetSpecifications(Specification.FromProperty);
             var optionSpecs = specs
-                .OfType<OptionSpecification>()
-                .Concat(new[] { MakeHelpEntry(), MakeVersionEntry() });
+                .OfType<OptionSpecification>();
+            if (autoHelp)
+                optionSpecs = optionSpecs.Concat(new [] { MakeHelpEntry() });
+            if (autoVersion)
+                optionSpecs = optionSpecs.Concat(new [] { MakeVersionEntry() });
             var valueSpecs = specs
                 .OfType<ValueSpecification>()
                 .OrderBy(v => v.Index);
@@ -707,7 +732,7 @@ namespace CommandLine.Text
 
         private IEnumerable<Specification> AdaptVerbsToSpecifications(IEnumerable<Type> types)
         {
-            return (from verbTuple in Verb.SelectFromTypes(types)
+            var optionSpecs = from verbTuple in Verb.SelectFromTypes(types)
                     select
                         OptionSpecification.NewSwitch(
                             string.Empty,
@@ -715,7 +740,12 @@ namespace CommandLine.Text
                             false,
                             verbTuple.Item1.HelpText,
                             string.Empty,
-                            verbTuple.Item1.Hidden)).Concat(new[] { MakeHelpEntry(), MakeVersionEntry() });
+                            verbTuple.Item1.Hidden);
+            if (autoHelp)
+                optionSpecs = optionSpecs.Concat(new [] { MakeHelpEntry() });
+            if (autoVersion)
+                optionSpecs = optionSpecs.Concat(new [] { MakeVersionEntry() });
+            return optionSpecs;
         }
 
         private HelpText AddOptionsImpl(

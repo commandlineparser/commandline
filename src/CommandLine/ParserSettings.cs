@@ -20,6 +20,8 @@ namespace CommandLine
         private bool caseInsensitiveEnumValues;
         private TextWriter helpWriter;
         private bool ignoreUnknownArguments;
+        private bool autoHelp;
+        private bool autoVersion;
         private CultureInfo parsingCulture;
         private bool enableDashDash;
         private int maximumDisplayWidth;
@@ -31,6 +33,8 @@ namespace CommandLine
         {
             caseSensitive = true;
             caseInsensitiveEnumValues = false;
+            autoHelp = true;
+            autoVersion = true;
             parsingCulture = CultureInfo.InvariantCulture;
             try
             {
@@ -116,6 +120,24 @@ namespace CommandLine
         {
             get { return ignoreUnknownArguments; }
             set { PopsicleSetter.Set(Consumed, ref ignoreUnknownArguments, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'help' should be supported.
+        /// </summary>
+        public bool AutoHelp
+        {
+            get { return autoHelp; }
+            set { PopsicleSetter.Set(Consumed, ref autoHelp, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'version' should be supported.
+        /// </summary>
+        public bool AutoVersion
+        {
+            get { return autoVersion; }
+            set { PopsicleSetter.Set(Consumed, ref autoVersion, value); }
         }
 
         /// <summary>

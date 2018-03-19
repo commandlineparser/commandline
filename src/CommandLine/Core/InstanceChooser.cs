@@ -18,6 +18,8 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             StringComparer nameComparer,
             CultureInfo parsingCulture,
+            bool autoHelp,
+            bool autoVersion,
             IEnumerable<ErrorType> nonFatalErrors)
         {
             Func<ParserResult<object>> choose = () =>
@@ -30,13 +32,13 @@ namespace CommandLine.Core
 
                 var verbs = Verb.SelectFromTypes(types);
 
-                return preprocCompare("help")
+                return (autoHelp && preprocCompare("help"))
                     ? MakeNotParsed(types,
                         MakeHelpVerbRequestedError(verbs,
                             arguments.Skip(1).FirstOrDefault() ?? string.Empty, nameComparer))
-                    : preprocCompare("version")
+                    : (autoVersion && preprocCompare("version"))
                         ? MakeNotParsed(types, new VersionRequestedError())
-                        : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture, nonFatalErrors);
+                        : MatchVerb(tokenizer, verbs, arguments, nameComparer, parsingCulture, autoHelp, autoVersion, nonFatalErrors);
             };
 
             return arguments.Any()
@@ -50,6 +52,8 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             StringComparer nameComparer,
             CultureInfo parsingCulture,
+            bool autoHelp,
+            bool autoVersion,
             IEnumerable<ErrorType> nonFatalErrors)
         {
             return verbs.Any(a => nameComparer.Equals(a.Item1.Name, arguments.First()))
@@ -62,6 +66,8 @@ namespace CommandLine.Core
                     nameComparer,
                     false,
                     parsingCulture,
+                    autoHelp,
+                    autoVersion,
                     nonFatalErrors)
                 : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
         }

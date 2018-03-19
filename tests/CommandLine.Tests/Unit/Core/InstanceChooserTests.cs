@@ -23,6 +23,8 @@ namespace CommandLine.Tests.Unit.Core
                 arguments,
                 StringComparer.Ordinal,
                 CultureInfo.InvariantCulture,
+                true,
+                true,
                 Enumerable.Empty<ErrorType>());
         }
 
