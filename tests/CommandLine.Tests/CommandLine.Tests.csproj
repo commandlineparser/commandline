@@ -58,6 +58,8 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="CultureInfoExtensions.cs" />
+    <Compile Include="Fakes\Options_With_Custom_Help_Option.cs" />
+    <Compile Include="Fakes\Options_With_Custom_Version_Option.cs" />
     <Compile Include="Fakes\Options_With_Default_Set_To_Sequence.cs" />
     <Compile Include="Fakes\Options_With_Guid.cs" />
     <Compile Include="Fakes\Options_With_Option_And_Value_Of_String_Type.cs" />
