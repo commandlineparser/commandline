@@ -55,10 +55,14 @@ class Options
   public IEnumerable<string> InputFiles { get; set; }
 
   // Omitting long name, defaults to name of property, ie "--verbose"
-  [Option(Default = false, HelpText = "Prints all messages to standard output.")]
+  [Option(
+	Default = false,
+	HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
-
-  [Option("stdin", Default = false, HelpText = "Read from stdin")]
+  
+  [Option("stdin",
+	Default = false
+	HelpText = "Read from stdin")]
   public bool stdin { get; set; }
 
   [Value(0, MetaName = "offset", HelpText = "File offset.")]
@@ -79,7 +83,7 @@ F# Examples:
 type options = {
   [<Option('r', "read", Required = true, HelpText = "Input files.")>] files : seq<string>;
   [<Option(HelpText = "Prints all messages to standard output.")>] verbose : bool;
-  [<Option(DefaultValue = "русский", HelpText = "Content language.")>] language : string;
+  [<Option(Default = "русский", HelpText = "Content language.")>] language : string;
   [<Value(0, MetaName="offset", HelpText = "File offset.")>] offset : int64 option;
 }
 
@@ -94,18 +98,22 @@ VB.Net:
 
 ```VB.NET
 Class Options
-    <CommandLine.Option("r", "read", Required:=True, HelpText:="Input files to be processed.")>
-    Public Property InputFiles As IEnumerable(Of String)
+	<CommandLine.Option('r', "read", Required := true,
+	HelpText:="Input files to be processed.")>
+	Public Property InputFiles As IEnumerable(Of String)
 
-    ' Omitting long name, defaults to name of property, ie "--verbose"
-    <CommandLine.Option(HelpText:="Prints all messages to standard output.")>
-    Public Property Verbose As Boolean
+	' Omitting long name, defaults to name of property, ie "--verbose"
+	<CommandLine.Option(
+	HelpText:="Prints all messages to standard output.")>
+	Public Property Verbose As Boolean
 
-    <CommandLine.Option([Default]:="中文", HelpText:="Content language.")>
-    Public Property Language As String
+	<CommandLine.Option(Default:="中文",
+	HelpText:="Content language.")>
+	Public Property Language As String
 
-    <CommandLine.Value(0, MetaName:="offset", HelpText:="File offset.")>
-    Public Property Offset As Long?
+	<CommandLine.Value(0, MetaName:="offset",
+	HelpText:="File offset.")>
+	Public Property Offset As Long?
 End Class
 
 Sub Main(ByVal args As String())
