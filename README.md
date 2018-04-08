@@ -69,7 +69,7 @@ namespace QuickStart
                    {
                        if (o.Verbose)
                        {
-                           Console.WriteLine($"Verbose output has been enabled. Current Arguments: -v {o.Verbose}");
+                           Console.WriteLine($"Verbose output enabled. Current Arguments: -v {o.Verbose}");
                            Console.WriteLine("Quick Start Example! App is in Verbose mode!");
                        }
                        else
