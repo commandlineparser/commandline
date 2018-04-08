@@ -46,6 +46,43 @@ You can utilize the parser library in several ways:
 1. Create a class to define valid options, and to receive the parsed options.
 2. Call ParseArguments with the args string array.
 
+C# Quick Start:
+
+```csharp
+using System;
+using CommandLine;
+
+namespace QuickStart
+{
+    class Program
+    {
+        public class Options
+        {
+            [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
+            public bool Verbose { get; set; }
+        }
+
+        static void Main(string[] args)
+        {
+            Parser.Default.ParseArguments<Options>(args)
+                   .WithParsed<Options>(o =>
+                   {
+                       if (o.Verbose)
+                       {
+                           Console.WriteLine($"Verbose output has been enabled. Current Arguments: -v {o.Verbose}");
+                           Console.WriteLine("Quick Start Example! App is in Verbose mode so verbose messages will be shown!");
+                       }
+                       else
+                       {
+                           Console.WriteLine($"Current Arguments: -v {o.Verbose}");
+                           Console.WriteLine("Quick Start Example!");
+                       }
+                   });
+        }
+    }
+}
+```
+
 C# Examples:
 
 ```csharp
