@@ -13,7 +13,7 @@ namespace CommandLine.Core
                 Tuple.Create(GuardAgainstScalarWithRange(), "Scalar option specifications do not support range specification."),
                 Tuple.Create(GuardAgainstSequenceWithWrongRange(), "Bad range in sequence option specifications."),
                 Tuple.Create(GuardAgainstSequenceWithZeroRange(), "Zero is not allowed in range of sequence option specifications."),
-                Tuple.Create(GuardAgainstOneCharLongName(), "Long name should be longest than one character.")
+                Tuple.Create(GuardAgainstOneCharLongName(), "Long name should be longer than one character.")
             };
 
         private static Func<Specification, bool> GuardAgainstScalarWithRange()
