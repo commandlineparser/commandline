@@ -105,6 +105,10 @@ namespace CommandLine.Text
             try
             {
                 maximumDisplayWidth = Console.WindowWidth;
+                if (maximumDisplayWidth < 1)
+                {
+                    maximumDisplayWidth = DefaultMaximumLength;
+                }
             }
             catch (IOException)
             {
