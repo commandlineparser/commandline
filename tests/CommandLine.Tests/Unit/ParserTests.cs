@@ -490,7 +490,11 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config =>
+            {
+                config.HelpWriter = help;
+                config.MaximumDisplayWidth = 80;
+            });
 
             // Exercize system
             sut.ParseArguments<Add_Verb_With_Usage_Attribute, Commit_Verb_With_Usage_Attribute, Clone_Verb_With_Usage_Attribute>(
@@ -628,7 +632,11 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config =>
+            {
+                config.HelpWriter = help;
+                config.MaximumDisplayWidth = 80;
+            });
 
             // Exercize system
             sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
@@ -698,7 +706,11 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config =>
+            {
+                config.HelpWriter = help;
+                config.MaximumDisplayWidth = 80;
+            });
 
             // Exercize system
             sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(

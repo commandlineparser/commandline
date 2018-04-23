@@ -78,7 +78,7 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             // Exercize system 
-            var sut = new HelpText { AddDashesToOption = true, AddEnumValuesToHelpText = true }
+            var sut = new HelpText { AddDashesToOption = true, AddEnumValuesToHelpText = true, MaximumDisplayWidth = 80 }
                 .AddPreOptionsLine("pre-options")
                 .AddOptions(new NotParsed<Options_With_Enum_Having_HelpText>(TypeInfo.Create(typeof(Options_With_Enum_Having_HelpText)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
@@ -184,6 +184,7 @@ namespace CommandLine.Tests.Unit.Text
             // Fixture setup
             // Exercize system 
             var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
+            sut.MaximumDisplayWidth = 80;
             sut.AddOptions(
                 new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description>(
                     TypeInfo.Create(typeof(Simple_Options_With_HelpText_Set_To_Long_Description)),
