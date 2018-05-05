@@ -86,24 +86,24 @@ namespace CommandLine.Core
             Func<SpecificationProperty, bool> predicate,
             Func<SpecificationProperty, object> selector)
         {
-            return specProps.Where(predicate).SelectMany(specProp => specProp.Property.SetValue(instance, selector(specProp)));
+            return specProps.Where(predicate).SelectMany(specProp => specProp.SetValue(instance, selector(specProp)));
         }
 
-        private static IEnumerable<Error> SetValue<T>(this PropertyInfo property, T instance, object value)
-        {           
-             try
-             {
-                 property.SetValue(instance, value, null);
-                 return Enumerable.Empty<Error>();
-             }
-             catch (TargetInvocationException e)
-             {
-                 return new[] { new SetValueExceptionError(e.InnerException) };
-             }
-             catch (Exception e)
-             {
-                 return new[] { new SetValueExceptionError(e) };
-             }
+        private static IEnumerable<Error> SetValue<T>(this SpecificationProperty specProp, T instance, object value)
+        {
+            try
+            {
+                specProp.Property.SetValue(instance, value, null);
+                return Enumerable.Empty<Error>();
+            }
+            catch (TargetInvocationException e)
+            {
+                return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e.InnerException) };
+            }
+            catch (Exception e)
+            {
+                 return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e) };
+            }
         }
 
         public static object CreateEmptyArray(this Type type)
