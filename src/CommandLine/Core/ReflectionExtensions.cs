@@ -98,11 +98,11 @@ namespace CommandLine.Core
             }
             catch (TargetInvocationException e)
             {
-                return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e.InnerException) };
+                return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e.InnerException, value) };
             }
             catch (Exception e)
             {
-                 return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e) };
+                 return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e, value) };
             }
         }
 
