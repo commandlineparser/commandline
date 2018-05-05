@@ -80,22 +80,23 @@ namespace CommandLine.Core
                 var specPropsWithValue =
                     optionSpecPropsResult.SucceededWith().Concat(valueSpecPropsResult.SucceededWith());
 
-                Func<T> buildMutable = () =>
+                var setPropertyErrors = new List<Error>();                
+
+                Func <T> buildMutable = () =>
                 {
                     var mutable = factory.MapValueOrDefault(f => f(), Activator.CreateInstance<T>());
-                    mutable =
-                        mutable.SetProperties(specPropsWithValue, sp => sp.Value.IsJust(), sp => sp.Value.FromJustOrFail())
-                            .SetProperties(
-                                specPropsWithValue,
-                                sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
-                                sp => sp.Specification.DefaultValue.FromJustOrFail())
-                            .SetProperties(
-                                specPropsWithValue,
-                                sp =>
-                                    sp.Value.IsNothing() && sp.Specification.TargetType == TargetType.Sequence
-                                    && sp.Specification.DefaultValue.MatchNothing(),
-                                sp => sp.Property.PropertyType.GetTypeInfo().GetGenericArguments().Single().CreateEmptyArray());
-                    return mutable;
+                    setPropertyErrors.AddRange(mutable.SetProperties(specPropsWithValue, sp => sp.Value.IsJust(), sp => sp.Value.FromJustOrFail()));
+                    setPropertyErrors.AddRange(mutable.SetProperties(
+                                                 specPropsWithValue,
+                                                 sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
+                                                 sp => sp.Specification.DefaultValue.FromJustOrFail()));
+                    setPropertyErrors.AddRange(mutable.SetProperties(
+                                                 specPropsWithValue,
+                                                 sp =>
+                                                     sp.Value.IsNothing() && sp.Specification.TargetType == TargetType.Sequence
+                                                     && sp.Specification.DefaultValue.MatchNothing(),
+                                                 sp => sp.Property.PropertyType.GetTypeInfo().GetGenericArguments().Single().CreateEmptyArray()));
+                     return mutable;
                 };
 
                 Func<T> buildImmutable = () =>
@@ -121,6 +122,7 @@ namespace CommandLine.Core
                         .Concat(optionSpecPropsResult.SuccessfulMessages())
                         .Concat(valueSpecPropsResult.SuccessfulMessages())
                         .Concat(validationErrors)
+                        .Concat(setPropertyErrors)
                         .Memorize();
 
                 var warnings = from e in allErrors where nonFatalErrors.Contains(e.Tag) select e;

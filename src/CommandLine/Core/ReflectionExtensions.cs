@@ -80,51 +80,30 @@ namespace CommandLine.Core
                                    : TargetType.Scalar;
         }
 
-        public static T SetProperties<T>(
+        public static IEnumerable<Error> SetProperties<T>(
             this T instance,
             IEnumerable<SpecificationProperty> specProps,
             Func<SpecificationProperty, bool> predicate,
             Func<SpecificationProperty, object> selector)
         {
-            return specProps.Where(predicate).Aggregate(
-                instance,
-                (current, specProp) =>
-                    {
-                        specProp.Property.SetValue(current, selector(specProp));
-                        return instance;
-                    });
+            return specProps.Where(predicate).SelectMany(specProp => specProp.Property.SetValue(instance, selector(specProp)));
         }
 
-        private static T SetValue<T>(this PropertyInfo property, T instance, object value)
-        {
-            Action<Exception> fail = inner => {
-                throw new InvalidOperationException("Cannot set value to target instance.", inner);
-            };
-            
-            try
-            {
-                property.SetValue(instance, value, null);
-            }
-#if !PLATFORM_DOTNET
-            catch (TargetException e)
-            {
-                fail(e);
-            }
-#endif
-            catch (TargetParameterCountException e)
-            {
-                fail(e);
-            }
-            catch (MethodAccessException e)
-            {
-                fail(e);
-            }
-            catch (TargetInvocationException e)
-            {
-                fail(e);
-            }
-
-            return instance;
+        private static IEnumerable<Error> SetValue<T>(this PropertyInfo property, T instance, object value)
+        {           
+             try
+             {
+                 property.SetValue(instance, value, null);
+                 return Enumerable.Empty<Error>();
+             }
+             catch (TargetInvocationException e)
+             {
+                 return new[] { new SetValueExceptionError(e.InnerException) };
+             }
+             catch (Exception e)
+             {
+                 return new[] { new SetValueExceptionError(e) };
+             }
         }
 
         public static object CreateEmptyArray(this Type type)
