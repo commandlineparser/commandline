@@ -206,9 +206,10 @@ namespace CommandLine
 
         private static string FormatName(this OptionSpecification optionSpec, UnParserSettings settings)
         {
-            var longName =
-                optionSpec.LongName.Length > 0
-                && !settings.PreferShortName;
+            // Have a long name and short name not preferred? Go with long! 
+            // No short name? Has to be long!
+            var longName = (optionSpec.LongName.Length >  0 && !settings.PreferShortName)
+                         || optionSpec.ShortName.Length == 0;
 
             return
                 new StringBuilder(longName
