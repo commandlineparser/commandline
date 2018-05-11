@@ -23,6 +23,9 @@
     <_PaketExeExtension>$([System.IO.Path]::GetExtension("$(PaketExePath)"))</_PaketExeExtension>
     <PaketCommand Condition=" '$(_PaketExeExtension)' == '.dll' ">dotnet "$(PaketExePath)"</PaketCommand>
 
+    <!-- no extension is a shell script -->
+    <PaketCommand Condition=" '$(_PaketExeExtension)' == '' ">"$(PaketExePath)"</PaketCommand>
+
     <PaketBootStrapperExePath Condition=" '$(PaketBootStrapperExePath)' == '' AND Exists('$(PaketRootPath)paket.bootstrapper.exe')">$(PaketRootPath)paket.bootstrapper.exe</PaketBootStrapperExePath>
     <PaketBootStrapperExePath Condition=" '$(PaketBootStrapperExePath)' == '' ">$(PaketToolsPath)paket.bootstrapper.exe</PaketBootStrapperExePath>
     <PaketBootStrapperCommand Condition=" '$(OS)' == 'Windows_NT'">"$(PaketBootStrapperExePath)"</PaketBootStrapperCommand>
@@ -40,21 +43,21 @@
     <!-- Step 1 Check if lockfile is properly restored -->
     <PropertyGroup>
       <PaketRestoreRequired>true</PaketRestoreRequired>
-      <NoWarn>$(NoWarn);NU1603</NoWarn>
+      <NoWarn>$(NoWarn);NU1603;NU1604;NU1605;NU1608</NoWarn>
     </PropertyGroup>
 
     <!-- Because ReadAllText is slow on osx/linux, try to find shasum and awk -->
     <PropertyGroup>
-        <PaketRestoreCachedHasher Condition="'$(OS)' != 'Windows_NT' And '$(PaketRestoreCachedHasher)' == '' And Exists('/usr/bin/shasum') And Exists('/usr/bin/awk')">/usr/bin/shasum $(PaketRestoreCacheFile) | /usr/bin/awk '{ print $1 }'</PaketRestoreCachedHasher>
-        <PaketRestoreLockFileHasher Condition="'$(OS)' != 'Windows_NT' And '$(PaketRestoreLockFileHash)' == '' And Exists('/usr/bin/shasum') And Exists('/usr/bin/awk')">/usr/bin/shasum $(PaketLockFilePath) | /usr/bin/awk '{ print $1 }'</PaketRestoreLockFileHasher>
+      <PaketRestoreCachedHasher Condition="'$(OS)' != 'Windows_NT' And '$(PaketRestoreCachedHasher)' == '' And Exists('/usr/bin/shasum') And Exists('/usr/bin/awk')">/usr/bin/shasum "$(PaketRestoreCacheFile)" | /usr/bin/awk '{ print $1 }'</PaketRestoreCachedHasher>
+      <PaketRestoreLockFileHasher Condition="'$(OS)' != 'Windows_NT' And '$(PaketRestoreLockFileHash)' == '' And Exists('/usr/bin/shasum') And Exists('/usr/bin/awk')">/usr/bin/shasum "$(PaketLockFilePath)" | /usr/bin/awk '{ print $1 }'</PaketRestoreLockFileHasher>
     </PropertyGroup>
 
     <!-- If shasum and awk exist get the hashes -->
-    <Exec Condition=" '$(PaketRestoreCachedHasher)' != '' " Command="$(PaketRestoreCachedHasher)" ConsoleToMSBuild='true'>
-        <Output TaskParameter="ConsoleOutput" PropertyName="PaketRestoreCachedHash" />
+    <Exec StandardOutputImportance="Low" Condition=" '$(PaketRestoreCachedHasher)' != '' " Command="$(PaketRestoreCachedHasher)" ConsoleToMSBuild='true'>
+      <Output TaskParameter="ConsoleOutput" PropertyName="PaketRestoreCachedHash" />
     </Exec>
-    <Exec Condition=" '$(PaketRestoreLockFileHasher)' != '' " Command="$(PaketRestoreLockFileHasher)" ConsoleToMSBuild='true'>
-        <Output TaskParameter="ConsoleOutput" PropertyName="PaketRestoreLockFileHash" />
+    <Exec StandardOutputImportance="Low" Condition=" '$(PaketRestoreLockFileHasher)' != '' " Command="$(PaketRestoreLockFileHasher)" ConsoleToMSBuild='true'>
+      <Output TaskParameter="ConsoleOutput" PropertyName="PaketRestoreLockFileHash" />
     </Exec>
 
     <PropertyGroup Condition="Exists('$(PaketRestoreCacheFile)') ">
@@ -66,9 +69,11 @@
       <PaketRestoreRequired Condition=" '$(PaketRestoreLockFileHash)' == '' ">true</PaketRestoreRequired>
     </PropertyGroup>
 
+
     <!-- Do a global restore if required -->
     <Exec Command='$(PaketBootStrapperCommand)' Condition="Exists('$(PaketBootStrapperExePath)') AND !(Exists('$(PaketExePath)'))" ContinueOnError="false" />
-    <Exec Command='$(PaketCommand) restore' Condition=" '$(PaketRestoreRequired)' == 'true' " ContinueOnError="false" />
+    <Exec Command='$(PaketCommand) restore --target-framework "$(TargetFrameworks)"' Condition=" '$(PaketRestoreRequired)' == 'true' AND '$(TargetFramework)' == '' " ContinueOnError="false" />
+    <Exec Command='$(PaketCommand) restore --target-framework "$(TargetFramework)"' Condition=" '$(PaketRestoreRequired)' == 'true' AND '$(TargetFramework)' != '' " ContinueOnError="false" />
 
     <!-- Step 2 Detect project specific changes -->
     <PropertyGroup>
@@ -124,6 +129,7 @@
       <PackageReference Include="%(PaketReferencesFileLinesInfo.PackageName)">
         <Version>%(PaketReferencesFileLinesInfo.PackageVersion)</Version>
         <PrivateAssets Condition="%(PaketReferencesFileLinesInfo.AllPrivateAssets) == 'true'">All</PrivateAssets>
+        <ExcludeAssets Condition="%(PaketReferencesFileLinesInfo.AllPrivateAssets) == 'exclude'">runtime</ExcludeAssets>
       </PackageReference>
     </ItemGroup>
 
@@ -145,9 +151,10 @@
       </DotNetCliToolReference>
     </ItemGroup>
 
+    <!-- Disabled for now until we know what to do with runtime deps - https://github.com/fsprojects/Paket/issues/2964
     <PropertyGroup>
       <RestoreConfigFile>$(MSBuildProjectDirectory)/obj/$(MSBuildProjectFile).NuGet.Config</RestoreConfigFile>
-    </PropertyGroup>
+    </PropertyGroup> -->
 
   </Target>
 
@@ -179,8 +186,8 @@
 
     <ConvertToAbsolutePath Condition="@(_NuspecFiles) != ''" Paths="@(_NuspecFiles)">
       <Output TaskParameter="AbsolutePaths" PropertyName="NuspecFileAbsolutePath" />
-    </ConvertToAbsolutePath>      
-        
+    </ConvertToAbsolutePath>
+
 
     <!-- Call Pack -->
     <PackTask Condition="$(UseNewPack)"
