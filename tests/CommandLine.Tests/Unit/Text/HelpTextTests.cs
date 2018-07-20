@@ -21,7 +21,7 @@ namespace CommandLine.Tests.Unit.Text
         [Fact]
         public void Create_empty_instance()
         {
-            string.Empty.ShouldBeEquivalentTo(new HelpText().ToString());
+            string.Empty.Should().BeEquivalentTo(new HelpText().ToString());
         }
 
         [Fact]
@@ -39,12 +39,12 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines();
 
-            lines[0].ShouldBeEquivalentTo("Unit-tests 2.0");
-            lines[1].ShouldBeEquivalentTo("Copyright (C) 2005 - 2013 Author");
-            lines[2].ShouldBeEquivalentTo("pre-options line 1");
-            lines[3].ShouldBeEquivalentTo("pre-options line 2");
-            lines[4].ShouldBeEquivalentTo("post-options line 1");
-            lines[5].ShouldBeEquivalentTo("post-options line 2");
+            lines[0].Should().BeEquivalentTo("Unit-tests 2.0");
+            lines[1].Should().BeEquivalentTo("Copyright (C) 2005 - 2013 Author");
+            lines[2].Should().BeEquivalentTo("pre-options line 1");
+            lines[3].Should().BeEquivalentTo("pre-options line 2");
+            lines[4].Should().BeEquivalentTo("post-options line 1");
+            lines[5].Should().BeEquivalentTo("post-options line 2");
             // Teardown
         }
 
@@ -61,15 +61,15 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
 
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            lines[0].ShouldBeEquivalentTo("pre-options");
-            lines[1].ShouldBeEquivalentTo("--stringvalue         Define a string value here.");
-            lines[2].ShouldBeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
-            lines[3].ShouldBeEquivalentTo("-i                    Define a int sequence here.");
-            lines[4].ShouldBeEquivalentTo("-x                    Define a boolean or switch value here.");
-            lines[5].ShouldBeEquivalentTo("--help                Display this help screen.");
-            lines[6].ShouldBeEquivalentTo("--version             Display version information.");
-            lines[7].ShouldBeEquivalentTo("value pos. 0          Define a long value here.");
-            lines[8].ShouldBeEquivalentTo("post-options");
+            lines[0].Should().BeEquivalentTo("pre-options");
+            lines[1].Should().BeEquivalentTo("--stringvalue         Define a string value here.");
+            lines[2].Should().BeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
+            lines[3].Should().BeEquivalentTo("-i                    Define a int sequence here.");
+            lines[4].Should().BeEquivalentTo("-x                    Define a boolean or switch value here.");
+            lines[5].Should().BeEquivalentTo("--help                Display this help screen.");
+            lines[6].Should().BeEquivalentTo("--version             Display version information.");
+            lines[7].Should().BeEquivalentTo("value pos. 0          Define a long value here.");
+            lines[8].Should().BeEquivalentTo("post-options");
             // Teardown
         }
 
@@ -86,13 +86,13 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
 
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            lines[0].ShouldBeEquivalentTo("pre-options");
-            lines[1].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
-            lines[2].ShouldBeEquivalentTo("--shape          Define a enum value here. Valid values: Circle, Square,");
-            lines[3].ShouldBeEquivalentTo("Triangle");
-            lines[4].ShouldBeEquivalentTo("--help           Display this help screen.");
-            lines[5].ShouldBeEquivalentTo("--version        Display version information.");
-            lines[6].ShouldBeEquivalentTo("post-options");
+            lines[0].Should().BeEquivalentTo("pre-options");
+            lines[1].Should().BeEquivalentTo("--stringvalue    Define a string value here.");
+            lines[2].Should().BeEquivalentTo("--shape          Define a enum value here. Valid values: Circle, Square,");
+            lines[3].Should().BeEquivalentTo("Triangle");
+            lines[4].Should().BeEquivalentTo("--help           Display this help screen.");
+            lines[5].Should().BeEquivalentTo("--version        Display version information.");
+            lines[6].Should().BeEquivalentTo("post-options");
             // Teardown
         }
 
@@ -109,12 +109,12 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
 
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            lines[0].ShouldBeEquivalentTo("pre-options");
-            lines[1].ShouldBeEquivalentTo("--stringvalue    Define a string value here.");
-            lines[2].ShouldBeEquivalentTo("--shape          Define a enum value here.");
-            lines[3].ShouldBeEquivalentTo("--help           Display this help screen.");
-            lines[4].ShouldBeEquivalentTo("--version        Display version information.");
-            lines[5].ShouldBeEquivalentTo("post-options");
+            lines[0].Should().BeEquivalentTo("pre-options");
+            lines[1].Should().BeEquivalentTo("--stringvalue    Define a string value here.");
+            lines[2].Should().BeEquivalentTo("--shape          Define a enum value here.");
+            lines[3].Should().BeEquivalentTo("--help           Display this help screen.");
+            lines[4].Should().BeEquivalentTo("--version        Display version information.");
+            lines[5].Should().BeEquivalentTo("post-options");
             // Teardown
         }
 
@@ -130,7 +130,7 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
 
-            lines[2].ShouldBeEquivalentTo("i FILE, input-file=FILE    Required. Specify input FILE to be processed.");
+            lines[2].Should().BeEquivalentTo("i FILE, input-file=FILE    Required. Specify input FILE to be processed.");
             // Teardown
         }
 
@@ -148,12 +148,12 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[2].ShouldBeEquivalentTo("  v, verbose    This is the description"); //"The first line should have the arguments and the start of the Help Text.");
+            lines[2].Should().BeEquivalentTo("  v, verbose    This is the description"); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
-            lines[3].ShouldBeEquivalentTo("                of the verbosity to ");
-            lines[4].ShouldBeEquivalentTo("                test out the wrapping ");
-            lines[5].ShouldBeEquivalentTo("                capabilities of the ");
-            lines[6].ShouldBeEquivalentTo("                Help Text.");
+            lines[3].Should().BeEquivalentTo("                of the verbosity to ");
+            lines[4].Should().BeEquivalentTo("                test out the wrapping ");
+            lines[5].Should().BeEquivalentTo("                capabilities of the ");
+            lines[6].Should().BeEquivalentTo("                Help Text.");
             // Teardown
         }
         
@@ -172,9 +172,9 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[2].ShouldBeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the wrapping capabilities of "); //"The first line should have the arguments and the start of the Help Text.");
+            lines[2].Should().BeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the wrapping capabilities of "); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
-            lines[3].ShouldBeEquivalentTo("                the Help Text.");
+            lines[3].Should().BeEquivalentTo("                the Help Text.");
             // Teardown
         }
 
@@ -191,9 +191,9 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[2].ShouldBeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the "); //"The first line should have the arguments and the start of the Help Text.");
+            lines[2].Should().BeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the "); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
-            lines[3].ShouldBeEquivalentTo("                wrapping capabilities of the Help Text.");
+            lines[3].Should().BeEquivalentTo("                wrapping capabilities of the Help Text.");
             // Teardown
         }
 
@@ -211,12 +211,12 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines();
-            lines[1].ShouldBeEquivalentTo("  v, verbose    Before ");
-            lines[2].ShouldBeEquivalentTo("                012345678901234567890123");
-            lines[3].ShouldBeEquivalentTo("                After");
-            lines[4].ShouldBeEquivalentTo("  input-file    Before ");
-            lines[5].ShouldBeEquivalentTo("                012345678901234567890123");
-            lines[6].ShouldBeEquivalentTo("                456789 After");
+            lines[1].Should().BeEquivalentTo("  v, verbose    Before ");
+            lines[2].Should().BeEquivalentTo("                012345678901234567890123");
+            lines[3].Should().BeEquivalentTo("                After");
+            lines[4].Should().BeEquivalentTo("  input-file    Before ");
+            lines[5].Should().BeEquivalentTo("                012345678901234567890123");
+            lines[6].Should().BeEquivalentTo("                456789 After");
             // Teardown
         }
 
@@ -233,12 +233,12 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines();
-            lines[1].ShouldBeEquivalentTo("Before ");
-            lines[2].ShouldBeEquivalentTo("0123456789012345678901234567890123456789");
-            lines[3].ShouldBeEquivalentTo("012 After");
-            lines[lines.Length - 3].ShouldBeEquivalentTo("Before ");
-            lines[lines.Length - 2].ShouldBeEquivalentTo("0123456789012345678901234567890123456789");
-            lines[lines.Length - 1].ShouldBeEquivalentTo(" After");
+            lines[1].Should().BeEquivalentTo("Before ");
+            lines[2].Should().BeEquivalentTo("0123456789012345678901234567890123456789");
+            lines[3].Should().BeEquivalentTo("012 After");
+            lines[lines.Length - 3].Should().BeEquivalentTo("Before ");
+            lines[lines.Length - 2].Should().BeEquivalentTo("0123456789012345678901234567890123456789");
+            lines[lines.Length - 1].Should().BeEquivalentTo(" After");
 
             // Teardown
         }
@@ -292,13 +292,13 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = errorsText.ToNotEmptyLines();
 
-            lines[0].ShouldBeEquivalentTo("  ERR badtoken");
-            lines[1].ShouldBeEquivalentTo("  ERR x, switch");
-            lines[2].ShouldBeEquivalentTo("  ERR unknown");
-            lines[3].ShouldBeEquivalentTo("  ERR missing");
-            lines[4].ShouldBeEquivalentTo("  ERR s, sequence");
-            lines[5].ShouldBeEquivalentTo("  ERR no-verb-selected");
-            lines[6].ShouldBeEquivalentTo("  ERR badverb");
+            lines[0].Should().BeEquivalentTo("  ERR badtoken");
+            lines[1].Should().BeEquivalentTo("  ERR x, switch");
+            lines[2].Should().BeEquivalentTo("  ERR unknown");
+            lines[3].Should().BeEquivalentTo("  ERR missing");
+            lines[4].Should().BeEquivalentTo("  ERR s, sequence");
+            lines[5].Should().BeEquivalentTo("  ERR no-verb-selected");
+            lines[6].Should().BeEquivalentTo("  ERR badverb");
             // Teardown
         }
 
@@ -327,14 +327,14 @@ namespace CommandLine.Tests.Unit.Text
             lines[0].Should().StartWithEquivalent("xUnit");
             lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
 #endif
-            lines[2].ShouldBeEquivalentTo("ERROR(S):");
-            lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
-            lines[4].ShouldBeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
-            lines[5].ShouldBeEquivalentTo("--stringvalue         Define a string value here.");
-            lines[6].ShouldBeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
-            lines[7].ShouldBeEquivalentTo("-i                    Define a int sequence here.");
-            lines[8].ShouldBeEquivalentTo("-x                    Define a boolean or switch value here.");
-            lines[9].ShouldBeEquivalentTo("--help                Display this help screen.");
+            lines[2].Should().BeEquivalentTo("ERROR(S):");
+            lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
+            lines[4].Should().BeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
+            lines[5].Should().BeEquivalentTo("--stringvalue         Define a string value here.");
+            lines[6].Should().BeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
+            lines[7].Should().BeEquivalentTo("-i                    Define a int sequence here.");
+            lines[8].Should().BeEquivalentTo("-x                    Define a boolean or switch value here.");
+            lines[9].Should().BeEquivalentTo("--help                Display this help screen.");
             // Teardown
         }
 
@@ -363,11 +363,11 @@ namespace CommandLine.Tests.Unit.Text
             lines[0].Should().StartWithEquivalent("xUnit");
             lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
 #endif
-            lines[2].ShouldBeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
-            lines[3].ShouldBeEquivalentTo("changes to commit.");
-            lines[4].ShouldBeEquivalentTo("--amend          Used to amend the tip of the current branch.");
-            lines[5].ShouldBeEquivalentTo("-m, --message    Use the given message as the commit message.");
-            lines[6].ShouldBeEquivalentTo("--help           Display this help screen.");
+            lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
+            lines[3].Should().BeEquivalentTo("changes to commit.");
+            lines[4].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
+            lines[5].Should().BeEquivalentTo("-m, --message    Use the given message as the commit message.");
+            lines[6].Should().BeEquivalentTo("--help           Display this help screen.");
             // Teardown
         }
 
@@ -390,16 +390,16 @@ namespace CommandLine.Tests.Unit.Text
 
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].ShouldBeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
+            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
             lines[0].Should().StartWithEquivalent("xUnit");
             lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
 #endif
-            lines[2].ShouldBeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which changes to commit.");
-            lines[3].ShouldBeEquivalentTo("--amend          Used to amend the tip of the current branch.");
-            lines[4].ShouldBeEquivalentTo("-m, --message    Use the given message as the commit message.");
-            lines[5].ShouldBeEquivalentTo("--help           Display this help screen.");
+            lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which changes to commit.");
+            lines[3].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
+            lines[4].Should().BeEquivalentTo("-m, --message    Use the given message as the commit message.");
+            lines[5].Should().BeEquivalentTo("--help           Display this help screen.");
             // Teardown
         }
 
@@ -428,11 +428,11 @@ namespace CommandLine.Tests.Unit.Text
             lines[0].Should().StartWithEquivalent("xUnit");
             lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
 #endif
-            lines[2].ShouldBeEquivalentTo("add        Add file contents to the index.");
-            lines[3].ShouldBeEquivalentTo("commit     Record changes to the repository.");
-            lines[4].ShouldBeEquivalentTo("clone      Clone a repository into a new directory.");
-            lines[5].ShouldBeEquivalentTo("help       Display more information on a specific command.");
-            lines[6].ShouldBeEquivalentTo("version    Display version information.");
+            lines[2].Should().BeEquivalentTo("add        Add file contents to the index.");
+            lines[3].Should().BeEquivalentTo("commit     Record changes to the repository.");
+            lines[4].Should().BeEquivalentTo("clone      Clone a repository into a new directory.");
+            lines[5].Should().BeEquivalentTo("help       Display more information on a specific command.");
+            lines[6].Should().BeEquivalentTo("version    Display version information.");
             // Teardown
         }
 
@@ -449,15 +449,15 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
 
             var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            lines[0].ShouldBeEquivalentTo("pre-options");
-            lines[1].ShouldBeEquivalentTo("--stringvalue=STR            Define a string value here.");
-            lines[2].ShouldBeEquivalentTo("-i INTSEQ                    Define a int sequence here.");
-            lines[3].ShouldBeEquivalentTo("-x                           Define a boolean or switch value here.");
-            lines[4].ShouldBeEquivalentTo("--help                       Display this help screen.");
-            lines[5].ShouldBeEquivalentTo("--version                    Display version information.");
-            lines[6].ShouldBeEquivalentTo("number (pos. 0) NUM          Define a long value here.");
-            lines[7].ShouldBeEquivalentTo("paintcolor (pos. 1) COLOR    Define a color value here.");
-            lines[8].ShouldBeEquivalentTo("post-options", lines[8]);
+            lines[0].Should().BeEquivalentTo("pre-options");
+            lines[1].Should().BeEquivalentTo("--stringvalue=STR            Define a string value here.");
+            lines[2].Should().BeEquivalentTo("-i INTSEQ                    Define a int sequence here.");
+            lines[3].Should().BeEquivalentTo("-x                           Define a boolean or switch value here.");
+            lines[4].Should().BeEquivalentTo("--help                       Display this help screen.");
+            lines[5].Should().BeEquivalentTo("--version                    Display version information.");
+            lines[6].Should().BeEquivalentTo("number (pos. 0) NUM          Define a long value here.");
+            lines[7].Should().BeEquivalentTo("paintcolor (pos. 1) COLOR    Define a color value here.");
+            lines[8].Should().BeEquivalentTo("post-options", lines[8]);
             // Teardown
         }
 
@@ -476,17 +476,17 @@ namespace CommandLine.Tests.Unit.Text
             var lines = text.ToNotEmptyLines();
 
             // Teardown
-            lines[0].ShouldBeEquivalentTo("Normal scenario:");
-            lines[1].ShouldBeEquivalentTo("  mono testapp.exe --input file.bin --output out.bin");
-            lines[2].ShouldBeEquivalentTo("Logging warnings:");
-            lines[3].ShouldBeEquivalentTo("  mono testapp.exe -w --input file.bin");
-            lines[4].ShouldBeEquivalentTo("Logging errors:");
-            lines[5].ShouldBeEquivalentTo("  mono testapp.exe -e --input file.bin");
-            lines[6].ShouldBeEquivalentTo("  mono testapp.exe --errs --input=file.bin");
-            lines[7].ShouldBeEquivalentTo("List:");
-            lines[8].ShouldBeEquivalentTo("  mono testapp.exe -l 1,2");
-            lines[9].ShouldBeEquivalentTo("Value:");
-            lines[10].ShouldBeEquivalentTo("  mono testapp.exe value");
+            lines[0].Should().BeEquivalentTo("Normal scenario:");
+            lines[1].Should().BeEquivalentTo("  mono testapp.exe --input file.bin --output out.bin");
+            lines[2].Should().BeEquivalentTo("Logging warnings:");
+            lines[3].Should().BeEquivalentTo("  mono testapp.exe -w --input file.bin");
+            lines[4].Should().BeEquivalentTo("Logging errors:");
+            lines[5].Should().BeEquivalentTo("  mono testapp.exe -e --input file.bin");
+            lines[6].Should().BeEquivalentTo("  mono testapp.exe --errs --input=file.bin");
+            lines[7].Should().BeEquivalentTo("List:");
+            lines[8].Should().BeEquivalentTo("  mono testapp.exe -l 1,2");
+            lines[9].Should().BeEquivalentTo("Value:");
+            lines[10].Should().BeEquivalentTo("  mono testapp.exe value");
         }
 
         [Fact]
@@ -514,29 +514,29 @@ namespace CommandLine.Tests.Unit.Text
             lines[0].Should().StartWithEquivalent("xUnit");
             lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
 #endif
-            lines[2].ShouldBeEquivalentTo("ERROR(S):");
-            lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
-            lines[4].ShouldBeEquivalentTo("USAGE:");
-            lines[5].ShouldBeEquivalentTo("Normal scenario:");
-            lines[6].ShouldBeEquivalentTo("mono testapp.exe --input file.bin --output out.bin");
-            lines[7].ShouldBeEquivalentTo("Logging warnings:");
-            lines[8].ShouldBeEquivalentTo("mono testapp.exe -w --input file.bin");
-            lines[9].ShouldBeEquivalentTo("Logging errors:");
-            lines[10].ShouldBeEquivalentTo("mono testapp.exe -e --input file.bin");
-            lines[11].ShouldBeEquivalentTo("mono testapp.exe --errs --input=file.bin");
-            lines[12].ShouldBeEquivalentTo("List:");
-            lines[13].ShouldBeEquivalentTo("mono testapp.exe -l 1,2");
-            lines[14].ShouldBeEquivalentTo("Value:");
-            lines[15].ShouldBeEquivalentTo("mono testapp.exe value");
-            lines[16].ShouldBeEquivalentTo("-i, --input     Set input file.");
-            lines[17].ShouldBeEquivalentTo("-i, --output    Set output file.");
-            lines[18].ShouldBeEquivalentTo("--verbose       Set verbosity level.");
-            lines[19].ShouldBeEquivalentTo("-w, --warns     Log warnings.");
-            lines[20].ShouldBeEquivalentTo("-e, --errs      Log errors.");
-            lines[21].ShouldBeEquivalentTo("-l              List.");
-            lines[22].ShouldBeEquivalentTo("--help          Display this help screen.");
-            lines[23].ShouldBeEquivalentTo("--version       Display version information.");
-            lines[24].ShouldBeEquivalentTo("value pos. 0    Value.");
+            lines[2].Should().BeEquivalentTo("ERROR(S):");
+            lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
+            lines[4].Should().BeEquivalentTo("USAGE:");
+            lines[5].Should().BeEquivalentTo("Normal scenario:");
+            lines[6].Should().BeEquivalentTo("mono testapp.exe --input file.bin --output out.bin");
+            lines[7].Should().BeEquivalentTo("Logging warnings:");
+            lines[8].Should().BeEquivalentTo("mono testapp.exe -w --input file.bin");
+            lines[9].Should().BeEquivalentTo("Logging errors:");
+            lines[10].Should().BeEquivalentTo("mono testapp.exe -e --input file.bin");
+            lines[11].Should().BeEquivalentTo("mono testapp.exe --errs --input=file.bin");
+            lines[12].Should().BeEquivalentTo("List:");
+            lines[13].Should().BeEquivalentTo("mono testapp.exe -l 1,2");
+            lines[14].Should().BeEquivalentTo("Value:");
+            lines[15].Should().BeEquivalentTo("mono testapp.exe value");
+            lines[16].Should().BeEquivalentTo("-i, --input     Set input file.");
+            lines[17].Should().BeEquivalentTo("-i, --output    Set output file.");
+            lines[18].Should().BeEquivalentTo("--verbose       Set verbosity level.");
+            lines[19].Should().BeEquivalentTo("-w, --warns     Log warnings.");
+            lines[20].Should().BeEquivalentTo("-e, --errs      Log errors.");
+            lines[21].Should().BeEquivalentTo("-l              List.");
+            lines[22].Should().BeEquivalentTo("--help          Display this help screen.");
+            lines[23].Should().BeEquivalentTo("--version       Display version information.");
+            lines[24].Should().BeEquivalentTo("value pos. 0    Value.");
 
             // Teardown
         }

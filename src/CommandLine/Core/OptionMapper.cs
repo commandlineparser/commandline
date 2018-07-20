@@ -48,5 +48,5 @@ namespace CommandLine.Core
                 sequencesAndErrors.Select(se => se.Item1),
                 sequencesAndErrors.Select(se => se.Item2).OfType<Just<Error>>().Select(se => se.Value));
         }
-}
+    }
 }

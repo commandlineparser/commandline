@@ -18,7 +18,7 @@ namespace CommandLine.Tests.Unit
             Parser.Default.ParseArguments<Simple_Options>(new[] { "--stringvalue", "value" })
                 .WithParsed(opts => expected = opts.StringValue);
 
-            "value".ShouldBeEquivalentTo(expected);
+            "value".Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace CommandLine.Tests.Unit
                 .WithParsed<Commit_Verb>(opts => expected = "wrong2")
                 .WithParsed<Clone_Verb>(opts => expected = opts.Urls.First());
 
-            "https://value.org/user/file.git".ShouldBeEquivalentTo(expected);
+            "https://value.org/user/file.git".Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace CommandLine.Tests.Unit
             Parser.Default.ParseArguments<Simple_Options>(new[] { "-i", "aaa" })
                 .WithNotParsed(_ => expected = "changed");
 
-            "changed".ShouldBeEquivalentTo(expected);
+            "changed".Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace CommandLine.Tests.Unit
                 .WithParsed<Clone_Verb>(opts => expected = "wrong3")
                 .WithNotParsed(_ => expected = "changed");
 
-            "changed".ShouldBeEquivalentTo(expected);
+            "changed".Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace CommandLine.Tests.Unit
                 .WithParsed(opts => expected = opts.StringValue)
                 .WithNotParsed(_ => expected = "changed");
 
-            "value".ShouldBeEquivalentTo(expected);
+            "value".Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace CommandLine.Tests.Unit
                 .WithParsed(opts => expected = opts.StringValue)
                 .WithNotParsed(_ => expected = "changed");
 
-            "changed".ShouldBeEquivalentTo(expected);
+            "changed".Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace CommandLine.Tests.Unit
             var expected = Parser.Default.ParseArguments<Simple_Options>(new[] { "--stringvalue", "value" })
                 .MapResult(_ => 0, _ => -1);
 
-            0.ShouldBeEquivalentTo(expected);
+            0.Should().Be(expected);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace CommandLine.Tests.Unit
                     (Clone_Verb opts) => 2,
                     errs => 3);
 
-            2.ShouldBeEquivalentTo(expected);
+            2.Should().Be(expected);
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace CommandLine.Tests.Unit
             var expected = Parser.Default.ParseArguments<Simple_Options>(new[] { "-i", "aaa" })
                 .MapResult(_ => 0, _ => -1);
 
-            (-1).ShouldBeEquivalentTo(expected);
+            (-1).Should().Be(expected);
         }
 
         [Fact]
@@ -122,7 +122,7 @@ namespace CommandLine.Tests.Unit
                     (Clone_Verb opts) => 2,
                     errs => 3);
 
-            3.ShouldBeEquivalentTo(expected);
+            3.Should().Be(expected);
         }
 
         [Fact]
@@ -136,7 +136,7 @@ namespace CommandLine.Tests.Unit
                 .WithParsed<Clone_Verb>(opts => expected = "wrong3")
                 .WithParsed<Base_Class_For_Verb>(opts => expected = opts.FileName);
 
-            "dummy.bin".ShouldBeEquivalentTo(expected);
+            "dummy.bin".Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -148,7 +148,7 @@ namespace CommandLine.Tests.Unit
                     (Base_Class_For_Verb opts) => 1,
                     errs => 2);
 
-            1.ShouldBeEquivalentTo(expected);
+            1.Should().Be(expected);
         }
 
         [Fact]
@@ -164,7 +164,7 @@ namespace CommandLine.Tests.Unit
                     (Derived_Verb opts) => 3,
                     errs => 5);
 
-            4.ShouldBeEquivalentTo(expected);
+            4.Should().Be(expected);
         }
     }
 }

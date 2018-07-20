@@ -1,13 +1,9 @@
 #version should be changed with any pull requests
-version: 2.2.{build}
+version: 2.3.{build}
 
 clone_depth: 1
 pull_requests:
   do_not_increment_build_number: true
-
-#cache:
-#- packages -> paket.dependencies
-#- paket-files > paket.dependencies
 
 init:
   - ps: |
@@ -24,43 +20,18 @@ init:
         Update-AppveyorBuild -Version "$ver-$commit"
       }
 
-#version patching
-assembly_info:
-  file: src\SharedAssemblyInfo.cs
-  patch: true
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: $(APPVEYOR_BUILD_VERSION)
-dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
-
-
 environment:
   matrix:
     - BUILD_TARGET: base
-      NUSPEC_FILE: CommandLine
     - BUILD_TARGET: fsharp
-      NUSPEC_FILE: CommandLine.FSharp
 
 build_script:
-  - cmd: build.cmd %BUILD_TARGET%
-
-after_build:
-- ps: |
-    powershell get-childitem Release\* -include *.dll | foreach-object { "{0}`t{1}" -f $_.Path, [System.Diagnostics.FileVersionInfo]::GetVersionInfo($_).FileVersion }
-    
-    .\build-nuget-pack.cmd $env:BUILD_TARGET $env:NUSPEC_FILE
+- cmd: dotnet pack "src\CommandLine\CommandLine.csproj" -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
 
 test: auto
 
 artifacts:
-- path: 'Release/**/*.nupkg'
+- path: 'src/CommandLine/bin/Release/*.nupkg'
   name: NugetPackages
   
 on_failure:

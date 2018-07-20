@@ -38,9 +38,7 @@ namespace CommandLine
             get { return metaName; }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
-
-                metaName = value;
+                metaName = value ?? throw new ArgumentNullException("value");
             }
         }
     }

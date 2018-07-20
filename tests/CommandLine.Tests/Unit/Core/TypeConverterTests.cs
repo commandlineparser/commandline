@@ -1,11 +1,6 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommandLine.Core;
 using CSharpx;
 using FluentAssertions;
@@ -22,7 +17,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
-        [MemberData("ChangeType_scalars_source")]
+        [MemberData(nameof(ChangeType_scalars_source))]
         public void ChangeType_scalars(string testValue, Type destinationType, bool expectFail, object expectedResult)
         {
             Maybe<object> result = TypeConverter.ChangeType(new[] {testValue}, destinationType, true, CultureInfo.InvariantCulture, true);
@@ -33,9 +28,7 @@ namespace CommandLine.Tests.Unit.Core
             }
             else
             {
-                object matchedValue;
-
-                result.MatchJust(out matchedValue).Should().BeTrue("should parse successfully");
+                result.MatchJust(out object matchedValue).Should().BeTrue("should parse successfully");
                 Assert.Equal(matchedValue, expectedResult);
             }
         }

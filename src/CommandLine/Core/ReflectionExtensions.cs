@@ -105,12 +105,10 @@ namespace CommandLine.Core
             {
                 property.SetValue(instance, value, null);
             }
-#if !PLATFORM_DOTNET
             catch (TargetException e)
             {
                 fail(e);
             }
-#endif
             catch (TargetParameterCountException e)
             {
                 fail(e);
@@ -179,47 +177,32 @@ namespace CommandLine.Core
 
         public static object StaticMethod(this Type type, string name, params object[] args)
         {
-#if NETSTANDARD1_5
-            MethodInfo method = type.GetTypeInfo().GetDeclaredMethod(name);
-            return method.Invoke(null, args);
-#else
             return type.GetTypeInfo().InvokeMember(
                 name,
                 BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
                 null,
                 null,
                 args);
-#endif
         }
 
         public static object StaticProperty(this Type type, string name)
         {
-#if NETSTANDARD1_5
-            PropertyInfo property = type.GetTypeInfo().GetDeclaredProperty(name);
-            return property.GetValue(null);
-#else
             return type.GetTypeInfo().InvokeMember(
                 name,
                 BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static,
                 null,
                 null,
                 new object[] { });
-#endif
         }
 
         public static object InstanceProperty(this Type type, string name, object target)
         {
-#if NETSTANDARD1_5
-            PropertyInfo property = type.GetTypeInfo().GetDeclaredProperty(name);
-            return property.GetValue(target);
-#else
             return type.GetTypeInfo().InvokeMember(
                 name,
                 BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance,
                 null,
                 target,
                 new object[] { });
-#endif
         }
 
         public static bool IsPrimitiveEx(this Type type)
@@ -236,23 +219,5 @@ namespace CommandLine.Core
                    }.Contains(type)
                 || Convert.GetTypeCode(type) != TypeCode.Object;
         }
-
-
-#if NET40
-        public static Type GetTypeInfo(this Type type)
-        {
-            return type;
-        }
-#else
-        public static Attribute[] GetCustomAttributes(this Type type, Type attributeType, bool inherit)
-        {
-            return type.GetTypeInfo().GetCustomAttributes(attributeType, inherit).OfType<Attribute>().ToArray();
-        }
-
-        public static Attribute[] GetCustomAttributes(this Assembly assembly, Type attributeType, bool inherit)
-        {
-            return assembly.GetCustomAttributes(attributeType).ToArray();
-        }
-#endif
     }
 }

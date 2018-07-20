@@ -22,7 +22,7 @@ namespace CommandLine.Tests.Unit.Core
                         ? Maybe.Just(TypeDescriptor.Create(TargetType.Switch, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
-            expected.ShouldBeEquivalentTo(result);
+            expected.Should().BeEquivalentTo(result);
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace CommandLine.Tests.Unit.Core
                         ? Maybe.Just(TypeDescriptor.Create(TargetType.Switch, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
 
-            expected.ShouldBeEquivalentTo(result);
+            expected.Should().BeEquivalentTo(result);
         }
     }
 }
