@@ -5,6 +5,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DefineConstants>$(DefineConstants);PLATFORM_DOTNET</DefineConstants>
     <DefineConstants Condition="'$(BuildTarget)' != 'fsharp'">$(DefineConstants);SKIP_FSHARP</DefineConstants>
+    <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(BuildTarget)' != 'fsharp'">
