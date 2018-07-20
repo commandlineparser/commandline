@@ -11,7 +11,7 @@ namespace CommandLine.Tests.Properties
     {
         private static readonly Parser Sut = new Parser();
 
-        [Fact]
+        //[Fact]
         public void Parsing_a_string_returns_original_string()
         {
             Prop.ForAll<NonNull<string>>(

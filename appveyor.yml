@@ -26,9 +26,13 @@ environment:
     - BUILD_TARGET: fsharp
 
 build_script:
-- cmd: dotnet pack "src\CommandLine\CommandLine.csproj" -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
+- cmd: dotnet build src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
 
-test: auto
+test_script: 
+- cmd: dotnet test tests/CommandLine.Tests/ /p:BuildTarget=%BUILD_TARGET%
+
+after_test:
+- cmd: dotnet pack src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
 
 artifacts:
 - path: 'src/CommandLine/bin/Release/*.nupkg'
