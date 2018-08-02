@@ -55,10 +55,19 @@ namespace CommandLine.Text
         {
             get
             {
-                var title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
+                string title = ReflectionHelper.GetAssemblyName();
+#if NETSTANDARD1_5
+                title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
                     .MapValueOrDefault(
                         titleAttribute => Path.GetFileNameWithoutExtension(titleAttribute.Title),
-                        ReflectionHelper.GetAssemblyName());
+                        title);
+#else
+                title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
+                    .MapValueOrDefault(
+                        titleAttribute => titleAttribute.Title,
+                        title);
+#endif
+
                 var version = ReflectionHelper.GetAttribute<AssemblyInformationalVersionAttribute>()
                     .MapValueOrDefault(
                         versionAttribute => versionAttribute.InformationalVersion,
