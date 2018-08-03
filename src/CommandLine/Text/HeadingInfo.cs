@@ -55,18 +55,17 @@ namespace CommandLine.Text
         {
             get
             {
-                string title = ReflectionHelper.GetAssemblyName();
-#if NETSTANDARD1_5
-                title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
+                var title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
                     .MapValueOrDefault(
-                        titleAttribute => Path.GetFileNameWithoutExtension(titleAttribute.Title),
-                        title);
-#else
-                title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
-                    .MapValueOrDefault(
-                        titleAttribute => titleAttribute.Title,
-                        title);
-#endif
+                        titleAttribute =>
+                        {
+                            if (titleAttribute.Title.ToLowerInvariant().EndsWith(".dll"))
+                            {
+                                return titleAttribute.Title.Substring(0, titleAttribute.Title.Length - ".dll".Length);
+                            }
+                            return titleAttribute.Title;
+                        },
+                        ReflectionHelper.GetAssemblyName());
 
                 var version = ReflectionHelper.GetAttribute<AssemblyInformationalVersionAttribute>()
                     .MapValueOrDefault(
