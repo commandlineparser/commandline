@@ -505,8 +505,8 @@ namespace CommandLine.Tests.Unit.Text
             var helpText = HelpText.AutoBuild(fakeResult);
 
             // Verify outcome
-            var text = helpText.ToString();            
-            var lines = text.ToNotEmptyLines().TrimStringArray();
+            var text = helpText.ToString();
+            var lines = text.ToNotEmptyLines();
 #if !PLATFORM_DOTNET
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].Should().StartWithEquivalent("Copyright (c)");
@@ -516,28 +516,28 @@ namespace CommandLine.Tests.Unit.Text
             lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
 #endif
             lines[2].ShouldBeEquivalentTo("ERROR(S):");
-            lines[3].ShouldBeEquivalentTo("Token 'badtoken' is not recognized.");
+            lines[3].ShouldBeEquivalentTo("  Token 'badtoken' is not recognized.");
             lines[4].ShouldBeEquivalentTo("USAGE:");
             lines[5].ShouldBeEquivalentTo("Normal scenario:");
-            lines[6].ShouldBeEquivalentTo("mono testapp.exe --input file.bin --output out.bin");
+            lines[6].ShouldBeEquivalentTo("  mono testapp.exe --input file.bin --output out.bin");
             lines[7].ShouldBeEquivalentTo("Logging warnings:");
-            lines[8].ShouldBeEquivalentTo("mono testapp.exe -w --input file.bin");
+            lines[8].ShouldBeEquivalentTo("  mono testapp.exe -w --input file.bin");
             lines[9].ShouldBeEquivalentTo("Logging errors:");
-            lines[10].ShouldBeEquivalentTo("mono testapp.exe -e --input file.bin");
-            lines[11].ShouldBeEquivalentTo("mono testapp.exe --errs --input=file.bin");
+            lines[10].ShouldBeEquivalentTo("  mono testapp.exe -e --input file.bin");
+            lines[11].ShouldBeEquivalentTo("  mono testapp.exe --errs --input=file.bin");
             lines[12].ShouldBeEquivalentTo("List:");
-            lines[13].ShouldBeEquivalentTo("mono testapp.exe -l 1,2");
+            lines[13].ShouldBeEquivalentTo("  mono testapp.exe -l 1,2");
             lines[14].ShouldBeEquivalentTo("Value:");
-            lines[15].ShouldBeEquivalentTo("mono testapp.exe value");
-            lines[16].ShouldBeEquivalentTo("-i, --input     Set input file.");
-            lines[17].ShouldBeEquivalentTo("-i, --output    Set output file.");
-            lines[18].ShouldBeEquivalentTo("--verbose       Set verbosity level.");
-            lines[19].ShouldBeEquivalentTo("-w, --warns     Log warnings.");
-            lines[20].ShouldBeEquivalentTo("-e, --errs      Log errors.");
-            lines[21].ShouldBeEquivalentTo("-l              List.");
-            lines[22].ShouldBeEquivalentTo("--help          Display this help screen.");
-            lines[23].ShouldBeEquivalentTo("--version       Display version information.");
-            lines[24].ShouldBeEquivalentTo("value pos. 0    Value.");
+            lines[15].ShouldBeEquivalentTo("  mono testapp.exe value");
+            lines[16].ShouldBeEquivalentTo("  -i, --input     Set input file.");
+            lines[17].ShouldBeEquivalentTo("  -i, --output    Set output file.");
+            lines[18].ShouldBeEquivalentTo("  --verbose       Set verbosity level.");
+            lines[19].ShouldBeEquivalentTo("  -w, --warns     Log warnings.");
+            lines[20].ShouldBeEquivalentTo("  -e, --errs      Log errors.");
+            lines[21].ShouldBeEquivalentTo("  -l              List.");
+            lines[22].ShouldBeEquivalentTo("  --help          Display this help screen.");
+            lines[23].ShouldBeEquivalentTo("  --version       Display version information.");
+            lines[24].ShouldBeEquivalentTo("  value pos. 0    Value.");
 
             // Teardown
         }
