@@ -33,6 +33,5 @@ namespace CommandLine.Core
                 .ToMaybe()
                 .MapValueOrDefault(spec => Maybe.Just(spec.Separator), Maybe.Nothing<char>());
         }
-
     }
 }

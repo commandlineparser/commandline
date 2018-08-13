@@ -3,9 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if !NET40
 using System.Reflection;
-#endif
 
 namespace CommandLine.Core
 {
@@ -17,11 +15,8 @@ namespace CommandLine.Core
 
         public Verb(string name, string helpText, bool hidden = false)
         {
-            if (name == null) throw new ArgumentNullException("name");
-            if (helpText == null) throw new ArgumentNullException("helpText");
-
-            this.name = name;
-            this.helpText = helpText;
+            this.name = name ?? throw new ArgumentNullException(nameof(name));
+            this.helpText = helpText ?? throw new ArgumentNullException(nameof(helpText));
             this.hidden = hidden;
         }
 

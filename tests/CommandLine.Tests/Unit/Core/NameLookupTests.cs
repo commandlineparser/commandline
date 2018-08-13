@@ -22,7 +22,7 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system
             var result = NameLookup.HavingSeparator("string-seq", specs, StringComparer.Ordinal);
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result);
+            expected.Should().BeEquivalentTo(result);
 
             // Teardown
         }
@@ -41,7 +41,7 @@ namespace CommandLine.Tests.Unit.Core
             var result = spec.FromOptionSpecification();
 
             // Verify outcome
-            expected.ShouldBeEquivalentTo(result);
+            expected.Should().BeEquivalentTo(result);
 
             // Teardown
         }

@@ -5,49 +5,47 @@ using System.Linq;
 using CommandLine.Tests.Fakes;
 using Xunit;
 using FluentAssertions;
-#if !SKIP_FSHARP
 using Microsoft.FSharp.Core;
-#endif
 
 namespace CommandLine.Tests.Unit
 {
     public class UnParserExtensionsTests
     {
         [Theory]
-        [MemberData("UnParseData")]
+        [MemberData(nameof(UnParseData))]
         public static void UnParsing_instance_returns_command_line(Simple_Options options, string result)
         {
             new Parser()
                 .FormatCommandLine(options)
-                .ShouldBeEquivalentTo(result);
+                .Should().BeEquivalentTo(result);
         }
 
         [Theory]
-        [MemberData("UnParseDataVerbs")]
+        [MemberData(nameof(UnParseDataVerbs))]
         public static void UnParsing_instance_returns_command_line_for_verbs(Add_Verb verb, string result)
         {
             new Parser()
                 .FormatCommandLine(verb)
-                .ShouldBeEquivalentTo(result);
+                .Should().BeEquivalentTo(result);
         }
 
         [Theory]
-        [MemberData("UnParseDataImmutable")]
+        [MemberData(nameof(UnParseDataImmutable))]
         public static void UnParsing_immutable_instance_returns_command_line(Immutable_Simple_Options options, string result)
         {
             new Parser()
                 .FormatCommandLine(options)
-                .ShouldBeEquivalentTo(result);
+                .Should().BeEquivalentTo(result);
         }
 
 #if !SKIP_FSHARP
         [Theory]
-        [MemberData("UnParseDataFSharpOption")]
+        [MemberData(nameof(UnParseDataFSharpOption))]
         public static void UnParsing_instance_with_fsharp_option_returns_command_line(Options_With_FSharpOption options, string result)
         {
             new Parser()
                 .FormatCommandLine(options)
-                .ShouldBeEquivalentTo(result);
+                .Should().BeEquivalentTo(result);
         }
 #endif
 
@@ -57,7 +55,7 @@ namespace CommandLine.Tests.Unit
             var options = new Options_With_Switches { InputFile = "input.bin", HumanReadable = true, IgnoreWarnings = true };
             new Parser()
                 .FormatCommandLine(options, config => config.GroupSwitches = true)
-                .ShouldBeEquivalentTo("-hi --input input.bin");
+                .Should().BeEquivalentTo("-hi --input input.bin");
         }
 
         [Fact]
@@ -66,7 +64,7 @@ namespace CommandLine.Tests.Unit
             var options = new Simple_Options { BoolValue = true, IntSequence = new[] { 1, 2, 3 }, StringValue = "nospaces", LongValue = 123456789 };
             new Parser()
                 .FormatCommandLine(options, config => config.UseEqualToken = true)
-                .ShouldBeEquivalentTo("-i 1 2 3 --stringvalue=nospaces -x 123456789");
+                .Should().BeEquivalentTo("-i 1 2 3 --stringvalue=nospaces -x 123456789");
         }
 
         [Fact]
@@ -75,7 +73,7 @@ namespace CommandLine.Tests.Unit
             var options = new Simple_Options_With_Values { StringSequence = new List<string> { "-something", "with", "dash" } };
             new Parser((setting) => setting.EnableDashDash = true)
                 .FormatCommandLine(options)
-                .ShouldBeEquivalentTo("-- -something with dash");
+                .Should().BeEquivalentTo("-- -something with dash");
         }
 
         [Fact]
@@ -84,7 +82,7 @@ namespace CommandLine.Tests.Unit
             var options = new Simple_Options_With_Values();
             new Parser((setting) => setting.EnableDashDash = true)
                 .FormatCommandLine(options)
-                .ShouldBeEquivalentTo("");
+                .Should().BeEquivalentTo("");
         }
 
         [Fact]
@@ -93,10 +91,10 @@ namespace CommandLine.Tests.Unit
             var options = new Simple_Options_With_Values { StringSequence = new List<string> { "-something", "with", "dash" } };
             new Parser()
                 .FormatCommandLine(options)
-                .ShouldBeEquivalentTo("-something with dash");
+                .Should().BeEquivalentTo("-something with dash");
         }
 
-        public static IEnumerable<object> UnParseData
+        public static IEnumerable<object[]> UnParseData
         {
             get
             {
@@ -114,7 +112,7 @@ namespace CommandLine.Tests.Unit
         }
 
 
-        public static IEnumerable<object> UnParseDataVerbs
+        public static IEnumerable<object[]> UnParseDataVerbs
         {
             get
             {
@@ -124,7 +122,7 @@ namespace CommandLine.Tests.Unit
             }
         }
 
-        public static IEnumerable<object> UnParseDataImmutable
+        public static IEnumerable<object[]> UnParseDataImmutable
         {
             get
             {
@@ -142,7 +140,7 @@ namespace CommandLine.Tests.Unit
         }
 
 #if !SKIP_FSHARP
-        public static IEnumerable<object> UnParseDataFSharpOption
+        public static IEnumerable<object[]> UnParseDataFSharpOption
         {
             get
             {

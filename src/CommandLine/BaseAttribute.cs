@@ -93,12 +93,7 @@ namespace CommandLine
             get { return helpText; }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                helpText = value;
+                helpText = value ?? throw new ArgumentNullException("value");
             }
         }
 
@@ -110,12 +105,7 @@ namespace CommandLine
             get { return metaValue; }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                metaValue = value;
+                metaValue = value ?? throw new ArgumentNullException("value");
             }
         }
 

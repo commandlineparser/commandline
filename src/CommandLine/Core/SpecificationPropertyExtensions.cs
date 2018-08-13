@@ -3,9 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if PLATFORM_DOTNET
-using System.Reflection;
-#endif
 using CSharpx;
 using System.Reflection;
 
@@ -15,14 +12,14 @@ namespace CommandLine.Core
     {
         public static SpecificationProperty WithSpecification(this SpecificationProperty specProp, Specification newSpecification)
         {
-            if (newSpecification == null) throw new ArgumentNullException("newSpecification");
+            if (newSpecification == null) throw new ArgumentNullException(nameof(newSpecification));
 
             return SpecificationProperty.Create(newSpecification, specProp.Property, specProp.Value);
         }
 
         public static SpecificationProperty WithValue(this SpecificationProperty specProp, Maybe<object> newValue)
         {
-            if (newValue == null) throw new ArgumentNullException("newValue");
+            if (newValue == null) throw new ArgumentNullException(nameof(newValue));
 
             return SpecificationProperty.Create(specProp.Specification, specProp.Property, newValue);
         }
