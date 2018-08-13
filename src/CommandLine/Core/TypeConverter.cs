@@ -46,6 +46,19 @@ namespace CommandLine.Core
             return result.ToMaybe();
         }
 
+        private static object ConvertString(string value, Type type, CultureInfo conversionCulture)
+        {
+            try
+            {
+                return Convert.ChangeType(value, type, conversionCulture);
+            }
+            catch (InvalidCastException)
+            {
+                // Required for converting from string to TimeSpan because Convert.ChangeType can't
+                return System.ComponentModel.TypeDescriptor.GetConverter(type).ConvertFrom(null, conversionCulture, value);
+            }
+        }
+
         private static Result<object, Exception> ChangeTypeScalarImpl(string value, Type conversionType, CultureInfo conversionCulture, bool ignoreValueCase)
         {
             Func<object> changeType = () =>
@@ -68,10 +81,9 @@ namespace CommandLine.Core
                         () =>
 #if !SKIP_FSHARP
                             isFsOption
-                                ? FSharpOptionHelper.Some(type, Convert.ChangeType(value, type, conversionCulture)) :
+                                ? FSharpOptionHelper.Some(type, ConvertString(value, type, conversionCulture)) :
 #endif
-                                Convert.ChangeType(value, type, conversionCulture);
-
+                                ConvertString(value, type, conversionCulture);
 #if !SKIP_FSHARP
                     Func<object> empty = () => isFsOption ? FSharpOptionHelper.None(type) : null;
 #else

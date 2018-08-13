@@ -80,49 +80,30 @@ namespace CommandLine.Core
                                    : TargetType.Scalar;
         }
 
-        public static T SetProperties<T>(
+        public static IEnumerable<Error> SetProperties<T>(
             this T instance,
             IEnumerable<SpecificationProperty> specProps,
             Func<SpecificationProperty, bool> predicate,
             Func<SpecificationProperty, object> selector)
         {
-            return specProps.Where(predicate).Aggregate(
-                instance,
-                (current, specProp) =>
-                    {
-                        specProp.Property.SetValue(current, selector(specProp));
-                        return instance;
-                    });
+            return specProps.Where(predicate).SelectMany(specProp => specProp.SetValue(instance, selector(specProp)));
         }
 
-        private static T SetValue<T>(this PropertyInfo property, T instance, object value)
+        private static IEnumerable<Error> SetValue<T>(this SpecificationProperty specProp, T instance, object value)
         {
-            Action<Exception> fail = inner => {
-                throw new InvalidOperationException("Cannot set value to target instance.", inner);
-            };
-            
             try
             {
-                property.SetValue(instance, value, null);
-            }
-            catch (TargetException e)
-            {
-                fail(e);
-            }
-            catch (TargetParameterCountException e)
-            {
-                fail(e);
-            }
-            catch (MethodAccessException e)
-            {
-                fail(e);
+                specProp.Property.SetValue(instance, value, null);
+                return Enumerable.Empty<Error>();
             }
             catch (TargetInvocationException e)
             {
-                fail(e);
+                return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e.InnerException, value) };
             }
-
-            return instance;
+            catch (Exception e)
+            {
+                 return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e, value) };
+            }
         }
 
         public static object CreateEmptyArray(this Type type)

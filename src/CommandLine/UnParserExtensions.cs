@@ -18,6 +18,7 @@ namespace CommandLine
         private bool preferShortName;
         private bool groupSwitches;
         private bool useEqualToken;
+        private bool showHidden;
 
         /// <summary>
         /// Gets or sets a value indicating whether unparsing process shall prefer short or long names.
@@ -46,6 +47,14 @@ namespace CommandLine
             set { PopsicleSetter.Set(Consumed, ref useEqualToken, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether unparsing process shall expose hidden options.
+        /// </summary>
+        public bool ShowHidden
+        {
+            get { return showHidden; }
+            set { PopsicleSetter.Set(Consumed, ref showHidden, value); }
+        }
         /// <summary>
         /// Factory method that creates an instance of <see cref="CommandLine.UnParserSettings"/> with GroupSwitches set to true.
         /// </summary>
@@ -119,6 +128,7 @@ namespace CommandLine
             var allOptSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                 let o = (OptionSpecification)info.Specification
                 where o.TargetType != TargetType.Switch || (o.TargetType == TargetType.Switch && ((bool)info.Value))
+                where !o.Hidden || settings.ShowHidden
                 orderby o.UniqueName()
                 select info;
 
@@ -206,9 +216,10 @@ namespace CommandLine
 
         private static string FormatName(this OptionSpecification optionSpec, UnParserSettings settings)
         {
-            var longName =
-                optionSpec.LongName.Length > 0
-                && !settings.PreferShortName;
+            // Have a long name and short name not preferred? Go with long! 
+            // No short name? Has to be long!
+            var longName = (optionSpec.LongName.Length >  0 && !settings.PreferShortName)
+                         || optionSpec.ShortName.Length == 0;
 
             return
                 new StringBuilder(longName
