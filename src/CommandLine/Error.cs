@@ -60,7 +60,11 @@ namespace CommandLine
         /// <summary>
         /// Value of <see cref="CommandLine.VersionRequestedError"/> type.
         /// </summary>
-        VersionRequestedError
+        VersionRequestedError,
+        /// <summary>
+        /// Value of <see cref="CommandLine.SetValueExceptionError"/> type.
+        /// </summary>
+        SetValueExceptionError
     }
 
     /// <summary>
@@ -470,5 +474,38 @@ namespace CommandLine
             : base(ErrorType.VersionRequestedError, true)
         {
         }
+    }
+
+    /// <summary>
+    /// Models as error generated when exception is thrown at Property.SetValue
+    /// </summary>
+    public sealed class SetValueExceptionError : NamedError
+    {
+        private readonly Exception exception;
+        private readonly object value;
+
+        internal SetValueExceptionError(NameInfo nameInfo, Exception exception, object value)
+            : base(ErrorType.SetValueExceptionError, nameInfo)
+        {
+            this.exception = exception;
+            this.value = value;
+        }
+
+        /// <summary>
+        /// The expection thrown from Property.SetValue
+        /// </summary>
+        public Exception Exception
+        {
+            get { return exception; }
+        }
+
+        /// <summary>
+        /// The value that had to be set to the property
+        /// </summary>
+        public object Value
+        {
+            get { return value; }
+        }
+
     }
 }
