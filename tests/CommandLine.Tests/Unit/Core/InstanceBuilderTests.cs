@@ -994,7 +994,7 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { "-e", "bad" });
 
             // Verify outcome
-            ((NotParsed<Options_With_Property_Throwing_Exception>)result).Errors.ShouldBeEquivalentTo(expectedResult);
+            ((NotParsed<Options_With_Property_Throwing_Exception>)result).Errors.Should().BeEquivalentTo(expectedResult);
 
             // Teardown
         }
@@ -1050,7 +1050,7 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { "--duration=00:42:00" });
 
             // Verify outcome
-            expectedResult.ShouldBeEquivalentTo(((Parsed<Options_With_TimeSpan>)result).Value);
+            expectedResult.Should().BeEquivalentTo(((Parsed<Options_With_TimeSpan>)result).Value);
 
             // Teardown
         }

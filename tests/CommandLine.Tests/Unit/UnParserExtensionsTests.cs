@@ -44,7 +44,7 @@ namespace CommandLine.Tests.Unit
         {
             new Parser()
                 .FormatCommandLine(options, config => config.ShowHidden = showHidden)
-                .ShouldBeEquivalentTo(result);
+                .Should().BeEquivalentTo(result);
         }
 
 #if !SKIP_FSHARP
@@ -148,7 +148,7 @@ namespace CommandLine.Tests.Unit
             }
         }
 
-        public static IEnumerable<object> UnParseDataHidden
+        public static IEnumerable<object[]> UnParseDataHidden
         {
             get
             {
