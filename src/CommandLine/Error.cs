@@ -60,7 +60,11 @@ namespace CommandLine
         /// <summary>
         /// Value of <see cref="CommandLine.VersionRequestedError"/> type.
         /// </summary>
-        VersionRequestedError
+        VersionRequestedError,
+        /// <summary>
+        /// Value of <see cref="CommandLine.InvalidAttributeConfigurationError"/> type.
+        /// </summary>
+        InvalidAttributeConfigurationError
     }
 
     /// <summary>
@@ -471,4 +475,19 @@ namespace CommandLine
         {
         }
     }
+
+
+    /// <summary>
+    /// Models an error generated when an invalid token is detected.
+    /// </summary>
+    public sealed class InvalidAttributeConfigurationError : Error
+    {
+        public const string ErrorMessage = "Check if Option or Value attribute values are set properly for the given type.";
+
+        internal InvalidAttributeConfigurationError()
+            : base(ErrorType.InvalidAttributeConfigurationError, true)
+        {
+        }
+    }
+
 }

@@ -14,6 +14,8 @@ namespace CommandLine.Core
 {
     static class ReflectionExtensions
     {
+        public const string CannotSetValueToTargetInstance = "Cannot set value to target instance.";
+
         public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
         {
             return from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
@@ -98,7 +100,7 @@ namespace CommandLine.Core
         private static T SetValue<T>(this PropertyInfo property, T instance, object value)
         {
             Action<Exception> fail = inner => {
-                throw new InvalidOperationException("Cannot set value to target instance.", inner);
+                throw new InvalidOperationException(CannotSetValueToTargetInstance, inner);
             };
             
             try
@@ -122,6 +124,11 @@ namespace CommandLine.Core
             catch (TargetInvocationException e)
             {
                 fail(e);
+            }
+            catch(ArgumentException e)
+            {
+                var argEx = new ArgumentException(InvalidAttributeConfigurationError.ErrorMessage, e);
+                fail(argEx);
             }
 
             return instance;
