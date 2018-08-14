@@ -1,4 +1,4 @@
-#version should be changed with any pull requests
+#version should be only changed with RELEASE eminent, see RELEASE.md
 version: 2.3.{build}
 
 clone_depth: 1
@@ -49,6 +49,5 @@ deploy:
     secure: +Zxb8M5W+UJV1yd9n8seu3PvH/hGNPEmgriGBnsSmtxjKPQAJ4+iL7tKAmfPHAuG
   artifact: 'NuGetPackages'
   on:
-    branch: /master|v\d+\.\d+\.\d+[.*]/
     APPVEYOR_REPO_TAG: true
 
