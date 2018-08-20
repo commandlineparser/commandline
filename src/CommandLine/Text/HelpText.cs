@@ -636,7 +636,7 @@ namespace CommandLine.Text
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            value = value.Trim();
+            value = value.TrimEnd();
 
             builder.AppendWhen(builder.Length > 0, Environment.NewLine);
             do
