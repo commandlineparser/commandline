@@ -22,6 +22,7 @@ namespace CommandLine.Tests.Unit.Core
                 types,
                 arguments,
                 StringComparer.Ordinal,
+                false,
                 CultureInfo.InvariantCulture,
                 Enumerable.Empty<ErrorType>());
         }

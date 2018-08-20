@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace CommandLine
 {
-    sealed class TypeInfo
+    public sealed class TypeInfo
     {
         private readonly Type current;
         private readonly IEnumerable<Type> choices; 
@@ -27,12 +27,12 @@ namespace CommandLine
             get { return this.choices; }
         }
 
-        public static TypeInfo Create(Type current)
+        internal static TypeInfo Create(Type current)
         {
             return new TypeInfo(current, Enumerable.Empty<Type>());
         }
 
-        public static TypeInfo Create(Type current, IEnumerable<Type> choices)
+        internal static TypeInfo Create(Type current, IEnumerable<Type> choices)
         {
             return new TypeInfo(current, choices);
         }
@@ -78,7 +78,7 @@ namespace CommandLine
             get { return this.tag; }
         }
 
-        internal TypeInfo TypeInfo
+        public TypeInfo TypeInfo
         {
             get { return typeInfo; }
         }

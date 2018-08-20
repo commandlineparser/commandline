@@ -156,6 +156,7 @@ namespace CommandLine
                     types,
                     args,
                     settings.NameComparer,
+                    settings.CaseInsensitiveEnumValues,
                     settings.ParsingCulture,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
