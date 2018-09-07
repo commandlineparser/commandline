@@ -37,7 +37,7 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 
 You can utilize the parser library in several ways:
 
-- Install via Nuget/Paket
+- Install via Nuget/Paket: [https://www.nuget.org/packages/CommandLineParser/](https://www.nuget.org/packages/CommandLineParser/)
 - Integrate directly into your project by copying the .cs files into your project.
 - ILMerge during your build process.
 
