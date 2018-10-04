@@ -57,7 +57,7 @@ namespace CommandLine.Text
             {
                 var title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
                     .MapValueOrDefault(
-                        titleAttribute => Path.GetFileNameWithoutExtension(titleAttribute.Title),
+                        titleAttribute => titleAttribute.Title,
                         ReflectionHelper.GetAssemblyName());
                 var version = ReflectionHelper.GetAttribute<AssemblyInformationalVersionAttribute>()
                     .MapValueOrDefault(
