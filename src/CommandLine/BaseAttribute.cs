@@ -135,7 +135,7 @@ namespace CommandLine
         /// </summary>
         public Type ResourceType
         {
-            get => resourceType;
+            get { return resourceType; }
             set
             {
                 resourceType =

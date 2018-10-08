@@ -20,7 +20,7 @@ namespace CommandLine.Infrastructure
 
         public string Value
         {
-            get => GetLocalizedValue();
+            get { return GetLocalizedValue(); }
             set
             {
                 _localizationPropertyInfo = null;
