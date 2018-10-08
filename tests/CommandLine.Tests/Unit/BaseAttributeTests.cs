@@ -24,11 +24,10 @@ namespace CommandLine.Tests.Unit
         [InlineData("HelpText", typeof(Fakes.NonStaticResource), "Localized HelpText")]
         public static void HelpText(string helpText, Type resourceType, string expected)
         {
-            TestBaseAttribute baseAttribute = new TestBaseAttribute()
-            {
-                HelpText = helpText,
-                ResourceType = resourceType
-            };
+            TestBaseAttribute baseAttribute = new TestBaseAttribute();
+            baseAttribute.HelpText = helpText;
+            baseAttribute.ResourceType = resourceType;
+            
             Assert.Equal(expected, baseAttribute.HelpText);
         }
 
@@ -39,11 +38,9 @@ namespace CommandLine.Tests.Unit
         [InlineData("HelpText", typeof(Fakes.InternalResource))]
         public void ThrowsHelpText(string helpText, Type resourceType)
         {
-            TestBaseAttribute baseAttribute = new TestBaseAttribute()
-            {
-                HelpText = helpText,
-                ResourceType = resourceType
-            };
+            TestBaseAttribute baseAttribute = new TestBaseAttribute();
+            baseAttribute.HelpText = helpText;
+            baseAttribute.ResourceType = resourceType;
 
             // Verify exception
             Assert.Throws<ArgumentException>(() => baseAttribute.HelpText.ToString());
