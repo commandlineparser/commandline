@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace CommandLine.Tests.Unit
@@ -20,6 +16,40 @@ namespace CommandLine.Tests.Unit
             Assert.Equal(defaultValue, baseAttribute.Default);
         }
 
+        [Theory]
+        [InlineData("", null, "")]
+        [InlineData("", typeof(Fakes.StaticResource), "")]
+        [InlineData("Help text", null, "Help text")]
+        [InlineData("HelpText", typeof(Fakes.StaticResource), "Localized HelpText")]
+        [InlineData("HelpText", typeof(Fakes.NonStaticResource), "Localized HelpText")]
+        public static void HelpText(string helpText, Type resourceType, string expected)
+        {
+            TestBaseAttribute baseAttribute = new TestBaseAttribute()
+            {
+                HelpText = helpText,
+                ResourceType = resourceType
+            };
+            Assert.Equal(expected, baseAttribute.HelpText);
+        }
+
+        [Theory]
+        [InlineData("HelpText", typeof(Fakes.NonStaticResource_WithNonStaticProperty))]
+        [InlineData("WriteOnlyText", typeof(Fakes.NonStaticResource))]
+        [InlineData("PrivateOnlyText", typeof(Fakes.NonStaticResource))]
+        [InlineData("HelpText", typeof(Fakes.InternalResource))]
+        public void ThrowsHelpText(string helpText, Type resourceType)
+        {
+            TestBaseAttribute baseAttribute = new TestBaseAttribute()
+            {
+                HelpText = helpText,
+                ResourceType = resourceType
+            };
+
+            // Verify exception
+            Assert.Throws<ArgumentException>(() => baseAttribute.HelpText.ToString());
+        }
+
+
         private class TestBaseAttribute : BaseAttribute
         {
             public TestBaseAttribute()
@@ -27,5 +57,6 @@ namespace CommandLine.Tests.Unit
                 // Do nothing
             }
         }
+
     }
 }
