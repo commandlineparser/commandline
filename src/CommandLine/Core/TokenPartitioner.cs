@@ -19,14 +19,16 @@ namespace CommandLine.Core
                 IEnumerable<Token> tokens,
                 Func<string, Maybe<TypeDescriptor>> typeLookup)
         {
+            IEqualityComparer<Token> tokenComparer = ReferenceEqualityComparer.Default;
+
             var tokenList = tokens.Memorize();
-            var switches = Switch.Partition(tokenList, typeLookup).Memorize();
-            var scalars = Scalar.Partition(tokenList, typeLookup).Memorize();
-            var sequences = Sequence.Partition(tokenList, typeLookup).Memorize();
+            var switches = Switch.Partition(tokenList, typeLookup).ToSet(tokenComparer);
+            var scalars = Scalar.Partition(tokenList, typeLookup).ToSet(tokenComparer);
+            var sequences = Sequence.Partition(tokenList, typeLookup).ToSet(tokenComparer);
             var nonOptions = tokenList
-                .Where(t => !switches.Contains(t, ReferenceEqualityComparer.Default))
-                .Where(t => !scalars.Contains(t, ReferenceEqualityComparer.Default))
-                .Where(t => !sequences.Contains(t, ReferenceEqualityComparer.Default)).Memorize();
+                .Where(t => !switches.Contains(t))
+                .Where(t => !scalars.Contains(t))
+                .Where(t => !sequences.Contains(t)).Memorize();
             var values = nonOptions.Where(v => v.IsValue()).Memorize();
             var errors = nonOptions.Except(values, (IEqualityComparer<Token>)ReferenceEqualityComparer.Default).Memorize();
 
