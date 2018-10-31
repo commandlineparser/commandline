@@ -43,8 +43,12 @@ namespace CommandLine.Infrastructure
                 return _value;
             if (_localizationPropertyInfo == null)
             {
-                // Static class IsAbstract
+                // Static class IsAbstract                
+#if NETSTANDARD1_5
+                if (!_type.GetTypeInfo().IsVisible)
+#else
                 if (!_type.IsVisible)
+#endif
                     throw new ArgumentException("Invalid resource type", _propertyName);
                 PropertyInfo propertyInfo = _type.GetProperty(_value, BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.Static);
                 if (propertyInfo == null || !propertyInfo.CanRead || propertyInfo.PropertyType != typeof(string))
