@@ -249,7 +249,7 @@ let main args =
   | :? CommandLine.NotParsed<obj> -> 1
 ```
 
-# Contibutors
+# Contributors
 First off, _Thank you!_  All contributions are welcome.  
 
 Please consider sticking with the GNU getopt standard for command line parsing.  
