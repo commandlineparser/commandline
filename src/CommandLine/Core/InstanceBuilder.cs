@@ -28,13 +28,15 @@ namespace CommandLine.Core
             var typeInfo = factory.MapValueOrDefault(f => f().GetType(), typeof(T));
 
             var specProps = typeInfo.GetSpecifications(pi => SpecificationProperty.Create(
-                    Specification.FromProperty(pi), pi, Maybe.Nothing<object>()));
+                    Specification.FromProperty(pi), pi, Maybe.Nothing<object>()))
+                .Memorize();
 
             var specs = from pt in specProps select pt.Specification;
 
             var optionSpecs = specs
                 .ThrowingValidate(SpecificationGuards.Lookup)
-                .OfType<OptionSpecification>();
+                .OfType<OptionSpecification>()
+                .Memorize();
 
             Func<T> makeDefault = () =>
                 typeof(T).IsMutable()
@@ -45,18 +47,19 @@ namespace CommandLine.Core
             Func<IEnumerable<Error>, ParserResult<T>> notParsed =
                 errs => new NotParsed<T>(makeDefault().GetType().ToTypeInfo(), errs);
 
+            var argumentsList = arguments.Memorize();
             Func<ParserResult<T>> buildUp = () =>
             {
-                var tokenizerResult = tokenizer(arguments, optionSpecs);
+                var tokenizerResult = tokenizer(argumentsList, optionSpecs);
 
-                var tokens = tokenizerResult.SucceededWith();
+                var tokens = tokenizerResult.SucceededWith().Memorize();
 
                 var partitions = TokenPartitioner.Partition(
                     tokens,
                     name => TypeLookup.FindTypeDescriptorAndSibling(name, optionSpecs, nameComparer));
-                var optionsPartition = partitions.Item1;
-                var valuesPartition = partitions.Item2;
-                var errorsPartition = partitions.Item3;
+                var optionsPartition = partitions.Item1.Memorize();
+                var valuesPartition = partitions.Item2.Memorize();
+                var errorsPartition = partitions.Item3.Memorize();
 
                 var optionSpecPropsResult =
                     OptionMapper.MapValues(
@@ -68,7 +71,7 @@ namespace CommandLine.Core
                 var valueSpecPropsResult =
                     ValueMapper.MapValues(
                         (from pt in specProps where pt.Specification.IsValue() orderby ((ValueSpecification)pt.Specification).Index select pt),
-                        valuesPartition,
+                        valuesPartition,    
                         (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, parsingCulture, ignoreValueCase));
 
                 var missingValueErrors = from token in errorsPartition
@@ -78,7 +81,7 @@ namespace CommandLine.Core
                                 .FromOptionSpecification());
 
                 var specPropsWithValue =
-                    optionSpecPropsResult.SucceededWith().Concat(valueSpecPropsResult.SucceededWith());
+                    optionSpecPropsResult.SucceededWith().Concat(valueSpecPropsResult.SucceededWith()).Memorize();
 
                 var setPropertyErrors = new List<Error>();                
 
@@ -130,11 +133,13 @@ namespace CommandLine.Core
                 return allErrors.Except(warnings).ToParserResult(instance);
             };
 
-            var preprocessorErrors = arguments.Any()
-                ? arguments.Preprocess(PreprocessorGuards.Lookup(nameComparer))
-                : Enumerable.Empty<Error>();
+            var preprocessorErrors = (
+                    argumentsList.Any()
+                    ? argumentsList.Preprocess(PreprocessorGuards.Lookup(nameComparer))
+                    : Enumerable.Empty<Error>()
+                ).Memorize();
 
-            var result = arguments.Any()
+            var result = argumentsList.Any()
                 ? preprocessorErrors.Any()
                     ? notParsed(preprocessorErrors)
                     : buildUp()

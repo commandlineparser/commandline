@@ -36,7 +36,7 @@ namespace CommandLine.Core
                           select token)
                             .Memorize();
 
-            var normalized = normalize(tokens);
+            var normalized = normalize(tokens).Memorize();
 
             var unkTokens = (from t in normalized where t.IsName() && nameLookup(t.Text) == NameLookupResult.NoOptionFound select t).Memorize();
 
@@ -60,12 +60,12 @@ namespace CommandLine.Core
             Result<IEnumerable<Token>, Error> tokenizerResult,
             Func<string, Maybe<char>> optionSequenceWithSeparatorLookup)
         {
-            var tokens = tokenizerResult.SucceededWith();
+            var tokens = tokenizerResult.SucceededWith().Memorize();
 
             var replaces = tokens.Select((t, i) =>
                 optionSequenceWithSeparatorLookup(t.Text)
                     .MapValueOrDefault(sep => Tuple.Create(i + 1, sep),
-                        Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0);
+                        Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0).Memorize();
 
             var exploded = tokens.Select((t, i) =>
                         replaces.FirstOrDefault(x => x.Item1 == i).ToMaybe()
