@@ -175,11 +175,11 @@ class AddOptions {
 }
 [Verb("commit", HelpText = "Record changes to the repository.")]
 class CommitOptions {
-  //normal options here
+  //commit options here
 }
 [Verb("clone", HelpText = "Clone a repository into a new directory.")]
 class CloneOptions {
-  //normal options here
+  //clone options here
 }
 
 int Main(string[] args) {
