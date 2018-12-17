@@ -37,7 +37,7 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 
 You can utilize the parser library in several ways:
 
-- Install via Nuget/Paket
+- Install via Nuget/Paket: [https://www.nuget.org/packages/CommandLineParser/](https://www.nuget.org/packages/CommandLineParser/)
 - Integrate directly into your project by copying the .cs files into your project.
 - ILMerge during your build process.
 
@@ -45,6 +45,43 @@ You can utilize the parser library in several ways:
 
 1. Create a class to define valid options, and to receive the parsed options.
 2. Call ParseArguments with the args string array.
+
+C# Quick Start:
+
+```csharp
+using System;
+using CommandLine;
+
+namespace QuickStart
+{
+    class Program
+    {
+        public class Options
+        {
+            [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
+            public bool Verbose { get; set; }
+        }
+
+        static void Main(string[] args)
+        {
+            Parser.Default.ParseArguments<Options>(args)
+                   .WithParsed<Options>(o =>
+                   {
+                       if (o.Verbose)
+                       {
+                           Console.WriteLine($"Verbose output enabled. Current Arguments: -v {o.Verbose}");
+                           Console.WriteLine("Quick Start Example! App is in Verbose mode!");
+                       }
+                       else
+                       {
+                           Console.WriteLine($"Current Arguments: -v {o.Verbose}");
+                           Console.WriteLine("Quick Start Example!");
+                       }
+                   });
+        }
+    }
+}
+```
 
 C# Examples:
 
@@ -55,10 +92,14 @@ class Options
   public IEnumerable<string> InputFiles { get; set; }
 
   // Omitting long name, defaults to name of property, ie "--verbose"
-  [Option(Default = false, HelpText = "Prints all messages to standard output.")]
+  [Option(
+	Default = false,
+	HelpText = "Prints all messages to standard output.")]
   public bool Verbose { get; set; }
-
-  [Option("stdin", Default = false, HelpText = "Read from stdin")]
+  
+  [Option("stdin",
+	Default = false
+	HelpText = "Read from stdin")]
   public bool stdin { get; set; }
 
   [Value(0, MetaName = "offset", HelpText = "File offset.")]
@@ -79,7 +120,7 @@ F# Examples:
 type options = {
   [<Option('r', "read", Required = true, HelpText = "Input files.")>] files : seq<string>;
   [<Option(HelpText = "Prints all messages to standard output.")>] verbose : bool;
-  [<Option(DefaultValue = "русский", HelpText = "Content language.")>] language : string;
+  [<Option(Default = "русский", HelpText = "Content language.")>] language : string;
   [<Value(0, MetaName="offset", HelpText = "File offset.")>] offset : int64 option;
 }
 
@@ -94,18 +135,22 @@ VB.Net:
 
 ```VB.NET
 Class Options
-    <CommandLine.Option("r", "read", Required:=True, HelpText:="Input files to be processed.")>
-    Public Property InputFiles As IEnumerable(Of String)
+	<CommandLine.Option('r', "read", Required := true,
+	HelpText:="Input files to be processed.")>
+	Public Property InputFiles As IEnumerable(Of String)
 
-    ' Omitting long name, defaults to name of property, ie "--verbose"
-    <CommandLine.Option(HelpText:="Prints all messages to standard output.")>
-    Public Property Verbose As Boolean
+	' Omitting long name, defaults to name of property, ie "--verbose"
+	<CommandLine.Option(
+	HelpText:="Prints all messages to standard output.")>
+	Public Property Verbose As Boolean
 
-    <CommandLine.Option([Default]:="中文", HelpText:="Content language.")>
-    Public Property Language As String
+	<CommandLine.Option(Default:="中文",
+	HelpText:="Content language.")>
+	Public Property Language As String
 
-    <CommandLine.Value(0, MetaName:="offset", HelpText:="File offset.")>
-    Public Property Offset As Long?
+	<CommandLine.Value(0, MetaName:="offset",
+	HelpText:="File offset.")>
+	Public Property Offset As Long?
 End Class
 
 Sub Main(ByVal args As String())
@@ -204,7 +249,7 @@ let main args =
   | :? CommandLine.NotParsed<obj> -> 1
 ```
 
-# Contibutors
+# Contributors
 First off, _Thank you!_  All contributions are welcome.  
 
 Please consider sticking with the GNU getopt standard for command line parsing.  

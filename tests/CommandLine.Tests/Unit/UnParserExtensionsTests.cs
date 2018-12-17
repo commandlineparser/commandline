@@ -40,6 +40,15 @@ namespace CommandLine.Tests.Unit
                 .ShouldBeEquivalentTo(result);
         }
 
+        [Theory]
+        [MemberData("UnParseDataHidden")]
+        public static void Unparsing_hidden_option_returns_command_line(Hidden_Option options, bool showHidden, string result)
+        {
+            new Parser()
+                .FormatCommandLine(options, config => config.ShowHidden = showHidden)
+                .ShouldBeEquivalentTo(result);
+        }
+
 #if !SKIP_FSHARP
         [Theory]
         [MemberData("UnParseDataFSharpOption")]
@@ -141,6 +150,14 @@ namespace CommandLine.Tests.Unit
             }
         }
 
+        public static IEnumerable<object> UnParseDataHidden
+        {
+            get
+            {
+                yield return new object[] { new Hidden_Option { HiddenOption = "hidden" }, true, "--hiddenOption hidden" };
+                yield return new object[] { new Hidden_Option { HiddenOption = "hidden" }, false, ""};
+            }
+        }
 #if !SKIP_FSHARP
         public static IEnumerable<object> UnParseDataFSharpOption
         {
