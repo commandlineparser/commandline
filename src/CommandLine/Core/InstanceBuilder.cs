@@ -106,9 +106,13 @@ namespace CommandLine.Core
                 {
                     var ctor = typeInfo.GetTypeInfo().GetConstructor((from sp in specProps select sp.Property.PropertyType).ToArray());
                     var values = (from prms in ctor.GetParameters()
-                        join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower()
+                        join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower() into spv
+                        from sp in spv.DefaultIfEmpty()
                         select
-                            sp.Value.GetValueOrDefault(
+                          sp == null
+                            ? specProps.First(s => String.Equals(s.Property.Name, prms.Name, StringComparison.CurrentCultureIgnoreCase))
+                              .Property.PropertyType.GetDefaultValue()
+                            : sp.Value.GetValueOrDefault(
                                 sp.Specification.DefaultValue.GetValueOrDefault(
                                     sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();
                     var immutable = (T)ctor.Invoke(values);
