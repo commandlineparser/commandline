@@ -442,7 +442,6 @@ namespace CommandLine.Text
 
             return AddOptionsImpl(
                 GetSpecificationsFromType(result.TypeInfo.Current),
-                SentenceBuilder.RequiredWord(),
                 MaximumDisplayWidth);
         }
 
@@ -459,7 +458,6 @@ namespace CommandLine.Text
 
             return AddOptionsImpl(
                 AdaptVerbsToSpecifications(types),
-                SentenceBuilder.RequiredWord(),
                 MaximumDisplayWidth);
         }
 
@@ -475,7 +473,6 @@ namespace CommandLine.Text
 
             return AddOptionsImpl(
                 GetSpecificationsFromType(result.TypeInfo.Current),
-                SentenceBuilder.RequiredWord(),
                 maximumLength);
         }
 
@@ -493,7 +490,6 @@ namespace CommandLine.Text
 
             return AddOptionsImpl(
                 AdaptVerbsToSpecifications(types),
-                SentenceBuilder.RequiredWord(),
                 maximumLength);
         }
 
@@ -754,7 +750,6 @@ namespace CommandLine.Text
 
         private HelpText AddOptionsImpl(
             IEnumerable<Specification> specifications,
-            string requiredWord,
             int maximumLength)
         {
             var maxLength = GetMaxLength(specifications);
@@ -765,7 +760,7 @@ namespace CommandLine.Text
 
             specifications.ForEach(
                 option =>
-                    AddOption(requiredWord, maxLength, option, remainingSpace));
+                    AddOption(maxLength, option, remainingSpace));
 
             return this;
         }
@@ -799,7 +794,7 @@ namespace CommandLine.Text
             return this;
         }
 
-        private HelpText AddOption(string requiredWord, int maxLength, Specification specification, int widthOfHelpText)
+        private HelpText AddOption(int maxLength, Specification specification, int widthOfHelpText)
         {
             if (specification.Hidden)
                 return this;
@@ -818,13 +813,13 @@ namespace CommandLine.Text
             var optionHelpText = specification.HelpText;
 
             if (addEnumValuesToHelpText && specification.EnumValues.Any())
-                optionHelpText += " Valid values: " + string.Join(", ", specification.EnumValues);
+                optionHelpText += " {0}: ".FormatInvariant(SentenceBuilder.ValidValuesPhrase()) + string.Join(", ", specification.EnumValues);
 
             specification.DefaultValue.Do(
-                defaultValue => optionHelpText = "(Default: {0}) ".FormatInvariant(FormatDefaultValue(defaultValue)) + optionHelpText);
+                defaultValue => optionHelpText = "({0}: {1}) ".FormatInvariant(SentenceBuilder.DefaultWord(), FormatDefaultValue(defaultValue)) + optionHelpText);
 
             if (specification.Required)
-                optionHelpText = "{0} ".FormatInvariant(requiredWord) + optionHelpText;
+                optionHelpText = "{0} ".FormatInvariant(SentenceBuilder.RequiredWord()) + optionHelpText;
 
             if (!string.IsNullOrEmpty(optionHelpText))
             {
@@ -894,8 +889,8 @@ namespace CommandLine.Text
             return new StringBuilder(maxLength)
                 .BimapIf(
                     specification.MetaName.Length > 0,
-                    it => it.AppendFormat("{0} (pos. {1})", specification.MetaName, specification.Index),
-                    it => it.AppendFormat("value pos. {0}", specification.Index))
+                    it => it.AppendFormat("{0} ({1} {2})", specification.MetaName, SentenceBuilder.PositionWord(), specification.Index),
+                    it => it.AppendFormat("{0} {1}", SentenceBuilder.ValuePositionPhrase(), specification.Index))
                 .AppendFormatWhen(
                     specification.MetaValue.Length > 0, " {0}", specification.MetaValue)
                 .ToString();
