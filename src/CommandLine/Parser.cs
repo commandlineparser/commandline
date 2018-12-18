@@ -99,6 +99,8 @@ namespace CommandLine
                     settings.NameComparer,
                     settings.CaseInsensitiveEnumValues,
                     settings.ParsingCulture,
+                    settings.AutoHelp,
+                    settings.AutoVersion,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -128,6 +130,8 @@ namespace CommandLine
                     settings.NameComparer,
                     settings.CaseInsensitiveEnumValues,
                     settings.ParsingCulture,
+                    settings.AutoHelp,
+                    settings.AutoVersion,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -158,6 +162,8 @@ namespace CommandLine
                     settings.NameComparer,
                     settings.CaseInsensitiveEnumValues,
                     settings.ParsingCulture,
+                    settings.AutoHelp,
+                    settings.AutoVersion,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }

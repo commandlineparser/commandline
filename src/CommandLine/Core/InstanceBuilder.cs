@@ -23,6 +23,8 @@ namespace CommandLine.Core
             StringComparer nameComparer,
             bool ignoreValueCase,
             CultureInfo parsingCulture,
+            bool autoHelp,
+            bool autoVersion,
             IEnumerable<ErrorType> nonFatalErrors)
         {
             var typeInfo = factory.MapValueOrDefault(f => f().GetType(), typeof(T));
@@ -139,7 +141,7 @@ namespace CommandLine.Core
 
             var preprocessorErrors = (
                     argumentsList.Any()
-                    ? argumentsList.Preprocess(PreprocessorGuards.Lookup(nameComparer))
+                    ? arguments.Preprocess(PreprocessorGuards.Lookup(nameComparer, autoHelp, autoVersion))
                     : Enumerable.Empty<Error>()
                 ).Memorize();
 

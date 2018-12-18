@@ -19,7 +19,7 @@ namespace CommandLine.Tests.Unit.Core
 {
     public class InstanceBuilderTests
     {
-        private static ParserResult<T> InvokeBuild<T>(string[] arguments)
+        private static ParserResult<T> InvokeBuild<T>(string[] arguments, bool autoHelp = true, bool autoVersion = true)
             where T : new()
         {
             return InstanceBuilder.Build(
@@ -29,6 +29,8 @@ namespace CommandLine.Tests.Unit.Core
                 StringComparer.Ordinal,
                 false,
                 CultureInfo.InvariantCulture,
+                autoHelp,
+                autoVersion,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -42,6 +44,8 @@ namespace CommandLine.Tests.Unit.Core
                 StringComparer.Ordinal,
                 true,
                 CultureInfo.InvariantCulture,
+                true,
+                true,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -54,6 +58,8 @@ namespace CommandLine.Tests.Unit.Core
                 StringComparer.Ordinal,
                 false,
                 CultureInfo.InvariantCulture,
+                true,
+                true,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -451,6 +457,8 @@ namespace CommandLine.Tests.Unit.Core
                 StringComparer.Ordinal,
                 false,
                 CultureInfo.InvariantCulture,
+                true,
+                true,
                 Enumerable.Empty<ErrorType>());
 
             // Verify outcome
@@ -1020,6 +1028,76 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             expected.ShouldBeEquivalentTo(((Parsed<Simple_Options>)result).Value.StringValue);
+
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(new[] { "--help" }, ErrorType.UnknownOptionError)]
+        public void Parse_without_auto_help_should_not_recognize_help_option(string[] arguments, ErrorType errorType)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options>(arguments, autoHelp: false);
+
+            // Verify outcome
+            result.Should().BeOfType<NotParsed<Simple_Options>>()
+                .Which.Errors.Should().ContainSingle()
+                .Which.Tag.Should().Be(errorType);
+
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(new[] { "--help" }, true)]
+        [InlineData(new[] { "-h" }, true)]
+        [InlineData(new[] { "-x" }, false)]
+        public void Parse_with_custom_help_option(string[] arguments, bool isHelp)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InvokeBuild<Options_With_Custom_Help_Option>(arguments, autoHelp: false);
+
+            // Verify outcome
+            result.Should().BeOfType<Parsed<Options_With_Custom_Help_Option>>()
+                .Which.Value.Help.Should().Be(isHelp);
+
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(new[] { "--version" }, ErrorType.UnknownOptionError)]
+        public void Parse_without_auto_version_should_not_recognize_version_option(string[] arguments, ErrorType errorType)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options>(arguments, autoVersion: false);
+
+            // Verify outcome
+            result.Should().BeOfType<NotParsed<Simple_Options>>()
+                .Which.Errors.Should().ContainSingle()
+                .Which.Tag.Should().Be(errorType);
+
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData(new[] { "--version" }, true)]
+        [InlineData(new[] { "-v" }, true)]
+        [InlineData(new[] { "-s", "s" }, false)]
+        public void Parse_with_custom_version_option(string[] arguments, bool isVersion)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InvokeBuild<Options_With_Custom_Version_Option>(arguments, autoVersion: false);
+
+            // Verify outcome
+            result.Should().BeOfType<Parsed<Options_With_Custom_Version_Option>>()
+                .Which.Value.MyVersion.Should().Be(isVersion);
 
             // Teardown
         }
