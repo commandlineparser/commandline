@@ -9,13 +9,14 @@ namespace CommandLine.Core
     static class PreprocessorGuards
     {
         public static IEnumerable<Func<IEnumerable<string>, IEnumerable<Error>>>
-            Lookup(StringComparer nameComparer)
+            Lookup(StringComparer nameComparer, bool autoHelp, bool autoVersion)
         {
-            return new List<Func<IEnumerable<string>, IEnumerable<Error>>>
-                {
-                    HelpCommand(nameComparer),
-                    VersionCommand(nameComparer)
-                };
+            var list = new List<Func<IEnumerable<string>, IEnumerable<Error>>>();
+            if (autoHelp)
+                list.Add(HelpCommand(nameComparer));
+            if (autoVersion)
+                list.Add(VersionCommand(nameComparer));
+            return list;
         }
 
         public static Func<IEnumerable<string>, IEnumerable<Error>> HelpCommand(StringComparer nameComparer)
