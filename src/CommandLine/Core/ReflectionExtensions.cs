@@ -89,10 +89,26 @@ namespace CommandLine.Core
             return specProps.Where(predicate).Aggregate(
                 instance,
                 (current, specProp) =>
-                    {
-                        specProp.Property.SetValue(current, selector(specProp));
-                        return instance;
-                    });
+                {
+                    TrySetValue(selector, specProp, current);
+                    return instance;
+                });
+        }
+
+        private static void TrySetValue<T>(
+            Func<SpecificationProperty, object> selector, 
+            SpecificationProperty specProp, 
+            T current)
+        {
+            try
+            {
+                specProp.Property.SetValue(current, selector(specProp));
+            }
+            catch (Exception ex)
+            {
+                throw CommandLineException.Create<T>(specProp, ex);
+            }
+
         }
 
         private static T SetValue<T>(this PropertyInfo property, T instance, object value)
