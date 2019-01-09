@@ -44,6 +44,7 @@ deploy:
     secure: hVyVwHl0JiVq0VxXB4VMRWbUtrGclIzadfnWFcWCQBLvbgMLahLBnWlwGglT63pZ
   artifact: NugetPackage
   prerelease: false
+  force_update: true #fsharp package runs as separate build job, so have to force_update to add fsharp.nuget added
   on:
     APPVEYOR_REPO_TAG: true
 
