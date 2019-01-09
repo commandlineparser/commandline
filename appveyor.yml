@@ -14,11 +14,6 @@ init:
         if($ver.StartsWith("v") -eq $true) { $ver = $ver.Substring(1) }
         Update-AppveyorBuild -Version $ver
       }
-      elseif([System.String]::IsNullOrEmpty($env:APPVEYOR_PULL_REQUEST_NUMBER) -eq $true) {
-        $ver = $env:APPVEYOR_BUILD_VERSION
-        $commit = $env:APPVEYOR_REPO_COMMIT.substring(0,7)
-        Update-AppveyorBuild -Version "$ver-$commit"
-      }
 
 environment:
   matrix:
