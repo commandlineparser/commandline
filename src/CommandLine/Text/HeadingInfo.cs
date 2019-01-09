@@ -57,14 +57,7 @@ namespace CommandLine.Text
             {
                 var title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
                     .MapValueOrDefault(
-                        titleAttribute =>
-                        {
-                            if (titleAttribute.Title.ToLowerInvariant().EndsWith(".dll"))
-                            {
-                                return titleAttribute.Title.Substring(0, titleAttribute.Title.Length - ".dll".Length);
-                            }
-                            return titleAttribute.Title;
-                        },
+                        titleAttribute => titleAttribute.Title,
                         ReflectionHelper.GetAssemblyName());
 
                 var version = ReflectionHelper.GetAttribute<AssemblyInformationalVersionAttribute>()

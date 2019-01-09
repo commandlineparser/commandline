@@ -24,6 +24,8 @@ namespace CommandLine.Tests.Unit.Core
                 StringComparer.Ordinal,
                 false,
                 CultureInfo.InvariantCulture,
+                true,
+                true,
                 Enumerable.Empty<ErrorType>());
         }
 
