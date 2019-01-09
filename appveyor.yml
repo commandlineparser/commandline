@@ -1,5 +1,5 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
-version: 2.3.{build}
+version: 2.4.0
 
 clone_depth: 1
 pull_requests:
