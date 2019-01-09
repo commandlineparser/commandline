@@ -41,7 +41,7 @@ on_failure:
 deploy:
 - provider: NuGet
   api_key:
-    secure: +Zxb8M5W+UJV1yd9n8seu3PvH/hGNPEmgriGBnsSmtxjKPQAJ4+iL7tKAmfPHAuG
+    secure: Ab4T/48EyIJhVrqkfKdUxmHUtseEVuXuyrGACxZ0KN35rb/BzABlBM2YjZojicvT
   artifact: 'NuGetPackages'
   on:
     APPVEYOR_REPO_TAG: true
