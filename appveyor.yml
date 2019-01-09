@@ -45,4 +45,3 @@ deploy:
   artifact: 'NuGetPackages'
   on:
     APPVEYOR_REPO_TAG: true
-
