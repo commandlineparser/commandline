@@ -31,7 +31,7 @@ after_test:
 
 artifacts:
 - path: 'src/CommandLine/bin/Release/*.nupkg'
-  name: NugetPackages
+  name: NuGetPackages
   
 on_failure:
 - cmd: |
@@ -42,7 +42,7 @@ deploy:
 - provider: GitHub
   auth_token:
     secure: hVyVwHl0JiVq0VxXB4VMRWbUtrGclIzadfnWFcWCQBLvbgMLahLBnWlwGglT63pZ
-  artifact: NugetPackage
+  artifact: 'NuGetPackages'
   prerelease: false
   force_update: true #fsharp package runs as separate build job, so have to force_update to add fsharp.nuget added
   on:
