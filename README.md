@@ -98,7 +98,7 @@ class Options
   public bool Verbose { get; set; }
   
   [Option("stdin",
-	Default = false
+	Default = false,
 	HelpText = "Read from stdin")]
   public bool stdin { get; set; }
 

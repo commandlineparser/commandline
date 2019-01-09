@@ -1,6 +1,5 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
-#if !SKIP_FSHARP
 using System.Reflection;
 using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
@@ -23,7 +22,7 @@ namespace CommandLine.Tests.Unit.Infrastructure
         public void Get_underlying_type()
         {
             FSharpOptionHelper.GetUnderlyingType(TestData.PropertyType).FullName
-                .ShouldBeEquivalentTo("System.String");
+                .Should().BeEquivalentTo("System.String");
         }
 
         [Fact]
@@ -49,4 +48,3 @@ namespace CommandLine.Tests.Unit.Infrastructure
         }
     }
 }
-#endif

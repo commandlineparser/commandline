@@ -1,8 +1,6 @@
-﻿#if !SKIP_FSHARP
+﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
+
 using System;
-#if PLATFORM_DOTNET
-using System.Reflection;
-#endif
 using CommandLine.Core;
 using Microsoft.FSharp.Core;
 
@@ -13,9 +11,6 @@ namespace CommandLine.Infrastructure
         public static Type GetUnderlyingType(Type type)
         {
             return type
-#if NETSTANDARD1_5
-                .GetTypeInfo()
-#endif
                 .GetGenericArguments()[0];
         }
 
@@ -52,4 +47,3 @@ namespace CommandLine.Infrastructure
         }
     }
 }
-#endif

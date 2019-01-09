@@ -35,7 +35,7 @@ namespace CommandLine.Tests.Unit.Core
                         Enumerable.Empty<Error>()),
                         optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.Ordinal));
             // Verify outcome
-            ((Ok<IEnumerable<Token>, Error>)result).Success.ShouldBeEquivalentTo(expectedTokens);
+            ((Ok<IEnumerable<Token>, Error>)result).Success.Should().BeEquivalentTo(expectedTokens);
 
             // Teardown
         }
@@ -59,7 +59,7 @@ namespace CommandLine.Tests.Unit.Core
                         optionName => NameLookup.HavingSeparator(optionName, specs, StringComparer.Ordinal));
 
             // Verify outcome
-            ((Ok<IEnumerable<Token>, Error>)result).Success.ShouldBeEquivalentTo(expectedTokens);
+            ((Ok<IEnumerable<Token>, Error>)result).Success.Should().BeEquivalentTo(expectedTokens);
 
             // Teardown
         }
@@ -87,7 +87,7 @@ namespace CommandLine.Tests.Unit.Core
                     ,nameLookup);
 
             // Verify outcome
-            result.ShouldBeEquivalentTo(expectedTokens);
+            result.Should().BeEquivalentTo(expectedTokens);
 
             // Teardown
         }
