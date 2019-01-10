@@ -7,6 +7,11 @@
     <DefineConstants Condition="'$(BuildTarget)' != 'fsharp'">$(DefineConstants);SKIP_FSHARP</DefineConstants>
     <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
+    <Authors>gsscoder;nemec;ericnewton76</Authors>
+    <Title>Command Line Parser Library</Title>
+    <Version Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">2.5.0</Version>
+    <Copyright>Copyright (c) 2005 - 2018 Giacomo Stelluti Scala &amp; Contributors</Copyright>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(BuildTarget)' != 'fsharp'">
@@ -24,6 +29,8 @@
     <PackageReference Include="FSharp.Core" Version="4.5.1" Condition="'$(BuildTarget)' == 'fsharp'" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
   </ItemGroup>
 
+  
 </Project>

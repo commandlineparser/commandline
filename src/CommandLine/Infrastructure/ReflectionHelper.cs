@@ -52,7 +52,12 @@ namespace CommandLine.Infrastructure
             }
 
             var assembly = GetExecutingOrEntryAssembly();
+
+#if NET40
+            var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
+#else
             var attributes = assembly.GetCustomAttributes<TAttribute>().ToArray();
+#endif
 
             return attributes.Length > 0
                 ? Maybe.Just((TAttribute)attributes[0])
