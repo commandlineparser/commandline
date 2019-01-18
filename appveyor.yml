@@ -1,5 +1,5 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
-version: 2.3.{build}
+version: 2.4.{build}
 
 clone_depth: 1
 pull_requests:
@@ -31,7 +31,7 @@ after_test:
 
 artifacts:
 - path: 'src/CommandLine/bin/Release/*.nupkg'
-  name: NugetPackages
+  name: NuGetPackages
   
 on_failure:
 - cmd: |
@@ -39,10 +39,18 @@ on_failure:
     appveyor PushArtifact .\files.lst -DeploymentName "Failed Build File Listing"
 
 deploy:
-- provider: NuGet
-  api_key:
-    secure: +Zxb8M5W+UJV1yd9n8seu3PvH/hGNPEmgriGBnsSmtxjKPQAJ4+iL7tKAmfPHAuG
+- provider: GitHub
+  auth_token:
+    secure: hVyVwHl0JiVq0VxXB4VMRWbUtrGclIzadfnWFcWCQBLvbgMLahLBnWlwGglT63pZ
   artifact: 'NuGetPackages'
+  prerelease: false
+  force_update: true #fsharp package runs as separate build job, so have to force_update to add fsharp.nuget added
   on:
     APPVEYOR_REPO_TAG: true
 
+- provider: NuGet
+  api_key:
+    secure: Ab4T/48EyIJhVrqkfKdUxmHUtseEVuXuyrGACxZ0KN35rb/BzABlBM2YjZojicvT
+  artifact: 'NuGetPackages'
+  on:
+    APPVEYOR_REPO_TAG: true
