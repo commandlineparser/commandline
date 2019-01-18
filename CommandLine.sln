@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "src\CommandLine\CommandLine.csproj", "{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine", "src\CommandLine\CommandLine.csproj", "{E1BD3C65-49C3-49E7-BABA-C60980CB3F20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Tests", "tests\CommandLine.Tests\CommandLine.Tests.csproj", "{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLine.Tests", "tests\CommandLine.Tests\CommandLine.Tests.csproj", "{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1361E8B1-D0E1-493E-B8C1-7380A7B7C472}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0A15C4D2-B3E9-43AB-8155-1B39F7AC8A5E} = {1361E8B1-D0E1-493E-B8C1-7380A7B7C472}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5B5A476C-82FB-49FB-B592-5224D9005186}
