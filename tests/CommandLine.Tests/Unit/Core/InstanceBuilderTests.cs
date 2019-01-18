@@ -1133,6 +1133,21 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Fact]
+        public void OptionClass_IsImmutable_HasNoCtor()
+        {
+            Action act = () => InvokeBuild<ValueWithNoSetterOptions>(new string[] { "Test" }, false, false);
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        private class ValueWithNoSetterOptions
+        {
+            [Value(0, MetaName = "Test", Default = 0)]
+            public int TestValue { get; }
+        }
+
+
         public static IEnumerable<object[]> RequiredValueStringData
         {
             get
