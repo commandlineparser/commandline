@@ -1,13 +1,9 @@
-#version should be changed with any pull requests
-version: 2.2.{build}
+#version should be only changed with RELEASE eminent, see RELEASE.md
+version: 2.4.{build}
 
 clone_depth: 1
 pull_requests:
   do_not_increment_build_number: true
-
-#cache:
-#- packages -> paket.dependencies
-#- paket-files > paket.dependencies
 
 init:
   - ps: |
@@ -18,50 +14,24 @@ init:
         if($ver.StartsWith("v") -eq $true) { $ver = $ver.Substring(1) }
         Update-AppveyorBuild -Version $ver
       }
-      elseif([System.String]::IsNullOrEmpty($env:APPVEYOR_PULL_REQUEST_NUMBER) -eq $true) {
-        $ver = $env:APPVEYOR_BUILD_VERSION
-        $commit = $env:APPVEYOR_REPO_COMMIT.substring(0,7)
-        Update-AppveyorBuild -Version "$ver-$commit"
-      }
-
-#version patching
-assembly_info:
-  file: src\SharedAssemblyInfo.cs
-  patch: true
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: $(APPVEYOR_BUILD_VERSION)
-dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version: '{version}'
-  package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
-
 
 environment:
   matrix:
     - BUILD_TARGET: base
-      NUSPEC_FILE: CommandLine
     - BUILD_TARGET: fsharp
-      NUSPEC_FILE: CommandLine.FSharp
 
 build_script:
-  - cmd: build.cmd %BUILD_TARGET%
+- cmd: dotnet build src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
 
-after_build:
-- ps: |
-    powershell get-childitem Release\* -include *.dll | foreach-object { "{0}`t{1}" -f $_.Path, [System.Diagnostics.FileVersionInfo]::GetVersionInfo($_).FileVersion }
-    
-    .\build-nuget-pack.cmd $env:BUILD_TARGET $env:NUSPEC_FILE
+test_script: 
+- cmd: dotnet test tests/CommandLine.Tests/ /p:BuildTarget=%BUILD_TARGET%
 
-test: auto
+after_test:
+- cmd: dotnet pack src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
 
 artifacts:
-- path: 'Release/**/*.nupkg'
-  name: NugetPackages
+- path: 'src/CommandLine/bin/Release/*.nupkg'
+  name: NuGetPackages
   
 on_failure:
 - cmd: |
@@ -69,11 +39,18 @@ on_failure:
     appveyor PushArtifact .\files.lst -DeploymentName "Failed Build File Listing"
 
 deploy:
-- provider: NuGet
-  api_key:
-    secure: +Zxb8M5W+UJV1yd9n8seu3PvH/hGNPEmgriGBnsSmtxjKPQAJ4+iL7tKAmfPHAuG
+- provider: GitHub
+  auth_token:
+    secure: hVyVwHl0JiVq0VxXB4VMRWbUtrGclIzadfnWFcWCQBLvbgMLahLBnWlwGglT63pZ
   artifact: 'NuGetPackages'
+  prerelease: false
+  force_update: true #fsharp package runs as separate build job, so have to force_update to add fsharp.nuget added
   on:
-    branch: /master|v\d+\.\d+\.\d+[.*]/
     APPVEYOR_REPO_TAG: true
 
+- provider: NuGet
+  api_key:
+    secure: Ab4T/48EyIJhVrqkfKdUxmHUtseEVuXuyrGACxZ0KN35rb/BzABlBM2YjZojicvT
+  artifact: 'NuGetPackages'
+  on:
+    APPVEYOR_REPO_TAG: true

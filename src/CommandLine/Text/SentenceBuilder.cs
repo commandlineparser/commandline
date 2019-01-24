@@ -137,6 +137,9 @@ namespace CommandLine.Text
                                 case ErrorType.RepeatedOptionError:
                                     return "Option '".JoinTo(((RepeatedOptionError)error).NameInfo.NameText,
                                         "' is defined multiple times.");
+                                case ErrorType.SetValueExceptionError:
+                                    var setValueError = (SetValueExceptionError)error;
+                                    return "Error setting value to option '".JoinTo(setValueError.NameInfo.NameText, "': ", setValueError.Exception.Message);
                             }
                             throw new InvalidOperationException();
                         };

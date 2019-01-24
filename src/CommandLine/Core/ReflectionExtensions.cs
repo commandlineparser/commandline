@@ -82,22 +82,16 @@ namespace CommandLine.Core
                                    : TargetType.Scalar;
         }
 
-        public static T SetProperties<T>(
+        public static IEnumerable<Error> SetProperties<T>(
             this T instance,
             IEnumerable<SpecificationProperty> specProps,
             Func<SpecificationProperty, bool> predicate,
             Func<SpecificationProperty, object> selector)
         {
-            return specProps.Where(predicate).Aggregate(
-                instance,
-                (current, specProp) =>
-                    {
-                        specProp.Property.SetValue(current, selector(specProp));
-                        return instance;
-                    });
+            return specProps.Where(predicate).SelectMany(specProp => specProp.SetValue(instance, selector(specProp)));
         }
 
-        private static T SetValue<T>(this PropertyInfo property, T instance, object value)
+        private static IEnumerable<Error> SetValue<T>(this SpecificationProperty specProp, T instance, object value)
         {
             Action<Exception> fail = inner => {
                 throw new InvalidOperationException(CannotSetValueToTargetInstance, inner);
@@ -105,25 +99,16 @@ namespace CommandLine.Core
             
             try
             {
-                property.SetValue(instance, value, null);
-            }
-#if !PLATFORM_DOTNET
-            catch (TargetException e)
-            {
-                fail(e);
-            }
-#endif
-            catch (TargetParameterCountException e)
-            {
-                fail(e);
-            }
-            catch (MethodAccessException e)
-            {
-                fail(e);
+                specProp.Property.SetValue(instance, value, null);
+                return Enumerable.Empty<Error>();
             }
             catch (TargetInvocationException e)
             {
-                fail(e);
+                return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e.InnerException, value) };
+            }
+            catch (Exception e)
+            {
+                 return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e, value) };
             }
             catch(ArgumentException e)
             {
@@ -186,47 +171,32 @@ namespace CommandLine.Core
 
         public static object StaticMethod(this Type type, string name, params object[] args)
         {
-#if NETSTANDARD1_5
-            MethodInfo method = type.GetTypeInfo().GetDeclaredMethod(name);
-            return method.Invoke(null, args);
-#else
             return type.GetTypeInfo().InvokeMember(
                 name,
                 BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
                 null,
                 null,
                 args);
-#endif
         }
 
         public static object StaticProperty(this Type type, string name)
         {
-#if NETSTANDARD1_5
-            PropertyInfo property = type.GetTypeInfo().GetDeclaredProperty(name);
-            return property.GetValue(null);
-#else
             return type.GetTypeInfo().InvokeMember(
                 name,
                 BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Static,
                 null,
                 null,
                 new object[] { });
-#endif
         }
 
         public static object InstanceProperty(this Type type, string name, object target)
         {
-#if NETSTANDARD1_5
-            PropertyInfo property = type.GetTypeInfo().GetDeclaredProperty(name);
-            return property.GetValue(target);
-#else
             return type.GetTypeInfo().InvokeMember(
                 name,
                 BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance,
                 null,
                 target,
                 new object[] { });
-#endif
         }
 
         public static bool IsPrimitiveEx(this Type type)
@@ -243,23 +213,5 @@ namespace CommandLine.Core
                    }.Contains(type)
                 || Convert.GetTypeCode(type) != TypeCode.Object;
         }
-
-
-#if NET40
-        public static Type GetTypeInfo(this Type type)
-        {
-            return type;
-        }
-#else
-        public static Attribute[] GetCustomAttributes(this Type type, Type attributeType, bool inherit)
-        {
-            return type.GetTypeInfo().GetCustomAttributes(attributeType, inherit).OfType<Attribute>().ToArray();
-        }
-
-        public static Attribute[] GetCustomAttributes(this Assembly assembly, Type attributeType, bool inherit)
-        {
-            return assembly.GetCustomAttributes(attributeType).ToArray();
-        }
-#endif
     }
 }

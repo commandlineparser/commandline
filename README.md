@@ -1,8 +1,8 @@
-[![Build status](https://img.shields.io/appveyor/ci/commandlineparser/commandline.svg)](https://ci.appveyor.com/project/commandlineparser/commandline)
-[![Nuget](https://img.shields.io/nuget/dt/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
-[![Nuget](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
-[![Nuget](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
-[![Join the gitter chat!](https://badges.gitter.im/gsscoder/commandline.svg)](https://gitter.im/gsscoder/commandline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build status](https://ci.appveyor.com/api/projects/status/p61dj8udxs2aocmo/branch/master?svg=true)](https://ci.appveyor.com/project/commandlineparser/commandline/branch/master)
+[![NuGet](https://img.shields.io/nuget/dt/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
+[![NuGet](https://img.shields.io/nuget/v/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
+[![NuGet](https://img.shields.io/nuget/vpre/commandlineparser.svg)](http://nuget.org/packages/commandlineparser)
+[![Join the Gitter chat!](https://badges.gitter.im/gsscoder/commandline.svg)](https://gitter.im/gsscoder/commandline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # Command Line Parser Library for CLR and NetStandard
 
@@ -11,7 +11,7 @@
 The Command Line Parser Library offers CLR applications a clean and concise API for manipulating command line arguments and related tasks, such as defining switches, options and verb commands. It allows you to display a help screen with a high degree of customization and a simple way to report syntax errors to the end user.
 
 ```
-C:\Project> Nuget Install CommandLineParser
+C:\Project> NuGet Install CommandLineParser
 ```
 
 _NOTE: Mentioned F# Support is provided via ```CommandLineParser.FSharp``` package with FSharp dependencies._
@@ -20,7 +20,7 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 
 # At a glance:
 
-- Compatible with __.NET Framework 4.0+__, __Mono 2.1+ Profile__, and __.Net Core__
+- Compatible with __.NET Framework 4.0+__, __Mono 2.1+ Profile__, and __.NET Core__
 - Doesn't depend on other packages (No dependencies beyond standard base libraries)
 - One line parsing using default singleton: `CommandLine.Parser.Default.ParseArguments(...)`.
 - Automatic or one line help screen generator: `HelpText.AutoBuild(...)`.
@@ -29,7 +29,7 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 - You can also map to every type with a constructor that accepts a string (like `System.Uri`).
 - Define [verb commands](https://github.com/commandlineparser/commandline/wiki#verbs) similar to `git commit -a`.
 - Unparsing support: `CommandLine.Parser.Default.FormatCommandLine<T>(T options)`.
-- CommandLineParser.FSharp package is F#-friendly with support for `option<'a>`, see [demo](https://github.com/commandlineparser/commandline/blob/master/demo/fsharp-demo.fsx).  _NOTE: This is a separate Nuget package._
+- CommandLineParser.FSharp package is F#-friendly with support for `option<'a>`, see [demo](https://github.com/commandlineparser/commandline/blob/master/demo/fsharp-demo.fsx).  _NOTE: This is a separate NuGet package._
 - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
 - C# demo: source [here](https://github.com/commandlineparser/commandline/tree/master/demo/ReadText.Demo).
 
@@ -37,7 +37,7 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 
 You can utilize the parser library in several ways:
 
-- Install via Nuget/Paket
+- Install via NuGet/Paket: [https://www.nuget.org/packages/CommandLineParser/](https://www.nuget.org/packages/CommandLineParser/)
 - Integrate directly into your project by copying the .cs files into your project.
 - ILMerge during your build process.
 
@@ -98,7 +98,7 @@ class Options
   public bool Verbose { get; set; }
   
   [Option("stdin",
-	Default = false
+	Default = false,
 	HelpText = "Read from stdin")]
   public bool stdin { get; set; }
 
@@ -131,7 +131,7 @@ let main argv =
   | :? NotParsed<options> as notParsed -> fail notParsed.Errors
 ```
 
-VB.Net:
+VB.NET:
 
 ```VB.NET
 Class Options
@@ -175,11 +175,11 @@ class AddOptions {
 }
 [Verb("commit", HelpText = "Record changes to the repository.")]
 class CommitOptions {
-  //normal options here
+  //commit options here
 }
 [Verb("clone", HelpText = "Clone a repository into a new directory.")]
 class CloneOptions {
-  //normal options here
+  //clone options here
 }
 
 int Main(string[] args) {
@@ -192,7 +192,7 @@ int Main(string[] args) {
 }
 ```
 
-VB.Net example:
+VB.NET example:
 
 ```VB.NET
 <CommandLine.Verb("add", HelpText:="Add file contents to the index.")>
@@ -249,7 +249,7 @@ let main args =
   | :? CommandLine.NotParsed<obj> -> 1
 ```
 
-# Contibutors
+# Contributors
 First off, _Thank you!_  All contributions are welcome.  
 
 Please consider sticking with the GNU getopt standard for command line parsing.  

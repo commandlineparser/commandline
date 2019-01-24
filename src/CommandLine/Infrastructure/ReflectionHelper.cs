@@ -52,12 +52,7 @@ namespace CommandLine.Infrastructure
             }
 
             var assembly = GetExecutingOrEntryAssembly();
-
-#if NET40
-            var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
-#else
             var attributes = assembly.GetCustomAttributes<TAttribute>().ToArray();
-#endif
 
             return attributes.Length > 0
                 ? Maybe.Just((TAttribute)attributes[0])
@@ -101,13 +96,7 @@ namespace CommandLine.Infrastructure
 
         private static Assembly GetExecutingOrEntryAssembly()
         {
-            var assembly = Assembly.GetEntryAssembly();
-
-#if !NETSTANDARD1_5
-            assembly = assembly ?? Assembly.GetExecutingAssembly();
-#endif
-
-            return assembly;
+            return Assembly.GetEntryAssembly();
         }
     }
 }

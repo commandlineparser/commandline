@@ -24,6 +24,8 @@ namespace CommandLine.Tests.Unit.Core
                 StringComparer.Ordinal,
                 false,
                 CultureInfo.InvariantCulture,
+                true,
+                true,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -39,7 +41,7 @@ namespace CommandLine.Tests.Unit.Core
                 new string[] { });
 
             // Verify outcome
-            ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
+            ((NotParsed<object>)result).Errors.Should().BeEquivalentTo(expectedErrors);
 
             // Teardown
         }
@@ -56,7 +58,7 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { "help" });
 
             // Verify outcome
-            ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
+            ((NotParsed<object>)result).Errors.Should().BeEquivalentTo(expectedErrors);
 
             // Teardown
         }
@@ -73,7 +75,7 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { "help", "commit" });
 
             // Verify outcome
-            ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
+            ((NotParsed<object>)result).Errors.Should().BeEquivalentTo(expectedErrors);
 
             // Teardown
         }
@@ -90,7 +92,7 @@ namespace CommandLine.Tests.Unit.Core
                 new[] { "help", "earthunderalienattack" });
 
             // Verify outcome
-            ((NotParsed<object>)result).Errors.ShouldBeEquivalentTo(expectedErrors);
+            ((NotParsed<object>)result).Errors.Should().BeEquivalentTo(expectedErrors);
 
             // Teardown
         }
@@ -108,7 +110,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.IsType<Add_Verb>(((Parsed<object>)result).Value);
-            expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
+            expected.Should().BeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }
 
@@ -125,7 +127,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.IsType<Immutable_Add_Verb>(((Parsed<object>)result).Value);
-            expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
+            expected.Should().BeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }
     
@@ -142,7 +144,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
-            expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
+            expected.Should().BeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }
 
@@ -163,7 +165,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Verify outcome
             Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
-            expected.ShouldBeEquivalentTo(((Parsed<object>)result).Value);
+            expected.Should().BeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
         }
     }

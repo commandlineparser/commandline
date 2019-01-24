@@ -62,6 +62,11 @@ namespace CommandLine
         /// </summary>
         VersionRequestedError,
         /// <summary>
+        /// Value of <see cref="CommandLine.SetValueExceptionError"/> type.
+        /// </summary>
+        SetValueExceptionError
+        VersionRequestedError,
+        /// <summary>
         /// Value of <see cref="CommandLine.InvalidAttributeConfigurationError"/> type.
         /// </summary>
         InvalidAttributeConfigurationError
@@ -476,18 +481,36 @@ namespace CommandLine
         }
     }
 
-
     /// <summary>
-    /// Models an error generated when an invalid token is detected.
+    /// Models as error generated when exception is thrown at Property.SetValue
     /// </summary>
-    public sealed class InvalidAttributeConfigurationError : Error
+    public sealed class SetValueExceptionError : NamedError
     {
-        public const string ErrorMessage = "Check if Option or Value attribute values are set properly for the given type.";
+        private readonly Exception exception;
+        private readonly object value;
 
-        internal InvalidAttributeConfigurationError()
-            : base(ErrorType.InvalidAttributeConfigurationError, true)
+        internal SetValueExceptionError(NameInfo nameInfo, Exception exception, object value)
+            : base(ErrorType.SetValueExceptionError, nameInfo)
         {
+            this.exception = exception;
+            this.value = value;
         }
-    }
 
+        /// <summary>
+        /// The expection thrown from Property.SetValue
+        /// </summary>
+        public Exception Exception
+        {
+            get { return exception; }
+        }
+
+        /// <summary>
+        /// The value that had to be set to the property
+        /// </summary>
+        public object Value
+        {
+            get { return value; }
+        }
+
+    }
 }
