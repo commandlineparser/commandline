@@ -2,13 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using CommandLine.Core;
 using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
-using CommandLine.Tests.Unit.Infrastructure;
 using CommandLine.Text;
 using FluentAssertions;
 using Xunit;
@@ -16,8 +13,13 @@ using System.Text;
 
 namespace CommandLine.Tests.Unit.Text
 {
-    public class HelpTextTests
+    public class HelpTextTests : IDisposable
     {
+        public void Dispose()
+        {
+            ReflectionHelper.SetAttributeOverride(null);
+        }
+
         [Fact]
         public void Create_empty_instance()
         {
@@ -573,91 +575,70 @@ namespace CommandLine.Tests.Unit.Text
         [Fact]
         public void AutoBuild_when_no_assembly_attributes()
         {
-            try
+            string expectedCopyright = "Copyright (C) 1 author";
+
+            ReflectionHelper.SetAttributeOverride(new Attribute[0]);
+
+            ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
+                TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
+            bool onErrorCalled = false;
+            HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => 
             {
-                string expectedCopyright = "Copyright (C) 1 author";
-
-                ReflectionHelper.SetAttributeOverride(new Attribute[0]);
-
-                ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
-                    TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
-                bool onErrorCalled = false;
-                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => 
-                {
-                    onErrorCalled = true;
-                    return ht;
-                }, ex => ex);
+                onErrorCalled = true;
+                return ht;
+            }, ex => ex);
                 
-                onErrorCalled.Should().BeTrue();
-                actualResult.Copyright.Should().Be(expectedCopyright);
-            }
-            finally
-            {
-                ReflectionHelper.SetAttributeOverride(null);
-            }
+            onErrorCalled.Should().BeTrue();
+            actualResult.Copyright.Should().Be(expectedCopyright);
         }
 
         [Fact]
         public void AutoBuild_with_assembly_title_and_version_attributes_only()
         {
-            try
+            string expectedTitle = "Title";
+            string expectedVersion = "1.2.3.4";
+
+            ReflectionHelper.SetAttributeOverride(new Attribute[]
             {
-                string expectedTitle = "Title";
-                string expectedVersion = "1.2.3.4";
+                new AssemblyTitleAttribute(expectedTitle),
+                new AssemblyInformationalVersionAttribute(expectedVersion)
+            });
 
-                ReflectionHelper.SetAttributeOverride(new Attribute[]
-                {
-                    new AssemblyTitleAttribute(expectedTitle),
-                    new AssemblyInformationalVersionAttribute(expectedVersion)
-                });
-
-                ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
-                    TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
-                bool onErrorCalled = false;
-                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht =>
-                {
-                    onErrorCalled = true;
-                    return ht;
-                }, ex => ex);
-
-                onErrorCalled.Should().BeTrue();
-                actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
-            }
-            finally
+            ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
+                TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
+            bool onErrorCalled = false;
+            HelpText actualResult = HelpText.AutoBuild(fakeResult, ht =>
             {
-                ReflectionHelper.SetAttributeOverride(null);
-            }
+                onErrorCalled = true;
+                return ht;
+            }, ex => ex);
+
+            onErrorCalled.Should().BeTrue();
+            actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
         }
 
 
         [Fact]
         public void AutoBuild_with_assembly_company_attribute_only()
         {
-            try
+            string expectedCompany = "Company";
+
+            ReflectionHelper.SetAttributeOverride(new Attribute[]
             {
-                string expectedCompany = "Company";
+                new AssemblyCompanyAttribute(expectedCompany)
+            });
 
-                ReflectionHelper.SetAttributeOverride(new Attribute[]
-                {
-                    new AssemblyCompanyAttribute(expectedCompany)
-                });
-
-                ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
-                    TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
-                bool onErrorCalled = false;
-                HelpText actualResult = HelpText.AutoBuild(fakeResult, ht =>
-                {
-                    onErrorCalled = true;
-                    return ht;
-                }, ex => ex);
-
-                onErrorCalled.Should().BeFalse(); // Other attributes have fallback logic
-                actualResult.Copyright.Should().Be(string.Format("Copyright (C) {0} {1}", DateTime.Now.Year, expectedCompany));
-            }
-            finally
+            ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
+                TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
+            bool onErrorCalled = false;
+            HelpText actualResult = HelpText.AutoBuild(fakeResult, ht =>
             {
-                ReflectionHelper.SetAttributeOverride(null);
-            }
+                onErrorCalled = true;
+                return ht;
+            }, ex => ex);
+
+            onErrorCalled.Should().BeFalse(); // Other attributes have fallback logic
+            actualResult.Copyright.Should().Be(string.Format("Copyright (C) {0} {1}", DateTime.Now.Year, expectedCompany));
         }
 
         [Fact]
