@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>CommandLine</AssemblyName>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0; net461; netcoreapp2.0</TargetFrameworks>
     <DefineConstants>$(DefineConstants);CSX_EITHER_INTERNAL;CSX_REM_EITHER_BEYOND_2;CSX_ENUM_INTERNAL;ERRH_INTERNAL;ERRH_DISABLE_INLINE_METHODS;CSX_MAYBE_INTERNAL;CSX_REM_EITHER_FUNC</DefineConstants>
     <DefineConstants Condition="'$(BuildTarget)' != 'fsharp'">$(DefineConstants);SKIP_FSHARP</DefineConstants>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
