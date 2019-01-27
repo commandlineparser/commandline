@@ -1133,7 +1133,22 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
-        public static IEnumerable<object[]> RequiredValueStringData
+        [Fact]
+        public void Build_DefaultBoolTypeString_ThrowsInvalidOperationException()
+        {
+            // Exercize system 
+            Action test = () => InvokeBuild<Options_With_InvalidDefaults>(
+                new string[] { });
+
+            // Verify outcome
+            test.ShouldThrow<InvalidOperationException>()
+                .WithMessage(ReflectionExtensions.CannotSetValueToTargetInstance)
+                .WithInnerException<ArgumentException>()
+                .WithInnerMessage(InvalidAttributeConfigurationError.ErrorMessage);
+        }
+
+
+        public static IEnumerable<object> RequiredValueStringData
         {
             get
             {

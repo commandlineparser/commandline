@@ -65,6 +65,11 @@ namespace CommandLine
         /// Value of <see cref="CommandLine.SetValueExceptionError"/> type.
         /// </summary>
         SetValueExceptionError
+        VersionRequestedError,
+        /// <summary>
+        /// Value of <see cref="CommandLine.InvalidAttributeConfigurationError"/> type.
+        /// </summary>
+        InvalidAttributeConfigurationError
     }
 
     /// <summary>
