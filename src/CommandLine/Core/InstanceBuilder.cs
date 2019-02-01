@@ -82,44 +82,19 @@ namespace CommandLine.Core
                 var specPropsWithValue =
                     optionSpecPropsResult.SucceededWith().Concat(valueSpecPropsResult.SucceededWith()).Memorize();
 
-                var setPropertyErrors = new List<Error>();                
+                var setPropertyErrors = new List<Error>();
 
-                Func <T> buildMutable = () =>
+                //build the instance, determining if the type is mutable or not.
+                T instance;
+                if(typeInfo.IsMutable() == true)
                 {
-                    var mutable = factory.MapValueOrDefault(f => f(), Activator.CreateInstance<T>());
-                    setPropertyErrors.AddRange(mutable.SetProperties(specPropsWithValue, sp => sp.Value.IsJust(), sp => sp.Value.FromJustOrFail()));
-                    setPropertyErrors.AddRange(mutable.SetProperties(
-                                                 specPropsWithValue,
-                                                 sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
-                                                 sp => sp.Specification.DefaultValue.FromJustOrFail()));
-                    setPropertyErrors.AddRange(mutable.SetProperties(
-                                                 specPropsWithValue,
-                                                 sp =>
-                                                     sp.Value.IsNothing() && sp.Specification.TargetType == TargetType.Sequence
-                                                     && sp.Specification.DefaultValue.MatchNothing(),
-                                                 sp => sp.Property.PropertyType.GetTypeInfo().GetGenericArguments().Single().CreateEmptyArray()));
-                     return mutable;
-                };
-
-                Func<T> buildImmutable = () =>
+                    instance = BuildMutable(factory, specPropsWithValue, setPropertyErrors);
+                }
+                else
                 {
-                    var ctor = typeInfo.GetTypeInfo().GetConstructor((from sp in specProps select sp.Property.PropertyType).ToArray());
-                    var values = (from prms in ctor.GetParameters()
-                        join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower() into spv
-                        from sp in spv.DefaultIfEmpty()
-                        select
-                          sp == null
-                            ? specProps.First(s => String.Equals(s.Property.Name, prms.Name, StringComparison.CurrentCultureIgnoreCase))
-                              .Property.PropertyType.GetDefaultValue()
-                            : sp.Value.GetValueOrDefault(
-                                sp.Specification.DefaultValue.GetValueOrDefault(
-                                    sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();
-                    var immutable = (T)ctor.Invoke(values);
-                    return immutable;
-                };
+                    instance = BuildImmutable(typeInfo, factory, specProps, specPropsWithValue, setPropertyErrors);
+                }
 
-                var instance = typeInfo.IsMutable() ? buildMutable() : buildImmutable();
-                
                 var validationErrors = specPropsWithValue.Validate(SpecificationPropertyRules.Lookup(tokens));
 
                 var allErrors =
@@ -150,5 +125,67 @@ namespace CommandLine.Core
 
             return result;
         }
+
+        private static T BuildMutable<T>(Maybe<Func<T>> factory, IEnumerable<SpecificationProperty> specPropsWithValue, List<Error> setPropertyErrors )
+        {
+            var mutable = factory.MapValueOrDefault(f => f(), Activator.CreateInstance<T>());
+
+            setPropertyErrors.AddRange(
+                mutable.SetProperties(
+                    specPropsWithValue, 
+                    sp => sp.Value.IsJust(), 
+                    sp => sp.Value.FromJustOrFail()
+                )
+            );
+
+            setPropertyErrors.AddRange(
+                mutable.SetProperties(
+                    specPropsWithValue,
+                    sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
+                    sp => sp.Specification.DefaultValue.FromJustOrFail()
+                )
+            );
+
+            setPropertyErrors.AddRange(
+                mutable.SetProperties(
+                    specPropsWithValue,
+                    sp => sp.Value.IsNothing() 
+                        && sp.Specification.TargetType == TargetType.Sequence 
+                        && sp.Specification.DefaultValue.MatchNothing(),
+                    sp => sp.Property.PropertyType.GetTypeInfo().GetGenericArguments().Single().CreateEmptyArray()
+                )
+            );
+
+            return mutable;
+        }
+
+        private static T BuildImmutable<T>(Type typeInfo, Maybe<Func<T>> factory, IEnumerable<SpecificationProperty> specProps, IEnumerable<SpecificationProperty> specPropsWithValue, List<Error> setPropertyErrors)
+        {
+            var ctor = typeInfo.GetTypeInfo().GetConstructor(
+                specProps.Select(sp => sp.Property.PropertyType).ToArray()
+            );
+
+            if(ctor == null)
+            {
+                throw new InvalidOperationException($"Type appears to be immutable, but no constructor found for type {typeInfo.FullName} to accept values.");
+            }
+
+            var values =
+                    (from prms in ctor.GetParameters()
+                     join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower() into spv
+                     from sp in spv.DefaultIfEmpty()
+                     select
+                 sp == null
+                        ? specProps.First(s => String.Equals(s.Property.Name, prms.Name, StringComparison.CurrentCultureIgnoreCase))
+                        .Property.PropertyType.GetDefaultValue()
+                        : sp.Value.GetValueOrDefault(
+                            sp.Specification.DefaultValue.GetValueOrDefault(
+                                sp.Specification.ConversionType.CreateDefaultForImmutable()))).ToArray();
+
+            var immutable = (T)ctor.Invoke(values);
+
+            return immutable;
+        }
+
     }
 }
