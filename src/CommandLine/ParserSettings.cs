@@ -44,7 +44,7 @@ namespace CommandLine
                     maximumDisplayWidth = DefaultMaximumLength;
                 }
             }
-            catch (IOException)
+            catch (Exception e) when (e is IOException || e is PlatformNotSupportedException)
             {
                 maximumDisplayWidth = DefaultMaximumLength;
             }
