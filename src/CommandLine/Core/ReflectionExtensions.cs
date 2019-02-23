@@ -14,6 +14,8 @@ namespace CommandLine.Core
 {
     static class ReflectionExtensions
     {
+        public const string CannotSetValueToTargetInstance = "Cannot set value to target instance.";
+
         public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
         {
             return from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
