@@ -1,6 +1,8 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
 version: 2.4.{build}
 
+image: Visual Studio 2017
+
 clone_depth: 1
 pull_requests:
   do_not_increment_build_number: true

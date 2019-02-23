@@ -128,12 +128,13 @@ namespace CommandLine.Core
 
         public static bool IsMutable(this Type type)
         {
-            Func<bool> isMutable = () => {
-                var props = type.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
-                var fields = type.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
-                return props || fields;
-            };
-            return type != typeof(object) ? isMutable() : true;
+            if(type == typeof(object))
+                return true;
+
+            var props = type.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
+            var fields = type.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
+
+            return props || fields;
         }
 
         public static object CreateDefaultForImmutable(this Type type)
