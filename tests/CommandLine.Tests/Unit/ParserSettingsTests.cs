@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommandLine.Text;
 using FluentAssertions;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace CommandLine.Tests.Unit
             {
                 using (ParserSettings parserSettings = new ParserSettings())
                 {
-                    parserSettings.HelpWriter = textWriter;
+                    parserSettings.HelpWriter = new HelpWriter(textWriter);
                 }
 
                 textWriter.Disposed.Should().BeFalse("not disposed");
