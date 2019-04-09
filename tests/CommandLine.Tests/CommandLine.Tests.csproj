@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
     <DefineConstants>$(DefineConstants);PLATFORM_DOTNET</DefineConstants>
     <DefineConstants Condition="'$(BuildTarget)' != 'fsharp'">$(DefineConstants);SKIP_FSHARP</DefineConstants>
     <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
@@ -13,7 +13,6 @@
     <Version Condition="'$(VersionSuffix)' == ''">2.5.0</Version>
     <Copyright>Copyright (c) 2005 - 2018 Giacomo Stelluti Scala &amp; Contributors</Copyright>
   </PropertyGroup>
-
   <ItemGroup Condition="'$(BuildTarget)' != 'fsharp'">
     <Compile Remove="Fakes\Options_With_FSharpOption.cs" />
     <Compile Remove="Unit\Infrastructure\FSharpOptionHelperTests.cs" />
@@ -29,8 +28,9 @@
     <PackageReference Include="FSharp.Core" Version="4.5.1" Condition="'$(BuildTarget)' == 'fsharp'" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+
   </ItemGroup>
 
-  
+
 </Project>

@@ -101,7 +101,9 @@ namespace CommandLine.Infrastructure
 
         private static Assembly GetExecutingOrEntryAssembly()
         {
-            return Assembly.GetEntryAssembly();
+            //resolve issues of null EntryAssembly in Xunit Test #392,424,389
+            //return Assembly.GetEntryAssembly();
+            return Assembly.GetEntryAssembly()??Assembly.GetCallingAssembly();
         }
     }
 }
