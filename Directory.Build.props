@@ -1,6 +1,6 @@
 <Project>
  <PropertyGroup>
-   <NoWarn>CS1591;8002;NU5125</NoWarn>
+   <NoWarn>CS1591;CS0219;8002;NU5125</NoWarn>
  </PropertyGroup>
  <PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
     <DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
