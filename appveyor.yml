@@ -1,5 +1,5 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
-version: 2.4.{build}
+version: 2.5.{build}
 
 image: Visual Studio 2017
 

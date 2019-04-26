@@ -1134,21 +1134,6 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Build_DefaultBoolTypeString_ThrowsInvalidOperationException()
-        {
-            // Exercize system 
-            Action test = () => InvokeBuild<Options_With_InvalidDefaults>(
-                new string[] { });
-
-            // Verify outcome
-            test.ShouldThrow<InvalidOperationException>()
-                .WithMessage(ReflectionExtensions.CannotSetValueToTargetInstance)
-                .WithInnerException<ArgumentException>()
-                .WithInnerMessage(InvalidAttributeConfigurationError.ErrorMessage);
-        }
-
-
-        [Fact]
         public void OptionClass_IsImmutable_HasNoCtor()
         {
             Action act = () => InvokeBuild<ValueWithNoSetterOptions>(new string[] { "Test" }, false, false);
@@ -1163,7 +1148,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
 
-        public static IEnumerable<object> RequiredValueStringData
+        public static IEnumerable<object[]> RequiredValueStringData
         {
             get
             {
