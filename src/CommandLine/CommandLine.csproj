@@ -8,6 +8,7 @@
     <DefineConstants Condition="'$(BuildTarget)' != 'fsharp'">$(DefineConstants);SKIP_FSHARP</DefineConstants>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
+	
     <SignAssembly>true</SignAssembly>
     <PackageId Condition="'$(BuildTarget)' != 'fsharp'">CommandLineParser</PackageId>
     <PackageId Condition="'$(BuildTarget)' == 'fsharp'">CommandLineParser.FSharp</PackageId>
