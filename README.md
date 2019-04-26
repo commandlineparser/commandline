@@ -27,7 +27,7 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 - Supports `--help`, `--version`, `version` and `help [verb]` by default.
 - Map to sequences (via `IEnumerable<T>` and similar) and scalar types, including Enums and `Nullable<T>`.
 - You can also map to every type with a constructor that accepts a string (like `System.Uri`).
-- Define [verb commands](https://github.com/commandlineparser/commandline/wiki#verbs) similar to `git commit -a`.
+- Define [verb commands](https://github.com/commandlineparser/commandline/wiki/Verbs) similar to `git commit -a`.
 - Unparsing support: `CommandLine.Parser.Default.FormatCommandLine<T>(T options)`.
 - CommandLineParser.FSharp package is F#-friendly with support for `option<'a>`, see [demo](https://github.com/commandlineparser/commandline/blob/master/demo/fsharp-demo.fsx).  _NOTE: This is a separate NuGet package._
 - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.

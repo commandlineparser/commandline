@@ -14,6 +14,8 @@ namespace CommandLine.Core
 {
     static class ReflectionExtensions
     {
+        public const string CannotSetValueToTargetInstance = "Cannot set value to target instance.";
+
         public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
         {
             return from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
@@ -91,6 +93,10 @@ namespace CommandLine.Core
 
         private static IEnumerable<Error> SetValue<T>(this SpecificationProperty specProp, T instance, object value)
         {
+            Action<Exception> fail = inner => {
+                throw new InvalidOperationException(CannotSetValueToTargetInstance, inner);
+            };
+            
             try
             {
                 specProp.Property.SetValue(instance, value, null);
@@ -104,6 +110,13 @@ namespace CommandLine.Core
             {
                  return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e, value) };
             }
+            catch(ArgumentException e)
+            {
+                var argEx = new ArgumentException(InvalidAttributeConfigurationError.ErrorMessage, e);
+                fail(argEx);
+            }
+
+            return instance;
         }
 
         public static object CreateEmptyArray(this Type type)
@@ -122,12 +135,13 @@ namespace CommandLine.Core
 
         public static bool IsMutable(this Type type)
         {
-            Func<bool> isMutable = () => {
-                var props = type.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
-                var fields = type.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
-                return props || fields;
-            };
-            return type != typeof(object) ? isMutable() : true;
+            if(type == typeof(object))
+                return true;
+
+            var props = type.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
+            var fields = type.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
+
+            return props || fields;
         }
 
         public static object CreateDefaultForImmutable(this Type type)
