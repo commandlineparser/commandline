@@ -1007,6 +1007,22 @@ namespace CommandLine.Tests.Unit.Core
             // Teardown
         }
 
+        [Fact]
+        public void Parse_default_bool_type_string_SetValueExceptionError()
+        {
+            // Fixture setup
+            string name = nameof(Options_With_InvalidDefaults.FileName).ToLower();
+            var expectedResult = new[] { new SetValueExceptionError(new NameInfo("", name),
+                new ArgumentException(InvalidAttributeConfigurationError.ErrorMessage), "bad") };
+
+            // Exercize system 
+            var result = InvokeBuild<Options_With_InvalidDefaults>(
+                new[] { name, "bad" });
+
+            // Verify outcome
+            ((NotParsed<Options_With_InvalidDefaults>)result).Errors.Should().BeEquivalentTo(expectedResult);
+        }
+
 
         [Theory]
         [InlineData(new[] { "--stringvalue", "x-" }, "x-")]
@@ -1132,6 +1148,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Teardown
         }
+
 
         [Fact]
         public void OptionClass_IsImmutable_HasNoCtor()

@@ -100,10 +100,18 @@ namespace CommandLine.Core
             {
                 return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e.InnerException, value) };
             }
+            catch (ArgumentException e)
+            {
+                var argEx = new ArgumentException(InvalidAttributeConfigurationError.ErrorMessage, e);
+
+                return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), argEx, value) };
+            }
+
             catch (Exception e)
             {
-                 return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e, value) };
+                return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e, value) };
             }
+
         }
 
         public static object CreateEmptyArray(this Type type)
