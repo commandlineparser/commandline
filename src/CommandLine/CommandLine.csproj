@@ -41,5 +41,7 @@
   <ItemGroup Condition="'$(TargetFramework)' != 'net40' and '$(BuildTarget)' == 'fsharp'">
     <PackageReference Include="FSharp.Core" Version="4.5.1" Condition="'$(BuildTarget)' == 'fsharp'" />
   </ItemGroup>
-
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40' and '$(BuildTarget)' == 'fsharp'">
+    <PackageReference Include="FSharp.Core" Version="4.0.0.1" Condition="'$(BuildTarget)' == 'fsharp'" />
+  </ItemGroup>
 </Project>
