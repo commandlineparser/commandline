@@ -2,18 +2,24 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <DefineConstants>$(DefineConstants);PLATFORM_DOTNET</DefineConstants>
+    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
     <DefineConstants Condition="'$(BuildTarget)' != 'fsharp'">$(DefineConstants);SKIP_FSHARP</DefineConstants>
     <AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
+    <Authors>gsscoder;nemec;ericnewton76</Authors>
+    <Title>Command Line Parser Library</Title>
+    <Version Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)</Version>
+    <Version Condition="'$(VersionSuffix)' == ''">2.5.0</Version>
+    <Copyright>Copyright (c) 2005 - 2018 Giacomo Stelluti Scala &amp; Contributors</Copyright>
+	<IsTestProject>true</IsTestProject>
   </PropertyGroup>
-
   <ItemGroup Condition="'$(BuildTarget)' != 'fsharp'">
     <Compile Remove="Fakes\Options_With_FSharpOption.cs" />
     <Compile Remove="Unit\Infrastructure\FSharpOptionHelperTests.cs" />
   </ItemGroup>
-
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('netcoreapp'))">
+    <DefineConstants>$(DefineConstants);PLATFORM_DOTNET</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CommandLine\CommandLine.csproj" />
   </ItemGroup>
@@ -22,8 +28,11 @@
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="FsCheck" Version="2.11.0" />
     <PackageReference Include="FSharp.Core" Version="4.5.1" Condition="'$(BuildTarget)' == 'fsharp'" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+
   </ItemGroup>
+
 
 </Project>

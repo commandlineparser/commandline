@@ -52,7 +52,12 @@ namespace CommandLine.Infrastructure
             }
 
             var assembly = GetExecutingOrEntryAssembly();
+
+#if NET40
+            var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
+#else
             var attributes = assembly.GetCustomAttributes<TAttribute>().ToArray();
+#endif
 
             return attributes.Length > 0
                 ? Maybe.Just((TAttribute)attributes[0])
@@ -93,7 +98,9 @@ namespace CommandLine.Infrastructure
 
         private static Assembly GetExecutingOrEntryAssembly()
         {
-            return Assembly.GetEntryAssembly();
+            //resolve issues of null EntryAssembly in Xunit Test #392,424,389
+            //return Assembly.GetEntryAssembly();
+            return Assembly.GetEntryAssembly()??Assembly.GetCallingAssembly();
         }
     }
 }
