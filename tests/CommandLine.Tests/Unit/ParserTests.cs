@@ -326,7 +326,7 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Explicit_version_request_generates_version_info_screen()
         {
             // Fixture setup
@@ -345,12 +345,12 @@ namespace CommandLine.Tests.Unit
             lines[0].Should().StartWithEquivalent("CommandLine");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[0].Should().StartWithEquivalent("testhost");
 #endif
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Implicit_help_screen_in_verb_scenario()
         {
             // Fixture setup
@@ -369,8 +369,8 @@ namespace CommandLine.Tests.Unit
             lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            lines[0].Should().StartWithEquivalent("testhost");
+            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
 #endif
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("No verb selected.");
@@ -382,7 +382,7 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Double_dash_help_dispalys_verbs_index_in_verbs_scenario()
         {
             // Fixture setup
@@ -400,8 +400,8 @@ namespace CommandLine.Tests.Unit
             lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            lines[0].Should().StartWithEquivalent("testhost");
+            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
 #endif
             lines[2].Should().BeEquivalentTo("add        Add file contents to the index.");
             lines[3].Should().BeEquivalentTo("commit     Record changes to the repository.");
@@ -411,7 +411,7 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-        //[Theory]
+        [Theory]
         [InlineData("--version")]
         [InlineData("version")]
         public void Explicit_version_request_generates_version_info_screen_in_verbs_scenario(string command)
@@ -432,12 +432,12 @@ namespace CommandLine.Tests.Unit
             lines[0].Should().StartWithEquivalent("CommandLine");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
+            lines[0].Should().StartWithEquivalent("testhost");
 #endif
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Errors_of_type_MutuallyExclusiveSetError_are_properly_formatted()
         {
             // Fixture setup
@@ -455,8 +455,8 @@ namespace CommandLine.Tests.Unit
             lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            lines[0].Should().StartWithEquivalent("testhost");
+            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
 #endif
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Option: 'weburl' is not compatible with: 'ftpurl'.");
@@ -485,7 +485,7 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Properly_formatted_help_screen_is_displayed_when_usage_is_defined_in_verb_scenario()
         {
             // Fixture setup
@@ -508,8 +508,8 @@ namespace CommandLine.Tests.Unit
             lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            lines[0].Should().StartWithEquivalent("testhost");
+            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
 #endif
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Option 'badoption' is unknown.");
@@ -530,7 +530,7 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-         //[Fact]
+         [Fact]
         public void Properly_formatted_help_screen_is_displayed_when_there_is_a_hidden_verb()
         {
             // Fixture setup
@@ -548,8 +548,8 @@ namespace CommandLine.Tests.Unit
             lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            lines[0].Should().StartWithEquivalent("testhost");
+            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
 #endif
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("No verb selected.");
@@ -560,7 +560,7 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Properly_formatted_help_screen_is_displayed_when_there_is_a_hidden_verb_selected_usage_displays_with_hidden_option()
         {
             // Fixture setup
@@ -578,8 +578,8 @@ namespace CommandLine.Tests.Unit
             lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            lines[0].Should().StartWithEquivalent("testhost");
+            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
 #endif
             lines[2].Should().BeEquivalentTo("-f, --force    Allow adding otherwise ignored files.");
             lines[3].Should().BeEquivalentTo("--help         Display this help screen.");
@@ -627,7 +627,7 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Specific_verb_help_screen_should_be_displayed_regardless_other_argument()
         {
             // Fixture setup
@@ -650,8 +650,8 @@ namespace CommandLine.Tests.Unit
             lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            lines[0].Should().StartWithEquivalent("testhost");
+            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
 #endif
             lines[2].Should().BeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
             lines[3].Should().BeEquivalentTo("filesystem by copying files.");
@@ -701,7 +701,7 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Properly_formatted_help_screen_excludes_help_as_unknown_option()
         {
             // Fixture setup
@@ -724,8 +724,8 @@ namespace CommandLine.Tests.Unit
             lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            lines[0].Should().StartWithEquivalent("testhost");
+            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
 #endif
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Option 'bad-arg' is unknown.");
