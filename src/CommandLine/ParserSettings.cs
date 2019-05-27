@@ -25,6 +25,7 @@ namespace CommandLine
         private CultureInfo parsingCulture;
         private bool enableDashDash;
         private int maximumDisplayWidth;
+        private bool allowMultiInstance;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
@@ -172,6 +173,15 @@ namespace CommandLine
         {
             get { return maximumDisplayWidth; }
             set { maximumDisplayWidth = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether options are allowed to be specified multiple times.
+        /// </summary>
+        public bool AllowMultiInstance
+        {
+            get => allowMultiInstance;
+            set => PopsicleSetter.Set(Consumed, ref allowMultiInstance, value);
         }
 
         internal StringComparer NameComparer
