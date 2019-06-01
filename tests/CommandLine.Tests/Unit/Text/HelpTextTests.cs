@@ -494,6 +494,28 @@ namespace CommandLine.Tests.Unit.Text
             lines[10].Should().BeEquivalentTo("  mono testapp.exe value");
         }
 
+        [Fact]
+        public static void RenderUsageText_returns_proper_text_for_required_enum_option()
+        {
+            // Fixture setup
+            ParserResult<Required_Enum_Option_With_Usage_Attribute> result =
+                new NotParsed<Required_Enum_Option_With_Usage_Attribute>(
+                    TypeInfo.Create(typeof(Required_Enum_Option_With_Usage_Attribute)), Enumerable.Empty<Error>());
+
+            // Exercize system
+            var text = HelpText.RenderUsageText(result);
+
+            // Verify outcome
+            var lines = text.ToNotEmptyLines();
+
+            lines[0].Should().BeEquivalentTo("T0:");
+            lines[1].Should().BeEquivalentTo("  testapp.exe --type T0");
+            lines[2].Should().BeEquivalentTo("T1:");
+            lines[3].Should().BeEquivalentTo("  testapp.exe --type T1");
+
+            // Teardown
+        }
+
         //[Fact]
         public void Invoke_AutoBuild_for_Options_with_Usage_returns_appropriate_formatted_text()
         {

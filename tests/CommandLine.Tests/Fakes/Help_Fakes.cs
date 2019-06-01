@@ -93,6 +93,28 @@ namespace CommandLine.Tests.Fakes
         }
     }
 
+    class Required_Enum_Option_With_Usage_Attribute
+    {
+        [Option('t', "type", Required = true, HelpText = "My entity")]
+        public EntityType MyEntityType { get; set; }
+
+        public enum EntityType
+        {
+            T0,
+            T1
+        }
+
+        [Usage(ApplicationAlias = "testapp.exe")]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                yield return new Example(EntityType.T0.ToString(), new Required_Enum_Option_With_Usage_Attribute { MyEntityType = EntityType.T0 });
+                yield return new Example(EntityType.T1.ToString(), new Required_Enum_Option_With_Usage_Attribute { MyEntityType = EntityType.T1 });
+            }
+        }
+    }
+
     [Verb("secert", Hidden = true, HelpText = "This is a secert hidden verb that should never be visible to the user via help text.")]
     public class Secert_Verb
     {
