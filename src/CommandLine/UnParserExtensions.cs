@@ -248,6 +248,7 @@ namespace CommandLine
 #if !SKIP_FSHARP
             if (ReflectionHelper.IsFSharpOptionType(value.GetType()) && !FSharpOptionHelper.IsSome(value)) return true;
 #endif
+            if (value is Enum) return false;
             if (value is ValueType && value.Equals(value.GetType().GetDefaultValue())) return true;
             if (value is string && ((string)value).Length == 0) return true;
             if (value is IEnumerable && !((IEnumerable)value).GetEnumerator().MoveNext()) return true;
