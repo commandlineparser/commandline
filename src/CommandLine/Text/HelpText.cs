@@ -21,6 +21,18 @@ namespace CommandLine.Text
     {
         private const int BuilderCapacity = 128;
         private const int DefaultMaximumLength = 80; // default console width
+        /// <summary>
+        /// The number of spaces between an option and its associated help text
+        /// </summary>
+        private const int OptionToHelpTextSeparatorWidth = 4; 
+        /// <summary>
+        /// The width of the option prefix (either "--" or "  "
+        /// </summary>
+        private const int OptionPrefixWidth = 2;
+        /// <summary>
+        /// The total amount of extra space that needs to accounted for when indenting Option help text
+        /// </summary>
+        private const int TotalOptionPadding = OptionToHelpTextSeparatorWidth + OptionPrefixWidth;
         private readonly StringBuilder preOptionsHelp;
         private readonly StringBuilder postOptionsHelp;
         private readonly SentenceBuilder sentenceBuilder;
@@ -608,7 +620,7 @@ namespace CommandLine.Text
                 var styles = example.GetFormatStylesOrDefault();
                 foreach (var s in styles)
                 {
-                    var commandLine = new StringBuilder(2.Spaces())
+                    var commandLine = new StringBuilder(OptionPrefixWidth.Spaces())
                         .Append(appAlias)
                         .Append(' ')
                         .Append(Parser.Default.FormatCommandLine(example.Sample,
@@ -645,7 +657,7 @@ namespace CommandLine.Text
                 .ToString();
         }
 
-        internal static void AddLine(StringBuilder builder, string value, int maximumLength)
+     internal static void AddLine(StringBuilder builder, string value, int maximumLength)
         {
             if (builder == null)
             {
@@ -665,37 +677,7 @@ namespace CommandLine.Text
             value = value.TrimEnd();
 
             builder.AppendWhen(builder.Length > 0, Environment.NewLine);
-            do
-            {
-                var wordBuffer = 0;
-                var words = value.Split(' ');
-                for (var i = 0; i < words.Length; i++)
-                {
-                    if (words[i].Length < (maximumLength - wordBuffer))
-                    {
-                        builder.Append(words[i]);
-                        wordBuffer += words[i].Length;
-                        if ((maximumLength - wordBuffer) > 1 && i != words.Length - 1)
-                        {
-                            builder.Append(" ");
-                            wordBuffer++;
-                        }
-                    }
-                    else if (words[i].Length >= maximumLength && wordBuffer == 0)
-                    {
-                        builder.Append(words[i].Substring(0, maximumLength));
-                        wordBuffer = maximumLength;
-                        break;
-                    }
-                    else
-                        break;
-                }
-                value = value.Substring(Math.Min(wordBuffer, value.Length));
-                builder.AppendWhen(value.Length > 0, Environment.NewLine);
-            }
-            while (value.Length > maximumLength);
-
-            builder.Append(value);
+            builder.Append(WrapAndIndentText(value, 0, maximumLength));
         }
 
         private IEnumerable<Specification> GetSpecificationsFromType(Type type)
@@ -748,7 +730,7 @@ namespace CommandLine.Text
             return optionSpecs;
         }
 
-        private HelpText AddOptionsImpl(
+       private HelpText AddOptionsImpl(
             IEnumerable<Specification> specifications,
             string requiredWord,
             int maximumLength)
@@ -757,7 +739,7 @@ namespace CommandLine.Text
 
             optionsHelp = new StringBuilder(BuilderCapacity);
 
-            var remainingSpace = maximumLength - (maxLength + 6);
+            var remainingSpace = maximumLength - (maxLength + TotalOptionPadding);
 
             specifications.ForEach(
                 option =>
@@ -809,7 +791,7 @@ namespace CommandLine.Text
 
             optionsHelp
                 .Append(name.Length < maxLength ? name.ToString().PadRight(maxLength) : name.ToString())
-                .Append("    ");
+                .Append(OptionToHelpTextSeparatorWidth.Spaces());
 
             var optionHelpText = specification.HelpText;
 
@@ -821,44 +803,13 @@ namespace CommandLine.Text
 
             if (specification.Required)
                 optionHelpText = "{0} ".FormatInvariant(requiredWord) + optionHelpText;
-
-            if (!string.IsNullOrEmpty(optionHelpText))
-            {
-                do
-                {
-                    var wordBuffer = 0;
-                    var words = optionHelpText.Split(' ');
-                    for (var i = 0; i < words.Length; i++)
-                    {
-                        if (words[i].Length < (widthOfHelpText - wordBuffer))
-                        {
-                            optionsHelp.Append(words[i]);
-                            wordBuffer += words[i].Length;
-                            if ((widthOfHelpText - wordBuffer) > 1 && i != words.Length - 1)
-                            {
-                                optionsHelp.Append(" ");
-                                wordBuffer++;
-                            }
-                        }
-                        else if (words[i].Length >= widthOfHelpText && wordBuffer == 0)
-                        {
-                            optionsHelp.Append(words[i].Substring(0, widthOfHelpText));
-                            wordBuffer = widthOfHelpText;
-                            break;
-                        }
-                        else
-                            break;
-                    }
-
-                    optionHelpText = optionHelpText.Substring(Math.Min(wordBuffer, optionHelpText.Length)).Trim();
-                    optionsHelp.AppendWhen(optionHelpText.Length > 0, Environment.NewLine,
-                        new string(' ', maxLength + 6));
-                }
-                while (optionHelpText.Length > widthOfHelpText);
-            }
-
+          
+            //note that we need to indent trim the start of the string because it's going to be 
+            //appended to an existing line that is as long as the indent-level
+            var indented = WrapAndIndentText(optionHelpText, maxLength+TotalOptionPadding, widthOfHelpText).TrimStart();
+          
             optionsHelp
-                .Append(optionHelpText)
+                .Append(indented)
                 .Append(Environment.NewLine)
                 .AppendWhen(additionalNewLineAfterOption, Environment.NewLine);
 
@@ -944,13 +895,13 @@ namespace CommandLine.Text
             {
                 specLength += spec.LongName.Length;
                 if (AddDashesToOption)
-                    specLength += 2;
+                    specLength += OptionPrefixWidth;
 
                 specLength += metaLength;
             }
 
             if (hasShort && hasLong)
-                specLength += 2; // ", "
+                specLength += OptionPrefixWidth; 
 
             return specLength;
         }
@@ -997,5 +948,107 @@ namespace CommandLine.Text
                 ? builder.ToString(0, builder.Length - 1)
                 : string.Empty;
         }
+
+           /// <summary>
+        /// Splits a string into a words and performs wrapping while also preserving line-breaks and sub-indentation
+        /// </summary>
+        /// <param name="input">The string to wrap</param>
+        /// <param name="indentLevel">The amount of padding at the start of each string</param>
+        /// <param name="columnWidth">The number of characters we can use for text</param>
+        /// <remarks>
+        /// The use of "width" is slightly confusing in other methods.  In this method, the columnWidth
+        /// parameter is the number of characters we can use for text regardless of the indent level.
+        /// For example, if columnWidth is 10 and indentLevel is 2, the input
+        /// "a string for wrapping 01234567890123"
+        /// would return
+        /// "  a string" + newline +
+        /// "  for"   + newline +
+        /// "  wrapping" + newline +
+        /// "  0123456789" + newline +
+        /// "  0123"          
+        /// </remarks>
+        /// <returns>A string that has been word-wrapped with padding on each line to indent it</returns>
+        private static string WrapAndIndentText(string input,int indentLevel,int columnWidth)
+        {
+            //start by splitting at newlines and then reinserting the newline as a separate word
+            var lines = input.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+            var lineCount = lines.Length;
+            
+            var tokens = lines
+                        .Zip(new string[lineCount], (a, _) => new string[] {a, Environment.NewLine}) 
+                        .SelectMany(linePair=>linePair)
+                        .Take(lineCount * 2 - 1);
+            
+            //split into words 
+            var words= tokens
+                        .SelectMany(l=>l.Split(' ')); 
+            
+            //create a list of individual indented lines 
+            var wrappedLines = words
+                        .Aggregate<string,List<StringBuilder>>(
+                            new List<StringBuilder>(),
+                            (lineList,word)=>AddWordToLastLineOrCreateNewLineIfNecessary(lineList,word,columnWidth)
+                            )
+                        .Select(builder => indentLevel.Spaces() +  builder.ToString().TrimEnd());
+            
+            //return the whole thing as a single string
+            return string.Join(Environment.NewLine,wrappedLines);
+        }
+
+        /// <summary>
+        /// When presented with a word, either append to the last line in the list or start a new line
+        /// </summary>
+        /// <param name="lines">A list of stringbuilders containing results so far</param>
+        /// <param name="word">The individual word to append</param>
+        /// <param name="columnWidth">The usable text space</param>
+        /// <remarks>
+        /// The 'word' can actually be an empty string or a linefeed.  It's important to keep these -
+        /// empty strings allow us to preserve indentation and extra spaces within a line and linefeeds
+        /// allow us to honour the users formatting wishes when the pass in multi-line helptext.
+        /// </remarks>
+        /// <returns>The same list as is passed in</returns>
+        private static List<StringBuilder> AddWordToLastLineOrCreateNewLineIfNecessary(List<StringBuilder> lines, string word,int columnWidth)
+        {
+            if (word == Environment.NewLine)
+            {
+                //A newline token just means advance to the next line.
+                lines.Add(new StringBuilder());
+                return lines;
+            }
+            //The current indentLevel is based on the previous line.  
+            var previousLine = lines.LastOrDefault()?.ToString() ??string.Empty;
+            var currentIndentLevel = previousLine.Length - previousLine.TrimStart().Length;
+
+            var wouldWrap = !lines.Any() || previousLine.Length + word.Length > columnWidth;
+          
+            if (!wouldWrap)
+            {
+                //The usual case is we just append the 'word' and a space to the current line
+                //Note that trailing spaces will get removed later when we turn the line list 
+                //into a single string
+                lines.Last().Append(word + ' ');
+            }
+            else
+            {
+                //The 'while' here is to take account of the possibility of someone providing a word
+                //which just can't fit in the current column.  In that case we just split it at the 
+                //column end.
+                //That's a rare case though - most of the time we'll succeed in a single pass without
+                //having to split
+                while (word.Length >0)
+                {
+                    var availableCharacters = Math.Min(columnWidth - currentIndentLevel,word.Length);
+                    
+                    var segmentToAdd = currentIndentLevel.Spaces() +
+                                    word.Substring(0, availableCharacters) + ' ';
+
+                    lines.Add(new StringBuilder(segmentToAdd));
+                    word = word.Substring(availableCharacters);
+                }
+            }
+            return lines;
+        }
+
+
     }
 }
