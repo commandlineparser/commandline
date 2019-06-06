@@ -718,5 +718,24 @@ namespace CommandLine.Tests.Unit.Text
         }
 
 
+        [Fact]
+        public void HelpTextIsConsitentRegardlessOfCompileTimeLineStyle()
+        {
+            // Fixture setup
+            // Exercize system 
+            var sut = new HelpText {AddDashesToOption = true}
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(HelpTextWithMixedLineBreaks_Options)),
+                    Enumerable.Empty<Error>()));
+
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines();
+            lines[0].Should().BeEquivalentTo("  --stringvalue    This is a help text description");
+            lines[1].Should().BeEquivalentTo("                     It has multiple lines.");
+            lines[2].Should().BeEquivalentTo("                     Third line");
+         
+            // Teardown
+        }
+
     }
 }
