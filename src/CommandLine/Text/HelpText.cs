@@ -657,7 +657,7 @@ namespace CommandLine.Text
                 .ToString();
         }
 
-     internal static void AddLine(StringBuilder builder, string value, int maximumLength)
+        internal static void AddLine(StringBuilder builder, string value, int maximumLength)
         {
             if (builder == null)
             {
@@ -730,7 +730,7 @@ namespace CommandLine.Text
             return optionSpecs;
         }
 
-       private HelpText AddOptionsImpl(
+        private HelpText AddOptionsImpl(
             IEnumerable<Specification> specifications,
             string requiredWord,
             int maximumLength)
