@@ -971,7 +971,12 @@ namespace CommandLine.Text
         private static string WrapAndIndentText(string input,int indentLevel,int columnWidth)
         {
             //start by splitting at newlines and then reinserting the newline as a separate word
-            var lines = input.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+            //Note that on the input side, we can't assume the line-break style at run time so we have to
+            //be able to handle both.  We cant use Environment.NewLine because that changes at
+            //_runtime_ and may not match the line-break style that was compiled in
+            var lines = input
+                .Replace("\r","")
+                .Split(new[] {'\n'}, StringSplitOptions.None);
             var lineCount = lines.Length;
             
             var tokens = lines
