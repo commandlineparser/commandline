@@ -36,9 +36,10 @@ namespace CommandLine.Tests.Unit
 
                 config.HelpTextConfiguration = HelpTextConfiguration.Default
                     .WithHelpWriter(help)
-                    .WithWidth(50)
+                    .WithDisplayWidth(50)
                     .WithConfigurer(h => h.AddEnumValuesToHelpText = true);
             });
+
 
             //There seems to a bug that prevents "help VERB" outputing anything if
             //the parser is only supplied one option class so this test provides
