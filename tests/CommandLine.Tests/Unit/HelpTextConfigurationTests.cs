@@ -36,6 +36,7 @@ namespace CommandLine.Tests.Unit
 
                 config.HelpTextConfiguration = HelpTextConfiguration.Default
                     .WithHelpWriter(help)
+                    .WithWidth(50)
                     .WithConfigurer(h => h.AddEnumValuesToHelpText = true);
             });
 

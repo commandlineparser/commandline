@@ -15,8 +15,6 @@ namespace CommandLine
     /// </summary>
     public class ParserSettings : IDisposable
     {
-        private const int DefaultMaximumLength = 80; // default console width
-
         private bool disposed;
         private bool caseSensitive;
         private bool caseInsensitiveEnumValues;
@@ -26,8 +24,7 @@ namespace CommandLine
         private bool autoVersion;
         private CultureInfo parsingCulture;
         private bool enableDashDash;
-        private int maximumDisplayWidth;
-
+    
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
         /// </summary>
@@ -40,15 +37,13 @@ namespace CommandLine
             parsingCulture = CultureInfo.InvariantCulture;
             try
             {
-                maximumDisplayWidth = Console.WindowWidth;
-                if (maximumDisplayWidth < 1)
+                if (Console.WindowWidth >= 1)
                 {
-                    maximumDisplayWidth = DefaultMaximumLength;
+                    HelpTextConfiguration=HelpTextConfiguration.WithDisplayWidth(Console.WindowWidth);
                 }
             }
             catch (IOException)
             {
-                maximumDisplayWidth = DefaultMaximumLength;
             }
         }
 
@@ -178,10 +173,14 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets the maximum width of the display.  This determines word wrap when displaying the text.
         /// </summary>
+        /// <remarks>
+        /// REVIEW - this is provided only for backwards compatibility.  Ideally it would be deprecated and the display width
+        /// accessed solely through HelpTextConfiguration
+        /// </remarks>
         public int MaximumDisplayWidth
         {
-            get { return maximumDisplayWidth; }
-            set { maximumDisplayWidth = value; }
+            get { return HelpTextConfiguration.DisplayWidth; }
+            set { HelpTextConfiguration = HelpTextConfiguration.WithDisplayWidth(value); }
         }
 
         internal StringComparer NameComparer

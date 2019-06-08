@@ -314,7 +314,7 @@ namespace CommandLine.Text
         //in a HelpTextConfiguration object
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = HelpTextConfiguration.DefaultMaximumLength)
         {
-            return AutoBuild(parserResult,  HelpTextConfiguration.Default.WithWidth(maxDisplayWidth));
+            return AutoBuild(parserResult,  HelpTextConfiguration.Default.WithDisplayWidth(maxDisplayWidth));
         }
 
 

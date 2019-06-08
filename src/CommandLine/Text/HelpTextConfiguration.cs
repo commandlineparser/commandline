@@ -68,7 +68,7 @@ namespace CommandLine.Text
         /// <summary>
         /// Sets a different width of the help-text output
         /// </summary>
-        public HelpTextConfiguration WithWidth(int maxDisplayWidth)
+        public HelpTextConfiguration WithDisplayWidth(int maxDisplayWidth)
         {
             return new HelpTextConfiguration(Configurer,maxDisplayWidth,HelpWriter);
         }
