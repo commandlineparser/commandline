@@ -19,7 +19,7 @@ namespace CommandLine
         private bool disposed;
         private readonly ParserSettings settings;
         private static readonly Lazy<Parser> DefaultParser = new Lazy<Parser>(
-            () => new Parser(new ParserSettings { HelpWriter = Console.Error }));
+            () => new Parser(new ParserSettings() ));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Parser"/> class.
@@ -194,16 +194,15 @@ namespace CommandLine
         {
             return DisplayHelp(
                 parserResult,
-                settings.HelpWriter,
-                settings.MaximumDisplayWidth);
+                settings.HelpTextConfiguration);
         }
 
-        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter, int maxDisplayWidth)
+        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, HelpTextConfiguration helpTextConfig)
         {
             parserResult.WithNotParsed(
                 errors =>
-                    Maybe.Merge(errors.ToMaybe(), helpWriter.ToMaybe())
-                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult, maxDisplayWidth)))
+                    Maybe.Merge(errors.ToMaybe(), helpTextConfig.HelpWriter.ToMaybe())
+                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult,helpTextConfig)))
                 );
 
             return parserResult;

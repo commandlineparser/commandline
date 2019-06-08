@@ -5,6 +5,8 @@ using System.Globalization;
 using System.IO;
 
 using CommandLine.Infrastructure;
+using CommandLine.Text;
+
 
 namespace CommandLine
 {
@@ -18,7 +20,7 @@ namespace CommandLine
         private bool disposed;
         private bool caseSensitive;
         private bool caseInsensitiveEnumValues;
-        private TextWriter helpWriter;
+        private HelpTextConfiguration helpTextConfiguration = HelpTextConfiguration.Default;
         private bool ignoreUnknownArguments;
         private bool autoHelp;
         private bool autoVersion;
@@ -69,6 +71,7 @@ namespace CommandLine
             set { PopsicleSetter.Set(Consumed, ref caseSensitive, value); }
         }
 
+      
         /// <summary>
         /// Gets or sets a value indicating whether perform case sensitive comparisons of <i>values</i>.
         /// Note that case insensitivity only applies to <i>values</i>, not the parameters.
@@ -102,12 +105,30 @@ namespace CommandLine
         /// </summary>
         /// <remarks>
         /// It is the caller's responsibility to dispose or close the <see cref="TextWriter"/>.
+        /// REVIEW - this is preserve solely to provide backwards compatibility with code
+        /// where it was directly exposed.  Ideally it would be deprecated.
         /// </remarks>
         public TextWriter HelpWriter
         {
-            get { return helpWriter; }
-            set { PopsicleSetter.Set(Consumed, ref helpWriter, value); }
+            get { return HelpTextConfiguration.HelpWriter; }
+            set { HelpTextConfiguration = HelpTextConfiguration.WithHelpWriter(value); }
         }
+
+
+        /// <summary>
+        /// Allows the HelpText to be configured
+        /// </summary>
+        /// <remarks>
+        /// It is intended that any future HelpText configuraion should be encapusulated in this object.
+        /// REVIEW - It's actually not obvious to me that this should be supplied here rather than passed in during
+        /// WithNotParsed but since that's the pattern set by the original TextWriter I've left it here.
+        /// </remarks>
+        public HelpTextConfiguration HelpTextConfiguration
+        {
+            get { return helpTextConfiguration; }
+            set { PopsicleSetter.Set(Consumed, ref helpTextConfiguration, value); }
+        }
+
 
         /// <summary>
         /// Gets or sets a value indicating whether the parser shall move on to the next argument and ignore the given argument if it

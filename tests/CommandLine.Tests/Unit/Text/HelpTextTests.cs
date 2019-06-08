@@ -588,7 +588,10 @@ namespace CommandLine.Tests.Unit.Text
             {
                 onErrorCalled = true;
                 return ht;
-            }, ex => ex);
+            }, 
+                ex => ex,
+                HelpTextConfiguration.Default
+                );
                 
             onErrorCalled.Should().BeTrue();
             actualResult.Copyright.Should().Be(expectedCopyright);
@@ -613,7 +616,8 @@ namespace CommandLine.Tests.Unit.Text
             {
                 onErrorCalled = true;
                 return ht;
-            }, ex => ex);
+            }, ex => ex,
+            HelpTextConfiguration.Default);
 
             onErrorCalled.Should().BeTrue();
             actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
@@ -637,7 +641,8 @@ namespace CommandLine.Tests.Unit.Text
             {
                 onErrorCalled = true;
                 return ht;
-            }, ex => ex);
+            }, ex => ex,
+                HelpTextConfiguration.Default);
 
             onErrorCalled.Should().BeFalse(); // Other attributes have fallback logic
             actualResult.Copyright.Should().Be(string.Format("Copyright (C) {0} {1}", DateTime.Now.Year, expectedCompany));
