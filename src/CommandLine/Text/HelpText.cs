@@ -677,7 +677,7 @@ namespace CommandLine.Text
             value = value.TrimEnd();
 
             builder.AppendWhen(builder.Length > 0, Environment.NewLine);
-            builder.Append(WrapAndIndentText(value, 0, maximumLength));
+            builder.Append(TextWrapper.WrapAndIndentText(value, 0, maximumLength));
         }
 
         private IEnumerable<Specification> GetSpecificationsFromType(Type type)
@@ -806,7 +806,7 @@ namespace CommandLine.Text
           
             //note that we need to indent trim the start of the string because it's going to be 
             //appended to an existing line that is as long as the indent-level
-            var indented = WrapAndIndentText(optionHelpText, maxLength+TotalOptionPadding, widthOfHelpText).TrimStart();
+            var indented = TextWrapper.WrapAndIndentText(optionHelpText, maxLength+TotalOptionPadding, widthOfHelpText).TrimStart();
           
             optionsHelp
                 .Append(indented)
@@ -949,111 +949,9 @@ namespace CommandLine.Text
                 : string.Empty;
         }
 
-           /// <summary>
-        /// Splits a string into a words and performs wrapping while also preserving line-breaks and sub-indentation
-        /// </summary>
-        /// <param name="input">The string to wrap</param>
-        /// <param name="indentLevel">The amount of padding at the start of each string</param>
-        /// <param name="columnWidth">The number of characters we can use for text</param>
-        /// <remarks>
-        /// The use of "width" is slightly confusing in other methods.  In this method, the columnWidth
-        /// parameter is the number of characters we can use for text regardless of the indent level.
-        /// For example, if columnWidth is 10 and indentLevel is 2, the input
-        /// "a string for wrapping 01234567890123"
-        /// would return
-        /// "  a string" + newline +
-        /// "  for"   + newline +
-        /// "  wrapping" + newline +
-        /// "  0123456789" + newline +
-        /// "  0123"          
-        /// </remarks>
-        /// <returns>A string that has been word-wrapped with padding on each line to indent it</returns>
-        private static string WrapAndIndentText(string input,int indentLevel,int columnWidth)
-        {
-            //start by splitting at newlines and then reinserting the newline as a separate word
-            //Note that on the input side, we can't assume the line-break style at run time so we have to
-            //be able to handle both.  We cant use Environment.NewLine because that changes at
-            //_runtime_ and may not match the line-break style that was compiled in
-            var lines = input
-                .Replace("\r","")
-                .Split(new[] {'\n'}, StringSplitOptions.None);
-            var lineCount = lines.Length;
-            
-            var tokens = lines
-                        .Zip(new string[lineCount], (a, _) => new string[] {a, Environment.NewLine}) 
-                        .SelectMany(linePair=>linePair)
-                        .Take(lineCount * 2 - 1);
-            
-            //split into words 
-            var words= tokens
-                        .SelectMany(l=>l.Split(' ')); 
-            
-            //create a list of individual indented lines 
-            var wrappedLines = words
-                        .Aggregate<string,List<StringBuilder>>(
-                            new List<StringBuilder>(),
-                            (lineList,word)=>AddWordToLastLineOrCreateNewLineIfNecessary(lineList,word,columnWidth)
-                            )
-                        .Select(builder => indentLevel.Spaces() +  builder.ToString().TrimEnd());
-            
-            //return the whole thing as a single string
-            return string.Join(Environment.NewLine,wrappedLines);
-        }
-
-        /// <summary>
-        /// When presented with a word, either append to the last line in the list or start a new line
-        /// </summary>
-        /// <param name="lines">A list of stringbuilders containing results so far</param>
-        /// <param name="word">The individual word to append</param>
-        /// <param name="columnWidth">The usable text space</param>
-        /// <remarks>
-        /// The 'word' can actually be an empty string or a linefeed.  It's important to keep these -
-        /// empty strings allow us to preserve indentation and extra spaces within a line and linefeeds
-        /// allow us to honour the users formatting wishes when the pass in multi-line helptext.
-        /// </remarks>
-        /// <returns>The same list as is passed in</returns>
-        private static List<StringBuilder> AddWordToLastLineOrCreateNewLineIfNecessary(List<StringBuilder> lines, string word,int columnWidth)
-        {
-            if (word == Environment.NewLine)
-            {
-                //A newline token just means advance to the next line.
-                lines.Add(new StringBuilder());
-                return lines;
-            }
-            //The current indentLevel is based on the previous line.  
-            var previousLine = lines.LastOrDefault()?.ToString() ??string.Empty;
-            var currentIndentLevel = previousLine.Length - previousLine.TrimStart().Length;
-
-            var wouldWrap = !lines.Any() || previousLine.Length + word.Length > columnWidth;
-          
-            if (!wouldWrap)
-            {
-                //The usual case is we just append the 'word' and a space to the current line
-                //Note that trailing spaces will get removed later when we turn the line list 
-                //into a single string
-                lines.Last().Append(word + ' ');
-            }
-            else
-            {
-                //The 'while' here is to take account of the possibility of someone providing a word
-                //which just can't fit in the current column.  In that case we just split it at the 
-                //column end.
-                //That's a rare case though - most of the time we'll succeed in a single pass without
-                //having to split
-                while (word.Length >0)
-                {
-                    var availableCharacters = Math.Min(columnWidth - currentIndentLevel,word.Length);
-                    
-                    var segmentToAdd = currentIndentLevel.Spaces() +
-                                    word.Substring(0, availableCharacters) + ' ';
-
-                    lines.Add(new StringBuilder(segmentToAdd));
-                    word = word.Substring(availableCharacters);
-                }
-            }
-            return lines;
-        }
-
+      
 
     }
 }
+
+
