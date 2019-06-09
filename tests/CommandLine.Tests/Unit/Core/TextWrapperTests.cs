@@ -7,6 +7,17 @@ namespace CommandLine.Tests.Unit.Core
 {
     public class TextWrapperTests
     {
+        private string NormalizeLineBreaks(string str)
+        {
+            return str.Replace("\r", "");
+        }
+        private void EnsureEquivalent(string a,string b)
+        {
+            //workaround build system line-end inconsistencies
+            NormalizeLineBreaks(a).Should().Be(NormalizeLineBreaks(b));
+        }
+
+        
         [Fact]
         public void IndentWorksCorrectly()
         {
@@ -17,7 +28,7 @@ line2";
             var expected = @"  line1
   line2";
             var wrapper = new TextWrapper(input);
-            wrapper.Indent(2).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.Indent(2).ToText(),expected);
 
         }
 
@@ -32,7 +43,7 @@ some text
 that needs
 wrapping";
             var wrapper = new TextWrapper(input);
-            wrapper.WordWrap(10).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.WordWrap(10).ToText(),expected);
 
         }
 
@@ -47,7 +58,7 @@ hippopotamus is
 some text that
 needs wrapping";
             var wrapper = new TextWrapper(input);
-            wrapper.WordWrap(15).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.WordWrap(15).ToText(),expected);
 
         }
 
@@ -61,7 +72,7 @@ needs wrapping";
 that needs
 wrapping";
             var wrapper = new TextWrapper(input);
-            wrapper.WordWrap(20).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.WordWrap(20).ToText(),expected);
 
         }
 
@@ -81,7 +92,7 @@ wrapping";
 and this part to not
 be indented";
             var wrapper = new TextWrapper(input);
-            wrapper.WordWrap(20).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.WordWrap(20).ToText(),expected);
 
         }
 
@@ -96,7 +107,7 @@ that contains a
 veryLongWordThatWont
 FitOnASingleLine";
             var wrapper = new TextWrapper(input);
-            wrapper.WordWrap(20).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.WordWrap(20).ToText(),expected);
 
         }
 
@@ -112,7 +123,7 @@ that contains
   veryLongWordThatWo
   ntFitOnASingleLine";
             var wrapper = new TextWrapper(input);
-            wrapper.WordWrap(20).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.WordWrap(20).ToText(),expected);
 
         }
 
@@ -126,7 +137,7 @@ that contains
 text with some extra
 spacing";
             var wrapper = new TextWrapper(input);
-            wrapper.WordWrap(20).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.WordWrap(20).ToText(),expected);
 
         }
 
@@ -141,7 +152,7 @@ spacing";
 with some extra
 spacing";
             var wrapper = new TextWrapper(input);
-            wrapper.WordWrap(20).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.WordWrap(20).ToText(),expected);
 
         }
 
@@ -157,7 +168,7 @@ spacing";
    with some extra
    spacing";
             var wrapper = new TextWrapper(input);
-            wrapper.WordWrap(20).ToText().Should().Be(expected);
+            EnsureEquivalent(wrapper.WordWrap(20).ToText(),expected);
 
         }
 
