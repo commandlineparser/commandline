@@ -227,5 +227,51 @@ namespace CommandLine
                 disposed = true;
             }
         }
+        /// <summary>
+        /// Allows the client to use a stream other than Console.Error for ouput.  NOTE - client should dispose the stream
+        /// </summary>
+        /// <param name="writer">The output stream to use </param>
+        /// <returns>The parser</returns>
+        /// REVIEW - to be honest the "Consumed" flag seems to be adding very little value in ParserSettings.  I understand the
+        /// desire to stop clients messing around with settings during parsing but it's hard to abuse the API in a way that would
+        /// really happen.  My suggestion would be to remove it.
+        public Parser SetTextWriter(TextWriter writer)
+        {
+            settings.Consumed = false;
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithHelpWriter(writer);
+            settings.Consumed = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Allows the client to select the display width
+        /// </summary>
+        /// <param name="width">The desired width</param>
+        /// <param name="policy">The policy to use when setting the width</param>
+        /// <returns>The parser</returns>
+        public Parser SetDisplayWidth(int width,WidthPolicy policy)
+        {
+            settings.Consumed = false;
+            //Note that the parser constructor has probably already worked out the console width
+            if (policy == WidthPolicy.FitToScreen)
+                width = Math.Min(settings.HelpTextConfiguration.DisplayWidth, width);
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithDisplayWidth(width);
+            settings.Consumed = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Allows the client to configure flags in the helpText class
+        /// </summary>
+        /// <param name="configurer">An action which can set flags in the HelpText class</param>
+        /// <returns>The parser</returns>
+        public Parser SetHelpTextConfiguration(Action<HelpText> configurer)
+        {
+            settings.Consumed = false;
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithConfigurer(configurer);
+            settings.Consumed = true;
+            return this;
+        }
+       
     }
 }

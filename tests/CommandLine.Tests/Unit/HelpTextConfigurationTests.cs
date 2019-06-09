@@ -26,7 +26,7 @@ namespace CommandLine.Tests.Unit
 
         // Test method (xUnit) which fails
         [Fact]
-        public void DetailTextIsShownCorrectly()
+        public void ConfigurationIsAccepted()
         {
             var help = new StringWriter();
             var sut = new Parser(config =>
@@ -41,8 +41,31 @@ namespace CommandLine.Tests.Unit
             });
 
 
-            //There seems to a bug that prevents "help VERB" outputing anything if
-            //the parser is only supplied one option class so this test provides
+            //There seems to a bug that prevents "help VERB" outputting anything if
+            //the parser is only supplied one verb  so this test provides
+            //Add_verb as a workaround
+            sut.ParseArguments<Add_Verb,Options>(
+                new[] {"help", "run",});
+            var result = help.ToString();
+
+            // Verify outcome
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines.Any(line=>line.Contains("Option1")).Should().BeTrue();
+            lines.Any(line=>line.Contains("Option2")).Should().BeTrue();
+
+        }
+
+        [Fact]
+        public void ConfigurationIsAcceptedUsingFluentAPI()
+        {
+            var help = new StringWriter();
+            var sut =Parser.Default
+                .SetDisplayWidth(80,WidthPolicy.FitToScreen)
+                .SetTextWriter(help)
+                .SetHelpTextConfiguration(h => h.AddEnumValuesToHelpText = true);
+
+            //There seems to a bug that prevents "help VERB" outputting anything if
+            //the parser is only supplied one verb  so this test provides
             //Add_verb as a workaround
             sut.ParseArguments<Add_Verb,Options>(
                 new[] {"help", "run",});
