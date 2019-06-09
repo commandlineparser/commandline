@@ -155,13 +155,18 @@ namespace CommandLine.Text
         }
 
        
+        /// <summary>
+        /// Return the right part of a string in a way that compensates for Substring's deficiencies
+        /// </summary>
         private static string RightString(string str,int n)
         {
             return (n >= str.Length || str.Length==0) 
                 ? string.Empty 
                 : str.Substring(n);
         }
-
+        /// <summary>
+        /// Return the left part of a string in a way that compensates for Substring's deficiencies
+        /// </summary>
         private static string LeftString(string str,int n)
         {
             
