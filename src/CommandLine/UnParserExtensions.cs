@@ -121,7 +121,7 @@ namespace CommandLine
                     type.GetSpecifications(
                         pi => new { Specification = Specification.FromProperty(pi),
                             Value = pi.GetValue(options, null).NormalizeValue(), PropertyValue = pi.GetValue(options, null) })
-                where !info.PropertyValue.IsEmpty()
+                where !info.PropertyValue.IsEmpty(info.Specification)
                 select info)
                     .Memorize();
 
@@ -242,14 +242,13 @@ namespace CommandLine
             return value;
         }
 
-        private static bool IsEmpty(this object value)
+        private static bool IsEmpty(this object value, Specification spec)
         {
             if (value == null) return true;
 #if !SKIP_FSHARP
             if (ReflectionHelper.IsFSharpOptionType(value.GetType()) && !FSharpOptionHelper.IsSome(value)) return true;
 #endif
-            if (value is Enum) return false;
-            if (value is ValueType && value.Equals(value.GetType().GetDefaultValue())) return true;
+            if (!spec.Required && value is ValueType && value.Equals(value.GetType().GetDefaultValue())) return true;
             if (value is string && ((string)value).Length == 0) return true;
             if (value is IEnumerable && !((IEnumerable)value).GetEnumerator().MoveNext()) return true;
             return false;

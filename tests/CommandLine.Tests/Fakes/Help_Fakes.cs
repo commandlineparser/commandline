@@ -93,24 +93,32 @@ namespace CommandLine.Tests.Fakes
         }
     }
 
-    class Required_Enum_Option_With_Usage_Attribute
+    class Options_With_Default_Value_Examples
     {
-        [Option('t', "type", Required = true, HelpText = "My entity")]
+        [Option('t', "type", Required = true)]
         public EntityType MyEntityType { get; set; }
 
         public enum EntityType
         {
-            T0,
-            T1
+            T0
         }
 
-        [Usage(ApplicationAlias = "testapp.exe")]
+        [Option('i', "int", Required = true)]
+        public int Int { get; set; }
+
+        [Option('d', "double", Required = true)]
+        public double Double { get; set; }
+
+        [Option('o', "optional")]
+        public bool Optional { get; set; }
+
+        [Usage(ApplicationAlias = "mono testapp.exe")]
         public static IEnumerable<Example> Examples
         {
             get
             {
-                yield return new Example(EntityType.T0.ToString(), new Required_Enum_Option_With_Usage_Attribute { MyEntityType = EntityType.T0 });
-                yield return new Example(EntityType.T1.ToString(), new Required_Enum_Option_With_Usage_Attribute { MyEntityType = EntityType.T1 });
+                yield return new Example("Normal scenario", new Options_With_Default_Value_Examples { });
+                yield return new Example("With Optional Value", new Options_With_Default_Value_Examples { Optional = true });
             }
         }
     }

@@ -495,12 +495,12 @@ namespace CommandLine.Tests.Unit.Text
         }
 
         [Fact]
-        public static void RenderUsageText_returns_proper_text_for_required_enum_option()
+        public static void RenderUsageText_returns_proper_text_for_Examples_with_default_values()
         {
             // Fixture setup
-            ParserResult<Required_Enum_Option_With_Usage_Attribute> result =
-                new NotParsed<Required_Enum_Option_With_Usage_Attribute>(
-                    TypeInfo.Create(typeof(Required_Enum_Option_With_Usage_Attribute)), Enumerable.Empty<Error>());
+            ParserResult<Options_With_Default_Value_Examples> result =
+                new NotParsed<Options_With_Default_Value_Examples>(
+                    TypeInfo.Create(typeof(Options_With_Default_Value_Examples)), Enumerable.Empty<Error>());
 
             // Exercize system
             var text = HelpText.RenderUsageText(result);
@@ -508,10 +508,10 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = text.ToNotEmptyLines();
 
-            lines[0].Should().BeEquivalentTo("T0:");
-            lines[1].Should().BeEquivalentTo("  testapp.exe --type T0");
-            lines[2].Should().BeEquivalentTo("T1:");
-            lines[3].Should().BeEquivalentTo("  testapp.exe --type T1");
+            lines[0].Should().BeEquivalentTo("Normal scenario:");
+            lines[1].Should().BeEquivalentTo("  mono testapp.exe --double 0 --int 0 --type T0");
+            lines[2].Should().BeEquivalentTo("With Optional Value:");
+            lines[3].Should().BeEquivalentTo("  mono testapp.exe --double 0 --int 0 --optional --type T0");
 
             // Teardown
         }
