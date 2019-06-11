@@ -494,6 +494,28 @@ namespace CommandLine.Tests.Unit.Text
             lines[10].Should().BeEquivalentTo("  mono testapp.exe value");
         }
 
+        [Fact]
+        public static void RenderUsageText_returns_proper_text_for_Examples_with_default_values()
+        {
+            // Fixture setup
+            ParserResult<Options_With_Default_Value_Examples> result =
+                new NotParsed<Options_With_Default_Value_Examples>(
+                    TypeInfo.Create(typeof(Options_With_Default_Value_Examples)), Enumerable.Empty<Error>());
+
+            // Exercize system
+            var text = HelpText.RenderUsageText(result);
+
+            // Verify outcome
+            var lines = text.ToNotEmptyLines();
+
+            lines[0].Should().BeEquivalentTo("Normal scenario:");
+            lines[1].Should().BeEquivalentTo("  mono testapp.exe --double 0 --int 0 --type T0");
+            lines[2].Should().BeEquivalentTo("With Optional Value:");
+            lines[3].Should().BeEquivalentTo("  mono testapp.exe --double 0 --int 0 --optional --type T0");
+
+            // Teardown
+        }
+
         //[Fact]
         public void Invoke_AutoBuild_for_Options_with_Usage_returns_appropriate_formatted_text()
         {

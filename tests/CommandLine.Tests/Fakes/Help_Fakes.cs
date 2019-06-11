@@ -93,6 +93,36 @@ namespace CommandLine.Tests.Fakes
         }
     }
 
+    class Options_With_Default_Value_Examples
+    {
+        [Option('t', "type", Required = true)]
+        public EntityType MyEntityType { get; set; }
+
+        public enum EntityType
+        {
+            T0
+        }
+
+        [Option('i', "int", Required = true)]
+        public int Int { get; set; }
+
+        [Option('d', "double", Required = true)]
+        public double Double { get; set; }
+
+        [Option('o', "optional")]
+        public bool Optional { get; set; }
+
+        [Usage(ApplicationAlias = "mono testapp.exe")]
+        public static IEnumerable<Example> Examples
+        {
+            get
+            {
+                yield return new Example("Normal scenario", new Options_With_Default_Value_Examples { });
+                yield return new Example("With Optional Value", new Options_With_Default_Value_Examples { Optional = true });
+            }
+        }
+    }
+
     [Verb("secert", Hidden = true, HelpText = "This is a secert hidden verb that should never be visible to the user via help text.")]
     public class Secert_Verb
     {
