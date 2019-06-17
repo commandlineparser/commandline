@@ -194,16 +194,15 @@ namespace CommandLine
         {
             return DisplayHelp(
                 parserResult,
-                settings.HelpWriter,
-                settings.MaximumDisplayWidth);
+                settings);
         }
 
-        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter, int maxDisplayWidth)
+        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, ParserSettings settings)
         {
             parserResult.WithNotParsed(
                 errors =>
-                    Maybe.Merge(errors.ToMaybe(), helpWriter.ToMaybe())
-                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult, maxDisplayWidth)))
+                    Maybe.Merge(errors.ToMaybe(), settings.HelpWriter.ToMaybe())
+                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult, settings)))
                 );
 
             return parserResult;
