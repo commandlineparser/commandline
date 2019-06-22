@@ -217,6 +217,27 @@ namespace CommandLine.Text
         }
 
         /// <summary>
+        /// Provided only for backwards compatibility
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parserResult"></param>
+        /// <param name="onError"></param>
+        /// <param name="onExample"></param>
+        /// <param name="verbsIndex"></param>
+        /// <returns></returns>
+        [Obsolete("This method is deprecated - you should supply HelpTextConfiguration.Default or configure the Parser directly")]
+        public static HelpText AutoBuild<T>(
+            ParserResult<T> parserResult,
+            Func<HelpText, HelpText> onError,
+            Func<Example, Example> onExample,
+            bool verbsIndex = false
+        )
+        {
+            return AutoBuild(parserResult, onError, onExample, HelpTextConfiguration.Default, verbsIndex);
+        }
+
+
+        /// <summary>
         /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults.
         /// </summary>
         /// <returns>
@@ -228,8 +249,6 @@ namespace CommandLine.Text
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
         /// <param name="config">The configuration for the help-text</param>
         /// <remarks>The parameter <paramref name="verbsIndex"/> is not only a metter of formatting, it controls whether to handle verbs or options.</remarks>
-        //REVIEW - I believe this is only public for test purposes and is not a client API hence I have not supplied 
-        //a backwards compatibility version
         public static HelpText AutoBuild<T>(
             ParserResult<T> parserResult,
             Func<HelpText, HelpText> onError,
@@ -244,7 +263,9 @@ namespace CommandLine.Text
                 Copyright = CopyrightInfo.Empty,
                 AdditionalNewLineAfterOption = true,
                 AddDashesToOption = !verbsIndex,
-                MaximumDisplayWidth = config.DisplayWidth
+                MaximumDisplayWidth = config.DisplayWidth,
+                AutoHelp = config.AutoHelp,
+                AutoVersion = config.AutoVersion
             };
 
             try
@@ -310,11 +331,15 @@ namespace CommandLine.Text
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
-        //REVIEW - the use of this method with a supplied maxDisplayWidth should be deprecated in favour of passing
-        //in a HelpTextConfiguration object
+        [Obsolete("Calling this method directly is now deprecated in favour of Parser.Default.SetDisplayWidth")]
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = HelpTextConfiguration.DefaultMaximumLength)
         {
             return AutoBuild(parserResult,  HelpTextConfiguration.Default.WithDisplayWidth(maxDisplayWidth));
+        }
+        [Obsolete("Internal use only - avoid calling this method directly and prefer configuring via Parser.Default.Set...")]
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, ParserSettings settings)
+        {
+            return AutoBuild(parserResult, settings.HelpTextConfiguration);
         }
 
 
@@ -337,16 +362,18 @@ namespace CommandLine.Text
             var errors = ((NotParsed<T>)parserResult).Errors;
 
             if (errors.Any(e => e.Tag == ErrorType.VersionRequestedError))
-                return new HelpText(HeadingInfo.Default){MaximumDisplayWidth = config.DisplayWidth }.AddPreOptionsLine(Environment.NewLine);
+                return new HelpText(HeadingInfo.Default){MaximumDisplayWidth = config.DisplayWidth,AutoHelp = config.AutoHelp, AutoVersion = config.AutoVersion }.AddPreOptionsLine(Environment.NewLine);
 
             if (!errors.Any(e => e.Tag == ErrorType.HelpVerbRequestedError))
                 return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e,config);
+
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
             return err.Matched
                 ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current), e => e,config)
                 : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e,config,true);
+
         }
 
         /// <summary>

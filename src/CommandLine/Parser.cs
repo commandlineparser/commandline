@@ -232,9 +232,6 @@ namespace CommandLine
         /// </summary>
         /// <param name="writer">The output stream to use </param>
         /// <returns>The parser</returns>
-        /// REVIEW - to be honest the "Consumed" flag seems to be adding very little value in ParserSettings.  I understand the
-        /// desire to stop clients messing around with settings during parsing but it's hard to abuse the API in a way that would
-        /// really happen.  My suggestion would be to remove it.
         public Parser SetTextWriter(TextWriter writer)
         {
             settings.Consumed = false;
@@ -273,5 +270,32 @@ namespace CommandLine
             return this;
         }
        
+        
+        /// <summary>
+        /// Allows the client to turn the automatic help verb on and off 
+        /// </summary>
+        /// <param name="enable">turn on/off</param>
+        /// <returns>The parser</returns>
+        public Parser SetAutoHelp(bool enable)
+        {
+            settings.Consumed = false;
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithAutoHelp(enable);
+            settings.Consumed = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Allows the client to turn the automatic version reporting on and off
+        /// </summary>
+        /// <param name="enable">turn on/off</param>
+        /// <returns>The parser</returns>
+        public Parser SetAutoVersion(bool enable)
+        {
+            settings.Consumed = false;
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithAutoVersion(enable);
+            settings.Consumed = true;
+            return this;
+        }
+
     }
 }

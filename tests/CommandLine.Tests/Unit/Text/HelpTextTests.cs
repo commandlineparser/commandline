@@ -658,5 +658,49 @@ namespace CommandLine.Tests.Unit.Text
 
             Assert.Equal("T" + Environment.NewLine + "e" + Environment.NewLine + "s" + Environment.NewLine + "t", b.ToString());
         }
+
+        [Fact]
+        public void AutoBuild_without_settings_contains_help_and_version()
+        {
+            var parserResult = new NotParsed<object>(TypeInfo.Create(typeof(NullInstance)), new[] { new BadFormatConversionError(new NameInfo("f", "foo")) });
+
+            var helpText = HelpText.AutoBuild(parserResult);
+
+            var text = helpText.ToString();
+            Assert.Contains("--help", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("Display version information.", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("--version", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("Display this help screen.", helpText, StringComparison.InvariantCulture);
+        }
+
+        [Fact]
+        public void AutoBuild_can_disable_autohelp()
+        {
+            var parserResult = new NotParsed<object>(TypeInfo.Create(typeof(NullInstance)), new[] { new BadFormatConversionError(new NameInfo("f", "foo")) });
+            var settings = HelpTextConfiguration.Default.WithAutoHelp(false);
+            var helpText = HelpText.AutoBuild(parserResult, settings);
+
+            var text = helpText.ToString();
+            Assert.DoesNotContain("--help", helpText, StringComparison.InvariantCulture);
+            Assert.DoesNotContain("Display this help screen.", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("Display version information.", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("--version", helpText, StringComparison.InvariantCulture);
+         
+        }
+
+        [Fact]
+        public void AutoBuild_can_disable_autoversion()
+        {
+            var parserResult = new NotParsed<object>(TypeInfo.Create(typeof(NullInstance)), new[] { new BadFormatConversionError(new NameInfo("f", "foo")) });
+            var settings = HelpTextConfiguration.Default.WithAutoVersion(false);
+            var helpText = HelpText.AutoBuild(parserResult, settings);
+
+            var text = helpText.ToString();
+            Assert.Contains("--help", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("Display this help screen.", helpText, StringComparison.InvariantCulture);
+            Assert.DoesNotContain("Display version information.", helpText, StringComparison.InvariantCulture);
+            Assert.DoesNotContain("--version", helpText, StringComparison.InvariantCulture);
+         
+        }
     }
 }

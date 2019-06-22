@@ -860,5 +860,117 @@ namespace CommandLine.Tests.Unit
                     Assert.Equal("two", args.Arg2);
                 });
         }
+
+        [Fact]
+        // Tests a fix for issue #455
+        public void Help_screen_does_not_show_help_verb_if_AutoHelp_is_disabled()
+        {
+            var output = new StringWriter();
+            var sut = new Parser(config => { config.AutoHelp = false; config.HelpWriter = output; });
+
+            sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { });
+
+            var helpText = output.ToString();
+            Assert.DoesNotContain("help", helpText, StringComparison.InvariantCulture);
+            Assert.DoesNotContain("Display more information on a specific command", helpText, StringComparison.InvariantCulture);
+        }
+
+        [Fact]
+        // Tests a fix for issue #455
+        public void Help_screen_does_not_show_help_option_if_AutoHelp_is_disabled()
+        {
+            var output = new StringWriter();
+            var sut = new Parser(config => { config.AutoHelp = false; config.HelpWriter = output; });
+
+            sut.ParseArguments<Simple_Options_With_HelpText_Set>(new string[] { });
+
+            var helpText = output.ToString();
+            Assert.DoesNotContain("--help", helpText, StringComparison.InvariantCulture);
+            Assert.DoesNotContain("Display this help screen.", helpText, StringComparison.InvariantCulture);
+        }
+
+        [Fact]
+        // Tests a fix for issue #455
+        public void Help_screen_shows_help_verb_if_AutoHelp_is_enabled()
+        {
+            var output = new StringWriter();
+            var sut = new Parser(config => { config.AutoHelp = true; config.HelpWriter = output; });
+
+            sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { });
+
+            var helpText = output.ToString();
+            Assert.Contains("help", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("Display more information on a specific command", helpText, StringComparison.InvariantCulture);
+        }
+
+        [Fact]
+        // Tests a fix for issue #455
+        public void Help_screen_shows_help_option_if_AutoHelp_is_enabled()
+        {
+            var output = new StringWriter();
+            var sut = new Parser(config => { config.AutoHelp = true; config.HelpWriter = output; });
+
+            sut.ParseArguments<Simple_Options_With_HelpText_Set>(new string[] { });
+
+            var helpText = output.ToString();
+            Assert.Contains("help", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("Display this help screen.", helpText, StringComparison.InvariantCulture);
+        }
+
+        [Fact]
+        // Tests a fix for issue #414
+        public void Help_screen_does_not_show_version_verb_if_AutoVersion_is_disabled()
+        {
+            var output = new StringWriter();
+            var sut = new Parser(config => { config.AutoVersion = false; config.HelpWriter = output; });
+
+            sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { });
+
+            var helpText = output.ToString();
+            Assert.DoesNotContain("version", helpText, StringComparison.InvariantCulture);
+            Assert.DoesNotContain("Display version information.", helpText, StringComparison.InvariantCulture);
+        }
+
+        [Fact]
+        // Tests a fix for issue #414
+        public void Help_screen_does_not_show_version_option_if_AutoVersion_is_disabled()
+        {
+            var output = new StringWriter();
+            var sut = new Parser(config => { config.AutoVersion = false; config.HelpWriter = output; });
+
+            sut.ParseArguments<Simple_Options_With_HelpText_Set>(new string[] { });
+
+            var helpText = output.ToString();
+            Assert.DoesNotContain("--version", helpText, StringComparison.InvariantCulture);
+            Assert.DoesNotContain("Display version information.", helpText, StringComparison.InvariantCulture);
+        }
+
+        [Fact]
+        // Tests a fix for issue #414
+        public void Help_screen_shows_version_verb_if_AutoVersion_is_enabled()
+        {
+            var output = new StringWriter();
+            var sut = new Parser(config => { config.AutoVersion = true; config.HelpWriter = output; });
+
+            sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { });
+
+            var helpText = output.ToString();
+            Assert.Contains("version", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("Display version information.", helpText, StringComparison.InvariantCulture);
+        }
+
+        [Fact]
+        // Tests a fix for issue #414
+        public void Help_screen_shows_version_option_if_AutoVersion_is_ensabled()
+        {
+            var output = new StringWriter();
+            var sut = new Parser(config => { config.AutoVersion = true; config.HelpWriter = output; });
+
+            sut.ParseArguments<Simple_Options_With_HelpText_Set>(new string[] { });
+
+            var helpText = output.ToString();
+            Assert.Contains("--version", helpText, StringComparison.InvariantCulture);
+            Assert.Contains("Display version information.", helpText, StringComparison.InvariantCulture);
+        }
     }
 }

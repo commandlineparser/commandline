@@ -20,8 +20,6 @@ namespace CommandLine
         private bool caseInsensitiveEnumValues;
         private HelpTextConfiguration helpTextConfiguration = HelpTextConfiguration.Default;
         private bool ignoreUnknownArguments;
-        private bool autoHelp;
-        private bool autoVersion;
         private CultureInfo parsingCulture;
         private bool enableDashDash;
     
@@ -32,8 +30,6 @@ namespace CommandLine
         {
             caseSensitive = true;
             caseInsensitiveEnumValues = false;
-            autoHelp = true;
-            autoVersion = true;
             parsingCulture = CultureInfo.InvariantCulture;
             try
             {
@@ -100,24 +96,21 @@ namespace CommandLine
         /// </summary>
         /// <remarks>
         /// It is the caller's responsibility to dispose or close the <see cref="TextWriter"/>.
-        /// REVIEW - this is preserve solely to provide backwards compatibility with code
-        /// where it was directly exposed.  Ideally it would be deprecated.
         /// </remarks>
+        [Obsolete("Internal use only - prefer Parser.Default.SetHelpWriter")]
         public TextWriter HelpWriter
         {
             get { return HelpTextConfiguration.HelpWriter; }
             set { HelpTextConfiguration = HelpTextConfiguration.WithHelpWriter(value); }
         }
 
-
         /// <summary>
         /// Allows the HelpText to be configured
         /// </summary>
         /// <remarks>
-        /// It is intended that any future HelpText configuraion should be encapusulated in this object.
-        /// REVIEW - It's actually not obvious to me that this should be supplied here rather than passed in during
-        /// WithNotParsed but since that's the pattern set by the original TextWriter I've left it here.
+        /// It is intended that any future HelpText configuration should be encapsulated in this object.
         /// </remarks>
+        [Obsolete("Internal use only - prefer Parser.Default.SetHelpTextConfiguration")]
         public HelpTextConfiguration HelpTextConfiguration
         {
             get { return helpTextConfiguration; }
@@ -141,24 +134,7 @@ namespace CommandLine
             get { return ignoreUnknownArguments; }
             set { PopsicleSetter.Set(Consumed, ref ignoreUnknownArguments, value); }
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether implicit option or verb 'help' should be supported.
-        /// </summary>
-        public bool AutoHelp
-        {
-            get { return autoHelp; }
-            set { PopsicleSetter.Set(Consumed, ref autoHelp, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether implicit option or verb 'version' should be supported.
-        /// </summary>
-        public bool AutoVersion
-        {
-            get { return autoVersion; }
-            set { PopsicleSetter.Set(Consumed, ref autoVersion, value); }
-        }
+     
 
         /// <summary>
         /// Gets or sets a value indicating whether enable double dash '--' syntax,
@@ -174,14 +150,39 @@ namespace CommandLine
         /// Gets or sets the maximum width of the display.  This determines word wrap when displaying the text.
         /// </summary>
         /// <remarks>
-        /// REVIEW - this is provided only for backwards compatibility.  Ideally it would be deprecated and the display width
-        /// accessed solely through HelpTextConfiguration
         /// </remarks>
+        [Obsolete("Prefer Parser.Default.SetDisplayWidth")]
         public int MaximumDisplayWidth
         {
             get { return HelpTextConfiguration.DisplayWidth; }
             set { HelpTextConfiguration = HelpTextConfiguration.WithDisplayWidth(value); }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'version' should be supported.
+        /// </summary>
+        /// <remarks>
+        /// Note that AutoVersion and AutoHelp straddle the line between being PARSER and HELP settings;
+        /// the are used buy the Help-text system to generate output but but the parser itself to decide
+        /// which verbs to accept.  For simplicity, they are stored in HelpTextConfiguration and proxied here
+        /// </remarks>
+        [Obsolete("Internal use only - prefer Parser.Default.SetAutoVersion")]
+        public bool AutoVersion
+        {
+            get { return HelpTextConfiguration.AutoVersion; }
+            set { HelpTextConfiguration = HelpTextConfiguration.WithAutoVersion(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'help' should be supported.
+        /// </summary>
+        [Obsolete("Internal use only - prefer Parser.Default.SetAutoHelp")]
+        public bool AutoHelp
+        {
+            get { return HelpTextConfiguration.AutoHelp; }
+            set { HelpTextConfiguration = HelpTextConfiguration.WithAutoHelp(value); }
+        }
+       
 
         internal StringComparer NameComparer
         {
