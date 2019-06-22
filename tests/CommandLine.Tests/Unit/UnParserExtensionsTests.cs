@@ -39,7 +39,7 @@ namespace CommandLine.Tests.Unit
         }
 
         [Theory]
-        [MemberData("UnParseDataHidden")]
+        [MemberData(nameof(UnParseDataHidden))]
         public static void Unparsing_hidden_option_returns_command_line(Hidden_Option options, bool showHidden, string result)
         {
             new Parser()
