@@ -50,8 +50,8 @@ namespace CommandLine.Tests.Unit.Core
                     new object[] {((long) int.MinValue - 1).ToString(), typeof (int), true, null},
 
                     new object[] {"1", typeof (uint), false, (uint) 1},
-                    new object[] {"0", typeof (uint), false, (uint) 0},
-                    new object[] {"-1", typeof (uint), true, null},
+                   // new object[] {"0", typeof (uint), false, (uint) 0},  //cause warning: Skipping test case with duplicate ID
+                   // new object[] {"-1", typeof (uint), true, null},  //cause warning: Skipping test case with duplicate ID
                     new object[] {uint.MaxValue.ToString(), typeof (uint), false, uint.MaxValue},
                     new object[] {uint.MinValue.ToString(), typeof (uint), false, uint.MinValue},
                     new object[] {((long) uint.MaxValue + 1).ToString(), typeof (uint), true, null},
