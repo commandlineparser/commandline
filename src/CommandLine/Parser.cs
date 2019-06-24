@@ -24,6 +24,7 @@ namespace CommandLine
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Parser"/> class.
         /// </summary>
+        [Obsolete("Calling the constructor directly is deprecated - prefer Parser.Default")]
         public Parser()
         {
             settings = new ParserSettings { Consumed = true };
@@ -35,6 +36,7 @@ namespace CommandLine
         /// </summary>
         /// <param name="configuration">The <see cref="Action&lt;ParserSettings&gt;"/> delegate used to configure
         /// aspects and behaviors of the parser.</param>
+        [Obsolete("Calling the constructor directly is deprecated - prefer Parser.Default.Set....")]
         public Parser(Action<ParserSettings> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
