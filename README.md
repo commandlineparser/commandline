@@ -249,6 +249,48 @@ let main args =
   | :? CommandLine.NotParsed<obj> -> 1
 ```
 
+# Configuring Help output
+
+One of the most valuable aspects of the library is its ability to automatically generate help text for the user when parsing fails. The **HelpText** property of each **Option** is displayed when a command is not recognised or there is a mistake in the parameters.  Multi-line  'Verbatim' strings are allowed and are correctly wrapped with sub-indentation honoured.  For example:
+
+```csharp
+[Option(HelpText = 
+@"Length can take several types of values
+ -- a string such as 'ten days'
+ -- a number like 1000 - this is interpreted as a number of milliseconds"
+ )]
+public string Length {get;set;}
+```
+
+In previous versions of the library, configuration of the help output was achieved through calling the AutoBuild method directly.  This is now deprecated and a number of helper methods are supplied to simplify the process.
+
+
+```csharp
+  var textwriter = ... my custom stream ....
+
+  Action<HelpText> configurer = h => {
+      h.AddEnumValuesToHelpText = true;
+      h.AdditionalNewLineAfterOption==true;
+      h.Copyright ="(C) Acme Solutions";
+  }; 
+
+  var parser = Parser.Default
+                  .SetDisplayWidth(40,WidthPolicy.FitToScreen)
+                  .SetTextWriter(textwriter)
+                  .SetHelpTextConfiguration(configurer)
+```
+
+
+By default, the parser  optionally automatically generates help and version commands. To disable these use:
+
+
+```csharp
+
+  var parser = Parser.Default
+                  .SetAutoHelp(false)
+                  .SetAutoVersion(false)
+```
+
 # Contributors
 First off, _Thank you!_  All contributions are welcome.  
 

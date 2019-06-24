@@ -5,6 +5,8 @@ using System.Globalization;
 using System.IO;
 
 using CommandLine.Infrastructure;
+using CommandLine.Text;
+
 
 namespace CommandLine
 {
@@ -13,19 +15,14 @@ namespace CommandLine
     /// </summary>
     public class ParserSettings : IDisposable
     {
-        private const int DefaultMaximumLength = 80; // default console width
-
         private bool disposed;
         private bool caseSensitive;
         private bool caseInsensitiveEnumValues;
-        private TextWriter helpWriter;
+        private HelpTextConfiguration helpTextConfiguration = HelpTextConfiguration.Default;
         private bool ignoreUnknownArguments;
-        private bool autoHelp;
-        private bool autoVersion;
         private CultureInfo parsingCulture;
         private bool enableDashDash;
-        private int maximumDisplayWidth;
-
+    
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
         /// </summary>
@@ -33,20 +30,16 @@ namespace CommandLine
         {
             caseSensitive = true;
             caseInsensitiveEnumValues = false;
-            autoHelp = true;
-            autoVersion = true;
             parsingCulture = CultureInfo.InvariantCulture;
             try
             {
-                maximumDisplayWidth = Console.WindowWidth;
-                if (maximumDisplayWidth < 1)
+                if (Console.WindowWidth >= 1)
                 {
-                    maximumDisplayWidth = DefaultMaximumLength;
+                    HelpTextConfiguration=HelpTextConfiguration.WithDisplayWidth(Console.WindowWidth);
                 }
             }
             catch (IOException)
             {
-                maximumDisplayWidth = DefaultMaximumLength;
             }
         }
 
@@ -69,6 +62,7 @@ namespace CommandLine
             set { PopsicleSetter.Set(Consumed, ref caseSensitive, value); }
         }
 
+      
         /// <summary>
         /// Gets or sets a value indicating whether perform case sensitive comparisons of <i>values</i>.
         /// Note that case insensitivity only applies to <i>values</i>, not the parameters.
@@ -103,11 +97,26 @@ namespace CommandLine
         /// <remarks>
         /// It is the caller's responsibility to dispose or close the <see cref="TextWriter"/>.
         /// </remarks>
+        [Obsolete("Internal use only - prefer Parser.Default.SetHelpWriter")]
         public TextWriter HelpWriter
         {
-            get { return helpWriter; }
-            set { PopsicleSetter.Set(Consumed, ref helpWriter, value); }
+            get { return HelpTextConfiguration.HelpWriter; }
+            set { HelpTextConfiguration = HelpTextConfiguration.WithHelpWriter(value); }
         }
+
+        /// <summary>
+        /// Allows the HelpText to be configured
+        /// </summary>
+        /// <remarks>
+        /// It is intended that any future HelpText configuration should be encapsulated in this object.
+        /// </remarks>
+        [Obsolete("Internal use only - prefer Parser.Default.SetHelpTextConfiguration")]
+        public HelpTextConfiguration HelpTextConfiguration
+        {
+            get { return helpTextConfiguration; }
+            set { PopsicleSetter.Set(Consumed, ref helpTextConfiguration, value); }
+        }
+
 
         /// <summary>
         /// Gets or sets a value indicating whether the parser shall move on to the next argument and ignore the given argument if it
@@ -125,24 +134,7 @@ namespace CommandLine
             get { return ignoreUnknownArguments; }
             set { PopsicleSetter.Set(Consumed, ref ignoreUnknownArguments, value); }
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether implicit option or verb 'help' should be supported.
-        /// </summary>
-        public bool AutoHelp
-        {
-            get { return autoHelp; }
-            set { PopsicleSetter.Set(Consumed, ref autoHelp, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether implicit option or verb 'version' should be supported.
-        /// </summary>
-        public bool AutoVersion
-        {
-            get { return autoVersion; }
-            set { PopsicleSetter.Set(Consumed, ref autoVersion, value); }
-        }
+     
 
         /// <summary>
         /// Gets or sets a value indicating whether enable double dash '--' syntax,
@@ -157,11 +149,40 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets the maximum width of the display.  This determines word wrap when displaying the text.
         /// </summary>
+        /// <remarks>
+        /// </remarks>
+        [Obsolete("Prefer Parser.Default.SetDisplayWidth")]
         public int MaximumDisplayWidth
         {
-            get { return maximumDisplayWidth; }
-            set { maximumDisplayWidth = value; }
+            get { return HelpTextConfiguration.DisplayWidth; }
+            set { HelpTextConfiguration = HelpTextConfiguration.WithDisplayWidth(value); }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'version' should be supported.
+        /// </summary>
+        /// <remarks>
+        /// Note that AutoVersion and AutoHelp straddle the line between being PARSER and HELP settings;
+        /// the are used buy the Help-text system to generate output but but the parser itself to decide
+        /// which verbs to accept.  For simplicity, they are stored in HelpTextConfiguration and proxied here
+        /// </remarks>
+        [Obsolete("Internal use only - prefer Parser.Default.SetAutoVersion")]
+        public bool AutoVersion
+        {
+            get { return HelpTextConfiguration.AutoVersion; }
+            set { HelpTextConfiguration = HelpTextConfiguration.WithAutoVersion(value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'help' should be supported.
+        /// </summary>
+        [Obsolete("Internal use only - prefer Parser.Default.SetAutoHelp")]
+        public bool AutoHelp
+        {
+            get { return HelpTextConfiguration.AutoHelp; }
+            set { HelpTextConfiguration = HelpTextConfiguration.WithAutoHelp(value); }
+        }
+       
 
         internal StringComparer NameComparer
         {

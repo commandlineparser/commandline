@@ -20,7 +20,6 @@ namespace CommandLine.Text
     public class HelpText
     {
         private const int BuilderCapacity = 128;
-        private const int DefaultMaximumLength = 80; // default console width
         private readonly StringBuilder preOptionsHelp;
         private readonly StringBuilder postOptionsHelp;
         private readonly SentenceBuilder sentenceBuilder;
@@ -109,12 +108,12 @@ namespace CommandLine.Text
                 maximumDisplayWidth = Console.WindowWidth;
                 if (maximumDisplayWidth < 1)
                 {
-                    maximumDisplayWidth = DefaultMaximumLength;
+                    maximumDisplayWidth = HelpTextConfiguration.DefaultMaximumLength;
                 }
             }
             catch (IOException)
             {
-                maximumDisplayWidth = DefaultMaximumLength;
+                maximumDisplayWidth = HelpTextConfiguration.DefaultMaximumLength;
             }
             this.sentenceBuilder = sentenceBuilder;
             this.heading = heading;
@@ -218,6 +217,27 @@ namespace CommandLine.Text
         }
 
         /// <summary>
+        /// Provided only for backwards compatibility
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parserResult"></param>
+        /// <param name="onError"></param>
+        /// <param name="onExample"></param>
+        /// <param name="verbsIndex"></param>
+        /// <returns></returns>
+        [Obsolete("This method is deprecated - you should supply HelpTextConfiguration.Default or configure the Parser directly")]
+        public static HelpText AutoBuild<T>(
+            ParserResult<T> parserResult,
+            Func<HelpText, HelpText> onError,
+            Func<Example, Example> onExample,
+            bool verbsIndex = false
+        )
+        {
+            return AutoBuild(parserResult, onError, onExample, HelpTextConfiguration.Default, verbsIndex);
+        }
+
+
+        /// <summary>
         /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults.
         /// </summary>
         /// <returns>
@@ -227,14 +247,15 @@ namespace CommandLine.Text
         /// <param name='onError'>A delegate used to customize the text block of reporting parsing errors text block.</param>
         /// <param name='onExample'>A delegate used to customize <see cref="CommandLine.Text.Example"/> model used to render text block of usage examples.</param>
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
-        /// <param name="maxDisplayWidth">The maximum width of the display.</param>
-        /// <remarks>The parameter <paramref name="verbsIndex"/> is not ontly a metter of formatting, it controls whether to handle verbs or options.</remarks>
+        /// <param name="config">The configuration for the help-text</param>
+        /// <remarks>The parameter <paramref name="verbsIndex"/> is not only a metter of formatting, it controls whether to handle verbs or options.</remarks>
         public static HelpText AutoBuild<T>(
             ParserResult<T> parserResult,
             Func<HelpText, HelpText> onError,
             Func<Example, Example> onExample,
-            bool verbsIndex = false,
-            int maxDisplayWidth = DefaultMaximumLength)
+            HelpTextConfiguration config,
+            bool verbsIndex = false
+            )
         {
             var auto = new HelpText
             {
@@ -242,7 +263,9 @@ namespace CommandLine.Text
                 Copyright = CopyrightInfo.Empty,
                 AdditionalNewLineAfterOption = true,
                 AddDashesToOption = !verbsIndex,
-                MaximumDisplayWidth = maxDisplayWidth
+                MaximumDisplayWidth = config.DisplayWidth,
+                AutoHelp = config.AutoHelp,
+                AutoVersion = config.AutoVersion
             };
 
             try
@@ -264,7 +287,8 @@ namespace CommandLine.Text
                 if (errors.OnlyMeaningfulOnes().Any())
                     auto = onError(auto);
             }
-
+            //this seems to be the earliest meaningful point at which we can let the client configure the helptext options
+            config.Configurer(auto);
             ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>()
                 .Do(license => license.AddToHelpText(auto, true));
 
@@ -307,7 +331,30 @@ namespace CommandLine.Text
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
-        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = DefaultMaximumLength)
+        [Obsolete("Calling this method directly is now deprecated in favour of Parser.Default.SetDisplayWidth")]
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = HelpTextConfiguration.DefaultMaximumLength)
+        {
+            return AutoBuild(parserResult,  HelpTextConfiguration.Default.WithDisplayWidth(maxDisplayWidth));
+        }
+        [Obsolete("Internal use only - avoid calling this method directly and prefer configuring via Parser.Default.Set...")]
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, ParserSettings settings)
+        {
+            return AutoBuild(parserResult, settings.HelpTextConfiguration);
+        }
+
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class,
+        /// automatically handling verbs or options scenario.
+        /// </summary>
+        /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
+        /// <param name="config">The configuration for the help text.</param>
+        /// <returns>
+        /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
+        /// </returns>
+        /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
+        /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, HelpTextConfiguration config)
         {
             if (parserResult.Tag != ParserResultType.NotParsed)
                 throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
@@ -315,16 +362,18 @@ namespace CommandLine.Text
             var errors = ((NotParsed<T>)parserResult).Errors;
 
             if (errors.Any(e => e.Tag == ErrorType.VersionRequestedError))
-                return new HelpText(HeadingInfo.Default){MaximumDisplayWidth = maxDisplayWidth }.AddPreOptionsLine(Environment.NewLine);
+                return new HelpText(HeadingInfo.Default){MaximumDisplayWidth = config.DisplayWidth,AutoHelp = config.AutoHelp, AutoVersion = config.AutoVersion }.AddPreOptionsLine(Environment.NewLine);
 
             if (!errors.Any(e => e.Tag == ErrorType.HelpVerbRequestedError))
-                return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, maxDisplayWidth: maxDisplayWidth);
+                return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e,config);
+
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
             return err.Matched
-                ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current), e => e, maxDisplayWidth: maxDisplayWidth)
-                : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, true, maxDisplayWidth);
+                ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current), e => e,config)
+                : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e,config,true);
+
         }
 
         /// <summary>

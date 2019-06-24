@@ -19,11 +19,12 @@ namespace CommandLine
         private bool disposed;
         private readonly ParserSettings settings;
         private static readonly Lazy<Parser> DefaultParser = new Lazy<Parser>(
-            () => new Parser(new ParserSettings { HelpWriter = Console.Error }));
+            () => new Parser(new ParserSettings() ));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Parser"/> class.
         /// </summary>
+        [Obsolete("Calling the constructor directly is deprecated - prefer Parser.Default")]
         public Parser()
         {
             settings = new ParserSettings { Consumed = true };
@@ -35,6 +36,7 @@ namespace CommandLine
         /// </summary>
         /// <param name="configuration">The <see cref="Action&lt;ParserSettings&gt;"/> delegate used to configure
         /// aspects and behaviors of the parser.</param>
+        [Obsolete("Calling the constructor directly is deprecated - prefer Parser.Default.Set....")]
         public Parser(Action<ParserSettings> configuration)
         {
             if (configuration == null) throw new ArgumentNullException("configuration");
@@ -194,16 +196,15 @@ namespace CommandLine
         {
             return DisplayHelp(
                 parserResult,
-                settings.HelpWriter,
-                settings.MaximumDisplayWidth);
+                settings.HelpTextConfiguration);
         }
 
-        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter, int maxDisplayWidth)
+        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, HelpTextConfiguration helpTextConfig)
         {
             parserResult.WithNotParsed(
                 errors =>
-                    Maybe.Merge(errors.ToMaybe(), helpWriter.ToMaybe())
-                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult, maxDisplayWidth)))
+                    Maybe.Merge(errors.ToMaybe(), helpTextConfig.HelpWriter.ToMaybe())
+                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult,helpTextConfig)))
                 );
 
             return parserResult;
@@ -228,5 +229,75 @@ namespace CommandLine
                 disposed = true;
             }
         }
+        /// <summary>
+        /// Allows the client to use a stream other than Console.Error for ouput.  NOTE - client should dispose the stream
+        /// </summary>
+        /// <param name="writer">The output stream to use </param>
+        /// <returns>The parser</returns>
+        public Parser SetTextWriter(TextWriter writer)
+        {
+            settings.Consumed = false;
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithHelpWriter(writer);
+            settings.Consumed = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Allows the client to select the display width
+        /// </summary>
+        /// <param name="width">The desired width</param>
+        /// <param name="policy">The policy to use when setting the width</param>
+        /// <returns>The parser</returns>
+        public Parser SetDisplayWidth(int width,WidthPolicy policy)
+        {
+            settings.Consumed = false;
+            //Note that the parser constructor has probably already worked out the console width
+            if (policy == WidthPolicy.FitToScreen)
+                width = Math.Min(settings.HelpTextConfiguration.DisplayWidth, width);
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithDisplayWidth(width);
+            settings.Consumed = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Allows the client to configure flags in the helpText class
+        /// </summary>
+        /// <param name="configurer">An action which can set flags in the HelpText class</param>
+        /// <returns>The parser</returns>
+        public Parser SetHelpTextConfiguration(Action<HelpText> configurer)
+        {
+            settings.Consumed = false;
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithConfigurer(configurer);
+            settings.Consumed = true;
+            return this;
+        }
+       
+        
+        /// <summary>
+        /// Allows the client to turn the automatic help verb on and off 
+        /// </summary>
+        /// <param name="enable">turn on/off</param>
+        /// <returns>The parser</returns>
+        public Parser SetAutoHelp(bool enable)
+        {
+            settings.Consumed = false;
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithAutoHelp(enable);
+            settings.Consumed = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Allows the client to turn the automatic version reporting on and off
+        /// </summary>
+        /// <param name="enable">turn on/off</param>
+        /// <returns>The parser</returns>
+        public Parser SetAutoVersion(bool enable)
+        {
+            settings.Consumed = false;
+            settings.HelpTextConfiguration = settings.HelpTextConfiguration.WithAutoVersion(enable);
+            settings.Consumed = true;
+            return this;
+        }
+
     }
 }
