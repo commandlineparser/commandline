@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using CommandLine.Core;
 using System.Linq;
 using System.Reflection;
@@ -700,7 +701,18 @@ namespace CommandLine.Tests.Unit.Text
             Assert.Contains("Display this help screen.", helpText, StringComparison.InvariantCulture);
             Assert.DoesNotContain("Display version information.", helpText, StringComparison.InvariantCulture);
             Assert.DoesNotContain("--version", helpText, StringComparison.InvariantCulture);
-         
+        }
+
+        [Fact]
+        public void Only_contains_one_error()
+        {
+          var helpWriter = new StringWriter();
+          var sut = new Parser(config => { config.AutoHelp = false; config.HelpWriter = helpWriter; });
+
+          sut.ParseArguments<Simple_Options_With_HelpText_Set>(new string[] {"--help"});
+          var helpText = helpWriter.ToString();
+          helpText.Contains("--help").Should().BeFalse();
+          helpText.Replace("ERROR(S)", "").Length.Should().Be(helpText.Length - 8);
         }
     }
 }
