@@ -714,5 +714,18 @@ namespace CommandLine.Tests.Unit.Text
           helpText.Contains("--help").Should().BeFalse();
           helpText.Replace("ERROR(S)", "").Length.Should().Be(helpText.Length - 8);
         }
+
+        [Fact]
+        public void Only_contains_one_error_using_new_configuration_mechanism()
+        {
+            var helpWriter = new StringWriter();
+            var sut = Parser.Default.SetAutoHelp(false)
+                .SetTextWriter(helpWriter);
+
+            sut.ParseArguments<Simple_Options_With_HelpText_Set>(new string[] {"--help"});
+            var helpText = helpWriter.ToString();
+            helpText.Contains("--help").Should().BeFalse();
+            helpText.Replace("ERROR(S)", "").Length.Should().Be(helpText.Length - 8);
+        }
     }
 }
