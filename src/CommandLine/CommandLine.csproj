@@ -19,7 +19,7 @@
     <Description Condition="'$(BuildTarget)' != 'fsharp'">Terse syntax C# command line parser for .NET.  For FSharp support see CommandLineParser.FSharp.  The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</Description>
     <Description Condition="'$(BuildTarget)' == 'fsharp'">Terse syntax C# command line parser for .NET with F# support. The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</Description>
     <Copyright>Copyright (c) 2005 - 2018 Giacomo Stelluti Scala &amp; Contributors</Copyright>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/gsscoder/commandline/master/doc/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/commandlineparser/commandline/master/License.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/commandlineparser/commandline</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/commandlineparser/commandline/master/art/CommandLine20.png</PackageIconUrl>
     <PackageTags>command line;commandline;argument;option;parser;parsing;library;syntax;shell</PackageTags>
