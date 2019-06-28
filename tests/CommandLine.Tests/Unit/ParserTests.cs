@@ -860,5 +860,25 @@ namespace CommandLine.Tests.Unit
                     Assert.Equal("two", args.Arg2);
                 });
         }
+
+
+        [Fact]
+        public void Blank_lines_are_inserted_between_verbs()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
+
+            // Exercize system
+            sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { });
+            var result = help.ToString();
+            
+            // Verify outcome
+            var lines = result.ToLines().TrimStringArray();
+            lines[6].Should().BeEquivalentTo("add        Add file contents to the index.");
+            lines[8].Should().BeEquivalentTo("help       Display more information on a specific command.");
+            lines[10].Should().BeEquivalentTo("version    Display version information.");
+            // Teardown
+        }
     }
 }
