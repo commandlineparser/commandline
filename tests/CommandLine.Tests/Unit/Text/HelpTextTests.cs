@@ -324,14 +324,9 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+			
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());			
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
             lines[4].Should().BeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
@@ -360,14 +355,8 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
             lines[3].Should().BeEquivalentTo("changes to commit.");
             lines[4].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
@@ -393,14 +382,8 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which changes to commit.");
             lines[3].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
             lines[4].Should().BeEquivalentTo("-m, --message    Use the given message as the commit message.");
@@ -425,14 +408,8 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("add        Add file contents to the index.");
             lines[3].Should().BeEquivalentTo("commit     Record changes to the repository.");
             lines[4].Should().BeEquivalentTo("clone      Clone a repository into a new directory.");
@@ -510,15 +487,9 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var text = helpText.ToString();
-            var lines = text.ToNotEmptyLines().Select(x=>x.Trim()).ToArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            var lines = text.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
             lines[4].Should().BeEquivalentTo("USAGE:");

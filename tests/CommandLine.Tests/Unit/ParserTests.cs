@@ -8,6 +8,7 @@ using System.Linq;
 using CommandLine.Tests.Fakes;
 using FluentAssertions;
 using Xunit;
+using CommandLine.Text;
 
 namespace CommandLine.Tests.Unit
 {
@@ -340,13 +341,8 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
-            lines.Should().HaveCount(x => x == 1);
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-#endif
+            lines.Should().HaveCount(x => x == 1);			
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
             // Teardown
         }
 
@@ -364,14 +360,8 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("No verb selected.");
             lines[4].Should().BeEquivalentTo("add        Add file contents to the index.");
@@ -395,14 +385,8 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
             lines[2].Should().BeEquivalentTo("add        Add file contents to the index.");
             lines[3].Should().BeEquivalentTo("commit     Record changes to the repository.");
             lines[4].Should().BeEquivalentTo("clone      Clone a repository into a new directory.");
@@ -428,12 +412,7 @@ namespace CommandLine.Tests.Unit
             result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines.Should().HaveCount(x => x == 1);
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
             // Teardown
         }
 
@@ -450,14 +429,8 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Option: 'weburl' is not compatible with: 'ftpurl'.");
             lines[4].Should().BeEquivalentTo("Option: 'ftpurl' is not compatible with: 'weburl'.");
@@ -503,14 +476,8 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Option 'badoption' is unknown.");
             lines[4].Should().BeEquivalentTo("USAGE:");
@@ -543,14 +510,8 @@ namespace CommandLine.Tests.Unit
             
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("No verb selected.");
             lines[4].Should().BeEquivalentTo("add        Add file contents to the index.");
@@ -573,14 +534,8 @@ namespace CommandLine.Tests.Unit
             
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
             lines[2].Should().BeEquivalentTo("-f, --force    Allow adding otherwise ignored files.");
             lines[3].Should().BeEquivalentTo("--help         Display this help screen.");
             lines[4].Should().BeEquivalentTo("--version      Display version information.");
@@ -645,14 +600,8 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
             lines[2].Should().BeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
             lines[3].Should().BeEquivalentTo("filesystem by copying files.");
             lines[4].Should().BeEquivalentTo("-q, --quiet       Suppress summary message.");
@@ -719,14 +668,8 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("testhost");
-            lines[1].Should().StartWithEquivalent("© Microsoft Corporation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Option 'bad-arg' is unknown.");
             lines[4].Should().BeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
