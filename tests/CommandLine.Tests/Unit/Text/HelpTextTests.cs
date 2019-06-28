@@ -79,7 +79,7 @@ namespace CommandLine.Tests.Unit.Text
 
 
 
-        //[Fact]
+        [Fact]
         public void Create_instance_with_enum_options_enabled()
         {
             // Fixture setup
@@ -184,7 +184,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void When_help_text_has_hidden_option_it_should_not_be_added_to_help_text_output()
         {
             // Fixture setup
@@ -198,7 +198,7 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[2].Should().BeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the "); //"The first line should have the arguments and the start of the Help Text.");
+            lines[2].Should().BeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the"); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
             lines[3].Should().BeEquivalentTo("                wrapping capabilities of the Help Text.");
             // Teardown
@@ -309,7 +309,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Options_returns_appropriate_formatted_text()
         {
             // Fixture setup
@@ -330,9 +330,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].Should().StartWithEquivalent("Copyright (c)");
 #else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+           // The first two lines depend on the test-runner so ignore them
 #endif
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
@@ -345,7 +343,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Verbs_with_specific_verb_returns_appropriate_formatted_text()
         {
             // Fixture setup
@@ -366,9 +364,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].Should().StartWithEquivalent("Copyright (c)");
 #else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+         // The first two lines depend on the test-runner so ignore them
 #endif
             lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
             lines[3].Should().BeEquivalentTo("changes to commit.");
@@ -378,7 +374,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Verbs_with_specific_verb_returns_appropriate_formatted_text_given_display_width_100()
         {
             // Fixture setup
@@ -399,9 +395,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
 #else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            // The first two lines depend on the test-runner so ignore them
 #endif
             lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which changes to commit.");
             lines[3].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
@@ -410,7 +404,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Verbs_with_unknown_verb_returns_appropriate_formatted_text()
         {
             // Fixture setup
@@ -431,9 +425,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[0].Should().StartWithEquivalent("CommandLine");
             lines[1].Should().StartWithEquivalent("Copyright (c)");
 #else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            // The first two lines depend on the test-runner so ignore them
 #endif
             lines[2].Should().BeEquivalentTo("add        Add file contents to the index.");
             lines[3].Should().BeEquivalentTo("commit     Record changes to the repository.");
@@ -496,7 +488,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[10].Should().BeEquivalentTo("  mono testapp.exe value");
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Options_with_Usage_returns_appropriate_formatted_text()
         {
             // Fixture setup
@@ -518,32 +510,32 @@ namespace CommandLine.Tests.Unit.Text
             lines[1].Should().StartWithEquivalent("Copyright (c)");
 #else
             // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
+            //the first lines may depend on the test-runner (Ncrunch in my case) so ignore them
+           
 #endif
             lines[2].Should().BeEquivalentTo("ERROR(S):");
-            lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
+            lines[3].Should().BeEquivalentTo("  Token 'badtoken' is not recognized.");
             lines[4].Should().BeEquivalentTo("USAGE:");
             lines[5].Should().BeEquivalentTo("Normal scenario:");
-            lines[6].Should().BeEquivalentTo("mono testapp.exe --input file.bin --output out.bin");
+            lines[6].Should().BeEquivalentTo("  mono testapp.exe --input file.bin --output out.bin");
             lines[7].Should().BeEquivalentTo("Logging warnings:");
-            lines[8].Should().BeEquivalentTo("mono testapp.exe -w --input file.bin");
+            lines[8].Should().BeEquivalentTo("  mono testapp.exe -w --input file.bin");
             lines[9].Should().BeEquivalentTo("Logging errors:");
-            lines[10].Should().BeEquivalentTo("mono testapp.exe -e --input file.bin");
-            lines[11].Should().BeEquivalentTo("mono testapp.exe --errs --input=file.bin");
+            lines[10].Should().BeEquivalentTo("  mono testapp.exe -e --input file.bin");
+            lines[11].Should().BeEquivalentTo("  mono testapp.exe --errs --input=file.bin");
             lines[12].Should().BeEquivalentTo("List:");
-            lines[13].Should().BeEquivalentTo("mono testapp.exe -l 1,2");
+            lines[13].Should().BeEquivalentTo("  mono testapp.exe -l 1,2");
             lines[14].Should().BeEquivalentTo("Value:");
-            lines[15].Should().BeEquivalentTo("mono testapp.exe value");
-            lines[16].Should().BeEquivalentTo("-i, --input     Set input file.");
-            lines[17].Should().BeEquivalentTo("-i, --output    Set output file.");
-            lines[18].Should().BeEquivalentTo("--verbose       Set verbosity level.");
-            lines[19].Should().BeEquivalentTo("-w, --warns     Log warnings.");
-            lines[20].Should().BeEquivalentTo("-e, --errs      Log errors.");
-            lines[21].Should().BeEquivalentTo("-l              List.");
-            lines[22].Should().BeEquivalentTo("--help          Display this help screen.");
-            lines[23].Should().BeEquivalentTo("--version       Display version information.");
-            lines[24].Should().BeEquivalentTo("value pos. 0    Value.");
+            lines[15].Should().BeEquivalentTo("  mono testapp.exe value");
+            lines[16].Should().BeEquivalentTo("  -i, --input     Set input file.");
+            lines[17].Should().BeEquivalentTo("  -i, --output    Set output file.");
+            lines[18].Should().BeEquivalentTo("  --verbose       Set verbosity level.");
+            lines[19].Should().BeEquivalentTo("  -w, --warns     Log warnings.");
+            lines[20].Should().BeEquivalentTo("  -e, --errs      Log errors.");
+            lines[21].Should().BeEquivalentTo("  -l              List.");
+            lines[22].Should().BeEquivalentTo("  --help          Display this help screen.");
+            lines[23].Should().BeEquivalentTo("  --version       Display version information.");
+            lines[24].Should().BeEquivalentTo("  value pos. 0    Value.");
 
             // Teardown
         }
@@ -736,6 +728,21 @@ namespace CommandLine.Tests.Unit.Text
          
             // Teardown
         }
+        [Fact]
+        public void HelpTextPreservesIndentationAcrossWordWrapWithSmallMaximumDisplayWidth()
+        {
+            // Fixture setup
+            // Exercise system 
+            var sut = new HelpText {AddDashesToOption = true,MaximumDisplayWidth = 10} 
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(HelpTextWithLineBreaksAndSubIndentation_Options)),
+                    Enumerable.Empty<Error>()));
 
+            // Verify outcome
+          
+            Assert.True(sut.ToString().Length>0);
+			
+            // Teardown
+        }
+        
     }
 }

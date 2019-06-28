@@ -41,7 +41,8 @@ namespace CommandLine.Text
         /// <returns>this</returns>
         public TextWrapper WordWrap(int columnWidth)
         {
-
+            //ensure we always use at least 1 column even if the client has told us there's no space available
+            columnWidth = Math.Max(1, columnWidth);
             lines= lines
                 .SelectMany(line => WordWrapLine(line, columnWidth))
                 .ToArray();
