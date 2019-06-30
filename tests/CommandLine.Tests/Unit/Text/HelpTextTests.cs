@@ -77,8 +77,6 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-
-
         [Fact]
         public void Create_instance_with_enum_options_enabled()
         {
@@ -162,8 +160,6 @@ namespace CommandLine.Tests.Unit.Text
             lines[6].Should().BeEquivalentTo("                Text.");
             // Teardown
         }
-        
-
 
         [Fact]
         public void When_help_text_is_longer_than_width_it_will_wrap_around_as_if_in_a_column_given_width_of_100()
@@ -298,7 +294,6 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = errorsText.ToNotEmptyLines();
-
             lines[0].Should().BeEquivalentTo("  ERR badtoken");
             lines[1].Should().BeEquivalentTo("  ERR x, switch");
             lines[2].Should().BeEquivalentTo("  ERR unknown");
@@ -326,12 +321,8 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-           // The first two lines depend on the test-runner so ignore them
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());			
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
             lines[4].Should().BeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
@@ -360,12 +351,8 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-         // The first two lines depend on the test-runner so ignore them
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
             lines[3].Should().BeEquivalentTo("changes to commit.");
             lines[4].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
@@ -390,13 +377,8 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
-
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // The first two lines depend on the test-runner so ignore them
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which changes to commit.");
             lines[3].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
             lines[4].Should().BeEquivalentTo("-m, --message    Use the given message as the commit message.");
@@ -421,12 +403,8 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // The first two lines depend on the test-runner so ignore them
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("add        Add file contents to the index.");
             lines[3].Should().BeEquivalentTo("commit     Record changes to the repository.");
             lines[4].Should().BeEquivalentTo("clone      Clone a repository into a new directory.");
@@ -504,42 +482,35 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var text = helpText.ToString();
-            var lines = text.ToNotEmptyLines();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // Takes the name of the xUnit test program
-            //the first lines may depend on the test-runner (Ncrunch in my case) so ignore them
-           
-#endif
+            var lines = text.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("ERROR(S):");
-            lines[3].Should().BeEquivalentTo("  Token 'badtoken' is not recognized.");
+            lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
             lines[4].Should().BeEquivalentTo("USAGE:");
             lines[5].Should().BeEquivalentTo("Normal scenario:");
-            lines[6].Should().BeEquivalentTo("  mono testapp.exe --input file.bin --output out.bin");
+            lines[6].Should().BeEquivalentTo("mono testapp.exe --input file.bin --output out.bin");
             lines[7].Should().BeEquivalentTo("Logging warnings:");
-            lines[8].Should().BeEquivalentTo("  mono testapp.exe -w --input file.bin");
+            lines[8].Should().BeEquivalentTo("mono testapp.exe -w --input file.bin");
             lines[9].Should().BeEquivalentTo("Logging errors:");
-            lines[10].Should().BeEquivalentTo("  mono testapp.exe -e --input file.bin");
-            lines[11].Should().BeEquivalentTo("  mono testapp.exe --errs --input=file.bin");
+            lines[10].Should().BeEquivalentTo("mono testapp.exe -e --input file.bin");
+            lines[11].Should().BeEquivalentTo("mono testapp.exe --errs --input=file.bin");
             lines[12].Should().BeEquivalentTo("List:");
-            lines[13].Should().BeEquivalentTo("  mono testapp.exe -l 1,2");
+            lines[13].Should().BeEquivalentTo("mono testapp.exe -l 1,2");
             lines[14].Should().BeEquivalentTo("Value:");
-            lines[15].Should().BeEquivalentTo("  mono testapp.exe value");
-            lines[16].Should().BeEquivalentTo("  -i, --input     Set input file.");
-            lines[17].Should().BeEquivalentTo("  -i, --output    Set output file.");
-            lines[18].Should().BeEquivalentTo("  --verbose       Set verbosity level.");
-            lines[19].Should().BeEquivalentTo("  -w, --warns     Log warnings.");
-            lines[20].Should().BeEquivalentTo("  -e, --errs      Log errors.");
-            lines[21].Should().BeEquivalentTo("  -l              List.");
-            lines[22].Should().BeEquivalentTo("  --help          Display this help screen.");
-            lines[23].Should().BeEquivalentTo("  --version       Display version information.");
-            lines[24].Should().BeEquivalentTo("  value pos. 0    Value.");
+            lines[15].Should().BeEquivalentTo("mono testapp.exe value");
+            lines[16].Should().BeEquivalentTo("-i, --input     Set input file.");
+            lines[17].Should().BeEquivalentTo("-i, --output    Set output file.");
+            lines[18].Should().BeEquivalentTo("--verbose       Set verbosity level.");
+            lines[19].Should().BeEquivalentTo("-w, --warns     Log warnings.");
+            lines[20].Should().BeEquivalentTo("-e, --errs      Log errors.");
+            lines[21].Should().BeEquivalentTo("-l              List.");
+            lines[22].Should().BeEquivalentTo("--help          Display this help screen.");
+            lines[23].Should().BeEquivalentTo("--version       Display version information.");
+            lines[24].Should().BeEquivalentTo("value pos. 0    Value.");
 
             // Teardown
         }
-
 
         [Fact]
         public void Default_set_to_sequence_should_be_properly_printed()
@@ -612,7 +583,6 @@ namespace CommandLine.Tests.Unit.Text
             actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
         }
 
-
         [Fact]
         public void AutoBuild_with_assembly_company_attribute_only()
         {
@@ -646,7 +616,7 @@ namespace CommandLine.Tests.Unit.Text
 
             Assert.Equal("T" + Environment.NewLine + "e" + Environment.NewLine + "s" + Environment.NewLine + "t", b.ToString());
         }
-        
+
         [Fact]
         public void HelpTextHonoursLineBreaks()
         {
@@ -708,7 +678,6 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-
         [Fact]
         public void HelpTextIsConsitentRegardlessOfCompileTimeLineStyle()
         {
@@ -727,6 +696,7 @@ namespace CommandLine.Tests.Unit.Text
          
             // Teardown
         }
+
         [Fact]
         public void HelpTextPreservesIndentationAcrossWordWrapWithSmallMaximumDisplayWidth()
         {
@@ -742,8 +712,6 @@ namespace CommandLine.Tests.Unit.Text
 			
             // Teardown
         }
-        
-     
 
         [Fact]
         public void Options_should_be_separated_by_spaces()
@@ -771,6 +739,5 @@ namespace CommandLine.Tests.Unit.Text
 
             // Teardown
         }
-
     }
 }
