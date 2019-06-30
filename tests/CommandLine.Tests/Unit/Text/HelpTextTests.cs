@@ -77,7 +77,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Create_instance_with_enum_options_enabled()
         {
             // Fixture setup
@@ -182,7 +182,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void When_help_text_has_hidden_option_it_should_not_be_added_to_help_text_output()
         {
             // Fixture setup
@@ -307,7 +307,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Options_returns_appropriate_formatted_text()
         {
             // Fixture setup
@@ -324,14 +324,9 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
-#endif
+			
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());			
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
             lines[4].Should().BeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
@@ -343,7 +338,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Verbs_with_specific_verb_returns_appropriate_formatted_text()
         {
             // Fixture setup
@@ -360,14 +355,8 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
             lines[3].Should().BeEquivalentTo("changes to commit.");
             lines[4].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
@@ -376,7 +365,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Verbs_with_specific_verb_returns_appropriate_formatted_text_given_display_width_100()
         {
             // Fixture setup
@@ -393,14 +382,8 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().BeEquivalentTo("Copyright (c) 2005 - 2018 Giacomo Stelluti Scala & Contributors");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which changes to commit.");
             lines[3].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
             lines[4].Should().BeEquivalentTo("-m, --message    Use the given message as the commit message.");
@@ -408,7 +391,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Verbs_with_unknown_verb_returns_appropriate_formatted_text()
         {
             // Fixture setup
@@ -425,14 +408,8 @@ namespace CommandLine.Tests.Unit.Text
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
 
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
-#endif
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("add        Add file contents to the index.");
             lines[3].Should().BeEquivalentTo("commit     Record changes to the repository.");
             lines[4].Should().BeEquivalentTo("clone      Clone a repository into a new directory.");
@@ -494,7 +471,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[10].Should().BeEquivalentTo("  mono testapp.exe value");
         }
 
-        //[Fact]
+        [Fact]
         public void Invoke_AutoBuild_for_Options_with_Usage_returns_appropriate_formatted_text()
         {
             // Fixture setup
@@ -510,15 +487,9 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var text = helpText.ToString();
-            var lines = text.ToNotEmptyLines();
-#if !PLATFORM_DOTNET
-            lines[0].Should().StartWithEquivalent("CommandLine");
-            lines[1].Should().StartWithEquivalent("Copyright (c)");
-#else
-            // Takes the name of the xUnit test program
-            lines[0].Should().StartWithEquivalent("xUnit");
-            lines[1].Should().StartWithEquivalent("Copyright (C) Outercurve Foundation");
-#endif
+            var lines = text.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("ERROR(S):");
             lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
             lines[4].Should().BeEquivalentTo("USAGE:");
@@ -653,5 +624,6 @@ namespace CommandLine.Tests.Unit.Text
 
             Assert.Equal("T" + Environment.NewLine + "e" + Environment.NewLine + "s" + Environment.NewLine + "t", b.ToString());
         }
+        
     }
 }
