@@ -21,6 +21,18 @@ namespace CommandLine.Text
     {
         private const int BuilderCapacity = 128;
         private const int DefaultMaximumLength = 80; // default console width
+        /// <summary>
+        /// The number of spaces between an option and its associated help text
+        /// </summary>
+        private const int OptionToHelpTextSeparatorWidth = 4; 
+        /// <summary>
+        /// The width of the option prefix (either "--" or "  "
+        /// </summary>
+        private const int OptionPrefixWidth = 2;
+        /// <summary>
+        /// The total amount of extra space that needs to accounted for when indenting Option help text
+        /// </summary>
+        private const int TotalOptionPadding = OptionToHelpTextSeparatorWidth + OptionPrefixWidth;
         private readonly StringBuilder preOptionsHelp;
         private readonly StringBuilder postOptionsHelp;
         private readonly SentenceBuilder sentenceBuilder;
@@ -608,7 +620,7 @@ namespace CommandLine.Text
                 var styles = example.GetFormatStylesOrDefault();
                 foreach (var s in styles)
                 {
-                    var commandLine = new StringBuilder(2.Spaces())
+                    var commandLine = new StringBuilder(OptionPrefixWidth.Spaces())
                         .Append(appAlias)
                         .Append(' ')
                         .Append(Parser.Default.FormatCommandLine(example.Sample,
@@ -665,37 +677,7 @@ namespace CommandLine.Text
             value = value.TrimEnd();
 
             builder.AppendWhen(builder.Length > 0, Environment.NewLine);
-            do
-            {
-                var wordBuffer = 0;
-                var words = value.Split(' ');
-                for (var i = 0; i < words.Length; i++)
-                {
-                    if (words[i].Length < (maximumLength - wordBuffer))
-                    {
-                        builder.Append(words[i]);
-                        wordBuffer += words[i].Length;
-                        if ((maximumLength - wordBuffer) > 1 && i != words.Length - 1)
-                        {
-                            builder.Append(" ");
-                            wordBuffer++;
-                        }
-                    }
-                    else if (words[i].Length >= maximumLength && wordBuffer == 0)
-                    {
-                        builder.Append(words[i].Substring(0, maximumLength));
-                        wordBuffer = maximumLength;
-                        break;
-                    }
-                    else
-                        break;
-                }
-                value = value.Substring(Math.Min(wordBuffer, value.Length));
-                builder.AppendWhen(value.Length > 0, Environment.NewLine);
-            }
-            while (value.Length > maximumLength);
-
-            builder.Append(value);
+            builder.Append(TextWrapper.WrapAndIndentText(value, 0, maximumLength));
         }
 
         private IEnumerable<Specification> GetSpecificationsFromType(Type type)
@@ -757,7 +739,7 @@ namespace CommandLine.Text
 
             optionsHelp = new StringBuilder(BuilderCapacity);
 
-            var remainingSpace = maximumLength - (maxLength + 6);
+            var remainingSpace = maximumLength - (maxLength + TotalOptionPadding);
 
             specifications.ForEach(
                 option =>
@@ -809,7 +791,7 @@ namespace CommandLine.Text
 
             optionsHelp
                 .Append(name.Length < maxLength ? name.ToString().PadRight(maxLength) : name.ToString())
-                .Append("    ");
+                .Append(OptionToHelpTextSeparatorWidth.Spaces());
 
             var optionHelpText = specification.HelpText;
 
@@ -821,44 +803,13 @@ namespace CommandLine.Text
 
             if (specification.Required)
                 optionHelpText = "{0} ".FormatInvariant(requiredWord) + optionHelpText;
-
-            if (!string.IsNullOrEmpty(optionHelpText))
-            {
-                do
-                {
-                    var wordBuffer = 0;
-                    var words = optionHelpText.Split(' ');
-                    for (var i = 0; i < words.Length; i++)
-                    {
-                        if (words[i].Length < (widthOfHelpText - wordBuffer))
-                        {
-                            optionsHelp.Append(words[i]);
-                            wordBuffer += words[i].Length;
-                            if ((widthOfHelpText - wordBuffer) > 1 && i != words.Length - 1)
-                            {
-                                optionsHelp.Append(" ");
-                                wordBuffer++;
-                            }
-                        }
-                        else if (words[i].Length >= widthOfHelpText && wordBuffer == 0)
-                        {
-                            optionsHelp.Append(words[i].Substring(0, widthOfHelpText));
-                            wordBuffer = widthOfHelpText;
-                            break;
-                        }
-                        else
-                            break;
-                    }
-
-                    optionHelpText = optionHelpText.Substring(Math.Min(wordBuffer, optionHelpText.Length)).Trim();
-                    optionsHelp.AppendWhen(optionHelpText.Length > 0, Environment.NewLine,
-                        new string(' ', maxLength + 6));
-                }
-                while (optionHelpText.Length > widthOfHelpText);
-            }
-
+          
+            //note that we need to indent trim the start of the string because it's going to be 
+            //appended to an existing line that is as long as the indent-level
+            var indented = TextWrapper.WrapAndIndentText(optionHelpText, maxLength+TotalOptionPadding, widthOfHelpText).TrimStart();
+          
             optionsHelp
-                .Append(optionHelpText)
+                .Append(indented)
                 .Append(Environment.NewLine)
                 .AppendWhen(additionalNewLineAfterOption, Environment.NewLine);
 
@@ -944,13 +895,13 @@ namespace CommandLine.Text
             {
                 specLength += spec.LongName.Length;
                 if (AddDashesToOption)
-                    specLength += 2;
+                    specLength += OptionPrefixWidth;
 
                 specLength += metaLength;
             }
 
             if (hasShort && hasLong)
-                specLength += 2; // ", "
+                specLength += OptionPrefixWidth; 
 
             return specLength;
         }
@@ -997,5 +948,10 @@ namespace CommandLine.Text
                 ? builder.ToString(0, builder.Length - 1)
                 : string.Empty;
         }
+
+      
+
     }
 }
+
+

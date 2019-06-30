@@ -154,14 +154,12 @@ namespace CommandLine.Tests.Unit.Text
             var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             lines[2].Should().BeEquivalentTo("  v, verbose    This is the description"); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
-            lines[3].Should().BeEquivalentTo("                of the verbosity to ");
-            lines[4].Should().BeEquivalentTo("                test out the wrapping ");
-            lines[5].Should().BeEquivalentTo("                capabilities of the ");
-            lines[6].Should().BeEquivalentTo("                Help Text.");
+            lines[3].Should().BeEquivalentTo("                of the verbosity to test");
+            lines[4].Should().BeEquivalentTo("                out the wrapping");
+            lines[5].Should().BeEquivalentTo("                capabilities of the Help");
+            lines[6].Should().BeEquivalentTo("                Text.");
             // Teardown
         }
-        
-
 
         [Fact]
         public void When_help_text_is_longer_than_width_it_will_wrap_around_as_if_in_a_column_given_width_of_100()
@@ -176,7 +174,7 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[2].Should().BeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the wrapping capabilities of "); //"The first line should have the arguments and the start of the Help Text.");
+            lines[2].Should().BeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the wrapping capabilities of"); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
             lines[3].Should().BeEquivalentTo("                the Help Text.");
             // Teardown
@@ -196,7 +194,7 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            lines[2].Should().BeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the "); //"The first line should have the arguments and the start of the Help Text.");
+            lines[2].Should().BeEquivalentTo("  v, verbose    This is the description of the verbosity to test out the"); //"The first line should have the arguments and the start of the Help Text.");
             //string formattingMessage = "Beyond the second line should be formatted as though it's in a column.";
             lines[3].Should().BeEquivalentTo("                wrapping capabilities of the Help Text.");
             // Teardown
@@ -216,10 +214,10 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines();
-            lines[1].Should().BeEquivalentTo("  v, verbose    Before ");
+            lines[1].Should().BeEquivalentTo("  v, verbose    Before");
             lines[2].Should().BeEquivalentTo("                012345678901234567890123");
             lines[3].Should().BeEquivalentTo("                After");
-            lines[4].Should().BeEquivalentTo("  input-file    Before ");
+            lines[4].Should().BeEquivalentTo("  input-file    Before");
             lines[5].Should().BeEquivalentTo("                012345678901234567890123");
             lines[6].Should().BeEquivalentTo("                456789 After");
             // Teardown
@@ -238,12 +236,12 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = sut.ToString().ToNotEmptyLines();
-            lines[1].Should().BeEquivalentTo("Before ");
+            lines[1].Should().BeEquivalentTo("Before");
             lines[2].Should().BeEquivalentTo("0123456789012345678901234567890123456789");
             lines[3].Should().BeEquivalentTo("012 After");
-            lines[lines.Length - 3].Should().BeEquivalentTo("Before ");
+            lines[lines.Length - 3].Should().BeEquivalentTo("Before");
             lines[lines.Length - 2].Should().BeEquivalentTo("0123456789012345678901234567890123456789");
-            lines[lines.Length - 1].Should().BeEquivalentTo(" After");
+            lines[lines.Length - 1].Should().BeEquivalentTo("After");
 
             // Teardown
         }
@@ -296,7 +294,6 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = errorsText.ToNotEmptyLines();
-
             lines[0].Should().BeEquivalentTo("  ERR badtoken");
             lines[1].Should().BeEquivalentTo("  ERR x, switch");
             lines[2].Should().BeEquivalentTo("  ERR unknown");
@@ -324,7 +321,6 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
-			
             lines[0].Should().Be(HeadingInfo.Default.ToString());
             lines[1].Should().Be(CopyrightInfo.Default.ToString());			
             lines[2].Should().BeEquivalentTo("ERROR(S):");
@@ -381,7 +377,6 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
-
             lines[0].Should().Be(HeadingInfo.Default.ToString());
             lines[1].Should().Be(CopyrightInfo.Default.ToString());	
             lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which changes to commit.");
@@ -517,7 +512,6 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
 
-#if !PLATFORM_DOTNET
         [Fact]
         public void Default_set_to_sequence_should_be_properly_printed()
         {
@@ -543,7 +537,6 @@ namespace CommandLine.Tests.Unit.Text
 
             // Teardown
         }
-#endif
 
         [Fact]
         public void AutoBuild_when_no_assembly_attributes()
@@ -590,7 +583,6 @@ namespace CommandLine.Tests.Unit.Text
             actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
         }
 
-
         [Fact]
         public void AutoBuild_with_assembly_company_attribute_only()
         {
@@ -624,6 +616,128 @@ namespace CommandLine.Tests.Unit.Text
 
             Assert.Equal("T" + Environment.NewLine + "e" + Environment.NewLine + "s" + Environment.NewLine + "t", b.ToString());
         }
-        
+
+        [Fact]
+        public void HelpTextHonoursLineBreaks()
+        {
+            // Fixture setup
+            // Exercize system 
+            var sut = new HelpText {AddDashesToOption = true}
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(HelpTextWithLineBreaks_Options)),
+                    Enumerable.Empty<Error>()));
+
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines();
+            lines[0].Should().BeEquivalentTo("  --stringvalue    This is a help text description.");
+            lines[1].Should().BeEquivalentTo("                   It has multiple lines.");
+            lines[2].Should().BeEquivalentTo("                   We also want to ensure that indentation is correct.");
+         
+            // Teardown
+        }
+
+        [Fact]
+        public void HelpTextHonoursIndentationAfterLineBreaks()
+        {
+            // Fixture setup
+            // Exercize system 
+            var sut = new HelpText {AddDashesToOption = true}
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(HelpTextWithLineBreaks_Options)),
+                    Enumerable.Empty<Error>()));
+
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines();
+            lines[3].Should().BeEquivalentTo("  --stringvalu2    This is a help text description where we want");
+            lines[4].Should().BeEquivalentTo("                      the left pad after a linebreak to be honoured so that");
+            lines[5].Should().BeEquivalentTo("                      we can sub-indent within a description.");
+         
+            // Teardown
+        }
+
+        [Fact]
+        public void HelpTextPreservesIndentationAcrossWordWrap()
+        {
+            // Fixture setup
+            // Exercise system 
+            var sut = new HelpText {AddDashesToOption = true,MaximumDisplayWidth = 60}
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(HelpTextWithLineBreaksAndSubIndentation_Options)),
+                    Enumerable.Empty<Error>()));
+
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines();
+            lines[0].Should().BeEquivalentTo("  --stringvalue    This is a help text description where we");
+            lines[1].Should().BeEquivalentTo("                   want:");
+            lines[2].Should().BeEquivalentTo("                       * The left pad after a linebreak to");
+            lines[3].Should().BeEquivalentTo("                       be honoured and the indentation to be");
+            lines[4].Should().BeEquivalentTo("                       preserved across to the next line");
+            lines[5].Should().BeEquivalentTo("                       * The ability to return to no indent.");
+            lines[6].Should().BeEquivalentTo("                   Like this.");
+
+            // Teardown
+        }
+
+        [Fact]
+        public void HelpTextIsConsitentRegardlessOfCompileTimeLineStyle()
+        {
+            // Fixture setup
+            // Exercize system 
+            var sut = new HelpText {AddDashesToOption = true}
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(HelpTextWithMixedLineBreaks_Options)),
+                    Enumerable.Empty<Error>()));
+
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines();
+            lines[0].Should().BeEquivalentTo("  --stringvalue    This is a help text description");
+            lines[1].Should().BeEquivalentTo("                     It has multiple lines.");
+            lines[2].Should().BeEquivalentTo("                     Third line");
+         
+            // Teardown
+        }
+
+        [Fact]
+        public void HelpTextPreservesIndentationAcrossWordWrapWithSmallMaximumDisplayWidth()
+        {
+            // Fixture setup
+            // Exercise system 
+            var sut = new HelpText {AddDashesToOption = true,MaximumDisplayWidth = 10} 
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(HelpTextWithLineBreaksAndSubIndentation_Options)),
+                    Enumerable.Empty<Error>()));
+
+            // Verify outcome
+          
+            Assert.True(sut.ToString().Length>0);
+			
+            // Teardown
+        }
+
+        [Fact]
+        public void Options_should_be_separated_by_spaces()
+        {
+            // Fixture setup
+            var handlers = new CultureInfo("en-US").MakeCultureHandlers();
+            var fakeResult =
+                new NotParsed<Options_With_Default_Set_To_Sequence>(
+                    typeof(Options_With_Default_Set_To_Sequence).ToTypeInfo(),
+                    Enumerable.Empty<Error>()
+                    );
+
+            // Exercize system
+            handlers.ChangeCulture();
+            var helpText = HelpText.AutoBuild(fakeResult);
+            handlers.ResetCulture();
+
+            // Verify outcome
+            var text = helpText.ToString();
+            var lines = text.ToLines().TrimStringArray();
+            Console.WriteLine(text);
+            lines[3].Should().Be("-z, --strseq    (Default: a b c)");
+            lines[5].Should().Be("-y, --intseq    (Default: 1 2 3)");
+            lines[7].Should().Be("-q, --dblseq    (Default: 1.1 2.2 3.3)");
+
+            // Teardown
+        }
     }
 }
