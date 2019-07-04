@@ -1,164 +1,93 @@
-﻿using CommandLine.Tests.Fakes;
+﻿using System;
+using System.Linq;
+using CommandLine.Tests.Fakes;
 using CommandLine.Text;
 using FluentAssertions;
 using Xunit;
 
 namespace CommandLine.Tests.Unit.Text
 {
-    public class HelpTextTests2
+    public class HelpTextAutoBuildFix
     {
+
         [Fact]
-        public static void error_ishelp()
+        public void HelpText_wit_AdditionalNewLineAfterOption_true_should_have_newline()
         {
             // Fixture setup
-            // Exercize system
-            var parser = new Parser(x => x.HelpWriter = null);
-            var result = parser.ParseArguments<Simple_Options>(new[]{"--help"});
+            // Exercize system 
+            var sut = new HelpText { AdditionalNewLineAfterOption = true }
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(Simple_Options)),
+                    Enumerable.Empty<Error>()));
 
-            result .WithNotParsed(errs =>
-            {
-                errs.IsHelp().Should().BeTrue();
-                errs.IsVersion().Should().BeFalse();
-            });
-        }
-        [Fact]
-        public static void error_isVersion()
-        {
-            // Fixture setup
-            // Exercize system
-            var parser = new Parser(x => x.HelpWriter = null);
-            var result = parser.ParseArguments<Simple_Options>(new[]{"--version"});
+            // Verify outcome
 
-            result .WithNotParsed(errs =>
-            {
-                errs.IsHelp().Should().BeFalse();
-                errs.IsVersion().Should().BeTrue();
-            });
-        }
-        
-        [Fact]
-        public static void custom_helptext_with_AdditionalNewLineAfterOption_false()
-        {
-            // Fixture setup
-            // Exercize system
-            var parser = new Parser(x => x.HelpWriter = null);
-            var result = parser.ParseArguments<Simple_Options>(new[]{"--help"});
+            var lines = sut.ToString().ToLines();
 
-            result .WithNotParsed(errs =>
-            {
-               
-                var sut = HelpText.AutoBuild(result,
-                    h =>
-                    {
-                        h.AdditionalNewLineAfterOption = false;
-                        return h;
-                    }
-                    , e => e);
-                //Assert
-                var expected = new[]
-                {
-                    "  --help                Display this help screen.",
-                    "  --version             Display version information."
-                };
-                var lines = sut.ToString().ToLines();
-                lines.Should().ContainInOrder(expected);
-            });
+            lines[2].Should().BeEquivalentTo("  stringvalue        Define a string value here.");
+            lines[3].Should().BeEquivalentTo(String.Empty);
+            lines[4].Should().BeEquivalentTo("  s, shortandlong    Example with both short and long name.");
+            lines[5].Should().BeEquivalentTo(String.Empty);
+            lines[7].Should().BeEquivalentTo(String.Empty);
+            lines[9].Should().BeEquivalentTo(String.Empty);
+            lines[11].Should().BeEquivalentTo(String.Empty);
+            lines[13].Should().BeEquivalentTo(String.Empty);
+            lines[14].Should().BeEquivalentTo("  value pos. 0       Define a long value here.");
+            // Teardown
         }
 
         [Fact]
-        public static void custom_helptext_with_AdditionalNewLineAfterOption_true()
+        public void HelpText_wit_AdditionalNewLineAfterOption_false_should_not_have_newline()
         {
             // Fixture setup
-            // Exercize system
-            var parser = new Parser(x => x.HelpWriter = null);
-            var result = parser.ParseArguments<Simple_Options>(new[]{"--help"});
+            // Exercize system 
+            var sut = new HelpText { AdditionalNewLineAfterOption = false }
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(Simple_Options)),
+                    Enumerable.Empty<Error>()));
 
-            result .WithNotParsed(errs =>
-            {
-               
-                var sut = HelpText.AutoBuild(result,
-                    h =>h //AdditionalNewLineAfterOption =true by default
-                    , e => e);
-               
-                //Assert
-                var expected = new[]
-                {
-                    string.Empty,
-                    "  --help                Display this help screen.",
-                    string.Empty, 
-                    "  --version             Display version information."
-                };
-                var lines = sut.ToString().ToLines();
-                lines.Should().ContainInOrder(expected);
-            });
+            // Verify outcome
+
+            var lines = sut.ToString().ToLines();
+
+            lines[2].Should().BeEquivalentTo("  stringvalue        Define a string value here.");
+
+            lines[3].Should().BeEquivalentTo("  s, shortandlong    Example with both short and long name.");
+            lines[8].Should().BeEquivalentTo("  value pos. 0       Define a long value here.");
+            // Teardown
         }
-
-       
         [Fact]
-        public static void custom_helptext_with_parser_autohelp_false_and_AdditionalNewLineAfterOption_false()
+        public void HelpText_wit_by_default_should_include_help_version_option()
         {
             // Fixture setup
-            // Exercize system
-            var parser = new Parser(x =>
-            {
-                x.HelpWriter = null;
-                x.AutoHelp=false;
-                //x.AutoVersion=false;
-            });
-            var result = parser.ParseArguments<Simple_Options>(new[]{"--help"});
-            //you could generate help even parser.AutoHelp is disabled
-            result .WithNotParsed(errs =>
-            {
-                errs.IsHelp().Should().BeTrue();
-                var sut = HelpText.AutoBuild(result,
-                    h =>
-                    {
-                        h.AdditionalNewLineAfterOption = false;
-                        return h;
-                    }
-                    , e => e);
-              
-                //Assert
-                var expected = new[]
-                {
-                    "  --help                Display this help screen.",
-                    "  --version             Display version information."
-                };
-                var lines = sut.ToString().ToLines();
-                lines.Should().ContainInOrder(expected);
-            });
+            // Exercize system 
+            var sut = new HelpText ()
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(Simple_Options)),
+                    Enumerable.Empty<Error>()));
+
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines();
+            lines.Should().HaveCount(c => c ==7);
+            lines.Should().Contain("  help               Display more information on a specific command.");
+            lines.Should().Contain("  version            Display version information.");
+            // Teardown
         }
 
         [Fact]
-        public static void custom_helptext_with_autohelp_false()
+        public void HelpText_wit_AutoHelp_false_should_hide_help_option()
         {
             // Fixture setup
-            // Exercize system
-            var parser = new Parser(x =>
-            {
-                x.HelpWriter = null;
-                x.AutoHelp=false;
-                //x.AutoVersion=false;
-            });
-            var result = parser.ParseArguments<Simple_Options>(new[]{"--help"});
+            // Exercize system 
+            var sut = new HelpText { AutoHelp = false,AutoVersion = false}
+                .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(Simple_Options)),
+                    Enumerable.Empty<Error>()));
 
-            result .WithNotParsed(errs =>
-            {
-                errs.IsHelp().Should().BeTrue();
-                var sut = HelpText.AutoBuild(result,
-                    h =>h,e => e);
-             
-                //Assert
-                var expected = new[]
-                {
-                    string.Empty,
-                    "  --help                Display this help screen.",
-                    string.Empty, 
-                    "  --version             Display version information."
-                };
-                var lines = sut.ToString().ToLines();
-                lines.Should().ContainInOrder(expected);
-            });
+            // Verify outcome
+
+            var lines = sut.ToString().ToNotEmptyLines();
+            lines.Should().HaveCount(c => c ==5);
+            lines.Should().NotContain("  help               Display more information on a specific command.");
+            lines.Should().NotContain("  version            Display version information.");
+            // Teardown
         }
     }
 }
