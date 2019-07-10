@@ -273,9 +273,7 @@ namespace CommandLine.Text
             if (onError != null && parserResult.Tag == ParserResultType.NotParsed)
             {
                 errors = ((NotParsed<T>)parserResult).Errors;
-                if (errors.IsHelp())
-                    auto = onError(auto);
-                else if (errors.OnlyMeaningfulOnes().Any())
+                if (errors.IsHelp() || errors.OnlyMeaningfulOnes().Any())
                     auto = onError(auto);
             }
 
