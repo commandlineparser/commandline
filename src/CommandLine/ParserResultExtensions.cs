@@ -49,6 +49,8 @@ namespace CommandLine
             return result;
         }
 
+#if !NET40
+
         /// <summary>
         /// Executes an async <paramref name="action"/> if <see cref="CommandLine.ParserResult{T}"/> contains
         /// parsed values.
@@ -87,6 +89,8 @@ namespace CommandLine
             return result;
         }
 
+#endif
+
         /// <summary>
         /// Executes <paramref name="action"/> if <see cref="CommandLine.ParserResult{T}"/> lacks
         /// parsed values and contains errors.
@@ -105,6 +109,8 @@ namespace CommandLine
             return result;
         }
 
+#if !NET40
+
         /// <summary>
         /// Executes an async <paramref name="action"/> if <see cref="CommandLine.ParserResult{T}"/> lacks
         /// parsed values and contains errors.
@@ -122,6 +128,8 @@ namespace CommandLine
             }
             return result;
         }
+
+#endif
 
         /// <summary>
         /// Provides a way to transform result data into another value.
