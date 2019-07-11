@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CommandLine
 {
@@ -49,6 +50,44 @@ namespace CommandLine
         }
 
         /// <summary>
+        /// Executes an async <paramref name="action"/> if <see cref="CommandLine.ParserResult{T}"/> contains
+        /// parsed values.
+        /// </summary>
+        /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
+        /// <param name="result">An <see cref="CommandLine.ParserResult{T}"/> instance.</param>
+        /// <param name="action">The <see cref="Func{T, Task}"/> to execute.</param>
+        /// <returns>The same <paramref name="result"/> instance.</returns>
+        public static async Task<ParserResult<T>> WithParsedAsync<T>(this ParserResult<T> result, Func<T, Task> action)
+        {
+            var parsed = result as Parsed<T>;
+            if (parsed != null)
+            {
+                await action(parsed.Value);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Executes an async <paramref name="action"/> if parsed values are of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
+        /// <param name="result">An verb result instance.</param>
+        /// <param name="action">The <see cref="Func{T, Task}"/> to execute.</param>
+        /// <returns>The same <paramref name="result"/> instance.</returns>
+        public static async Task<ParserResult<object>> WithParsedAsync<T>(this ParserResult<object> result, Func<T, Task> action)
+        {
+            var parsed = result as Parsed<object>;
+            if (parsed != null)
+            {
+                if (parsed.Value is T)
+                {
+                    await action((T)parsed.Value);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Executes <paramref name="action"/> if <see cref="CommandLine.ParserResult{T}"/> lacks
         /// parsed values and contains errors.
         /// </summary>
@@ -62,6 +101,24 @@ namespace CommandLine
             if (notParsed != null)
             {
                 action(notParsed.Errors);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Executes an async <paramref name="action"/> if <see cref="CommandLine.ParserResult{T}"/> lacks
+        /// parsed values and contains errors.
+        /// </summary>
+        /// <typeparam name="T">Type of the target instance built with parsed value.</typeparam>
+        /// <param name="result">An <see cref="CommandLine.ParserResult{T}"/> instance.</param>
+        /// <param name="action">The <see cref="System.Func{T, TResult}"/> delegate to execute.</param>
+        /// <returns>The same <paramref name="result"/> instance.</returns>
+        public static async Task<ParserResult<T>> WithNotParsedAsync<T>(this ParserResult<T> result, Func<IEnumerable<Error>, Task> action)
+        {
+            var notParsed = result as NotParsed<T>;
+            if (notParsed != null)
+            {
+                await action(notParsed.Errors);
             }
             return result;
         }
