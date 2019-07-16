@@ -9,23 +9,19 @@ namespace CommandLine.Tests.Fakes
     public static class StaticResource
     {
         public static string HelpText { get { return "Localized HelpText"; } }
+        internal static string InternalText { get { return "Internal Text"; } }
+        private static string PrivateText { get { return "Private Text"; } }
     }
 
     public class NonStaticResource
     {
         public static string HelpText { get { return "Localized HelpText"; } }
-        public static string WriteOnlyText { set { value?.ToString(); } }
-        private static string PrivateHelpText { get { return "Localized HelpText"; } }
-    }
-
-    public class NonStaticResource_WithNonStaticProperty
-    {
-        public string HelpText { get { return "Localized HelpText"; } }
+        public static string WriteOnlyText { set { } }
+        public string InstanceText { get { return "Instance Text"; } }
     }
 
     internal class InternalResource
     {
-        public static string HelpText { get { return "Localized HelpText"; } }
+        public static string Text { get { return "Localized Text"; } }
     }
-
 }
