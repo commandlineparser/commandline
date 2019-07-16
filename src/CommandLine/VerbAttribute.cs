@@ -8,10 +8,12 @@ namespace CommandLine
     /// Models a verb command specification.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false, Inherited = true)]
-    public sealed class VerbAttribute : Attribute
+    //public sealed class VerbAttribute : Attribute
+    public  class VerbAttribute : Attribute
     {
         private readonly string name;
-        private string helpText;
+        private Infrastructure.LocalizableAttributeProperty helpText;
+        private Type resourceType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.VerbAttribute"/> class.
@@ -23,7 +25,8 @@ namespace CommandLine
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name");
 
             this.name = name;
-            this.helpText = string.Empty;
+            helpText = new Infrastructure.LocalizableAttributeProperty(nameof(HelpText));
+            resourceType = null;
         }
 
         /// <summary>
@@ -48,11 +51,16 @@ namespace CommandLine
         /// </summary>
         public string HelpText
         {
-            get { return helpText; }
-            set
-            {
-                helpText = value ?? throw new ArgumentNullException("value");
-            }
+            get => helpText.Value??string.Empty;
+            set => helpText.Value = value ?? throw new ArgumentNullException("value");
+        }
+        /// <summary>
+        /// Gets or sets the <see cref="System.Type"/> that contains the resources for <see cref="HelpText"/>.
+        /// </summary>
+        public Type ResourceType
+        {
+            get => resourceType;
+            set => resourceType =helpText.ResourceType = value;
         }
     }
 }
