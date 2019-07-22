@@ -230,7 +230,7 @@ namespace CommandLine.Text
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
         /// <remarks>The parameter <paramref name="verbsIndex"/> is not ontly a metter of formatting, it controls whether to handle verbs or options.</remarks>
         public static HelpText AutoBuild<T>(
-            ParserResult<T> parserResult,
+            ParserResult<T> parserResult,Comparison<OptionAttribute> comparison,
             Func<HelpText, HelpText> onError,
             Func<Example, Example> onExample,
             bool verbsIndex = false,
@@ -269,8 +269,10 @@ namespace CommandLine.Text
                 .Do(license => license.AddToHelpText(auto, true));
 
             var usageAttr = ReflectionHelper.GetAttribute<AssemblyUsageAttribute>();
+            
+            
+            
             var usageLines = HelpText.RenderUsageTextAsLines(parserResult, onExample).ToMaybe();
-
             if (usageAttr.IsJust() || usageLines.IsJust())
             {
                 var heading = auto.SentenceBuilder.UsageHeadingText();
@@ -291,7 +293,7 @@ namespace CommandLine.Text
                 auto.AddVerbs(parserResult.TypeInfo.Choices.ToArray());
             }
             else
-                auto.AddOptions(parserResult);
+                auto.AddOptions(parserResult,comparison);
 
             return auto;
         }
@@ -318,13 +320,13 @@ namespace CommandLine.Text
                 return new HelpText(HeadingInfo.Default){MaximumDisplayWidth = maxDisplayWidth }.AddPreOptionsLine(Environment.NewLine);
 
             if (!errors.Any(e => e.Tag == ErrorType.HelpVerbRequestedError))
-                return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, maxDisplayWidth: maxDisplayWidth);
+                return AutoBuild(parserResult,null, current => DefaultParsingErrorsHandler(parserResult, current), e => e, maxDisplayWidth: maxDisplayWidth);
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
             return err.Matched
-                ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current), e => e, maxDisplayWidth: maxDisplayWidth)
-                : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, true, maxDisplayWidth);
+                ? AutoBuild(pr,null, current => DefaultParsingErrorsHandler(pr, current), e => e, maxDisplayWidth: maxDisplayWidth)
+                : AutoBuild(parserResult, null,current => DefaultParsingErrorsHandler(parserResult, current), e => e, true, maxDisplayWidth);
         }
 
         /// <summary>
@@ -436,12 +438,14 @@ namespace CommandLine.Text
         /// </summary>
         /// <param name="result">A parsing computation result.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="result"/> is null.</exception>
-        public HelpText AddOptions<T>(ParserResult<T> result)
+        public HelpText AddOptions<T>(ParserResult<T> result,Comparison<OptionAttribute> comparison = null)
         {
             if (result == null) throw new ArgumentNullException("result");
 
+            var specs = GetSpecificationsFromType((result.TypeInfo.Current),comparison);
+            
             return AddOptionsImpl(
-                GetSpecificationsFromType(result.TypeInfo.Current),
+                GetSpecificationsFromType(result.TypeInfo.Current,null),
                 SentenceBuilder.RequiredWord(),
                 MaximumDisplayWidth);
         }
@@ -698,9 +702,10 @@ namespace CommandLine.Text
             builder.Append(value);
         }
 
-        private IEnumerable<Specification> GetSpecificationsFromType(Type type)
+        private IEnumerable<Specification> GetSpecificationsFromType(Type type,Comparison<OptionAttribute> comparison = null)
         {
-            var specs = type.GetSpecifications(Specification.FromProperty);
+            var specs = type.GetSpecifications(Specification.FromProperty, comparison);
+            
             var optionSpecs = specs
                 .OfType<OptionSpecification>();
             if (autoHelp)

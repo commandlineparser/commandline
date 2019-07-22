@@ -14,15 +14,49 @@ namespace CommandLine.Core
 {
     static class ReflectionExtensions
     {
-        public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
+        public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector,Comparison<OptionAttribute> comparison = null)
         {
-            return from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
+            var properties = type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties());
+            var optionsProps = properties.SelectMany(x =>
+            {
+                var attrs = x.GetCustomAttributes();
+                return attrs.OfType<OptionAttribute>();
+            }).ToList<OptionAttribute>();
+
+            var names = optionsProps.Select(o => o.LongName).ToList();
+            
+            if (comparison != null)
+            {
+                optionsProps.Sort(comparison);
+            }
+            
+            var namesSort = optionsProps.Select(o => o.LongName).ToList();
+            
+            var valueProps = properties.SelectMany(x =>
+            {
+                var attrs = x.GetCustomAttributes();
+                return attrs.OfType<ValueAttribute>();
+            }).ToList<ValueAttribute>();
+            
+                /*
+                from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
+                let attrs = pi.GetCustomAttributes(true)
+                where
+                    attrs.OfType<OptionAttribute>().Any() 
+                group pi by pi.Name into g
+                select selector(g.First());
+            */
+            var unordered = from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
                    let attrs = pi.GetCustomAttributes(true)
                    where
                        attrs.OfType<OptionAttribute>().Any() ||
                        attrs.OfType<ValueAttribute>().Any()
                    group pi by pi.Name into g
                    select selector(g.First());
+         
+
+            return unordered;
+
         }
 
         public static Maybe<VerbAttribute> GetVerbSpecification(this Type type)

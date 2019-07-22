@@ -574,6 +574,7 @@ namespace CommandLine.Tests.Unit.Text
         }
 #endif
 
+        
         [Fact]
         public void AutoBuild_when_no_assembly_attributes()
         {
@@ -584,7 +585,7 @@ namespace CommandLine.Tests.Unit.Text
             ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
                 TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
             bool onErrorCalled = false;
-            HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => 
+            HelpText actualResult = HelpText.AutoBuild(fakeResult,null, ht => 
             {
                 onErrorCalled = true;
                 return ht;
@@ -609,7 +610,7 @@ namespace CommandLine.Tests.Unit.Text
             ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
                 TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
             bool onErrorCalled = false;
-            HelpText actualResult = HelpText.AutoBuild(fakeResult, ht =>
+            HelpText actualResult = HelpText.AutoBuild(fakeResult, null, ht =>
             {
                 onErrorCalled = true;
                 return ht;
@@ -619,6 +620,8 @@ namespace CommandLine.Tests.Unit.Text
             actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
         }
 
+        
+        
 
         [Fact]
         public void AutoBuild_with_assembly_company_attribute_only()
@@ -633,7 +636,7 @@ namespace CommandLine.Tests.Unit.Text
             ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
                 TypeInfo.Create(typeof (Simple_Options)), new Error[0]);
             bool onErrorCalled = false;
-            HelpText actualResult = HelpText.AutoBuild(fakeResult, ht =>
+            HelpText actualResult = HelpText.AutoBuild(fakeResult, null,ht =>
             {
                 onErrorCalled = true;
                 return ht;
