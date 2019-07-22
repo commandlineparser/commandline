@@ -28,38 +28,13 @@ namespace CommandLine.Tests.Unit
                 .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
                 .WithParsed(args => { ; });
 
-            Comparison<OptionAttribute> comparison = (OptionAttribute option1, OptionAttribute option2) =>
-            {
-                if (option1 == null)
-                {
-                    return -1;
-                }
-
-                if (option2 == null)
-                {
-                    return 1;
-                }
-
-                if (option1.Required && !option2.Required)
-                {
-                    return -1;
-                }
-                else if (!option1.Required && option2.Required)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return String.Compare(option1.LongName, option2.LongName, StringComparison.CurrentCulture);
-                }
-            };
+            Comparison<ComparableOption> comparison = HelpText.RequiredThenAlphaComparison;
 
 
-            var toto = HelpText.AutoBuild(parseResult, comparison,
+            var toto = HelpText.AutoBuild(parseResult, 
                 err => { throw new InvalidOperationException($"help text build failed. {err.ToString()}"); },
                 ex =>
                 {
-                    Console.WriteLine(ex.ToString());
                     return null;
                 });
 
@@ -74,7 +49,8 @@ namespace CommandLine.Tests.Unit
                 "-f, --foxtrot",
                 "-e, --echo",
                 "--help           Display this help screen.",
-                "--version        Display version information."
+                "--version        Display version information.",
+                "value pos. 0"     
             };
             Assert.Equal(expected.Count,helps.Count);
             int i = 0;
@@ -86,5 +62,7 @@ namespace CommandLine.Tests.Unit
 
             ;
         }
+        
+         
     }
 }

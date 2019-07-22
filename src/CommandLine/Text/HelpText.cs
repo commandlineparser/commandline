@@ -17,8 +17,71 @@ namespace CommandLine.Text
     /// Provides means to format an help screen.
     /// You can assign it in place of a <see cref="System.String"/> instance.
     /// </summary>
+    
+    
+    
+    public struct ComparableOption
+    {
+        public bool Required;
+        public bool IsOption;
+        public bool IsValue;
+        public string LongName;
+        public int Index;
+    }
+    
     public class HelpText
     {
+
+
+        ComparableOption ToComparableOption(Specification spec, int index)
+        {
+            OptionSpecification option = spec as OptionSpecification;
+            ValueSpecification value = spec as ValueSpecification;
+            bool required = option != null ? option.Required : false;
+            string name = option?.LongName;
+
+            return new ComparableOption()
+            {
+                Required = required,
+                IsOption = option != null,
+                IsValue = value != null,
+                LongName = name,
+                Index = index
+            };
+            
+        }
+
+
+        public static Comparison<ComparableOption> OptionComparison = null;
+
+        public static Comparison<ComparableOption> RequiredThenAlphaComparison  = (ComparableOption attr1, ComparableOption attr2) =>
+        {
+            if (attr1.IsOption && attr2.IsOption)
+            {
+                if (attr1.Required && !attr2.Required)
+                {
+                    return -1;
+                }
+                else if (!attr1.Required && attr2.Required)
+                {
+                    return 1;
+                }
+                else
+                {
+                    int t = String.Compare(attr1.LongName, attr2.LongName, StringComparison.CurrentCulture);
+                    return t;
+                }
+            }
+            else if (attr1.IsOption && attr2.IsValue)
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
+            }
+        };
+        
         private const int BuilderCapacity = 128;
         private const int DefaultMaximumLength = 80; // default console width
         private readonly StringBuilder preOptionsHelp;
@@ -754,14 +817,37 @@ namespace CommandLine.Text
             int maximumLength)
         {
             var maxLength = GetMaxLength(specifications);
+            
+            
 
             optionsHelp = new StringBuilder(BuilderCapacity);
 
             var remainingSpace = maximumLength - (maxLength + 6);
 
-            specifications.ForEach(
-                option =>
-                    AddOption(requiredWord, maxLength, option, remainingSpace));
+            if (OptionComparison != null)
+            {
+                int i = -1;
+                var comparables = specifications.ToList().Select(s =>
+                {
+                    i++;
+                    return ToComparableOption(s, i);
+                }).ToList();
+                comparables.Sort(OptionComparison);
+
+
+                foreach (var comparable in comparables)
+                {
+                    Specification spec = specifications.ElementAt(comparable.Index);
+                    AddOption(requiredWord, maxLength, spec, remainingSpace);
+                }
+            }
+            else
+            {
+                specifications.ForEach(
+                    option =>
+                        AddOption(requiredWord, maxLength, option, remainingSpace));
+
+            }
 
             return this;
         }
