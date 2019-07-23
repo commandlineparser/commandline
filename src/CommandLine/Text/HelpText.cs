@@ -26,6 +26,8 @@ namespace CommandLine.Text
         public bool IsOption;
         public bool IsValue;
         public string LongName;
+
+        public string ShortName;
         public int Index;
     }
 
@@ -156,14 +158,14 @@ namespace CommandLine.Text
             OptionSpecification option = spec as OptionSpecification;
             ValueSpecification value = spec as ValueSpecification;
             bool required = option != null ? option.Required : false;
-            string name = option?.LongName;
 
             return new ComparableOption()
             {
                 Required = required,
                 IsOption = option != null,
                 IsValue = value != null,
-                LongName = name,
+                LongName = option?.LongName,
+                ShortName = option?.ShortName,
                 Index = index
             };
 
@@ -410,6 +412,12 @@ namespace CommandLine.Text
             get { return sentenceBuilder; }
         }
 
+
+        public static HelpTextBuilder<T> CreateWith<T>(ParserResult<T> parserResult)
+        {
+            return new HelpTextBuilder<T>(parserResult);
+        }
+
         /// <summary>
         /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults.
         /// </summary>
@@ -421,12 +429,10 @@ namespace CommandLine.Text
         /// <param name='onExample'>A delegate used to customize <see cref="CommandLine.Text.Example"/> model used to render text block of usage examples.</param>
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
+        /// <param name="comparison">a comparison lambda to order options in help text</param>
         /// <remarks>The parameter <paramref name="verbsIndex"/> is not ontly a metter of formatting, it controls whether to handle verbs or options.</remarks>
 
-        public static HelpTextBuilder<T> CreateWith<T>(ParserResult<T> parserResult)
-        {
-            return new HelpTextBuilder<T>(parserResult);
-        }
+       
 
         public static HelpText AutoBuild<T>(
             ParserResult<T> parserResult,
