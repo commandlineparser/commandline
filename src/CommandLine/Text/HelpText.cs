@@ -76,72 +76,72 @@ namespace CommandLine.Text
 
         public string Build()
         {
-
-            //TODO  : call HelpText.AutoBuild according to set parameters.
-
-            // if (onError)
-            // HelpText.AutoBuild(parserResult,onError,onExample,verbsIndex,maxDisplayWidth);
-            // HelpText.AutoBuild(parserResult,maxDisplayWidth);
-
-            var auto = new HelpText
-            {
-                Heading = HeadingInfo.Empty,
-                Copyright = CopyrightInfo.Empty,
-                AdditionalNewLineAfterOption = true,
-                AddDashesToOption = !verbsIndex,
-                MaximumDisplayWidth = maxDisplayWidth,
-                OptionComparison = optionComparison
-            };
-
-            try
-            {
-                auto.Heading = HeadingInfo.Default;
-                auto.Copyright = CopyrightInfo.Default;
+            if (onError != null || onExample != null || optionComparison != null) {
+                return HelpText.AutoBuild(parserResult,onError,onExample,verbsIndex,maxDisplayWidth,optionComparison);
             }
-            catch (Exception)
-            {
-                auto = onError(auto);
+            else {
+                return HelpText.AutoBuild(parserResult,maxDisplayWidth);
             }
 
-            var errors = Enumerable.Empty<Error>();
+            // var auto = new HelpText
+            // {
+            //     Heading = HeadingInfo.Empty,
+            //     Copyright = CopyrightInfo.Empty,
+            //     AdditionalNewLineAfterOption = true,
+            //     AddDashesToOption = !verbsIndex,
+            //     MaximumDisplayWidth = maxDisplayWidth,
+            //     OptionComparison = optionComparison
+            // };
 
-            if (onError != null && parserResult.Tag == ParserResultType.NotParsed)
-            {
-                errors = ((NotParsed<T>)parserResult).Errors;
+            // try
+            // {
+            //     auto.Heading = HeadingInfo.Default;
+            //     auto.Copyright = CopyrightInfo.Default;
+            // }
+            // catch (Exception)
+            // {
+            //     auto = onError(auto);
+            // }
 
-                if (errors.OnlyMeaningfulOnes().Any())
-                    auto = onError(auto);
-            }
+            // var errors = Enumerable.Empty<Error>();
 
-            ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>()
-                .Do(license => license.AddToHelpText(auto, true));
+            // if (onError != null && parserResult.Tag == ParserResultType.NotParsed)
+            // {
+            //     errors = ((NotParsed<T>)parserResult).Errors;
 
-            var usageAttr = ReflectionHelper.GetAttribute<AssemblyUsageAttribute>();
-            var usageLines = HelpText.RenderUsageTextAsLines(parserResult, onExample).ToMaybe();
+            //     if (errors.OnlyMeaningfulOnes().Any())
+            //         auto = onError(auto);
+            // }
 
-            if (usageAttr.IsJust() || usageLines.IsJust())
-            {
-                var heading = auto.SentenceBuilder.UsageHeadingText();
-                if (heading.Length > 0)
-                    auto.AddPreOptionsLine(heading);
-            }
+            // ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>()
+            //     .Do(license => license.AddToHelpText(auto, true));
 
-            usageAttr.Do(
-                usage => usage.AddToHelpText(auto, true));
+            // var usageAttr = ReflectionHelper.GetAttribute<AssemblyUsageAttribute>();
+            // var usageLines = HelpText.RenderUsageTextAsLines(parserResult, onExample).ToMaybe();
 
-            usageLines.Do(
-                lines => auto.AddPreOptionsLines(lines));
+            // if (usageAttr.IsJust() || usageLines.IsJust())
+            // {
+            //     var heading = auto.SentenceBuilder.UsageHeadingText();
+            //     if (heading.Length > 0)
+            //         auto.AddPreOptionsLine(heading);
+            // }
 
-            if ((verbsIndex && parserResult.TypeInfo.Choices.Any())
-                || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
-            {
-                auto.AddDashesToOption = false;
-                auto.AddVerbs(parserResult.TypeInfo.Choices.ToArray());
-            }
-            else
-                auto.AddOptions(parserResult);
+            // usageAttr.Do(
+            //     usage => usage.AddToHelpText(auto, true));
 
-            return auto;
+            // usageLines.Do(
+            //     lines => auto.AddPreOptionsLines(lines));
+
+            // if ((verbsIndex && parserResult.TypeInfo.Choices.Any())
+            //     || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
+            // {
+            //     auto.AddDashesToOption = false;
+            //     auto.AddVerbs(parserResult.TypeInfo.Choices.ToArray());
+            // }
+            // else
+            //     auto.AddOptions(parserResult);
+
+            // return auto;
         }
     }
 
@@ -433,7 +433,8 @@ namespace CommandLine.Text
             Func<HelpText, HelpText> onError,
             Func<Example, Example> onExample,
             bool verbsIndex = false,
-            int maxDisplayWidth = DefaultMaximumLength)
+            int maxDisplayWidth = DefaultMaximumLength,
+            Comparison<ComparableOption> comparison = null)
         {
             var auto = new HelpText
             {
@@ -441,7 +442,8 @@ namespace CommandLine.Text
                 Copyright = CopyrightInfo.Empty,
                 AdditionalNewLineAfterOption = true,
                 AddDashesToOption = !verbsIndex,
-                MaximumDisplayWidth = maxDisplayWidth
+                MaximumDisplayWidth = maxDisplayWidth,
+                OptionComparison = comparison
             };
 
             try

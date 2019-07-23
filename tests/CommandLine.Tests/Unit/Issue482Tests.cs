@@ -17,7 +17,7 @@ namespace CommandLine.Tests.Unit
     public class Issue482Tests
     {
         [Fact]
-        public void AutoBuild_with_ordering()
+        public void AutoBuild_without_ordering()
         {
             string expectedCompany = "Company";
 
@@ -27,9 +27,6 @@ namespace CommandLine.Tests.Unit
                     new[] {"verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot"})
                 .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
                 .WithParsed(args => { ; });
-
-            Comparison<ComparableOption> comparison = HelpText.RequiredThenAlphaComparison;
-
 
             var toto = HelpText.AutoBuild(parseResult, 
                 err => { throw new InvalidOperationException($"help text build failed. {err.ToString()}"); },
