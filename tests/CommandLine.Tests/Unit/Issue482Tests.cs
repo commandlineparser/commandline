@@ -141,6 +141,12 @@ Comparison<ComparableOption> orderOnShortName = (ComparableOption attr1, Compara
                }
                else
                {
+                   if (string.IsNullOrEmpty(attr1.ShortName) && !string.IsNullOrEmpty(attr2.ShortName))   {
+                       return 1;
+                   }
+                   else if (!string.IsNullOrEmpty(attr1.ShortName) && string.IsNullOrEmpty(attr2.ShortName)) {
+                       return -1;
+                   }
                    int t = String.Compare(attr1.ShortName, attr2.ShortName, StringComparison.CurrentCulture);
                    return t;
                }
@@ -170,12 +176,12 @@ Comparison<ComparableOption> orderOnShortName = (ComparableOption attr1, Compara
             List<string> expected = new List<string>()
             {
                 "  -a, --alpha      Required.",
-                "  -b, --alpha2     Required.",                
+                "  -b, --alpha2     Required.",                                
                 "  -c, --bravo",
                 "  -d, --charlie",
                 "-e, --echo",
-                "-f, --foxtrot",
-                "--help           Display this help screen.",
+                "-f, --foxtrot",               
+                 "--help           Display this help screen.",
                 "--version        Display version information.",
                 "value pos. 0"     
             };
