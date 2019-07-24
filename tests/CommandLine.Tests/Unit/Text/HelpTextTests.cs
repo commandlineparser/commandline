@@ -317,7 +317,7 @@ namespace CommandLine.Tests.Unit.Text
                     });
 
             // Exercize system
-            var helpText = HelpText.CreateWith(fakeResult).Build();
+            var helpText = HelpText.AutoBuild(fakeResult);
 
             // Verify outcome
             var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();

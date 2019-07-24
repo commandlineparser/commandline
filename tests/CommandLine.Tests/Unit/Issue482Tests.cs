@@ -24,19 +24,19 @@ namespace CommandLine.Tests.Unit
 
             var parser = Parser.Default;
             var parseResult = parser.ParseArguments<Options_HelpText_Ordering_Verb1, Options_HelpText_Ordering_Verb2>(
-                    new[] {"verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot"})
+                    new[] { "verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot" })
                 .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
-                .WithParsed(args => { ; });
+                .WithParsed(args => {; });
 
-            var toto = HelpText.AutoBuild(parseResult, 
+            var message = HelpText.AutoBuild(parseResult,
                 err => { throw new InvalidOperationException($"help text build failed. {err.ToString()}"); },
                 ex =>
                 {
                     return null;
                 });
 
-            string helpMessage = toto.ToString();
-            var helps = helpMessage.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
+            string helpMessage = message.ToString();
+            var helps = helpMessage.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
             List<string> expected = new List<string>()
             {
                 "  -a, --alpha      Required.",
@@ -47,13 +47,13 @@ namespace CommandLine.Tests.Unit
                 "-e, --echo",
                 "--help           Display this help screen.",
                 "--version        Display version information.",
-                "value pos. 0"     
+                "value pos. 0"
             };
-            Assert.Equal(expected.Count,helps.Count);
+            Assert.Equal(expected.Count, helps.Count);
             int i = 0;
             foreach (var expect in expected)
             {
-                Assert.Equal(expect.Trim(),helps[i].Trim());
+                Assert.Equal(expect.Trim(), helps[i].Trim());
                 i++;
             }
 
@@ -61,141 +61,140 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public void AutoBuild_with_ordering_fluent()
+        public void AutoBuild_with_ordering()
         {
             string expectedCompany = "Company";
 
 
             var parser = Parser.Default;
             var parseResult = parser.ParseArguments<Options_HelpText_Ordering_Verb1, Options_HelpText_Ordering_Verb2>(
-                    new[] {"verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot"})
+                    new[] { "verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot" })
                 .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
-                .WithParsed(args => { ; });
+                .WithParsed(args => {; });
 
             Comparison<ComparableOption> comparison = HelpText.RequiredThenAlphaComparison;
 
-
-            var message = HelpText.CreateWith(parseResult)
-                .WithComparison(HelpText.RequiredThenAlphaComparison)
-                .OnError(error => {
-                    throw new InvalidOperationException($"help text build failed. {error.ToString()}");
-                })
-                .OnExample(ex =>
+            string message = HelpText.AutoBuild(parseResult, error =>
+            {
+                throw new InvalidOperationException($"help text build failed. {error.ToString()}");
+            },
+                ex =>
                     {
                         return null;
-                    })
-                .Build();
+                    },
+                    false,
+                    80,
+                    comparison);
             
-        
-
- 
 
             string helpMessage = message.ToString();
-            var helps = helpMessage.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
+            var helps = helpMessage.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
             List<string> expected = new List<string>()
             {
                 "  -a, --alpha      Required.",
-                "  -b, --alpha2     Required.",                
+                "  -b, --alpha2     Required.",
                 "  -c, --bravo",
                 "  -d, --charlie",
                 "-e, --echo",
                 "-f, --foxtrot",
                 "--help           Display this help screen.",
                 "--version        Display version information.",
-                "value pos. 0"     
+                "value pos. 0"
             };
-            Assert.Equal(expected.Count,helps.Count);
+            Assert.Equal(expected.Count, helps.Count);
             int i = 0;
             foreach (var expect in expected)
             {
-                Assert.Equal(expect.Trim(),helps[i].Trim());
+                Assert.Equal(expect.Trim(), helps[i].Trim());
                 i++;
             }
 
             ;
         }
 
-         [Fact]
-        public void otherOrdering()
+        [Fact]
+        public void AutoBuild_with_ordering_on_shortName()
         {
             string expectedCompany = "Company";
 
 
             var parser = Parser.Default;
             var parseResult = parser.ParseArguments<Options_HelpText_Ordering_Verb1, Options_HelpText_Ordering_Verb2>(
-                    new[] {"verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot"})
+                    new[] { "verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot" })
                 .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
-                .WithParsed(args => { ; });
+                .WithParsed(args => {; });
 
-Comparison<ComparableOption> orderOnShortName = (ComparableOption attr1, ComparableOption attr2) =>
-       {
-           if (attr1.IsOption && attr2.IsOption)
-           {
-               if (attr1.Required && !attr2.Required)
-               {
-                   return -1;
-               }
-               else if (!attr1.Required && attr2.Required)
-               {
-                   return 1;
-               }
-               else
-               {
-                   if (string.IsNullOrEmpty(attr1.ShortName) && !string.IsNullOrEmpty(attr2.ShortName))   {
-                       return 1;
-                   }
-                   else if (!string.IsNullOrEmpty(attr1.ShortName) && string.IsNullOrEmpty(attr2.ShortName)) {
-                       return -1;
-                   }
-                   int t = String.Compare(attr1.ShortName, attr2.ShortName, StringComparison.CurrentCulture);
-                   return t;
-               }
-           }
-           else if (attr1.IsOption && attr2.IsValue)
-           {
-               return -1;
-           }
-           else
-           {
-               return 1;
-           }
-       };
+            Comparison<ComparableOption> orderOnShortName = (ComparableOption attr1, ComparableOption attr2) =>
+                   {
+                       if (attr1.IsOption && attr2.IsOption)
+                       {
+                           if (attr1.Required && !attr2.Required)
+                           {
+                               return -1;
+                           }
+                           else if (!attr1.Required && attr2.Required)
+                           {
+                               return 1;
+                           }
+                           else
+                           {
+                               if (string.IsNullOrEmpty(attr1.ShortName) && !string.IsNullOrEmpty(attr2.ShortName))
+                               {
+                                   return 1;
+                               }
+                               else if (!string.IsNullOrEmpty(attr1.ShortName) && string.IsNullOrEmpty(attr2.ShortName))
+                               {
+                                   return -1;
+                               }
+                               int t = String.Compare(attr1.ShortName, attr2.ShortName, StringComparison.CurrentCulture);
+                               return t;
+                           }
+                       }
+                       else if (attr1.IsOption && attr2.IsValue)
+                       {
+                           return -1;
+                       }
+                       else
+                       {
+                           return 1;
+                       }
+                   };
+
+            string message = HelpText.AutoBuild(parseResult, error =>
+            {
+                throw new InvalidOperationException($"help text build failed. {error.ToString()}");
+            },
+                    ex =>
+                        {
+                            return null;
+                        },
+                        false,
+                        80,
+                        orderOnShortName);
 
 
-
-            var message = HelpText.CreateWith(parseResult)
-                .WithComparison(orderOnShortName)                
-                .Build();
-            
-        
-
- 
-
-            string helpMessage = message.ToString();
-            var helps = helpMessage.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
+            var helps = message.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
             List<string> expected = new List<string>()
             {
                 "  -a, --alpha      Required.",
-                "  -b, --alpha2     Required.",                                
+                "  -b, --alpha2     Required.",
                 "  -c, --bravo",
                 "  -d, --charlie",
                 "-e, --echo",
-                "-f, --foxtrot",               
+                "-f, --foxtrot",
                  "--help           Display this help screen.",
                 "--version        Display version information.",
-                "value pos. 0"     
+                "value pos. 0"
             };
-            Assert.Equal(expected.Count,helps.Count);
+            Assert.Equal(expected.Count, helps.Count);
             int i = 0;
             foreach (var expect in expected)
             {
-                Assert.Equal(expect.Trim(),helps[i].Trim());
+                Assert.Equal(expect.Trim(), helps[i].Trim());
                 i++;
             }
-
-            ;
         }
-        
-         
+
+
     }
 }

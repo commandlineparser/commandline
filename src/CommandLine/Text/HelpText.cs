@@ -17,138 +17,19 @@ namespace CommandLine.Text
     /// Provides means to format an help screen.
     /// You can assign it in place of a <see cref="System.String"/> instance.
     /// </summary>
-
-
-
+    
+    
+    
     public struct ComparableOption
     {
         public bool Required;
         public bool IsOption;
         public bool IsValue;
         public string LongName;
-
         public string ShortName;
         public int Index;
     }
-
-    public class HelpTextBuilder<T>
-    {
-
-        private Func<HelpText, HelpText> onError;
-        private ParserResult<T> parserResult;
-        private Func<Example, Example> onExample;
-
-        private bool verbsIndex = false;
-
-        private int maxDisplayWidth = HelpText.DefaultMaximumLength;
-
-        private Comparison<ComparableOption> optionComparison;
-
-        internal HelpTextBuilder(ParserResult<T> result)
-        {
-            parserResult = result;
-        }
-
-        public HelpTextBuilder<T> OnError(Func<HelpText, HelpText> error)
-        {
-            onError = error;
-            return this;
-        }
-        public HelpTextBuilder<T> OnExample(Func<Example, Example> example)
-        {
-            onExample = example;
-            return this;
-        }
-
-        public HelpTextBuilder<T> WithMaxDisplayWidth(int width) {
-            maxDisplayWidth = width;
-            return this;
-        }
-
-        public HelpTextBuilder<T> WithVerbsIndex(bool index) {
-            verbsIndex = index;
-            return this;
-        }
-
-        public HelpTextBuilder<T> WithComparison(Comparison<ComparableOption> comparison)
-        {
-            optionComparison = comparison;
-            return this;
-        }
-
-        public string Build()
-        {
-            if (onError != null || onExample != null || optionComparison != null) {
-                return HelpText.AutoBuild(parserResult,onError,onExample,verbsIndex,maxDisplayWidth,optionComparison);
-            }
-            else {
-                return HelpText.AutoBuild(parserResult,maxDisplayWidth);
-            }
-
-            // var auto = new HelpText
-            // {
-            //     Heading = HeadingInfo.Empty,
-            //     Copyright = CopyrightInfo.Empty,
-            //     AdditionalNewLineAfterOption = true,
-            //     AddDashesToOption = !verbsIndex,
-            //     MaximumDisplayWidth = maxDisplayWidth,
-            //     OptionComparison = optionComparison
-            // };
-
-            // try
-            // {
-            //     auto.Heading = HeadingInfo.Default;
-            //     auto.Copyright = CopyrightInfo.Default;
-            // }
-            // catch (Exception)
-            // {
-            //     auto = onError(auto);
-            // }
-
-            // var errors = Enumerable.Empty<Error>();
-
-            // if (onError != null && parserResult.Tag == ParserResultType.NotParsed)
-            // {
-            //     errors = ((NotParsed<T>)parserResult).Errors;
-
-            //     if (errors.OnlyMeaningfulOnes().Any())
-            //         auto = onError(auto);
-            // }
-
-            // ReflectionHelper.GetAttribute<AssemblyLicenseAttribute>()
-            //     .Do(license => license.AddToHelpText(auto, true));
-
-            // var usageAttr = ReflectionHelper.GetAttribute<AssemblyUsageAttribute>();
-            // var usageLines = HelpText.RenderUsageTextAsLines(parserResult, onExample).ToMaybe();
-
-            // if (usageAttr.IsJust() || usageLines.IsJust())
-            // {
-            //     var heading = auto.SentenceBuilder.UsageHeadingText();
-            //     if (heading.Length > 0)
-            //         auto.AddPreOptionsLine(heading);
-            // }
-
-            // usageAttr.Do(
-            //     usage => usage.AddToHelpText(auto, true));
-
-            // usageLines.Do(
-            //     lines => auto.AddPreOptionsLines(lines));
-
-            // if ((verbsIndex && parserResult.TypeInfo.Choices.Any())
-            //     || errors.Any(e => e.Tag == ErrorType.NoVerbSelectedError))
-            // {
-            //     auto.AddDashesToOption = false;
-            //     auto.AddVerbs(parserResult.TypeInfo.Choices.ToArray());
-            // }
-            // else
-            //     auto.AddOptions(parserResult);
-
-            // return auto;
-        }
-    }
-
-
-
+    
     public class HelpText
     {
 
@@ -168,46 +49,45 @@ namespace CommandLine.Text
                 ShortName = option?.ShortName,
                 Index = index
             };
-
         }
 
 
-        public Comparison<ComparableOption> OptionComparison {get; set;} = null;
+        public Comparison<ComparableOption> OptionComparison = null;
 
-        public static Comparison<ComparableOption> RequiredThenAlphaComparison = (ComparableOption attr1, ComparableOption attr2) =>
-       {
-           if (attr1.IsOption && attr2.IsOption)
-           {
-               if (attr1.Required && !attr2.Required)
-               {
-                   return -1;
-               }
-               else if (!attr1.Required && attr2.Required)
-               {
-                   return 1;
-               }
-               else
-               {
-                   int t = String.Compare(attr1.LongName, attr2.LongName, StringComparison.CurrentCulture);
-                   return t;
-               }
-           }
-           else if (attr1.IsOption && attr2.IsValue)
-           {
-               return -1;
-           }
-           else
-           {
-               return 1;
-           }
-       };
-
+        public static Comparison<ComparableOption> RequiredThenAlphaComparison  = (ComparableOption attr1, ComparableOption attr2) =>
+        {
+            if (attr1.IsOption && attr2.IsOption)
+            {
+                if (attr1.Required && !attr2.Required)
+                {
+                    return -1;
+                }
+                else if (!attr1.Required && attr2.Required)
+                {
+                    return 1;
+                }
+                else
+                {
+                    int t = String.Compare(attr1.LongName, attr2.LongName, StringComparison.CurrentCulture);
+                    return t;
+                }
+            }
+            else if (attr1.IsOption && attr2.IsValue)
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
+            }
+        };
+        
         private const int BuilderCapacity = 128;
-        public const int DefaultMaximumLength = 80; // default console width
+        private const int DefaultMaximumLength = 80; // default console width
         /// <summary>
         /// The number of spaces between an option and its associated help text
         /// </summary>
-        private const int OptionToHelpTextSeparatorWidth = 4;
+        private const int OptionToHelpTextSeparatorWidth = 4; 
         /// <summary>
         /// The width of the option prefix (either "--" or "  "
         /// </summary>
@@ -412,12 +292,6 @@ namespace CommandLine.Text
             get { return sentenceBuilder; }
         }
 
-
-        public static HelpTextBuilder<T> CreateWith<T>(ParserResult<T> parserResult)
-        {
-            return new HelpTextBuilder<T>(parserResult);
-        }
-
         /// <summary>
         /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults.
         /// </summary>
@@ -431,9 +305,6 @@ namespace CommandLine.Text
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
         /// <param name="comparison">a comparison lambda to order options in help text</param>
         /// <remarks>The parameter <paramref name="verbsIndex"/> is not ontly a metter of formatting, it controls whether to handle verbs or options.</remarks>
-
-       
-
         public static HelpText AutoBuild<T>(
             ParserResult<T> parserResult,
             Func<HelpText, HelpText> onError,
