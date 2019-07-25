@@ -74,18 +74,11 @@ namespace CommandLine.Tests.Unit
 
             Comparison<ComparableOption> comparison = HelpText.RequiredThenAlphaComparison;
 
-            string message = HelpText.AutoBuild(parseResult, error =>
-            {
-                throw new InvalidOperationException($"help text build failed. {error.ToString()}");
-            },
-                ex =>
-                    {
-                        return null;
-                    },
-                    false,
-                    80,
-                    comparison);
-            
+            string message = HelpText.AutoBuild(parseResult, 
+                error => {return null;},
+                ex => { return null;},
+                comparison:comparison);
+
 
             string helpMessage = message.ToString();
             var helps = helpMessage.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
@@ -146,8 +139,7 @@ namespace CommandLine.Tests.Unit
                                {
                                    return -1;
                                }
-                               int t = String.Compare(attr1.ShortName, attr2.ShortName, StringComparison.CurrentCulture);
-                               return t;
+                               return String.Compare(attr1.ShortName, attr2.ShortName, StringComparison.Ordinal);
                            }
                        }
                        else if (attr1.IsOption && attr2.IsValue)
@@ -160,14 +152,12 @@ namespace CommandLine.Tests.Unit
                        }
                    };
 
-            string message = HelpText.AutoBuild(parseResult, error =>
-            {
-                throw new InvalidOperationException($"help text build failed. {error.ToString()}");
-            },
-                    ex =>
-                        {
-                            return null;
-                        },
+            string message = HelpText.AutoBuild(parseResult, 
+                    error =>
+                    {
+                        throw new InvalidOperationException($"help text build failed. {error.ToString()}");
+                    },
+                    ex => { return null; },
                         false,
                         80,
                         orderOnShortName);

@@ -33,26 +33,27 @@ namespace CommandLine.Text
     public class HelpText
     {
 
+        #region ordering
 
         ComparableOption ToComparableOption(Specification spec, int index)
         {
             OptionSpecification option = spec as OptionSpecification;
             ValueSpecification value = spec as ValueSpecification;
-            bool required = option != null ? option.Required : false;
+            bool required = option?.Required ?? false;
 
             return new ComparableOption()
             {
                 Required = required,
                 IsOption = option != null,
                 IsValue = value != null,
-                LongName = option?.LongName,
+                LongName = option?.LongName ?? value?.MetaName,
                 ShortName = option?.ShortName,
                 Index = index
             };
         }
 
 
-        public Comparison<ComparableOption> OptionComparison = null;
+        public Comparison<ComparableOption> OptionComparison { get; set; } = null;
 
         public static Comparison<ComparableOption> RequiredThenAlphaComparison  = (ComparableOption attr1, ComparableOption attr2) =>
         {
@@ -66,11 +67,9 @@ namespace CommandLine.Text
                 {
                     return 1;
                 }
-                else
-                {
-                    int t = String.Compare(attr1.LongName, attr2.LongName, StringComparison.CurrentCulture);
-                    return t;
-                }
+                
+                return String.Compare(attr1.LongName, attr2.LongName, StringComparison.Ordinal);
+                
             }
             else if (attr1.IsOption && attr2.IsValue)
             {
@@ -81,6 +80,8 @@ namespace CommandLine.Text
                 return 1;
             }
         };
+        
+        #endregion
         
         private const int BuilderCapacity = 128;
         private const int DefaultMaximumLength = 80; // default console width
