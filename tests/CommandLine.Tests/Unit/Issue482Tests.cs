@@ -29,11 +29,13 @@ namespace CommandLine.Tests.Unit
                 .WithParsed(args => {; });
 
             var message = HelpText.AutoBuild(parseResult,
-                err => { throw new InvalidOperationException($"help text build failed. {err.ToString()}"); },
-                ex =>
+                error =>
                 {
-                    return null;
-                });
+                    error.OptionComparison = HelpText.RequiredThenAlphaComparison;
+                    return error;
+                },
+                ex => ex
+            );
 
             string helpMessage = message.ToString();
             var helps = helpMessage.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
@@ -74,10 +76,14 @@ namespace CommandLine.Tests.Unit
 
             Comparison<ComparableOption> comparison = HelpText.RequiredThenAlphaComparison;
 
-            string message = HelpText.AutoBuild(parseResult, 
-                error => {return null;},
-                ex => { return null;},
-                comparison:comparison);
+            string message = HelpText.AutoBuild(parseResult,
+                error =>
+                {
+                    error.OptionComparison = HelpText.RequiredThenAlphaComparison;
+                    return error;
+                },
+                ex => ex,
+                comparison: comparison);
 
 
             string helpMessage = message.ToString();
@@ -152,12 +158,13 @@ namespace CommandLine.Tests.Unit
                        }
                    };
 
-            string message = HelpText.AutoBuild(parseResult, 
+            string message = HelpText.AutoBuild(parseResult,
                     error =>
                     {
-                        throw new InvalidOperationException($"help text build failed. {error.ToString()}");
+                        error.OptionComparison = orderOnShortName;
+                        return error;
                     },
-                    ex => { return null; },
+                    ex => ex,
                         false,
                         80,
                         orderOnShortName);
