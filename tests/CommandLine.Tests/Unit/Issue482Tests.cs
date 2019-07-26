@@ -24,16 +24,12 @@ namespace CommandLine.Tests.Unit
 
             var parser = Parser.Default;
             var parseResult = parser.ParseArguments<Options_HelpText_Ordering_Verb1, Options_HelpText_Ordering_Verb2>(
-                    new[] { "verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot" })
-                .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
+                    new[] {  "verb1", "--help" })
+                .WithNotParsed(errors => { ; })
                 .WithParsed(args => {; });
 
             var message = HelpText.AutoBuild(parseResult,
-                error =>
-                {
-                    error.OptionComparison = HelpText.RequiredThenAlphaComparison;
-                    return error;
-                },
+                error =>error,
                 ex => ex
             );
 
@@ -70,8 +66,8 @@ namespace CommandLine.Tests.Unit
 
             var parser = Parser.Default;
             var parseResult = parser.ParseArguments<Options_HelpText_Ordering_Verb1, Options_HelpText_Ordering_Verb2>(
-                    new[] { "verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot" })
-                .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
+                    new[] { "verb1", "--help" })
+                .WithNotParsed(errors => { ; })
                 .WithParsed(args => {; });
 
             Comparison<ComparableOption> comparison = HelpText.RequiredThenAlphaComparison;
@@ -82,8 +78,7 @@ namespace CommandLine.Tests.Unit
                     error.OptionComparison = HelpText.RequiredThenAlphaComparison;
                     return error;
                 },
-                ex => ex,
-                comparison: comparison);
+                ex => ex);
 
 
             string helpMessage = message.ToString();
@@ -119,8 +114,8 @@ namespace CommandLine.Tests.Unit
 
             var parser = Parser.Default;
             var parseResult = parser.ParseArguments<Options_HelpText_Ordering_Verb1, Options_HelpText_Ordering_Verb2>(
-                    new[] { "verb1", "--alpha", "alpaga", "--alpha2", "alala", "--charlie", "charlot" })
-                .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
+                    new[] {  "verb1", "--help" })
+                .WithNotParsed(errors => { ; })
                 .WithParsed(args => {; });
 
             Comparison<ComparableOption> orderOnShortName = (ComparableOption attr1, ComparableOption attr2) =>
@@ -166,8 +161,8 @@ namespace CommandLine.Tests.Unit
                     },
                     ex => ex,
                         false,
-                        80,
-                        orderOnShortName);
+                        80
+                        );
 
 
             var helps = message.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
