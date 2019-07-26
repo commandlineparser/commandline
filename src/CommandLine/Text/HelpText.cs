@@ -269,11 +269,11 @@ namespace CommandLine.Text
 
             var errors = Enumerable.Empty<Error>();
 
+         
             if (onError != null && parserResult.Tag == ParserResultType.NotParsed)
             {
                 errors = ((NotParsed<T>)parserResult).Errors;
-
-                if (errors.OnlyMeaningfulOnes().Any())
+                if (errors.IsHelp() || errors.OnlyMeaningfulOnes().Any())
                     auto = onError(auto);
             }
 
