@@ -311,8 +311,7 @@ namespace CommandLine.Text
             Func<HelpText, HelpText> onError,
             Func<Example, Example> onExample,
             bool verbsIndex = false,
-            int maxDisplayWidth = DefaultMaximumLength,
-            Comparison<ComparableOption> comparison = null)
+            int maxDisplayWidth = DefaultMaximumLength)
         {
             var auto = new HelpText
             {
@@ -320,8 +319,7 @@ namespace CommandLine.Text
                 Copyright = CopyrightInfo.Empty,
                 AdditionalNewLineAfterOption = true,
                 AddDashesToOption = !verbsIndex,
-                MaximumDisplayWidth = maxDisplayWidth,
-                OptionComparison = comparison
+                MaximumDisplayWidth = maxDisplayWidth
             };
 
             try
