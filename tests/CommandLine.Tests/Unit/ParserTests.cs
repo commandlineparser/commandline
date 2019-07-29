@@ -802,6 +802,7 @@ namespace CommandLine.Tests.Unit
                     Assert.Equal("one", args.Arg1);
                     Assert.Equal("two", args.Arg2);
                 });
+
         }
 
 
@@ -823,5 +824,6 @@ namespace CommandLine.Tests.Unit
             lines[10].Should().BeEquivalentTo("version    Display version information.");
             // Teardown
         }
+
     }
 }
