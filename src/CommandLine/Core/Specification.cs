@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CommandLine.Infrastructure;
 using CSharpx;
 
 namespace CommandLine.Core
@@ -115,9 +116,8 @@ namespace CommandLine.Core
             if (oa.Count() == 1)
             {
                 var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType,
-                    property.PropertyType.GetTypeInfo().IsEnum
-                        ? Enum.GetNames(property.PropertyType)
-                        : Enumerable.Empty<string>());
+                    ReflectionHelper.GetNamesOfEnum(property.PropertyType)); 
+
                 if (spec.ShortName.Length == 0 && spec.LongName.Length == 0)
                 {
                     return spec.WithLongName(property.Name.ToLowerInvariant());
