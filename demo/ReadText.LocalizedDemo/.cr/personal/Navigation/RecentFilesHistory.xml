@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root Type="DevExpress.CodeRush.Foundation.Navigation.QuickFileNav.SolutionFileInfosContainer">
+  <Options Language="Neutral">
+    <Items>
+      <Item Id="{62fa45be-9e28-4fdc-b57e-974ea27ae9a4}">
+        <Filename>LocalizableAttributeProperty.cs</Filename>
+        <FilePath>d:\work\arci\commandline\src\commandline\infrastructure\localizableattributeproperty.cs</FilePath>
+        <Folders>
+          <Item>Infrastructure</Item>
+        </Folders>
+        <ProjectFileName>d:\WORK\ARCI\commandline\src\CommandLine\CommandLine.csproj</ProjectFileName>
+        <ProjectName>CommandLine</ProjectName>
+      </Item>
+    </Items>
+  </Options>
+</Root>
