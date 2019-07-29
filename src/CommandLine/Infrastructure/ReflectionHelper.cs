@@ -45,10 +45,10 @@ namespace CommandLine.Infrastructure
             // Test support
             if (_overrides != null)
             {
-                return 
+                return
                     _overrides.ContainsKey(typeof(TAttribute)) ?
                         Maybe.Just((TAttribute)_overrides[typeof(TAttribute)]) :
-                        Maybe.Nothing< TAttribute>();
+                        Maybe.Nothing<TAttribute>();
             }
 
             var assembly = GetExecutingOrEntryAssembly();
@@ -84,7 +84,7 @@ namespace CommandLine.Infrastructure
 
         public static T CreateDefaultImmutableInstance<T>(Type[] constructorTypes)
         {
-            var t = typeof(T);            
+            var t = typeof(T);
             return (T)CreateDefaultImmutableInstance(t, constructorTypes);
         }
 
@@ -100,7 +100,17 @@ namespace CommandLine.Infrastructure
         {
             //resolve issues of null EntryAssembly in Xunit Test #392,424,389
             //return Assembly.GetEntryAssembly();
-            return Assembly.GetEntryAssembly()??Assembly.GetCallingAssembly();
+            return Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
+        }
+
+       public static IEnumerable<string> GetNamesOfEnum(Type t)
+        {
+            if (t.IsEnum)
+                return Enum.GetNames(t);
+            Type u = Nullable.GetUnderlyingType(t);
+            if (u != null && u.IsEnum)
+                return Enum.GetNames(u);
+            return Enumerable.Empty<string>();
         }
     }
 }
