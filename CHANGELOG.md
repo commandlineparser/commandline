@@ -4,15 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.6.0] - 2019-07-31
 ### Added
-- Support for HelpText localization with ResourceType property by [@tkouba](https://github.com/commandlineparser/commandline/pull/356).
+- Support HelpText localization with ResourceType property by [@tkouba](https://github.com/commandlineparser/commandline/pull/356).
 - Add demo for complete localization of command line help using resources by[@tkouba](https://github.com/commandlineparser/commandline/pull/485).
 - Localize VerbAttribute  by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/473).
 - Improve support for multiline help text by [@NeilMacMullen](https://github.com/commandlineparser/commandline/pull/456/).
-- Add IsHelp() and IsVersion() Extension methods to mange HelpText by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/467).
 - Reorder options in auto help text (issue #482) [@b3b00](https://github.com/commandlineparser/commandline/pull/484).
-
+- Add IsHelp() and IsVersion() Extension methods to mange HelpText errors by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/467).
 
 ### Fixed
 - Fix issues for HelpText.AutoBuild configuration (issues #224 , # 259) by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/467).
@@ -36,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Fixed
-- Fix the null EntryAssembly Exception in unit test of net4x projects: #389,#424 by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/430).
+- Fix the null EntryAssembly Exception in unit test of net4x projects: issues #389,#424 by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/430).
 - Fix the test case 'Add unit tests for Issue #389 and #392
 - Fix CSC error CS7027: Error signing output with public key from file 'CommandLine.snk' -- Invalid public key in appveyor CI.
 - Fix the error CS0234: The type or namespace name 'FSharp' for net40 Framework.
@@ -74,19 +73,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixing DisplayWidth for newer Mono  by [@Oddley](https://github.com/commandlineparser/commandline/pull/279).
 
 
-- 
 ## [2.3.0] - 2018-08-13
 ### Added
 - Properly handle CaseInsensitiveEnumValues flag fixing issue #198 by [@niklaskarl](https://github.com/commandlineparser/commandline/pull/231).
 
 ### Changed
 - Updated README examples quick start example for c# and Vb.net to work with the new API by [@loligans](https://github.com/commandlineparser/commandline/pull/218).
-- Update copyright in unit tests by @0xced
-- patching appveyor dotnet csproj 
+- Updated README by [@ericnewton76](https://github.com/commandlineparser/commandline/pull/208).
+- Update copyright in unit tests 
+- Patching appveyor dotnet csproj 
 - Updates to appveyor to create a build matrix
 
 ### Fixed
-- hotfix/issue 213 fsharp dependency by [@ericnewton76](https://github.com/commandlineparser/commandline/pull/215).
+- hotfix/issue #213 fsharp dependency by [@ericnewton76](https://github.com/commandlineparser/commandline/pull/215).
 
 
 ## [2.2.1] - 2018-01-10
