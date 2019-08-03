@@ -467,6 +467,26 @@ namespace CommandLine.Tests.Unit.Text
         }
 
         [Fact]
+        public static void RenderUsageText_with_partial_options_returns_properly_formatted_text()
+        {
+            // Fixture setup
+            ParserResult<Options_With_Partial_Usage> result =
+                new NotParsed<Options_With_Partial_Usage>(
+                    TypeInfo.Create(typeof(Options_With_Partial_Usage)), Enumerable.Empty<Error>());
+
+            // Exercize system
+            var text = HelpText.RenderUsageText(result);
+
+            // Verify outcome
+            var lines = text.ToNotEmptyLines();
+
+            lines[0].Should().BeEquivalentTo("Complete example:");
+            lines[1].Should().BeEquivalentTo("  foobar --operation add");
+            lines[2].Should().BeEquivalentTo("Text with no example");
+            lines[3].Should().BeEquivalentTo("  foobar --operation delete");            
+        }
+
+        [Fact]
         public void Invoke_AutoBuild_for_Options_with_Usage_returns_appropriate_formatted_text()
         {
             // Fixture setup

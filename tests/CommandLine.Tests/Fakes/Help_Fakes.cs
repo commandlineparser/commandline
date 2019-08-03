@@ -93,6 +93,20 @@ namespace CommandLine.Tests.Fakes
         }
     }
 
+    class Options_With_Partial_Usage
+    {
+        [Option('o', "Operation", HelpText = "Operation to carry out.")]
+        public string Operation { get; set; }
+
+        [Usage(ApplicationAlias = "foobar")]
+        public static IEnumerable<Example> Examples => new[]
+        {
+            new Example("Complete example", new Options_With_Partial_Usage() { Operation = "add" }),
+            new Example("Text with no example", null),
+            new Example(null, new Options_With_Partial_Usage() { Operation = "delete" })
+        };
+    }
+
     [Verb("secert", Hidden = true, HelpText = "This is a secert hidden verb that should never be visible to the user via help text.")]
     public class Secert_Verb
     {
