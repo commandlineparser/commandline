@@ -352,7 +352,7 @@ namespace CommandLine.Text
             {
                 var heading = auto.SentenceBuilder.UsageHeadingText();
                 if (heading.Length > 0)
-                    auto.AddPreOptionsLine(heading);
+                    auto.AddPreOptionsLine(string.Concat(Environment.NewLine, heading));
             }
 
             usageAttr.Do(
@@ -707,12 +707,20 @@ namespace CommandLine.Text
         public override string ToString()
         {
             const int ExtraLength = 10;
+
+            string ExtraLineIfNeeded = (heading.SafeLength() > 0 && copyright.SafeLength() > 0
+                        && preOptionsHelp.Length >= Environment.NewLine.Length
+                        && preOptionsHelp.ToString(0, Environment.NewLine.Length) != Environment.NewLine)
+                ? Environment.NewLine
+                : null;
+            
             return
                 new StringBuilder(
                     heading.SafeLength() + copyright.SafeLength() + preOptionsHelp.SafeLength() +
-                        optionsHelp.SafeLength() + ExtraLength).Append(heading)
+                        optionsHelp.SafeLength() + ExtraLength)
+                    .Append(heading)
                     .AppendWhen(!string.IsNullOrEmpty(copyright), Environment.NewLine, copyright)
-                    .AppendWhen(preOptionsHelp.Length > 0, Environment.NewLine, preOptionsHelp.ToString())
+                    .AppendWhen(preOptionsHelp.Length > 0, ExtraLineIfNeeded, Environment.NewLine, preOptionsHelp.ToString())
                     .AppendWhen(
                         optionsHelp != null && optionsHelp.Length > 0,
                         Environment.NewLine,

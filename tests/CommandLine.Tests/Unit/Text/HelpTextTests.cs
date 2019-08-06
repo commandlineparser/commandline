@@ -41,14 +41,15 @@ namespace CommandLine.Tests.Unit.Text
                     .AddPostOptionsLine("post-options line 2");
 
             // Verify outcome
-            var lines = sut.ToString().ToNotEmptyLines();
+            var lines = sut.ToString().ToLines();
 
             lines[0].Should().BeEquivalentTo("Unit-tests 2.0");
             lines[1].Should().BeEquivalentTo("Copyright (C) 2005 - 2013 Author");
-            lines[2].Should().BeEquivalentTo("pre-options line 1");
-            lines[3].Should().BeEquivalentTo("pre-options line 2");
-            lines[4].Should().BeEquivalentTo("post-options line 1");
-            lines[5].Should().BeEquivalentTo("post-options line 2");
+            lines[2].Should().BeEmpty();
+            lines[3].Should().BeEquivalentTo("pre-options line 1");
+            lines[4].Should().BeEquivalentTo("pre-options line 2");
+            lines[5].Should().BeEquivalentTo("post-options line 1");
+            lines[6].Should().BeEquivalentTo("post-options line 2");
             // Teardown
         }
 
@@ -320,17 +321,23 @@ namespace CommandLine.Tests.Unit.Text
             var helpText = HelpText.AutoBuild(fakeResult);
 
             // Verify outcome
-            var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
+            var lines = helpText.ToString().ToLines().TrimStringArray();
             lines[0].Should().Be(HeadingInfo.Default.ToString());
-            lines[1].Should().Be(CopyrightInfo.Default.ToString());			
-            lines[2].Should().BeEquivalentTo("ERROR(S):");
-            lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
-            lines[4].Should().BeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
-            lines[5].Should().BeEquivalentTo("--stringvalue         Define a string value here.");
-            lines[6].Should().BeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
-            lines[7].Should().BeEquivalentTo("-i                    Define a int sequence here.");
-            lines[8].Should().BeEquivalentTo("-x                    Define a boolean or switch value here.");
-            lines[9].Should().BeEquivalentTo("--help                Display this help screen.");
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
+            lines[2].Should().BeEmpty();
+            lines[3].Should().BeEquivalentTo("ERROR(S):");
+            lines[4].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
+            lines[5].Should().BeEquivalentTo("A sequence option 'i' is defined with fewer or more items than required.");
+            lines[6].Should().BeEmpty();
+            lines[7].Should().BeEquivalentTo("--stringvalue         Define a string value here.");
+            lines[8].Should().BeEmpty();
+            lines[9].Should().BeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
+            lines[10].Should().BeEmpty();
+            lines[11].Should().BeEquivalentTo("-i                    Define a int sequence here.");
+            lines[12].Should().BeEmpty();
+            lines[13].Should().BeEquivalentTo("-x                    Define a boolean or switch value here.");
+            lines[14].Should().BeEmpty();
+            lines[15].Should().BeEquivalentTo("--help                Display this help screen.");
             // Teardown
         }
 
@@ -349,15 +356,19 @@ namespace CommandLine.Tests.Unit.Text
             var helpText = HelpText.AutoBuild(fakeResult);
 
             // Verify outcome
-            var lines = helpText.ToString().ToNotEmptyLines().TrimStringArray();
+            var lines = helpText.ToString().ToLines().TrimStringArray();
 
             lines[0].Should().Be(HeadingInfo.Default.ToString());
-            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
-            lines[2].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
-            lines[3].Should().BeEquivalentTo("changes to commit.");
-            lines[4].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
-            lines[5].Should().BeEquivalentTo("-m, --message    Use the given message as the commit message.");
-            lines[6].Should().BeEquivalentTo("--help           Display this help screen.");
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
+            lines[2].Should().BeEmpty();
+            lines[3].Should().BeEquivalentTo("-p, --patch      Use the interactive patch selection interface to chose which");
+            lines[4].Should().BeEquivalentTo("changes to commit.");
+            lines[5].Should().BeEmpty();
+            lines[6].Should().BeEquivalentTo("--amend          Used to amend the tip of the current branch.");
+            lines[7].Should().BeEmpty();
+            lines[8].Should().BeEquivalentTo("-m, --message    Use the given message as the commit message.");
+            lines[9].Should().BeEmpty();
+            lines[10].Should().BeEquivalentTo("--help           Display this help screen.");
             // Teardown
         }
 
@@ -418,23 +429,26 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             // Exercize system 
-            var sut = new HelpText { AddDashesToOption = true }
+            var sut = new HelpText { AddDashesToOption = true, AdditionalNewLineAfterOption = false }
                 .AddPreOptionsLine("pre-options")
                 .AddOptions(new NotParsed<Options_With_HelpText_And_MetaValue>(TypeInfo.Create(typeof(Options_With_HelpText_And_MetaValue)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome
 
-            var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            lines[0].Should().BeEquivalentTo("pre-options");
-            lines[1].Should().BeEquivalentTo("--stringvalue=STR            Define a string value here.");
-            lines[2].Should().BeEquivalentTo("-i INTSEQ                    Define a int sequence here.");
-            lines[3].Should().BeEquivalentTo("-x                           Define a boolean or switch value here.");
-            lines[4].Should().BeEquivalentTo("--help                       Display this help screen.");
-            lines[5].Should().BeEquivalentTo("--version                    Display version information.");
-            lines[6].Should().BeEquivalentTo("number (pos. 0) NUM          Define a long value here.");
-            lines[7].Should().BeEquivalentTo("paintcolor (pos. 1) COLOR    Define a color value here.");
-            lines[8].Should().BeEquivalentTo("post-options", lines[8]);
+            var lines = sut.ToString().ToLines().TrimStringArray();
+            lines[0].Should().BeEmpty();
+            lines[1].Should().BeEquivalentTo("pre-options");
+            lines[2].Should().BeEmpty();
+            lines[3].Should().BeEquivalentTo("--stringvalue=STR            Define a string value here.");
+            lines[4].Should().BeEquivalentTo("-i INTSEQ                    Define a int sequence here.");
+            lines[5].Should().BeEquivalentTo("-x                           Define a boolean or switch value here.");
+            lines[6].Should().BeEquivalentTo("--help                       Display this help screen.");
+            lines[7].Should().BeEquivalentTo("--version                    Display version information.");
+            lines[8].Should().BeEquivalentTo("number (pos. 0) NUM          Define a long value here.");
+            lines[9].Should().BeEquivalentTo("paintcolor (pos. 1) COLOR    Define a color value here.");
+            lines[10].Should().BeEmpty();
+            lines[11].Should().BeEquivalentTo("post-options", lines[11]);
             // Teardown
         }
 
@@ -482,34 +496,84 @@ namespace CommandLine.Tests.Unit.Text
 
             // Verify outcome
             var text = helpText.ToString();
-            var lines = text.ToNotEmptyLines().TrimStringArray();
+            var lines = text.ToLines().TrimStringArray();
             lines[0].Should().Be(HeadingInfo.Default.ToString());
-            lines[1].Should().Be(CopyrightInfo.Default.ToString());	
-            lines[2].Should().BeEquivalentTo("ERROR(S):");
-            lines[3].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
-            lines[4].Should().BeEquivalentTo("USAGE:");
-            lines[5].Should().BeEquivalentTo("Normal scenario:");
-            lines[6].Should().BeEquivalentTo("mono testapp.exe --input file.bin --output out.bin");
-            lines[7].Should().BeEquivalentTo("Logging warnings:");
-            lines[8].Should().BeEquivalentTo("mono testapp.exe -w --input file.bin");
-            lines[9].Should().BeEquivalentTo("Logging errors:");
-            lines[10].Should().BeEquivalentTo("mono testapp.exe -e --input file.bin");
-            lines[11].Should().BeEquivalentTo("mono testapp.exe --errs --input=file.bin");
-            lines[12].Should().BeEquivalentTo("List:");
-            lines[13].Should().BeEquivalentTo("mono testapp.exe -l 1,2");
-            lines[14].Should().BeEquivalentTo("Value:");
-            lines[15].Should().BeEquivalentTo("mono testapp.exe value");
-            lines[16].Should().BeEquivalentTo("-i, --input     Set input file.");
-            lines[17].Should().BeEquivalentTo("-i, --output    Set output file.");
-            lines[18].Should().BeEquivalentTo("--verbose       Set verbosity level.");
-            lines[19].Should().BeEquivalentTo("-w, --warns     Log warnings.");
-            lines[20].Should().BeEquivalentTo("-e, --errs      Log errors.");
-            lines[21].Should().BeEquivalentTo("-l              List.");
-            lines[22].Should().BeEquivalentTo("--help          Display this help screen.");
-            lines[23].Should().BeEquivalentTo("--version       Display version information.");
-            lines[24].Should().BeEquivalentTo("value pos. 0    Value.");
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
+            lines[2].Should().BeEmpty();
+            lines[3].Should().BeEquivalentTo("ERROR(S):");
+            lines[4].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
+            lines[5].Should().BeEmpty();
+            lines[6].Should().BeEquivalentTo("USAGE:");
+            lines[7].Should().BeEquivalentTo("Normal scenario:");
+            lines[8].Should().BeEquivalentTo("mono testapp.exe --input file.bin --output out.bin");
+            lines[9].Should().BeEquivalentTo("Logging warnings:");
+            lines[10].Should().BeEquivalentTo("mono testapp.exe -w --input file.bin");
+            lines[11].Should().BeEquivalentTo("Logging errors:");
+            lines[12].Should().BeEquivalentTo("mono testapp.exe -e --input file.bin");
+            lines[13].Should().BeEquivalentTo("mono testapp.exe --errs --input=file.bin");
+            lines[14].Should().BeEquivalentTo("List:");
+            lines[15].Should().BeEquivalentTo("mono testapp.exe -l 1,2");
+            lines[16].Should().BeEquivalentTo("Value:");
+            lines[17].Should().BeEquivalentTo("mono testapp.exe value");
+            lines[18].Should().BeEmpty();
+            lines[19].Should().BeEquivalentTo("-i, --input     Set input file.");
+            lines[20].Should().BeEmpty();
+            lines[21].Should().BeEquivalentTo("-i, --output    Set output file.");
+            lines[22].Should().BeEmpty();
+            lines[23].Should().BeEquivalentTo("--verbose       Set verbosity level.");
+            lines[24].Should().BeEmpty();
+            lines[25].Should().BeEquivalentTo("-w, --warns     Log warnings.");
+            lines[26].Should().BeEmpty();
+            lines[27].Should().BeEquivalentTo("-e, --errs      Log errors.");
+            lines[28].Should().BeEmpty();
+            lines[29].Should().BeEquivalentTo("-l              List.");
+            lines[30].Should().BeEmpty();
+            lines[31].Should().BeEquivalentTo("--help          Display this help screen.");
+            lines[32].Should().BeEmpty();
+            lines[33].Should().BeEquivalentTo("--version       Display version information.");
+            lines[34].Should().BeEmpty();
+            lines[35].Should().BeEquivalentTo("value pos. 0    Value.");
 
             // Teardown
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void AutoBuild_with_errors_and_preoptions_renders_correctly(bool startWithNewline)
+        {
+            // Fixture setup
+            var fakeResult = new NotParsed<Simple_Options_Without_HelpText>(
+                TypeInfo.Create(typeof(Simple_Options_Without_HelpText)),
+                new Error[]
+                    {
+                        new BadFormatTokenError("badtoken")
+                    });
+
+            // Exercize system
+            var helpText = HelpText.AutoBuild(fakeResult,
+                h =>
+                {
+                    h.AddPreOptionsLine((startWithNewline ? Environment.NewLine : null) + "pre-options");
+                    return HelpText.DefaultParsingErrorsHandler(fakeResult, h);
+                },
+                e => e
+            );
+
+            // Verify outcome
+            var text = helpText.ToString();
+            var lines = text.ToLines().TrimStringArray();
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
+            lines[2].Should().BeEmpty();
+            lines[3].Should().BeEquivalentTo("pre-options");
+            lines[4].Should().BeEmpty();
+            lines[5].Should().BeEquivalentTo("ERROR(S):");
+            lines[6].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
+            lines[7].Should().BeEmpty();
+            lines[8].Should().BeEquivalentTo("-v, --verbose");
+            lines[9].Should().BeEmpty();
+            lines[10].Should().BeEquivalentTo("--input-file");
         }
 
         [Fact]
