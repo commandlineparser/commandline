@@ -679,23 +679,31 @@ namespace CommandLine.Text
             foreach (var e in examples)
             {
                 var example = mapperFunc(e);
-                var exampleText = new StringBuilder(example.HelpText)
-                    .Append(':');
-                yield return exampleText.ToString();
-                var styles = example.GetFormatStylesOrDefault();
-                foreach (var s in styles)
+                if (!String.IsNullOrWhiteSpace(example.HelpText))
                 {
-                    var commandLine = new StringBuilder(OptionPrefixWidth.Spaces())
-                        .Append(appAlias)
-                        .Append(' ')
-                        .Append(Parser.Default.FormatCommandLine(example.Sample,
-                            config =>
-                            {
-                                config.PreferShortName = s.PreferShortName;
-                                config.GroupSwitches = s.GroupSwitches;
-                                config.UseEqualToken = s.UseEqualToken;
-                            }));
-                    yield return commandLine.ToString();
+                    var exampleText = new StringBuilder(example.HelpText);
+                    if (example.Sample != null)
+                        exampleText.Append(':');
+                    yield return exampleText.ToString();
+                }
+
+                if (example.Sample != null)
+                {
+                    var styles = example.GetFormatStylesOrDefault();
+                    foreach (var s in styles)
+                    {
+                        var commandLine = new StringBuilder(OptionPrefixWidth.Spaces())
+                            .Append(appAlias)
+                            .Append(' ')
+                            .Append(Parser.Default.FormatCommandLine(example.Sample,
+                                config =>
+                                {
+                                    config.PreferShortName = s.PreferShortName;
+                                    config.GroupSwitches = s.GroupSwitches;
+                                    config.UseEqualToken = s.UseEqualToken;
+                                }));
+                        yield return commandLine.ToString();
+                    }
                 }
             }
         }
