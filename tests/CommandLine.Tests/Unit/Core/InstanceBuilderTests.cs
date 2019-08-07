@@ -1158,6 +1158,14 @@ namespace CommandLine.Tests.Unit.Core
             act.Should().Throw<InvalidOperationException>();
         }
 
+        [Fact]
+        public void OptionClass_IsImmutable_HasNoCtor_HelpRequested()
+        {
+            Action act = () => InvokeBuild<ValueWithNoSetterOptions>(new string[] { "--help" });
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
         private class ValueWithNoSetterOptions
         {
             [Value(0, MetaName = "Test", Default = 0)]

@@ -91,6 +91,11 @@ namespace CommandLine.Infrastructure
         public static object CreateDefaultImmutableInstance(Type type, Type[] constructorTypes)
         {
             var ctor = type.GetTypeInfo().GetConstructor(constructorTypes);
+            if (ctor == null)
+            {
+                throw new InvalidOperationException($"Type appears to be immutable, but no constructor found for type {type.FullName} to accept values.");
+            }
+
             var values = (from prms in ctor.GetParameters()
                           select prms.ParameterType.CreateDefaultForImmutable()).ToArray();
             return ctor.Invoke(values);
