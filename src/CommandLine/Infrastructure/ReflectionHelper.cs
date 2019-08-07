@@ -93,7 +93,7 @@ namespace CommandLine.Infrastructure
             var ctor = type.GetTypeInfo().GetConstructor(constructorTypes);
             if (ctor == null)
             {
-                throw new InvalidOperationException($"Type appears to be immutable, but no constructor found for type {type.FullName} to accept values.");
+                throw new InvalidOperationException($"Type {type.FullName} appears to be immutable, but no constructor found to accept values.");
             }
 
             var values = (from prms in ctor.GetParameters()

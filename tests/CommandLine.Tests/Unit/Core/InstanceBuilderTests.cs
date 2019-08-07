@@ -1155,7 +1155,8 @@ namespace CommandLine.Tests.Unit.Core
         {
             Action act = () => InvokeBuild<ValueWithNoSetterOptions>(new string[] { "Test" }, false, false);
 
-            act.Should().Throw<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>()
+                .Which.Message.Should().Be("Type CommandLine.Tests.Unit.Core.InstanceBuilderTests+ValueWithNoSetterOptions appears to be immutable, but no constructor found to accept values.");
         }
 
         [Fact]
@@ -1163,7 +1164,8 @@ namespace CommandLine.Tests.Unit.Core
         {
             Action act = () => InvokeBuild<ValueWithNoSetterOptions>(new string[] { "--help" });
 
-            act.Should().Throw<InvalidOperationException>();
+            act.Should().Throw<InvalidOperationException>()
+                .Which.Message.Should().Be("Type CommandLine.Tests.Unit.Core.InstanceBuilderTests+ValueWithNoSetterOptions appears to be immutable, but no constructor found to accept values.");
         }
 
         private class ValueWithNoSetterOptions
