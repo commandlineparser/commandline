@@ -241,7 +241,7 @@ namespace CommandLine
     }
 
     /// <summary>
-    /// Base type of all erros with name information.
+    /// Base type of all errors with name information.
     /// </summary>
     public abstract class NamedError : Error, IEquatable<NamedError>
     {
@@ -498,7 +498,7 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// The expection thrown from Property.SetValue
+        /// The exception thrown from Property.SetValue
         /// </summary>
         public Exception Exception
         {

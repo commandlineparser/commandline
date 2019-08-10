@@ -17,7 +17,7 @@ namespace CSharpx
         /// </summary>
         Left,
         /// <summary>
-        /// Sccessful computation case.
+        /// Successful computation case.
         /// </summary>
         Right
     }
