@@ -50,7 +50,7 @@ namespace CommandLine.Text
         public abstract Func<bool, string> HelpCommandText { get; }
 
         /// <summary>
-        /// Get a delegate that returns the help text of vesion command.
+        /// Get a delegate that returns the help text of version command.
         /// The delegates must accept a boolean that is equal <value>true</value> for options; otherwise <value>false</value> for verbs.
         /// </summary>
         public abstract Func<bool, string> VersionCommandText { get; } 

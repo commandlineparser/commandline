@@ -296,7 +296,7 @@ namespace CSharpx
 
         #region Do Semantic
         /// <summary>
-        /// If contans a value executes an <see cref="System.Action{T}"/> delegate over it.
+        /// If contains a value executes an <see cref="System.Action{T}"/> delegate over it.
         /// </summary>
         public static void Do<T>(this Maybe<T> maybe, Action<T> action)
         {
@@ -308,7 +308,7 @@ namespace CSharpx
         }
 
         /// <summary>
-        /// If contans a value executes an <see cref="System.Action{T1, T2}"/> delegate over it.
+        /// If contains a value executes an <see cref="System.Action{T1, T2}"/> delegate over it.
         /// </summary>
         public static void Do<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, Action<T1, T2> action)
         {
