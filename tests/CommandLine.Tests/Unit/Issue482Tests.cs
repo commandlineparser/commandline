@@ -70,8 +70,6 @@ namespace CommandLine.Tests.Unit
                 .WithNotParsed(errors => { ; })
                 .WithParsed(args => {; });
 
-            Comparison<ComparableOption> comparison = HelpText.RequiredThenAlphaComparison;
-
             string message = HelpText.AutoBuild(parseResult,
                 error =>
                 {
