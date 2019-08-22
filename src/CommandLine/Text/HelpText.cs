@@ -109,6 +109,7 @@ namespace CommandLine.Text
         private bool addEnumValuesToHelpText;
         private bool autoHelp;
         private bool autoVersion;
+        private bool addNewLineBetweenHelpSections;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class.
@@ -259,6 +260,15 @@ namespace CommandLine.Text
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to add newlines between help sections.
+        /// </summary>
+        public bool AddNewLineBetweenHelpSections
+        {
+            get {  return addNewLineBetweenHelpSections; }
+            set { addNewLineBetweenHelpSections = value; }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to add the values of an enum after the description of the specification.
         /// </summary>
         public bool AddEnumValuesToHelpText
@@ -352,7 +362,11 @@ namespace CommandLine.Text
             {
                 var heading = auto.SentenceBuilder.UsageHeadingText();
                 if (heading.Length > 0)
-                    auto.AddPreOptionsLine(string.Concat(Environment.NewLine, heading));
+                {
+                    if (auto.AddNewLineBetweenHelpSections)
+                        heading = Environment.NewLine + heading;
+                    auto.AddPreOptionsLine(heading);
+                }
             }
 
             usageAttr.Do(
@@ -708,7 +722,8 @@ namespace CommandLine.Text
         {
             const int ExtraLength = 10;
 
-            string ExtraLineIfNeeded = (heading.SafeLength() > 0 && copyright.SafeLength() > 0
+            string ExtraLineIfNeeded = AddNewLineBetweenHelpSections
+                        && (heading.SafeLength() > 0 && copyright.SafeLength() > 0
                         && preOptionsHelp.Length >= Environment.NewLine.Length
                         && preOptionsHelp.ToString(0, Environment.NewLine.Length) != Environment.NewLine)
                 ? Environment.NewLine

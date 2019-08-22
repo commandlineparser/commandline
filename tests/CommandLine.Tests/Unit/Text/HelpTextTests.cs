@@ -28,29 +28,39 @@ namespace CommandLine.Tests.Unit.Text
             string.Empty.Should().BeEquivalentTo(new HelpText().ToString());
         }
 
-        [Fact]
-        public void Create_instance_without_options()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Create_instance_without_options(bool newlineBetweenSections)
         {
             // Fixture setup
             // Exercize system 
             var sut =
-                new HelpText(new HeadingInfo("Unit-tests", "2.0"), new CopyrightInfo(true, "Author", 2005, 2013))
-                    .AddPreOptionsLine("pre-options line 1")
+                new HelpText(new HeadingInfo("Unit-tests", "2.0"), new CopyrightInfo(true, "Author", 2005, 2013));
+            sut.AddNewLineBetweenHelpSections = newlineBetweenSections;
+            sut.AddPreOptionsLine("pre-options line 1")
                     .AddPreOptionsLine("pre-options line 2")
                     .AddPostOptionsLine("post-options line 1")
                     .AddPostOptionsLine("post-options line 2");
 
             // Verify outcome
-            var lines = sut.ToString().ToLines();
+            var expected = new[]
+            {
+                "Unit-tests 2.0",
+                "Copyright (C) 2005 - 2013 Author",
+                "pre-options line 1",
+                "pre-options line 2",
+                "post-options line 1",
+                "post-options line 2"
+            };
 
-            lines[0].Should().BeEquivalentTo("Unit-tests 2.0");
-            lines[1].Should().BeEquivalentTo("Copyright (C) 2005 - 2013 Author");
-            lines[2].Should().BeEmpty();
-            lines[3].Should().BeEquivalentTo("pre-options line 1");
-            lines[4].Should().BeEquivalentTo("pre-options line 2");
-            lines[5].Should().BeEquivalentTo("post-options line 1");
-            lines[6].Should().BeEquivalentTo("post-options line 2");
-            // Teardown
+            var takeCount = newlineBetweenSections ? expected.Length + 1 : expected.Length;
+            var lines = sut.ToString().ToLines().Take(takeCount).ToArray();
+
+            lines.Should().ContainInOrder(expected);
+
+            if (newlineBetweenSections)
+                lines[2].Should().BeEmpty();
         }
 
         [Fact]
@@ -480,8 +490,10 @@ namespace CommandLine.Tests.Unit.Text
             lines[10].Should().BeEquivalentTo("  mono testapp.exe value");
         }
 
-        [Fact]
-        public void Invoke_AutoBuild_for_Options_with_Usage_returns_appropriate_formatted_text()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Invoke_AutoBuild_for_Options_with_Usage_returns_appropriate_formatted_text(bool newlineBetweenSections)
         {
             // Fixture setup
             var fakeResult = new NotParsed<Options_With_Usage_Attribute>(
@@ -492,55 +504,74 @@ namespace CommandLine.Tests.Unit.Text
                     });
 
             // Exercize system
-            var helpText = HelpText.AutoBuild(fakeResult);
+            var helpText = HelpText.AutoBuild(fakeResult,
+                h =>
+                {
+                    h.AddNewLineBetweenHelpSections = newlineBetweenSections;
+                    return HelpText.DefaultParsingErrorsHandler(fakeResult, h);
+                },
+                e => e
+            );
 
             // Verify outcome
+            var expected = new[]
+            {
+                HeadingInfo.Default.ToString(),
+                CopyrightInfo.Default.ToString(),
+                "",
+                "ERROR(S):",
+                "Token 'badtoken' is not recognized.",
+                "USAGE:",
+                "Normal scenario:",
+                "mono testapp.exe --input file.bin --output out.bin",
+                "Logging warnings:",
+                "mono testapp.exe -w --input file.bin",
+                "Logging errors:",
+                "mono testapp.exe -e --input file.bin",
+                "mono testapp.exe --errs --input=file.bin",
+                "List:",
+                "mono testapp.exe -l 1,2",
+                "Value:",
+                "mono testapp.exe value",
+                "",
+                "-i, --input     Set input file.",
+                "",
+                "-i, --output    Set output file.",
+                "",
+                "--verbose       Set verbosity level.",
+                "",
+                "-w, --warns     Log warnings.",
+                "",
+                "-e, --errs      Log errors.",
+                "",
+                "-l              List.",
+                "",
+                "--help          Display this help screen.",
+                "",
+                "--version       Display version information.",
+                "",
+                "value pos. 0    Value."
+            };
+            var takeCount = newlineBetweenSections ? expected.Length + 1 : expected.Length;
+
             var text = helpText.ToString();
-            var lines = text.ToLines().TrimStringArray();
-            lines[0].Should().Be(HeadingInfo.Default.ToString());
-            lines[1].Should().Be(CopyrightInfo.Default.ToString());
-            lines[2].Should().BeEmpty();
-            lines[3].Should().BeEquivalentTo("ERROR(S):");
-            lines[4].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
-            lines[5].Should().BeEmpty();
-            lines[6].Should().BeEquivalentTo("USAGE:");
-            lines[7].Should().BeEquivalentTo("Normal scenario:");
-            lines[8].Should().BeEquivalentTo("mono testapp.exe --input file.bin --output out.bin");
-            lines[9].Should().BeEquivalentTo("Logging warnings:");
-            lines[10].Should().BeEquivalentTo("mono testapp.exe -w --input file.bin");
-            lines[11].Should().BeEquivalentTo("Logging errors:");
-            lines[12].Should().BeEquivalentTo("mono testapp.exe -e --input file.bin");
-            lines[13].Should().BeEquivalentTo("mono testapp.exe --errs --input=file.bin");
-            lines[14].Should().BeEquivalentTo("List:");
-            lines[15].Should().BeEquivalentTo("mono testapp.exe -l 1,2");
-            lines[16].Should().BeEquivalentTo("Value:");
-            lines[17].Should().BeEquivalentTo("mono testapp.exe value");
-            lines[18].Should().BeEmpty();
-            lines[19].Should().BeEquivalentTo("-i, --input     Set input file.");
-            lines[20].Should().BeEmpty();
-            lines[21].Should().BeEquivalentTo("-i, --output    Set output file.");
-            lines[22].Should().BeEmpty();
-            lines[23].Should().BeEquivalentTo("--verbose       Set verbosity level.");
-            lines[24].Should().BeEmpty();
-            lines[25].Should().BeEquivalentTo("-w, --warns     Log warnings.");
-            lines[26].Should().BeEmpty();
-            lines[27].Should().BeEquivalentTo("-e, --errs      Log errors.");
-            lines[28].Should().BeEmpty();
-            lines[29].Should().BeEquivalentTo("-l              List.");
-            lines[30].Should().BeEmpty();
-            lines[31].Should().BeEquivalentTo("--help          Display this help screen.");
-            lines[32].Should().BeEmpty();
-            lines[33].Should().BeEquivalentTo("--version       Display version information.");
-            lines[34].Should().BeEmpty();
-            lines[35].Should().BeEquivalentTo("value pos. 0    Value.");
+            var lines = text.ToLines().TrimStringArray().Take(takeCount).ToArray();
+            
+            lines.Should().ContainInOrder(expected);
+
+            if (newlineBetweenSections)
+                lines[5].Should().BeEmpty();
+
 
             // Teardown
         }
 
         [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public void AutoBuild_with_errors_and_preoptions_renders_correctly(bool startWithNewline)
+        [InlineData(true, true)]
+        [InlineData(true, false)]
+        [InlineData(false, true)]
+        [InlineData(false, false)]
+        public void AutoBuild_with_errors_and_preoptions_renders_correctly(bool startWithNewline, bool newlineBetweenSections)
         {
             // Fixture setup
             var fakeResult = new NotParsed<Simple_Options_Without_HelpText>(
@@ -554,6 +585,7 @@ namespace CommandLine.Tests.Unit.Text
             var helpText = HelpText.AutoBuild(fakeResult,
                 h =>
                 {
+                    h.AddNewLineBetweenHelpSections = newlineBetweenSections;
                     h.AddPreOptionsLine((startWithNewline ? Environment.NewLine : null) + "pre-options");
                     return HelpText.DefaultParsingErrorsHandler(fakeResult, h);
                 },
@@ -561,19 +593,29 @@ namespace CommandLine.Tests.Unit.Text
             );
 
             // Verify outcome
+            var expected = new[]
+            {
+                HeadingInfo.Default.ToString(),
+                CopyrightInfo.Default.ToString(),
+                "pre-options",
+                "",
+                "ERROR(S):",
+                "Token 'badtoken' is not recognized.",
+                "",
+                "-v, --verbose",
+                "",
+                "--input-file"
+            };
+
+            var takeCount = newlineBetweenSections || startWithNewline ? expected.Length + 1 : expected.Length;
+
             var text = helpText.ToString();
-            var lines = text.ToLines().TrimStringArray();
-            lines[0].Should().Be(HeadingInfo.Default.ToString());
-            lines[1].Should().Be(CopyrightInfo.Default.ToString());
-            lines[2].Should().BeEmpty();
-            lines[3].Should().BeEquivalentTo("pre-options");
-            lines[4].Should().BeEmpty();
-            lines[5].Should().BeEquivalentTo("ERROR(S):");
-            lines[6].Should().BeEquivalentTo("Token 'badtoken' is not recognized.");
-            lines[7].Should().BeEmpty();
-            lines[8].Should().BeEquivalentTo("-v, --verbose");
-            lines[9].Should().BeEmpty();
-            lines[10].Should().BeEquivalentTo("--input-file");
+            var lines = text.ToLines().TrimStringArray().Take(takeCount).ToArray();
+
+            lines.Should().ContainInOrder(expected);
+
+            if (newlineBetweenSections || startWithNewline)
+                lines[2].Should().BeEmpty();
         }
 
         [Fact]
