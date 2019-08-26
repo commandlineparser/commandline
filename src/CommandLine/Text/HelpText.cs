@@ -727,22 +727,28 @@ namespace CommandLine.Text
             var result = new StringBuilder(sbLength);
 
             result.Append(heading)
-                    .AppendWhen(!string.IsNullOrEmpty(copyright), Environment.NewLine, copyright)
-                    .AppendWhen(
-                        preOptionsHelp.SafeLength() > 0,
-                        Environment.NewLine,
+                    .AppendWhen(!string.IsNullOrEmpty(copyright), 
+                        Environment.NewLine, 
+                        copyright)
+                    .AppendWhen(preOptionsHelp.SafeLength() > 0,
                         NewLineIfNeededBefore(preOptionsHelp),
+                        Environment.NewLine,
                         preOptionsHelp.ToString())
-                    .AppendWhen(
-                        optionsHelp.SafeLength() > 0,
+                    .AppendWhen(optionsHelp.SafeLength() > 0,
                         Environment.NewLine,
                         Environment.NewLine,
                         optionsHelp.SafeToString())
-                    .AppendWhen(postOptionsHelp.SafeLength() > 0, Environment.NewLine, postOptionsHelp.ToString());
+                    .AppendWhen(postOptionsHelp.SafeLength() > 0, 
+                        NewLineIfNeededBefore(postOptionsHelp),
+                        Environment.NewLine,
+                        postOptionsHelp.ToString());
 
             string NewLineIfNeededBefore(StringBuilder sb)
             {
-                if (AddNewLineBetweenHelpSections && result.Length > 0 && !sb.SafeStartsWith(Environment.NewLine))
+                if (AddNewLineBetweenHelpSections 
+                        && result.Length > 0 
+                        && !result.SafeEndsWith(Environment.NewLine)
+                        && !sb.SafeStartsWith(Environment.NewLine))
                     return Environment.NewLine;
                 else
                     return null;

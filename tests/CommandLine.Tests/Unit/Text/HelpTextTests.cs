@@ -44,7 +44,7 @@ namespace CommandLine.Tests.Unit.Text
                     .AddPostOptionsLine("post-options line 2");
 
             // Verify outcome
-            var expected = new[]
+            var expected = new List<string>()
             {
                 "Unit-tests 2.0",
                 "Copyright (C) 2005 - 2013 Author",
@@ -54,38 +54,47 @@ namespace CommandLine.Tests.Unit.Text
                 "post-options line 2"
             };
 
-            var takeCount = newlineBetweenSections ? expected.Length + 1 : expected.Length;
-            var lines = sut.ToString().ToLines().Take(takeCount).ToArray();
-
-            lines.Should().ContainInOrder(expected);
-
             if (newlineBetweenSections)
-                lines[2].Should().BeEmpty();
+            {
+                expected.Insert(2, "");
+                expected.Insert(5, "");
+            }
+
+            var lines = sut.ToString().ToLines();
+            lines.Should().StartWith(expected);
         }
 
-        [Fact]
-        public void Create_instance_with_options()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Create_instance_with_options(bool newlineBetweenSections)
         {
             // Fixture setup
             // Exercize system 
-            var sut = new HelpText { AddDashesToOption = true }
+            var sut = new HelpText { AddDashesToOption = true, AddNewLineBetweenHelpSections = newlineBetweenSections }
                 .AddPreOptionsLine("pre-options")
                 .AddOptions(new NotParsed<Simple_Options>(TypeInfo.Create(typeof(Simple_Options)), Enumerable.Empty<Error>()))
                 .AddPostOptionsLine("post-options");
 
             // Verify outcome
+            var expected = new []
+            {
+                "",
+                "pre-options",
+                "",
+                "--stringvalue         Define a string value here.",
+                "-s, --shortandlong    Example with both short and long name.",
+                "-i                    Define a int sequence here.",
+                "-x                    Define a boolean or switch value here.",
+                "--help                Display this help screen.",
+                "--version             Display version information.",
+                "value pos. 0          Define a long value here.",
+                "",
+                "post-options"
+            };
 
-            var lines = sut.ToString().ToNotEmptyLines().TrimStringArray();
-            lines[0].Should().BeEquivalentTo("pre-options");
-            lines[1].Should().BeEquivalentTo("--stringvalue         Define a string value here.");
-            lines[2].Should().BeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
-            lines[3].Should().BeEquivalentTo("-i                    Define a int sequence here.");
-            lines[4].Should().BeEquivalentTo("-x                    Define a boolean or switch value here.");
-            lines[5].Should().BeEquivalentTo("--help                Display this help screen.");
-            lines[6].Should().BeEquivalentTo("--version             Display version information.");
-            lines[7].Should().BeEquivalentTo("value pos. 0          Define a long value here.");
-            lines[8].Should().BeEquivalentTo("post-options");
-            // Teardown
+            var lines = sut.ToString().ToLines().TrimStringArray();
+            lines.Should().StartWith(expected);
         }
 
         [Fact]
@@ -514,7 +523,7 @@ namespace CommandLine.Tests.Unit.Text
             );
 
             // Verify outcome
-            var expected = new[]
+            var expected = new List<string>()
             {
                 HeadingInfo.Default.ToString(),
                 CopyrightInfo.Default.ToString(),
@@ -552,18 +561,14 @@ namespace CommandLine.Tests.Unit.Text
                 "",
                 "value pos. 0    Value."
             };
-            var takeCount = newlineBetweenSections ? expected.Length + 1 : expected.Length;
-
-            var text = helpText.ToString();
-            var lines = text.ToLines().TrimStringArray().Take(takeCount).ToArray();
-            
-            lines.Should().ContainInOrder(expected);
 
             if (newlineBetweenSections)
-                lines[5].Should().BeEmpty();
+                expected.Insert(5, "");
 
-
-            // Teardown
+            var text = helpText.ToString();
+            var lines = text.ToLines().TrimStringArray();
+            
+            lines.Should().StartWith(expected);
         }
 
         [Theory]
@@ -593,7 +598,7 @@ namespace CommandLine.Tests.Unit.Text
             );
 
             // Verify outcome
-            var expected = new[]
+            var expected = new List<string>()
             {
                 HeadingInfo.Default.ToString(),
                 CopyrightInfo.Default.ToString(),
@@ -607,15 +612,13 @@ namespace CommandLine.Tests.Unit.Text
                 "--input-file"
             };
 
-            var takeCount = newlineBetweenSections || startWithNewline ? expected.Length + 1 : expected.Length;
+            if (newlineBetweenSections || startWithNewline)
+                expected.Insert(2, "");
 
             var text = helpText.ToString();
-            var lines = text.ToLines().TrimStringArray().Take(takeCount).ToArray();
+            var lines = text.ToLines().TrimStringArray();
 
-            lines.Should().ContainInOrder(expected);
-
-            if (newlineBetweenSections || startWithNewline)
-                lines[2].Should().BeEmpty();
+            lines.Should().StartWith(expected);
         }
 
         [Fact]
