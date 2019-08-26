@@ -113,5 +113,23 @@ namespace CommandLine.Infrastructure
             }
             return c;
         }
+
+        public static bool SafeStartsWith(this StringBuilder builder, string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return false;
+
+            return builder?.Length >= s.Length
+                && builder.ToString(0, s.Length) == s;
+        }
+
+        public static bool SafeEndsWith(this StringBuilder builder, string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return false;
+
+            return builder?.Length >= s.Length
+                && builder.ToString(builder.Length - s.Length, s.Length) == s;
+        }
     }
 }

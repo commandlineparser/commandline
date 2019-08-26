@@ -722,27 +722,33 @@ namespace CommandLine.Text
         {
             const int ExtraLength = 10;
 
-            string ExtraLineIfNeeded = AddNewLineBetweenHelpSections
-                        && (heading.SafeLength() > 0 && copyright.SafeLength() > 0
-                        && preOptionsHelp.Length >= Environment.NewLine.Length
-                        && preOptionsHelp.ToString(0, Environment.NewLine.Length) != Environment.NewLine)
-                ? Environment.NewLine
-                : null;
-            
-            return
-                new StringBuilder(
-                    heading.SafeLength() + copyright.SafeLength() + preOptionsHelp.SafeLength() +
-                        optionsHelp.SafeLength() + ExtraLength)
-                    .Append(heading)
+            var sbLength = heading.SafeLength() + copyright.SafeLength() + preOptionsHelp.SafeLength()
+                    + optionsHelp.SafeLength() + postOptionsHelp.SafeLength() + ExtraLength;
+            var result = new StringBuilder(sbLength);
+
+            result.Append(heading)
                     .AppendWhen(!string.IsNullOrEmpty(copyright), Environment.NewLine, copyright)
-                    .AppendWhen(preOptionsHelp.Length > 0, ExtraLineIfNeeded, Environment.NewLine, preOptionsHelp.ToString())
                     .AppendWhen(
-                        optionsHelp != null && optionsHelp.Length > 0,
+                        preOptionsHelp.SafeLength() > 0,
+                        Environment.NewLine,
+                        NewLineIfNeededBefore(preOptionsHelp),
+                        preOptionsHelp.ToString())
+                    .AppendWhen(
+                        optionsHelp.SafeLength() > 0,
                         Environment.NewLine,
                         Environment.NewLine,
                         optionsHelp.SafeToString())
-                    .AppendWhen(postOptionsHelp.Length > 0, Environment.NewLine, postOptionsHelp.ToString())
-                .ToString();
+                    .AppendWhen(postOptionsHelp.SafeLength() > 0, Environment.NewLine, postOptionsHelp.ToString());
+
+            string NewLineIfNeededBefore(StringBuilder sb)
+            {
+                if (AddNewLineBetweenHelpSections && result.Length > 0 && !sb.SafeStartsWith(Environment.NewLine))
+                    return Environment.NewLine;
+                else
+                    return null;
+            }
+
+            return result.ToString();
         }
 
         internal static void AddLine(StringBuilder builder, string value, int maximumLength)
