@@ -1,5 +1,5 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
-version: 2.5.{build}
+version: 2.7.0-alpha-{build}
 
 image: Visual Studio 2017
 
@@ -56,3 +56,10 @@ deploy:
   artifact: 'NuGetPackages'
   on:
     APPVEYOR_REPO_TAG: true
+
+- provider: NuGet
+  server: https://www.myget.org/F/commandline/api/v2/package
+  api_key:
+    secure: hSatieECG8d1qvzcQejfzQH8vQa4W0GbXU10/xVXvL4dloo1vZMlCdHZbpZkLMNW
+  artifact: 'NuGetPackages'	
+  symbol_server: https://www.myget.org/F/commandline/symbols/api/v2/package
