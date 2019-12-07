@@ -113,5 +113,39 @@ namespace CommandLine.Infrastructure
             }
             return c;
         }
+
+        /// <summary>
+        /// Indicates whether the string value of a <see cref="System.Text.StringBuilder"/>
+        /// starts with the input <see cref="System.String"/> parameter. Returns false if either 
+        /// the StringBuilder or input string is null or empty.
+        /// </summary>
+        /// <param name="builder">The <see cref="System.Text.StringBuilder"/> to test.</param>
+        /// <param name="s">The <see cref="System.String"/> to look for.</param>
+        /// <returns></returns>
+        public static bool SafeStartsWith(this StringBuilder builder, string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return false;
+
+            return builder?.Length >= s.Length
+                && builder.ToString(0, s.Length) == s;
+        }
+
+        /// <summary>
+        /// Indicates whether the string value of a <see cref="System.Text.StringBuilder"/>
+        /// ends with the input <see cref="System.String"/> parameter. Returns false if either 
+        /// the StringBuilder or input string is null or empty.
+        /// </summary>
+        /// <param name="builder">The <see cref="System.Text.StringBuilder"/> to test.</param>
+        /// <param name="s">The <see cref="System.String"/> to look for.</param>
+        /// <returns></returns>
+        public static bool SafeEndsWith(this StringBuilder builder, string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return false;
+
+            return builder?.Length >= s.Length
+                && builder.ToString(builder.Length - s.Length, s.Length) == s;
+        }
     }
 }

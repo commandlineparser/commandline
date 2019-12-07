@@ -109,6 +109,7 @@ namespace CommandLine.Text
         private bool addEnumValuesToHelpText;
         private bool autoHelp;
         private bool autoVersion;
+        private bool addNewLineBetweenHelpSections;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HelpText"/> class.
@@ -259,6 +260,15 @@ namespace CommandLine.Text
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to add newlines between help sections.
+        /// </summary>
+        public bool AddNewLineBetweenHelpSections
+        {
+            get {  return addNewLineBetweenHelpSections; }
+            set { addNewLineBetweenHelpSections = value; }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to add the values of an enum after the description of the specification.
         /// </summary>
         public bool AddEnumValuesToHelpText
@@ -352,7 +362,11 @@ namespace CommandLine.Text
             {
                 var heading = auto.SentenceBuilder.UsageHeadingText();
                 if (heading.Length > 0)
+                {
+                    if (auto.AddNewLineBetweenHelpSections)
+                        heading = Environment.NewLine + heading;
                     auto.AddPreOptionsLine(heading);
+                }
             }
 
             usageAttr.Do(
@@ -707,19 +721,40 @@ namespace CommandLine.Text
         public override string ToString()
         {
             const int ExtraLength = 10;
-            return
-                new StringBuilder(
-                    heading.SafeLength() + copyright.SafeLength() + preOptionsHelp.SafeLength() +
-                        optionsHelp.SafeLength() + ExtraLength).Append(heading)
-                    .AppendWhen(!string.IsNullOrEmpty(copyright), Environment.NewLine, copyright)
-                    .AppendWhen(preOptionsHelp.Length > 0, Environment.NewLine, preOptionsHelp.ToString())
-                    .AppendWhen(
-                        optionsHelp != null && optionsHelp.Length > 0,
+
+            var sbLength = heading.SafeLength() + copyright.SafeLength() + preOptionsHelp.SafeLength()
+                    + optionsHelp.SafeLength() + postOptionsHelp.SafeLength() + ExtraLength;
+            var result = new StringBuilder(sbLength);
+
+            result.Append(heading)
+                    .AppendWhen(!string.IsNullOrEmpty(copyright), 
+                        Environment.NewLine, 
+                        copyright)
+                    .AppendWhen(preOptionsHelp.SafeLength() > 0,
+                        NewLineIfNeededBefore(preOptionsHelp),
+                        Environment.NewLine,
+                        preOptionsHelp.ToString())
+                    .AppendWhen(optionsHelp.SafeLength() > 0,
                         Environment.NewLine,
                         Environment.NewLine,
                         optionsHelp.SafeToString())
-                    .AppendWhen(postOptionsHelp.Length > 0, Environment.NewLine, postOptionsHelp.ToString())
-                .ToString();
+                    .AppendWhen(postOptionsHelp.SafeLength() > 0, 
+                        NewLineIfNeededBefore(postOptionsHelp),
+                        Environment.NewLine,
+                        postOptionsHelp.ToString());
+
+            string NewLineIfNeededBefore(StringBuilder sb)
+            {
+                if (AddNewLineBetweenHelpSections 
+                        && result.Length > 0 
+                        && !result.SafeEndsWith(Environment.NewLine)
+                        && !sb.SafeStartsWith(Environment.NewLine))
+                    return Environment.NewLine;
+                else
+                    return null;
+            }
+
+            return result.ToString();
         }
 
         internal static void AddLine(StringBuilder builder, string value, int maximumLength)
