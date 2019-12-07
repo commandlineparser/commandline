@@ -22,9 +22,11 @@ let formatLong o =
 let formatInput (o : options)  =
     sprintf "--stringvalue: %s\n-i: %A\n-x: %b\nvalue: %s\n" o.stringValue o.intSequence o.boolValue (formatLong o.longValue)
 
-let inline (|Success|Fail|) (result : ParserResult<'a>) =
+let inline (|Success|Help|Version|Fail|) (result : ParserResult<'a>) =
   match result with
   | :? Parsed<'a> as parsed -> Success(parsed.Value)
+  | :? NotParsed<'a> as notParsed when notParsed.Errors.IsHelp() -> Help
+  | :? NotParsed<'a> as notParsed when notParsed.Errors.IsVersion() -> Version
   | :? NotParsed<'a> as notParsed -> Fail(notParsed.Errors)
   | _ -> failwith "invalid parser result"
 
@@ -34,3 +36,4 @@ let result = Parser.Default.ParseArguments<options>(args)
 match result with
   | Success(opts) -> printf "%s" (formatInput opts)
   | Fail(errs) -> printf "Invalid: %A, Errors: %u\n" args (Seq.length errs)
+  | Help | Version -> ()
