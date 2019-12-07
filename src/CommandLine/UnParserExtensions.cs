@@ -19,6 +19,7 @@ namespace CommandLine
         private bool groupSwitches;
         private bool useEqualToken;
         private bool showHidden;
+        private bool skipDefault;
 
         /// <summary>
         /// Gets or sets a value indicating whether unparsing process shall prefer short or long names.
@@ -56,6 +57,14 @@ namespace CommandLine
             set { PopsicleSetter.Set(Consumed, ref showHidden, value); }
         }
         /// <summary>
+        /// Gets or sets a value indicating whether unparsing process shall skip options with DefaultValue.
+        /// </summary>
+        public bool SkipDefault
+        {
+            get { return skipDefault; }
+            set { PopsicleSetter.Set(Consumed, ref skipDefault, value); }
+        }
+        /// <summary>
         /// Factory method that creates an instance of <see cref="CommandLine.UnParserSettings"/> with GroupSwitches set to true.
         /// </summary>
         /// <returns>A properly initalized <see cref="CommandLine.UnParserSettings"/> instance.</returns>
@@ -90,7 +99,7 @@ namespace CommandLine
         /// <returns>A string with command line arguments.</returns>
         public static string FormatCommandLine<T>(this Parser parser, T options)
         {
-            return parser.FormatCommandLine(options, config => {});
+            return parser.FormatCommandLine(options, config => { });
         }
 
         /// <summary>
@@ -119,34 +128,38 @@ namespace CommandLine
             var specs =
                 (from info in
                     type.GetSpecifications(
-                        pi => new { Specification = Specification.FromProperty(pi),
-                            Value = pi.GetValue(options, null).NormalizeValue(), PropertyValue = pi.GetValue(options, null) })
-                where !info.PropertyValue.IsEmpty()
-                select info)
+                        pi => new
+                        {
+                            Specification = Specification.FromProperty(pi),
+                            Value = pi.GetValue(options, null).NormalizeValue(),
+                            PropertyValue = pi.GetValue(options, null)
+                        })
+                 where !info.PropertyValue.IsEmpty(info.Specification,settings.SkipDefault)
+                 select info)
                     .Memorize();
 
             var allOptSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
-                let o = (OptionSpecification)info.Specification
-                where o.TargetType != TargetType.Switch || (o.TargetType == TargetType.Switch && ((bool)info.Value))
-                where !o.Hidden || settings.ShowHidden
-                orderby o.UniqueName()
-                select info;
+                              let o = (OptionSpecification)info.Specification
+                              where o.TargetType != TargetType.Switch || (o.TargetType == TargetType.Switch && ((bool)info.Value))
+                              where !o.Hidden || settings.ShowHidden
+                              orderby o.UniqueName()
+                              select info;
 
             var shortSwitches = from info in allOptSpecs
-                let o = (OptionSpecification)info.Specification
-                where o.TargetType == TargetType.Switch
-                where o.ShortName.Length > 0
-                orderby o.UniqueName()
-                select info;
+                                let o = (OptionSpecification)info.Specification
+                                where o.TargetType == TargetType.Switch
+                                where o.ShortName.Length > 0
+                                orderby o.UniqueName()
+                                select info;
 
             var optSpecs = settings.GroupSwitches
                 ? allOptSpecs.Where(info => !shortSwitches.Contains(info))
                 : allOptSpecs;
 
             var valSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Value)
-                let v = (ValueSpecification)info.Specification
-                orderby v.Index
-                select info;
+                           let v = (ValueSpecification)info.Specification
+                           orderby v.Index
+                           select info;
 
             builder = settings.GroupSwitches && shortSwitches.Any()
                 ? builder.Append('-').Append(string.Join(string.Empty, shortSwitches.Select(
@@ -191,6 +204,7 @@ namespace CommandLine
 
         private static object FormatWithQuotesIfString(object value)
         {
+           if (value is DateTime) value = $"\"{value}\"";
             Func<string, string> doubQt = v
                 => v.Contains("\"") ? v.Replace("\"", "\\\"") : v;
 
@@ -218,7 +232,7 @@ namespace CommandLine
         {
             // Have a long name and short name not preferred? Go with long! 
             // No short name? Has to be long!
-            var longName = (optionSpec.LongName.Length >  0 && !settings.PreferShortName)
+            var longName = (optionSpec.LongName.Length > 0 && !settings.PreferShortName)
                          || optionSpec.ShortName.Length == 0;
 
             return
@@ -242,9 +256,11 @@ namespace CommandLine
             return value;
         }
 
-        private static bool IsEmpty(this object value)
+        private static bool IsEmpty(this object value, Specification specification,bool skipDefault)
         {
             if (value == null) return true;
+
+            if (skipDefault && value.Equals(specification.DefaultValue.FromJust())) return true;
 #if !SKIP_FSHARP
             if (ReflectionHelper.IsFSharpOptionType(value.GetType()) && !FSharpOptionHelper.IsSome(value)) return true;
 #endif

@@ -1,7 +1,9 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using CommandLine.Tests.Fakes;
 using Xunit;
 using FluentAssertions;
@@ -103,6 +105,40 @@ namespace CommandLine.Tests.Unit
                 .Should().BeEquivalentTo("-something with dash");
         }
 
+        [Fact]
+        public static void UnParsing_instance_with_default_values_when_skip_default_is_false()
+        {
+            var options = new Options_With_Defaults { P2 = "xyz", P1 = 99, P3 = 88, P4 = Shapes.Square };
+            new Parser()
+                .FormatCommandLine(options)
+                .Should().BeEquivalentTo("--p1 99 --p2 xyz --p3 88 --p4 Square");
+        }
+
+        [Fact]
+        public static void UnParsing_instance_with_default_values_when_skip_default_is_true()
+        {
+            var options = new Options_With_Defaults {P2 = "xyz", P1 = 99, P3 = 88,P4= Shapes.Square }  ;
+            new Parser()
+                .FormatCommandLine(options,x=>x.SkipDefault=true)
+                .Should().BeEquivalentTo("--p2 xyz");
+        }
+
+        [Fact]
+        public static void UnParsing_instance_with_datetime()
+        {
+            var date = new DateTime(2019, 5, 1);    
+            var options = new Options_Date { Start=date };
+            var result = new Parser()
+                .FormatCommandLine(options); //--start "1/5/2019 12:00:00 AM", date is based on Culture
+            var expected = Regex.Match(result, @"--start\s"".+""").Success; //result contain quote
+            Assert.True(expected);
+        }
+
+        internal class Options_Date
+        {
+            [Option]
+            public DateTime? Start { get; set; }
+        }
         public static IEnumerable<object[]> UnParseData
         {
             get
