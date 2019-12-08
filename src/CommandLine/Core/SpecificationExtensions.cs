@@ -34,6 +34,7 @@ namespace CommandLine.Core
                 specification.EnumValues,
                 specification.ConversionType,
                 specification.TargetType,
+                specification.Group,
                 specification.Hidden);
         }
 

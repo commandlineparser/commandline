@@ -210,7 +210,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return new {Tag, StopsProcessing, Token}.GetHashCode();
+            return new { Tag, StopsProcessing, Token }.GetHashCode();
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return new {Tag, StopsProcessing, NameInfo}.GetHashCode();
+            return new { Tag, StopsProcessing, NameInfo }.GetHashCode();
         }
 
         /// <summary>
@@ -524,6 +524,24 @@ namespace CommandLine
         internal InvalidAttributeConfigurationError()
             : base(ErrorType.InvalidAttributeConfigurationError, true)
         {
+        }
+    }
+
+    public sealed class MissingGroupOptionError : Error
+    {
+        public const string ErrorMessage = "At least one option in a group must have value.";
+
+        private readonly string group;
+
+        internal MissingGroupOptionError(string group)
+            : base(ErrorType.HelpRequestedError, true)
+        {
+            this.group = group;
+        }
+
+        public string Group
+        {
+            get { return group; }
         }
     }
 }
