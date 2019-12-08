@@ -101,6 +101,7 @@ namespace CommandLine.Core
                                            where sp.Value.IsNothing()
                                            let o = (OptionSpecification)sp.Specification
                                            where o.SetName.Length > 0
+                                           where o.Group.IsNothing()
                                            where setWithRequiredValue.ContainsIfNotEmpty(o.SetName)
                                            select sp.Specification;
                 var missing =
@@ -113,6 +114,7 @@ namespace CommandLine.Core
                             where sp.Value.IsNothing()
                             let o = (OptionSpecification)sp.Specification
                             where o.SetName.Length == 0
+                            where o.Group.IsNothing()
                             select sp.Specification)
                         .Concat(
                             from sp in specProps

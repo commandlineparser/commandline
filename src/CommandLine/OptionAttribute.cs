@@ -107,7 +107,7 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Gets or sets the option group name. When one or more options are grouped, at least one of them should have value.
+        /// Gets or sets the option group name. When one or more options are grouped, at least one of them should have value. Required rules are ignored.
         /// </summary>
         public string Group
         {
