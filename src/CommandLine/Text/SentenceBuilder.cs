@@ -35,6 +35,11 @@ namespace CommandLine.Text
         public abstract Func<string> RequiredWord { get; }
 
         /// <summary>
+        /// Gets a delegate that returns the word 'group'.
+        /// </summary>
+        public abstract Func<string> OptionGroupWord { get; }
+
+        /// <summary>
         /// Gets a delegate that returns that errors block heading text.
         /// </summary>
         public abstract Func<string> ErrorsHeadingText { get; }
@@ -83,6 +88,11 @@ namespace CommandLine.Text
             public override Func<string> UsageHeadingText
             {
                 get { return () => "USAGE:"; }
+            }
+
+            public override Func<string> OptionGroupWord
+            {
+                get { return () => "Group"; }
             }
 
             public override Func<bool, string> HelpCommandText

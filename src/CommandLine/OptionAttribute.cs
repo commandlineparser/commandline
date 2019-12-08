@@ -106,6 +106,9 @@ namespace CommandLine
             set { separator = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the option group name. When one or more options are grouped, at least one of them should have value.
+        /// </summary>
         public string Group
         {
             get { return group; }
