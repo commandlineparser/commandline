@@ -1,9 +1,10 @@
 // Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
+using CSharpx;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CSharpx;
 
 namespace CommandLine.Core
 {
@@ -46,7 +47,7 @@ namespace CommandLine.Core
 
                 if (errorGroups.Any())
                 {
-                    return errorGroups.Select(gr => new MissingGroupOptionError(gr.Key));
+                    return errorGroups.Select(gr => new MissingGroupOptionError(gr.Key, gr.Select(g => new NameInfo(g.Option.ShortName, g.Option.LongName))));
                 }
 
                 return Enumerable.Empty<Error>();

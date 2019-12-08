@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 
 namespace CommandLine
 {
@@ -69,7 +70,11 @@ namespace CommandLine
         /// <summary>
         /// Value of <see cref="CommandLine.InvalidAttributeConfigurationError"/> type.
         /// </summary>
-        InvalidAttributeConfigurationError
+        InvalidAttributeConfigurationError,
+        /// <summary>
+        /// Value of <see cref="CommandLine.MissingGroupOptionError"/> type.
+        /// </summary>
+        MissingGroupOptionError
 
     }
 
@@ -532,16 +537,23 @@ namespace CommandLine
         public const string ErrorMessage = "At least one option in a group must have value.";
 
         private readonly string group;
+        private readonly IEnumerable<NameInfo> names;
 
-        internal MissingGroupOptionError(string group)
-            : base(ErrorType.HelpRequestedError, true)
+        internal MissingGroupOptionError(string group, IEnumerable<NameInfo> names)
+            : base(ErrorType.MissingGroupOptionError)
         {
             this.group = group;
+            this.names = names;
         }
 
         public string Group
         {
             get { return group; }
+        }
+
+        public IEnumerable<NameInfo> Names
+        {
+            get { return names; }
         }
     }
 }
