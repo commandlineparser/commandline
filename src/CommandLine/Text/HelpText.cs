@@ -874,6 +874,16 @@ namespace CommandLine.Text
 
         private HelpText AddOption(string requiredWord, string optionGroupWord, int maxLength, Specification specification, int widthOfHelpText)
         {
+            OptionSpecification GetOptionGroupSpecification()
+            {
+                if (specification.Tag == SpecificationType.Option && specification is OptionSpecification optionSpecification && optionSpecification.Group.IsJust())
+                {
+                    return optionSpecification;
+                }
+
+                return null;
+            }
+
             if (specification.Hidden)
                 return this;
 
@@ -896,12 +906,14 @@ namespace CommandLine.Text
             specification.DefaultValue.Do(
                 defaultValue => optionHelpText = "(Default: {0}) ".FormatInvariant(FormatDefaultValue(defaultValue)) + optionHelpText);
 
-            if (specification.Required)
+            var optionGroupSpecification = GetOptionGroupSpecification();
+
+            if (specification.Required && optionGroupSpecification == null)
                 optionHelpText = "{0} ".FormatInvariant(requiredWord) + optionHelpText;
 
-            if (specification.Tag == SpecificationType.Option && specification is OptionSpecification optionSpecification && optionSpecification.Group.IsJust())
+            if (optionGroupSpecification != null)
             {
-                optionHelpText = "({0}: {1})".FormatInvariant(optionGroupWord, optionSpecification.Group.GetValueOrDefault(null)) + optionHelpText;
+                optionHelpText = "({0}: {1}) ".FormatInvariant(optionGroupWord, optionGroupSpecification.Group.GetValueOrDefault(null)) + optionHelpText;
             }
 
             //note that we need to indent trim the start of the string because it's going to be 
