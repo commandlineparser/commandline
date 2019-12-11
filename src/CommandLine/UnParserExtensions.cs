@@ -134,7 +134,7 @@ namespace CommandLine
                             Value = pi.GetValue(options, null).NormalizeValue(),
                             PropertyValue = pi.GetValue(options, null)
                         })
-                 where !info.PropertyValue.IsEmpty(info.Specification,settings.SkipDefault)
+                 where !info.PropertyValue.IsEmpty(info.Specification, settings.SkipDefault)
                  select info)
                     .Memorize();
 
@@ -204,7 +204,7 @@ namespace CommandLine
 
         private static object FormatWithQuotesIfString(object value)
         {
-           if (value is DateTime) value = $"\"{value}\"";
+            if (value is DateTime || value is TimeSpan || value is DateTimeOffset) return $"\"{value}\"";
             Func<string, string> doubQt = v
                 => v.Contains("\"") ? v.Replace("\"", "\\\"") : v;
 
@@ -256,11 +256,13 @@ namespace CommandLine
             return value;
         }
 
-        private static bool IsEmpty(this object value, Specification specification,bool skipDefault)
+        private static bool IsEmpty(this object value, Specification specification, bool skipDefault)
         {
             if (value == null) return true;
 
             if (skipDefault && value.Equals(specification.DefaultValue.FromJust())) return true;
+            if (Nullable.GetUnderlyingType(specification.ConversionType) != null) return false; //nullable
+
 #if !SKIP_FSHARP
             if (ReflectionHelper.IsFSharpOptionType(value.GetType()) && !FSharpOptionHelper.IsSome(value)) return true;
 #endif
