@@ -4,16 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
+using Microsoft.FSharp.Core;
 using CommandLine.Core;
 using CommandLine.Infrastructure;
-using CommandLine.Tests.Fakes;
 
 using CSharpx;
-
+using CommandLine.Tests.Fakes;
 using FluentAssertions;
-
 using Xunit;
+using System.Reflection;
 
 namespace CommandLine.Tests.Unit.Core
 {
