@@ -255,6 +255,11 @@ namespace CommandLine.Tests.Unit.Text
         public void Invoking_RenderParsingErrorsText_returns_appropriate_formatted_text()
         {
             // Fixture setup
+            var optionsInGroup = new List<NameInfo>
+            {
+                new NameInfo("t", "testOption1"),
+                new NameInfo("c", "testOption2")
+            };
             var fakeResult = new NotParsed<object>(
                 TypeInfo.Create(typeof(NullInstance)),
                 new Error[]
@@ -267,7 +272,8 @@ namespace CommandLine.Tests.Unit.Text
                         new NoVerbSelectedError(),
                         new BadVerbSelectedError("badverb"),
                         new HelpRequestedError(), // should be ignored
-                        new HelpVerbRequestedError(null, null, false) // should be ignored 
+                        new HelpVerbRequestedError(null, null, false), // should be ignored
+                        new MissingGroupOptionError("bad-option-group", optionsInGroup),
                     });
             Func<Error, string> fakeRenderer = err =>
                 {
@@ -287,6 +293,11 @@ namespace CommandLine.Tests.Unit.Text
                             return "ERR no-verb-selected";
                         case ErrorType.BadVerbSelectedError:
                             return "ERR " + ((BadVerbSelectedError)err).Token;
+                        case ErrorType.MissingGroupOptionError:
+                        {
+                            var groupErr = (MissingGroupOptionError)err;
+                            return "ERR " + groupErr.Group + ": " + string.Join("---", groupErr.Names.Select(n => n.NameText));
+                        }
                         default:
                             throw new InvalidOperationException();
                     }
@@ -306,6 +317,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[4].Should().BeEquivalentTo("  ERR s, sequence");
             lines[5].Should().BeEquivalentTo("  ERR no-verb-selected");
             lines[6].Should().BeEquivalentTo("  ERR badverb");
+            lines[7].Should().BeEquivalentTo("  ERR bad-option-group: t, testOption1---c, testOption2");
             // Teardown
         }
 
