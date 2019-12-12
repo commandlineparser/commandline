@@ -4,15 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Microsoft.FSharp.Core;
+
 using CommandLine.Core;
 using CommandLine.Infrastructure;
+using CommandLine.Tests.Fakes;
 
 using CSharpx;
-using CommandLine.Tests.Fakes;
+
 using FluentAssertions;
+
 using Xunit;
-using System.Reflection;
 
 namespace CommandLine.Tests.Unit.Core
 {
@@ -1156,6 +1157,42 @@ namespace CommandLine.Tests.Unit.Core
             Action act = () => InvokeBuild<ValueWithNoSetterOptions>(new string[] { "Test" }, false, false);
 
             act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Fact]
+        public void Options_In_Group_With_No_Values_Generates_MissingGroupOptionError()
+        {
+            // Fixture setup
+            var optionNames = new List<NameInfo>
+            {
+                new NameInfo("", "option1"),
+                new NameInfo("", "option2")
+            };
+            var expectedResult = new[] { new MissingGroupOptionError("err-group", optionNames) };
+
+            // Exercize system 
+            var result = InvokeBuild<Options_With_Group>(
+                new[] { "-v 10.42" });
+
+            // Verify outcome
+            ((NotParsed<Options_With_Group>)result).Errors.Should().BeEquivalentTo(expectedResult);
+
+            // Teardown
+        }
+
+        [Theory]
+        [InlineData("-v", "10.5", "--option1", "test1", "--option2", "test2")]
+        [InlineData("-v", "10.5", "--option1", "test1")]
+        [InlineData("-v", "10.5", "--option2", "test2")]
+        public void Options_In_Group_With_Values_Does_Not_Generate_MissingGroupOptionError(params string[] args)
+        {
+            // Exercize system 
+            var result = InvokeBuild<Options_With_Group>(args);
+
+            // Verify outcome
+            result.Should().BeOfType<Parsed<Options_With_Group>>();
+
+            // Teardown
         }
 
         private class ValueWithNoSetterOptions
