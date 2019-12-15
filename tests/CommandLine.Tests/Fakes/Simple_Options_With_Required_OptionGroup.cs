@@ -5,7 +5,7 @@
         [Option(HelpText = "Define a string value here.", Required = true, Group = "string-group")]
         public string StringValue { get; set; }
 
-        [Option('s', "shortandlong", HelpText = "Example with both short and long name.", Group = "string-group")]
+        [Option('s', "shortandlong", HelpText = "Example with both short and long name.", Required = true, Group = "string-group")]
         public string ShortAndLong { get; set; }
 
         [Option('x', HelpText = "Define a boolean or switch value here.")]

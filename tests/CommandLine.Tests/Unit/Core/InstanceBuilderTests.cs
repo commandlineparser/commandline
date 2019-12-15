@@ -1,16 +1,19 @@
-﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
+// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
+
+using Microsoft.FSharp.Core;
+using CommandLine.Core;
+using CommandLine.Infrastructure;
+using CommandLine.Tests.Fakes;
+
+using CSharpx;
+
+using FluentAssertions;
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Microsoft.FSharp.Core;
-using CommandLine.Core;
-using CommandLine.Infrastructure;
 
-using CSharpx;
-using CommandLine.Tests.Fakes;
-using FluentAssertions;
 using Xunit;
 using System.Reflection;
 
@@ -1192,6 +1195,47 @@ namespace CommandLine.Tests.Unit.Core
             result.Should().BeOfType<Parsed<Options_With_Group>>();
 
             // Teardown
+        }
+
+        [Fact]
+        public void Options_In_Group_WithRequired_Does_Not_Generate_RequiredError()
+        {
+            // Fixture setup
+            var optionNames = new List<NameInfo>
+            {
+                new NameInfo("", "stingvalue"),
+                new NameInfo("s", "shortandlong")
+            };
+            var expectedResult = new[] { new MissingGroupOptionError("string-group", optionNames) };
+
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options_With_Required_OptionGroup>(new string[] { "-x" });
+
+            // Verify outcome
+            result.Should().BeOfType<NotParsed<Simple_Options_With_Required_OptionGroup>>();
+            var errors = ((NotParsed<Simple_Options_With_Required_OptionGroup>)result).Errors;
+
+            errors.Should().HaveCount(1);
+            errors.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public void Options_In_Group_Ignore_Option_Group_If_Option_Group_Name_Empty()
+        {
+            var expectedResult = new[]
+            {
+                new MissingRequiredOptionError(new NameInfo("", "stringvalue")),
+                new MissingRequiredOptionError(new NameInfo("s", "shortandlong"))
+            };
+
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options_With_OptionGroup_WithDefaultValue>(new string[] { "-x" });
+
+            // Verify outcome
+            result.Should().BeOfType<NotParsed<Simple_Options_With_OptionGroup_WithDefaultValue>>();
+            var errors = ((NotParsed<Simple_Options_With_OptionGroup_WithDefaultValue>)result).Errors;
+
+            errors.Should().BeEquivalentTo(expectedResult);
         }
 
         private class ValueWithNoSetterOptions
