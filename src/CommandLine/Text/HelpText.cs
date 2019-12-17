@@ -875,7 +875,12 @@ namespace CommandLine.Text
         {
             OptionSpecification GetOptionGroupSpecification()
             {
-                if (specification.Tag == SpecificationType.Option && specification is OptionSpecification optionSpecification && optionSpecification.Group.IsJust())
+                if (specification.Tag == SpecificationType.Option &&
+                    specification is OptionSpecification optionSpecification &&
+                    optionSpecification.Group.Length > 0
+                    )
+
+
                 {
                     return optionSpecification;
                 }
@@ -912,7 +917,7 @@ namespace CommandLine.Text
 
             if (optionGroupSpecification != null)
             {
-                optionHelpText = "({0}: {1}) ".FormatInvariant(optionGroupWord, optionGroupSpecification.Group.GetValueOrDefault(null)) + optionHelpText;
+                optionHelpText = "({0}: {1}) ".FormatInvariant(optionGroupWord, optionGroupSpecification.Group)  + optionHelpText;
             }
 
             //note that we need to indent trim the start of the string because it's going to be 

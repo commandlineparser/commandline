@@ -16,7 +16,7 @@ namespace CommandLine
         private readonly string shortName;
         private string setName;
         private char separator;
-        private string group;
+        private string group=string.Empty;
 
         private OptionAttribute(string shortName, string longName) : base()
         {

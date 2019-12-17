@@ -13,12 +13,13 @@ namespace CommandLine.Core
         private readonly string longName;
         private readonly char separator;
         private readonly string setName;
-        private readonly Maybe<string> group;
+        private readonly string group;
 
         public OptionSpecification(string shortName, string longName, bool required, string setName, Maybe<int> min, Maybe<int> max,
             char separator, Maybe<object> defaultValue, string helpText, string metaValue, IEnumerable<string> enumValues,
-            Type conversionType, TargetType targetType, Maybe<string> group, bool hidden = false)
-            : base(SpecificationType.Option, required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType, targetType, hidden)
+            Type conversionType, TargetType targetType, string group, bool hidden = false)
+            : base(SpecificationType.Option,
+                 required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType, targetType, hidden)
         {
             this.shortName = shortName;
             this.longName = longName;
@@ -43,14 +44,14 @@ namespace CommandLine.Core
                 enumValues,
                 conversionType,
                 conversionType.ToTargetType(),
-                string.IsNullOrWhiteSpace(attribute.Group) ? Maybe.Nothing<string>() : Maybe.Just(attribute.Group),
+                attribute.Group,
                 attribute.Hidden);
         }
 
         public static OptionSpecification NewSwitch(string shortName, string longName, bool required, string helpText, string metaValue, bool hidden = false)
         {
             return new OptionSpecification(shortName, longName, required, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(),
-                '\0', Maybe.Nothing<object>(), helpText, metaValue, Enumerable.Empty<string>(), typeof(bool), TargetType.Switch, Maybe.Nothing<string>(), hidden);
+                '\0', Maybe.Nothing<object>(), helpText, metaValue, Enumerable.Empty<string>(), typeof(bool), TargetType.Switch, string.Empty, hidden);
         }
 
         public string ShortName
@@ -73,7 +74,7 @@ namespace CommandLine.Core
             get { return setName; }
         }
 
-        public Maybe<string> Group
+        public string Group
         {
             get { return group; }
         }

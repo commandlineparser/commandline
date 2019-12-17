@@ -24,8 +24,8 @@ namespace CommandLine.Tests.Unit.Core
                 };
             var specs = new[]
                 {
-                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', null, string.Empty, string.Empty, new List<string>(), typeof(string), TargetType.Scalar, Maybe.Nothing<string>()),
-                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Just(3), Maybe.Just(4), '\0', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<int>), TargetType.Sequence, Maybe.Nothing<string>())
+                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', null, string.Empty, string.Empty, new List<string>(), typeof(string), TargetType.Scalar, string.Empty),
+                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Just(3), Maybe.Just(4), '\0', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<int>), TargetType.Sequence, string.Empty)
                 };
 
             // Exercize system 
@@ -51,8 +51,8 @@ namespace CommandLine.Tests.Unit.Core
                 };
             var specs = new[]
                 {
-                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', null, string.Empty, string.Empty, new List<string>(), typeof(string), TargetType.Scalar, Maybe.Nothing<string>()),
-                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Just(3), Maybe.Just(4), '\0', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<int>), TargetType.Sequence, Maybe.Nothing<string>())
+                    new OptionSpecification(string.Empty, "stringvalue", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', null, string.Empty, string.Empty, new List<string>(), typeof(string), TargetType.Scalar, string.Empty),
+                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Just(3), Maybe.Just(4), '\0', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<int>), TargetType.Sequence, string.Empty)
                 };
 
             // Exercize system 

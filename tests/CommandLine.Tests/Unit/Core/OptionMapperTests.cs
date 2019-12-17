@@ -32,7 +32,7 @@ namespace CommandLine.Tests.Unit.Core
             var specProps = new[]
                 {
                     SpecificationProperty.Create(
-                        new OptionSpecification("x", string.Empty, false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(bool), TargetType.Switch, Maybe.Nothing<string>()),
+                        new OptionSpecification("x", string.Empty, false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(bool), TargetType.Switch, string.Empty),
                         typeof(Simple_Options).GetProperties().Single(p => p.Name.Equals("BoolValue", StringComparison.Ordinal)),
                         Maybe.Nothing<object>())
                 };

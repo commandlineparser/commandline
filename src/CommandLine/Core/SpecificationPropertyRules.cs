@@ -32,7 +32,7 @@ namespace CommandLine.Core
                     from sp in specProps
                     where sp.Specification.IsOption()
                     let o = (OptionSpecification)sp.Specification
-                    where o.Group.IsJust()
+                    where o.Group.Length > 0
                     select new
                     {
                         Option = o,
@@ -40,7 +40,7 @@ namespace CommandLine.Core
                     };
 
                 var groups = from o in optionsValues
-                             group o by o.Option.Group.GetValueOrDefault(null) into g
+                             group o by o.Option.Group into g
                              select g;
 
                 var errorGroups = groups.Where(gr => gr.All(g => g.Value.IsNothing()));
@@ -101,7 +101,7 @@ namespace CommandLine.Core
                                            where sp.Value.IsNothing()
                                            let o = (OptionSpecification)sp.Specification
                                            where o.SetName.Length > 0
-                                           where o.Group.IsNothing()
+                                           where o.Group.Length == 0
                                            where setWithRequiredValue.ContainsIfNotEmpty(o.SetName)
                                            select sp.Specification;
                 var missing =
@@ -114,7 +114,7 @@ namespace CommandLine.Core
                             where sp.Value.IsNothing()
                             let o = (OptionSpecification)sp.Specification
                             where o.SetName.Length == 0
-                            where o.Group.IsNothing()
+                            where o.Group.Length == 0
                             select sp.Specification)
                         .Concat(
                             from sp in specProps
