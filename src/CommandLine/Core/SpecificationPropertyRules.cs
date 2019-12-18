@@ -1,9 +1,10 @@
-﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
+// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
+
+using CSharpx;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CSharpx;
 
 namespace CommandLine.Core
 {
@@ -16,10 +17,41 @@ namespace CommandLine.Core
             return new List<Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>>>
                 {
                     EnforceMutuallyExclusiveSet(),
+                    EnforceGroup(),
                     EnforceRequired(),
                     EnforceRange(),
                     EnforceSingle(tokens)
                 };
+        }
+
+        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceGroup()
+        {
+            return specProps =>
+            {
+                var optionsValues =
+                    from sp in specProps
+                    where sp.Specification.IsOption()
+                    let o = (OptionSpecification)sp.Specification
+                    where o.Group.Length > 0
+                    select new
+                    {
+                        Option = o,
+                        Value = sp.Value
+                    };
+
+                var groups = from o in optionsValues
+                             group o by o.Option.Group into g
+                             select g;
+
+                var errorGroups = groups.Where(gr => gr.All(g => g.Value.IsNothing()));
+
+                if (errorGroups.Any())
+                {
+                    return errorGroups.Select(gr => new MissingGroupOptionError(gr.Key, gr.Select(g => new NameInfo(g.Option.ShortName, g.Option.LongName))));
+                }
+
+                return Enumerable.Empty<Error>();
+            };
         }
 
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceMutuallyExclusiveSet()
@@ -51,12 +83,12 @@ namespace CommandLine.Core
             return specProps =>
             {
                 var requiredWithValue = from sp in specProps
-                    where sp.Specification.IsOption()
-                    where sp.Specification.Required
-                    where sp.Value.IsJust()
-                    let o = (OptionSpecification)sp.Specification
-                    where o.SetName.Length > 0
-                    select sp.Specification;
+                                        where sp.Specification.IsOption()
+                                        where sp.Specification.Required
+                                        where sp.Value.IsJust()
+                                        let o = (OptionSpecification)sp.Specification
+                                        where o.SetName.Length > 0
+                                        select sp.Specification;
                 var setWithRequiredValue = (
                     from s in requiredWithValue
                     let o = (OptionSpecification)s
@@ -64,13 +96,14 @@ namespace CommandLine.Core
                     select o.SetName)
                         .Distinct();
                 var requiredWithoutValue = from sp in specProps
-                    where sp.Specification.IsOption()
-                    where sp.Specification.Required
-                    where sp.Value.IsNothing()
-                    let o = (OptionSpecification)sp.Specification
-                    where o.SetName.Length > 0
-                    where setWithRequiredValue.ContainsIfNotEmpty(o.SetName)
-                    select sp.Specification;
+                                           where sp.Specification.IsOption()
+                                           where sp.Specification.Required
+                                           where sp.Value.IsNothing()
+                                           let o = (OptionSpecification)sp.Specification
+                                           where o.SetName.Length > 0
+                                           where o.Group.Length == 0
+                                           where setWithRequiredValue.ContainsIfNotEmpty(o.SetName)
+                                           select sp.Specification;
                 var missing =
                     requiredWithoutValue
                         .Except(requiredWithValue)
@@ -81,6 +114,7 @@ namespace CommandLine.Core
                             where sp.Value.IsNothing()
                             let o = (OptionSpecification)sp.Specification
                             where o.SetName.Length == 0
+                            where o.Group.Length == 0
                             select sp.Specification)
                         .Concat(
                             from sp in specProps
@@ -130,11 +164,11 @@ namespace CommandLine.Core
                                        where o != null
                                        select new { o.ShortName, o.LongName };
                     var longOptions = from t in tokens
-                                       where t.IsName()
-                                       join o in specs on t.Text equals o.LongName into to
-                                       from o in to.DefaultIfEmpty()
-                                       where o != null
-                                       select new { o.ShortName, o.LongName };
+                                      where t.IsName()
+                                      join o in specs on t.Text equals o.LongName into to
+                                      from o in to.DefaultIfEmpty()
+                                      where o != null
+                                      select new { o.ShortName, o.LongName };
                     var groups = from x in shortOptions.Concat(longOptions)
                                  group x by x into g
                                  let count = g.Count()

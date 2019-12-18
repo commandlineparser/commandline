@@ -3,20 +3,25 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using CommandLine.Core;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+
+using CommandLine.Core;
 using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
+
 using FluentAssertions;
+
 using Xunit;
-using System.Text;
 
 namespace CommandLine.Tests.Unit.Text
 {
     public class HelpTextTests : IDisposable
     {
+        private readonly HeadingInfo headingInfo = new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131");
+
         public void Dispose()
         {
             ReflectionHelper.SetAttributeOverride(null);
@@ -163,7 +168,7 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             // Exercize system 
-            var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
+            var sut = new HelpText(headingInfo);
             sut.MaximumDisplayWidth = 40;
             sut.AddOptions(
                 new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description>(
@@ -186,7 +191,7 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             // Exercize system 
-            var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131")) { MaximumDisplayWidth = 100} ;
+            var sut = new HelpText(headingInfo) { MaximumDisplayWidth = 100} ;
             sut.AddOptions(
                 new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description>(
                     TypeInfo.Create(typeof(Simple_Options_With_HelpText_Set_To_Long_Description)),
@@ -205,7 +210,7 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             // Exercize system 
-            var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
+            var sut = new HelpText(headingInfo);
             sut.MaximumDisplayWidth = 80;
             sut.AddOptions(
                 new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description>(
@@ -225,7 +230,7 @@ namespace CommandLine.Tests.Unit.Text
         {
             // Fixture setup
             // Exercize system 
-            var sut = new HelpText(new HeadingInfo("CommandLine.Tests.dll", "1.9.4.131"));
+            var sut = new HelpText(headingInfo);
             sut.MaximumDisplayWidth = 40;
             sut.AddOptions(
                 new NotParsed<Simple_Options_With_HelpText_Set_To_Long_Description_Without_Spaces>(
@@ -270,6 +275,11 @@ namespace CommandLine.Tests.Unit.Text
         public void Invoking_RenderParsingErrorsText_returns_appropriate_formatted_text()
         {
             // Fixture setup
+            var optionsInGroup = new List<NameInfo>
+            {
+                new NameInfo("t", "testOption1"),
+                new NameInfo("c", "testOption2")
+            };
             var fakeResult = new NotParsed<object>(
                 TypeInfo.Create(typeof(NullInstance)),
                 new Error[]
@@ -282,7 +292,8 @@ namespace CommandLine.Tests.Unit.Text
                         new NoVerbSelectedError(),
                         new BadVerbSelectedError("badverb"),
                         new HelpRequestedError(), // should be ignored
-                        new HelpVerbRequestedError(null, null, false) // should be ignored 
+                        new HelpVerbRequestedError(null, null, false), // should be ignored
+                        new MissingGroupOptionError("bad-option-group", optionsInGroup),
                     });
             Func<Error, string> fakeRenderer = err =>
                 {
@@ -302,6 +313,11 @@ namespace CommandLine.Tests.Unit.Text
                             return "ERR no-verb-selected";
                         case ErrorType.BadVerbSelectedError:
                             return "ERR " + ((BadVerbSelectedError)err).Token;
+                        case ErrorType.MissingGroupOptionError:
+                        {
+                            var groupErr = (MissingGroupOptionError)err;
+                            return "ERR " + groupErr.Group + ": " + string.Join("---", groupErr.Names.Select(n => n.NameText));
+                        }
                         default:
                             throw new InvalidOperationException();
                     }
@@ -321,6 +337,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[4].Should().BeEquivalentTo("  ERR s, sequence");
             lines[5].Should().BeEquivalentTo("  ERR no-verb-selected");
             lines[6].Should().BeEquivalentTo("  ERR badverb");
+            lines[7].Should().BeEquivalentTo("  ERR bad-option-group: t, testOption1---c, testOption2");
             // Teardown
         }
 
@@ -847,6 +864,67 @@ namespace CommandLine.Tests.Unit.Text
             lines[7].Should().Be("-q, --dblseq    (Default: 1.1 2.2 3.3)");
 
             // Teardown
+        }
+
+        [Fact]
+        public void Options_Should_Render_OptionGroup_In_Parenthesis_When_Available()
+        {
+            var sut = new HelpText(headingInfo) { AddDashesToOption = true, MaximumDisplayWidth = 100 }
+                .AddOptions(
+                    new NotParsed<Simple_Options_With_OptionGroup>(TypeInfo.Create(typeof(Simple_Options_With_OptionGroup)), Enumerable.Empty<Error>()));
+
+            var text = sut.ToString();
+            var lines = text.ToLines().TrimStringArray();
+
+
+            lines[0].Should().BeEquivalentTo(headingInfo.ToString());
+            lines[1].Should().BeEmpty();
+            lines[2].Should().BeEquivalentTo("--stringvalue         (Group: string-group) Define a string value here.");
+            lines[3].Should().BeEquivalentTo("-s, --shortandlong    (Group: string-group) Example with both short and long name.");
+            lines[4].Should().BeEquivalentTo("-x                    Define a boolean or switch value here.");
+            lines[5].Should().BeEquivalentTo("--help                Display this help screen.");
+            lines[6].Should().BeEquivalentTo("--version             Display version information.");
+        }
+
+        [Fact]
+        public void Options_Should_Render_OptionGroup_When_Available_And_Should_Not_Render_Required()
+        {
+            var sut = new HelpText(headingInfo) { AddDashesToOption = true, MaximumDisplayWidth = 100 }
+                .AddOptions(
+                    new NotParsed<Simple_Options_With_Required_OptionGroup>(TypeInfo.Create(typeof(Simple_Options_With_Required_OptionGroup)), Enumerable.Empty<Error>()));
+
+            var text = sut.ToString();
+            var lines = text.ToLines().TrimStringArray();
+
+
+            lines[0].Should().BeEquivalentTo(headingInfo.ToString());
+            lines[1].Should().BeEmpty();
+            lines[2].Should().BeEquivalentTo("--stringvalue         (Group: string-group) Define a string value here.");
+            lines[3].Should().BeEquivalentTo("-s, --shortandlong    (Group: string-group) Example with both short and long name.");
+            lines[4].Should().BeEquivalentTo("-x                    Define a boolean or switch value here.");
+            lines[5].Should().BeEquivalentTo("--help                Display this help screen.");
+            lines[6].Should().BeEquivalentTo("--version             Display version information.");
+        }
+
+        [Fact]
+        public void Options_Should_Render_Multiple_OptionGroups_When_Available()
+        {
+            var sut = new HelpText(headingInfo) { AddDashesToOption = true, MaximumDisplayWidth = 100 }
+                .AddOptions(
+                    new NotParsed<Simple_Options_With_Multiple_OptionGroups>(TypeInfo.Create(typeof(Simple_Options_With_Multiple_OptionGroups)), Enumerable.Empty<Error>()));
+
+            var text = sut.ToString();
+            var lines = text.ToLines().TrimStringArray();
+
+
+            lines[0].Should().BeEquivalentTo(headingInfo.ToString());
+            lines[1].Should().BeEmpty();
+            lines[2].Should().BeEquivalentTo("--stringvalue         (Group: string-group) Define a string value here.");
+            lines[3].Should().BeEquivalentTo("-s, --shortandlong    (Group: string-group) Example with both short and long name.");
+            lines[4].Should().BeEquivalentTo("-x                    (Group: second-group) Define a boolean or switch value here.");
+            lines[5].Should().BeEquivalentTo("-i                    (Group: second-group) Define a int sequence here.");
+            lines[6].Should().BeEquivalentTo("--help                Display this help screen.");
+            lines[7].Should().BeEquivalentTo("--version             Display version information.");
         }
     }
 }

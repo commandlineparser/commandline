@@ -1,10 +1,11 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
+using CommandLine.Infrastructure;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CommandLine.Infrastructure;
 
 namespace CommandLine.Text
 {
@@ -34,6 +35,11 @@ namespace CommandLine.Text
         public abstract Func<string> RequiredWord { get; }
 
         /// <summary>
+        /// Gets a delegate that returns the word 'group'.
+        /// </summary>
+        public abstract Func<string> OptionGroupWord { get; }
+
+        /// <summary>
         /// Gets a delegate that returns that errors block heading text.
         /// </summary>
         public abstract Func<string> ErrorsHeadingText { get; }
@@ -41,7 +47,7 @@ namespace CommandLine.Text
         /// <summary>
         /// Gets a delegate that returns usage text block heading text.
         /// </summary>
-        public abstract Func<string> UsageHeadingText { get; } 
+        public abstract Func<string> UsageHeadingText { get; }
 
         /// <summary>
         /// Get a delegate that returns the help text of help command.
@@ -53,7 +59,7 @@ namespace CommandLine.Text
         /// Get a delegate that returns the help text of vesion command.
         /// The delegates must accept a boolean that is equal <value>true</value> for options; otherwise <value>false</value> for verbs.
         /// </summary>
-        public abstract Func<bool, string> VersionCommandText { get; } 
+        public abstract Func<bool, string> VersionCommandText { get; }
 
         /// <summary>
         /// Gets a delegate that handles singular error formatting.
@@ -67,7 +73,7 @@ namespace CommandLine.Text
         /// </summary>
         public abstract Func<IEnumerable<MutuallyExclusiveSetError>, string> FormatMutuallyExclusiveSetErrors { get; }
 
-        private class DefaultSentenceBuilder : SentenceBuilder 
+        private class DefaultSentenceBuilder : SentenceBuilder
         {
             public override Func<string> RequiredWord
             {
@@ -82,6 +88,11 @@ namespace CommandLine.Text
             public override Func<string> UsageHeadingText
             {
                 get { return () => "USAGE:"; }
+            }
+
+            public override Func<string> OptionGroupWord
+            {
+                get { return () => "Group"; }
             }
 
             public override Func<bool, string> HelpCommandText
@@ -140,6 +151,13 @@ namespace CommandLine.Text
                                 case ErrorType.SetValueExceptionError:
                                     var setValueError = (SetValueExceptionError)error;
                                     return "Error setting value to option '".JoinTo(setValueError.NameInfo.NameText, "': ", setValueError.Exception.Message);
+                                case ErrorType.MissingGroupOptionError:
+                                    var missingGroupOptionError = (MissingGroupOptionError)error;
+                                    return "At least one option from group '".JoinTo(
+                                        missingGroupOptionError.Group,
+                                        "' (",
+                                        string.Join(", ", missingGroupOptionError.Names.Select(n => n.NameText)),
+                                        ") is required.");
                             }
                             throw new InvalidOperationException();
                         };
@@ -153,8 +171,8 @@ namespace CommandLine.Text
                     return errors =>
                     {
                         var bySet = from e in errors
-                                group e by e.SetName into g
-                                select new { SetName = g.Key, Errors = g.ToList() };
+                                    group e by e.SetName into g
+                                    select new { SetName = g.Key, Errors = g.ToList() };
 
                         var msgs = bySet.Select(
                             set =>
@@ -169,7 +187,7 @@ namespace CommandLine.Text
                                     (from x in
                                          (from s in bySet where !s.SetName.Equals(set.SetName) from e in s.Errors select e)
                                         .Distinct()
-                                    select "'".JoinTo(x.NameInfo.NameText, "', ")).ToArray());
+                                     select "'".JoinTo(x.NameInfo.NameText, "', ")).ToArray());
 
                                 return
                                     new StringBuilder("Option")

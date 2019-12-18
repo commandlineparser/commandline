@@ -1,7 +1,8 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
-using System;
 using CommandLine.Infrastructure;
+
+using System;
 
 namespace CommandLine
 {
@@ -15,6 +16,7 @@ namespace CommandLine
         private readonly string shortName;
         private string setName;
         private char separator;
+        private string group=string.Empty;
 
         private OptionAttribute(string shortName, string longName) : base()
         {
@@ -100,8 +102,17 @@ namespace CommandLine
         /// </summary>
         public char Separator
         {
-            get { return separator ; }
+            get { return separator; }
             set { separator = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the option group name. When one or more options are grouped, at least one of them should have value. Required rules are ignored.
+        /// </summary>
+        public string Group
+        {
+            get { return group; }
+            set { group = value; }
         }
     }
 }

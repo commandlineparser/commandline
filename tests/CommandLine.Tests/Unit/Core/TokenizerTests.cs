@@ -1,17 +1,19 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CommandLine.Core;
 using CommandLine.Infrastructure;
 
-using Xunit;
 using CSharpx;
 
 using FluentAssertions;
 
 using RailwaySharp.ErrorHandling;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Xunit;
 
 namespace CommandLine.Tests.Unit.Core
 {
@@ -24,7 +26,7 @@ namespace CommandLine.Tests.Unit.Core
             var expectedTokens = new[] { Token.Name("i"), Token.Value("10"), Token.Name("string-seq"),
                 Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc"), Token.Name("switch") };
             var specs = new[] { new OptionSpecification(string.Empty, "string-seq",
-                false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), ',', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence)};
+                false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), ',', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence, string.Empty)};
 
             // Exercize system
             var result =
@@ -47,7 +49,7 @@ namespace CommandLine.Tests.Unit.Core
             var expectedTokens = new[] { Token.Name("x"), Token.Name("string-seq"),
                 Token.Value("aaa"), Token.Value("bb"),  Token.Value("cccc"), Token.Name("switch") };
             var specs = new[] { new OptionSpecification(string.Empty, "string-seq",
-                false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), ',', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence)};
+                false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), ',', null, string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence, string.Empty)};
 
             // Exercize system
             var result =
@@ -77,14 +79,14 @@ namespace CommandLine.Tests.Unit.Core
             // Exercize system
             var result =
                 Tokenizer.Normalize(
-                    //Result.Succeed(
+                        //Result.Succeed(
                         Enumerable.Empty<Token>()
                             .Concat(
                                 new[] {
                                     Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
                                     Token.Name("unknown"), Token.Value("value0", true), Token.Name("switch") })
-                        //,Enumerable.Empty<Error>()),
-                    ,nameLookup);
+                    //,Enumerable.Empty<Error>()),
+                    , nameLookup);
 
             // Verify outcome
             result.Should().BeEquivalentTo(expectedTokens);
@@ -127,5 +129,5 @@ namespace CommandLine.Tests.Unit.Core
             Assert.Equal(ErrorType.BadFormatTokenError, tokens.Last().Tag);
         }
     }
-   
+
 }
