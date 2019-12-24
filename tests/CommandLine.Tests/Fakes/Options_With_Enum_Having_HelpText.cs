@@ -2,7 +2,7 @@
 
 namespace CommandLine.Tests.Fakes
 {
-    enum Shapes
+  public  enum Shapes
     {
         Circle,
         Square,
