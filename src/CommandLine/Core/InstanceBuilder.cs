@@ -167,7 +167,7 @@ namespace CommandLine.Core
 
             if(ctor == null)
             {
-                throw new InvalidOperationException($"Type appears to be immutable, but no constructor found for type {typeInfo.FullName} to accept values.");
+                throw new InvalidOperationException($"Type {typeInfo.FullName} appears to be immutable, but no constructor found to accept values.");
             }
 
             var values =
