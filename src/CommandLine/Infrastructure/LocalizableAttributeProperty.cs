@@ -45,10 +45,26 @@ namespace CommandLine.Infrastructure
             {
                 // Static class IsAbstract 
                 if (!_type.IsVisible)
-                    throw new ArgumentException("Invalid resource type", _propertyName);
+                    throw new ArgumentException($"{_type.FullName} is not visible.", nameof(ResourceType));
                 PropertyInfo propertyInfo = _type.GetProperty(_value, BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.Static);
-                if (propertyInfo == null || !propertyInfo.CanRead || propertyInfo.PropertyType != typeof(string))
-                    throw new ArgumentException("Invalid resource property name", _propertyName);
+                if (propertyInfo == null)
+                {
+                    PropertyInfo nonVisibleProperty = _type.GetProperty(_value, BindingFlags.NonPublic | BindingFlags.GetProperty | BindingFlags.Static);
+                    if (nonVisibleProperty != null)
+                        throw new ArgumentException($"{_type.FullName}.{_value} is not visible.", _propertyName);
+
+                    PropertyInfo instanceProperty = _type.GetProperty(_value, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty | BindingFlags.Instance);
+                    if (instanceProperty != null)
+                        throw new ArgumentException($"{_type.FullName}.{_value} is not static.", _propertyName);
+
+                    throw new ArgumentException($"{_type.FullName}.{_value} does not exist.", _propertyName);
+                }
+
+                if (!propertyInfo.CanRead)
+                    throw new ArgumentException($"{_type.FullName}.{_value} can not be read.", _propertyName);
+                if(propertyInfo.PropertyType != typeof(string))
+                    throw new ArgumentException($"{_type.FullName}.{_value} is not a string.", _propertyName);
+
                 _localizationPropertyInfo = propertyInfo;
             }
             return (string)_localizationPropertyInfo.GetValue(null, null);

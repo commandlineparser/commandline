@@ -20,30 +20,36 @@ namespace CommandLine.Tests.Unit
         [InlineData("", null, "")]
         [InlineData("", typeof(Fakes.StaticResource), "")]
         [InlineData("Help text", null, "Help text")]
-        [InlineData("HelpText", typeof(Fakes.StaticResource), "Localized HelpText")]
-        [InlineData("HelpText", typeof(Fakes.NonStaticResource), "Localized HelpText")]
+        [InlineData(nameof(Fakes.StaticResource.HelpText), typeof(Fakes.StaticResource), "Localized HelpText")]
+        [InlineData(nameof(Fakes.NonStaticResource.HelpText), typeof(Fakes.NonStaticResource), "Localized HelpText")]
         public static void HelpText(string helpText, Type resourceType, string expected)
         {
-            TestBaseAttribute baseAttribute = new TestBaseAttribute();
-            baseAttribute.HelpText = helpText;
-            baseAttribute.ResourceType = resourceType;
-            
+            TestBaseAttribute baseAttribute = new TestBaseAttribute
+            {
+                HelpText = helpText,
+                ResourceType = resourceType
+            };
+
             Assert.Equal(expected, baseAttribute.HelpText);
         }
 
         [Theory]
-        [InlineData("HelpText", typeof(Fakes.NonStaticResource_WithNonStaticProperty))]
-        [InlineData("WriteOnlyText", typeof(Fakes.NonStaticResource))]
-        [InlineData("PrivateOnlyText", typeof(Fakes.NonStaticResource))]
-        [InlineData("HelpText", typeof(Fakes.InternalResource))]
-        public void ThrowsHelpText(string helpText, Type resourceType)
+        [InlineData("HelpText", typeof(Fakes.NonStaticResource_WithNonStaticProperty), "propertyName")]
+        [InlineData("WriteOnlyText", typeof(Fakes.NonStaticResource), "propertyName")]
+        [InlineData("PrivateOnlyText", typeof(Fakes.NonStaticResource), "propertyName")]
+        [InlineData("HelpText", typeof(Fakes.InternalResource), nameof(BaseAttribute.ResourceType))]
+        public void ThrowsHelpText(string helpText, Type resourceType, string expectedParamName)
         {
-            TestBaseAttribute baseAttribute = new TestBaseAttribute();
-            baseAttribute.HelpText = helpText;
-            baseAttribute.ResourceType = resourceType;
+            TestBaseAttribute baseAttribute = new TestBaseAttribute
+            {
+                HelpText = helpText,
+                ResourceType = resourceType
+            };
 
             // Verify exception
-            Assert.Throws<ArgumentException>(() => baseAttribute.HelpText.ToString());
+            var e = Assert.Throws<ArgumentException>(() => baseAttribute.HelpText);
+
+            Assert.Equal(expectedParamName, e.ParamName);
         }
 
 
