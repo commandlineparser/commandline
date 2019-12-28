@@ -389,7 +389,7 @@ namespace CommandLine.Text
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class,
+        /// Creates a default instance of the <see cref="CommandLine.Text.HelpText"/> class,
         /// automatically handling verbs or options scenario.
         /// </summary>
         /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
@@ -401,6 +401,23 @@ namespace CommandLine.Text
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = DefaultMaximumLength)
         {
+            return AutoBuild<T>(parserResult, h => h, maxDisplayWidth);
+        }
+
+        /// <summary>
+        /// Creates a custom instance of the <see cref="CommandLine.Text.HelpText"/> class,
+        /// automatically handling verbs or options scenario.
+        /// </summary>
+        /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
+        ///  <param name='onError'>A delegate used to customize the text block of reporting parsing errors text block.</param>
+        /// <param name="maxDisplayWidth">The maximum width of the display.</param>
+        /// <returns>
+        /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
+        /// </returns>
+        /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
+        /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, Func<HelpText, HelpText> onError,int maxDisplayWidth = DefaultMaximumLength)
+        {
             if (parserResult.Tag != ParserResultType.NotParsed)
                 throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
 
@@ -410,13 +427,25 @@ namespace CommandLine.Text
                 return new HelpText($"{HeadingInfo.Default}{Environment.NewLine}") { MaximumDisplayWidth = maxDisplayWidth }.AddPreOptionsLine(Environment.NewLine);
 
             if (!errors.Any(e => e.Tag == ErrorType.HelpVerbRequestedError))
-                return AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, maxDisplayWidth: maxDisplayWidth);
+                return AutoBuild(parserResult, current =>
+                {
+                    onError?.Invoke(current);
+                    return DefaultParsingErrorsHandler(parserResult, current);
+                }, e => e, maxDisplayWidth: maxDisplayWidth);
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
             return err.Matched
-                ? AutoBuild(pr, current => DefaultParsingErrorsHandler(pr, current), e => e, maxDisplayWidth: maxDisplayWidth)
-                : AutoBuild(parserResult, current => DefaultParsingErrorsHandler(parserResult, current), e => e, true, maxDisplayWidth);
+                ? AutoBuild(pr, current =>
+                {
+                    onError?.Invoke(current);
+                    return DefaultParsingErrorsHandler(pr, current);
+                }, e => e, maxDisplayWidth: maxDisplayWidth)
+                : AutoBuild(parserResult, current =>
+                {
+                    onError?.Invoke(current);
+                    return DefaultParsingErrorsHandler(parserResult, current);
+                }, e => e, true, maxDisplayWidth);
         }
 
         /// <summary>
