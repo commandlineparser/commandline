@@ -12,6 +12,7 @@ namespace CommandLine
     public  class VerbAttribute : Attribute
     {
         private readonly string name;
+        private readonly bool isDefault;
         private Infrastructure.LocalizableAttributeProperty helpText;
         private Type resourceType;
 
@@ -19,12 +20,14 @@ namespace CommandLine
         /// Initializes a new instance of the <see cref="CommandLine.VerbAttribute"/> class.
         /// </summary>
         /// <param name="name">The long name of the verb command.</param>
-        /// <exception cref="System.ArgumentException">Thrown if <paramref name="name"/> is null, empty or whitespace.</exception>
-        public VerbAttribute(string name)
+        /// <param name="isDefault">Whether the verb is the default verb.</param>
+        /// <exception cref="System.ArgumentException">Thrown if <paramref name="name"/> is null, empty or whitespace and <paramref name="isDefault"/> is false.</exception>
+        public VerbAttribute(string name, bool isDefault = false)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name");
 
-            this.name = name;
+            this.name = name ;
+            this.isDefault = isDefault;
             helpText = new Infrastructure.LocalizableAttributeProperty(nameof(HelpText));
             resourceType = null;
         }
@@ -61,6 +64,14 @@ namespace CommandLine
         {
             get => resourceType;
             set => resourceType =helpText.ResourceType = value;
+        }
+
+        /// <summary>
+        /// Gets whether this verb is the default verb.
+        /// </summary>
+        public bool IsDefault
+        {
+            get => isDefault;
         }
     }
 }

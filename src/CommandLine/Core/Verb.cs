@@ -12,12 +12,17 @@ namespace CommandLine.Core
         private readonly string name;
         private readonly string helpText;
         private readonly bool hidden;
+        private readonly bool isDefault;
 
-        public Verb(string name, string helpText, bool hidden = false)
+        public Verb(string name, string helpText, bool hidden = false, bool isDefault = false)
         {
-            this.name = name ?? throw new ArgumentNullException(nameof(name));
+            if ( string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+            this.name = name;
+
             this.helpText = helpText ?? throw new ArgumentNullException(nameof(helpText));
             this.hidden = hidden;
+            this.isDefault = isDefault;
         }
 
         public string Name
@@ -35,12 +40,18 @@ namespace CommandLine.Core
             get { return hidden; }
         }
 
+        public bool IsDefault
+        {
+            get => isDefault;
+        }
+
         public static Verb FromAttribute(VerbAttribute attribute)
         {
             return new Verb(
                 attribute.Name,
                 attribute.HelpText,
-                attribute.Hidden
+                attribute.Hidden,
+                attribute.IsDefault
                 );
         }
 
