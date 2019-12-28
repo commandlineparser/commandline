@@ -85,4 +85,25 @@ namespace CommandLine.Tests.Fakes
         [Value(0)]
         public string PosValue { get; set; }
     }
+
+    [Verb("default1", true)]
+    class Default_Verb_One
+    {
+        [Option('t', "test-one")]
+        public bool TestValueOne { get; set; }
+    }
+
+    [Verb("default2", true)]
+    class Default_Verb_Two
+    {
+        [Option('t', "test-two")]
+        public bool TestValueTwo { get; set; }
+    }
+
+    [Verb(null, true)]
+    class Default_Verb_With_Empty_Name
+    {
+        [Option('t', "test")]
+        public bool TestValue { get; set; }
+    }
 }

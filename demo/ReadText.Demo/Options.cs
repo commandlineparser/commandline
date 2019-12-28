@@ -27,7 +27,7 @@ namespace ReadText.Demo
         string FileName { get; set; }
     }
 
-    [Verb("head", HelpText = "Displays first lines of a file.")]
+    [Verb("head", true, HelpText = "Displays first lines of a file.")]
     class HeadOptions : IOptions
     {
         public uint? Lines { get; set; }
