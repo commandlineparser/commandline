@@ -3,8 +3,8 @@
 using System;
 using System.Globalization;
 using System.IO;
-
 using CommandLine.Infrastructure;
+using CommandLine.Text;
 
 namespace CommandLine
 {
@@ -18,7 +18,7 @@ namespace CommandLine
         private bool disposed;
         private bool caseSensitive;
         private bool caseInsensitiveEnumValues;
-        private TextWriter helpWriter;
+        private HelpWriter helpWriter;
         private bool ignoreUnknownArguments;
         private bool autoHelp;
         private bool autoVersion;
@@ -97,13 +97,13 @@ namespace CommandLine
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="System.IO.TextWriter"/> used for help method output.
+        /// Gets or sets the <see cref="Text.HelpWriter"/> used for help method output.
         /// Setting this property to null, will disable help screen.
         /// </summary>
         /// <remarks>
-        /// It is the caller's responsibility to dispose or close the <see cref="TextWriter"/>.
+        /// It is the caller's responsibility to dispose or close the <see cref="TextWriter"/>(s) inside the <see cref="Text.HelpWriter"/>.
         /// </remarks>
-        public TextWriter HelpWriter
+        public HelpWriter HelpWriter
         {
             get { return helpWriter; }
             set { PopsicleSetter.Set(Consumed, ref helpWriter, value); }

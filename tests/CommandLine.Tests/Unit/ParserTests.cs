@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using CommandLine.Tests.Fakes;
+using CommandLine.Text;
 using FluentAssertions;
 using Xunit;
 using CommandLine.Text;
@@ -19,7 +20,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var writer = new StringWriter();
-            var sut = new Parser(with => with.HelpWriter = writer);
+            var sut = new Parser(with => with.HelpWriter = new HelpWriter(writer));
 
             // Exercize system
             sut.ParseArguments<Options_With_Required_Set_To_True>(new string[] { });
@@ -35,7 +36,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var writer = new StringWriter();
-            var sut = new Parser(with => with.HelpWriter = writer);
+            var sut = new Parser(with => with.HelpWriter = new HelpWriter(writer));
 
             // Exercize system
             sut.ParseArguments(new string[] { }, typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb));
@@ -51,7 +52,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var writer = new StringWriter();
-            var sut = new Parser(with => with.HelpWriter = writer);
+            var sut = new Parser(with => with.HelpWriter = new HelpWriter(writer));
 
             // Exercize system
             sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new string[] { });
@@ -300,7 +301,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             sut.ParseArguments<Immutable_Simple_Options>(new[] { "--help" });
@@ -332,7 +333,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             sut.ParseArguments<Simple_Options>(new[] { "--version" });
@@ -351,7 +352,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new string[] { });
@@ -377,7 +378,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new[] { "--help" });
@@ -402,7 +403,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new[] { command });
@@ -421,7 +422,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             sut.ParseArguments<Options_With_Two_Option_Required_Set_To_True_And_Two_Sets>(new[] { "--weburl=value.com", "--ftpurl=value.org" });
@@ -447,7 +448,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             sut.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(new[] { "commit", "--help" });
@@ -465,7 +466,7 @@ namespace CommandLine.Tests.Unit
             var help = new StringWriter();
             var sut = new Parser(config =>
             {
-                config.HelpWriter = help;
+                config.HelpWriter = new HelpWriter(help);
                 config.MaximumDisplayWidth = 80;
             });
 
@@ -502,7 +503,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { });
@@ -526,7 +527,7 @@ namespace CommandLine.Tests.Unit
         {
             // Fixture setup
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { "secert", "--help" });
@@ -549,7 +550,7 @@ namespace CommandLine.Tests.Unit
             // Fixture setup
             var expectedOptions = new Secert_Verb { Force = true, SecertOption = null};
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             var result = sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { "secert", "--force" });
@@ -569,7 +570,7 @@ namespace CommandLine.Tests.Unit
             // Fixture setup
             var expectedOptions = new Secert_Verb { Force = true, SecertOption = "shhh" };
             var help = new StringWriter();
-            var sut = new Parser(config => config.HelpWriter = help);
+            var sut = new Parser(config => config.HelpWriter = new HelpWriter(help));
 
             // Exercize system
             var result = sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { "secert", "--force", "--secert-option", "shhh" });
@@ -589,7 +590,7 @@ namespace CommandLine.Tests.Unit
             var help = new StringWriter();
             var sut = new Parser(config =>
             {
-                config.HelpWriter = help;
+                config.HelpWriter = new HelpWriter(help);
                 config.MaximumDisplayWidth = 80;
             });
 
@@ -657,7 +658,7 @@ namespace CommandLine.Tests.Unit
             var help = new StringWriter();
             var sut = new Parser(config =>
             {
-                config.HelpWriter = help;
+                config.HelpWriter = new HelpWriter(help);
                 config.MaximumDisplayWidth = 80;
             });
 
