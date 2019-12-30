@@ -901,6 +901,22 @@ namespace CommandLine.Tests.Unit.Core
             expected.Should().BeEquivalentTo(((Parsed<Immutable_Simple_Options>)result).Value);
         }
 
+        [Theory]
+        [MemberData(nameof(ImmutableInstanceData))]
+        public void Parse_to_immutable_instance_with_Invalid_Ctor_Args(string[] arguments, Immutable_Simple_Options _)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            Action act = () => InvokeBuildImmutable<Immutable_Simple_Options_Invalid_Ctor_Args>(
+                arguments);
+
+            // Verify outcome
+            var expectedMsg =
+                "Type CommandLine.Tests.Fakes.Immutable_Simple_Options_Invalid_Ctor_Args appears to be Immutable with invalid constructor. Check that constructor arguments have the same name and order of their underlying Type.  Constructor Parameters can be ordered as: '(stringvalue, intsequence, boolvalue, longvalue)'";
+            act.Should().Throw<InvalidOperationException>().WithMessage(expectedMsg);
+        }
+
         [Fact]
         public void Parse_to_type_with_single_string_ctor_builds_up_correct_instance()
         {

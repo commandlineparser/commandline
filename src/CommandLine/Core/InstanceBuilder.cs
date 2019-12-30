@@ -169,8 +169,9 @@ namespace CommandLine.Core
             {
                 throw new InvalidOperationException($"Type {typeInfo.FullName} appears to be immutable, but no constructor found to accept values.");
             }
-
-            var values =
+            try
+            {
+                var values =
                     (from prms in ctor.GetParameters()
                      join sp in specPropsWithValue on prms.Name.ToLower() equals sp.Property.Name.ToLower() into spv
                      from sp in spv.DefaultIfEmpty()
@@ -185,6 +186,21 @@ namespace CommandLine.Core
             var immutable = (T)ctor.Invoke(values);
 
             return immutable;
+            }
+            catch (Exception)
+            {
+                var ctorArgs = specPropsWithValue
+                    .Select(x => x.Property.Name.ToLowerInvariant()).ToArray();
+                throw GetException(ctorArgs);
+            }
+            Exception GetException(string[] s)
+            {
+                var ctorSyntax = s != null ? " Constructor Parameters can be ordered as: " + $"'({string.Join(", ", s)})'" : string.Empty;
+                var msg =
+                    $"Type {typeInfo.FullName} appears to be Immutable with invalid constructor. Check that constructor arguments have the same name and order of their underlying Type. {ctorSyntax}";
+                InvalidOperationException invalidOperationException = new InvalidOperationException(msg);
+                return invalidOperationException;
+            }
         }
 
     }
