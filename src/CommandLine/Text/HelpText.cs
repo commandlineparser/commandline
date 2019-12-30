@@ -266,7 +266,7 @@ namespace CommandLine.Text
         /// </summary>
         public bool AddNewLineBetweenHelpSections
         {
-            get {  return addNewLineBetweenHelpSections; }
+            get { return addNewLineBetweenHelpSections; }
             set { addNewLineBetweenHelpSections = value; }
         }
 
@@ -416,7 +416,7 @@ namespace CommandLine.Text
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
-        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, Func<HelpText, HelpText> onError,int maxDisplayWidth = DefaultMaximumLength)
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, Func<HelpText, HelpText> onError, int maxDisplayWidth = DefaultMaximumLength)
         {
             if (parserResult.Tag != ParserResultType.NotParsed)
                 throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
@@ -434,9 +434,9 @@ namespace CommandLine.Text
                 }, e => e, maxDisplayWidth: maxDisplayWidth);
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
-            var pr = new NotParsed<object>(TypeInfo.Create(err.Type), Enumerable.Empty<Error>());
+            var pr = new NotParsed<object>(TypeInfo.Create(err.Type), new Error[] { err });
             return err.Matched
-                ? AutoBuild(pr, current =>
+                  ? AutoBuild(pr, current =>
                 {
                     onError?.Invoke(current);
                     return DefaultParsingErrorsHandler(pr, current);
@@ -460,7 +460,6 @@ namespace CommandLine.Text
 
             if (((NotParsed<T>)parserResult).Errors.OnlyMeaningfulOnes().Empty())
                 return current;
-
             var errors = RenderParsingErrorsTextAsLines(parserResult,
                 current.SentenceBuilder.FormatError,
                 current.SentenceBuilder.FormatMutuallyExclusiveSetErrors,
@@ -761,8 +760,8 @@ namespace CommandLine.Text
             var result = new StringBuilder(sbLength);
 
             result.Append(heading)
-                    .AppendWhen(!string.IsNullOrEmpty(copyright), 
-                        Environment.NewLine, 
+                    .AppendWhen(!string.IsNullOrEmpty(copyright),
+                        Environment.NewLine,
                         copyright)
                     .AppendWhen(preOptionsHelp.SafeLength() > 0,
                         NewLineIfNeededBefore(preOptionsHelp),
@@ -772,15 +771,15 @@ namespace CommandLine.Text
                         Environment.NewLine,
                         Environment.NewLine,
                         optionsHelp.SafeToString())
-                    .AppendWhen(postOptionsHelp.SafeLength() > 0, 
+                    .AppendWhen(postOptionsHelp.SafeLength() > 0,
                         NewLineIfNeededBefore(postOptionsHelp),
                         Environment.NewLine,
                         postOptionsHelp.ToString());
 
             string NewLineIfNeededBefore(StringBuilder sb)
             {
-                if (AddNewLineBetweenHelpSections 
-                        && result.Length > 0 
+                if (AddNewLineBetweenHelpSections
+                        && result.Length > 0
                         && !result.SafeEndsWith(Environment.NewLine)
                         && !sb.SafeStartsWith(Environment.NewLine))
                     return Environment.NewLine;
@@ -981,7 +980,7 @@ namespace CommandLine.Text
 
             if (optionGroupSpecification != null)
             {
-                optionHelpText = "({0}: {1}) ".FormatInvariant(optionGroupWord, optionGroupSpecification.Group)  + optionHelpText;
+                optionHelpText = "({0}: {1}) ".FormatInvariant(optionGroupWord, optionGroupSpecification.Group) + optionHelpText;
             }
 
             //note that we need to indent trim the start of the string because it's going to be 
