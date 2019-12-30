@@ -22,6 +22,7 @@
 		<PackageIcon>CommandLine20.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/commandlineparser/commandline</PackageProjectUrl>
 		<PackageTags>command line;commandline;argument;option;parser;parsing;library;syntax;shell</PackageTags>
+		<PackageReleaseNotes>https://github.com/commandlineparser/commandline/blob/master/CHANGELOG.md</PackageReleaseNotes>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<LangVersion>8.0</LangVersion>
 		<IncludeSymbols>true</IncludeSymbols>
@@ -47,7 +48,7 @@
 		<PackageReference Include="FSharp.Core" Version="4.0.0.1" Condition="'$(BuildTarget)' == 'fsharp'" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="$(SolutionDir)LICENSE.md" Pack="true" PackagePath=""/>
-		<None Include="$(SolutionDir)art\CommandLine20.png" Pack="true" PackagePath=""/>
+		<None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
+		<None Include="..\..\art\CommandLine20.png" Pack="true" PackagePath=""/>
 	</ItemGroup>
 </Project>
