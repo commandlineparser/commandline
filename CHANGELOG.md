@@ -6,16 +6,16 @@ CommandLineParser project adheres to [Semantic Versioning](https://semver.org/sp
 ## [2.7.0] - 2019-12-31
 ### Added
 - Add option groups feature by [@hadzhiyski](https://github.com/commandlineparser/commandline/pull/552) - When one or more options has group set, at least one of these properties should have set value (they behave as required).
-- Add a new overload method for AutoBuild to enable HelpText customization by [@moh-hassan]().
+- Add a new overload method for AutoBuild to enable HelpText customization by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/557).
 - Improve spacing in HelpText by [@asherber](https://github.com/commandlineparser/commandline/pull/494) by adding a new option in the HelpText.
 - Add a new option "SkipDefault" in UnParserSettings by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/550) to add the ability of skipping the options with a default value and fix [#541](https://github.com/commandlineparser/commandline/issues/541).
 - Generate a new symbolic nuget Package by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/554) to Improve the debugging of Applications with the  NuGet package using [symbols experience](https://github.com/NuGet/Home/wiki/NuGet-Package-Debugging-&-Symbols-Improvements).
 - Add Support to [SourceLink](https://github.com/dotnet/sourcelink/blob/master/docs/README.md) in the nuget package  [@moh-hassan](https://github.com/commandlineparser/commandline/pull/554).
 
 ### Changed
-- Remove the Exception when both CompanyAttribute and CopyRightAttribute are null in the Excuting assembly and set the copyright text to a default value.
-- Change default copyright to include current year instead of 1 by @moh-hassan.
-- Enabling c# 8 and Vs2019.
+- Remove the Exception when both CompanyAttribute and CopyRightAttribute are null in the Excuting assembly and set the copyright text to a default value by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/557).
+- Change the default copyright to include current year instead of 1 by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/557).
+- Enabling c# 8 and Vs2019 image in Appveyor.
 
 ### Fixed
 - Fix NullReferenceException when creating a default immutable instance by [@0xced](https://github.com/commandlineparser/commandline/pull/495).
@@ -28,7 +28,7 @@ CommandLineParser project adheres to [Semantic Versioning](https://semver.org/sp
 - Fix nuget Licence in nuget package by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/549) and fix issue  [#545](https://github.com/commandlineparser/commandline/issues/545).
 - Fix PackageIconUrl warning in nuget package by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/551).
 - Fix immutable nullException, Improve exception message when immutable type can't be created
-- Fix Custom help for verbs issue[#529](https://github.com/commandlineparser/commandline/issues/529)
+- Fix Custom help for verbs issue[#529](https://github.com/commandlineparser/commandline/issues/529) by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/557).
 - Fix --help switch throwing exception in F# [#366](https://github.com/commandlineparser/commandline/issues/366)
 by [@WallaceKelly](https://github.com/commandlineparser/commandline/pull/493)
 
