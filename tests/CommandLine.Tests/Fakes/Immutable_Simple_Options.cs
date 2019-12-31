@@ -41,8 +41,8 @@ namespace CommandLine.Tests.Fakes
 
         public Immutable_Simple_Options_Invalid_Ctor_Args(string stringValue1, IEnumerable<int> intSequence2, bool boolValue, long longValue)
         {
-            this.stringValue = stringValue;
-            this.intSequence = intSequence;
+            this.stringValue = stringValue1;
+            this.intSequence = intSequence2;
             this.boolValue = boolValue;
             this.longValue = longValue;
         }

@@ -682,15 +682,16 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-        //[Fact]
-        public static void Breaking_mutually_exclusive_set_constraint_with_set_name_with_partial_string_right_side_equality_gererates_MissingValueOptionError()
+        [Fact]
+        public static void Breaking_mutually_exclusive_set_constraint_with_both_set_name_with_gererates_Error()
         {
             // Fixture setup
             var expectedResult = new[]
-                {
-                    new MutuallyExclusiveSetError(new NameInfo("", "weburl"), string.Empty),
-                    new MutuallyExclusiveSetError(new NameInfo("", "somethingelese"), string.Empty)
-                };
+            {
+                new MutuallyExclusiveSetError(new NameInfo("", "weburl"), "theweb"),
+                new MutuallyExclusiveSetError(new NameInfo("", "somethingelse"), "theweb"),
+
+            };
             var sut = new Parser();
 
             // Exercize system 
@@ -699,8 +700,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             ((NotParsed<Options_With_SetName_That_Ends_With_Previous_SetName>)result).Errors.Should().BeEquivalentTo(expectedResult);
-
-            // Teardown
+           
         }
 
         [Fact]

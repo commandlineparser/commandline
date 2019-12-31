@@ -902,8 +902,9 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Theory]
-        [MemberData(nameof(ImmutableInstanceData))]
-        public void Parse_to_immutable_instance_with_Invalid_Ctor_Args(string[] arguments, Immutable_Simple_Options _)
+        [MemberData(nameof(ImmutableInstanceDataArgs))]
+        [Trait("Category", "Immutable")]
+        public void Parse_to_immutable_instance_with_Invalid_Ctor_Args(string[] arguments)
         {
             // Fixture setup in attributes
 
@@ -1207,6 +1208,18 @@ namespace CommandLine.Tests.Unit.Core
                 yield return new object[] { new[] { "-x" }, new Immutable_Simple_Options(null, new int[] { }, true, default(long)) };
                 yield return new object[] { new[] { "9876543210" }, new Immutable_Simple_Options(null, new int[] { }, default(bool), 9876543210L) };
                 yield return new object[] { new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" }, new Immutable_Simple_Options("strval0", new[] { 9, 7, 8 }, true, 9876543210L) };
+            }
+        }
+        public static IEnumerable<object[]> ImmutableInstanceDataArgs
+        {
+            get
+            {
+                yield return   new object[] { new string[] { } } ;
+                yield return new object[] {new [] {"--stringvalue=strval0"}};
+                yield return new object[] { new[] { "-i", "9", "7", "8" } };
+                yield return new object[] { new[] { "-x" }};
+                yield return new object[] { new[] { "9876543210" }};
+                yield return new object[] { new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" }};
             }
         }
 

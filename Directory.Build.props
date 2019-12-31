@@ -1,21 +1,18 @@
 <Project>
-  <PropertyGroup>
-    <NoWarn>CS1591;CS0219;8002;NU5125</NoWarn>
-    <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
-  </PropertyGroup>
-  <!-- Enable building .NET Framework projects on any machine with at least MSBuild or the .NET Core SDK installed.-->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-  </ItemGroup>
-  <ItemGroup>
-    <!-- Compiler to support nullable in VS2017 -->
-    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.4.0" PrivateAssets="All" />
-  </ItemGroup>
+	<PropertyGroup>
+		<NoWarn>CS1591;CS0219;8002;NU5125</NoWarn>
+		<SolutionDirectory Condition="'$(SolutionDirectory)'==''">$(MSBuildThisFileDirectory)</SolutionDirectory>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
+	</PropertyGroup>
+	<!-- Enable building .NET Framework projects on any machine with at least MSBuild or the .NET Core SDK installed.-->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+	</ItemGroup>
 </Project>
