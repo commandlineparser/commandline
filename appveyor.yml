@@ -1,5 +1,6 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
-version: 2.7.0-{build}
+
+version: 2.7.1-beta4
 
 image: Visual Studio 2019
 
