@@ -47,7 +47,7 @@
 		<PackageReference Include="FSharp.Core" Version="4.0.0.1" Condition="'$(BuildTarget)' == 'fsharp'" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="$(SolutionDirectory)LICENSE.md" Pack="true" PackagePath=""/>
-		<None Include="$(SolutionDirectory)art\CommandLine20.png" Pack="true" PackagePath=""/>
+		<None Include="..\..\LICENSE.md" Pack="true" PackagePath=""/>
+		<None Include="..\..\art\CommandLine20.png" Pack="true" PackagePath=""/>
 	</ItemGroup>
 </Project>
