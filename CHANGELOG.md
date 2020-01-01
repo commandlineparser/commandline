@@ -3,7 +3,8 @@ All notable changes to this project will be documented in this file.
 
 CommandLineParser project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.7.1] - 2020-1-1
+## [2.7.0] - 2020-1-1
+## [2.7.0-preview1] - 2020-1-1
 ### Added
 - Add option groups feature by [@hadzhiyski](https://github.com/commandlineparser/commandline/pull/552) - When one or more options has group set, at least one of these properties should have set value (they behave as required).
 - Add a new overload method for AutoBuild to enable HelpText customization by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/557).
