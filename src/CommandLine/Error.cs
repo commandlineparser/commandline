@@ -74,8 +74,11 @@ namespace CommandLine
         /// <summary>
         /// Value of <see cref="CommandLine.MissingGroupOptionError"/> type.
         /// </summary>
-        MissingGroupOptionError
-
+        MissingGroupOptionError,
+        /// <summary>
+        /// Value of <see cref="CommandLine.MultipleDefaultVerbsError"/> type.
+        /// </summary>
+        MultipleDefaultVerbsError
     }
 
     /// <summary>
@@ -555,5 +558,21 @@ namespace CommandLine
         {
             get { return names; }
         }
+    }
+
+    /// <summary>
+    /// Models an error generated when multiple default verbs are defined.
+    /// </summary>
+    public sealed class MultipleDefaultVerbsError : Error
+    {
+        public const string ErrorMessage = "More than one default verb is not allowed.";
+
+        internal MultipleDefaultVerbsError(Exception exception)
+            : base(ErrorType.MultipleDefaultVerbsError)
+        {
+            Exception = exception;
+        }
+
+        public Exception Exception { get; }
     }
 }

@@ -60,7 +60,9 @@ namespace CommandLine.Core
             bool autoVersion,
             IEnumerable<ErrorType> nonFatalErrors)
         {
-            return verbs.Any(a => a.Item1.IsDefault)
+            try
+            {
+                return verbs.Any(a => a.Item1.IsDefault)
                     ? InstanceBuilder.Build(
                         Maybe.Just<Func<object>>(
                             () =>
@@ -74,6 +76,11 @@ namespace CommandLine.Core
                         autoVersion,
                         nonFatalErrors)
                     : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
+            }
+            catch (InvalidOperationException ex)
+            {
+                return MakeNotParsed(verbs.Select(v => v.Item2), new MultipleDefaultVerbsError(ex));
+            }
         }
 
         private static ParserResult<object> MatchVerb(
