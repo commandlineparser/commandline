@@ -158,6 +158,8 @@ namespace CommandLine.Text
                                         "' (",
                                         string.Join(", ", missingGroupOptionError.Names.Select(n => n.NameText)),
                                         ") is required.");
+                                case ErrorType.MultipleDefaultVerbsError:
+                                    return MultipleDefaultVerbsError.ErrorMessage;
                             }
                             throw new InvalidOperationException();
                         };

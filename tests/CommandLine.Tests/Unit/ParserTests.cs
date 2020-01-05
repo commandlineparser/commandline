@@ -825,5 +825,50 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+
+        [Fact]
+        public void Parse_default_verb_implicit()
+        {
+            var parser = Parser.Default;
+            parser.ParseArguments<Default_Verb_One>(new[] { "-t" })
+                .WithNotParsed(errors => throw new InvalidOperationException("Must be parsed."))
+                .WithParsed(args =>
+                {
+                    Assert.True(args.TestValueOne);
+                });
+        }
+
+        [Fact]
+        public void Parse_default_verb_explicit()
+        {
+            var parser = Parser.Default;
+            parser.ParseArguments<Default_Verb_One>(new[] { "default1", "-t" })
+                .WithNotParsed(errors => throw new InvalidOperationException("Must be parsed."))
+                .WithParsed(args =>
+                {
+                    Assert.True(args.TestValueOne);
+                });
+        }
+
+        [Fact]
+        public void Parse_multiple_default_verbs()
+        {
+            var parser = Parser.Default;
+            parser.ParseArguments<Default_Verb_One, Default_Verb_Two>(new string[] { })
+                .WithNotParsed(errors => Assert.IsType<MultipleDefaultVerbsError>(errors.First()))
+                .WithParsed(args => throw new InvalidOperationException("Should not be parsed."));
+        }
+
+        [Fact]
+        public void Parse_default_verb_with_empty_name()
+        {
+            var parser = Parser.Default;
+            parser.ParseArguments<Default_Verb_With_Empty_Name>(new[] { "-t" })
+                .WithNotParsed(errors => throw new InvalidOperationException("Must be parsed."))
+                .WithParsed(args =>
+                {
+                    Assert.True(args.TestValue);
+                });
+        }
     }
 }

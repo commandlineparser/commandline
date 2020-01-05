@@ -567,12 +567,8 @@ namespace CommandLine
     {
         public const string ErrorMessage = "More than one default verb is not allowed.";
 
-        internal MultipleDefaultVerbsError(Exception exception)
+        internal MultipleDefaultVerbsError()
             : base(ErrorType.MultipleDefaultVerbsError)
-        {
-            Exception = exception;
-        }
-
-        public Exception Exception { get; }
+        { }
     }
 }
