@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommandLine.Tests.Fakes;
 using Xunit;
 using FluentAssertions;
 #if !SKIP_FSHARP
