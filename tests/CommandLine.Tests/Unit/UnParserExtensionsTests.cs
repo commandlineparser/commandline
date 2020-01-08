@@ -3,11 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using CommandLine.Tests.Fakes;
 using Xunit;
 using FluentAssertions;
-using Microsoft.FSharp.Core;
+using CommandLine.Tests.Fakes;
 
 namespace CommandLine.Tests.Unit
 {

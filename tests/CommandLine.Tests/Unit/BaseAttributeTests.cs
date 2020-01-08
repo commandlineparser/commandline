@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Xunit;
 
 namespace CommandLine.Tests.Unit

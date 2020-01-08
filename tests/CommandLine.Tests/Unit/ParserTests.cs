@@ -2,13 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using CommandLine.Tests.Fakes;
-using FluentAssertions;
 using Xunit;
+using FluentAssertions;
 using CommandLine.Text;
+using CommandLine.Tests.Fakes;
 
 namespace CommandLine.Tests.Unit
 {

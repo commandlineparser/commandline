@@ -1,9 +1,8 @@
 ﻿using System.Linq;
+using Xunit;
+using FluentAssertions;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
-using FluentAssertions;
-using Xunit;
-using Xunit.Abstractions;
 
 //Issue #104
 //When outputting HelpText, the code will correctly list valid values for enum type options. However, if the option is a nullable enum type, then it will not list the valid values.

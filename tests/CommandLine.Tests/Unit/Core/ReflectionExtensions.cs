@@ -1,9 +1,9 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
+using Xunit;
+using FluentAssertions;
 using CommandLine.Core;
 using CommandLine.Tests.Fakes;
-using FluentAssertions;
-using Xunit;
 
 namespace CommandLine.Tests.Unit.Infrastructure
 {

@@ -2,8 +2,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using CommandLine.Core;
 using Xunit;
+using CommandLine.Core;
 
 namespace CommandLine.Tests.Unit.Core
 {

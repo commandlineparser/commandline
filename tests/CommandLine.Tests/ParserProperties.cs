@@ -1,9 +1,8 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
-using CommandLine.Tests.Properties.Fakes;
 using FluentAssertions;
 using FsCheck;
-using Xunit;
+using CommandLine.Tests.Properties.Fakes;
 
 namespace CommandLine.Tests.Properties
 {

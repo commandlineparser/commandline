@@ -1,9 +1,7 @@
-﻿using CommandLine.Text;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
+using CommandLine.Text;
 
 namespace CommandLine.Tests.Unit
 {
