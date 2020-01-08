@@ -1,6 +1,5 @@
-﻿//Use project level define(s) when referencing with Paket.
-//#define CSX_MAYBE_INTERNAL // Uncomment this to set visibility to internal.
-//#define CSX_REM_EITHER_FUNC // Uncomment this to remove dependency to Either.cs.
+//#define CSX_MAYBE_INTERNAL // Uncomment or define at build time set accessibility to internal.
+//#define CSX_REM_EITHER_FUNC // Uncomment or define at build time to remove dependency to Either.cs.
 
 using System;
 using System.Collections.Generic;
@@ -165,8 +164,7 @@ namespace CSharpx
         {
             T1 value1;
             T2 value2;
-            if (first.MatchJust(out value1) && second.MatchJust(out value2))
-            {
+            if (first.MatchJust(out value1) && second.MatchJust(out value2)) {
                 return Maybe.Just(Tuple.Create(value1, value2));
             }
             return Maybe.Nothing<Tuple<T1, T2>>();
@@ -176,10 +174,9 @@ namespace CSharpx
         /// <summary>
         /// Maps Either Right value to Maybe Just, otherwise Maybe Nothing.
         /// </summary>
-        public static Maybe<TRight> OfEither<TLeft, TRight>(Either<TLeft, TRight> either)
+        public static Maybe<TRight> FromEither<TLeft, TRight>(Either<TLeft, TRight> either)
         {
-            if (either.Tag == EitherType.Right)
-            {
+            if (either.Tag == EitherType.Right) {
                 return Maybe.Just(((Right<TLeft, TRight>)either).Value);
             }
             return Maybe.Nothing<TRight>();
@@ -202,8 +199,7 @@ namespace CSharpx
         public static void Match<T>(this Maybe<T> maybe, Action<T> ifJust, Action ifNothing)
         {
             T value;
-            if (maybe.MatchJust(out value))
-            {
+            if (maybe.MatchJust(out value)) {
                 ifJust(value);
                 return;
             }
@@ -217,8 +213,7 @@ namespace CSharpx
         {
             T1 value1;
             T2 value2;
-            if (maybe.MatchJust(out value1, out value2))
-            {
+            if (maybe.MatchJust(out value1, out value2)) {
                 ifJust(value1, value2);
                 return;
             }
@@ -231,8 +226,7 @@ namespace CSharpx
         public static bool MatchJust<T1, T2>(this Maybe<Tuple<T1, T2>> maybe, out T1 value1, out T2 value2)
         {
             Tuple<T1, T2> value;
-            if (maybe.MatchJust(out value))
-            {
+            if (maybe.MatchJust(out value)) {
                 value1 = value.Item1;
                 value2 = value.Item2;
                 return true;
@@ -296,13 +290,12 @@ namespace CSharpx
 
         #region Do Semantic
         /// <summary>
-        /// If contans a value executes an <see cref="System.Action{T}"/> delegate over it.
+        /// If contains a value executes an <see cref="System.Action{T}"/> delegate over it.
         /// </summary>
         public static void Do<T>(this Maybe<T> maybe, Action<T> action)
         {
             T value;
-            if (maybe.MatchJust(out value))
-            {
+            if (maybe.MatchJust(out value)) {
                 action(value);
             }
         }
@@ -314,8 +307,7 @@ namespace CSharpx
         {
             T1 value1;
             T2 value2;
-            if (maybe.MatchJust(out value1, out value2))
-            {
+            if (maybe.MatchJust(out value1, out value2)) {
                 action(value1, value2);
             }
         }
@@ -343,8 +335,7 @@ namespace CSharpx
         public static T FromJust<T>(this Maybe<T> maybe)
         {
             T value;
-            if (maybe.MatchJust(out value))
-            {
+            if (maybe.MatchJust(out value)) {
                 return value;
             }
             return default(T);
@@ -356,8 +347,7 @@ namespace CSharpx
         public static T FromJustOrFail<T>(this Maybe<T> maybe, Exception exceptionToThrow = null)
         {
             T value;
-            if (maybe.MatchJust(out value))
-            {
+            if (maybe.MatchJust(out value)) {
                 return value;
             }
             throw exceptionToThrow ?? new ArgumentException("Value empty.");
@@ -387,8 +377,7 @@ namespace CSharpx
         public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> maybe)
         {
             T value;
-            if (maybe.MatchJust(out value))
-            {
+            if (maybe.MatchJust(out value)) {
                 return Enumerable.Empty<T>().Concat(new[] { value });
             }
             return Enumerable.Empty<T>();

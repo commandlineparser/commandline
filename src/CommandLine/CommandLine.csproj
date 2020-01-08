@@ -4,7 +4,7 @@
 		<AssemblyName>CommandLine</AssemblyName>
 		<OutputType>Library</OutputType>
 		<TargetFrameworks>netstandard2.0;net40;net45;net461</TargetFrameworks>
-		<DefineConstants>$(DefineConstants);CSX_EITHER_INTERNAL;CSX_REM_EITHER_BEYOND_2;CSX_ENUM_INTERNAL;ERRH_INTERNAL;ERRH_DISABLE_INLINE_METHODS;CSX_MAYBE_INTERNAL;CSX_REM_EITHER_FUNC</DefineConstants>
+		<DefineConstants>$(DefineConstants);CSX_EITHER_INTERNAL;CSX_REM_EITHER_BEYOND_2;CSX_ENUM_INTERNAL;ERRH_INTERNAL;ERRH_DISABLE_INLINE_METHODS;CSX_MAYBE_INTERNAL;CSX_REM_EITHER_FUNC;CSX_REM_CRYPTORAND</DefineConstants>
 		<DefineConstants Condition="'$(BuildTarget)' != 'fsharp'">$(DefineConstants);SKIP_FSHARP</DefineConstants>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<AssemblyOriginatorKeyFile>..\..\CommandLine.snk</AssemblyOriginatorKeyFile>
@@ -47,7 +47,10 @@
 		<PackageReference Include="FSharp.Core" Version="4.0.0.1" Condition="'$(BuildTarget)' == 'fsharp'" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="..\..\License.md" Pack="true" PackagePath="$(PackageLicenseFile)"/>
-		<None Include="..\..\art\CommandLine20.png" Pack="true" PackagePath="$(PackageIcon)"/>
+		<None Include="..\..\License.md" Pack="true" PackagePath="$(PackageLicenseFile)" />
+		<None Include="..\..\art\CommandLine20.png" Pack="true" PackagePath="$(PackageIcon)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Infrastructure\CSharpx\" />
 	</ItemGroup>
 </Project>
