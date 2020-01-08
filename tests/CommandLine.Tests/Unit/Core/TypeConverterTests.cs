@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using CommandLine.Core;
-using CSharpx;
-using FluentAssertions;
 using Xunit;
+using FluentAssertions;
+using CSharpx;
+using CommandLine.Core;
 
 namespace CommandLine.Tests.Unit.Core
 {

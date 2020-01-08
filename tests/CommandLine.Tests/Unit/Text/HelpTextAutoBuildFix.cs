@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Xunit;
+using FluentAssertions;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
-using FluentAssertions;
-using Xunit;
 
 namespace CommandLine.Tests.Unit.Text
 {

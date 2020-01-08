@@ -4,18 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
 #if PLATFORM_DOTNET
 using System.Reflection;
 #endif
+using Xunit;
+using CSharpx;
+using RailwaySharp.ErrorHandling;
 using CommandLine.Core;
 using CommandLine.Tests.Fakes;
-
-using Xunit;
-
-using CSharpx;
-
-using RailwaySharp.ErrorHandling;
 
 namespace CommandLine.Tests.Unit.Core
 {

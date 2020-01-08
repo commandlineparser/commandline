@@ -1,15 +1,11 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
-using CommandLine.Core;
-
-using CSharpx;
-
-using FluentAssertions;
-
 using System;
 using System.Collections.Generic;
-
 using Xunit;
+using FluentAssertions;
+using CommandLine.Core;
+using CSharpx;
 
 namespace CommandLine.Tests.Unit.Core
 {
