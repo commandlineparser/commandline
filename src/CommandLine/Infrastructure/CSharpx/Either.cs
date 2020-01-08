@@ -272,7 +272,7 @@ namespace CSharpx
         #endregion
 
         /// <summary>
-        /// Equivalent to monadic <see cref="CSharpx.Either.Return{TLeft, TRight}"/> operation.
+        /// Equivalent to monadic <see cref="CSharpx.Either.Return{TRight}"/> operation.
         /// Builds a <see cref="CSharpx.Right{TLeft, TRight}"/> value in case <paramref name="value"/> by default.
         /// </summary>
         public static Either<string, TRight> ToEither<TRight>(this TRight value)
