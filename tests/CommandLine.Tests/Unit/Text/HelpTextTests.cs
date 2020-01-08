@@ -6,15 +6,12 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-
+using Xunit;
+using FluentAssertions;
 using CommandLine.Core;
 using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
-
-using FluentAssertions;
-
-using Xunit;
 
 namespace CommandLine.Tests.Unit.Text
 {

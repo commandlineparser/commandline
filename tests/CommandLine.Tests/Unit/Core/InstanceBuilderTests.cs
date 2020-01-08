@@ -13,9 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
 using Xunit;
-using System.Reflection;
 
 namespace CommandLine.Tests.Unit.Core
 {

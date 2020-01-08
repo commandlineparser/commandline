@@ -1,16 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using CommandLine.Core;
 using System.Linq;
-using System.Reflection;
-using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
-using FluentAssertions;
 using Xunit;
-using System.Text;
-using Xunit.Sdk;
 
 namespace CommandLine.Tests.Unit
 {
