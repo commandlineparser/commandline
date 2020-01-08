@@ -1,19 +1,14 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
-using CommandLine.Core;
-using CommandLine.Infrastructure;
-
-using CSharpx;
-
-using FluentAssertions;
-
-using RailwaySharp.ErrorHandling;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Xunit;
+using FluentAssertions;
+using CSharpx;
+using RailwaySharp.ErrorHandling;
+using CommandLine.Core;
+using CommandLine.Infrastructure;
 
 namespace CommandLine.Tests.Unit.Core
 {

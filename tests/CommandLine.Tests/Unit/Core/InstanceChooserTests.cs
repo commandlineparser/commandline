@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Xunit;
+using FluentAssertions;
 using CommandLine.Core;
 using CommandLine.Tests.Fakes;
-using FluentAssertions;
-using Xunit;
 
 namespace CommandLine.Tests.Unit.Core
 {

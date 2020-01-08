@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using System.IO;
 using Xunit;
+using FluentAssertions;
 
 namespace CommandLine.Tests.Unit
 {

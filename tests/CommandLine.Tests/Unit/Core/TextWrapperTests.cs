@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
-using CommandLine.Text;
-using FluentAssertions;
 using Xunit;
+using FluentAssertions;
+using CSharpx;
+using CommandLine.Text;
 
 namespace CommandLine.Tests.Unit.Core
 {
