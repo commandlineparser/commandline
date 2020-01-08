@@ -4,7 +4,7 @@ using Xunit;
 namespace CommandLine.Tests
 {
 	//Test localization of VerbAttribute
-  public  class VerbAttributeTests
+    public  class VerbAttributeTests
     {
         [Theory]
         [InlineData("", null, "")]
@@ -22,6 +22,7 @@ namespace CommandLine.Tests
 
             Assert.Equal(expected, verbAttribute.HelpText);
         }
+
         [Theory]
         [InlineData("HelpText", typeof(Fakes.NonStaticResource_WithNonStaticProperty))]
         [InlineData("WriteOnlyText", typeof(Fakes.NonStaticResource))]
