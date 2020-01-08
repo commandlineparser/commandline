@@ -1,6 +1,5 @@
-﻿//Use project level define(s) when referencing with Paket.
-//#define CSX_EITHER_INTERNAL // Uncomment this to set visibility to internal.
-//#define CSX_REM_MAYBE_FUNC // Uncomment this to remove dependency to Maybe.cs.
+//#define CSX_EITHER_INTERNAL // Uncomment or define at build time to set accessibility to internal.
+//#define CSX_REM_MAYBE_FUNC // Uncomment or define at build time to remove dependency to Maybe.cs.
 
 using System;
 
@@ -133,8 +132,7 @@ namespace CSharpx
         public static Either<TLeft, TResult> Bind<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, Either<TLeft, TResult>> func)
         {
             TRight right;
-            if (either.MatchRight(out right))
-            {
+            if (either.MatchRight(out right)) {
                 return func(right);
             }
             return Either.Left<TLeft, TResult>(either.GetLeft());
@@ -148,8 +146,7 @@ namespace CSharpx
         public static Either<TLeft, TResult> Map<TLeft, TRight, TResult>(Either<TLeft, TRight> either, Func<TRight, TResult> func)
         {
             TRight right;
-            if (either.MatchRight(out right))
-            {
+            if (either.MatchRight(out right)) {
                 return Either.Right<TLeft, TResult>(func(right));
             }
             return Either.Left<TLeft, TResult>(either.GetLeft());
@@ -164,8 +161,7 @@ namespace CSharpx
         public static Either<TLeft1, TRight1> Bimap<TLeft, TRight, TLeft1, TRight1>(Either<TLeft, TRight> either, Func<TLeft, TLeft1> mapLeft, Func<TRight, TRight1> mapRight)
         {
             TRight right;
-            if (either.MatchRight(out right))
-            {
+            if (either.MatchRight(out right)) {
                 return Either.Right<TLeft1, TRight1>(mapRight(right));
             }
             return Either.Left<TLeft1, TRight1>(mapLeft(either.GetLeft()));
@@ -196,9 +192,10 @@ namespace CSharpx
         public static TRight GetOrFail<TLeft, TRight>(Either<TLeft, TRight> either)
         {
             TRight value;
-            if (either.MatchRight(out value))
+            if (either.MatchRight(out value)) {
                 return value;
-            throw new ArgumentException("either", string.Format("The either value was Left {0}", either));
+            }
+            throw new ArgumentException(nameof(either), string.Format("The either value was Left {0}", either));
         }
 
         /// <summary>
@@ -224,12 +221,10 @@ namespace CSharpx
         /// </summary>
         public static Either<Exception, TRight> Try<TRight>(Func<TRight> func)
         {
-            try
-            {
+            try {
                 return new Right<Exception, TRight>(func());
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 return new Left<Exception, TRight>(ex);
             }
         }
@@ -244,10 +239,9 @@ namespace CSharpx
         }
 
 #if !CSX_REM_MAYBE_FUNC
-        public static Either<TLeft, TRight> OfMaybe<TLeft, TRight>(Maybe<TRight> maybe, TLeft left)
+        public static Either<TLeft, TRight> FromMaybe<TLeft, TRight>(Maybe<TRight> maybe, TLeft left)
         {
-            if (maybe.Tag == MaybeType.Just)
-            {
+            if (maybe.Tag == MaybeType.Just) {
                 return Either.Right<TLeft, TRight>(((Just<TRight>)maybe).Value);
             }
             return Either.Left<TLeft, TRight>(left);
@@ -269,8 +263,7 @@ namespace CSharpx
         public static void Match<TLeft, TRight>(this Either<TLeft, TRight> either, Action<TLeft> ifLeft, Action<TRight> ifRight)
         {
             TLeft left;
-            if (either.MatchLeft(out left))
-            {
+            if (either.MatchLeft(out left)) {
                 ifLeft(left);
                 return;
             }

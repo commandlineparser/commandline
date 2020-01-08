@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using FluentAssertions;
-using CommandLine.Tests.Fakes;
+#if !SKIP_FSHARP
+using Microsoft.FSharp.Core;
+#endif
 
 namespace CommandLine.Tests.Unit
 {

@@ -28,14 +28,14 @@ namespace CommandLine.Core
 
             var specProps = typeInfo.GetSpecifications(pi => SpecificationProperty.Create(
                     Specification.FromProperty(pi), pi, Maybe.Nothing<object>()))
-                .Memorize();
+                .Memoize();
 
             var specs = from pt in specProps select pt.Specification;
 
             var optionSpecs = specs
                 .ThrowingValidate(SpecificationGuards.Lookup)
                 .OfType<OptionSpecification>()
-                .Memorize();
+                .Memoize();
 
             Func<T> makeDefault = () =>
                 typeof(T).IsMutable()
@@ -46,19 +46,19 @@ namespace CommandLine.Core
             Func<IEnumerable<Error>, ParserResult<T>> notParsed =
                 errs => new NotParsed<T>(makeDefault().GetType().ToTypeInfo(), errs);
 
-            var argumentsList = arguments.Memorize();
+            var argumentsList = arguments.Memoize();
             Func<ParserResult<T>> buildUp = () =>
             {
                 var tokenizerResult = tokenizer(argumentsList, optionSpecs);
 
-                var tokens = tokenizerResult.SucceededWith().Memorize();
+                var tokens = tokenizerResult.SucceededWith().Memoize();
 
                 var partitions = TokenPartitioner.Partition(
                     tokens,
                     name => TypeLookup.FindTypeDescriptorAndSibling(name, optionSpecs, nameComparer));
-                var optionsPartition = partitions.Item1.Memorize();
-                var valuesPartition = partitions.Item2.Memorize();
-                var errorsPartition = partitions.Item3.Memorize();
+                var optionsPartition = partitions.Item1.Memoize();
+                var valuesPartition = partitions.Item2.Memoize();
+                var errorsPartition = partitions.Item3.Memoize();
 
                 var optionSpecPropsResult =
                     OptionMapper.MapValues(
@@ -80,7 +80,7 @@ namespace CommandLine.Core
                                 .FromOptionSpecification());
 
                 var specPropsWithValue =
-                    optionSpecPropsResult.SucceededWith().Concat(valueSpecPropsResult.SucceededWith()).Memorize();
+                    optionSpecPropsResult.SucceededWith().Concat(valueSpecPropsResult.SucceededWith()).Memoize();
 
                 var setPropertyErrors = new List<Error>();
 
@@ -104,7 +104,7 @@ namespace CommandLine.Core
                         .Concat(valueSpecPropsResult.SuccessfulMessages())
                         .Concat(validationErrors)
                         .Concat(setPropertyErrors)
-                        .Memorize();
+                        .Memoize();
 
                 var warnings = from e in allErrors where nonFatalErrors.Contains(e.Tag) select e;
 
@@ -115,7 +115,7 @@ namespace CommandLine.Core
                     argumentsList.Any()
                     ? arguments.Preprocess(PreprocessorGuards.Lookup(nameComparer, autoHelp, autoVersion))
                     : Enumerable.Empty<Error>()
-                ).Memorize();
+                ).Memoize();
 
             var result = argumentsList.Any()
                 ? preprocessorErrors.Any()
