@@ -136,7 +136,7 @@ namespace CommandLine
                         })
                  where !info.PropertyValue.IsEmpty(info.Specification, settings.SkipDefault)
                  select info)
-                    .Memorize();
+                    .Memoize();
 
             var allOptSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                               let o = (OptionSpecification)info.Specification
