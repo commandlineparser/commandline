@@ -4,6 +4,7 @@ using System.Linq;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
 using Xunit;
+using FluentAssertions;
 
 namespace CommandLine.Tests.Unit
 {
@@ -40,11 +41,11 @@ namespace CommandLine.Tests.Unit
                 "--version        Display version information.",
                 "value pos. 0"
             };
-            Assert.Equal(expected.Count, helps.Count);
+            expected.Count.Should().Be(helps.Count);
             int i = 0;
             foreach (var expect in expected)
             {
-                Assert.Equal(expect.Trim(), helps[i].Trim());
+                expect.Trim().Should().Be(helps[i].Trim());
                 i++;
             }
 
@@ -88,11 +89,11 @@ namespace CommandLine.Tests.Unit
                 "--version        Display version information.",
                 "value pos. 0"
             };
-            Assert.Equal(expected.Count, helps.Count);
+            expected.Count.Should().Be(helps.Count);
             int i = 0;
             foreach (var expect in expected)
             {
-                Assert.Equal(expect.Trim(), helps[i].Trim());
+                expect.Trim().Should().Be(helps[i].Trim());
                 i++;
             }
 
@@ -171,11 +172,11 @@ namespace CommandLine.Tests.Unit
                 "--version        Display version information.",
                 "value pos. 0"
             };
-            Assert.Equal(expected.Count, helps.Count);
+            expected.Count.Should().Be(helps.Count);
             int i = 0;
             foreach (var expect in expected)
             {
-                Assert.Equal(expect.Trim(), helps[i].Trim());
+                expect.Trim().Should().Be(helps[i].Trim());
                 i++;
             }
         }
