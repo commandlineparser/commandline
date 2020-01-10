@@ -116,7 +116,7 @@ namespace CommandLine.Tests.Unit.Core
 
             var result = Tokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound, token => token);
 
-            var tokens = result.SuccessfulMessages();
+            var tokens = result.SuccessMessages();
 
             Assert.NotNull(tokens);
             Assert.Equal(2, tokens.Count());
