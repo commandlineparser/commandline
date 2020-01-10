@@ -74,7 +74,7 @@ namespace CommandLine.Core
 
             var flattened = exploded.SelectMany(x => x);
 
-            return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
+            return Result.Succeed(flattened, tokenizerResult.SuccessMessages());
         }
 
         public static IEnumerable<Token> Normalize(
