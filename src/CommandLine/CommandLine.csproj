@@ -11,13 +11,13 @@
 		<SignAssembly>true</SignAssembly>
 		<PackageId Condition="'$(BuildTarget)' != 'fsharp'">CommandLineParser</PackageId>
 		<PackageId Condition="'$(BuildTarget)' == 'fsharp'">CommandLineParser.FSharp</PackageId>
-		<Authors>gsscoder;nemec;ericnewton76</Authors>
+		<Authors>gsscoder;nemec;ericnewton76;moh-hassan</Authors>
 		<Title>Command Line Parser Library</Title>
 		<Version Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)</Version>
 		<Version Condition="'$(VersionSuffix)' == ''">0.0.0</Version>
 		<Description Condition="'$(BuildTarget)' != 'fsharp'">Terse syntax C# command line parser for .NET.  For FSharp support see CommandLineParser.FSharp.  The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</Description>
 		<Description Condition="'$(BuildTarget)' == 'fsharp'">Terse syntax C# command line parser for .NET with F# support. The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</Description>
-		<Copyright>Copyright (c) 2005 - 2018 Giacomo Stelluti Scala &amp; Contributors</Copyright>
+		<Copyright>Copyright (c) 2005 - 2020 Giacomo Stelluti Scala &amp; Contributors</Copyright>
 		<PackageLicenseFile>License.md</PackageLicenseFile>
 		<PackageIcon>CommandLine20.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/commandlineparser/commandline</PackageProjectUrl>
