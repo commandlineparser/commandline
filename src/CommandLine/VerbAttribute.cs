@@ -24,7 +24,7 @@ namespace CommandLine
         /// <exception cref="System.ArgumentException">Thrown if <paramref name="name"/> is null, empty or whitespace and <paramref name="isDefault"/> is false.</exception>
         public VerbAttribute(string name, bool isDefault = false)
         {
-            if (!isDefault && string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name");
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name");
 
             this.name = name ?? string.Empty;
             this.isDefault = isDefault;
