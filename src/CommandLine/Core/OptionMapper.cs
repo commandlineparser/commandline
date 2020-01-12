@@ -43,7 +43,7 @@ namespace CommandLine.Core
                                                 ((OptionSpecification)pt.Specification).FromOptionSpecification()))))
                             : Tuple.Create(pt, Maybe.Nothing<Error>());
                     }
-                ).Memorize();
+                ).Memoize();
             return Result.Succeed(
                 sequencesAndErrors.Select(se => se.Item1),
                 sequencesAndErrors.Select(se => se.Item2).OfType<Just<Error>>().Select(se => se.Value));

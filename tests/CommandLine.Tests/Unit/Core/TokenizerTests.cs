@@ -1,19 +1,14 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
-using CommandLine.Core;
-using CommandLine.Infrastructure;
-
-using CSharpx;
-
-using FluentAssertions;
-
-using RailwaySharp.ErrorHandling;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Xunit;
+using FluentAssertions;
+using CSharpx;
+using RailwaySharp.ErrorHandling;
+using CommandLine.Core;
+using CommandLine.Infrastructure;
 
 namespace CommandLine.Tests.Unit.Core
 {
@@ -121,7 +116,7 @@ namespace CommandLine.Tests.Unit.Core
 
             var result = Tokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound, token => token);
 
-            var tokens = result.SuccessfulMessages();
+            var tokens = result.SuccessMessages();
 
             Assert.NotNull(tokens);
             Assert.Equal(2, tokens.Count());

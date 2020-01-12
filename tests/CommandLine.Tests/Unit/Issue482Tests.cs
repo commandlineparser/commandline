@@ -1,16 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using CommandLine.Core;
 using System.Linq;
-using System.Reflection;
-using CommandLine.Infrastructure;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
-using FluentAssertions;
 using Xunit;
-using System.Text;
-using Xunit.Sdk;
+using FluentAssertions;
 
 namespace CommandLine.Tests.Unit
 {
@@ -47,11 +41,11 @@ namespace CommandLine.Tests.Unit
                 "--version        Display version information.",
                 "value pos. 0"
             };
-            Assert.Equal(expected.Count, helps.Count);
+            expected.Count.Should().Be(helps.Count);
             int i = 0;
             foreach (var expect in expected)
             {
-                Assert.Equal(expect.Trim(), helps[i].Trim());
+                expect.Trim().Should().Be(helps[i].Trim());
                 i++;
             }
 
@@ -95,11 +89,11 @@ namespace CommandLine.Tests.Unit
                 "--version        Display version information.",
                 "value pos. 0"
             };
-            Assert.Equal(expected.Count, helps.Count);
+            expected.Count.Should().Be(helps.Count);
             int i = 0;
             foreach (var expect in expected)
             {
-                Assert.Equal(expect.Trim(), helps[i].Trim());
+                expect.Trim().Should().Be(helps[i].Trim());
                 i++;
             }
 
@@ -178,11 +172,11 @@ namespace CommandLine.Tests.Unit
                 "--version        Display version information.",
                 "value pos. 0"
             };
-            Assert.Equal(expected.Count, helps.Count);
+            expected.Count.Should().Be(helps.Count);
             int i = 0;
             foreach (var expect in expected)
             {
-                Assert.Equal(expect.Trim(), helps[i].Trim());
+                expect.Trim().Should().Be(helps[i].Trim());
                 i++;
             }
         }

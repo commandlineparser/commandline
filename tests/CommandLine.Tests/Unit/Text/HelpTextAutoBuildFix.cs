@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Linq;
+using Xunit;
+using FluentAssertions;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
-using FluentAssertions;
-using Xunit;
 
 namespace CommandLine.Tests.Unit.Text
 {
     public class HelpTextAutoBuildFix
     {
-
         [Fact]
-        public void HelpText_wit_AdditionalNewLineAfterOption_true_should_have_newline()
+        public void HelpText_with_AdditionalNewLineAfterOption_true_should_have_newline()
         {
             // Fixture setup
             // Exercize system 
@@ -36,7 +35,7 @@ namespace CommandLine.Tests.Unit.Text
         }
 
         [Fact]
-        public void HelpText_wit_AdditionalNewLineAfterOption_false_should_not_have_newline()
+        public void HelpText_with_AdditionalNewLineAfterOption_false_should_not_have_newline()
         {
             // Fixture setup
             // Exercize system 
@@ -55,7 +54,7 @@ namespace CommandLine.Tests.Unit.Text
             // Teardown
         }
         [Fact]
-        public void HelpText_wit_by_default_should_include_help_version_option()
+        public void HelpText_with_by_default_should_include_help_version_option()
         {
             // Fixture setup
             // Exercize system 
@@ -73,7 +72,7 @@ namespace CommandLine.Tests.Unit.Text
         }
 
         [Fact]
-        public void HelpText_wit_AutoHelp_false_should_hide_help_option()
+        public void HelpText_with_AutoHelp_false_should_hide_help_option()
         {
             // Fixture setup
             // Exercize system 

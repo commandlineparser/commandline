@@ -34,11 +34,11 @@ namespace CommandLine.Core
                                      ? TokenizeLongName(arg, onError)
                                      : TokenizeShortName(arg, nameLookup)
                           select token)
-                            .Memorize();
+                            .Memoize();
 
-            var normalized = normalize(tokens).Memorize();
+            var normalized = normalize(tokens).Memoize();
 
-            var unkTokens = (from t in normalized where t.IsName() && nameLookup(t.Text) == NameLookupResult.NoOptionFound select t).Memorize();
+            var unkTokens = (from t in normalized where t.IsName() && nameLookup(t.Text) == NameLookupResult.NoOptionFound select t).Memoize();
 
             return Result.Succeed(normalized.Where(x => !unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
         }
@@ -60,12 +60,12 @@ namespace CommandLine.Core
             Result<IEnumerable<Token>, Error> tokenizerResult,
             Func<string, Maybe<char>> optionSequenceWithSeparatorLookup)
         {
-            var tokens = tokenizerResult.SucceededWith().Memorize();
+            var tokens = tokenizerResult.SucceededWith().Memoize();
 
             var replaces = tokens.Select((t, i) =>
                 optionSequenceWithSeparatorLookup(t.Text)
                     .MapValueOrDefault(sep => Tuple.Create(i + 1, sep),
-                        Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0).Memorize();
+                        Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0).Memoize();
 
             var exploded = tokens.Select((t, i) =>
                         replaces.FirstOrDefault(x => x.Item1 == i).ToMaybe()
@@ -74,7 +74,7 @@ namespace CommandLine.Core
 
             var flattened = exploded.SelectMany(x => x);
 
-            return Result.Succeed(flattened, tokenizerResult.SuccessfulMessages());
+            return Result.Succeed(flattened, tokenizerResult.SuccessMessages());
         }
 
         public static IEnumerable<Token> Normalize(

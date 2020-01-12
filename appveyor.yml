@@ -1,7 +1,8 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
-version: 2.7.0-alpha-{build}
 
-image: Visual Studio 2017
+version: 2.7.83-beta-{build}
+
+image: Visual Studio 2019
 
 clone_depth: 1
 pull_requests:

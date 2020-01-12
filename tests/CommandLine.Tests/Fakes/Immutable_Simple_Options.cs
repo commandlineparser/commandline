@@ -31,4 +31,32 @@ namespace CommandLine.Tests.Fakes
         [Value(0)]
         public long LongValue { get { return longValue; } }
     }
+   
+    public class Immutable_Simple_Options_Invalid_Ctor_Args
+    {
+        private readonly string stringValue;
+        private readonly IEnumerable<int> intSequence;
+        private readonly bool boolValue;
+        private readonly long longValue;
+
+        public Immutable_Simple_Options_Invalid_Ctor_Args(string stringValue1, IEnumerable<int> intSequence2, bool boolValue, long longValue)
+        {
+            this.stringValue = stringValue1;
+            this.intSequence = intSequence2;
+            this.boolValue = boolValue;
+            this.longValue = longValue;
+        }
+
+        [Option(HelpText = "Define a string value here.")]
+        public string StringValue { get { return stringValue; } }
+
+        [Option('i', Min = 3, Max = 4, HelpText = "Define a int sequence here.")]
+        public IEnumerable<int> IntSequence { get { return intSequence; } }
+
+        [Option('x', HelpText = "Define a boolean or switch value here.")]
+        public bool BoolValue { get { return boolValue; } }
+
+        [Value(0)]
+        public long LongValue { get { return longValue; } }
+    }
 }

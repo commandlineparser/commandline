@@ -13,9 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
 using Xunit;
-using System.Reflection;
 
 namespace CommandLine.Tests.Unit.Core
 {
@@ -901,6 +899,23 @@ namespace CommandLine.Tests.Unit.Core
             expected.Should().BeEquivalentTo(((Parsed<Immutable_Simple_Options>)result).Value);
         }
 
+        [Theory]
+        [MemberData(nameof(ImmutableInstanceDataArgs))]
+        [Trait("Category", "Immutable")]
+        public void Parse_to_immutable_instance_with_Invalid_Ctor_Args(string[] arguments)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            Action act = () => InvokeBuildImmutable<Immutable_Simple_Options_Invalid_Ctor_Args>(
+                arguments);
+
+            // Verify outcome
+            var expectedMsg =
+                "Type CommandLine.Tests.Fakes.Immutable_Simple_Options_Invalid_Ctor_Args appears to be Immutable with invalid constructor. Check that constructor arguments have the same name and order of their underlying Type.  Constructor Parameters can be ordered as: '(stringvalue, intsequence, boolvalue, longvalue)'";
+            act.Should().Throw<InvalidOperationException>().WithMessage(expectedMsg);
+        }
+
         [Fact]
         public void Parse_to_type_with_single_string_ctor_builds_up_correct_instance()
         {
@@ -1191,6 +1206,18 @@ namespace CommandLine.Tests.Unit.Core
                 yield return new object[] { new[] { "-x" }, new Immutable_Simple_Options(null, new int[] { }, true, default(long)) };
                 yield return new object[] { new[] { "9876543210" }, new Immutable_Simple_Options(null, new int[] { }, default(bool), 9876543210L) };
                 yield return new object[] { new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" }, new Immutable_Simple_Options("strval0", new[] { 9, 7, 8 }, true, 9876543210L) };
+            }
+        }
+        public static IEnumerable<object[]> ImmutableInstanceDataArgs
+        {
+            get
+            {
+                yield return   new object[] { new string[] { } } ;
+                yield return new object[] {new [] {"--stringvalue=strval0"}};
+                yield return new object[] { new[] { "-i", "9", "7", "8" } };
+                yield return new object[] { new[] { "-x" }};
+                yield return new object[] { new[] { "9876543210" }};
+                yield return new object[] { new[] { "--stringvalue=strval0", "-i", "9", "7", "8", "-x", "9876543210" }};
             }
         }
 

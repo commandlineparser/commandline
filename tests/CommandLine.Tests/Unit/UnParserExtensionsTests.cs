@@ -3,11 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using CommandLine.Tests.Fakes;
 using Xunit;
 using FluentAssertions;
+#if !SKIP_FSHARP
 using Microsoft.FSharp.Core;
+#endif
 
 namespace CommandLine.Tests.Unit
 {
