@@ -16,7 +16,7 @@ namespace CommandLine.Core
 
         public Verb(string name, string helpText, bool hidden = false, bool isDefault = false)
         {
-            if (!isDefault && string.IsNullOrWhiteSpace(name))
+            if ( string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             this.name = name ?? string.Empty;
 
