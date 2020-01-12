@@ -18,7 +18,7 @@ namespace CommandLine.Core
         {
             if ( string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
-            this.name = name ?? string.Empty;
+            this.name = name;
 
             this.helpText = helpText ?? throw new ArgumentNullException(nameof(helpText));
             this.hidden = hidden;
