@@ -26,7 +26,7 @@ namespace CommandLine
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name");
 
-            this.name = name ?? string.Empty;
+            this.name = name ;
             this.isDefault = isDefault;
             helpText = new Infrastructure.LocalizableAttributeProperty(nameof(HelpText));
             resourceType = null;
