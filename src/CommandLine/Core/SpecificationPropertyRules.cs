@@ -36,14 +36,15 @@ namespace CommandLine.Core
                     select new
                     {
                         Option = o,
-                        Value = sp.Value
+                        Value = sp.Value,
+                        DefaultValue = sp.Specification.DefaultValue
                     };
 
                 var groups = from o in optionsValues
                              group o by o.Option.Group into g
                              select g;
 
-                var errorGroups = groups.Where(gr => gr.All(g => g.Value.IsNothing()));
+                var errorGroups = groups.Where(gr => gr.All(g => g.Value.IsNothing() && g.DefaultValue.IsNothing()));
 
                 if (errorGroups.Any())
                 {

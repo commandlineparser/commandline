@@ -1164,6 +1164,16 @@ namespace CommandLine.Tests.Unit.Core
             errors.Should().BeEquivalentTo(expectedResult);
         }
 
+        [Fact]
+        public void Options_In_Group_Use_Option_Default_Value_When_Available()
+        {
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options_With_OptionGroup_WithOptionDefaultValue>(new string[] { "-x" });
+
+            // Verify outcome
+            result.Should().BeOfType<Parsed<Simple_Options_With_OptionGroup_WithOptionDefaultValue>>();
+        }
+
         private class ValueWithNoSetterOptions
         {
             [Value(0, MetaName = "Test", Default = 0)]
