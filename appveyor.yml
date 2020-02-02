@@ -1,6 +1,6 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
 
-version: 2.7.83-beta-{build}
+version: 2.8.0-beta-{build}
 
 image: Visual Studio 2019
 
@@ -15,8 +15,23 @@ init:
       if ($env:APPVEYOR_REPO_TAG -eq "true") {
         $ver = $env:APPVEYOR_REPO_TAG_NAME
         if($ver.StartsWith("v") -eq $true) { $ver = $ver.Substring(1) }
-        Update-AppveyorBuild -Version $ver
+        $env:PACKAGE_VERSION = $ver
+      } else {
+        $env:PACKAGE_VERSION = $env:APPVEYOR_BUILD_VERSION
       }
+  - ps: |
+      Write-Host "PACKAGE_VERSION:$env:PACKAGE_VERSION | APPVEYOR_BUILD_VERSION='$env:APPVEYOR_BUILD_VERSION'" -ForegroundColor Yellow
+      Write-Host "APPVEYOR_REPO_TAG_NAME:$env:APPVEYOR_REPO_TAG_NAME'" -ForegroundColor Yellow
+
+skip_commits:
+  files:
+    - docs/*
+    - art/*
+    - '**/*.md'
+    #- .travis.yml
+    - .gitignore
+    - .editorconfig
+  message: /updated readme.*|update readme.*s|update docs.*|update version.*|update changelog.*/
 
 environment:
   matrix:
@@ -24,13 +39,13 @@ environment:
     - BUILD_TARGET: fsharp
 
 build_script:
-- cmd: dotnet build src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
+- cmd: dotnet build src/CommandLine/ -c Release --version-suffix %PACKAGE_VERSION% /p:BuildTarget=%BUILD_TARGET%
 
 test_script: 
 - cmd: dotnet test tests/CommandLine.Tests/ /p:BuildTarget=%BUILD_TARGET%
 
 after_test:
-- cmd: dotnet pack src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
+- cmd: dotnet pack src/CommandLine/ -c Release --version-suffix %PACKAGE_VERSION% /p:BuildTarget=%BUILD_TARGET%
 
 artifacts:
 - path: 'src/CommandLine/bin/Release/*.nupkg'
@@ -57,3 +72,4 @@ deploy:
   artifact: 'NuGetPackages'
   on:
     APPVEYOR_REPO_TAG: true
+
