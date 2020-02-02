@@ -1127,7 +1127,7 @@ namespace CommandLine.Tests.Unit.Core
             var expectedResult = new[]
             {
                 new MissingGroupOptionError("err-group", optionNames1),
-                new MissingGroupOptionError("err-group", optionNames2)
+                new MissingGroupOptionError("err-group2", optionNames2)
             };
 
             // Exercize system 

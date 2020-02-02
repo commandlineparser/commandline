@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CommandLine
 {
@@ -577,7 +578,7 @@ namespace CommandLine
                 return false;
             }
 
-            return Group.Equals(other.Group);
+            return Group.Equals(other.Group) && Names.SequenceEqual(other.Names);
         }
     }
 
