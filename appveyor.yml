@@ -1,12 +1,12 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
 
-version: 2.7.83-beta-{build}
+version: 2.7.84-beta-{build}
 
 image: Visual Studio 2019
 
 clone_depth: 1
 pull_requests:
-  do_not_increment_build_number: true
+  do_not_increment_build_number: false
 
 init:
   - ps: |
@@ -15,8 +15,9 @@ init:
       if ($env:APPVEYOR_REPO_TAG -eq "true") {
         $ver = $env:APPVEYOR_REPO_TAG_NAME
         if($ver.StartsWith("v") -eq $true) { $ver = $ver.Substring(1) }
-        Update-AppveyorBuild -Version $ver
-      }
+        Update-AppveyorBuild -Version $ver       
+      }   
+  - ps:  Write-Host "APPVEYOR_BUILD_VERSION='$env:APPVEYOR_BUILD_VERSION'" -ForegroundColor Yellow
 
 environment:
   matrix:
@@ -57,3 +58,12 @@ deploy:
   artifact: 'NuGetPackages'
   on:
     APPVEYOR_REPO_TAG: true
+
+#myget 
+- provider: NuGet
+  server: https://www.myget.org/F/commandlineparser/api/v2/package
+  api_key:
+    secure: ltHh/DsAk+Y7qbJwzUO4+i1U+7uGTLVYXTdW0+Rk2z7jqj5DDNNlih9J8K7bU4bH
+  artifact: 'NuGetPackages'	
+  symbol_server: https://www.myget.org/F/commandlineparser/symbols/api/v2/package
+  
