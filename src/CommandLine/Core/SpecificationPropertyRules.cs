@@ -18,10 +18,33 @@ namespace CommandLine.Core
                 {
                     EnforceMutuallyExclusiveSet(),
                     EnforceGroup(),
+                    EnforceMutuallyExclusiveSetAndGroupAreNotUsedTogether(),
                     EnforceRequired(),
                     EnforceRange(),
                     EnforceSingle(tokens)
                 };
+        }
+
+        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceMutuallyExclusiveSetAndGroupAreNotUsedTogether()
+        {
+            return specProps =>
+            {
+                var options =
+                    from sp in specProps
+                    where sp.Specification.IsOption()
+                    let o = (OptionSpecification)sp.Specification
+                    where o.SetName.Length > 0
+                    where o.Group.Length > 0
+                    select o;
+
+                if (options.Any())
+                {
+                    return from o in options
+                           select new GroupOptionAmbiguityError(new NameInfo(o.ShortName, o.LongName));
+                }
+
+                return Enumerable.Empty<Error>();
+            };
         }
 
         private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceGroup()

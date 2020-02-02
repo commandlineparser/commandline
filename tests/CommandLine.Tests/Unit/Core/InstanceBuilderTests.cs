@@ -1174,6 +1174,25 @@ namespace CommandLine.Tests.Unit.Core
             result.Should().BeOfType<Parsed<Simple_Options_With_OptionGroup_WithOptionDefaultValue>>();
         }
 
+        [Fact]
+        public void Options_In_Group_Do_Not_Allow_Mutually_Exclusive_Set()
+        {
+            var expectedResult = new[]
+            {
+                new GroupOptionAmbiguityError(new NameInfo("", "stringvalue")),
+                new GroupOptionAmbiguityError(new NameInfo("s", "shortandlong"))
+            };
+
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options_With_OptionGroup_MutuallyExclusiveSet>(new string[] { "-x" });
+
+            // Verify outcome
+            result.Should().BeOfType<NotParsed<Simple_Options_With_OptionGroup_MutuallyExclusiveSet>>();
+            var errors = ((NotParsed<Simple_Options_With_OptionGroup_MutuallyExclusiveSet>)result).Errors;
+
+            errors.Should().BeEquivalentTo(expectedResult);
+        }
+
         private class ValueWithNoSetterOptions
         {
             [Value(0, MetaName = "Test", Default = 0)]

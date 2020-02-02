@@ -74,8 +74,11 @@ namespace CommandLine
         /// <summary>
         /// Value of <see cref="CommandLine.MissingGroupOptionError"/> type.
         /// </summary>
-        MissingGroupOptionError
-
+        MissingGroupOptionError,
+        /// <summary>
+        /// Value of <see cref="CommandLine.GroupOptionAmbiguityError"/> type.
+        /// </summary>
+        GroupOptionAmbiguityError
     }
 
     /// <summary>
@@ -555,5 +558,12 @@ namespace CommandLine
         {
             get { return names; }
         }
+    }
+
+    public sealed class GroupOptionAmbiguityError : NamedError
+    {
+        internal GroupOptionAmbiguityError(NameInfo option)
+            : base(ErrorType.GroupOptionAmbiguityError, option)
+        { }
     }
 }
