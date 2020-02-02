@@ -535,7 +535,7 @@ namespace CommandLine
         }
     }
 
-    public sealed class MissingGroupOptionError : Error
+    public sealed class MissingGroupOptionError : Error, IEquatable<Error>, IEquatable<MissingGroupOptionError>
     {
         public const string ErrorMessage = "At least one option in a group must have value.";
 
@@ -557,6 +557,27 @@ namespace CommandLine
         public IEnumerable<NameInfo> Names
         {
             get { return names; }
+        }
+
+        public new bool Equals(Error obj)
+        {
+            var other = obj as MissingGroupOptionError;
+            if (other != null)
+            {
+                return Equals(other);
+            }
+
+            return base.Equals(obj);
+        }
+
+        public bool Equals(MissingGroupOptionError other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return Group.Equals(other.Group);
         }
     }
 
