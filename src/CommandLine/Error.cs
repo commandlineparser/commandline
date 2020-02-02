@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CommandLine
 {
@@ -74,8 +75,11 @@ namespace CommandLine
         /// <summary>
         /// Value of <see cref="CommandLine.MissingGroupOptionError"/> type.
         /// </summary>
-        MissingGroupOptionError
-
+        MissingGroupOptionError,
+        /// <summary>
+        /// Value of <see cref="CommandLine.GroupOptionAmbiguityError"/> type.
+        /// </summary>
+        GroupOptionAmbiguityError
     }
 
     /// <summary>
@@ -532,7 +536,7 @@ namespace CommandLine
         }
     }
 
-    public sealed class MissingGroupOptionError : Error
+    public sealed class MissingGroupOptionError : Error, IEquatable<Error>, IEquatable<MissingGroupOptionError>
     {
         public const string ErrorMessage = "At least one option in a group must have value.";
 
@@ -555,5 +559,33 @@ namespace CommandLine
         {
             get { return names; }
         }
+
+        public new bool Equals(Error obj)
+        {
+            var other = obj as MissingGroupOptionError;
+            if (other != null)
+            {
+                return Equals(other);
+            }
+
+            return base.Equals(obj);
+        }
+
+        public bool Equals(MissingGroupOptionError other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return Group.Equals(other.Group) && Names.SequenceEqual(other.Names);
+        }
+    }
+
+    public sealed class GroupOptionAmbiguityError : NamedError
+    {
+        internal GroupOptionAmbiguityError(NameInfo option)
+            : base(ErrorType.GroupOptionAmbiguityError, option)
+        { }
     }
 }
