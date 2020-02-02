@@ -1110,6 +1110,34 @@ namespace CommandLine.Tests.Unit.Core
             ((NotParsed<Options_With_Group>)result).Errors.Should().BeEquivalentTo(expectedResult);
         }
 
+        [Fact]
+        public void Options_In_Group_With_No_Values_Generates_MissingGroupOptionErrors()
+        {
+            // Fixture setup
+            var optionNames1 = new List<NameInfo>
+            {
+                new NameInfo("", "option11"),
+                new NameInfo("", "option12")
+            };
+            var optionNames2 = new List<NameInfo>
+            {
+                new NameInfo("", "option21"),
+                new NameInfo("", "option22")
+            };
+            var expectedResult = new[]
+            {
+                new MissingGroupOptionError("err-group", optionNames1),
+                new MissingGroupOptionError("err-group2", optionNames2)
+            };
+
+            // Exercize system 
+            var result = InvokeBuild<Options_With_Multiple_Groups>(
+                new[] { "-v 10.42" });
+
+            // Verify outcome
+            ((NotParsed<Options_With_Multiple_Groups>)result).Errors.Should().BeEquivalentTo(expectedResult);
+        }
+
         [Theory]
         [InlineData("-v", "10.5", "--option1", "test1", "--option2", "test2")]
         [InlineData("-v", "10.5", "--option1", "test1")]
@@ -1160,6 +1188,35 @@ namespace CommandLine.Tests.Unit.Core
             // Verify outcome
             result.Should().BeOfType<NotParsed<Simple_Options_With_OptionGroup_WithDefaultValue>>();
             var errors = ((NotParsed<Simple_Options_With_OptionGroup_WithDefaultValue>)result).Errors;
+
+            errors.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public void Options_In_Group_Use_Option_Default_Value_When_Available()
+        {
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options_With_OptionGroup_WithOptionDefaultValue>(new string[] { "-x" });
+
+            // Verify outcome
+            result.Should().BeOfType<Parsed<Simple_Options_With_OptionGroup_WithOptionDefaultValue>>();
+        }
+
+        [Fact]
+        public void Options_In_Group_Do_Not_Allow_Mutually_Exclusive_Set()
+        {
+            var expectedResult = new[]
+            {
+                new GroupOptionAmbiguityError(new NameInfo("", "stringvalue")),
+                new GroupOptionAmbiguityError(new NameInfo("s", "shortandlong"))
+            };
+
+            // Exercize system 
+            var result = InvokeBuild<Simple_Options_With_OptionGroup_MutuallyExclusiveSet>(new string[] { "-x" });
+
+            // Verify outcome
+            result.Should().BeOfType<NotParsed<Simple_Options_With_OptionGroup_MutuallyExclusiveSet>>();
+            var errors = ((NotParsed<Simple_Options_With_OptionGroup_MutuallyExclusiveSet>)result).Errors;
 
             errors.Should().BeEquivalentTo(expectedResult);
         }
