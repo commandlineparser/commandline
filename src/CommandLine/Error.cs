@@ -590,9 +590,13 @@ namespace CommandLine
 
     public sealed class GroupOptionAmbiguityError : NamedError
     {
+        public NameInfo Option;
+
         internal GroupOptionAmbiguityError(NameInfo option)
             : base(ErrorType.GroupOptionAmbiguityError, option)
-        { }
+        {
+            Option = option;
+        }
     }
 
     /// <summary>
