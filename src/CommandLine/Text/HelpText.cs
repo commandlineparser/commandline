@@ -853,7 +853,7 @@ namespace CommandLine.Text
                                       string.Empty,
                                       verbTuple.Item1.Name,
                                       false,
-                                      verbTuple.Item1.HelpText,
+                                      verbTuple.Item1.IsDefault?  "(Default Verb) "+verbTuple.Item1.HelpText: verbTuple.Item1.HelpText,  //Default verb
                                       string.Empty,
                                       verbTuple.Item1.Hidden);
             if (autoHelp)
