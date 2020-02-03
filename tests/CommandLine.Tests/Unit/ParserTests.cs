@@ -370,7 +370,30 @@ namespace CommandLine.Tests.Unit
             lines[8].Should().BeEquivalentTo("version    Display version information.");
             // Teardown
         }
+       
+        [Fact]
+        public void Help_screen_in_default_verb_scenario()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => config.HelpWriter = help);
 
+            // Exercise system
+            sut.ParseArguments<Add_Verb_As_Default, Commit_Verb, Clone_Verb>(new string[] {"--help" });
+            var result = help.ToString();
+         
+            // Verify outcome
+            result.Length.Should().BeGreaterThan(0);
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
+            lines[2].Should().BeEquivalentTo("add        (Default Verb) Add file contents to the index.");
+            lines[3].Should().BeEquivalentTo("commit     Record changes to the repository.");
+            lines[4].Should().BeEquivalentTo("clone      Clone a repository into a new directory.");
+            lines[5].Should().BeEquivalentTo("help       Display more information on a specific command.");
+            lines[6].Should().BeEquivalentTo("version    Display version information.");
+            
+        }
         [Fact]
         public void Double_dash_help_dispalys_verbs_index_in_verbs_scenario()
         {

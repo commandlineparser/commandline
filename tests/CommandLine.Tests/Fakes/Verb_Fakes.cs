@@ -18,7 +18,20 @@ namespace CommandLine.Tests.Fakes
         [Value(0)]
         public string FileName { get; set; }
     }
+    [Verb("add", isDefault:true,HelpText = "Add file contents to the index.")]
+    public class Add_Verb_As_Default
+    {
+        [Option('p', "patch", SetName = "mode-p",
+            HelpText = "Interactively choose hunks of patch between the index and the work tree and add them to the index.")]
+        public bool Patch { get; set; }
 
+        [Option('f', "force", SetName = "mode-f",
+            HelpText = "Allow adding otherwise ignored files.")]
+        public bool Force { get; set; }
+
+        [Value(0)]
+        public string FileName { get; set; }
+    }
     [Verb("commit", HelpText = "Record changes to the repository.")]
     public class Commit_Verb
     {
