@@ -741,6 +741,7 @@ namespace CommandLine.Text
                                 config.PreferShortName = s.PreferShortName;
                                 config.GroupSwitches = s.GroupSwitches;
                                 config.UseEqualToken = s.UseEqualToken;
+                                config.SkipDefault = s.SkipDefault;
                             }));
                     yield return commandLine.ToString();
                 }
