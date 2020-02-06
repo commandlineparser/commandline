@@ -160,15 +160,6 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public static async Task Turn_sucessful_parsing_into_exit_codeAsync()
-        {
-            var expected = await Parser.Default.ParseArguments<Simple_Options>(new[] { "--stringvalue", "value" })
-                .MapResultAsync(_ => Task.FromResult(0), _ => Task.FromResult(-1));
-
-            0.Should().Be(expected);
-        }
-
-        [Fact]
         public static void Turn_sucessful_parsing_into_exit_code_for_verbs()
         {
             var expected = Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
@@ -183,33 +174,10 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public static async Task Turn_sucessful_parsing_into_exit_code_for_verbsAsync()
-        {
-            var expected = await Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
-                new[] { "clone", "https://value.org/user/file.git" })
-                .MapResultAsync(
-                    (Add_Verb opts) => Task.FromResult(0),
-                    (Commit_Verb opts) => Task.FromResult(1),
-                    (Clone_Verb opts) => Task.FromResult(2),
-                    errs => Task.FromResult(3));
-
-            2.Should().Be(expected);
-        }
-
-        [Fact]
         public static void Turn_failed_parsing_into_exit_code()
         {
             var expected = Parser.Default.ParseArguments<Simple_Options>(new[] { "-i", "aaa" })
                 .MapResult(_ => 0, _ => -1);
-
-            (-1).Should().Be(expected);
-        }
-
-        [Fact]
-        public static async Task Turn_failed_parsing_into_exit_codeAsync()
-        {
-            var expected = await Parser.Default.ParseArguments<Simple_Options>(new[] { "-i", "aaa" })
-                .MapResultAsync(_ => Task.FromResult(0), _ => Task.FromResult(-1));
 
             (-1).Should().Be(expected);
         }
@@ -224,20 +192,6 @@ namespace CommandLine.Tests.Unit
                     (Commit_Verb opts) => 1,
                     (Clone_Verb opts) => 2,
                     errs => 3);
-
-            3.Should().Be(expected);
-        }
-
-        [Fact]
-        public static async Task Turn_failed_parsing_into_exit_code_for_verbsAsync()
-        {
-            var expected = await Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
-                new[] { "undefined", "-xyz" })
-                .MapResultAsync(
-                    (Add_Verb opts) => Task.FromResult(0),
-                    (Commit_Verb opts) => Task.FromResult(1),
-                    (Clone_Verb opts) => Task.FromResult(2),
-                    errs => Task.FromResult(3));
 
             3.Should().Be(expected);
         }
@@ -284,18 +238,6 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public static async Task Turn_sucessful_parsing_into_exit_code_for_single_base_verbsAsync()
-        {
-            var expected = await Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb, Derived_Verb>(
-                new[] { "derivedadd", "dummy.bin" })
-                .MapResultAsync(
-                    (Base_Class_For_Verb opts) => Task.FromResult(1),
-                    errs => Task.FromResult(2));
-
-            1.Should().Be(expected);
-        }
-
-        [Fact]
         public static void Turn_sucessful_parsing_into_exit_code_for_multiple_base_verbs()
         {
             var expected = Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb, Derived_Verb>(
@@ -307,22 +249,6 @@ namespace CommandLine.Tests.Unit
                     (Base_Class_For_Verb opts) => 4,
                     (Derived_Verb opts) => 3,
                     errs => 5);
-
-            4.Should().Be(expected);
-        }
-
-        [Fact]
-        public static async Task Turn_sucessful_parsing_into_exit_code_for_multiple_base_verbsAsync()
-        {
-            var expected = await Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb, Derived_Verb>(
-                new[] { "derivedadd", "dummy.bin" })
-                .MapResultAsync(
-                    (Add_Verb opts) => Task.FromResult(0),
-                    (Commit_Verb opts) => Task.FromResult(1),
-                    (Clone_Verb opts) => Task.FromResult(2),
-                    (Base_Class_For_Verb opts) => Task.FromResult(4),
-                    (Derived_Verb opts) => Task.FromResult(3),
-                    errs => Task.FromResult(5));
 
             4.Should().Be(expected);
         }
