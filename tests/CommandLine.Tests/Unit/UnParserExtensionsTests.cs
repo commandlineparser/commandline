@@ -185,7 +185,7 @@ namespace CommandLine.Tests.Unit
             var options = new Options_TimeSpan { Start = ts };
             var result = new Parser()
                 .FormatCommandLine(options)
-                .Should().BeEquivalentTo("--start \"01:02:03\"");
+                .Should().BeEquivalentTo("--start 01:02:03"); //changed for issue 579
         }
 
         [Theory]

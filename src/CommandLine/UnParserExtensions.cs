@@ -204,7 +204,7 @@ namespace CommandLine
 
         private static object FormatWithQuotesIfString(object value)
         {
-            if (value is DateTime || value is TimeSpan || value is DateTimeOffset) return $"\"{value}\"";
+            if (value is DateTime || value is DateTimeOffset) return $"\"{value}\"";
             Func<string, string> doubQt = v
                 => v.Contains("\"") ? v.Replace("\"", "\\\"") : v;
 
