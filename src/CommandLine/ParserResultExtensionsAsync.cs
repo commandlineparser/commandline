@@ -7,6 +7,7 @@ namespace CommandLine
 {
     public static partial class ParserResultExtensions
     {
+#if !NET40
         /// <summary>
         /// Executes asynchronously <paramref name="action"/> if <see cref="CommandLine.ParserResult{T}"/> contains
         /// parsed values.
@@ -59,5 +60,6 @@ namespace CommandLine
             }
             return result;
         }
+#endif
     }
 }
