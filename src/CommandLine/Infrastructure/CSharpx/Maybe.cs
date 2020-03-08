@@ -372,6 +372,14 @@ namespace CSharpx
         }
 
         /// <summary>
+        /// If contains a values executes a mapping function over it, otherwise returns the value from <paramref name="noneValueFactory"/>.
+        /// </summary>
+        public static T2 MapValueOrDefault<T1, T2>(this Maybe<T1> maybe, Func<T1, T2> func, Func<T2> noneValueFactory) {
+            T1 value1;
+            return maybe.MatchJust(out value1) ? func(value1) : noneValueFactory();
+        }
+
+        /// <summary>
         /// Returns an empty list when given <see cref="CSharpx.Nothing{T}"/> or a singleton list when given a <see cref="CSharpx.Just{T}"/>.
         /// </summary>
         public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> maybe)
