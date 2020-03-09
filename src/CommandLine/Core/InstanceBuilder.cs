@@ -39,7 +39,7 @@ namespace CommandLine.Core
 
             Func<T> makeDefault = () =>
                 typeof(T).IsMutable()
-                    ? factory.MapValueOrDefault(f => f(), Activator.CreateInstance<T>())
+                    ? factory.MapValueOrDefault(f => f(), () => Activator.CreateInstance<T>())
                     : ReflectionHelper.CreateDefaultImmutableInstance<T>(
                         (from p in specProps select p.Specification.ConversionType).ToArray());
 
@@ -128,7 +128,7 @@ namespace CommandLine.Core
 
         private static T BuildMutable<T>(Maybe<Func<T>> factory, IEnumerable<SpecificationProperty> specPropsWithValue, List<Error> setPropertyErrors )
         {
-            var mutable = factory.MapValueOrDefault(f => f(), Activator.CreateInstance<T>());
+            var mutable = factory.MapValueOrDefault(f => f(), () => Activator.CreateInstance<T>());
 
             setPropertyErrors.AddRange(
                 mutable.SetProperties(
