@@ -892,5 +892,17 @@ namespace CommandLine.Tests.Unit
                     Assert.True(args.TestValue);
                 });
         }
+        //Fix Issue #409 for WPF
+        [Fact]
+        public void When_HelpWriter_is_null_it_should_not_fire_exception()
+        {
+            // Arrange
+            
+            //Act
+            var sut = new Parser(config => config.HelpWriter = null);
+            sut.ParseArguments<Simple_Options>(new[] {"--dummy"});
+            //Assert
+            sut.Settings.MaximumDisplayWidth.Should().Be(80);
+        }
     }
 }
