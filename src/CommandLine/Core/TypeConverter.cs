@@ -111,6 +111,7 @@ namespace CommandLine.Core
                 }
             };
 
+            if (conversionType.IsCustomStruct()) return Result.Try(makeType);
             return Result.Try(
                 conversionType.IsPrimitiveEx() || ReflectionHelper.IsFSharpOptionType(conversionType)
                     ? changeType
