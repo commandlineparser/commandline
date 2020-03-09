@@ -209,5 +209,13 @@ namespace CommandLine.Core
                    }.Contains(type)
                 || Convert.GetTypeCode(type) != TypeCode.Object;
         }
+
+        public static bool IsCustomStruct(this Type type)
+        {
+            var isStruct = type.GetTypeInfo().IsValueType && !type.GetTypeInfo().IsPrimitive && !type.GetTypeInfo().IsEnum &&  type != typeof(Guid);
+            if (!isStruct) return false;
+            var ctor = type.GetTypeInfo().GetConstructor(new[] { typeof(string) });
+            return ctor != null;
+        }
     }
 }

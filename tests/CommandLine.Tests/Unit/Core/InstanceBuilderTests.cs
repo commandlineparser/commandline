@@ -1221,6 +1221,42 @@ namespace CommandLine.Tests.Unit.Core
             errors.Should().BeEquivalentTo(expectedResult);
         }
 
+        #region custom types 
+       
+
+        [Theory]
+        [InlineData(new[] { "-c", "localhost:8080" }, "localhost", 8080)]
+        public void Parse_custom_struct_type(string[] arguments, string expectedServer, int expectedPort)
+        {
+            //Arrange
+
+            // Act
+            var result = InvokeBuild<CustomStructOptions>(arguments);
+
+            // Assert
+            var customValue = ((Parsed<CustomStructOptions>)result).Value.Custom;
+            customValue.Server.Should().Be(expectedServer);
+            customValue.Port.Should().Be(expectedPort);
+            customValue.Input.Should().Be(arguments[1]);
+        }
+
+        [Theory]
+        [InlineData(new[] { "-c", "localhost:8080" }, "localhost", 8080)]
+        public void Parse_custom_class_type(string[] arguments, string expectedServer, int expectedPort)
+        {
+            //Arrange
+
+            // Act
+            var result = InvokeBuild<CustomClassOptions>(arguments);
+
+            // Assert
+            var customValue = ((Parsed<CustomClassOptions>)result).Value.Custom;
+            customValue.Server.Should().Be(expectedServer);
+            customValue.Port.Should().Be(expectedPort);
+            customValue.Input.Should().Be(arguments[1]);
+        }
+
+        #endregion
         private class ValueWithNoSetterOptions
         {
             [Value(0, MetaName = "Test", Default = 0)]
