@@ -36,18 +36,29 @@ namespace CommandLine
             autoHelp = true;
             autoVersion = true;
             parsingCulture = CultureInfo.InvariantCulture;
+            maximumDisplayWidth = GetWindowWidth();
+        }
+
+        private int GetWindowWidth()
+        {
+
+#if !NET40
+            if (Console.IsOutputRedirected) return DefaultMaximumLength;
+#endif
+            var width = 1;
             try
             {
-                maximumDisplayWidth = Console.WindowWidth;
-                if (maximumDisplayWidth < 1)
+                width = Console.WindowWidth;
+                if (width < 1)
                 {
-                    maximumDisplayWidth = DefaultMaximumLength;
+                    width = DefaultMaximumLength;
                 }
-            }
-            catch (IOException)
+            }           
+            catch (Exception e) when (e is IOException || e is PlatformNotSupportedException || e is ArgumentOutOfRangeException)
             {
-                maximumDisplayWidth = DefaultMaximumLength;
+               width = DefaultMaximumLength;
             }
+            return width;
         }
 
         /// <summary>
