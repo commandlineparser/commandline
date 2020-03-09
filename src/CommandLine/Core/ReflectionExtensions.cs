@@ -133,10 +133,21 @@ namespace CommandLine.Core
             if(type == typeof(object))
                 return true;
 
-            var props = type.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite);
-            var fields = type.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any();
+            // Find all inherited defined properties and fields on the type
+            var inheritedTypes = type.GetTypeInfo().FlattenHierarchy().Select(i => i.GetTypeInfo());
 
-            return props || fields;
+            foreach (var inheritedType in inheritedTypes) 
+            {
+                if (
+                    inheritedType.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite) ||
+                    inheritedType.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any()
+                    )
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static object CreateDefaultForImmutable(this Type type)

@@ -790,6 +790,20 @@ namespace CommandLine.Tests.Unit.Core
         [Theory]
         [InlineData(new[] { "--inputfile=file1.bin" }, "file1.bin")]
         [InlineData(new[] { "--inputfile", "file2.txt" }, "file2.txt")]
+        public void Can_define_options_on_explicit_interface_properties(string[] arguments, string expected) 
+            {
+            // Exercize system
+            var result = InvokeBuild<Options_With_Only_Explicit_Interface>(
+                arguments);
+
+            // Verify outcome
+            expected.Should().BeEquivalentTo(((IInterface_With_Two_Scalar_Options)((Parsed<Options_With_Only_Explicit_Interface>)result).Value).InputFile);
+        }
+
+
+        [Theory]
+        [InlineData(new[] { "--inputfile=file1.bin" }, "file1.bin")]
+        [InlineData(new[] { "--inputfile", "file2.txt" }, "file2.txt")]
         public void Can_define_options_on_interface_properties(string[] arguments, string expected)
         {
             // Exercize system

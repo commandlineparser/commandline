@@ -116,7 +116,6 @@ namespace CommandLine
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         public ParserResult<T> ParseArguments<T>(Func<T> factory, IEnumerable<string> args)
-            where T : new()
         {
             if (factory == null) throw new ArgumentNullException("factory");
             if (!typeof(T).IsMutable()) throw new ArgumentException("factory");
