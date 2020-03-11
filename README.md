@@ -22,12 +22,15 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 
 - Compatible with __.NET Framework 4.0+__, __Mono 2.1+ Profile__, __.NET Standard__ and __.NET Core__
 - Doesn't depend on other packages (No dependencies beyond standard base libraries)
-- One line parsing using default singleton: `CommandLine.Parser.Default.ParseArguments(...)`.
+- One line parsing using default singleton: `CommandLine.Parser.Default.ParseArguments(...)` and three overload methods.
 - Automatic or one line help screen generator: `HelpText.AutoBuild(...)`.
 - Supports `--help`, `--version`, `version` and `help [verb]` by default with customization.
 - Map to sequences (via `IEnumerable<T>` and similar) and scalar types, including Enums and `Nullable<T>`.
-- You can also map to every type with a constructor that accepts a string (like `System.Uri`).
+- You can also map to every type with a constructor that accepts a string (like `System.Uri`) for reference and value types.
+- Verbs can be array of types collected from Plugins or IoC container.
 - Define [verb commands](https://github.com/commandlineparser/commandline/wiki/Verbs) similar to `git commit -a`.
+- Support default verb.
+- Support Mutable and Imutable types.
 - Support HelpText localization.
 - Support ordering of options in HelpText.
 - Support [Mutually Exclusive Options](https://github.com/commandlineparser/commandline/wiki/Mutually-Exclusive-Options) and Options groups.
@@ -35,6 +38,8 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 - Support Asynchronous programming with async and await.
 - Unparsing support: `CommandLine.Parser.Default.FormatCommandLine<T>(T options)`.
 - CommandLineParser.FSharp package is F#-friendly with support for `option<'a>`, see [demo](https://github.com/commandlineparser/commandline/blob/master/demo/fsharp-demo.fsx).  _NOTE: This is a separate NuGet package._
+- Include good wiki documentation with lot of examples ready to run online.
+- Support Sourcelink and symbolic package.
 - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
 - C# demo: source [here](https://github.com/commandlineparser/commandline/tree/master/demo/ReadText.Demo).
 
@@ -313,6 +318,7 @@ __And most importantly, please target the ```develop``` branch in your pull requ
 - Dan Nemec (@nemec)
 - Eric Newton (@ericnewton76)
 - Kevin Moore (@gimmemoore)
+- Moh-Hassan (@moh-hassan)
 - Steven Evans
 - Thomas Démoulins (@Thilas)
 
@@ -334,3 +340,4 @@ __And most importantly, please target the ```develop``` branch in your pull requ
   - GitHub: [ericnewton76](https://github.com/ericnewton76)
   - Blog: 
   - Twitter: [enorl76](http://twitter.com/enorl76)
+- Moh-Hassan 

@@ -3,8 +3,31 @@ All notable changes to this project will be documented in this file.
 
 CommandLineParser project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.0-preview1] - 2020-3-12
+
+### Added
+- Added support for async programming for `WithParsed and WithNotParsed` by [@joseangelmt, PR# 390 ](https://github.com/commandlineparser/commandline/pull/390).
+- Add default verb support by [@Artentus, PR# 556](https://github.com/commandlineparser/commandline/pull/556).
+- Add more details for localized attribute properties  by [@EdmondShtogu, PR# 558](https://github.com/commandlineparser/commandline/pull/558)
+- Support Default in Group Options and raise error if both SetName and Group are applied on option by [@hadzhiyski, PR# 575](https://github.com/commandlineparser/commandline/pull/575).
+- Support mutable types without empty constructor that only does explicit implementation of interfaces by [@pergardebrink](https://github.com/commandlineparser/commandline/pull/590).
+
+### Changed
+- Tests cleanup by [@gsscoder, PR# 560](https://github.com/commandlineparser/commandline/pull/560).
+- Upgraded parts of CSharpx from Version 1.6.2-alpha by [@gsscoder, PR# 561](https://github.com/commandlineparser/commandline/pull/561).
+- Upgraded RailwaySharp from Version 1.1.0 by [@gsscoder, PR# 562](https://github.com/commandlineparser/commandline/pull/562).
+- SkipDefault is being respected by [Usage] Examples by [@kendfrey, PR# 565](https://github.com/commandlineparser/commandline/pull/565).
+- Remove useless testing code by [@gsscoder, PR# 568](https://github.com/commandlineparser/commandline/pull/568).
+- Remove constraint on T for ParseArguments with factory (required by issue #70) by [@pergardebrink](https://github.com/commandlineparser/commandline/pull/590).
+
+### Fixed
+- Fix #579 Unable to parse TimeSpan given from the FormatCommandLine by [@gsscoder, PR# 580](https://github.com/commandlineparser/commandline/pull/580).
+- Fix issue #339 for using custom struct having a constructor with string parameter by [moh-hassan, PR# 588](https://github.com/commandlineparser/commandline/pull/588).
+- Fix issue #409 to avoid IOException break in Debug mode in WPF app by [moh-hassan, PR# 589 ](https://github.com/commandlineparser/commandline/pull/589).
+
+
+## [2.7.82] - 2020-1-1
 ## [2.7.0] - 2020-1-1
-## [2.7.0-preview1] - 2020-1-1
 ### Added
 - Add option groups feature by [@hadzhiyski](https://github.com/commandlineparser/commandline/pull/552) - When one or more options has group set, at least one of these properties should have set value (they behave as required).
 - Add a new overload method for AutoBuild to enable HelpText customization by [@moh-hassan](https://github.com/commandlineparser/commandline/pull/557).
