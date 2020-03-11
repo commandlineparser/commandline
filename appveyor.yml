@@ -1,7 +1,6 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
 
 version: 2.8.0-ci-{build}
-
 image: Visual Studio 2019
 
 clone_depth: 1
@@ -50,7 +49,8 @@ after_test:
 artifacts:
 - path: 'src/CommandLine/bin/Release/*.nupkg'
   name: NuGetPackages
-  
+- path: 'src/CommandLine/bin/Release/*.snupkg'
+  name: symbol  
 on_failure:
 - cmd: |
     tree /f /a >files.lst
