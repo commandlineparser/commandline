@@ -207,8 +207,8 @@ namespace CommandLine.Tests.Unit
 
         }
         [Theory]
-        [InlineData(Shapes.Circle, "--shape circle")]
-        [InlineData(Shapes.Square, "--shape square")]
+        [InlineData(Shapes.Circle, "--shape Circle")]
+        [InlineData(Shapes.Square, "--shape Square")]
         [InlineData(null, "")]
         public static void UnParsing_instance_with_nullable_enum(Shapes? shape, string expected)
         {
