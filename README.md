@@ -30,7 +30,7 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 - Verbs can be array of types collected from Plugins or IoC container.
 - Define [verb commands](https://github.com/commandlineparser/commandline/wiki/Verbs) similar to `git commit -a`.
 - Support default verb.
-- Support Mutable and Imutable types.
+- Support Mutable and Immutable types.
 - Support HelpText localization.
 - Support ordering of options in HelpText.
 - Support [Mutually Exclusive Options](https://github.com/commandlineparser/commandline/wiki/Mutually-Exclusive-Options) and Options groups.
@@ -38,8 +38,9 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 - Support Asynchronous programming with async and await.
 - Unparsing support: `CommandLine.Parser.Default.FormatCommandLine<T>(T options)`.
 - CommandLineParser.FSharp package is F#-friendly with support for `option<'a>`, see [demo](https://github.com/commandlineparser/commandline/blob/master/demo/fsharp-demo.fsx).  _NOTE: This is a separate NuGet package._
-- Include good wiki documentation with lot of examples ready to run online.
-- Support Sourcelink and symbolic package.
+- Include wiki documentation with lot of examples ready to run online.
+- Support Source Link and symbolic nuget package snupkg.
+- Tested in Windows, Linux Ubuntu 18.04 and Mac OS.
 - Most of features applies with a [CoC](http://en.wikipedia.org/wiki/Convention_over_configuration) philosophy.
 - C# demo: source [here](https://github.com/commandlineparser/commandline/tree/master/demo/ReadText.Demo).
 
