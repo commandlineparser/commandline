@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 CommandLineParser project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.8.0-preview1] - 2020-3-12
+## [2.8.0-preview1] - 2020-3-14
 
 ### Added
 - Added support for async programming for `WithParsed and WithNotParsed` by [@joseangelmt, PR# 390 ](https://github.com/commandlineparser/commandline/pull/390).
@@ -11,6 +11,7 @@ CommandLineParser project adheres to [Semantic Versioning](https://semver.org/sp
 - Add more details for localized attribute properties  by [@EdmondShtogu, PR# 558](https://github.com/commandlineparser/commandline/pull/558)
 - Support Default in Group Options and raise error if both SetName and Group are applied on option by [@hadzhiyski, PR# 575](https://github.com/commandlineparser/commandline/pull/575).
 - Support mutable types without empty constructor that only does explicit implementation of interfaces by [@pergardebrink](https://github.com/commandlineparser/commandline/pull/590).
+-
 
 ### Changed
 - Tests cleanup by [@gsscoder, PR# 560](https://github.com/commandlineparser/commandline/pull/560).
