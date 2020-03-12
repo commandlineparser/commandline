@@ -902,7 +902,7 @@ namespace CommandLine.Tests.Unit
             var sut = new Parser(config => config.HelpWriter = null);
             sut.ParseArguments<Simple_Options>(new[] {"--dummy"});
             //Assert
-            sut.Settings.MaximumDisplayWidth.Should().Be(80);
+            sut.Settings.MaximumDisplayWidth.Should().BeGreaterThan(1);
         }
     }
 }
