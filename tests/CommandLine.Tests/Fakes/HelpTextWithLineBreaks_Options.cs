@@ -10,7 +10,7 @@ We also want to ensure that indentation is correct.")]
 
 
         [Option(HelpText = @"This is a help text description where we want
-   The left pad after a linebreak to be honoured so that
+   the left pad after a linebreak to be honoured so that
    we can sub-indent within a description.")]
         public string StringValu2 { get; set; }
 
