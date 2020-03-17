@@ -106,6 +106,17 @@ namespace CommandLine.Tests.Unit
                 .Should().BeEquivalentTo("-something with dash");
         }
 
+        #region Issue 579
+        [Fact]
+        public static void UnParsing_instance_with_TimeSpan_returns_the_value_unquoted_in_command_line()
+        {
+            var options = new Options_With_TimeSpan { Duration = TimeSpan.FromMinutes(1) };
+            new Parser()
+                .FormatCommandLine(options)
+                .Should().Be("--duration 00:01:00");
+        }
+        #endregion
+
         #region PR 550
 
         [Fact]
@@ -175,7 +186,7 @@ namespace CommandLine.Tests.Unit
             var options = new Options_TimeSpan { Start = ts };
             var result = new Parser()
                 .FormatCommandLine(options)
-                .Should().BeEquivalentTo("--start \"01:02:03\"");
+                .Should().BeEquivalentTo("--start 01:02:03"); //changed for issue 579
         }
 
         [Theory]
