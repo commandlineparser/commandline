@@ -14,6 +14,13 @@ The Command Line Parser Library offers CLR applications a clean and concise API 
 C:\Project> NuGet Install CommandLineParser
 ```
 
+# Nightly Build
+
+Nightly version of the CommandLineParser can be downloaded from github [Releases](https://github.com/commandlineparser/commandline/releases). 
+
+The Last new features and fixes, read [changelog](https://github.com/commandlineparser/commandline/blob/master/CHANGELOG.md)
+
+
 _NOTE: Mentioned F# Support is provided via ```CommandLineParser.FSharp``` package with FSharp dependencies._
 
 __This library provides _hassle free_ command line parsing with a constantly updated API since 2005.__

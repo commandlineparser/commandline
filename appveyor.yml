@@ -97,5 +97,5 @@ for:
     on:
       APPVEYOR_REPO_TAG: true
       CAN_PUBLISH: true
-      IS_RELEASE : true
+      
 
