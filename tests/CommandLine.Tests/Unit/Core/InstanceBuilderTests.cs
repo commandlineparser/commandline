@@ -408,12 +408,10 @@ namespace CommandLine.Tests.Unit.Core
             };
             var arguments = new[] { "--stringvalue", "str1", "--", "10", "-a", "--bee", "-c", "20" };
 
-            // Exercize system 
+            // Exercize system
             var result = InstanceBuilder.Build(
                 Maybe.Just<Func<Simple_Options_With_Values>>(() => new Simple_Options_With_Values()),
-                (a, optionSpecs) =>
-                    Tokenizer.PreprocessDashDash(a,
-                        args => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, StringComparer.Ordinal))),
+                (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, true)(args, optionSpecs),
                 arguments,
                 StringComparer.Ordinal,
                 false,

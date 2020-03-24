@@ -62,34 +62,6 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Normalize_should_remove_all_value_with_explicit_assignment_of_existing_name()
-        {
-            // Fixture setup
-            var expectedTokens = new[] {
-                Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
-                Token.Name("unknown"), Token.Name("switch") };
-            Func<string, bool> nameLookup =
-                name => name.Equals("x") || name.Equals("string-seq") || name.Equals("switch");
-
-            // Exercize system
-            var result =
-                Tokenizer.Normalize(
-                        //Result.Succeed(
-                        Enumerable.Empty<Token>()
-                            .Concat(
-                                new[] {
-                                    Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
-                                    Token.Name("unknown"), Token.Value("value0", true), Token.Name("switch") })
-                    //,Enumerable.Empty<Error>()),
-                    , nameLookup);
-
-            // Verify outcome
-            result.Should().BeEquivalentTo(expectedTokens);
-
-            // Teardown
-        }
-
-        [Fact]
         public void Should_properly_parse_option_with_equals_in_value()
         {
             /**
@@ -99,7 +71,7 @@ namespace CommandLine.Tests.Unit.Core
              */
             var args = new[] { "--connectionString=Server=localhost;Data Source=(LocalDB)\v12.0;Initial Catalog=temp;" };
 
-            var result = Tokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound, token => token);
+            var result = Tokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound);
 
             var tokens = result.SucceededWith();
 
@@ -112,16 +84,23 @@ namespace CommandLine.Tests.Unit.Core
         [Fact]
         public void Should_return_error_if_option_format_with_equals_is_not_correct()
         {
-            var args = new[] { "--option1 = fail", "--option2= fail" };
+            var args = new[] { "--option1 = fail", "--option2= succeed" };
 
-            var result = Tokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound, token => token);
+            var result = Tokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound);
 
-            var tokens = result.SuccessMessages();
+            var errors = result.SuccessMessages();
 
+            Assert.NotNull(errors);
+            Assert.Equal(1, errors.Count());
+            Assert.Equal(ErrorType.BadFormatTokenError, errors.First().Tag);
+
+            var tokens = result.SucceededWith();
             Assert.NotNull(tokens);
             Assert.Equal(2, tokens.Count());
-            Assert.Equal(ErrorType.BadFormatTokenError, tokens.First().Tag);
-            Assert.Equal(ErrorType.BadFormatTokenError, tokens.Last().Tag);
+            Assert.Equal(TokenType.Name, tokens.First().Tag);
+            Assert.Equal(TokenType.Value, tokens.Last().Tag);
+            Assert.Equal("option2", tokens.First().Text);
+            Assert.Equal(" succeed", tokens.Last().Text);
         }
     }
 
