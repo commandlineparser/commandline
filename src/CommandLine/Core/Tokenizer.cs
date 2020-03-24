@@ -26,7 +26,10 @@ namespace CommandLine.Core
             bool allowDashDash)
         {
             var errors = new List<Error>();
-            Action<Error> onError = errors.Add;
+            Action<string> onBadFormatToken = arg => errors.Add(new BadFormatTokenError(arg));
+            Action<string> unknownOptionError = name => errors.Add(new UnknownOptionError(name));
+            Action<string> doNothing = name => {};
+            Action<string> onUnknownOption = ignoreUnknownArguments ? doNothing : unknownOptionError;
 
             int consumeNext = 0;
             var tokens = new List<Token>();
@@ -36,154 +39,116 @@ namespace CommandLine.Core
             var enumerator = arguments.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                string arg = enumerator.Current;
-                // TODO: Turn this into a switch statement with pattern matching
-                if (arg == null)
-                {
-                    continue;
-                }
+                switch (enumerator.Current) {
+                    case null:
+                        break;
 
-                if (consumeNext > 0)
-                {
-                    addValue(arg);
-                    consumeNext = consumeNext - 1;
-                    continue;
-                }
-
-                if (arg == "--")
-                {
-                    if (allowDashDash)
-                    {
-                        consumeNext = System.Int32.MaxValue;
-                        continue;
-                    }
-                    else
-                    {
+                    case string arg when consumeNext > 0:
                         addValue(arg);
-                        continue;
-                    }
-                }
+                        consumeNext = consumeNext - 1;
+                        break;
 
-                if (arg.StartsWith("--"))
-                {
-                    if (arg.Contains("="))
-                    {
+                    case "--" when allowDashDash:
+                        consumeNext = System.Int32.MaxValue;
+                        break;
+
+                    case "--":
+                        addValue("--");
+                        break;
+
+                    case "-":
+                        // A single hyphen is always a value (it usually means "read from stdin" or "write to stdout")
+                        addValue("-");
+                        break;
+
+                    case string arg when arg.StartsWith("--") && arg.Contains("="):
                         string[] parts = arg.Substring(2).Split(new char[] { '=' }, 2);
                         if (String.IsNullOrWhiteSpace(parts[0]) || parts[0].Contains(" "))
                         {
-                            onError(new BadFormatTokenError(arg));
-                            continue;
+                            onBadFormatToken(arg);
                         }
                         else
                         {
-                            var name = parts[0];
-                            var tokenType = nameLookup(name);
-                            if (tokenType == NameLookupResult.NoOptionFound)
+                            switch(nameLookup(parts[0]))
                             {
-                                if (ignoreUnknownArguments)
-                                {
-                                    continue;
-                                }
-                                else
-                                {
-                                    onError(new UnknownOptionError(name));
-                                    continue;
-                                }
+                                case NameLookupResult.NoOptionFound:
+                                    onUnknownOption(parts[0]);
+                                    break;
+
+                                default:
+                                    addName(parts[0]);
+                                    addValue(parts[1]);
+                                    break;
                             }
-                            addName(parts[0]);
-                            addValue(parts[1]);
-                            continue;
                         }
-                    }
-                    else
-                    {
+                        break;
+
+                    case string arg when arg.StartsWith("--"):
                         var name = arg.Substring(2);
-                        var tokenType = nameLookup(name);
-                        if (tokenType == NameLookupResult.OtherOptionFound)
+                        switch (nameLookup(name))
                         {
-                            addName(name);
-                            consumeNext = 1;
-                            continue;
-                        }
-                        else if (tokenType == NameLookupResult.NoOptionFound)
-                        {
-                            if (ignoreUnknownArguments)
-                            {
+                            case NameLookupResult.OtherOptionFound:
+                                addName(name);
+                                consumeNext = 1;
+                                break;
+
+                            case NameLookupResult.NoOptionFound:
                                 // When ignoreUnknownArguments is true and AutoHelp is true, calling code is responsible for
                                 // setting up nameLookup so that it will return a known name for --help, so that we don't skip it here
-                                continue;
-                            }
-                            else
-                            {
-                                onError(new UnknownOptionError(name));
-                                continue;
-                            }
+                                onUnknownOption(name);
+                                break;
+
+                            default:
+                                addName(name);
+                                break;
                         }
-                        else
+                        break;
+
+                    case string arg when arg.StartsWith("-"):
+                        // First option char that requires a value means we swallow the rest of the string as the value
+                        // But if there is no rest of the string, then instead we swallow the next argument
+                        string chars = arg.Substring(1);
+                        int len = chars.Length;
+                        if (len > 0 && Char.IsDigit(chars[0]))
                         {
-                            addName(name);
+                            // Assume it's a negative number
+                            addValue(arg);
                             continue;
                         }
-                    }
-                }
+                        for (int i = 0; i < len; i++)
+                        {
+                            var s = new String(chars[i], 1);
+                            switch(nameLookup(s))
+                            {
+                                case NameLookupResult.OtherOptionFound:
+                                    addName(s);
+                                    if (i+1 < len)
+                                    {
+                                        addValue(chars.Substring(i+1));
+                                        i = len;  // Can't use "break" inside a switch, so this breaks out of the loop
+                                    }
+                                    else
+                                    {
+                                        consumeNext = 1;
+                                    }
+                                    break;
 
-                if (arg == "-")
-                {
-                    // A single hyphen is always a value (it usually means "read from stdin" or "write to stdout")
-                    addValue(arg);
-                    continue;
-                }
+                                case NameLookupResult.NoOptionFound:
+                                    onUnknownOption(s);
+                                    break;
 
-                if (arg.StartsWith("-"))
-                {
-                    // First option char that requires a value means we swallow the rest of the string as the value
-                    // But if there is no rest of the string, then instead we swallow the next argument
-                    string chars = arg.Substring(1);
-                    int len = chars.Length;
-                    if (len > 0 && Char.IsDigit(chars[0]))
-                    {
-                        // Assume it's a negative number
+                                default:
+                                    addName(s);
+                                    break;
+                            }
+                        }
+                        break;
+
+                    case string arg:
+                        // If we get this far, it's a plain value
                         addValue(arg);
-                        continue;
-                    }
-                    for (int i = 0; i < len; i++)
-                    {
-                        var s = new String(chars[i], 1);
-                        var tokenType = nameLookup(s);
-                        if (tokenType == NameLookupResult.OtherOptionFound)
-                        {
-                            addName(s);
-                            if (i+1 < len)
-                            {
-                                addValue(chars.Substring(i+1));
-                                break;
-                            }
-                            else
-                            {
-                                consumeNext = 1;
-                            }
-                        }
-                        else if (tokenType == NameLookupResult.NoOptionFound)
-                        {
-                            if (ignoreUnknownArguments)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                onError(new UnknownOptionError(s));
-                            }
-                        }
-                        else
-                        {
-                            addName(s);
-                        }
-                    }
-                    continue;
+                        break;
                 }
-
-                // If we get this far, it's a plain value
-                addValue(arg);
             }
 
             return Result.Succeed<IEnumerable<Token>, Error>(tokens.AsEnumerable(), errors.AsEnumerable());
