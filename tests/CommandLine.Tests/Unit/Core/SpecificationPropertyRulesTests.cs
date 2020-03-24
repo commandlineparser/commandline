@@ -23,7 +23,7 @@ namespace CommandLine.Tests.Unit.Core
             var specProps = new[]
             {
                 SpecificationProperty.Create(
-                    new OptionSpecification(string.Empty, "name", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence, string.Empty),
+                    new OptionSpecification(string.Empty, "name", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence, string.Empty, flagCounter: false, hidden:false),
                     typeof(SequenceOptions).GetProperty(nameof(SequenceOptions.StringSequence)),
                     Maybe.Just(new object())),
             };
@@ -46,7 +46,7 @@ namespace CommandLine.Tests.Unit.Core
             var specProps = new[]
             {
                 SpecificationProperty.Create(
-                    new OptionSpecification(string.Empty, "name", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence, string.Empty),
+                    new OptionSpecification(string.Empty, "name", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<string>), TargetType.Sequence, string.Empty, flagCounter: false, hidden:false),
                     typeof(SequenceOptions).GetProperty(nameof(SequenceOptions.StringSequence)),
                     Maybe.Just(new object())),
             };

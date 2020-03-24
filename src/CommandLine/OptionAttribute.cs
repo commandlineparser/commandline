@@ -17,6 +17,7 @@ namespace CommandLine
         private string setName;
         private char separator;
         private string group=string.Empty;
+        private bool flagCounter;
 
         private OptionAttribute(string shortName, string longName) : base()
         {
@@ -27,6 +28,7 @@ namespace CommandLine
             this.longName = longName;
             setName = string.Empty;
             separator = '\0';
+            flagCounter = false;
         }
 
         /// <summary>
@@ -113,6 +115,15 @@ namespace CommandLine
         {
             get { return group; }
             set { group = value; }
+        }
+
+        /// <summary>
+        /// When applied to an int property, turns that property into a count of how many times a boolean flag was applied (e.g., -vvv would become 3)
+        /// </summary>
+        public bool FlagCounter
+        {
+            get { return flagCounter; }
+            set { flagCounter = value; }
         }
     }
 }

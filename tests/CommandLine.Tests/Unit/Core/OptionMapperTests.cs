@@ -28,7 +28,7 @@ namespace CommandLine.Tests.Unit.Core
             var specProps = new[]
                 {
                     SpecificationProperty.Create(
-                        new OptionSpecification("x", string.Empty, false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(bool), TargetType.Switch, string.Empty),
+                        new OptionSpecification("x", string.Empty, false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(bool), TargetType.Switch, string.Empty, flagCounter: false, hidden:false),
                         typeof(Simple_Options).GetProperties().Single(p => p.Name.Equals("BoolValue", StringComparison.Ordinal)),
                         Maybe.Nothing<object>())
                 };
@@ -64,7 +64,7 @@ namespace CommandLine.Tests.Unit.Core
             var specProps = new[]
             {
                 SpecificationProperty.Create(
-                    new OptionSpecification("s", "shortandlong", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(string), TargetType.Scalar, string.Empty),
+                    new OptionSpecification("s", "shortandlong", false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(string), TargetType.Scalar, string.Empty, flagCounter: false, hidden:false),
                     typeof(Simple_Options).GetProperties().Single(p => p.Name.Equals(nameof(Simple_Options.ShortAndLong), StringComparison.Ordinal)),
                     Maybe.Nothing<object>()),
             };
@@ -93,7 +93,7 @@ namespace CommandLine.Tests.Unit.Core
             var specProps = new[]
             {
                 SpecificationProperty.Create(
-                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<int>), TargetType.Sequence, string.Empty),
+                    new OptionSpecification("i", string.Empty, false, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(), '\0', Maybe.Nothing<object>(), string.Empty, string.Empty, new List<string>(), typeof(IEnumerable<int>), TargetType.Sequence, string.Empty, flagCounter: false, hidden:false),
                     typeof(Simple_Options).GetProperties().Single(p => p.Name.Equals(nameof(Simple_Options.IntSequence), StringComparison.Ordinal)),
                     Maybe.Nothing<object>())
             };

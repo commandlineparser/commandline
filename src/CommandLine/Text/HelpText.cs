@@ -856,6 +856,7 @@ namespace CommandLine.Text
                                       false,
                                       verbTuple.Item1.IsDefault?  "(Default Verb) "+verbTuple.Item1.HelpText: verbTuple.Item1.HelpText,  //Default verb
                                       string.Empty,
+                                      false,
                                       verbTuple.Item1.Hidden);
             if (autoHelp)
                 optionSpecs = optionSpecs.Concat(new[] { MakeHelpEntry() });
@@ -914,6 +915,7 @@ namespace CommandLine.Text
                 false,
                 sentenceBuilder.HelpCommandText(AddDashesToOption),
                 string.Empty,
+                false,
                 false);
         }
 
@@ -925,6 +927,7 @@ namespace CommandLine.Text
                 false,
                 sentenceBuilder.VersionCommandText(AddDashesToOption),
                 string.Empty,
+                false,
                 false);
         }
 
