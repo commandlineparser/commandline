@@ -31,7 +31,9 @@ namespace CommandLine.Core
                 ignoreValueCase,
                 parsingCulture,
                 autoHelp,
+                false,
                 autoVersion,
+                false,
                 false,
                 nonFatalErrors);
         }
@@ -44,7 +46,9 @@ namespace CommandLine.Core
             bool ignoreValueCase,
             CultureInfo parsingCulture,
             bool autoHelp,
+            bool autoHelpShortName,
             bool autoVersion,
+            bool autoVersionShortName,
             bool allowMultiInstance,
             IEnumerable<ErrorType> nonFatalErrors)
         {
@@ -71,13 +75,13 @@ namespace CommandLine.Core
                             arguments.Skip(1).FirstOrDefault() ?? string.Empty, nameComparer))
                     : (autoVersion && preprocCompare("version"))
                         ? MakeNotParsed(types, new VersionRequestedError())
-                        : MatchVerb(tokenizer, verbs, defaultVerb, arguments, nameComparer, ignoreValueCase, parsingCulture, autoHelp, autoVersion, allowMultiInstance, nonFatalErrors);
+                        : MatchVerb(tokenizer, verbs, defaultVerb, arguments, nameComparer, ignoreValueCase, parsingCulture, autoHelp, autoHelpShortName, autoVersion, autoVersionShortName, allowMultiInstance, nonFatalErrors);
             };
 
             return arguments.Any()
                 ? choose()
                 : (defaultVerbCount == 1
-                    ? MatchDefaultVerb(tokenizer, verbs, defaultVerb, arguments, nameComparer, ignoreValueCase, parsingCulture, autoHelp, autoVersion, nonFatalErrors)
+                    ? MatchDefaultVerb(tokenizer, verbs, defaultVerb, arguments, nameComparer, ignoreValueCase, parsingCulture, autoHelp, autoHelpShortName, autoVersion, autoVersionShortName, allowMultiInstance, nonFatalErrors)
                     : MakeNotParsed(types, new NoVerbSelectedError()));
         }
 
@@ -90,7 +94,10 @@ namespace CommandLine.Core
             bool ignoreValueCase,
             CultureInfo parsingCulture,
             bool autoHelp,
+            bool autoHelpShortName,
             bool autoVersion,
+            bool autoVersionShortName,
+            bool allowMultiInstance,
             IEnumerable<ErrorType> nonFatalErrors)
         {
             return !(defaultVerb is null)
@@ -102,7 +109,10 @@ namespace CommandLine.Core
                     ignoreValueCase,
                     parsingCulture,
                     autoHelp,
+                    autoHelpShortName,
                     autoVersion,
+                    autoVersionShortName,
+                    allowMultiInstance,
                     nonFatalErrors)
                 : MakeNotParsed(verbs.Select(v => v.Item2), new BadVerbSelectedError(arguments.First()));
         }
@@ -116,7 +126,9 @@ namespace CommandLine.Core
             bool ignoreValueCase,
             CultureInfo parsingCulture,
             bool autoHelp,
+            bool autoHelpShortName,
             bool autoVersion,
+            bool autoVersionShortName,
             bool allowMultiInstance,
             IEnumerable<ErrorType> nonFatalErrors)
         {
@@ -131,10 +143,12 @@ namespace CommandLine.Core
                     ignoreValueCase,
                     parsingCulture,
                     autoHelp,
+                    autoHelpShortName,
                     autoVersion,
+                    autoVersionShortName,
                     allowMultiInstance,
                     nonFatalErrors)
-                : MatchDefaultVerb(tokenizer, verbs, defaultVerb, arguments, nameComparer, ignoreValueCase, parsingCulture, autoHelp, autoVersion, nonFatalErrors);
+                : MatchDefaultVerb(tokenizer, verbs, defaultVerb, arguments, nameComparer, ignoreValueCase, parsingCulture, autoHelp, autoHelpShortName, autoVersion, autoVersionShortName, allowMultiInstance, nonFatalErrors);
         }
 
         private static HelpVerbRequestedError MakeHelpVerbRequestedError(

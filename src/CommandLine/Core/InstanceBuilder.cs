@@ -32,7 +32,9 @@ namespace CommandLine.Core
                 ignoreValueCase,
                 parsingCulture,
                 autoHelp,
+                false,
                 autoVersion,
+                false,
                 false,
                 nonFatalErrors);
         }
@@ -45,7 +47,9 @@ namespace CommandLine.Core
             bool ignoreValueCase,
             CultureInfo parsingCulture,
             bool autoHelp,
+            bool autoHelpShortName,
             bool autoVersion,
+            bool autoVersionShortName,
             bool allowMultiInstance,
             IEnumerable<ErrorType> nonFatalErrors)
         {
