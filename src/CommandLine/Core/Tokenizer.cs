@@ -32,9 +32,9 @@ namespace CommandLine.Core
             Action<string> onUnknownOption = ignoreUnknownArguments ? doNothing : unknownOptionError;
 
             int consumeNext = 0;
+            Action<int> onConsumeNext = (n => consumeNext = consumeNext + n);
+
             var tokens = new List<Token>();
-            Action<string> addValue = (s => tokens.Add(new Value(s)));
-            Action<string> addName = (s => tokens.Add(new Name(s)));
 
             var enumerator = arguments.GetEnumerator();
             while (enumerator.MoveNext())
@@ -44,7 +44,7 @@ namespace CommandLine.Core
                         break;
 
                     case string arg when consumeNext > 0:
-                        addValue(arg);
+                        tokens.Add(new Value(arg));
                         consumeNext = consumeNext - 1;
                         break;
 
@@ -53,100 +53,25 @@ namespace CommandLine.Core
                         break;
 
                     case "--":
-                        addValue("--");
+                        tokens.Add(new Value("--"));
                         break;
 
                     case "-":
                         // A single hyphen is always a value (it usually means "read from stdin" or "write to stdout")
-                        addValue("-");
-                        break;
-
-                    case string arg when arg.StartsWith("--") && arg.Contains("="):
-                        string[] parts = arg.Substring(2).Split(new char[] { '=' }, 2);
-                        if (String.IsNullOrWhiteSpace(parts[0]) || parts[0].Contains(" "))
-                        {
-                            onBadFormatToken(arg);
-                        }
-                        else
-                        {
-                            switch(nameLookup(parts[0]))
-                            {
-                                case NameLookupResult.NoOptionFound:
-                                    onUnknownOption(parts[0]);
-                                    break;
-
-                                default:
-                                    addName(parts[0]);
-                                    addValue(parts[1]);
-                                    break;
-                            }
-                        }
+                        tokens.Add(new Value("-"));
                         break;
 
                     case string arg when arg.StartsWith("--"):
-                        var name = arg.Substring(2);
-                        switch (nameLookup(name))
-                        {
-                            case NameLookupResult.OtherOptionFound:
-                                addName(name);
-                                consumeNext = 1;
-                                break;
-
-                            case NameLookupResult.NoOptionFound:
-                                // When ignoreUnknownArguments is true and AutoHelp is true, calling code is responsible for
-                                // setting up nameLookup so that it will return a known name for --help, so that we don't skip it here
-                                onUnknownOption(name);
-                                break;
-
-                            default:
-                                addName(name);
-                                break;
-                        }
+                        tokens.AddRange(TokenizeLongName(arg, nameLookup, onBadFormatToken, onUnknownOption, onConsumeNext));
                         break;
 
                     case string arg when arg.StartsWith("-"):
-                        // First option char that requires a value means we swallow the rest of the string as the value
-                        // But if there is no rest of the string, then instead we swallow the next argument
-                        string chars = arg.Substring(1);
-                        int len = chars.Length;
-                        if (len > 0 && Char.IsDigit(chars[0]))
-                        {
-                            // Assume it's a negative number
-                            addValue(arg);
-                            continue;
-                        }
-                        for (int i = 0; i < len; i++)
-                        {
-                            var s = new String(chars[i], 1);
-                            switch(nameLookup(s))
-                            {
-                                case NameLookupResult.OtherOptionFound:
-                                    addName(s);
-                                    if (i+1 < len)
-                                    {
-                                        addValue(chars.Substring(i+1));
-                                        i = len;  // Can't use "break" inside a switch, so this breaks out of the loop
-                                    }
-                                    else
-                                    {
-                                        consumeNext = 1;
-                                    }
-                                    break;
-
-                                case NameLookupResult.NoOptionFound:
-                                    onUnknownOption(s);
-                                    break;
-
-                                default:
-                                    addName(s);
-                                    break;
-                            }
-                        }
+                        tokens.AddRange(TokenizeShortName(arg, nameLookup, onUnknownOption, onConsumeNext));
                         break;
 
                     case string arg:
                         // If we get this far, it's a plain value
-                        addValue(arg);
+                        tokens.Add(new Value(arg));
                         break;
                 }
             }
@@ -158,7 +83,6 @@ namespace CommandLine.Core
             Result<IEnumerable<Token>, Error> tokenizerResult,
             Func<string, Maybe<char>> optionSequenceWithSeparatorLookup)
         {
-            // TODO: I don't like how this works. I don't want "-s foo;bar baz" to put three values into -s. Let's instead have a third token type, List, besides Name and Value.
             var tokens = tokenizerResult.SucceededWith().Memoize();
 
             var replaces = tokens.Select((t, i) =>
@@ -191,6 +115,95 @@ namespace CommandLine.Core
                     var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
                     return explodedTokens;
                 };
+        }
+
+        private static IEnumerable<Token> TokenizeShortName(
+            string arg,
+            Func<string, NameLookupResult> nameLookup,
+            Action<string> onUnknownOption,
+            Action<int> onConsumeNext)
+        {
+
+            // First option char that requires a value means we swallow the rest of the string as the value
+            // But if there is no rest of the string, then instead we swallow the next argument
+            string chars = arg.Substring(1);
+            int len = chars.Length;
+            if (len > 0 && Char.IsDigit(chars[0]))
+            {
+                // Assume it's a negative number
+                yield return Token.Value(arg);
+                yield break;
+            }
+            for (int i = 0; i < len; i++)
+            {
+                var s = new String(chars[i], 1);
+                switch(nameLookup(s))
+                {
+                    case NameLookupResult.OtherOptionFound:
+                        yield return Token.Name(s);
+
+                        if (i+1 < len)
+                        {
+                            // Rest of this is the value (e.g. "-sfoo" where "-s" is a string-consuming arg)
+                            yield return Token.Value(chars.Substring(i+1));
+                            yield break;
+                        }
+                        else
+                        {
+                            // Value is in next param (e.g., "-s foo")
+                            onConsumeNext(1);
+                        }
+                        break;
+
+                    case NameLookupResult.NoOptionFound:
+                        onUnknownOption(s);
+                        break;
+
+                    default:
+                        yield return Token.Name(s);
+                        break;
+                }
+            }
+        }
+
+        private static IEnumerable<Token> TokenizeLongName(
+            string arg,
+            Func<string, NameLookupResult> nameLookup,
+            Action<string> onBadFormatToken,
+            Action<string> onUnknownOption,
+            Action<int> onConsumeNext)
+        {
+            string[] parts = arg.Substring(2).Split(new char[] { '=' }, 2);
+            string name = parts[0];
+            string value = (parts.Length > 1) ? parts[1] : null;
+            // A parameter like "--stringvalue=" is acceptable, and makes stringvalue be the empty string
+            if (String.IsNullOrWhiteSpace(name) || name.Contains(" "))
+            {
+                onBadFormatToken(arg);
+                yield break;
+            }
+            switch(nameLookup(name))
+            {
+                case NameLookupResult.NoOptionFound:
+                    onUnknownOption(name);
+                    yield break;
+
+                case NameLookupResult.OtherOptionFound:
+                    yield return Token.Name(name);
+                    if (value == null) // NOT String.IsNullOrEmpty
+                    {
+                        onConsumeNext(1);
+                    }
+                    else
+                    {
+                        yield return Token.Value(value);
+                    }
+                    break;
+
+                default:
+                    yield return Token.Name(name);
+                    break;
+            }
         }
     }
 }
