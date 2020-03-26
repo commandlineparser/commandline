@@ -69,11 +69,11 @@ namespace CommandLine.Core
                         nameComparer.Equals(command, firstArg) ||
                         nameComparer.Equals(string.Concat("--", command), firstArg);
 
-                return (autoHelp && preprocCompare("help"))
+                return (autoHelp && preprocCompare("help")) || (autoHelp && autoHelpShortName && nameComparer.Equals("-h", firstArg))
                     ? MakeNotParsed(types,
                         MakeHelpVerbRequestedError(verbs,
                             arguments.Skip(1).FirstOrDefault() ?? string.Empty, nameComparer))
-                    : (autoVersion && preprocCompare("version"))
+                    : (autoVersion && preprocCompare("version")) || (autoVersion && autoVersionShortName && nameComparer.Equals("-V", firstArg))
                         ? MakeNotParsed(types, new VersionRequestedError())
                         : MatchVerb(tokenizer, verbs, defaultVerb, arguments, nameComparer, ignoreValueCase, parsingCulture, autoHelp, autoHelpShortName, autoVersion, autoVersionShortName, allowMultiInstance, nonFatalErrors);
             };
