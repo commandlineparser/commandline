@@ -128,7 +128,7 @@ namespace CommandLine.Tests.Unit
             var help = new StringWriter();
             var sut = new Parser(config => {
                 config.AutoVersion = true;
-                // config.AutoVersionShortName = true;  // Not implemented yet
+                config.AutoVersionShortName = true;
                 config.HelpWriter = help;
             });
 
@@ -172,7 +172,7 @@ namespace CommandLine.Tests.Unit
             var help = new StringWriter();
             var sut = new Parser(config => {
                 config.AutoVersion = true;
-                // config.AutoVersionShortName = true;  // Not implemented yet
+                config.AutoVersionShortName = true;
                 config.HelpWriter = help;
             });
 
@@ -221,7 +221,7 @@ namespace CommandLine.Tests.Unit
             var help = new StringWriter();
             var sut = new Parser(config => {
                 config.AutoVersion = true;
-                // config.AutoVersionShortName = true;  // Not implemented yet
+                config.AutoVersionShortName = true;
                 config.HelpWriter = help;
             });
 
@@ -250,7 +250,7 @@ namespace CommandLine.Tests.Unit
             var help = new StringWriter();
             var sut = new Parser(config => {
                 config.AutoVersion = true;
-                // config.AutoVersionShortName = true;  // Not implemented yet
+                config.AutoVersionShortName = true;
                 config.HelpWriter = help;
             });
 
@@ -299,7 +299,7 @@ namespace CommandLine.Tests.Unit
             var help = new StringWriter();
             var sut = new Parser(config => {
                 config.AutoVersion = true;
-                // config.AutoVersionShortName = true;  // Not implemented yet
+                config.AutoVersionShortName = true;
                 config.HelpWriter = help;
             });
 
@@ -343,7 +343,7 @@ namespace CommandLine.Tests.Unit
             var help = new StringWriter();
             var sut = new Parser(config => {
                 config.AutoVersion = true;
-                // config.AutoVersionShortName = true;  // Not implemented yet
+                config.AutoVersionShortName = true;
                 config.HelpWriter = help;
             });
 
