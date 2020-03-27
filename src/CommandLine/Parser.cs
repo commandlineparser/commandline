@@ -151,7 +151,6 @@ namespace CommandLine
         {
             if (args == null) throw new ArgumentNullException("args");
             if (types == null) throw new ArgumentNullException("types");
-            if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
             return MakeParserResult(
                 InstanceChooser.Choose(

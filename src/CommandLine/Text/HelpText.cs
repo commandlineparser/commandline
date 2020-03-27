@@ -576,7 +576,6 @@ namespace CommandLine.Text
         public HelpText AddVerbs(params Type[] types)
         {
             if (types == null) throw new ArgumentNullException("types");
-            if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
 
             return AddOptionsImpl(
                 AdaptVerbsToSpecifications(types),
