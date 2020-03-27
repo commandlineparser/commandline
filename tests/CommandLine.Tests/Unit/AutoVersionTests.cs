@@ -355,5 +355,79 @@ namespace CommandLine.Tests.Unit
             result.As<NotParsed<Simple_Options>>().Errors.Should().HaveCountGreaterOrEqualTo(1);
             result.As<NotParsed<Simple_Options>>().Errors.Should().NotBeOfType<VersionRequestedError>();
         }
+
+        [Fact]
+        public void Explicit_version_request_generates_version_requested_error()
+        {
+            // Fixture setup
+            var expectedError = new VersionRequestedError();
+            var sut = new Parser();
+
+            // Exercize system
+            var result = sut.ParseArguments<Simple_Options>(new[] { "--version" });
+
+            // Verify outcome
+            ((NotParsed<Simple_Options>)result).Errors.Should().HaveCount(x => x == 1);
+            ((NotParsed<Simple_Options>)result).Errors.Should().ContainSingle(e => e.Equals(expectedError));
+            // Teardown
+        }
+
+        [Fact]
+        public void Explicit_version_request_with_AutoVersion_off_generates_unknown_option_error()
+        {
+            // Fixture setup
+            var expectedError = new UnknownOptionError("version");
+            var sut = new Parser(config => { config.AutoVersion = false; });
+
+            // Exercise system
+            var result = sut.ParseArguments<Simple_Options>(new[] { "--version" });
+
+            // Verify outcome
+            ((NotParsed<Simple_Options>)result).Errors.Should().HaveCount(x => x == 1);
+            ((NotParsed<Simple_Options>)result).Errors.Single().Tag.Should().Be(expectedError.Tag);
+            ((NotParsed<Simple_Options>)result).Errors.First().As<UnknownOptionError>().Token.Should().BeEquivalentTo(expectedError.Token);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Explicit_version_request_with_AutoVersion_off_displays_unknown_option_error()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => { config.AutoVersion = false; config.HelpWriter = help; });
+
+            // Exercise system
+            sut.ParseArguments<Simple_Options>(new[] { "--version" });
+            var result = help.ToString();
+
+            // Verify outcome
+
+            // Verify outcome
+            result.Length.Should().BeGreaterThan(0);
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().Be(CommandLine.Text.HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CommandLine.Text.CopyrightInfo.Default.ToString());
+            lines[2].Should().BeEquivalentTo("ERROR(S):");
+            lines[3].Should().BeEquivalentTo("Option 'version' is unknown.");
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Explicit_version_request_with_AutoVersion_off_and_IgnoreUnknownArguments_on_does_not_generate_version_screen()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => { config.HelpWriter = help; config.AutoVersion = false; config.IgnoreUnknownArguments = true; });
+
+            // Exercize system
+            sut.ParseArguments<Simple_Options>(new[] { "--version" });
+            var result = help.ToString();
+
+            // Verify outcome
+            result.Should().BeEquivalentTo("");
+            // Teardown
+        }
     }
 }
