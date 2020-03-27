@@ -356,9 +356,78 @@ namespace CommandLine.Tests.Unit
             result.As<NotParsed<Simple_Options>>().Errors.Should().NotBeOfType<HelpRequestedError>();
         }
 
-        // Then with AutoHelp = false, we'd have UnknownArgumentError("help"), which would NOT suppress other errors. So invalid inputs would have more than 1 error.
+        [Fact]
+        public void Explicit_help_request_generates_help_requested_error()
+        {
+            // Fixture setup
+            var expectedError = new HelpRequestedError();
+            var sut = new Parser();
 
-        // TODO: Write tests for https://github.com/commandlineparser/commandline/issues/596 (ensure that UnknownArgumentError("help") is produced when AutoHelp=false)
-        // Also check help text output to make sure it contains "ERROR(S): (...) Option 'help' is unknown."
+            // Exercize system
+            var result = sut.ParseArguments<Simple_Options>(new[] { "--help" });
+
+            // Verify outcome
+            ((NotParsed<Simple_Options>)result).Errors.Should().HaveCount(x => x == 1);
+            ((NotParsed<Simple_Options>)result).Errors.Should().ContainSingle(e => e.Equals(expectedError));
+            // Teardown
+        }
+
+        [Fact]
+        public void Explicit_help_request_with_AutoHelp_off_generates_unknown_option_error()
+        {
+            // Fixture setup
+            var expectedError = new UnknownOptionError("help");
+            var sut = new Parser(config => { config.AutoHelp = false; });
+
+            // Exercise system
+            var result = sut.ParseArguments<Simple_Options>(new[] { "--help" });
+
+            // Verify outcome
+            ((NotParsed<Simple_Options>)result).Errors.Should().HaveCount(x => x == 1);
+            ((NotParsed<Simple_Options>)result).Errors.Single().Tag.Should().Be(expectedError.Tag);
+            ((NotParsed<Simple_Options>)result).Errors.First().As<UnknownOptionError>().Token.Should().BeEquivalentTo(expectedError.Token);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Explicit_help_request_with_AutoHelp_off_displays_unknown_option_error()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => { config.AutoHelp = false; config.HelpWriter = help; });
+
+            // Exercise system
+            sut.ParseArguments<Simple_Options>(new[] { "--help" });
+            var result = help.ToString();
+
+            // Verify outcome
+
+            // Verify outcome
+            result.Length.Should().BeGreaterThan(0);
+            var lines = result.ToNotEmptyLines().TrimStringArray();
+            lines[0].Should().Be(CommandLine.Text.HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CommandLine.Text.CopyrightInfo.Default.ToString());
+            lines[2].Should().BeEquivalentTo("ERROR(S):");
+            lines[3].Should().BeEquivalentTo("Option 'help' is unknown.");
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Explicit_help_request_with_AutoHelp_off_and_IgnoreUnknownArguments_on_does_not_generate_help_screen()
+        {
+            // Fixture setup
+            var help = new StringWriter();
+            var sut = new Parser(config => { config.HelpWriter = help; config.AutoHelp = false; config.IgnoreUnknownArguments = true; });
+
+            // Exercize system
+            sut.ParseArguments<Simple_Options>(new[] { "--help" });
+            var result = help.ToString();
+
+            // Verify outcome
+            result.Should().BeEquivalentTo("");
+            // Teardown
+        }
     }
 }
