@@ -133,6 +133,26 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_options_with_double_dash_and_option_sequence()
+        {
+            var expectedOptions = new Options_With_Option_Sequence_And_Value_Sequence
+            {
+                OptionSequence = new[] { "option1", "option2", "option3" },
+                ValueSequence = new[] { "value1", "value2", "value3" }
+            };
+
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result =
+                sut.ParseArguments<Options_With_Option_Sequence_And_Value_Sequence>(
+                    new[] { "--option-seq", "option1", "option2", "option3", "--", "value1", "value2", "value3" });
+
+            // Verify outcome
+            ((Parsed<Options_With_Option_Sequence_And_Value_Sequence>)result).Value.Should().BeEquivalentTo(expectedOptions);
+        }
+
+        [Fact]
         public void Parse_options_with_double_dash_in_verbs_scenario()
         {
             // Fixture setup

@@ -32,6 +32,11 @@ namespace CommandLine.Core
             return new Value(text, explicitlyAssigned);
         }
 
+        public static Token ValueForced(string text)
+        {
+            return new Value(text, false, true);
+        }
+
         public TokenType Tag
         {
             get { return tag; }
@@ -80,21 +85,33 @@ namespace CommandLine.Core
     class Value : Token, IEquatable<Value>
     {
         private readonly bool explicitlyAssigned;
+        private readonly bool forced;
 
         public Value(string text)
-            : this(text, false)
+            : this(text, false, false)
         {
         }
 
         public Value(string text, bool explicitlyAssigned)
+            : this(text, explicitlyAssigned, false)
+        {
+        }
+
+        public Value(string text, bool explicitlyAssigned, bool forced)
             : base(TokenType.Value, text)
         {
             this.explicitlyAssigned = explicitlyAssigned;
+            this.forced = forced;
         }
 
         public bool ExplicitlyAssigned
         {
             get { return explicitlyAssigned; }
+        }
+
+        public bool Forced
+        {
+            get { return forced; }
         }
 
         public override bool Equals(object obj)
@@ -120,7 +137,7 @@ namespace CommandLine.Core
                 return false;
             }
 
-            return Tag.Equals(other.Tag) && Text.Equals(other.Text);
+            return Tag.Equals(other.Tag) && Text.Equals(other.Text) && this.Forced == other.Forced;
         }
     }
 
@@ -134,6 +151,11 @@ namespace CommandLine.Core
         public static bool IsValue(this Token token)
         {
             return token.Tag == TokenType.Value;
+        }
+
+        public static bool IsValueForced(this Token token)
+        {
+            return token.IsValue() && ((Value)token).Forced;
         }
     }
 }
