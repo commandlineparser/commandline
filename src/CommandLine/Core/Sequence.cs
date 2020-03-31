@@ -34,8 +34,8 @@ namespace CommandLine.Core
                 return info.NextValue.MapValueOrDefault(
                     _ => info.MaxItems.MapValueOrDefault(
                             n => tokens.Skip(nameIndex + 1).Take(n),
-                                 tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue())),
-                    tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue()));
+                                 tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue() && !v.IsValueForced())),
+                    tokens.Skip(nameIndex + 1).TakeWhile(v => v.IsValue() && !v.IsValueForced()));
             }
             return new Token[] { };
         }
