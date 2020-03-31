@@ -34,6 +34,8 @@ namespace CommandLine.Core
             int consumeNext = 0;
             Action<int> onConsumeNext = (n => consumeNext = consumeNext + n);
 
+            bool isForced = false;
+
             var tokens = new List<Token>();
 
             var enumerator = arguments.GetEnumerator();
@@ -44,21 +46,22 @@ namespace CommandLine.Core
                         break;
 
                     case string arg when consumeNext > 0:
-                        tokens.Add(new Value(arg));
+                        tokens.Add(new Value(arg, isForced));
                         consumeNext = consumeNext - 1;
                         break;
 
                     case "--" when allowDashDash:
                         consumeNext = System.Int32.MaxValue;
+                        isForced = true;
                         break;
 
                     case "--":
-                        tokens.Add(new Value("--"));
+                        tokens.Add(new Value("--", isForced));
                         break;
 
                     case "-":
                         // A single hyphen is always a value (it usually means "read from stdin" or "write to stdout")
-                        tokens.Add(new Value("-"));
+                        tokens.Add(new Value("-", isForced));
                         break;
 
                     case string arg when arg.StartsWith("--"):
@@ -71,7 +74,7 @@ namespace CommandLine.Core
 
                     case string arg:
                         // If we get this far, it's a plain value
-                        tokens.Add(new Value(arg));
+                        tokens.Add(new Value(arg, isForced));
                         break;
                 }
             }

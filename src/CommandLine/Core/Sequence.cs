@@ -33,7 +33,7 @@ namespace CommandLine.Core
                         break;
 
                     case SequenceState.TokenFound:
-                        if (token.IsValue())
+                        if (token.IsValueUnforced())
                         {
                             if (sequences.TryGetValue(nameToken, out var sequence))
                             {
