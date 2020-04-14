@@ -1,5 +1,6 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
+using System;
 using System.Linq;
 using Xunit;
 using FluentAssertions;
@@ -251,6 +252,34 @@ namespace CommandLine.Tests.Unit
                     errs => 5);
 
             4.Should().Be(expected);
+        }
+
+        [Fact]
+        public static void Turn_successful_parsing_into_exit_code_for_verbs_using_generalized_map_result()
+        {
+            var expected = Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb>(
+                    new[] {"undefined", "-xyz"})
+                .MapResult(errs => 3,
+                    (Func<Add_Verb, int>) (opts => 0),
+                    (Func<Commit_Verb, int>) (opts => 1),
+                    (Func<Clone_Verb, int>) (opts => 3)
+                );
+
+            3.Should().Be(expected);
+        }
+
+        [Fact]
+        public static void Turn_sucessful_parsing_into_exit_code_for_multiple_base_verbs_using_generalized_map_result()
+        {
+            var expected = Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb, Derived_Verb>(
+                    new[] {"derivedadd", "dummy.bin"})
+                .MapResult(errs => 5,
+                    (Func<Add_Verb, int>) (opts => 0),
+                    (Func<Commit_Verb, int>) (opts => 1),
+                    (Func<Clone_Verb, int>) (opts => 2),
+                    (Func<Derived_Verb, int>) (opts => 3));
+
+            3.Should().Be(expected);
         }
     }
 }
