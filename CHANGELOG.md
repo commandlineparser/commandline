@@ -3,15 +3,18 @@ All notable changes to this project will be documented in this file.
 
 CommandLineParser project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.0] - 2020-5-1
+## [2.8.0-preview4] - 2020-4-30
 ## [2.8.0-preview1] - 2020-3-14
 
 ### Added
 - Added support for async programming for `WithParsed and WithNotParsed` by [@joseangelmt, PR# 390 ](https://github.com/commandlineparser/commandline/pull/390).
+- Publish a new symbol packages with source link support for c# and F# (.snupkg) to improved package debugging experience by [@moh-hassan, PR#554](https://github.com/commandlineparser/commandline/pull/554)
 - Add default verb support by [@Artentus, PR# 556](https://github.com/commandlineparser/commandline/pull/556).
 - Add more details for localized attribute properties  by [@EdmondShtogu, PR# 558](https://github.com/commandlineparser/commandline/pull/558)
 - Support Default in Group Options and raise error if both SetName and Group are applied on option by [@hadzhiyski, PR# 575](https://github.com/commandlineparser/commandline/pull/575).
-- Support mutable types without empty constructor that only does explicit implementation of interfaces by [@pergardebrink](https://github.com/commandlineparser/commandline/pull/590).
--
+- Support mutable types without empty constructor that only does explicit implementation of interfaces by [@pergardebrink, PR#590](https://github.com/commandlineparser/commandline/pull/590).
+
 
 ### Changed
 - Tests cleanup by [@gsscoder, PR# 560](https://github.com/commandlineparser/commandline/pull/560).
@@ -20,6 +23,7 @@ CommandLineParser project adheres to [Semantic Versioning](https://semver.org/sp
 - SkipDefault is being respected by [Usage] Examples by [@kendfrey, PR# 565](https://github.com/commandlineparser/commandline/pull/565).
 - Remove useless testing code by [@gsscoder, PR# 568](https://github.com/commandlineparser/commandline/pull/568).
 - Remove constraint on T for ParseArguments with factory (required by issue #70) by [@pergardebrink](https://github.com/commandlineparser/commandline/pull/590).
+- Update nuget api key by [@ericnewton76](https://github.com/commandlineparser/commandline/commit/2218294550e94bcbc2b76783970541385eaf9c07)
 
 ### Fixed
 - Fix #579 Unable to parse TimeSpan given from the FormatCommandLine by [@gsscoder, PR# 580](https://github.com/commandlineparser/commandline/pull/580).
