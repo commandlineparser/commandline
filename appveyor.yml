@@ -1,13 +1,12 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
 
 version: 2.8.0-ci-{build}
-image:
-  - Visual Studio 2019
-  - ubuntu1804
+
+image: Visual Studio 2019
 
 clone_depth: 1
 pull_requests:
-  do_not_increment_build_number: false
+  do_not_increment_build_number: true
 
 init:
   - ps: |
@@ -16,22 +15,8 @@ init:
       if ($env:APPVEYOR_REPO_TAG -eq "true") {
         $ver = $env:APPVEYOR_REPO_TAG_NAME
         if($ver.StartsWith("v") -eq $true) { $ver = $ver.Substring(1) }
-        $env:PACKAGE_VERSION = $ver
-      } else {
-        $env:PACKAGE_VERSION = $env:APPVEYOR_BUILD_VERSION
+        Update-AppveyorBuild -Version $ver
       }
-  - ps: |
-      Write-Host "PACKAGE_VERSION:$env:PACKAGE_VERSION | APPVEYOR_BUILD_VERSION='$env:APPVEYOR_BUILD_VERSION'" -ForegroundColor Yellow
-      Write-Host "APPVEYOR_REPO_TAG_NAME:$env:APPVEYOR_REPO_TAG_NAME'" -ForegroundColor Yellow
-
-skip_commits:
-  files:
-    - docs/*
-    - art/*
-    - '**/*.md'    
-    - .gitignore
-    - .editorconfig
-  message: /updated readme.*|update readme.*s|update docs.*|update version.*|update changelog.*/
 
 environment:
   matrix:
@@ -39,46 +24,38 @@ environment:
     - BUILD_TARGET: fsharp
 
 build_script:
-- cmd: dotnet build src/CommandLine/ -c Release --version-suffix %PACKAGE_VERSION% /p:BuildTarget=%BUILD_TARGET%
-- sh: dotnet build src/CommandLine/ -c Release --version-suffix $PACKAGE_VERSION /p:BuildTarget=$BUILD_TARGET
+- cmd: dotnet build src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
 
 test_script: 
 - cmd: dotnet test tests/CommandLine.Tests/ /p:BuildTarget=%BUILD_TARGET%
-- sh: dotnet test tests/CommandLine.Tests/ /p:BuildTarget=$BUILD_TARGET  -f netcoreapp2.0
 
 after_test:
-- cmd: dotnet pack src/CommandLine/ -c Release --version-suffix %PACKAGE_VERSION% /p:BuildTarget=%BUILD_TARGET%
-- sh: dotnet pack src/CommandLine/ -c Release --version-suffix $PACKAGE_VERSION /p:BuildTarget=$BUILD_TARGET
+- cmd: dotnet pack src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
 
 artifacts:
 - path: 'src/CommandLine/bin/Release/*.nupkg'
   name: NuGetPackages
 - path: 'src/CommandLine/bin/Release/*.snupkg'
-  name: symbol  
+  name: symbol 
+  
 on_failure:
 - cmd: |
     tree /f /a >files.lst
     appveyor PushArtifact .\files.lst -DeploymentName "Failed Build File Listing"
 
-for:
--
-  matrix:
-    only:
-      - image: Visual Studio 2019
-  deploy:
-  - provider: GitHub
-    auth_token:
-      secure: hVyVwHl0JiVq0VxXB4VMRWbUtrGclIzadfnWFcWCQBLvbgMLahLBnWlwGglT63pZ
-    artifact: 'NuGetPackages'
-    prerelease: false
-    force_update: true #fsharp package runs as separate build job, so have to force_update to add fsharp.nuget added
-    on:
-      APPVEYOR_REPO_TAG: true
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: hVyVwHl0JiVq0VxXB4VMRWbUtrGclIzadfnWFcWCQBLvbgMLahLBnWlwGglT63pZ
+  artifact: /.*(\.|\.s)nupkg/
+  prerelease: false
+  force_update: true #fsharp package runs as separate build job, so have to force_update to add fsharp.nuget added
+  on:
+    APPVEYOR_REPO_TAG: true
 
-  - provider: NuGet
-    api_key:
-      secure: Ab4T/48EyIJhVrqkfKdUxmHUtseEVuXuyrGACxZ0KN35rb/BzABlBM2YjZojicvT
-    artifact: 'NuGetPackages'
-    on:
-      APPVEYOR_REPO_TAG: true
-
+- provider: NuGet
+  api_key:
+    secure: e2gJJ3r6Uls5trJwryaudAZd49QniNfIjax/A+tfywlchSnIQVOzOQCO9tTSNccI
+  artifact: /.*(\.|\.s)nupkg/
+  on:
+    APPVEYOR_REPO_TAG: true

@@ -1086,6 +1086,22 @@ namespace CommandLine.Tests.Unit.Core
             expectedResult.Should().BeEquivalentTo(((Parsed<Options_With_TimeSpan>)result).Value);
         }
 
+        #region Issue 579
+        [Fact]
+        public void Should_not_parse_quoted_TimeSpan()
+        {
+            // Exercize system 
+            var result = InvokeBuild<Options_With_TimeSpan>(new[] { "--duration=\"00:42:00\"" });
+
+            var outcome = result as NotParsed<Options_With_TimeSpan>;
+
+            // Verify outcome
+            outcome.Should().NotBeNull();
+            outcome.Errors.Should().NotBeNullOrEmpty()
+                .And.HaveCount(1)
+                .And.OnlyContain(e => e.GetType().Equals(typeof(BadFormatConversionError)));
+        }
+        #endregion
 
         [Fact]
         public void OptionClass_IsImmutable_HasNoCtor()
