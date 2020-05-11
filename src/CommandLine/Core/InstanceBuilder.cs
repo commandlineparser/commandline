@@ -46,7 +46,7 @@ namespace CommandLine.Core
             CultureInfo parsingCulture,
             bool autoHelp,
             bool autoVersion,
-            bool allowMultiInstance,
+            bool allowMultiInstanceByDefault,
             IEnumerable<ErrorType> nonFatalErrors)
         {
             var typeInfo = factory.MapValueOrDefault(f => f().GetType(), typeof(T));
@@ -120,7 +120,7 @@ namespace CommandLine.Core
                     instance = BuildImmutable(typeInfo, factory, specProps, specPropsWithValue, setPropertyErrors);
                 }
 
-                var validationErrors = specPropsWithValue.Validate(SpecificationPropertyRules.Lookup(tokens, allowMultiInstance));
+                var validationErrors = specPropsWithValue.Validate(SpecificationPropertyRules.Lookup(tokens, allowMultiInstanceByDefault));
 
                 var allErrors =
                     tokenizerResult.SuccessMessages()
