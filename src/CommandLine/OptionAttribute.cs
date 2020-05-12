@@ -87,7 +87,6 @@ namespace CommandLine
         public OptionAttribute(char shortName, string longName, bool allowMultiInstance)
             : this(shortName.ToOneCharString(), longName, allowMultiInstance)
         {
-            this.allowMultiInstance = allowMultiInstance;
         }
 
         /// <summary>
