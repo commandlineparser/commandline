@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using System.IO;
 using System.Linq;
 using System.Text;
 using CommandLine.Core;
@@ -204,7 +205,7 @@ namespace CommandLine
 
         private static object FormatWithQuotesIfString(object value)
         {
-            if (value is DateTime || value is DateTimeOffset) return $"\"{value}\"";
+            if (value is DateTime || value is DateTimeOffset || value is FileInfo || value is DirectoryInfo) return $"\"{value}\"";
             Func<string, string> doubQt = v
                 => v.Contains("\"") ? v.Replace("\"", "\\\"") : v;
 
