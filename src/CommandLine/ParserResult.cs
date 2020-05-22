@@ -67,17 +67,17 @@ namespace CommandLine
         internal ParserResult(IEnumerable<Error> errors, TypeInfo typeInfo)
         {
             this.tag = ParserResultType.NotParsed;
-            this.typeInfo = typeInfo;
-            Errors = errors;
+            this.typeInfo = typeInfo ?? TypeInfo.Create(typeof(T));
+            Errors = errors ?? new Error[0];
             Value = default;
         }
 
         internal ParserResult(T value, TypeInfo typeInfo)
         {
+            Value = value ?? throw new ArgumentNullException(nameof(value));
             this.tag = ParserResultType.Parsed;
-            this.typeInfo = typeInfo;
+            this.typeInfo = typeInfo ?? TypeInfo.Create(value.GetType());
             Errors = new Error[0];
-            Value = value;
         }
 
         /// <summary>
