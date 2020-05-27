@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using CommandLine.Tests.Fakes;
 using CommandLine.Text;
 using FluentAssertions;
+using Microsoft.FSharp.Core;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -22,25 +25,114 @@ namespace CommandLine.Tests.Unit
         {
             var arguments = args.Split(' ');
             object options = null;
+            IEnumerable<Error> errors = null;
             var result = Parser.Default.ParseArguments<AliasedVerbOption1, AliasedVerbOption2>(arguments)
-                .WithParsed((o) => options = o)
+                .WithParsed(o => options = o)
+                .WithNotParsed(o => errors = o)
                ;
+            if (errors != null && errors.Any())
+            {
+                foreach (Error e in errors)
+                {
+                    System.Console.WriteLine(e.ToString());
+                }
+            }
 
             Assert.NotNull(options);
             Assert.Equal(expectedArgType, options.GetType());
         }
 
-        [Verb("move", aliases:new string[] { "mv" })]
+        [Theory]
+        [InlineData("--help", true, new string[]
+            {
+                "copy, cp, cpy    (Default Verb) Copy some stuff",
+                "move, mv",
+                "delete        Delete stuff",
+                "help          Display more information on a specific command.",
+                "version       Display version information.",
+            })]
+        [InlineData("help", true, new string[]
+            {
+                "copy, cp, cpy    (Default Verb) Copy some stuff",
+                "move, mv",
+                "delete        Delete stuff",
+                "help          Display more information on a specific command.",
+                "version       Display version information.",
+            })]
+        [InlineData("move --help", false, new string[]
+            {
+                "-a, --alpha    Required.",
+                "--help         Display this help screen.",
+                "--version      Display version information.",
+            })]
+        [InlineData("mv --help", false, new string[]
+            {
+                "-a, --alpha    Required.",
+                "--help         Display this help screen.",
+                "--version      Display version information.",
+            })]
+        [InlineData("delete --help", false, new string[]
+            {
+                "-b, --beta    Required.",
+                "--help        Display this help screen.",
+                "--version     Display version information.",
+            })]
+        public void Parse_help_option_for_aliased_verbs(string args, bool verbsIndex, string[] expected)
+        {
+            var arguments = args.Split(' ');
+            object options = null;
+            IEnumerable<Error> errors = null;
+            // the order of the arguments here drives the order of the commands shown
+            // in the help message
+            var result = Parser.Default.ParseArguments<
+                                            AliasedVerbOption2,
+                                            AliasedVerbOption1,
+                                            VerbNoAlias
+                                        >(arguments)
+                .WithParsed(o => options = o)
+                .WithNotParsed(o => errors = o)
+               ;
+
+            var message = HelpText.AutoBuild(result,
+                error => error,
+                ex => ex,
+                verbsIndex: verbsIndex
+            );
+
+            string helpMessage = message.ToString();
+            var helps = helpMessage.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
+
+            expected.Length.Should().Be(helps.Count);
+            int i = 0;
+            foreach (var expect in expected)
+            {
+                helps[i].Trim().Should().Be(expect);
+                i++;
+            }
+        }
+
+        [Verb("move", aliases: new string[] { "mv" })]
         public class AliasedVerbOption1
         {
             [Option('a', "alpha", Required = true)]
             public string Option { get; set; }
         }
 
-        [Verb("copy", aliases: new string[] { "cp" })]
+        [Verb("copy",
+            isDefault: true,
+            aliases: new string[] { "cp", "cpy" },
+            HelpText = "Copy some stuff"
+        )]
         public class AliasedVerbOption2
         {
             [Option('a', "alpha", Required = true)]
+            public string Option { get; set; }
+        }
+
+        [Verb("delete",HelpText = "Delete stuff")]
+        public class VerbNoAlias
+        {
+            [Option('b', "beta", Required = true)]
             public string Option { get; set; }
         }
     }

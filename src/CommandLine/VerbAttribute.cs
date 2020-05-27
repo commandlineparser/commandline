@@ -12,7 +12,7 @@ namespace CommandLine
     //public sealed class VerbAttribute : Attribute
     public class VerbAttribute : Attribute
     {
-        private Infrastructure.LocalizableAttributeProperty helpText;
+        private readonly Infrastructure.LocalizableAttributeProperty helpText;
         private Type resourceType;
 
         /// <summary>
@@ -72,6 +72,6 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets the aliases
         /// </summary>
-        public IEnumerable<string> Aliases { get; private set; }
+        public string[] Aliases { get; private set; }
     }
 }

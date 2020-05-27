@@ -9,9 +9,9 @@ namespace CommandLine.Core
 {
     sealed class Verb
     {
-        public Verb(string name, string helpText, bool hidden, bool isDefault, IEnumerable<string> aliases)
+        public Verb(string name, string helpText, bool hidden, bool isDefault, string[] aliases)
         {
-            if ( string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
             Name = name;
 
@@ -29,7 +29,7 @@ namespace CommandLine.Core
 
         public bool IsDefault { get; private set; }
 
-        public IEnumerable<string> Aliases { get; private set; }
+        public string[] Aliases { get; private set; }
 
         public static Verb FromAttribute(VerbAttribute attribute)
         {

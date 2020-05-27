@@ -851,10 +851,10 @@ namespace CommandLine.Text
             var optionSpecs = from verbTuple in Verb.SelectFromTypes(types)
                               select
                                   OptionSpecification.NewSwitch(
-                                      string.Empty,
                                       verbTuple.Item1.Name,
+                                      verbTuple.Item1.Aliases.ToDelimitedString(", "),
                                       false,
-                                      verbTuple.Item1.IsDefault?  "(Default Verb) "+verbTuple.Item1.HelpText: verbTuple.Item1.HelpText,  //Default verb
+                                      verbTuple.Item1.IsDefault ? "(Default Verb) " + verbTuple.Item1.HelpText : verbTuple.Item1.HelpText,  //Default verb
                                       string.Empty,
                                       verbTuple.Item1.Hidden);
             if (autoHelp)
