@@ -37,7 +37,7 @@ namespace CommandLine.Tests.Unit.Core
             var result = OptionMapper.MapValues(
                 specProps.Where(pt => pt.Specification.IsOption()),
                 tokenPartitions,
-                (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, CultureInfo.InvariantCulture, false),
+                (vals, type, isScalar, isFlag) => TypeConverter.ChangeType(vals, type, isScalar, isFlag, CultureInfo.InvariantCulture, false),
                 StringComparer.Ordinal
                 );
 
@@ -72,7 +72,7 @@ namespace CommandLine.Tests.Unit.Core
             var result = OptionMapper.MapValues(
                 specProps.Where(pt => pt.Specification.IsOption()),
                 tokenPartitions,
-                (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, CultureInfo.InvariantCulture, false),
+                (vals, type, isScalar, isFlag) => TypeConverter.ChangeType(vals, type, isScalar, isFlag, CultureInfo.InvariantCulture, false),
                 StringComparer.Ordinal);
 
             var property = result.SucceededWith().Single();
@@ -101,7 +101,7 @@ namespace CommandLine.Tests.Unit.Core
             var result = OptionMapper.MapValues(
                 specProps.Where(pt => pt.Specification.IsOption()),
                 tokenPartitions,
-                (vals, type, isScalar) => TypeConverter.ChangeType(vals, type, isScalar, CultureInfo.InvariantCulture, false),
+                (vals, type, isScalar, isFlag) => TypeConverter.ChangeType(vals, type, isScalar, isFlag, CultureInfo.InvariantCulture, false),
                 StringComparer.Ordinal);
 
             var property = result.SucceededWith().Single();

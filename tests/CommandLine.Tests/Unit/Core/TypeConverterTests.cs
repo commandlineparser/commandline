@@ -20,7 +20,7 @@ namespace CommandLine.Tests.Unit.Core
         [MemberData(nameof(ChangeType_scalars_source))]
         public void ChangeType_scalars(string testValue, Type destinationType, bool expectFail, object expectedResult)
         {
-            Maybe<object> result = TypeConverter.ChangeType(new[] {testValue}, destinationType, true, CultureInfo.InvariantCulture, true);
+            Maybe<object> result = TypeConverter.ChangeType(new[] {testValue}, destinationType, true, false, CultureInfo.InvariantCulture, true);
 
             if (expectFail)
             {
@@ -37,11 +37,13 @@ namespace CommandLine.Tests.Unit.Core
         public void ChangeType_Scalar_LastOneWins()
         {
             var values = new[] { "100", "200", "300", "400", "500" };
-            var result = TypeConverter.ChangeType(values, typeof(int), true, CultureInfo.InvariantCulture, true);
+            var result = TypeConverter.ChangeType(values, typeof(int), true, false, CultureInfo.InvariantCulture, true);
             result.MatchJust(out var matchedValue).Should().BeTrue("should parse successfully");
             Assert.Equal(500, matchedValue);
 
         }
+
+        // TODO: Write test for TypeConverter.ChangeType when isFlag = true
 
         public static IEnumerable<object[]> ChangeType_scalars_source
         {

@@ -15,7 +15,7 @@ namespace CommandLine.Core
             MapValues(
                 IEnumerable<SpecificationProperty> propertyTuples,
                 IEnumerable<KeyValuePair<string, IEnumerable<string>>> options,
-                Func<IEnumerable<string>, Type, bool, Maybe<object>> converter,
+                Func<IEnumerable<string>, Type, bool, bool, Maybe<object>> converter,
                 StringComparer comparer)
         {
             var sequencesAndErrors = propertyTuples
@@ -28,7 +28,7 @@ namespace CommandLine.Core
                         if (matched.IsJust())
                         {
                             var matches = matched.GetValueOrDefault(Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>());
-                            var values = new HashSet<string>();
+                            var values = new List<string>();
                             foreach (var kvp in matches)
                             {
                                 foreach (var value in kvp.Value)
@@ -37,7 +37,9 @@ namespace CommandLine.Core
                                 }
                             }
 
-                            return converter(values, pt.Property.PropertyType, pt.Specification.TargetType != TargetType.Sequence)
+                            bool isFlag = pt.Specification.Tag == SpecificationType.Option && ((OptionSpecification)pt.Specification).FlagCounter;
+
+                            return converter(values, isFlag ? typeof(bool) : pt.Property.PropertyType, pt.Specification.TargetType != TargetType.Sequence, isFlag)
                                 .Select(value => Tuple.Create(pt.WithValue(Maybe.Just(value)), Maybe.Nothing<Error>()))
                                 .GetValueOrDefault(
                                     Tuple.Create<SpecificationProperty, Maybe<Error>>(

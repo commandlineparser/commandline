@@ -20,7 +20,7 @@ namespace CommandLine.Core
             char separator, Maybe<object> defaultValue, string helpText, string metaValue, IEnumerable<string> enumValues,
             Type conversionType, TargetType targetType, string group, bool flagCounter, bool hidden)
             : base(SpecificationType.Option,
-                 required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType, targetType, hidden)
+                 required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType, conversionType == typeof(int) && flagCounter ? TargetType.Switch : targetType, hidden)
         {
             this.shortName = shortName;
             this.longName = longName;
