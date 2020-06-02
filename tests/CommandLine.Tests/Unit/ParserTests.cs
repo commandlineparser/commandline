@@ -95,6 +95,36 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+        [Theory]
+        [InlineData(new string[0], 0, 0)]
+        [InlineData(new[] { "-v" }, 1, 0)]
+        [InlineData(new[] { "-vv" }, 2, 0)]
+        [InlineData(new[] { "-v", "-v" }, 2, 0)]
+        [InlineData(new[] { "-v", "-v", "-v" }, 3, 0)]
+        [InlineData(new[] { "-v", "-vv" }, 3, 0)]
+        [InlineData(new[] { "-vv", "-v" }, 3, 0)]
+        [InlineData(new[] { "-vvv" }, 3, 0)]
+        [InlineData(new[] { "-v", "-s", "-v", "-v" }, 3, 1)]
+        [InlineData(new[] { "-v", "-ss", "-v", "-v" }, 3, 2)]
+        [InlineData(new[] { "-v", "-s", "-sv", "-v" }, 3, 2)]
+        [InlineData(new[] { "-vsvv" }, 3, 1)]
+        [InlineData(new[] { "-vssvv" }, 3, 2)]
+        [InlineData(new[] { "-vsvsv" }, 3, 2)]
+        public void Parse_FlagCounter_options_with_short_name(string[] args, int verboseCount, int silentCount)
+        {
+            // Fixture setup
+            var expectedOptions = new Options_With_FlagCounter_Switches { Verbose = verboseCount, Silent = silentCount };
+            var sut = new Parser(with => with.AllowMultiInstance = true);
+
+            // Exercize system
+            var result = sut.ParseArguments<Options_With_FlagCounter_Switches>(args);
+
+            // Verify outcome
+            // ((NotParsed<Options_With_FlagCounter_Switches>)result).Errors.Should().BeEmpty();
+            ((Parsed<Options_With_FlagCounter_Switches>)result).Value.Should().BeEquivalentTo(expectedOptions);
+            // Teardown
+        }
+
         [Fact]
         public void Parse_repeated_options_with_default_parser()
         {
@@ -130,6 +160,97 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             ((Parsed<Simple_Options_With_Values>)result).Value.Should().BeEquivalentTo(expectedOptions);
             // Teardown
+        }
+
+        [Fact]
+        public void Parse_options_with_double_dash_and_option_sequence()
+        {
+            var expectedOptions = new Options_With_Option_Sequence_And_Value_Sequence
+            {
+                OptionSequence = new[] { "option1", "option2", "option3" },
+                ValueSequence = new[] { "value1", "value2", "value3" }
+            };
+
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result =
+                sut.ParseArguments<Options_With_Option_Sequence_And_Value_Sequence>(
+                    new[] { "--option-seq", "option1", "option2", "option3", "--", "value1", "value2", "value3" });
+
+            // Verify outcome
+            ((Parsed<Options_With_Option_Sequence_And_Value_Sequence>)result).Value.Should().BeEquivalentTo(expectedOptions);
+        }
+
+        [Theory]
+        [InlineData("value1", "value2", "value3")]
+        [InlineData("--", "value1", "value2", "value3")]
+        [InlineData("value1", "--", "value2", "value3")]
+        [InlineData("value1", "value2", "--", "value3")]
+        [InlineData("value1", "value2", "value3", "--")]
+        public void Parse_options_with_double_dash_in_various_positions(params string[] args)
+        {
+            var expectedOptions = new Options_With_Sequence_And_Only_Max_Constraint_For_Value
+            {
+                StringSequence = new[] { "value1", "value2", "value3" }
+            };
+
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result =
+                sut.ParseArguments<Options_With_Sequence_And_Only_Max_Constraint_For_Value>(args);
+
+            // Verify outcome
+            ((Parsed<Options_With_Sequence_And_Only_Max_Constraint_For_Value>)result).Value.Should().BeEquivalentTo(expectedOptions);
+        }
+
+        [Theory]
+        [InlineData("value1", "value2", "value3")]
+        [InlineData("--", "value1", "value2", "value3")]
+        [InlineData("value1", "--", "value2", "value3")]
+        [InlineData("value1", "value2", "--", "value3")]
+        [InlineData("value1", "value2", "value3", "--")]
+        public void Parse_options_with_double_dash_and_all_consuming_sequence_leaves_nothing_for_later_values(params string[] args)
+        {
+            var expectedOptions = new Options_With_Value_Sequence_And_Subsequent_Value
+            {
+                StringSequence = new[] { "value1", "value2", "value3" },
+                NeverReachedValue = null
+            };
+
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result =
+                sut.ParseArguments<Options_With_Value_Sequence_And_Subsequent_Value>(args);
+
+            // Verify outcome
+            ((Parsed<Options_With_Value_Sequence_And_Subsequent_Value>)result).Value.Should().BeEquivalentTo(expectedOptions);
+        }
+
+        [Theory]
+        [InlineData("value1", "value2", "value3")]
+        [InlineData("--", "value1", "value2", "value3")]
+        [InlineData("value1", "--", "value2", "value3")]
+        [InlineData("value1", "value2", "--", "value3")]
+        [InlineData("value1", "value2", "value3", "--")]
+        public void Parse_options_with_double_dash_and_limited_sequence_leaves_something_for_later_values(params string[] args)
+        {
+            var expectedOptions = new Options_With_Value_Sequence_With_Max_And_Subsequent_Value
+            {
+                StringSequence = new[] { "value1", "value2" },
+                NeverReachedValue = "value3"
+            };
+
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result =
+                sut.ParseArguments<Options_With_Value_Sequence_With_Max_And_Subsequent_Value>(args);
+
+            // Verify outcome
+            ((Parsed<Options_With_Value_Sequence_With_Max_And_Subsequent_Value>)result).Value.Should().BeEquivalentTo(expectedOptions);
         }
 
         [Fact]
@@ -692,14 +813,12 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines[0].Should().Be(HeadingInfo.Default.ToString());
             lines[1].Should().Be(CopyrightInfo.Default.ToString());
-            lines[2].Should().BeEquivalentTo("ERROR(S):");
-            lines[3].Should().BeEquivalentTo("Option 'bad-arg' is unknown.");
-            lines[4].Should().BeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
-            lines[5].Should().BeEquivalentTo("filesystem by copying files.");
-            lines[6].Should().BeEquivalentTo("-q, --quiet       Suppress summary message.");
-            lines[7].Should().BeEquivalentTo("--help            Display this help screen.");
-            lines[8].Should().BeEquivalentTo("--version         Display version information.");
-            lines[9].Should().BeEquivalentTo("value pos. 0");
+            lines[2].Should().BeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
+            lines[3].Should().BeEquivalentTo("filesystem by copying files.");
+            lines[4].Should().BeEquivalentTo("-q, --quiet       Suppress summary message.");
+            lines[5].Should().BeEquivalentTo("--help            Display this help screen.");
+            lines[6].Should().BeEquivalentTo("--version         Display version information.");
+            lines[7].Should().BeEquivalentTo("value pos. 0");
 
             // Teardown
         }
@@ -847,40 +966,58 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
-
         [Fact]
-        public void Parse_default_verb_implicit()
+        public void Parse_repeated_options_in_verbs_scenario_with_multi_instance()
         {
-            var parser = Parser.Default;
-            parser.ParseArguments<Default_Verb_One>(new[] { "-t" })
-                .WithNotParsed(errors => throw new InvalidOperationException("Must be parsed."))
-                .WithParsed(args =>
+            using (var sut = new Parser(settings => settings.AllowMultiInstance = true))
+            {
+                var longVal1 = 100;
+                var longVal2 = 200;
+                var longVal3 = 300;
+                var stringVal = "shortSeq1";
+
+                var result = sut.ParseArguments(
+                    new[] { "sequence", "--long-seq", $"{longVal1}", "-s", stringVal, "--long-seq", $"{longVal2};{longVal3}" },
+                    typeof(Add_Verb), typeof(Commit_Verb), typeof(SequenceOptions));
+
+                Assert.IsType<Parsed<object>>(result);
+                Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
+                result.WithParsed<SequenceOptions>(verb =>
                 {
-                    Assert.True(args.TestValueOne);
+                    Assert.Equal(new long[] { longVal1, longVal2, longVal3 }, verb.LongSequence);
+                    Assert.Equal(new[] { stringVal }, verb.StringSequence);
                 });
+            }
         }
 
         [Fact]
-        public void Parse_default_verb_explicit()
+        public void Parse_repeated_options_in_verbs_scenario_without_multi_instance()
         {
-            var parser = Parser.Default;
-            parser.ParseArguments<Default_Verb_One>(new[] { "default1", "-t" })
-                .WithNotParsed(errors => throw new InvalidOperationException("Must be parsed."))
-                .WithParsed(args =>
+            using (var sut = new Parser(settings => settings.AllowMultiInstance = false))
+            {
+                var longVal1 = 100;
+                var longVal2 = 200;
+                var longVal3 = 300;
+                var stringVal = "shortSeq1";
+
+                var result = sut.ParseArguments(
+                    new[] { "sequence", "--long-seq", $"{longVal1}", "-s", stringVal, "--long-seq", $"{longVal2};{longVal3}" },
+                    typeof(Add_Verb), typeof(Commit_Verb), typeof(SequenceOptions));
+
+                Assert.IsType<NotParsed<object>>(result);
+                result.WithNotParsed(errors => Assert.All(errors, e =>
                 {
-                    Assert.True(args.TestValueOne);
-                });
+                    if (e is RepeatedOptionError)
+                    {
+                        // expected
+                    }
+                    else
+                    {
+                        throw new Exception($"{nameof(RepeatedOptionError)} expected");
+                    }
+                }));
+            }
         }
-
-        [Fact]
-        public void Parse_multiple_default_verbs()
-        {
-            var parser = Parser.Default;
-            parser.ParseArguments<Default_Verb_One, Default_Verb_Two>(new string[] { })
-                .WithNotParsed(errors => Assert.IsType<MultipleDefaultVerbsError>(errors.First()))
-                .WithParsed(args => throw new InvalidOperationException("Should not be parsed."));
-        }
-
         [Fact]
         public void Parse_default_verb_with_empty_name()
         {

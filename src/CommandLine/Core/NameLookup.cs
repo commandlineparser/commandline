@@ -10,7 +10,7 @@ namespace CommandLine.Core
     enum NameLookupResult
     {
         NoOptionFound,
-        BooleanOptionFound,
+        FlagOptionFound,
         OtherOptionFound
     }
 
@@ -20,8 +20,8 @@ namespace CommandLine.Core
         {
             var option = specifications.FirstOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer));
             if (option == null) return NameLookupResult.NoOptionFound;
-            return option.ConversionType == typeof(bool)
-                ? NameLookupResult.BooleanOptionFound
+            return option.ConversionType == typeof(bool) || option.FlagCounter
+                ? NameLookupResult.FlagOptionFound
                 : NameLookupResult.OtherOptionFound;
         }
 

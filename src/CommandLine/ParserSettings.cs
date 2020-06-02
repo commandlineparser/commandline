@@ -21,10 +21,13 @@ namespace CommandLine
         private TextWriter helpWriter;
         private bool ignoreUnknownArguments;
         private bool autoHelp;
+        private bool autoHelpShortName;
         private bool autoVersion;
+        private bool autoVersionShortName;
         private CultureInfo parsingCulture;
         private bool enableDashDash;
         private int maximumDisplayWidth;
+        private bool allowMultiInstance;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
@@ -34,7 +37,9 @@ namespace CommandLine
             caseSensitive = true;
             caseInsensitiveEnumValues = false;
             autoHelp = true;
+            autoHelpShortName = false;
             autoVersion = true;
+            autoVersionShortName = false;
             parsingCulture = CultureInfo.InvariantCulture;
             maximumDisplayWidth = GetWindowWidth();
         }
@@ -147,12 +152,30 @@ namespace CommandLine
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'help' should have the shortname '-h'.
+        /// </summary>
+        public bool AutoHelpShortName
+        {
+            get { return autoHelpShortName; }
+            set { PopsicleSetter.Set(Consumed, ref autoHelpShortName, value); }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether implicit option or verb 'version' should be supported.
         /// </summary>
         public bool AutoVersion
         {
             get { return autoVersion; }
             set { PopsicleSetter.Set(Consumed, ref autoVersion, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether implicit option or verb 'help' should have the shortname '-h'.
+        /// </summary>
+        public bool AutoVersionShortName
+        {
+            get { return autoVersionShortName; }
+            set { PopsicleSetter.Set(Consumed, ref autoVersionShortName, value); }
         }
 
         /// <summary>
@@ -172,6 +195,15 @@ namespace CommandLine
         {
             get { return maximumDisplayWidth; }
             set { maximumDisplayWidth = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether options are allowed to be specified multiple times.
+        /// </summary>
+        public bool AllowMultiInstance
+        {
+            get => allowMultiInstance;
+            set => PopsicleSetter.Set(Consumed, ref allowMultiInstance, value);
         }
 
         internal StringComparer NameComparer

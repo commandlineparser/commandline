@@ -16,44 +16,70 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             Func<string, NameLookupResult> nameLookup)
         {
-            return Tokenizer.Tokenize(arguments, nameLookup, tokens => tokens);
+            return Tokenizer.Tokenize(arguments, nameLookup, ignoreUnknownArguments:false, allowDashDash:true);
         }
 
         public static Result<IEnumerable<Token>, Error> Tokenize(
             IEnumerable<string> arguments,
             Func<string, NameLookupResult> nameLookup,
-            Func<IEnumerable<Token>, IEnumerable<Token>> normalize)
+            bool ignoreUnknownArguments,
+            bool allowDashDash)
         {
             var errors = new List<Error>();
-            Action<Error> onError = errors.Add;
+            Action<string> onBadFormatToken = arg => errors.Add(new BadFormatTokenError(arg));
+            Action<string> unknownOptionError = name => errors.Add(new UnknownOptionError(name));
+            Action<string> doNothing = name => {};
+            Action<string> onUnknownOption = ignoreUnknownArguments ? doNothing : unknownOptionError;
 
-            var tokens = (from arg in arguments
-                          from token in !arg.StartsWith("-", StringComparison.Ordinal)
-                               ? new[] { Token.Value(arg) }
-                               : arg.StartsWith("--", StringComparison.Ordinal)
-                                     ? TokenizeLongName(arg, onError)
-                                     : TokenizeShortName(arg, nameLookup)
-                          select token)
-                            .Memoize();
+            int consumeNext = 0;
+            Action<int> onConsumeNext = (n => consumeNext = consumeNext + n);
 
-            var normalized = normalize(tokens).Memoize();
+            bool isForced = false;
 
-            var unkTokens = (from t in normalized where t.IsName() && nameLookup(t.Text) == NameLookupResult.NoOptionFound select t).Memoize();
+            var tokens = new List<Token>();
 
-            return Result.Succeed(normalized.Where(x => !unkTokens.Contains(x)), errors.Concat(from t in unkTokens select new UnknownOptionError(t.Text)));
-        }
-
-        public static Result<IEnumerable<Token>, Error> PreprocessDashDash(
-            IEnumerable<string> arguments,
-            Func<IEnumerable<string>, Result<IEnumerable<Token>, Error>> tokenizer)
-        {
-            if (arguments.Any(arg => arg.EqualsOrdinal("--")))
+            var enumerator = arguments.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                var tokenizerResult = tokenizer(arguments.TakeWhile(arg => !arg.EqualsOrdinal("--")));
-                var values = arguments.SkipWhile(arg => !arg.EqualsOrdinal("--")).Skip(1).Select(Token.Value);
-                return tokenizerResult.Map(tokens => tokens.Concat(values));
+                switch (enumerator.Current) {
+                    case null:
+                        break;
+
+                    case string arg when consumeNext > 0:
+                        tokens.Add(new Value(arg, isForced));
+                        consumeNext = consumeNext - 1;
+                        break;
+
+                    case "--" when allowDashDash:
+                        consumeNext = System.Int32.MaxValue;
+                        isForced = true;
+                        break;
+
+                    case "--":
+                        tokens.Add(new Value("--", isForced));
+                        break;
+
+                    case "-":
+                        // A single hyphen is always a value (it usually means "read from stdin" or "write to stdout")
+                        tokens.Add(new Value("-", isForced));
+                        break;
+
+                    case string arg when arg.StartsWith("--"):
+                        tokens.AddRange(TokenizeLongName(arg, nameLookup, onBadFormatToken, onUnknownOption, onConsumeNext));
+                        break;
+
+                    case string arg when arg.StartsWith("-"):
+                        tokens.AddRange(TokenizeShortName(arg, nameLookup, onUnknownOption, onConsumeNext));
+                        break;
+
+                    case string arg:
+                        // If we get this far, it's a plain value
+                        tokens.Add(new Value(arg, isForced));
+                        break;
+                }
             }
-            return tokenizer(arguments);
+
+            return Result.Succeed<IEnumerable<Token>, Error>(tokens.AsEnumerable(), errors.AsEnumerable());
         }
 
         public static Result<IEnumerable<Token>, Error> ExplodeOptionList(
@@ -77,33 +103,6 @@ namespace CommandLine.Core
             return Result.Succeed(flattened, tokenizerResult.SuccessMessages());
         }
 
-        public static IEnumerable<Token> Normalize(
-            IEnumerable<Token> tokens, Func<string, bool> nameLookup)
-        {
-            var indexes =
-                from i in
-                    tokens.Select(
-                        (t, i) =>
-                        {
-                            var prev = tokens.ElementAtOrDefault(i - 1).ToMaybe();
-                            return t.IsValue() && ((Value)t).ExplicitlyAssigned
-                                   && prev.MapValueOrDefault(p => p.IsName() && !nameLookup(p.Text), false)
-                                ? Maybe.Just(i)
-                                : Maybe.Nothing<int>();
-                        }).Where(i => i.IsJust())
-                select i.FromJustOrFail();
-
-            var toExclude =
-                from t in
-                    tokens.Select((t, i) => indexes.Contains(i) ? Maybe.Just(t) : Maybe.Nothing<Token>())
-                        .Where(t => t.IsJust())
-                select t.FromJustOrFail();
-
-            var normalized = tokens.Where(t => toExclude.Contains(t) == false);
-
-            return normalized;
-        }
-
         public static Func<
                     IEnumerable<string>,
                     IEnumerable<OptionSpecification>,
@@ -115,93 +114,98 @@ namespace CommandLine.Core
         {
             return (arguments, optionSpecs) =>
                 {
-                    var normalize = ignoreUnknownArguments
-                        ? toks => Tokenizer.Normalize(toks,
-                            name => NameLookup.Contains(name, optionSpecs, nameComparer) != NameLookupResult.NoOptionFound)
-                        : new Func<IEnumerable<Token>, IEnumerable<Token>>(toks => toks);
-
-                    var tokens = enableDashDash
-                        ? Tokenizer.PreprocessDashDash(
-                                arguments,
-                                args =>
-                                    Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer), normalize))
-                        : Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, nameComparer), normalize);
+                    var tokens = Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, nameComparer), ignoreUnknownArguments, enableDashDash);
                     var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
                     return explodedTokens;
                 };
         }
 
         private static IEnumerable<Token> TokenizeShortName(
-            string value,
-            Func<string, NameLookupResult> nameLookup)
+            string arg,
+            Func<string, NameLookupResult> nameLookup,
+            Action<string> onUnknownOption,
+            Action<int> onConsumeNext)
         {
-            if (value.Length > 1 && value[0] == '-' && value[1] != '-')
+
+            // First option char that requires a value means we swallow the rest of the string as the value
+            // But if there is no rest of the string, then instead we swallow the next argument
+            string chars = arg.Substring(1);
+            int len = chars.Length;
+            if (len > 0 && Char.IsDigit(chars[0]))
             {
-                var text = value.Substring(1);
-
-                if (char.IsDigit(text[0]))
+                // Assume it's a negative number
+                yield return Token.Value(arg);
+                yield break;
+            }
+            for (int i = 0; i < len; i++)
+            {
+                var s = new String(chars[i], 1);
+                switch(nameLookup(s))
                 {
-                    yield return Token.Value(value);
-                    yield break;
-                }
+                    case NameLookupResult.OtherOptionFound:
+                        yield return Token.Name(s);
 
-                if (value.Length == 2)
-                {
-                    yield return Token.Name(text);
-                    yield break;
-                }
+                        if (i+1 < len)
+                        {
+                            // Rest of this is the value (e.g. "-sfoo" where "-s" is a string-consuming arg)
+                            yield return Token.Value(chars.Substring(i+1));
+                            yield break;
+                        }
+                        else
+                        {
+                            // Value is in next param (e.g., "-s foo")
+                            onConsumeNext(1);
+                        }
+                        break;
 
-                var i = 0;
-                foreach (var c in text)
-                {
-                    var n = new string(c, 1);
-                    var r = nameLookup(n);
-                    // Assume first char is an option
-                    if (i > 0 && r == NameLookupResult.NoOptionFound) break;
-                    i++;
-                    yield return Token.Name(n);
-                    // If option expects a value (other than a boolean), assume following chars are that value
-                    if (r == NameLookupResult.OtherOptionFound) break;
-                }
+                    case NameLookupResult.NoOptionFound:
+                        onUnknownOption(s);
+                        break;
 
-                if (i < text.Length)
-                {
-                    yield return Token.Value(text.Substring(i));
+                    default:
+                        yield return Token.Name(s);
+                        break;
                 }
             }
         }
 
         private static IEnumerable<Token> TokenizeLongName(
-            string value,
-            Action<Error> onError)
+            string arg,
+            Func<string, NameLookupResult> nameLookup,
+            Action<string> onBadFormatToken,
+            Action<string> onUnknownOption,
+            Action<int> onConsumeNext)
         {
-            if (value.Length > 2 && value.StartsWith("--", StringComparison.Ordinal))
+            string[] parts = arg.Substring(2).Split(new char[] { '=' }, 2);
+            string name = parts[0];
+            string value = (parts.Length > 1) ? parts[1] : null;
+            // A parameter like "--stringvalue=" is acceptable, and makes stringvalue be the empty string
+            if (String.IsNullOrWhiteSpace(name) || name.Contains(" "))
             {
-                var text = value.Substring(2);
-                var equalIndex = text.IndexOf('=');
-                if (equalIndex <= 0)
-                {
-                    yield return Token.Name(text);
+                onBadFormatToken(arg);
+                yield break;
+            }
+            switch(nameLookup(name))
+            {
+                case NameLookupResult.NoOptionFound:
+                    onUnknownOption(name);
                     yield break;
-                }
-                if (equalIndex == 1) // "--="
-                {
-                    onError(new BadFormatTokenError(value));
-                    yield break;
-                }
 
-                var tokenMatch = Regex.Match(text, "^([^=]+)=([^ ].*)$");
+                case NameLookupResult.OtherOptionFound:
+                    yield return Token.Name(name);
+                    if (value == null) // NOT String.IsNullOrEmpty
+                    {
+                        onConsumeNext(1);
+                    }
+                    else
+                    {
+                        yield return Token.Value(value);
+                    }
+                    break;
 
-                if (tokenMatch.Success)
-                {
-                    yield return Token.Name(tokenMatch.Groups[1].Value);
-                    yield return Token.Value(tokenMatch.Groups[2].Value, true);
-                }
-                else
-                {
-                    onError(new BadFormatTokenError(value));
-                    yield break;
-                }
+                default:
+                    yield return Token.Name(name);
+                    break;
             }
         }
     }

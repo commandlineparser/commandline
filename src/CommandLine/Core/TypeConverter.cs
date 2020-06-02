@@ -13,11 +13,13 @@ namespace CommandLine.Core
 {
     static class TypeConverter
     {
-        public static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, bool scalar, CultureInfo conversionCulture, bool ignoreValueCase)
+        public static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, bool scalar, bool isFlag, CultureInfo conversionCulture, bool ignoreValueCase)
         {
-            return scalar
-                ? ChangeTypeScalar(values.Single(), conversionType, conversionCulture, ignoreValueCase)
-                : ChangeTypeSequence(values, conversionType, conversionCulture, ignoreValueCase);
+            return isFlag
+                ? ChangeTypeFlagCounter(values, conversionType, conversionCulture, ignoreValueCase)
+                : scalar
+                    ? ChangeTypeScalar(values.Last(), conversionType, conversionCulture, ignoreValueCase)
+                    : ChangeTypeSequence(values, conversionType, conversionCulture, ignoreValueCase);
         }
 
         private static Maybe<object> ChangeTypeSequence(IEnumerable<string> values, Type conversionType, CultureInfo conversionCulture, bool ignoreValueCase)
@@ -44,6 +46,14 @@ namespace CommandLine.Core
             result.Match((_,__) => { }, e => e.First().RethrowWhenAbsentIn(
                 new[] { typeof(InvalidCastException), typeof(FormatException), typeof(OverflowException) }));
             return result.ToMaybe();
+        }
+
+        private static Maybe<object> ChangeTypeFlagCounter(IEnumerable<string> values, Type conversionType, CultureInfo conversionCulture, bool ignoreValueCase)
+        {
+            var converted = values.Select(value => ChangeTypeScalar(value, typeof(bool), conversionCulture, ignoreValueCase));
+            return converted.Any(maybe => maybe.MatchNothing())
+                ? Maybe.Nothing<object>()
+                : Maybe.Just((object)converted.Count(value => value.IsJust()));
         }
 
         private static object ConvertString(string value, Type type, CultureInfo conversionCulture)

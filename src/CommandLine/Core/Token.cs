@@ -27,9 +27,14 @@ namespace CommandLine.Core
             return new Value(text);
         }
 
-        public static Token Value(string text, bool explicitlyAssigned)
+        public static Token Value(string text, bool forced)
         {
-            return new Value(text, explicitlyAssigned);
+            return new Value(text, forced);
+        }
+
+        public static Token ValueForced(string text)
+        {
+            return new Value(text, true);
         }
 
         public TokenType Tag
@@ -79,22 +84,22 @@ namespace CommandLine.Core
 
     class Value : Token, IEquatable<Value>
     {
-        private readonly bool explicitlyAssigned;
+        private readonly bool forced;
 
         public Value(string text)
             : this(text, false)
         {
         }
 
-        public Value(string text, bool explicitlyAssigned)
+        public Value(string text, bool forced)
             : base(TokenType.Value, text)
         {
-            this.explicitlyAssigned = explicitlyAssigned;
+            this.forced = forced;
         }
 
-        public bool ExplicitlyAssigned
+        public bool Forced
         {
-            get { return explicitlyAssigned; }
+            get { return forced; }
         }
 
         public override bool Equals(object obj)
@@ -110,7 +115,7 @@ namespace CommandLine.Core
 
         public override int GetHashCode()
         {
-            return new { Tag, Text }.GetHashCode();
+            return new { Tag, Text, Forced }.GetHashCode();
         }
 
         public bool Equals(Value other)
@@ -120,7 +125,7 @@ namespace CommandLine.Core
                 return false;
             }
 
-            return Tag.Equals(other.Tag) && Text.Equals(other.Text);
+            return Tag.Equals(other.Tag) && Text.Equals(other.Text) && this.Forced == other.Forced;
         }
     }
 
@@ -134,6 +139,16 @@ namespace CommandLine.Core
         public static bool IsValue(this Token token)
         {
             return token.Tag == TokenType.Value;
+        }
+
+        public static bool IsValueForced(this Token token)
+        {
+            return token.IsValue() && ((Value)token).Forced;
+        }
+
+        public static bool IsValueUnforced(this Token token)
+        {
+            return token.IsValue() && ! ((Value)token).Forced;
         }
     }
 }

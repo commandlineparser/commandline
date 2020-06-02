@@ -10,9 +10,9 @@ namespace CommandLine.Core
     static class ArgumentsExtensions
     {
         public static IEnumerable<Error> Preprocess(
-            this IEnumerable<string> arguments,
+            this IEnumerable<Token> arguments,
             IEnumerable<
-                    Func<IEnumerable<string>, IEnumerable<Error>>
+                    Func<IEnumerable<Token>, IEnumerable<Error>>
                 > preprocessorLookup)
         {
             return preprocessorLookup.TryHead().MapValueOrDefault(

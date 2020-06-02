@@ -19,7 +19,10 @@ namespace CommandLine.Tests.Unit.Core
 {
     public class InstanceBuilderTests
     {
-        private static ParserResult<T> InvokeBuild<T>(string[] arguments, bool autoHelp = true, bool autoVersion = true)
+        private static ParserResult<T> InvokeBuild<T>(string[] arguments,
+                                                      bool autoHelp = true, bool autoHelpShortName = false,
+                                                      bool autoVersion = true, bool autoVersionShortName = false,
+                                                      bool multiInstance = false)
             where T : new()
         {
             return InstanceBuilder.Build(
@@ -30,7 +33,10 @@ namespace CommandLine.Tests.Unit.Core
                 false,
                 CultureInfo.InvariantCulture,
                 autoHelp,
+                autoHelpShortName,
                 autoVersion,
+                autoVersionShortName,
+                multiInstance,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -407,12 +413,10 @@ namespace CommandLine.Tests.Unit.Core
             };
             var arguments = new[] { "--stringvalue", "str1", "--", "10", "-a", "--bee", "-c", "20" };
 
-            // Exercize system 
+            // Exercize system
             var result = InstanceBuilder.Build(
                 Maybe.Just<Func<Simple_Options_With_Values>>(() => new Simple_Options_With_Values()),
-                (a, optionSpecs) =>
-                    Tokenizer.PreprocessDashDash(a,
-                        args => Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, StringComparer.Ordinal))),
+                (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, true)(args, optionSpecs),
                 arguments,
                 StringComparer.Ordinal,
                 false,
@@ -1233,6 +1237,17 @@ namespace CommandLine.Tests.Unit.Core
             var errors = ((NotParsed<Simple_Options_With_OptionGroup_MutuallyExclusiveSet>)result).Errors;
 
             errors.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public void Parse_int_sequence_with_multi_instance()
+        {
+            var expected = new[] { 1, 2, 3 };
+            var result = InvokeBuild<Options_With_Sequence>(
+                new[] { "--int-seq", "1", "2", "--int-seq", "3" },
+                multiInstance: true);
+
+            ((Parsed<Options_With_Sequence>)result).Value.IntSequence.Should().BeEquivalentTo(expected);
         }
 
         #region custom types 
