@@ -46,7 +46,7 @@ namespace CommandLine.Infrastructure
                 // Static class IsAbstract 
                 if (!_type.IsVisible)
                     throw new ArgumentException($"Invalid resource type '{_type.FullName}'! {_type.Name} is not visible for the parser! Change resources 'Access Modifier' to 'Public'", _propertyName);
-                PropertyInfo propertyInfo = _type.GetProperty(_value, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
+                PropertyInfo propertyInfo = _type.GetProperty(_value, BindingFlags.Static | BindingFlags.Public);
                 if (propertyInfo == null || !propertyInfo.CanRead || propertyInfo.PropertyType != typeof(string))
                     throw new ArgumentException($"Invalid resource property name! Localized value: {_value}", _propertyName);
                 _localizationPropertyInfo = propertyInfo;
