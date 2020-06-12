@@ -269,7 +269,7 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
-        public static void Turn_sucessful_parsing_into_exit_code_for_multiple_base_verbs_using_generalized_map_result()
+        public static void Turn_successful_parsing_into_exit_code_for_multiple_base_verbs_using_generalized_map_result()
         {
             var expected = Parser.Default.ParseArguments<Add_Verb, Commit_Verb, Clone_Verb, Derived_Verb>(
                     new[] {"derivedadd", "dummy.bin"})
@@ -280,6 +280,34 @@ namespace CommandLine.Tests.Unit
                     (Func<Derived_Verb, int>) (opts => 3));
 
             3.Should().Be(expected);
+        }
+
+        [Fact]
+        public static void Invoke_generalized_map_result_with_more_than_16_verbs()
+        {
+            var expected = Parser.Default.ParseArguments(new[] {"Verb17", "test.bin"},
+                typeof(Option1), typeof(Option2), typeof(Option3), typeof(Option4), typeof(Option5), typeof(Option6),
+                typeof(Option7), typeof(Option8), typeof(Option9), typeof(Option10), typeof(Option11), typeof(Option12),
+                typeof(Option13), typeof(Option14), typeof(Option15), typeof(Option16), typeof(Option17)).MapResult(
+                errs => 100,
+                (Func<Option1, int>) (opts => 1),
+                (Func<Option2, int>) (opts => 2),
+                (Func<Option3, int>) (opts => 3),
+                (Func<Option4, int>) (opts => 4),
+                (Func<Option5, int>) (opts => 5),
+                (Func<Option6, int>) (opts => 6),
+                (Func<Option7, int>) (opts => 7),
+                (Func<Option8, int>) (opts => 8),
+                (Func<Option9, int>) (opts => 9),
+                (Func<Option10, int>) (opts => 10),
+                (Func<Option11, int>) (opts => 11),
+                (Func<Option12, int>) (opts => 12),
+                (Func<Option13, int>) (opts => 13),
+                (Func<Option14, int>) (opts => 14),
+                (Func<Option15, int>) (opts => 15),
+                (Func<Option16, int>) (opts => 16),
+                (Func<Option17, int>) (opts => 17));
+            17.Should().Be(expected);
         }
     }
 }
