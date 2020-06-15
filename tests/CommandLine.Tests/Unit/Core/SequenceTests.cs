@@ -49,7 +49,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Partition_sequence_values_from_two_sequneces()
+        public void Partition_sequence_values_from_two_sequences()
         {
             var expected = new[]
                 {
@@ -92,6 +92,68 @@ namespace CommandLine.Tests.Unit.Core
                         : Maybe.Nothing<TypeDescriptor>());
 
             expected.Should().BeEquivalentTo(result);
+        }
+
+        [Fact]
+        public void Partition_sequence_multi_instance()
+        {
+            var expected = new[]
+            {
+                Token.Name("seq"),
+                Token.Value("seqval0"),
+                Token.Value("seqval1"),
+                Token.Value("seqval2"),
+                Token.Value("seqval3"),
+                Token.Value("seqval4"),
+            };
+
+            var result = Sequence.Partition(
+                new[]
+                {
+                    Token.Name("str"), Token.Value("strvalue"), Token.Value("freevalue"),
+                    Token.Name("seq"), Token.Value("seqval0"), Token.Value("seqval1"),
+                    Token.Name("x"), Token.Value("freevalue2"),
+                    Token.Name("seq"), Token.Value("seqval2"), Token.Value("seqval3"),
+                    Token.Name("seq"), Token.Value("seqval4")
+                },
+                name =>
+                    new[] { "seq" }.Contains(name)
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Sequence, Maybe.Nothing<int>()))
+                        : Maybe.Nothing<TypeDescriptor>());
+
+            var actual = result.ToArray();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void Partition_sequence_multi_instance_with_max()
+        {
+            var expected = new[]
+            {
+                Token.Name("seq"),
+                Token.Value("seqval0"),
+                Token.Value("seqval1"),
+                Token.Value("seqval2"),
+                Token.Value("seqval3"),
+                Token.Value("seqval4"),
+                Token.Value("seqval5"),
+            };
+
+            var result = Sequence.Partition(
+                new[]
+                {
+                    Token.Name("str"), Token.Value("strvalue"), Token.Value("freevalue"),
+                    Token.Name("seq"), Token.Value("seqval0"), Token.Value("seqval1"),
+                    Token.Name("x"), Token.Value("freevalue2"),
+                    Token.Name("seq"), Token.Value("seqval2"), Token.Value("seqval3"),
+                    Token.Name("seq"), Token.Value("seqval4"), Token.Value("seqval5"),
+                },
+                name =>
+                    new[] { "seq" }.Contains(name)
+                        ? Maybe.Just(TypeDescriptor.Create(TargetType.Sequence, Maybe.Just<int>(3)))
+                        : Maybe.Nothing<TypeDescriptor>());
+
+            Assert.Equal(expected, result);
         }
     }
 }

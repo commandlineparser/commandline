@@ -33,6 +33,16 @@ namespace CommandLine.Tests.Unit.Core
             }
         }
 
+        [Fact]
+        public void ChangeType_Scalar_LastOneWins()
+        {
+            var values = new[] { "100", "200", "300", "400", "500" };
+            var result = TypeConverter.ChangeType(values, typeof(int), true, CultureInfo.InvariantCulture, true);
+            result.MatchJust(out var matchedValue).Should().BeTrue("should parse successfully");
+            Assert.Equal(500, matchedValue);
+
+        }
+
         public static IEnumerable<object[]> ChangeType_scalars_source
         {
             get
