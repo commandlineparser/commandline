@@ -16,6 +16,13 @@ namespace CommandLine.Tests.Unit.Core
             ValueB = 2
         }
 
+        [Flags]
+        enum TestFlagEnum
+        {
+            ValueA = 0x1,
+            ValueB = 0x2
+        }
+
         [Theory]
         [MemberData(nameof(ChangeType_scalars_source))]
         public void ChangeType_scalars(string testValue, Type destinationType, bool expectFail, object expectedResult)
@@ -103,6 +110,19 @@ namespace CommandLine.Tests.Unit.Core
                     new object[] {((int) TestEnum.ValueB).ToString(), typeof (TestEnum), false, TestEnum.ValueB},
                     new object[] {((int) TestEnum.ValueB + 1).ToString(), typeof (TestEnum), true, null},
                     new object[] {((int) TestEnum.ValueA - 1).ToString(), typeof (TestEnum), true, null},
+
+                    new object[] {"ValueA", typeof (TestFlagEnum), false, TestFlagEnum.ValueA},
+                    new object[] {"VALUEA", typeof (TestFlagEnum), false, TestFlagEnum.ValueA},
+                    new object[] {"ValueB", typeof(TestFlagEnum), false, TestFlagEnum.ValueB},
+                    new object[] {"ValueA,ValueB", typeof (TestFlagEnum), false, TestFlagEnum.ValueA | TestFlagEnum.ValueB},
+                    new object[] {"ValueA, ValueB", typeof (TestFlagEnum), false, TestFlagEnum.ValueA | TestFlagEnum.ValueB},
+                    new object[] {"VALUEA,ValueB", typeof (TestFlagEnum), false, TestFlagEnum.ValueA | TestFlagEnum.ValueB},
+                    new object[] {((int) TestFlagEnum.ValueA).ToString(), typeof (TestFlagEnum), false, TestFlagEnum.ValueA},
+                    new object[] {((int) TestFlagEnum.ValueB).ToString(), typeof (TestFlagEnum), false, TestFlagEnum.ValueB},
+                    new object[] {((int) (TestFlagEnum.ValueA | TestFlagEnum.ValueB)).ToString(), typeof (TestFlagEnum), false, TestFlagEnum.ValueA | TestFlagEnum.ValueB},
+                    new object[] {((int) TestFlagEnum.ValueB + 2).ToString(), typeof (TestFlagEnum), true, null},
+                    new object[] {((int) TestFlagEnum.ValueA - 1).ToString(), typeof (TestFlagEnum), true, null},
+
 
                     // Failed before #339
                     new object[] {"false", typeof (int), true, 0},
