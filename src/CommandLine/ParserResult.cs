@@ -9,7 +9,7 @@ namespace CommandLine
     public sealed class TypeInfo
     {
         private readonly Type current;
-        private readonly IEnumerable<Type> choices; 
+        private readonly IEnumerable<Type> choices;
 
         private TypeInfo(Type current, IEnumerable<Type> choices)
         {
@@ -64,10 +64,20 @@ namespace CommandLine
         private readonly ParserResultType tag;
         private readonly TypeInfo typeInfo;
 
-        internal ParserResult(ParserResultType tag, TypeInfo typeInfo)
+        internal ParserResult(IEnumerable<Error> errors, TypeInfo typeInfo)
         {
-            this.tag = tag;
-            this.typeInfo = typeInfo;
+            this.tag = ParserResultType.NotParsed;
+            this.typeInfo = typeInfo ?? TypeInfo.Create(typeof(T));
+            Errors = errors ?? new Error[0];
+            Value = default;
+        }
+
+        internal ParserResult(T value, TypeInfo typeInfo)
+        {
+            Value = value ?? throw new ArgumentNullException(nameof(value));
+            this.tag = ParserResultType.Parsed;
+            this.typeInfo = typeInfo ?? TypeInfo.Create(value.GetType());
+            Errors = new Error[0];
         }
 
         /// <summary>
@@ -82,6 +92,16 @@ namespace CommandLine
         {
             get { return typeInfo; }
         }
+
+        /// <summary>
+        /// Gets the instance with parsed values. If one or more errors occures, <see langword="default"/> is returned.
+        /// </summary>
+        public T Value { get; }
+
+        /// <summary>
+        /// Gets the sequence of parsing errors. If there are no errors, then an empty IEnumerable is returned.
+        /// </summary>
+        public IEnumerable<Error> Errors { get; }
     }
 
     /// <summary>
@@ -90,12 +110,9 @@ namespace CommandLine
     /// <typeparam name="T">The type with attributes that define the syntax of parsing rules.</typeparam>
     public sealed class Parsed<T> : ParserResult<T>, IEquatable<Parsed<T>>
     {
-        private readonly T value;
-
         internal Parsed(T value, TypeInfo typeInfo)
-            : base(ParserResultType.Parsed, typeInfo)
+            : base(value, typeInfo)
         {
-            this.value = value;
         }
 
         internal Parsed(T value)
@@ -103,13 +120,6 @@ namespace CommandLine
         {
         }
 
-        /// <summary>
-        /// Gets the instance with parsed values.
-        /// </summary>
-        public T Value
-        {
-            get { return value; }
-        }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>.
@@ -118,8 +128,7 @@ namespace CommandLine
         /// <returns><value>true</value> if the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>; otherwise, <value>false</value>.</returns>
         public override bool Equals(object obj)
         {
-            var other = obj as Parsed<T>;
-            if (other != null)
+            if (obj is Parsed<T> other)
             {
                 return Equals(other);
             }
@@ -159,21 +168,12 @@ namespace CommandLine
     /// <typeparam name="T">The type with attributes that define the syntax of parsing rules.</typeparam>
     public sealed class NotParsed<T> : ParserResult<T>, IEquatable<NotParsed<T>>
     {
-        private readonly IEnumerable<Error> errors;
 
         internal NotParsed(TypeInfo typeInfo, IEnumerable<Error> errors)
-            : base(ParserResultType.NotParsed, typeInfo)
+            : base(errors, typeInfo)
         {
-            this.errors = errors;
         }
 
-        /// <summary>
-        /// Gets the sequence of parsing errors.
-        /// </summary>
-        public IEnumerable<Error> Errors
-        {
-            get { return errors; }
-        }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>.
@@ -182,8 +182,7 @@ namespace CommandLine
         /// <returns><value>true</value> if the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>; otherwise, <value>false</value>.</returns>
         public override bool Equals(object obj)
         {
-            var other = obj as NotParsed<T>;
-            if (other != null)
+            if (obj is NotParsed<T> other)
             {
                 return Equals(other);
             }
