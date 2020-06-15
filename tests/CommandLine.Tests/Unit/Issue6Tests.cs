@@ -21,6 +21,7 @@ namespace CommandLine.Tests.Unit
         [InlineData("mv -a bob", typeof(AliasedVerbOption1))]
         [InlineData("copy -a bob", typeof(AliasedVerbOption2))]
         [InlineData("cp -a bob", typeof(AliasedVerbOption2))]
+        [InlineData("-a bob", typeof(AliasedVerbOption2))]
         public void Parse_option_with_aliased_verbs(string args, Type expectedArgType)
         {
             var arguments = args.Split(' ');
