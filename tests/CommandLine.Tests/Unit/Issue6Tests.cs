@@ -16,6 +16,11 @@ namespace CommandLine.Tests.Unit
 {
     public class Issue6Tests
     {
+        /// <summary>
+        /// Test Verb aliases when one verb is set as a default
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="expectedArgType"></param>
         [Theory]
         [InlineData("move -a bob", typeof(AliasedVerbOption1))]
         [InlineData("mv -a bob", typeof(AliasedVerbOption1))]
@@ -43,6 +48,42 @@ namespace CommandLine.Tests.Unit
             Assert.Equal(expectedArgType, options.GetType());
         }
 
+        /// <summary>
+        /// Test verb aliases with no default verb and 1 verb with no aliases
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="expectedArgType"></param>
+        [Theory]
+        [InlineData("move -a bob", typeof(AliasedVerbOption1))]
+        [InlineData("mv -a bob", typeof(AliasedVerbOption1))]
+        [InlineData("delete -b fred", typeof(VerbNoAlias))]
+        public void Parse_option_with_aliased_verb(string args, Type expectedArgType)
+        {
+            var arguments = args.Split(' ');
+            object options = null;
+            IEnumerable<Error> errors = null;
+            var result = Parser.Default.ParseArguments<AliasedVerbOption1, VerbNoAlias>(arguments)
+                .WithParsed(o => options = o)
+                .WithNotParsed(o => errors = o)
+               ;
+            if (errors != null && errors.Any())
+            {
+                foreach (Error e in errors)
+                {
+                    System.Console.WriteLine(e.ToString());
+                }
+            }
+
+            Assert.NotNull(options);
+            Assert.Equal(expectedArgType, options.GetType());
+        }
+
+        /// <summary>
+        /// Verify auto-help generation.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="verbsIndex"></param>
+        /// <param name="expected"></param>
         [Theory]
         [InlineData("--help", true, new string[]
             {
@@ -112,7 +153,81 @@ namespace CommandLine.Tests.Unit
             }
         }
 
-        [Verb("move", aliases: new string[] { "mv" })]
+        /// <summary>
+        /// Verify auto-help generation with no default verb.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="verbsIndex"></param>
+        /// <param name="expected"></param>
+        [Theory]
+        [InlineData("--help", true, new string[]
+            {
+                "move, mv",
+                "delete     Delete stuff",
+                "help       Display more information on a specific command.",
+                "version    Display version information.",
+            })]
+        [InlineData("help", true, new string[]
+            {
+                "move, mv",
+                "delete     Delete stuff",
+                "help       Display more information on a specific command.",
+                "version    Display version information.",
+            })]
+        [InlineData("move --help", false, new string[]
+            {
+                "-a, --alpha    Required.",
+                "--help         Display this help screen.",
+                "--version      Display version information.",
+            })]
+        [InlineData("mv --help", false, new string[]
+            {
+                "-a, --alpha    Required.",
+                "--help         Display this help screen.",
+                "--version      Display version information.",
+            })]
+        [InlineData("delete --help", false, new string[]
+            {
+                "-b, --beta    Required.",
+                "--help        Display this help screen.",
+                "--version     Display version information.",
+            })]
+        public void Parse_help_option_for_aliased_verbs_no_default(string args, bool verbsIndex, string[] expected)
+        {
+            var arguments = args.Split(' ');
+            object options = null;
+            IEnumerable<Error> errors = null;
+            // the order of the arguments here drives the order of the commands shown
+            // in the help message
+            var result = Parser.Default.ParseArguments<
+                                            AliasedVerbOption1,
+                                            VerbNoAlias
+                                        >(arguments)
+                .WithParsed(o => options = o)
+                .WithNotParsed(o => errors = o)
+               ;
+
+            var message = HelpText.AutoBuild(result,
+                error => error,
+                ex => ex,
+                verbsIndex: verbsIndex
+            );
+
+            string helpMessage = message.ToString();
+            var helps = helpMessage.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Skip(2).ToList<string>();
+
+            expected.Length.Should().Be(helps.Count);
+            int i = 0;
+            foreach (var expect in expected)
+            {
+                helps[i].Trim().Should().Be(expect);
+                i++;
+            }
+        }
+
+        [Verb("move",
+            aliases: new string[] { "mv" }
+        )]
         public class AliasedVerbOption1
         {
             [Option('a', "alpha", Required = true)]
@@ -130,7 +245,7 @@ namespace CommandLine.Tests.Unit
             public string Option { get; set; }
         }
 
-        [Verb("delete",HelpText = "Delete stuff")]
+        [Verb("delete", HelpText = "Delete stuff")]
         public class VerbNoAlias
         {
             [Option('b', "beta", Required = true)]
