@@ -10,7 +10,7 @@ using Xunit.Abstractions;
 
 namespace CommandLine.Tests.Unit
 {
-    public class Issue591ests
+    public class Issue591Tests
     {
         [Fact]
         public void Parse_option_with_only_explicit_interface_implementation()
