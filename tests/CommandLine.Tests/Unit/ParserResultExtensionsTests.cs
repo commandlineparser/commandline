@@ -262,7 +262,7 @@ namespace CommandLine.Tests.Unit
                 .MapResult(errs => 3,
                     (Func<Add_Verb, int>) (opts => 0),
                     (Func<Commit_Verb, int>) (opts => 1),
-                    (Func<Clone_Verb, int>) (opts => 3)
+                    (Func<Clone_Verb, int>) (opts => 2)
                 );
 
             3.Should().Be(expected);
