@@ -204,14 +204,16 @@ namespace CommandLine
 
         private static object FormatWithQuotesIfString(object value)
         {
-            if (value is DateTime || value is DateTimeOffset) return $"\"{value}\"";
+            string s = value.ToString();
+            if (!string.IsNullOrEmpty(s) && !s.Contains("\"") && s.Contains(" "))
+                return $"\"{s}\"";
+
             Func<string, string> doubQt = v
                 => v.Contains("\"") ? v.Replace("\"", "\\\"") : v;
 
-            return (value as string)
-                .ToMaybe()
-                .MapValueOrDefault(v => v.Contains(' ') || v.Contains("\"")
-                    ? "\"".JoinTo(doubQt(v), "\"") : v, value);
+            return s.ToMaybe()
+                    .MapValueOrDefault(v => v.Contains(' ') || v.Contains("\"")
+                        ? "\"".JoinTo(doubQt(v), "\"") : v, value);
         }
 
         private static char SeperatorOrSpace(this Specification spec)

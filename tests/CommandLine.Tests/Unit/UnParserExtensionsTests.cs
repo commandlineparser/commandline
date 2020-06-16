@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
 using FluentAssertions;
@@ -17,6 +18,15 @@ namespace CommandLine.Tests.Unit
         [Theory]
         [MemberData(nameof(UnParseData))]
         public static void UnParsing_instance_returns_command_line(Simple_Options options, string result)
+        {
+            new Parser()
+                .FormatCommandLine(options)
+                .Should().BeEquivalentTo(result);
+        }
+
+        [Theory]
+        [MemberData(nameof(UnParseFileDirectoryData))]
+        public static void UnParsing_instance_returns_command_line_for_file_directory_paths(Options_With_FileDirectoryInfo options, string result)
         {
             new Parser()
                 .FormatCommandLine(options)
@@ -295,6 +305,15 @@ namespace CommandLine.Tests.Unit
                 yield return new object[] { new Simple_Options { LongValue = 123456789 }, "123456789" };
                 yield return new object[] { new Simple_Options { BoolValue = true, IntSequence = new[] { 1, 2, 3 }, StringValue = "nospaces", LongValue = 123456789 }, "-i 1 2 3 --stringvalue nospaces -x 123456789" };
                 yield return new object[] { new Simple_Options { BoolValue = true, IntSequence = new[] { 1, 2, 3 }, StringValue = "with \"quotes\" spaced", LongValue = 123456789 }, "-i 1 2 3 --stringvalue \"with \\\"quotes\\\" spaced\" -x 123456789" };
+            }
+        }
+
+        public static IEnumerable<object[]> UnParseFileDirectoryData
+        {
+            get
+            {
+                yield return new object[] { new Options_With_FileDirectoryInfo(), "" };
+                yield return new object[] { new Options_With_FileDirectoryInfo { FilePath = new FileInfo(@"C:\my path\with spaces\file with spaces.txt"), DirectoryPath = new DirectoryInfo(@"C:\my path\with spaces\"), StringPath = @"C:\my path\with spaces\file with spaces.txt" }, @"--directoryPath ""C:\my path\with spaces\"" --filePath ""C:\my path\with spaces\file with spaces.txt"" --stringPath ""C:\my path\with spaces\file with spaces.txt""" };
             }
         }
 
