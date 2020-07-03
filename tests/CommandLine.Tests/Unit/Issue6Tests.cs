@@ -89,17 +89,17 @@ namespace CommandLine.Tests.Unit
             {
                 "copy, cp, cpy    (Default Verb) Copy some stuff",
                 "move, mv",
-                "delete        Delete stuff",
-                "help          Display more information on a specific command.",
-                "version       Display version information.",
+                "delete           Delete stuff",
+                "help             Display more information on a specific command.",
+                "version          Display version information.",
             })]
         [InlineData("help", true, new string[]
             {
                 "copy, cp, cpy    (Default Verb) Copy some stuff",
                 "move, mv",
-                "delete        Delete stuff",
-                "help          Display more information on a specific command.",
-                "version       Display version information.",
+                "delete           Delete stuff",
+                "help             Display more information on a specific command.",
+                "version          Display version information.",
             })]
         [InlineData("move --help", false, new string[]
             {
@@ -163,16 +163,16 @@ namespace CommandLine.Tests.Unit
         [InlineData("--help", true, new string[]
             {
                 "move, mv",
-                "delete     Delete stuff",
-                "help       Display more information on a specific command.",
-                "version    Display version information.",
+                "delete      Delete stuff",
+                "help        Display more information on a specific command.",
+                "version     Display version information.",
             })]
         [InlineData("help", true, new string[]
             {
                 "move, mv",
-                "delete     Delete stuff",
-                "help       Display more information on a specific command.",
-                "version    Display version information.",
+                "delete      Delete stuff",
+                "help        Display more information on a specific command.",
+                "version     Display version information.",
             })]
         [InlineData("move --help", false, new string[]
             {
