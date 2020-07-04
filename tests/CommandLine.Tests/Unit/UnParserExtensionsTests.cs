@@ -250,6 +250,30 @@ namespace CommandLine.Tests.Unit
                 .FormatCommandLine(options)
                 .Should().BeEquivalentTo(expected);
         }
+        #region SplitArgs
+        [Theory]
+        [InlineData("--shape Circle", new[] { "--shape","Circle" })]
+        [InlineData("  --shape     Circle  ", new[] { "--shape", "Circle" })]
+        [InlineData("-a --shape Circle", new[] {"-a", "--shape", "Circle" })]
+        [InlineData("-a --shape Circle -- -x1 -x2", new[] { "-a", "--shape", "Circle","--","-x1","-x2" })]
+        [InlineData("--name \"name with space and quote\" -x1", new[] { "--name", "name with space and quote","-x1" })]       
+        public static void Split_arguments(string command, string[] expectedArgs)
+        {
+            var args = command.SplitArgs();
+            args.Should().BeEquivalentTo(expectedArgs);
+        }
+        [Theory]
+        [InlineData("--shape Circle", new[] { "--shape", "Circle" })]
+        [InlineData("  --shape     Circle  ", new[] { "--shape", "Circle" })]
+        [InlineData("-a --shape Circle", new[] { "-a", "--shape", "Circle" })]
+        [InlineData("-a --shape Circle -- -x1 -x2", new[] { "-a", "--shape", "Circle", "--", "-x1", "-x2" })]
+        [InlineData("--name \"name with space and quote\" -x1", new[] { "--name", "\"name with space and quote\"", "-x1" })]
+        public static void Split_arguments_with_keep_quote(string command, string[] expectedArgs)
+        {
+            var args = command.SplitArgs(true);
+            args.Should().BeEquivalentTo(expectedArgs);
+        }
+        #endregion
         class Option_Int_Nullable
         {
             [Option('v', Default = 1)]
