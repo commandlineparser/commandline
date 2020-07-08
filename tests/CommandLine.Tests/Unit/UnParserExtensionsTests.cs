@@ -25,6 +25,16 @@ namespace CommandLine.Tests.Unit
         }
 
         [Theory]
+        [MemberData(nameof(UnParseData))]
+        public static void UnParsing_instance_with_splitArgs_returns_same_option_class(Simple_Options options, string result)
+        {
+           new Parser()
+            .FormatCommandLineArgs(options)
+            .Should().BeEquivalentTo(result.SplitArgs());
+             
+        }
+
+        [Theory]
         [MemberData(nameof(UnParseFileDirectoryData))]
         public static void UnParsing_instance_returns_command_line_for_file_directory_paths(Options_With_FileDirectoryInfo options, string result)
         {
@@ -34,12 +44,29 @@ namespace CommandLine.Tests.Unit
         }
 
         [Theory]
+        [MemberData(nameof(UnParseFileDirectoryData))]
+        public static void UnParsing_instance_by_splitArgs_returns_command_line_for_file_directory_paths(Options_With_FileDirectoryInfo options, string result)
+        {
+            new Parser()
+                .FormatCommandLineArgs(options)
+                .Should().BeEquivalentTo(result.SplitArgs());
+        }
+        [Theory]
         [MemberData(nameof(UnParseDataVerbs))]
         public static void UnParsing_instance_returns_command_line_for_verbs(Add_Verb verb, string result)
         {
             new Parser()
                 .FormatCommandLine(verb)
                 .Should().BeEquivalentTo(result);
+        }
+
+        [Theory]
+        [MemberData(nameof(UnParseDataVerbs))]
+        public static void UnParsing_instance_to_splitArgs_returns_command_line_for_verbs(Add_Verb verb, string result)
+        {
+            new Parser()
+                .FormatCommandLineArgs(verb)
+                .Should().BeEquivalentTo(result.SplitArgs());
         }
 
         [Theory]
