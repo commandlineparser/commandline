@@ -123,6 +123,26 @@ namespace CommandLine.Tests.Unit.Core
             Assert.Equal(ErrorType.BadFormatTokenError, tokens.First().Tag);
             Assert.Equal(ErrorType.BadFormatTokenError, tokens.Last().Tag);
         }
+
+
+        [Theory]
+        [InlineData(new[] { "-a", "-" }, 2,"a","-")]
+        [InlineData(new[] { "--file", "-" }, 2,"file","-")]
+        [InlineData(new[] { "-f-" }, 2,"f", "-")]
+        [InlineData(new[] { "--file=-" }, 2, "file", "-")]
+        [InlineData(new[] { "-a", "--" }, 1, "a", "a")]
+        public void single_dash_as_a_value(string[] args, int countExcepted,string first,string last)
+        {
+            //Arrange
+            //Act
+            var result = Tokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound, token => token);
+            var tokens = result.SucceededWith().ToList();
+            //Assert
+            tokens.Should().NotBeNull();
+            tokens.Count.Should().Be(countExcepted);
+            tokens.First().Text.Should().Be(first);
+            tokens.Last().Text.Should().Be(last);
+        }
     }
 
 }
