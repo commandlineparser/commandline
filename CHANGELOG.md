@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 
 CommandLineParser project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-preview1] - 2020-7-24
+
+### Added
+- Add multi-instance option support by [@rmunn and @tydunkel, PR# 594](https://github.com/commandlineparser/commandline/pull/594).
+- Fix unparsing FileInfo and DirectoryInfo by[@kapsiR, PR# 627](https://github.com/commandlineparser/commandline/pull/627).
+- Move Errors and Value up to the abstract class definition, fixes #543 , #165 by [@johnjaylward, PR# 634](https://github.com/commandlineparser/commandline/pull/634).
+- Add support for flags enums, fixes  #247, #599 and #582 by [@shaosss, PR# 623](https://github.com/commandlineparser/commandline/pull/623).
+- Implement verb aliases, fixes #6,  #517 by[@johnjaylward, PR# 636](https://github.com/commandlineparser/commandline/pull/636).
+- Add a new method FormatCommandLineArgs  to unparse commandline to array of string, Fix #375 and #628 . 
+  - Also, add SplitArgs  method to split commandline, fix #665 by[@moh-hassan, PR# 662](https://github.com/commandlineparser/commandline/pull/662) and [commit cccae2db](https://github.com/commandlineparser/commandline/commit/cccae2db749c2ebf25125bfd18e05427be0adbcf).
+- Allow single dash as a value, fix #300 and #574 by [@moh-hassan, PR# 669](https://github.com/commandlineparser/commandline/pull/669).
+
+
 ## [2.8.0] - 2020-5-1
 ## [2.8.0-preview4] - 2020-4-30
 ## [2.8.0-preview1] - 2020-3-14
