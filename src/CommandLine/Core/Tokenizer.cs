@@ -135,6 +135,12 @@ namespace CommandLine.Core
             string value,
             Func<string, NameLookupResult> nameLookup)
         {
+            //Allow single dash as a value
+            if (value.Length == 1 && value[0] == '-')
+            {
+                yield return Token.Value(value);
+                yield break;
+            }
             if (value.Length > 1 && value[0] == '-' && value[1] != '-')
             {
                 var text = value.Substring(1);
