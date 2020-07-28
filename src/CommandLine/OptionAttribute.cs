@@ -17,14 +17,16 @@ namespace CommandLine
         private string setName;
         private char separator;
         private string group=string.Empty;
+        private bool? allowMultiInstance;
 
-        private OptionAttribute(string shortName, string longName) : base()
+        private OptionAttribute(string shortName, string longName, bool? allowMultiInstance) : base()
         {
             if (shortName == null) throw new ArgumentNullException("shortName");
             if (longName == null) throw new ArgumentNullException("longName");
 
             this.shortName = shortName;
             this.longName = longName;
+            this.allowMultiInstance = allowMultiInstance;
             setName = string.Empty;
             separator = '\0';
         }
@@ -34,7 +36,7 @@ namespace CommandLine
         /// The default long name will be inferred from target property.
         /// </summary>
         public OptionAttribute()
-            : this(string.Empty, string.Empty)
+            : this(string.Empty, string.Empty, null)
         {
         }
 
@@ -43,7 +45,7 @@ namespace CommandLine
         /// </summary>
         /// <param name="longName">The long name of the option.</param>
         public OptionAttribute(string longName)
-            : this(string.Empty, longName)
+            : this(string.Empty, longName, null)
         {
         }
 
@@ -53,7 +55,7 @@ namespace CommandLine
         /// <param name="shortName">The short name of the option.</param>
         /// <param name="longName">The long name of the option or null if not used.</param>
         public OptionAttribute(char shortName, string longName)
-            : this(shortName.ToOneCharString(), longName)
+            : this(shortName.ToOneCharString(), longName, null)
         {
         }
 
@@ -62,7 +64,38 @@ namespace CommandLine
         /// </summary>
         /// <param name="shortName">The short name of the option..</param>
         public OptionAttribute(char shortName)
-            : this(shortName.ToOneCharString(), string.Empty)
+            : this(shortName.ToOneCharString(), string.Empty, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.OptionAttribute"/> class.
+        /// </summary>
+        /// <param name="longName">The long name of the option.</param>
+        /// <param name="allowMultiInstance">Should multiple instances of this option being repeated be allowed or not.</param>
+        public OptionAttribute(string longName, bool allowMultiInstance)
+            : this(string.Empty, longName, allowMultiInstance)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.OptionAttribute"/> class.
+        /// </summary>
+        /// <param name="shortName">The short name of the option.</param>
+        /// <param name="longName">The long name of the option or null if not used.</param>
+        /// <param name="allowMultiInstance">Should multiple instances of this option being repeated be allowed or not.</param>
+        public OptionAttribute(char shortName, string longName, bool allowMultiInstance)
+            : this(shortName.ToOneCharString(), longName, allowMultiInstance)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.OptionAttribute"/> class.
+        /// </summary>
+        /// <param name="shortName">The short name of the option..</param>
+        /// <param name="allowMultiInstance">Should multiple instances of this option being repeated be allowed or not.</param>
+        public OptionAttribute(char shortName, bool allowMultiInstance)
+            : this(shortName.ToOneCharString(), string.Empty, allowMultiInstance)
         {
         }
 
@@ -80,6 +113,14 @@ namespace CommandLine
         public string ShortName
         {
             get { return shortName; }
+        }
+
+        /// <summary>
+        /// Gets if multi instancing should be allowed on this option.
+        /// </summary>
+        public bool? AllowMultiInstance
+        {
+            get { return allowMultiInstance; }
         }
 
         /// <summary>

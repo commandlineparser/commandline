@@ -870,7 +870,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public void Parse_repeated_options_in_verbs_scenario_with_multi_instance()
         {
-            using (var sut = new Parser(settings => settings.AllowMultiInstance = true))
+            using (var sut = new Parser(settings => settings.AllowMultiInstanceByDefault = true))
             {
                 var longVal1 = 100;
                 var longVal2 = 200;
@@ -892,9 +892,59 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_repeated_options_in_verbs_scenario_without_multi_instance_fails()
+        {
+            using (var sut = new Parser(settings => settings.AllowMultiInstanceByDefault = false))
+            {
+                var longVal1 = 100;
+                var longVal2 = 200;
+                var longVal3 = 300;
+                var stringVal = "shortSeq1";
+
+                var result = sut.ParseArguments(
+                    new[] { "sequence", "--long-seq", $"{longVal1}", "-s", stringVal, "--long-seq", $"{longVal2};{longVal3}" },
+                    typeof(Add_Verb), typeof(Commit_Verb), typeof(SequenceOptions));
+
+                Assert.IsType<NotParsed<object>>(result);
+                result.WithNotParsed(errors =>
+                {
+                    Assert.Single(errors);
+                    Assert.All(errors, error =>
+                    {
+                        Assert.IsType<RepeatedOptionError>(error);
+                    });
+                });
+            }
+        }
+
+        [Fact]
+        public void Parse_repeated_options_in_verbs_scenario_with_per_option_multi_instance()
+        {
+            using (var sut = new Parser(settings => settings.AllowMultiInstanceByDefault = false))
+            {
+                var longVal1 = 100;
+                var longVal2 = 200;
+                var longVal3 = 300;
+                var stringVal = "shortSeq1";
+
+                var result = sut.ParseArguments(
+                    new[] { "sequence", "--long-seq", $"{longVal1}", "-s", stringVal, "--long-seq", $"{longVal2};{longVal3}" },
+                    typeof(Add_Verb), typeof(Commit_Verb), typeof(SequenceOptions_With_AllowMultiInstance));
+
+                Assert.IsType<Parsed<object>>(result);
+                Assert.IsType<SequenceOptions_With_AllowMultiInstance>(((Parsed<object>)result).Value);
+                result.WithParsed<SequenceOptions_With_AllowMultiInstance>(verb =>
+                {
+                    Assert.Equal(new long[] { longVal1, longVal2, longVal3 }, verb.LongSequence);
+                    Assert.Equal(new[] { stringVal }, verb.StringSequence);
+                });
+            }
+        }
+
+        [Fact]
         public void Parse_repeated_options_in_verbs_scenario_without_multi_instance()
         {
-            using (var sut = new Parser(settings => settings.AllowMultiInstance = false))
+            using (var sut = new Parser(settings => settings.AllowMultiInstanceByDefault = false))
             {
                 var longVal1 = 100;
                 var longVal2 = 200;

@@ -20,7 +20,7 @@ namespace CommandLine.Core
         public static IEnumerable<Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>>>
             Lookup(
                 IEnumerable<Token> tokens,
-                bool allowMultiInstance)
+                bool allowMultiInstanceByDefault)
         {
             return new List<Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>>>
                 {
@@ -29,7 +29,7 @@ namespace CommandLine.Core
                     EnforceMutuallyExclusiveSetAndGroupAreNotUsedTogether(),
                     EnforceRequired(),
                     EnforceRange(),
-                    EnforceSingle(tokens, allowMultiInstance)
+                    EnforceSingle(tokens, allowMultiInstanceByDefault)
                 };
         }
 
@@ -181,15 +181,10 @@ namespace CommandLine.Core
                 };
         }
 
-        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceSingle(IEnumerable<Token> tokens, bool allowMultiInstance)
+        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceSingle(IEnumerable<Token> tokens, bool allowMultiInstanceByDefault)
         {
             return specProps =>
                 {
-                    if (allowMultiInstance)
-                    {
-                        return Enumerable.Empty<Error>();
-                    }
-
                     var specs = from sp in specProps
                                 where sp.Specification.IsOption()
                                 where sp.Value.IsJust()
@@ -199,19 +194,19 @@ namespace CommandLine.Core
                                        join o in specs on t.Text equals o.ShortName into to
                                        from o in to.DefaultIfEmpty()
                                        where o != null
-                                       select new { o.ShortName, o.LongName };
+                                       select new { o.ShortName, o.LongName, o.AllowMultiInstance };
                     var longOptions = from t in tokens
                                       where t.IsName()
                                       join o in specs on t.Text equals o.LongName into to
                                       from o in to.DefaultIfEmpty()
                                       where o != null
-                                      select new { o.ShortName, o.LongName };
+                                      select new { o.ShortName, o.LongName, o.AllowMultiInstance };
                     var groups = from x in shortOptions.Concat(longOptions)
                                  group x by x into g
                                  let count = g.Count()
                                  select new { Value = g.Key, Count = count };
                     var errors = from y in groups
-                                 where y.Count > 1
+                                 where y.Count > 1 && (y.Value.AllowMultiInstance == null && !allowMultiInstanceByDefault || y.Value.AllowMultiInstance == false)
                                  select new RepeatedOptionError(new NameInfo(y.Value.ShortName, y.Value.LongName));
                     return errors;
                 };

@@ -71,6 +71,16 @@ namespace CommandLine.Tests.Fakes
         public IEnumerable<string> StringSequence { get; set; }
     }
 
+    [Verb("sequence", HelpText = "Sequence options test.")]
+    public class SequenceOptions_With_AllowMultiInstance
+    {
+        [Option("long-seq", true, Separator = ';')]
+        public IEnumerable<long> LongSequence { get; set; }
+
+        [Option('s', true, Min = 1, Max = 100, Separator = ',')]
+        public IEnumerable<string> StringSequence { get; set; }
+    }
+
     abstract class Base_Class_For_Verb
     {
         [Option('p', "patch", SetName = "mode",
