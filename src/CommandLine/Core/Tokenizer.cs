@@ -68,7 +68,7 @@ namespace CommandLine.Core
                         Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0).Memoize();
 
             var exploded = tokens.Select((t, i) =>
-                        replaces.FirstOrDefault(x => x.Item1 == i).ToMaybe()
+                        replaces.FirstOrDefault(x => x.Item1 == i && t.Tag == TokenType.Value).ToMaybe()
                             .MapValueOrDefault(r => t.Text.Split(r.Item2).Select(Token.Value),
                                 Enumerable.Empty<Token>().Concat(new[] { t })));
 
