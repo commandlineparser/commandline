@@ -33,7 +33,8 @@ namespace CommandLine.Core
                         break;
 
                     case SequenceState.TokenFound:
-                        if (token.IsValue())
+                        //IsValueForced are tokens after --
+                        if (token.IsValue() && !token.IsValueForced())
                         {
                             if (sequences.TryGetValue(nameToken, out var sequence))
                             {
@@ -66,85 +67,16 @@ namespace CommandLine.Core
 
             foreach (var kvp in sequences)
             {
+
                 yield return kvp.Key;
                 foreach (var value in kvp.Value)
                 {
                     yield return value;
                 }
-            }
-
-                //return from tseq in tokens.Pairwise(
-                //(f, s) =>
-                //        f.IsName() && s.IsValue()
-                //            ? typeLookup(f.Text).MapValueOrDefault(info =>
-                //                   info.TargetType == TargetType.Sequence
-                //                        ? new[] { f }.Concat(tokens.OfSequence(f, info))
-                //                        : new Token[] { }, new Token[] { })
-                //            : new Token[] { })
-                //   from t in tseq
-                //   select t;
+            }                
         }
 
-        //private static IEnumerable<Token> OfSequence(this IEnumerable<Token> tokens, Token nameToken, TypeDescriptor info)
-        //{
-        //    var state = SequenceState.TokenSearch;
-        //    var count = 0;
-        //    var max = info.MaxItems.GetValueOrDefault(int.MaxValue);
-        //    var values = max != int.MaxValue
-        //        ? new List<Token>(max)
-        //        : new List<Token>();
-
-        //    foreach (var token in tokens)
-        //    {
-        //        if (count == max)
-        //        {
-        //            break;
-        //        }
-
-        //        switch (state)
-        //        {
-        //            case SequenceState.TokenSearch:
-        //                if (token.IsName() && token.Text.Equals(nameToken.Text))
-        //                {
-        //                    state = SequenceState.TokenFound;
-        //                }
-        //                break;
-
-        //            case SequenceState.TokenFound:
-        //                if (token.IsValue())
-        //                {
-        //                    state = SequenceState.ValueFound;
-        //                    count++;
-        //                    values.Add(token);
-        //                }
-        //                else
-        //                {
-        //                    // Invalid to provide option without value
-        //                    return Enumerable.Empty<Token>();
-        //                }
-        //                break;
-
-        //            case SequenceState.ValueFound:
-        //                if (token.IsValue())
-        //                {
-        //                    count++;
-        //                    values.Add(token);
-        //                }
-        //                else if (token.IsName() && token.Text.Equals(nameToken.Text))
-        //                {
-        //                    state = SequenceState.TokenFound;
-        //                }
-        //                else
-        //                {
-        //                    state = SequenceState.TokenSearch;
-        //                }
-        //                break;
-        //        }
-        //    }
-
-        //    return values;
-        //}
-
+        
         private enum SequenceState
         {
             TokenSearch,
