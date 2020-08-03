@@ -101,7 +101,6 @@ namespace CommandLine
                     settings.ParsingCulture,
                     settings.AutoHelp,
                     settings.AutoVersion,
-                    settings.AllowMultiInstance,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -132,7 +131,6 @@ namespace CommandLine
                     settings.ParsingCulture,
                     settings.AutoHelp,
                     settings.AutoVersion,
-                    settings.AllowMultiInstance,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -165,7 +163,6 @@ namespace CommandLine
                     settings.ParsingCulture,
                     settings.AutoHelp,
                     settings.AutoVersion,
-                    settings.AllowMultiInstance,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }

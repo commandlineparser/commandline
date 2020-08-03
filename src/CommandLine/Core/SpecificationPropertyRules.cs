@@ -14,14 +14,6 @@ namespace CommandLine.Core
             Lookup(
                 IEnumerable<Token> tokens)
         {
-            return Lookup(tokens, false);
-        }
-
-        public static IEnumerable<Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>>>
-            Lookup(
-                IEnumerable<Token> tokens,
-                bool allowMultiInstance)
-        {
             return new List<Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>>>
                 {
                     EnforceMutuallyExclusiveSet(),
@@ -29,7 +21,7 @@ namespace CommandLine.Core
                     EnforceMutuallyExclusiveSetAndGroupAreNotUsedTogether(),
                     EnforceRequired(),
                     EnforceRange(),
-                    EnforceSingle(tokens, allowMultiInstance)
+                    EnforceSingle(tokens)
                 };
         }
 
@@ -181,15 +173,10 @@ namespace CommandLine.Core
                 };
         }
 
-        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceSingle(IEnumerable<Token> tokens, bool allowMultiInstance)
+        private static Func<IEnumerable<SpecificationProperty>, IEnumerable<Error>> EnforceSingle(IEnumerable<Token> tokens)
         {
             return specProps =>
                 {
-                    if (allowMultiInstance)
-                    {
-                        return Enumerable.Empty<Error>();
-                    }
-
                     var specs = from sp in specProps
                                 where sp.Specification.IsOption()
                                 where sp.Value.IsJust()

@@ -16,7 +16,7 @@ namespace CommandLine.Core
         public static Maybe<object> ChangeType(IEnumerable<string> values, Type conversionType, bool scalar, CultureInfo conversionCulture, bool ignoreValueCase)
         {
             return scalar
-                ? ChangeTypeScalar(values.Last(), conversionType, conversionCulture, ignoreValueCase)
+                ? ChangeTypeScalar(values.Single(), conversionType, conversionCulture, ignoreValueCase)
                 : ChangeTypeSequence(values, conversionType, conversionCulture, ignoreValueCase);
         }
 
