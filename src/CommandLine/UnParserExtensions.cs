@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CommandLine.Core;
@@ -103,6 +104,18 @@ namespace CommandLine
         }
 
         /// <summary>
+        /// Format a command line argument string from a parsed instance in the form of string[]. 
+        /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/>.</typeparam>
+        /// <param name="parser">Parser instance.</param>
+        /// <param name="options">A parsed (or manually correctly constructed instance).</param>
+        /// <returns>A string[] with command line arguments.</returns>
+        public static string[] FormatCommandLineArgs<T>(this Parser parser, T options)
+        {
+            return parser.FormatCommandLine(options, config => { }).SplitArgs();
+        }
+
+        /// <summary>
         /// Format a command line argument string from a parsed instance. 
         /// </summary>
         /// <typeparam name="T">Type of <paramref name="options"/>.</typeparam>
@@ -180,7 +193,19 @@ namespace CommandLine
             return builder
                 .ToString().TrimEnd(' ');
         }
-
+        /// <summary>
+        /// Format a command line argument string[] from a parsed instance. 
+        /// </summary>
+        /// <typeparam name="T">Type of <paramref name="options"/>.</typeparam>
+        /// <param name="parser">Parser instance.</param>
+        /// <param name="options">A parsed (or manually correctly constructed instance).</param>
+        /// <param name="configuration">The <see cref="Action{UnParserSettings}"/> lambda used to configure
+        /// aspects and behaviors of the unparsersing process.</param>
+        /// <returns>A string[] with command line arguments.</returns>
+        public static string[] FormatCommandLineArgs<T>(this Parser parser, T options, Action<UnParserSettings> configuration)
+        {
+            return FormatCommandLine<T>(parser, options, configuration).SplitArgs();
+        }
         private static string FormatValue(Specification spec, object value)
         {
             var builder = new StringBuilder();
@@ -204,14 +229,16 @@ namespace CommandLine
 
         private static object FormatWithQuotesIfString(object value)
         {
-            if (value is DateTime || value is DateTimeOffset) return $"\"{value}\"";
+            string s = value.ToString();
+            if (!string.IsNullOrEmpty(s) && !s.Contains("\"") && s.Contains(" "))
+                return $"\"{s}\"";
+
             Func<string, string> doubQt = v
                 => v.Contains("\"") ? v.Replace("\"", "\\\"") : v;
 
-            return (value as string)
-                .ToMaybe()
-                .MapValueOrDefault(v => v.Contains(' ') || v.Contains("\"")
-                    ? "\"".JoinTo(doubQt(v), "\"") : v, value);
+            return s.ToMaybe()
+                    .MapValueOrDefault(v => v.Contains(' ') || v.Contains("\"")
+                        ? "\"".JoinTo(doubQt(v), "\"") : v, value);
         }
 
         private static char SeperatorOrSpace(this Specification spec)
@@ -271,5 +298,35 @@ namespace CommandLine
             if (value is IEnumerable && !((IEnumerable)value).GetEnumerator().MoveNext()) return true;
             return false;
         }
+
+
+        #region splitter
+        /// <summary>
+        /// Returns a string array that contains the substrings in this instance that are delimited by space considering string between double quote.
+        /// </summary>
+        /// <param name="command">the commandline string</param>
+        /// <param name="keepQuote">don't remove the quote</param>
+        /// <returns>a string array that contains the substrings in this instance</returns>
+        public static string[] SplitArgs(this string command, bool keepQuote = false)
+        {
+            if (string.IsNullOrEmpty(command))
+                return new string[0];
+
+            var inQuote = false;
+            var chars = command.ToCharArray().Select(v =>
+            {
+                if (v == '"')
+                    inQuote = !inQuote;
+                return !inQuote && v == ' ' ? '\n' : v;
+            }).ToArray();
+
+            return new string(chars).Split('\n')
+                .Select(x => keepQuote ? x : x.Trim('"'))
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToArray();
+        }
+
+        #endregion
+
     }
 }

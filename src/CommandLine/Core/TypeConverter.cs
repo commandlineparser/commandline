@@ -129,11 +129,20 @@ namespace CommandLine.Core
             {
                 throw new FormatException();
             }
-            if (Enum.IsDefined(conversionType, parsedValue))
+            if (IsDefinedEx(parsedValue))
             {
                 return parsedValue;
             }
             throw new FormatException();
+        }
+
+        private static bool IsDefinedEx(object enumValue)
+        {
+            char firstChar = enumValue.ToString()[0];
+            if (Char.IsDigit(firstChar) || firstChar == '-')
+                return false;
+
+            return true;
         }
     }
 }

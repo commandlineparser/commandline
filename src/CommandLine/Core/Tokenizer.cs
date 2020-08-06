@@ -50,7 +50,7 @@ namespace CommandLine.Core
             if (arguments.Any(arg => arg.EqualsOrdinal("--")))
             {
                 var tokenizerResult = tokenizer(arguments.TakeWhile(arg => !arg.EqualsOrdinal("--")));
-                var values = arguments.SkipWhile(arg => !arg.EqualsOrdinal("--")).Skip(1).Select(Token.Value);
+                var values = arguments.SkipWhile(arg => !arg.EqualsOrdinal("--")).Skip(1).Select(Token.ValueForced);
                 return tokenizerResult.Map(tokens => tokens.Concat(values));
             }
             return tokenizer(arguments);
@@ -135,6 +135,12 @@ namespace CommandLine.Core
             string value,
             Func<string, NameLookupResult> nameLookup)
         {
+            //Allow single dash as a value
+            if (value.Length == 1 && value[0] == '-')
+            {
+                yield return Token.Value(value);
+                yield break;
+            }
             if (value.Length > 1 && value[0] == '-' && value[1] != '-')
             {
                 var text = value.Substring(1);

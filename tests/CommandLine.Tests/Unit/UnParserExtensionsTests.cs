@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
 using FluentAssertions;
@@ -24,12 +25,48 @@ namespace CommandLine.Tests.Unit
         }
 
         [Theory]
+        [MemberData(nameof(UnParseData))]
+        public static void UnParsing_instance_with_splitArgs_returns_same_option_class(Simple_Options options, string result)
+        {
+           new Parser()
+            .FormatCommandLineArgs(options)
+            .Should().BeEquivalentTo(result.SplitArgs());
+             
+        }
+
+        [Theory]
+        [MemberData(nameof(UnParseFileDirectoryData))]
+        public static void UnParsing_instance_returns_command_line_for_file_directory_paths(Options_With_FileDirectoryInfo options, string result)
+        {
+            new Parser()
+                .FormatCommandLine(options)
+                .Should().BeEquivalentTo(result);
+        }
+
+        [Theory]
+        [MemberData(nameof(UnParseFileDirectoryData))]
+        public static void UnParsing_instance_by_splitArgs_returns_command_line_for_file_directory_paths(Options_With_FileDirectoryInfo options, string result)
+        {
+            new Parser()
+                .FormatCommandLineArgs(options)
+                .Should().BeEquivalentTo(result.SplitArgs());
+        }
+        [Theory]
         [MemberData(nameof(UnParseDataVerbs))]
         public static void UnParsing_instance_returns_command_line_for_verbs(Add_Verb verb, string result)
         {
             new Parser()
                 .FormatCommandLine(verb)
                 .Should().BeEquivalentTo(result);
+        }
+
+        [Theory]
+        [MemberData(nameof(UnParseDataVerbs))]
+        public static void UnParsing_instance_to_splitArgs_returns_command_line_for_verbs(Add_Verb verb, string result)
+        {
+            new Parser()
+                .FormatCommandLineArgs(verb)
+                .Should().BeEquivalentTo(result.SplitArgs());
         }
 
         [Theory]
@@ -240,6 +277,30 @@ namespace CommandLine.Tests.Unit
                 .FormatCommandLine(options)
                 .Should().BeEquivalentTo(expected);
         }
+        #region SplitArgs
+        [Theory]
+        [InlineData("--shape Circle", new[] { "--shape","Circle" })]
+        [InlineData("  --shape     Circle  ", new[] { "--shape", "Circle" })]
+        [InlineData("-a --shape Circle", new[] {"-a", "--shape", "Circle" })]
+        [InlineData("-a --shape Circle -- -x1 -x2", new[] { "-a", "--shape", "Circle","--","-x1","-x2" })]
+        [InlineData("--name \"name with space and quote\" -x1", new[] { "--name", "name with space and quote","-x1" })]       
+        public static void Split_arguments(string command, string[] expectedArgs)
+        {
+            var args = command.SplitArgs();
+            args.Should().BeEquivalentTo(expectedArgs);
+        }
+        [Theory]
+        [InlineData("--shape Circle", new[] { "--shape", "Circle" })]
+        [InlineData("  --shape     Circle  ", new[] { "--shape", "Circle" })]
+        [InlineData("-a --shape Circle", new[] { "-a", "--shape", "Circle" })]
+        [InlineData("-a --shape Circle -- -x1 -x2", new[] { "-a", "--shape", "Circle", "--", "-x1", "-x2" })]
+        [InlineData("--name \"name with space and quote\" -x1", new[] { "--name", "\"name with space and quote\"", "-x1" })]
+        public static void Split_arguments_with_keep_quote(string command, string[] expectedArgs)
+        {
+            var args = command.SplitArgs(true);
+            args.Should().BeEquivalentTo(expectedArgs);
+        }
+        #endregion
         class Option_Int_Nullable
         {
             [Option('v', Default = 1)]
@@ -295,6 +356,15 @@ namespace CommandLine.Tests.Unit
                 yield return new object[] { new Simple_Options { LongValue = 123456789 }, "123456789" };
                 yield return new object[] { new Simple_Options { BoolValue = true, IntSequence = new[] { 1, 2, 3 }, StringValue = "nospaces", LongValue = 123456789 }, "-i 1 2 3 --stringvalue nospaces -x 123456789" };
                 yield return new object[] { new Simple_Options { BoolValue = true, IntSequence = new[] { 1, 2, 3 }, StringValue = "with \"quotes\" spaced", LongValue = 123456789 }, "-i 1 2 3 --stringvalue \"with \\\"quotes\\\" spaced\" -x 123456789" };
+            }
+        }
+
+        public static IEnumerable<object[]> UnParseFileDirectoryData
+        {
+            get
+            {
+                yield return new object[] { new Options_With_FileDirectoryInfo(), "" };
+                yield return new object[] { new Options_With_FileDirectoryInfo { FilePath = new FileInfo(@"C:\my path\with spaces\file with spaces.txt"), DirectoryPath = new DirectoryInfo(@"C:\my path\with spaces\"), StringPath = @"C:\my path\with spaces\file with spaces.txt" }, @"--directoryPath ""C:\my path\with spaces\"" --filePath ""C:\my path\with spaces\file with spaces.txt"" --stringPath ""C:\my path\with spaces\file with spaces.txt""" };
             }
         }
 
