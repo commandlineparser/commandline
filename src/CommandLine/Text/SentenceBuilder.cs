@@ -126,10 +126,10 @@ namespace CommandLine.Text
                                 case ErrorType.UnknownOptionError:
                                     return "Option '".JoinTo(((UnknownOptionError)error).Token, "' is unknown.");
                                 case ErrorType.MissingRequiredOptionError:
-                                    var errMisssing = ((MissingRequiredOptionError)error);
-                                    return errMisssing.NameInfo.Equals(NameInfo.EmptyName)
+                                    var errMissing = ((MissingRequiredOptionError)error);
+                                    return errMissing.NameInfo.Equals(NameInfo.EmptyName)
                                                ? "A required value not bound to option name is missing."
-                                               : "Required option '".JoinTo(errMisssing.NameInfo.NameText, "' is missing.");
+                                               : "Required option '".JoinTo(errMissing.NameInfo.NameText, "' is missing.");
                                 case ErrorType.BadFormatConversionError:
                                     var badFormat = ((BadFormatConversionError)error);
                                     return badFormat.NameInfo.Equals(NameInfo.EmptyName)
