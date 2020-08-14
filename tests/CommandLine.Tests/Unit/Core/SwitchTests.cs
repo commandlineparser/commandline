@@ -15,12 +15,13 @@ namespace CommandLine.Tests.Unit.Core
         {
             var expected = new Token[] { };
 
-            var result = Switch.Partition(
+            var tokens = TokenPartitioner.PartitionTokensByType(
                 new Token[] { },
                 name =>
                     new[] { "x", "switch" }.Contains(name)
                         ? Maybe.Just(TypeDescriptor.Create(TargetType.Switch, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
+            var result = tokens.Item1;  // *Switch*, Scalar, Sequence, NonOption
 
             expected.Should().BeEquivalentTo(result);
         }
@@ -30,7 +31,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             var expected = new [] { Token.Name("x") };
 
-            var result = Switch.Partition(
+            var tokens = TokenPartitioner.PartitionTokensByType(
                 new []
                     {
                         Token.Name("str"), Token.Value("strvalue"), Token.Value("freevalue"),
@@ -40,6 +41,7 @@ namespace CommandLine.Tests.Unit.Core
                     new[] { "x", "switch" }.Contains(name)
                         ? Maybe.Just(TypeDescriptor.Create(TargetType.Switch, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
+            var result = tokens.Item1;  // *Switch*, Scalar, Sequence, NonOption
 
             expected.Should().BeEquivalentTo(result);
         }
