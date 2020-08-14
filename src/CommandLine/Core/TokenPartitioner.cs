@@ -18,8 +18,14 @@ namespace CommandLine.Core
             IEqualityComparer<Token> tokenComparer = ReferenceEqualityComparer.Default;
 
             var tokenList = tokens.Memoize();
-            var (switches, scalars, sequences, nonOptions) = PartitionTokensByType(tokenList, typeLookup);
-            var (values,errors) = nonOptions.PartitionByPredicate(v => v.IsValue());
+            var partitioned = PartitionTokensByType(tokenList, typeLookup);
+            var switches = partitioned.Item1;
+            var scalars = partitioned.Item2;
+            var sequences = partitioned.Item3;
+            var nonOptions = partitioned.Item4;
+            var valuesAndErrors = nonOptions.PartitionByPredicate(v => v.IsValue());
+            var values = valuesAndErrors.Item1;
+            var errors = valuesAndErrors.Item2;
 
             return Tuple.Create(
                     KeyValuePairHelper.ForSwitch(switches)
