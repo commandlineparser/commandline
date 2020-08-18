@@ -15,6 +15,7 @@ namespace CommandLine
         private readonly string longName;
         private readonly string shortName;
         private string setName;
+        private bool flagCounter;
         private char separator;
         private string group=string.Empty;
 
@@ -94,6 +95,16 @@ namespace CommandLine
 
                 setName = value;
             }
+        }
+
+        /// <summary>
+        /// If true, this is an int option that counts how many times a flag was set (e.g. "-v -v -v" or "-vvv" would return 3).
+        /// The property must be of type int (signed 32-bit integer).
+        /// </summary>
+        public bool FlagCounter
+        {
+            get { return flagCounter; }
+            set { flagCounter = value; }
         }
 
         /// <summary>

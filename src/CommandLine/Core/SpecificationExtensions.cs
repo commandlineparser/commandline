@@ -35,6 +35,7 @@ namespace CommandLine.Core
                 specification.ConversionType,
                 specification.TargetType,
                 specification.Group,
+                specification.FlagCounter,
                 specification.Hidden);
         }
 

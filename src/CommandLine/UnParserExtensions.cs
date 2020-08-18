@@ -153,7 +153,9 @@ namespace CommandLine
 
             var allOptSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                               let o = (OptionSpecification)info.Specification
-                              where o.TargetType != TargetType.Switch || (o.TargetType == TargetType.Switch && ((bool)info.Value))
+                              where o.TargetType != TargetType.Switch ||
+                                   (o.TargetType == TargetType.Switch && o.FlagCounter && ((int)info.Value > 0)) ||
+                                   (o.TargetType == TargetType.Switch && ((bool)info.Value))
                               where !o.Hidden || settings.ShowHidden
                               orderby o.UniqueName()
                               select info;
@@ -176,7 +178,12 @@ namespace CommandLine
 
             builder = settings.GroupSwitches && shortSwitches.Any()
                 ? builder.Append('-').Append(string.Join(string.Empty, shortSwitches.Select(
-                    info => ((OptionSpecification)info.Specification).ShortName).ToArray())).Append(' ')
+                    info => {
+                        var o = (OptionSpecification)info.Specification;
+                        return o.FlagCounter
+                            ? string.Concat(Enumerable.Repeat(o.ShortName, (int)info.Value))
+                            : o.ShortName;
+                    }).ToArray())).Append(' ')
                 : builder;
             optSpecs.ForEach(
                 opt =>
@@ -250,24 +257,25 @@ namespace CommandLine
         private static string FormatOption(OptionSpecification spec, object value, UnParserSettings settings)
         {
             return new StringBuilder()
-                    .Append(spec.FormatName(settings))
+                    .Append(spec.FormatName(value, settings))
                     .AppendWhen(spec.TargetType != TargetType.Switch, FormatValue(spec, value))
                 .ToString();
         }
 
-        private static string FormatName(this OptionSpecification optionSpec, UnParserSettings settings)
+        private static string FormatName(this OptionSpecification optionSpec, object value, UnParserSettings settings)
         {
             // Have a long name and short name not preferred? Go with long! 
             // No short name? Has to be long!
             var longName = (optionSpec.LongName.Length > 0 && !settings.PreferShortName)
                          || optionSpec.ShortName.Length == 0;
 
-            return
+            var formattedName =
                 new StringBuilder(longName
                     ? "--".JoinTo(optionSpec.LongName)
                     : "-".JoinTo(optionSpec.ShortName))
                         .AppendWhen(optionSpec.TargetType != TargetType.Switch, longName && settings.UseEqualToken ? "=" : " ")
                     .ToString();
+            return optionSpec.FlagCounter ? String.Join(" ", Enumerable.Repeat(formattedName, (int)value)) : formattedName;
         }
 
         private static object NormalizeValue(this object value)

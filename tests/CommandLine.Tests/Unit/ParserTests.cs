@@ -95,6 +95,36 @@ namespace CommandLine.Tests.Unit
             // Teardown
         }
 
+        [Theory]
+        [InlineData(new string[0], 0, 0)]
+        [InlineData(new[] { "-v" }, 1, 0)]
+        [InlineData(new[] { "-vv" }, 2, 0)]
+        [InlineData(new[] { "-v", "-v" }, 2, 0)]
+        [InlineData(new[] { "-v", "-v", "-v" }, 3, 0)]
+        [InlineData(new[] { "-v", "-vv" }, 3, 0)]
+        [InlineData(new[] { "-vv", "-v" }, 3, 0)]
+        [InlineData(new[] { "-vvv" }, 3, 0)]
+        [InlineData(new[] { "-v", "-s", "-v", "-v" }, 3, 1)]
+        [InlineData(new[] { "-v", "-ss", "-v", "-v" }, 3, 2)]
+        [InlineData(new[] { "-v", "-s", "-sv", "-v" }, 3, 2)]
+        [InlineData(new[] { "-vsvv" }, 3, 1)]
+        [InlineData(new[] { "-vssvv" }, 3, 2)]
+        [InlineData(new[] { "-vsvsv" }, 3, 2)]
+        public void Parse_FlagCounter_options_with_short_name(string[] args, int verboseCount, int silentCount)
+        {
+            // Fixture setup
+            var expectedOptions = new Options_With_FlagCounter_Switches { Verbose = verboseCount, Silent = silentCount };
+            var sut = new Parser(with => with.AllowMultiInstance = true);
+
+            // Exercize system
+            var result = sut.ParseArguments<Options_With_FlagCounter_Switches>(args);
+
+            // Verify outcome
+            // ((NotParsed<Options_With_FlagCounter_Switches>)result).Errors.Should().BeEmpty();
+            ((Parsed<Options_With_FlagCounter_Switches>)result).Value.Should().BeEquivalentTo(expectedOptions);
+            // Teardown
+        }
+
         [Fact]
         public void Parse_repeated_options_with_default_parser()
         {

@@ -254,6 +254,23 @@ namespace CommandLine.Tests.Unit
                 .Should().BeEquivalentTo(expected);
 
         }
+
+        [Theory]
+        [InlineData(false, false, 0, "")]
+        [InlineData(false, false, 1, "-v")]  // default but not skipped
+        [InlineData(false, false, 2, "-v -v")]
+        [InlineData(false, true, 2, "-vv")]
+        [InlineData(false, false, 3, "-v -v -v")]
+        [InlineData(false, true, 3, "-vvv")]
+        [InlineData(true, false, 1, "")]  // default, skipped
+        public static void UnParsing_instance_with_flag_counter(bool skipDefault, bool groupSwitches, int value, string expected)
+        {
+            var options = new Option_FlagCounter { VerboseLevel = value };
+            var result = new Parser()
+                .FormatCommandLine(options, x => { x.SkipDefault = skipDefault; x.GroupSwitches = groupSwitches; })
+                .Should().BeEquivalentTo(expected);
+        }
+
         [Theory]
         [InlineData(Shapes.Circle, "--shape Circle")]
         [InlineData(Shapes.Square, "--shape Square")]
@@ -309,6 +326,11 @@ namespace CommandLine.Tests.Unit
         class Option_Int
         {
             [Option('v', Default = 1)]
+            public int VerboseLevel { get; set; }
+        }
+        class Option_FlagCounter
+        {
+            [Option('v', Default = 1, FlagCounter=true)]
             public int VerboseLevel { get; set; }
         }
         class Option_Nullable_Bool
