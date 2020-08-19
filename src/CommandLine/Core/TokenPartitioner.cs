@@ -96,7 +96,6 @@ namespace CommandLine.Core
                         case SequenceState.TokenSearch:
                         case SequenceState.ScalarTokenFound when nameToken == null:
                         case SequenceState.SequenceTokenFound when nameToken == null:
-                            // if (nameToken == null) Console.WriteLine($"  (because there was no nameToken)");
                             nameToken = null;
                             nonOptionTokens.Add(token);
                             state = SequenceState.TokenSearch;
@@ -110,14 +109,14 @@ namespace CommandLine.Core
 
                         case SequenceState.SequenceTokenFound:
                             if (sequences.TryGetValue(nameToken, out var sequence)) {
-                                // if (max[nameToken].MatchJust(out int m) && count[nameToken] >= m)
-                                // {
-                                //     // This sequence is completed, so this and any further values are non-option values
-                                //     nameToken = null;
-                                //     nonOptionTokens.Add(token);
-                                //     state = SequenceState.TokenSearch;
-                                // }
-                                // else
+                                if (max[nameToken].MatchJust(out int m) && count[nameToken] >= m)
+                                {
+                                    // This sequence is completed, so this and any further values are non-option values
+                                    nameToken = null;
+                                    nonOptionTokens.Add(token);
+                                    state = SequenceState.TokenSearch;
+                                }
+                                else
                                 {
                                     sequence.Add(token);
                                     count[nameToken]++;
@@ -125,9 +124,10 @@ namespace CommandLine.Core
                             }
                             else
                             {
-                                Console.WriteLine("***BUG!!!***");
-                                throw new NullReferenceException($"Sequence for name {nameToken} doesn't exist, and it should");
-                                // sequences[nameToken] = new List<Token>(new[] { token });
+                                // Should never get here, but just in case:
+                                sequences[nameToken] = new List<Token>(new[] { token });
+                                count[nameToken] = 0;
+                                max[nameToken] = Maybe.Nothing<int>();
                             }
                             break;
                         }

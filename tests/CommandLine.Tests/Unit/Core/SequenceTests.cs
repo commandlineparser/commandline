@@ -133,7 +133,7 @@ namespace CommandLine.Tests.Unit.Core
         [Fact]
         public void Partition_sequence_multi_instance_with_max()
         {
-            var expected = new[]
+            var incorrect = new[]
             {
                 Token.Name("seq"),
                 Token.Value("seqval0"),
@@ -142,6 +142,14 @@ namespace CommandLine.Tests.Unit.Core
                 Token.Value("seqval3"),
                 Token.Value("seqval4"),
                 Token.Value("seqval5"),
+            };
+
+            var expected = new[]
+            {
+                Token.Name("seq"),
+                Token.Value("seqval0"),
+                Token.Value("seqval1"),
+                Token.Value("seqval2"),
             };
 
             var tokens = TokenPartitioner.PartitionTokensByType(
@@ -159,6 +167,8 @@ namespace CommandLine.Tests.Unit.Core
                         : Maybe.Nothing<TypeDescriptor>());
             var result = tokens.Item3;  // Switch, Scalar, *Sequence*, NonOption
 
+            // Max of 3 will apply to the total values, so there should only be 3 values, not 6
+            Assert.NotEqual(incorrect, result);
             Assert.Equal(expected, result);
         }
     }
