@@ -19,7 +19,10 @@ namespace CommandLine.Tests.Unit.Core
 {
     public class InstanceBuilderTests
     {
-        private static ParserResult<T> InvokeBuild<T>(string[] arguments, bool autoHelp = true, bool autoVersion = true, bool multiInstance = false)
+        private static ParserResult<T> InvokeBuild<T>(string[] arguments,
+                                                      bool autoHelp = true, bool autoHelpShortName = false,
+                                                      bool autoVersion = true, bool autoVersionShortName = false,
+                                                      bool multiInstance = false)
             where T : new()
         {
             return InstanceBuilder.Build(
@@ -30,7 +33,9 @@ namespace CommandLine.Tests.Unit.Core
                 false,
                 CultureInfo.InvariantCulture,
                 autoHelp,
+                autoHelpShortName,
                 autoVersion,
+                autoVersionShortName,
                 multiInstance,
                 Enumerable.Empty<ErrorType>());
         }
