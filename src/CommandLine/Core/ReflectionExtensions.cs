@@ -40,8 +40,8 @@ namespace CommandLine.Core
         {
             return
                 (from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
-                    let attrs = pi.GetCustomAttributes(true)
-                    where attrs.OfType<UsageAttribute>().Any()
+                    let attrs = pi.GetCustomAttributes(typeof(UsageAttribute), true)
+                    where attrs.Any()
                     select Tuple.Create(pi, (UsageAttribute)attrs.First()))
                         .SingleOrDefault()
                         .ToMaybe();

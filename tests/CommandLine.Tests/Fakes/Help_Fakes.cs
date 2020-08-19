@@ -79,7 +79,9 @@ namespace CommandLine.Tests.Fakes
         [Option("secert-option", Hidden = true, HelpText = "This is a description for a secert hidden option that should never be visibile to the user via help text.")]
         public string SecertOption { get; set; }
 
-        [Usage(ApplicationAlias = "mono testapp.exe")]
+        [ Custom
+        , Usage(ApplicationAlias = "mono testapp.exe")
+        ]
         public static IEnumerable<Example> Examples
         {
             get
