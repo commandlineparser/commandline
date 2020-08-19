@@ -136,6 +136,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             Assert.IsType<NotParsed<Options_With_Switches>>(result);
+            // NOTE: Once GetoptMode becomes the default, it will imply MultiInstance and the above check will fail because it will be Parsed.
             // Teardown
         }
 
@@ -298,6 +299,7 @@ namespace CommandLine.Tests.Unit
 
             // Verify outcome
             Assert.IsType<NotParsed<object>>(result);
+            // NOTE: Once GetoptMode becomes the default, it will imply MultiInstance and the above check will fail because it will be Parsed.
             // Teardown
         }
 
@@ -973,6 +975,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public void Parse_repeated_options_in_verbs_scenario_without_multi_instance()
         {
+            // NOTE: Once GetoptMode becomes the default, it will imply MultiInstance and this test will fail because the parser result will be Parsed.
             using (var sut = new Parser(settings => settings.AllowMultiInstance = false))
             {
                 var longVal1 = 100;
