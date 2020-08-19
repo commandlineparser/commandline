@@ -167,6 +167,77 @@ namespace CommandLine.Tests.Unit
             ((Parsed<Options_With_Option_Sequence_And_Value_Sequence>)result).Value.Should().BeEquivalentTo(expectedOptions);
         }
 
+        [Theory]
+        [InlineData("value1", "value2", "value3")]
+        [InlineData("--", "value1", "value2", "value3")]
+        [InlineData("value1", "--", "value2", "value3")]
+        [InlineData("value1", "value2", "--", "value3")]
+        [InlineData("value1", "value2", "value3", "--")]
+        public void Parse_options_with_double_dash_in_various_positions(params string[] args)
+        {
+            var expectedOptions = new Options_With_Sequence_And_Only_Max_Constraint_For_Value
+            {
+                StringSequence = new[] { "value1", "value2", "value3" }
+            };
+
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result =
+                sut.ParseArguments<Options_With_Sequence_And_Only_Max_Constraint_For_Value>(args);
+
+            // Verify outcome
+            ((Parsed<Options_With_Sequence_And_Only_Max_Constraint_For_Value>)result).Value.Should().BeEquivalentTo(expectedOptions);
+        }
+
+        [Theory]
+        [InlineData("value1", "value2", "value3")]
+        [InlineData("--", "value1", "value2", "value3")]
+        [InlineData("value1", "--", "value2", "value3")]
+        [InlineData("value1", "value2", "--", "value3")]
+        [InlineData("value1", "value2", "value3", "--")]
+        public void Parse_options_with_double_dash_and_all_consuming_sequence_leaves_nothing_for_later_values(params string[] args)
+        {
+            var expectedOptions = new Options_With_Value_Sequence_And_Subsequent_Value
+            {
+                StringSequence = new[] { "value1", "value2", "value3" },
+                NeverReachedValue = null
+            };
+
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result =
+                sut.ParseArguments<Options_With_Value_Sequence_And_Subsequent_Value>(args);
+
+            // Verify outcome
+            ((Parsed<Options_With_Value_Sequence_And_Subsequent_Value>)result).Value.Should().BeEquivalentTo(expectedOptions);
+        }
+
+        [Theory]
+        [InlineData("value1", "value2", "value3")]
+        [InlineData("--", "value1", "value2", "value3")]
+        [InlineData("value1", "--", "value2", "value3")]
+        [InlineData("value1", "value2", "--", "value3")]
+        [InlineData("value1", "value2", "value3", "--")]
+        public void Parse_options_with_double_dash_and_limited_sequence_leaves_something_for_later_values(params string[] args)
+        {
+            var expectedOptions = new Options_With_Value_Sequence_With_Max_And_Subsequent_Value
+            {
+                StringSequence = new[] { "value1", "value2" },
+                NeverReachedValue = "value3"
+            };
+
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            var result =
+                sut.ParseArguments<Options_With_Value_Sequence_With_Max_And_Subsequent_Value>(args);
+
+            // Verify outcome
+            ((Parsed<Options_With_Value_Sequence_With_Max_And_Subsequent_Value>)result).Value.Should().BeEquivalentTo(expectedOptions);
+        }
+
         [Fact]
         public void Parse_options_with_double_dash_in_verbs_scenario()
         {
