@@ -62,19 +62,28 @@ namespace CommandLine.Core
         {
             var tokens = tokenizerResult.SucceededWith().Memoize();
 
-            var replaces = tokens.Select((t, i) =>
-                optionSequenceWithSeparatorLookup(t.Text)
-                    .MapValueOrDefault(sep => Tuple.Create(i + 1, sep),
-                        Tuple.Create(-1, '\0'))).SkipWhile(x => x.Item1 < 0).Memoize();
-
-            var exploded = tokens.Select((t, i) =>
-                        replaces.FirstOrDefault(x => x.Item1 == i).ToMaybe()
-                            .MapValueOrDefault(r => t.Text.Split(r.Item2).Select(Token.Value),
-                                Enumerable.Empty<Token>().Concat(new[] { t })));
-
-            var flattened = exploded.SelectMany(x => x);
-
-            return Result.Succeed(flattened, tokenizerResult.SuccessMessages());
+            var exploded = new List<Token>(tokens is ICollection<Token> coll ? coll.Count : tokens.Count());
+            var nothing = Maybe.Nothing<char>();  // Re-use same Nothing instance for efficiency
+            var separator = nothing;
+            foreach (var token in tokens) {
+                if (token.IsName()) {
+                    separator = optionSequenceWithSeparatorLookup(token.Text);
+                    exploded.Add(token);
+                } else {
+                    // Forced values are never considered option values, so they should not be split
+                    if (separator.MatchJust(out char sep) && sep != '\0' && !token.IsValueForced()) {
+                        if (token.Text.Contains(sep)) {
+                            exploded.AddRange(token.Text.Split(sep).Select(Token.ValueFromSeparator));
+                        } else {
+                            exploded.Add(token);
+                        }
+                    } else {
+                        exploded.Add(token);
+                    }
+                    separator = nothing;  // Only first value after a separator can possibly be split
+                }
+            }
+            return Result.Succeed(exploded as IEnumerable<Token>, tokenizerResult.SuccessMessages());
         }
 
         public static IEnumerable<Token> Normalize(

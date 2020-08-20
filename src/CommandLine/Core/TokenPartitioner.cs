@@ -47,15 +47,18 @@ namespace CommandLine.Core
             var count = new Dictionary<Token, int>();
             var max = new Dictionary<Token, Maybe<int>>();
             var state = SequenceState.TokenSearch;
+            var separatorSeen = false;
             Token nameToken = null;
             foreach (var token in tokens)
             {
                 if (token.IsValueForced())
                 {
+                    separatorSeen = false;
                     nonOptionTokens.Add(token);
                 }
                 else if (token.IsName())
                 {
+                    separatorSeen = false;
                     if (typeLookup(token.Text).MatchJust(out var info))
                     {
                         switch (info.TargetType)
@@ -96,12 +99,14 @@ namespace CommandLine.Core
                         case SequenceState.TokenSearch:
                         case SequenceState.ScalarTokenFound when nameToken == null:
                         case SequenceState.SequenceTokenFound when nameToken == null:
+                            separatorSeen = false;
                             nameToken = null;
                             nonOptionTokens.Add(token);
                             state = SequenceState.TokenSearch;
                             break;
 
                         case SequenceState.ScalarTokenFound:
+                            separatorSeen = false;
                             nameToken = null;
                             scalarTokens.Add(token);
                             state = SequenceState.TokenSearch;
@@ -116,6 +121,20 @@ namespace CommandLine.Core
                                     nonOptionTokens.Add(token);
                                     state = SequenceState.TokenSearch;
                                 }
+                                else if (token.IsValueFromSeparator())
+                                {
+                                    separatorSeen = true;
+                                    sequence.Add(token);
+                                    count[nameToken]++;
+                                }
+                                else if (separatorSeen)
+                                {
+                                    // Previous token came from a separator but this one didn't: sequence is completed
+                                    separatorSeen = false;
+                                    nameToken = null;
+                                    nonOptionTokens.Add(token);
+                                    state = SequenceState.TokenSearch;
+                                }
                                 else
                                 {
                                     sequence.Add(token);
@@ -125,6 +144,7 @@ namespace CommandLine.Core
                             else
                             {
                                 // Should never get here, but just in case:
+                                separatorSeen = false;
                                 sequences[nameToken] = new List<Token>(new[] { token });
                                 count[nameToken] = 0;
                                 max[nameToken] = Maybe.Nothing<int>();

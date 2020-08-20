@@ -34,7 +34,12 @@ namespace CommandLine.Core
 
         public static Token ValueForced(string text)
         {
-            return new Value(text, false, true);
+            return new Value(text, false, true, false);
+        }
+
+        public static Token ValueFromSeparator(string text)
+        {
+            return new Value(text, false, false, true);
         }
 
         public TokenType Tag
@@ -86,29 +91,45 @@ namespace CommandLine.Core
     {
         private readonly bool explicitlyAssigned;
         private readonly bool forced;
+        private readonly bool fromSeparator;
 
         public Value(string text)
-            : this(text, false, false)
+            : this(text, false, false, false)
         {
         }
 
         public Value(string text, bool explicitlyAssigned)
-            : this(text, explicitlyAssigned, false)
+            : this(text, explicitlyAssigned, false, false)
         {
         }
 
-        public Value(string text, bool explicitlyAssigned, bool forced)
+        public Value(string text, bool explicitlyAssigned, bool forced, bool fromSeparator)
             : base(TokenType.Value, text)
         {
             this.explicitlyAssigned = explicitlyAssigned;
             this.forced = forced;
+            this.fromSeparator = fromSeparator;
         }
 
+        /// <summary>
+        /// Whether this value came from a long option with "=" separating the name from the value
+        /// </summary>
         public bool ExplicitlyAssigned
         {
             get { return explicitlyAssigned; }
         }
 
+        /// <summary>
+        /// Whether this value came from a sequence specified with a separator (e.g., "--files a.txt,b.txt,c.txt")
+        /// </summary>
+        public bool FromSeparator
+        {
+            get { return fromSeparator; }
+        }
+
+        /// <summary>
+        /// Whether this value came from args after the -- separator (when EnableDashDash = true)
+        /// </summary>
         public bool Forced
         {
             get { return forced; }
@@ -151,6 +172,11 @@ namespace CommandLine.Core
         public static bool IsValue(this Token token)
         {
             return token.Tag == TokenType.Value;
+        }
+
+        public static bool IsValueFromSeparator(this Token token)
+        {
+            return token.IsValue() && ((Value)token).FromSeparator;
         }
 
         public static bool IsValueForced(this Token token)
