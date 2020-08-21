@@ -311,6 +311,19 @@ namespace CommandLine.Text
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
+        /// <param name="maxDisplayWidth">The maximum width of the display.</param>
+        public static HelpText AutoBuild<T>(int maxDisplayWidth = DefaultMaximumLength)
+        {
+            var parserResult = new NotParsed<T>(TypeInfo.Create(typeof(T)), new List<Error>() { new HelpRequestedError() });
+            return AutoBuild<T>(parserResult, x => x, maxDisplayWidth);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults.
+        /// </summary>
+        /// <returns>
+        /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
+        /// </returns>
         /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
         /// <param name='onError'>A delegate used to customize the text block of reporting parsing errors text block.</param>
         /// <param name='onExample'>A delegate used to customize <see cref="CommandLine.Text.Example"/> model used to render text block of usage examples.</param>
