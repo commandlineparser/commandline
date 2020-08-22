@@ -205,6 +205,7 @@ namespace CommandLine.Tests.Unit.Text
         [Fact]
         public void When_help_text_has_hidden_option_it_should_not_be_added_to_help_text_output()
         {
+            Console.WindowWidth = 80;
             // Fixture setup
             // Exercize system 
             var sut = new HelpText(headingInfo);
