@@ -24,7 +24,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system
             var result =
-                Tokenizer.ExplodeOptionList(
+                GetoptTokenizer.ExplodeOptionList(
                     Result.Succeed(
                         Enumerable.Empty<Token>().Concat(new[] { Token.Name("i"), Token.Value("10"),
                             Token.Name("string-seq"), Token.Value("aaa,bb,cccc"), Token.Name("switch") }),
@@ -47,7 +47,7 @@ namespace CommandLine.Tests.Unit.Core
 
             // Exercize system
             var result =
-                Tokenizer.ExplodeOptionList(
+                GetoptTokenizer.ExplodeOptionList(
                     Result.Succeed(
                         Enumerable.Empty<Token>().Concat(new[] { Token.Name("x"),
                             Token.Name("string-seq"), Token.Value("aaa,bb,cccc"), Token.Name("switch") }),
@@ -90,7 +90,7 @@ namespace CommandLine.Tests.Unit.Core
             var errors = result.SuccessMessages();
 
             Assert.NotNull(errors);
-            Assert.NotEmpty(errors);
+            Assert.Equal(1, errors.Count());
             Assert.Equal(ErrorType.BadFormatTokenError, errors.First().Tag);
 
             var tokens = result.SucceededWith();
