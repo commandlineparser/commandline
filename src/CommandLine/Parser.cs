@@ -100,7 +100,9 @@ namespace CommandLine
                     settings.CaseInsensitiveEnumValues,
                     settings.ParsingCulture,
                     settings.AutoHelp,
+                    settings.AutoHelpShortName,
                     settings.AutoVersion,
+                    settings.AutoVersionShortName,
                     settings.AllowMultiInstance,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
@@ -131,7 +133,9 @@ namespace CommandLine
                     settings.CaseInsensitiveEnumValues,
                     settings.ParsingCulture,
                     settings.AutoHelp,
+                    settings.AutoHelpShortName,
                     settings.AutoVersion,
+                    settings.AutoVersionShortName,
                     settings.AllowMultiInstance,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
@@ -164,7 +168,9 @@ namespace CommandLine
                     settings.CaseInsensitiveEnumValues,
                     settings.ParsingCulture,
                     settings.AutoHelp,
+                    settings.AutoHelpShortName,
                     settings.AutoVersion,
+                    settings.AutoVersionShortName,
                     settings.AllowMultiInstance,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);

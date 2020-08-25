@@ -32,7 +32,9 @@ namespace CommandLine.Core
                 ignoreValueCase,
                 parsingCulture,
                 autoHelp,
+                false,
                 autoVersion,
+                false,
                 false,
                 nonFatalErrors);
         }
@@ -45,9 +47,12 @@ namespace CommandLine.Core
             bool ignoreValueCase,
             CultureInfo parsingCulture,
             bool autoHelp,
+            bool autoHelpShortName,
             bool autoVersion,
+            bool autoVersionShortName,
             bool allowMultiInstance,
-            IEnumerable<ErrorType> nonFatalErrors)        {
+            IEnumerable<ErrorType> nonFatalErrors)
+        {
             var typeInfo = factory.MapValueOrDefault(f => f().GetType(), typeof(T));
 
             var specProps = typeInfo.GetSpecifications(pi => SpecificationProperty.Create(
@@ -56,7 +61,9 @@ namespace CommandLine.Core
 
             var specs = from pt in specProps select pt.Specification;
 
-            var optionSpecs = specs
+            var autoSpecs = AddAutoSpecs(specs, nameComparer, autoHelp, autoHelpShortName, autoVersion, autoVersionShortName);
+
+            var optionSpecs = autoSpecs
                 .ThrowingValidate(SpecificationGuards.Lookup)
                 .OfType<OptionSpecification>()
                 .Memoize();
@@ -71,12 +78,13 @@ namespace CommandLine.Core
                 errs => new NotParsed<T>(makeDefault().GetType().ToTypeInfo(), errs);
 
             var argumentsList = arguments.Memoize();
+
+            var tokenizerResult = tokenizer(argumentsList, optionSpecs);
+
+            var tokens = tokenizerResult.SucceededWith().Memoize();
+
             Func<ParserResult<T>> buildUp = () =>
             {
-                var tokenizerResult = tokenizer(argumentsList, optionSpecs);
-
-                var tokens = tokenizerResult.SucceededWith().Memoize();
-
                 var partitions = TokenPartitioner.Partition(
                     tokens,
                     name => TypeLookup.FindTypeDescriptorAndSibling(name, optionSpecs, nameComparer));
@@ -136,8 +144,8 @@ namespace CommandLine.Core
             };
 
             var preprocessorErrors = (
-                    argumentsList.Any()
-                    ? arguments.Preprocess(PreprocessorGuards.Lookup(nameComparer, autoHelp, autoVersion))
+                    tokens.Any()
+                    ? tokens.Preprocess(PreprocessorGuards.Lookup(nameComparer, autoHelp, autoHelpShortName, autoVersion, autoVersionShortName))
                     : Enumerable.Empty<Error>()
                 ).Memoize();
 
@@ -148,6 +156,26 @@ namespace CommandLine.Core
                 : buildUp();
 
             return result;
+        }
+
+        private static IEnumerable<Specification> AddAutoSpecs(IEnumerable<Specification> specs, StringComparer nameComparer, bool autoHelp, bool autoHelpShortName, bool autoVersion, bool autoVersionShortName)
+        {
+            var optionSpecs = specs.OfType<OptionSpecification>().Memoize();
+            bool useHelpShortName = autoHelpShortName && !(optionSpecs.Any(spec => nameComparer.Equals(spec.ShortName, "h")));
+            bool useVersionShortName = autoVersionShortName && !(optionSpecs.Any(spec => nameComparer.Equals(spec.ShortName, "V")));  // Uppercase V
+            bool addAutoHelp = autoHelp && !(optionSpecs.Any(spec => nameComparer.Equals(spec.LongName, "help")));
+            bool addAutoVersion = autoVersion && !(optionSpecs.Any(spec => nameComparer.Equals(spec.LongName, "version")));
+
+            var autoSpecs = new List<OptionSpecification>(2);
+            if (addAutoHelp)
+            {
+                autoSpecs.Add(OptionSpecification.NewSwitch(useHelpShortName ? "h" : String.Empty, "help", false, "Display this help screen.", String.Empty));
+            }
+            if (addAutoVersion)
+            {
+                autoSpecs.Add(OptionSpecification.NewSwitch(useVersionShortName ? "V" : String.Empty, "version", false, "Display version information.", String.Empty));
+            }
+            return specs.Concat(autoSpecs);
         }
 
         private static T BuildMutable<T>(Maybe<Func<T>> factory, IEnumerable<SpecificationProperty> specPropsWithValue, List<Error> setPropertyErrors )

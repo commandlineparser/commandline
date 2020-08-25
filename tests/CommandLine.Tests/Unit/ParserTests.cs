@@ -759,14 +759,12 @@ namespace CommandLine.Tests.Unit
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines[0].Should().Be(HeadingInfo.Default.ToString());
             lines[1].Should().Be(CopyrightInfo.Default.ToString());
-            lines[2].Should().BeEquivalentTo("ERROR(S):");
-            lines[3].Should().BeEquivalentTo("Option 'bad-arg' is unknown.");
-            lines[4].Should().BeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
-            lines[5].Should().BeEquivalentTo("filesystem by copying files.");
-            lines[6].Should().BeEquivalentTo("-q, --quiet       Suppress summary message.");
-            lines[7].Should().BeEquivalentTo("--help            Display this help screen.");
-            lines[8].Should().BeEquivalentTo("--version         Display version information.");
-            lines[9].Should().BeEquivalentTo("value pos. 0");
+            lines[2].Should().BeEquivalentTo("--no-hardlinks    Optimize the cloning process from a repository on a local");
+            lines[3].Should().BeEquivalentTo("filesystem by copying files.");
+            lines[4].Should().BeEquivalentTo("-q, --quiet       Suppress summary message.");
+            lines[5].Should().BeEquivalentTo("--help            Display this help screen.");
+            lines[6].Should().BeEquivalentTo("--version         Display version information.");
+            lines[7].Should().BeEquivalentTo("value pos. 0");
 
             // Teardown
         }
