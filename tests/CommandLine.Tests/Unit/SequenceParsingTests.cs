@@ -17,9 +17,9 @@ namespace CommandLine.Tests.Unit
     {
         // Issue #91
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public static void Enumerable_with_separator_before_values_does_not_try_to_parse_too_much(bool useGetoptMode)
+        [InlineData(ParserMode.Classic)]
+        [InlineData(ParserMode.Getopt)]
+        public static void Enumerable_with_separator_before_values_does_not_try_to_parse_too_much(ParserMode parserMode)
         {
             var args = "--exclude=a,b InputFile.txt".Split();
             var expected = new Options_For_Issue_91 {
@@ -27,7 +27,7 @@ namespace CommandLine.Tests.Unit
                 Included = Enumerable.Empty<string>(),
                 InputFileName = "InputFile.txt",
             };
-            var sut = new Parser(parserSettings => { parserSettings.GetoptMode = useGetoptMode; });
+            var sut = new Parser(parserSettings => { parserSettings.ParserMode = parserMode; });
             var result = sut.ParseArguments<Options_For_Issue_91>(args);
             result.Should().BeOfType<Parsed<Options_For_Issue_91>>();
             result.As<Parsed<Options_For_Issue_91>>().Value.Should().BeEquivalentTo(expected);
@@ -35,13 +35,13 @@ namespace CommandLine.Tests.Unit
 
         // Issue #396
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public static void Options_with_similar_names_are_not_ambiguous(bool useGetoptMode)
+        [InlineData(ParserMode.Classic)]
+        [InlineData(ParserMode.Getopt)]
+        public static void Options_with_similar_names_are_not_ambiguous(ParserMode parserMode)
         {
             var args = new[] { "--configure-profile", "deploy", "--profile", "local" };
             var expected = new Options_With_Similar_Names { ConfigureProfile = "deploy", Profile = "local", Deploys = Enumerable.Empty<string>() };
-            var sut = new Parser(parserSettings => { parserSettings.GetoptMode = useGetoptMode; });
+            var sut = new Parser(parserSettings => { parserSettings.ParserMode = parserMode; });
             var result = sut.ParseArguments<Options_With_Similar_Names>(args);
             result.Should().BeOfType<Parsed<Options_With_Similar_Names>>();
             result.As<Parsed<Options_With_Similar_Names>>().Value.Should().BeEquivalentTo(expected);
@@ -68,17 +68,17 @@ namespace CommandLine.Tests.Unit
 
         // Issue #454
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [InlineData(ParserMode.Classic)]
+        [InlineData(ParserMode.Getopt)]
 
-        public static void Enumerable_with_colon_separator_before_values_does_not_try_to_parse_too_much(bool useGetoptMode)
+        public static void Enumerable_with_colon_separator_before_values_does_not_try_to_parse_too_much(ParserMode parserMode)
         {
             var args = "-c chanA:chanB file.hdf5".Split();
             var expected = new Options_For_Issue_454 {
                 Channels = new[] { "chanA", "chanB" },
                 ArchivePath = "file.hdf5",
             };
-            var sut = new Parser(parserSettings => { parserSettings.GetoptMode = useGetoptMode; });
+            var sut = new Parser(parserSettings => { parserSettings.ParserMode = parserMode; });
             var result = sut.ParseArguments<Options_For_Issue_454>(args);
             result.Should().BeOfType<Parsed<Options_For_Issue_454>>();
             result.As<Parsed<Options_For_Issue_454>>().Value.Should().BeEquivalentTo(expected);
@@ -86,14 +86,14 @@ namespace CommandLine.Tests.Unit
 
         // Issue #510
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [InlineData(ParserMode.Classic)]
+        [InlineData(ParserMode.Getopt)]
 
-        public static void Enumerable_before_values_does_not_try_to_parse_too_much(bool useGetoptMode)
+        public static void Enumerable_before_values_does_not_try_to_parse_too_much(ParserMode parserMode)
         {
             var args = new[] { "-a", "1,2", "c" };
             var expected = new Options_For_Issue_510 { A = new[] { "1", "2" }, C = "c" };
-            var sut = new Parser(parserSettings => { parserSettings.GetoptMode = useGetoptMode; });
+            var sut = new Parser(parserSettings => { parserSettings.ParserMode = parserMode; });
             var result = sut.ParseArguments<Options_For_Issue_510>(args);
             result.Should().BeOfType<Parsed<Options_For_Issue_510>>();
             result.As<Parsed<Options_For_Issue_510>>().Value.Should().BeEquivalentTo(expected);
@@ -101,17 +101,17 @@ namespace CommandLine.Tests.Unit
 
         // Issue #617
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [InlineData(ParserMode.Classic)]
+        [InlineData(ParserMode.Getopt)]
 
-        public static void Enumerable_with_enum_before_values_does_not_try_to_parse_too_much(bool useGetoptMode)
+        public static void Enumerable_with_enum_before_values_does_not_try_to_parse_too_much(ParserMode parserMode)
         {
             var args = "--fm D,C a.txt".Split();
             var expected = new Options_For_Issue_617 {
                 Mode = new[] { FMode.D, FMode.C },
                 Files = new[] { "a.txt" },
             };
-            var sut = new Parser(parserSettings => { parserSettings.GetoptMode = useGetoptMode; });
+            var sut = new Parser(parserSettings => { parserSettings.ParserMode = parserMode; });
             var result = sut.ParseArguments<Options_For_Issue_617>(args);
             result.Should().BeOfType<Parsed<Options_For_Issue_617>>();
             result.As<Parsed<Options_For_Issue_617>>().Value.Should().BeEquivalentTo(expected);
@@ -119,10 +119,10 @@ namespace CommandLine.Tests.Unit
 
         // Issue #619
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
+        [InlineData(ParserMode.Classic)]
+        [InlineData(ParserMode.Getopt)]
 
-        public static void Separator_just_before_values_does_not_try_to_parse_values(bool useGetoptMode)
+        public static void Separator_just_before_values_does_not_try_to_parse_values(ParserMode parserMode)
         {
             var args = "--outdir ./x64/Debug --modules ../utilities/x64/Debug,../auxtool/x64/Debug m_xfunit.f03 m_xfunit_assertion.f03".Split();
             var expected = new Options_For_Issue_619 {
@@ -131,7 +131,7 @@ namespace CommandLine.Tests.Unit
                 Ignores = Enumerable.Empty<string>(),
                 Srcs = new[] { "m_xfunit.f03", "m_xfunit_assertion.f03" },
             };
-            var sut = new Parser(parserSettings => { parserSettings.GetoptMode = useGetoptMode; });
+            var sut = new Parser(parserSettings => { parserSettings.ParserMode = parserMode; });
             var result = sut.ParseArguments<Options_For_Issue_619>(args);
             result.Should().BeOfType<Parsed<Options_For_Issue_619>>();
             result.As<Parsed<Options_For_Issue_619>>().Value.Should().BeEquivalentTo(expected);
