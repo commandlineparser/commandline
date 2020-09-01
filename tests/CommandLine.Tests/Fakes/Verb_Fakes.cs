@@ -119,4 +119,22 @@ namespace CommandLine.Tests.Fakes
         [Option('t', "test")]
         public bool TestValue { get; set; }
     }
+    
+    [Verb("Verb1")] public class Option1 { }
+    [Verb("Verb2")] public class Option2 { }
+    [Verb("Verb3")] public class Option3 { }
+    [Verb("Verb4")] public class Option4 { }
+    [Verb("Verb5")] public class Option5 { }
+    [Verb("Verb6")] public class Option6 { }
+    [Verb("Verb7")] public class Option7 { }
+    [Verb("Verb8")] public class Option8 { }
+    [Verb("Verb9")] public class Option9 { }
+    [Verb("Verb10")] public class Option10 { }
+    [Verb("Verb11")] public class Option11 { }
+    [Verb("Verb12")] public class Option12 { }
+    [Verb("Verb13")] public class Option13 { }
+    [Verb("Verb14")] public class Option14 { }
+    [Verb("Verb15")] public class Option15 { }
+    [Verb("Verb16")] public class Option16 { }
+    [Verb("Verb17")] public class Option17 { }
 }
