@@ -19,17 +19,20 @@ namespace CommandLine.Core
 
             var tokenList = tokens.Memoize();
             var switches = new HashSet<Token>(Switch.Partition(tokenList, typeLookup), tokenComparer);
+            var scalarSwitches = new HashSet<Token>(ScalarSwitch.Partition(tokenList, typeLookup), tokenComparer);
             var scalars = new HashSet<Token>(Scalar.Partition(tokenList, typeLookup), tokenComparer);
             var sequences = new HashSet<Token>(Sequence.Partition(tokenList, typeLookup), tokenComparer);
             var nonOptions = tokenList
                 .Where(t => !switches.Contains(t))
                 .Where(t => !scalars.Contains(t))
+                .Where(t => !scalarSwitches.Contains(t))
                 .Where(t => !sequences.Contains(t)).Memoize();
             var values = nonOptions.Where(v => v.IsValue()).Memoize();
             var errors = nonOptions.Except(values, (IEqualityComparer<Token>)ReferenceEqualityComparer.Default).Memoize();
 
             return Tuple.Create(
                     KeyValuePairHelper.ForSwitch(switches)
+                        .Concat(KeyValuePairHelper.ForScalarSwitch(scalarSwitches))
                         .Concat(KeyValuePairHelper.ForScalar(scalars))
                         .Concat(KeyValuePairHelper.ForSequence(sequences)),
                 values.Select(t => t.Text),

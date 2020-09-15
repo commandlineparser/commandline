@@ -40,9 +40,9 @@ namespace CommandLine.Core
         {
             return
                 (from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
-                    let attrs = pi.GetCustomAttributes(true)
-                    where attrs.OfType<UsageAttribute>().Any()
-                    select Tuple.Create(pi, (UsageAttribute)attrs.First()))
+                 let attrs = pi.GetCustomAttributes(true)
+                 where attrs.OfType<UsageAttribute>().Any()
+                 select Tuple.Create(pi, (UsageAttribute)attrs.First()))
                         .SingleOrDefault()
                         .ToMaybe();
         }
@@ -73,11 +73,13 @@ namespace CommandLine.Core
         {
             return type == typeof(bool)
                        ? TargetType.Switch
-                       : type == typeof(string)
-                             ? TargetType.Scalar
-                             : type.IsArray || typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(type)
-                                   ? TargetType.Sequence
-                                   : TargetType.Scalar;
+                       : type == typeof(bool?)
+                             ? TargetType.ScalarSwitch
+                             : type == typeof(string)
+                                   ? TargetType.Scalar
+                                   : type.IsArray || typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(type)
+                                         ? TargetType.Sequence
+                                         : TargetType.Scalar;
         }
 
         public static IEnumerable<Error> SetProperties<T>(
@@ -136,7 +138,7 @@ namespace CommandLine.Core
             // Find all inherited defined properties and fields on the type
             var inheritedTypes = type.GetTypeInfo().FlattenHierarchy().Select(i => i.GetTypeInfo());
 
-            foreach (var inheritedType in inheritedTypes) 
+            foreach (var inheritedType in inheritedTypes)
             {
                 if (
                     inheritedType.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite) ||
@@ -167,7 +169,7 @@ namespace CommandLine.Core
             }
 
             var ctorTypes = type.GetSpecifications(pi => pi.PropertyType).ToArray();
- 
+
             return ReflectionHelper.CreateDefaultImmutableInstance(type, ctorTypes);
         }
 
@@ -211,7 +213,7 @@ namespace CommandLine.Core
             return
                    (type.GetTypeInfo().IsValueType && type != typeof(Guid))
                 || type.GetTypeInfo().IsPrimitive
-                || new [] { 
+                || new [] {
                      typeof(string)
                     ,typeof(decimal)
                     ,typeof(DateTime)

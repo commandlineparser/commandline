@@ -212,6 +212,7 @@ namespace CommandLine
             switch (spec.TargetType)
             {
                 case TargetType.Scalar:
+                case TargetType.ScalarSwitch:
                     builder.Append(FormatWithQuotesIfString(value));
                     break;
                 case TargetType.Sequence:

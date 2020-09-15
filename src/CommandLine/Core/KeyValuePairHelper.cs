@@ -15,6 +15,14 @@ namespace CommandLine.Core
             return tokens.Select(t => t.Text.ToKeyValuePair("true"));
         }
 
+        public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForScalarSwitch(
+            IEnumerable<Token> tokens)
+        {
+            return tokens
+                .Group(2)
+                .Select((g) => g[0].Text.ToKeyValuePair(g[1].Text));
+        }
+
         public static IEnumerable<KeyValuePair<string, IEnumerable<string>>> ForScalar(
             IEnumerable<Token> tokens)
         {
