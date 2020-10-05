@@ -30,6 +30,7 @@ namespace CommandLine.Core
         private readonly Maybe<int> min;
         private readonly Maybe<int> max;
         private readonly Maybe<object> defaultValue;
+        private readonly Maybe<string> env;
         private readonly string helpText;
         private readonly string metaValue;
         private readonly IEnumerable<string> enumValues;
@@ -38,7 +39,7 @@ namespace CommandLine.Core
         private readonly TargetType targetType;
 
         protected Specification(SpecificationType tag, bool required, Maybe<int> min, Maybe<int> max,
-            Maybe<object> defaultValue, string helpText, string metaValue, IEnumerable<string> enumValues,
+            Maybe<object> defaultValue, Maybe<string> env, string helpText, string metaValue, IEnumerable<string> enumValues,
             Type conversionType, TargetType targetType, bool hidden = false)
         {
             this.tag = tag;
@@ -46,6 +47,7 @@ namespace CommandLine.Core
             this.min = min;
             this.max = max;
             this.defaultValue = defaultValue;
+            this.env = env;
             this.conversionType = conversionType;
             this.targetType = targetType;
             this.helpText = helpText;
@@ -54,7 +56,7 @@ namespace CommandLine.Core
             this.hidden = hidden;
         }
 
-        public SpecificationType Tag 
+        public SpecificationType Tag
         {
             get { return tag; }
         }
@@ -78,6 +80,12 @@ namespace CommandLine.Core
         {
             get { return defaultValue; }
         }
+
+        public Maybe<string> Env
+        {
+            get { return env; }
+        }
+
 
         public string HelpText
         {
@@ -110,13 +118,13 @@ namespace CommandLine.Core
         }
 
         public static Specification FromProperty(PropertyInfo property)
-        {       
+        {
             var attrs = property.GetCustomAttributes(true);
             var oa = attrs.OfType<OptionAttribute>();
             if (oa.Count() == 1)
             {
                 var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType,
-                    ReflectionHelper.GetNamesOfEnum(property.PropertyType)); 
+                    ReflectionHelper.GetNamesOfEnum(property.PropertyType));
 
                 if (spec.ShortName.Length == 0 && spec.LongName.Length == 0)
                 {

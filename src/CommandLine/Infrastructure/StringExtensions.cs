@@ -66,12 +66,14 @@ namespace CommandLine.Infrastructure
         public static bool IsBooleanString(this string value)
         {
             return value.Equals("true", StringComparison.OrdinalIgnoreCase)
-                || value.Equals("false", StringComparison.OrdinalIgnoreCase);
+                || value.Equals("false", StringComparison.OrdinalIgnoreCase)
+                || value.Equals("1", StringComparison.OrdinalIgnoreCase)
+                || value.Equals("0", StringComparison.OrdinalIgnoreCase);
         }
 
         public static bool ToBoolean(this string value)
         {
-            return value.Equals("true", StringComparison.OrdinalIgnoreCase);
+            return value.Equals("true", StringComparison.OrdinalIgnoreCase) || value.Equals("1", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
