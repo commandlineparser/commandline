@@ -133,6 +133,39 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_spec_with_enviroment_variables()
+        {
+            // Fixture setup
+            var expectedOptions = new Simple_Options_With_Env
+            {
+                StringValue = "astring",
+                LongValue = 20L,
+                IntValue = 2,
+                BoolValueFullFalse = false,
+                BoolValueFullTrue = true,
+                BoolValueShortTrue = true,
+                BoolValueShortFalse = false,
+            };
+            var sut = new Parser(with => with.EnableDashDash = true);
+
+            // Exercize system
+            Environment.SetEnvironmentVariable("StringValue", "astring");
+            Environment.SetEnvironmentVariable("LongValue", "20");
+            Environment.SetEnvironmentVariable("IntValue", null);
+            Environment.SetEnvironmentVariable("BoolValueFullFalse", "false");
+            Environment.SetEnvironmentVariable("BoolValueFullTrue", "true");
+            Environment.SetEnvironmentVariable("BoolValueShortTrue", "1");
+            Environment.SetEnvironmentVariable("BoolValueShortFalse", "0");
+            var result =
+                sut.ParseArguments<Simple_Options_With_Env>(
+                    new string[0]);
+
+            // Verify outcome
+            ((Parsed<Simple_Options_With_Env>)result).Value.Should().BeEquivalentTo(expectedOptions);
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_options_with_double_dash_and_option_sequence()
         {
             var expectedOptions = new Options_With_Option_Sequence_And_Value_Sequence
