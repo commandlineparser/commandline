@@ -12,6 +12,7 @@ namespace CommandLine
         private int min;
         private int max;
         private object @default;
+        private string env;
         private Infrastructure.LocalizableAttributeProperty helpText;
         private string metaValue;
         private Type resourceType;
@@ -84,6 +85,18 @@ namespace CommandLine
             set
             {
                 @default = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets mapped property env value.
+        /// </summary>
+        public string Env
+        {
+            get { return env; }
+            set
+            {
+                env = value;
             }
         }
 

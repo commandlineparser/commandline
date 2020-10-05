@@ -88,7 +88,7 @@ namespace CommandLine.Core
                 T instance;
                 if(typeInfo.IsMutable() == true)
                 {
-                    instance = BuildMutable(factory, specPropsWithValue, setPropertyErrors);
+                    instance = BuildMutable(factory, specPropsWithValue, setPropertyErrors, ignoreValueCase, parsingCulture);
                 }
                 else
                 {
@@ -126,7 +126,12 @@ namespace CommandLine.Core
             return result;
         }
 
-        private static T BuildMutable<T>(Maybe<Func<T>> factory, IEnumerable<SpecificationProperty> specPropsWithValue, List<Error> setPropertyErrors )
+        private static T BuildMutable<T>(
+            Maybe<Func<T>> factory,
+            IEnumerable<SpecificationProperty> specPropsWithValue,
+            List<Error> setPropertyErrors,
+            bool ignoreValueCase,
+            CultureInfo parsingCulture)
         {
             var mutable = factory.MapValueOrDefault(f => f(), () => Activator.CreateInstance<T>());
 
@@ -141,7 +146,27 @@ namespace CommandLine.Core
             setPropertyErrors.AddRange(
                 mutable.SetProperties(
                     specPropsWithValue,
-                    sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust(),
+                    sp => sp.Value.IsNothing() && sp.Specification.Env.Map(Environment.GetEnvironmentVariable).Map(n => !(n is null)).GetValueOrDefault(false),
+                    sp => sp.Specification.Env
+                        .Map(Environment.GetEnvironmentVariable)
+                        .Bind(v =>
+                        {
+                            var isSequence = sp.Specification.TargetType == TargetType.Sequence;
+                            if (isSequence)
+                            {
+                                throw new Exception($"Sequences not supported for options with \"Env\" as is the case with {sp.Property.Name}");
+                            }
+                            return TypeConverter
+                            .ChangeType(new string[] { v }, sp.Specification.ConversionType, true, parsingCulture, ignoreValueCase);
+                        })
+                        .FromJustOrFail()
+                )
+            );
+
+            setPropertyErrors.AddRange(
+                mutable.SetProperties(
+                    specPropsWithValue,
+                    sp => sp.Value.IsNothing() && sp.Specification.DefaultValue.IsJust() && sp.Specification.Env.Map(Environment.GetEnvironmentVariable).Map(n => n is null).GetValueOrDefault(true),
                     sp => sp.Specification.DefaultValue.FromJustOrFail()
                 )
             );
