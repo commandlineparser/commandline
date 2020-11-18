@@ -19,6 +19,15 @@ namespace CommandLine.Text
         private readonly string version;
 
         /// <summary>
+        /// Initializes a new, empty instance of the <see cref="CommandLine.Text.HeadingInfo"/> class.
+        /// </summary>
+        private HeadingInfo()
+        {
+            programName = string.Empty;
+            version = null;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HeadingInfo"/> class
         /// specifying program name and version.
         /// </summary>
@@ -40,7 +49,7 @@ namespace CommandLine.Text
         {
             get
             {
-                return new HeadingInfo("");
+                return new HeadingInfo();
             }
         }
 
