@@ -19,6 +19,15 @@ namespace CommandLine.Text
         private readonly string version;
 
         /// <summary>
+        /// Initializes a new, empty instance of the <see cref="CommandLine.Text.HeadingInfo"/> class.
+        /// </summary>
+        private HeadingInfo()
+        {
+            programName = string.Empty;
+            version = null;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CommandLine.Text.HeadingInfo"/> class
         /// specifying program name and version.
         /// </summary>
@@ -27,7 +36,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="programName"/> is null or empty string.</exception>
         public HeadingInfo(string programName, string version = null)
         {
-            if (string.IsNullOrWhiteSpace("programName")) throw new ArgumentException("programName");
+            if (string.IsNullOrWhiteSpace(programName)) throw new ArgumentException("programName");
 
             this.programName = programName;
             this.version = version;
@@ -40,7 +49,7 @@ namespace CommandLine.Text
         {
             get
             {
-                return new HeadingInfo("");
+                return new HeadingInfo();
             }
         }
 
@@ -102,7 +111,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="writer"/> is null.</exception>
         public void WriteMessage(string message, TextWriter writer)
         {
-            if (string.IsNullOrWhiteSpace("message")) throw new ArgumentException("message");
+            if (string.IsNullOrWhiteSpace(message)) throw new ArgumentException("message");
             if (writer == null) throw new ArgumentNullException("writer");
 
             writer.WriteLine(
