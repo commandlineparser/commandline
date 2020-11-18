@@ -27,7 +27,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="programName"/> is null or empty string.</exception>
         public HeadingInfo(string programName, string version = null)
         {
-            if (string.IsNullOrWhiteSpace("programName")) throw new ArgumentException("programName");
+            if (string.IsNullOrWhiteSpace(programName)) throw new ArgumentException("programName");
 
             this.programName = programName;
             this.version = version;
@@ -102,7 +102,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="writer"/> is null.</exception>
         public void WriteMessage(string message, TextWriter writer)
         {
-            if (string.IsNullOrWhiteSpace("message")) throw new ArgumentException("message");
+            if (string.IsNullOrWhiteSpace(message)) throw new ArgumentException("message");
             if (writer == null) throw new ArgumentNullException("writer");
 
             writer.WriteLine(
