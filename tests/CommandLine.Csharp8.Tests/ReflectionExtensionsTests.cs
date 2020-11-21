@@ -17,7 +17,7 @@ namespace CommandLine.Csharp8.Tests
 
     public class NullableReferenceTypeOptions
     {
-        [Option(HelpText = "Define a string value here.")]
+        [Option(HelpText = "Define a nullable string value here.")]
         public string? StringValue { get; set; }
 
         [Usage]
@@ -25,7 +25,7 @@ namespace CommandLine.Csharp8.Tests
         {
             get 
             {
-                yield return new Example("Run on current directory", new NullableReferenceTypeOptions());
+                yield return new Example("This method has a UsageAttribute", new NullableReferenceTypeOptions());
             }
         }
     }
