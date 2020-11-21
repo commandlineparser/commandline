@@ -38,13 +38,14 @@ namespace CommandLine.Core
 
         public static Maybe<Tuple<PropertyInfo, UsageAttribute>> GetUsageData(this Type type)
         {
-            return
-                (from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
-                    let attrs = pi.GetCustomAttributes(true)
-                    where attrs.OfType<UsageAttribute>().Any()
-                    select Tuple.Create(pi, (UsageAttribute)attrs.First(attr => attr is UsageAttribute)))
-                        .SingleOrDefault()
-                        .ToMaybe();
+            return (
+                from types in type.FlattenHierarchy()
+                from pi in types.GetTypeInfo().GetProperties()
+                from attr in pi.GetCustomAttributes(true).OfType<UsageAttribute>()
+                select Tuple.Create(pi, attr)
+                )
+                .SingleOrDefault()
+                .ToMaybe();
         }
 
         private static IEnumerable<Type> FlattenHierarchy(this Type type)
