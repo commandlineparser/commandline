@@ -674,7 +674,6 @@ namespace CommandLine.Tests.Unit.Text
             actualResult.Copyright.Should().Be(expectedCopyright);
         }
 
-
         [Fact]
         public void AutoBuild_with_assembly_title_and_version_attributes_only()
         {
@@ -691,6 +690,25 @@ namespace CommandLine.Tests.Unit.Text
                 TypeInfo.Create(typeof(Simple_Options)), new Error[0]);
             HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
             actualResult.Heading.Should().Be(string.Format("{0} {1}", expectedTitle, expectedVersion));
+        }
+
+        [Fact]
+        public void AutoBuild_with_assembly_title_and_version_and_version_prefix_attributes_only()
+        {
+            string expectedTitle = "Title";
+            string expectedVersion = "1.2.3.4";
+            string expectedVersionAttribute = "version-prefix-";
+
+            ReflectionHelper.SetAttributeOverride(new Attribute[]
+            {
+                new AssemblyTitleAttribute(expectedTitle),
+                new AssemblyInformationalVersionAttribute(expectedVersion)
+            });
+
+            ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
+                TypeInfo.Create(typeof(Simple_Options)), new Error[0]);
+            HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex, versionPrefix: expectedVersionAttribute);
+            actualResult.Heading.Should().Be(string.Format("{0} {1}{2}", expectedTitle, expectedVersionAttribute, expectedVersion));
         }
 
         [Fact]
