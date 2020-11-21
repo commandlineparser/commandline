@@ -42,7 +42,7 @@ namespace CommandLine.Core
                 (from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
                     let attrs = pi.GetCustomAttributes(true)
                     where attrs.OfType<UsageAttribute>().Any()
-                    select Tuple.Create(pi, (UsageAttribute)attrs.First()))
+                    select Tuple.Create(pi, (UsageAttribute)attrs.First(attr => attr is UsageAttribute)))
                         .SingleOrDefault()
                         .ToMaybe();
         }
