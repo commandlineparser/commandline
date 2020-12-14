@@ -50,7 +50,7 @@ namespace CommandLine
         {
             get
             {
-                return ShortName.Length > 0 && LongName.Length > 0
+                return ShortName.Length > 0 && LongName.Length > 0 && ShortName != LongName
                            ? ShortName + ", " + LongName
                            : ShortName.Length > 0
                                 ? ShortName
