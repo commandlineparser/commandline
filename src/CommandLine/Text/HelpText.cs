@@ -316,7 +316,7 @@ namespace CommandLine.Text
         /// <param name='onExample'>A delegate used to customize <see cref="CommandLine.Text.Example"/> model used to render text block of usage examples.</param>
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
-        /// <remarks>The parameter <paramref name="verbsIndex"/> is not ontly a metter of formatting, it controls whether to handle verbs or options.</remarks>
+        /// <remarks>The parameter <paramref name="verbsIndex"/> is not only a matter of formatting, it controls whether to handle verbs or options.</remarks>
         public static HelpText AutoBuild<T>(
             ParserResult<T> parserResult,
             Func<HelpText, HelpText> onError,
