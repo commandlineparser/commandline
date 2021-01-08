@@ -13,7 +13,7 @@ namespace CommandLine
         private int max;
         private object @default;
         private Infrastructure.LocalizableAttributeProperty helpText;
-        private string metaValue;
+        private Infrastructure.LocalizableAttributeProperty metaValue;
         private Type resourceType;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace CommandLine
             min = -1;
             max = -1;
             helpText = new Infrastructure.LocalizableAttributeProperty(nameof(HelpText));
-            metaValue = string.Empty;
+            metaValue = new Infrastructure.LocalizableAttributeProperty(nameof(MetaValue));
             resourceType = null;
         }
 
@@ -101,16 +101,8 @@ namespace CommandLine
         /// </summary>
         public string MetaValue
         {
-            get { return metaValue; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("value");
-                }
-
-                metaValue = value;
-            }
+            get => metaValue.Value ?? string.Empty;
+            set => metaValue.Value = value ?? throw new ArgumentNullException("value");
         }
 
         /// <summary>
