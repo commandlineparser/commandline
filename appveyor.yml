@@ -53,7 +53,7 @@ deploy:
 
 - provider: NuGet
   api_key:
-    secure: Ab4T/48EyIJhVrqkfKdUxmHUtseEVuXuyrGACxZ0KN35rb/BzABlBM2YjZojicvT
+    secure: oy2h2spmvhjrr6pnv7xae6jy4fdm3tzujpsgyxzt4dcmly
   artifact: 'NuGetPackages'
   on:
     APPVEYOR_REPO_TAG: true
