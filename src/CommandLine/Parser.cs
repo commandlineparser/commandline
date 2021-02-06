@@ -185,16 +185,28 @@ namespace CommandLine
                 IEnumerable<OptionSpecification> optionSpecs,
                 ParserSettings settings)
         {
-            return settings.GetoptMode
-                ? GetoptTokenizer.ConfigureTokenizer(
-                    settings.NameComparer,
-                    settings.IgnoreUnknownArguments,
-                    settings.EnableDashDash,
-                    settings.PosixlyCorrect)(arguments, optionSpecs)
-                : Tokenizer.ConfigureTokenizer(
+            switch (settings.ParserMode)
+            {
+                case ParserMode.GetoptParserV1:
+                return Tokenizer.ConfigureTokenizer(
                     settings.NameComparer,
                     settings.IgnoreUnknownArguments,
                     settings.EnableDashDash)(arguments, optionSpecs);
+
+                case ParserMode.GetoptParserV2:
+                return GetoptTokenizer.ConfigureTokenizer(
+                    settings.NameComparer,
+                    settings.IgnoreUnknownArguments,
+                    settings.EnableDashDash,
+                    settings.PosixlyCorrect)(arguments, optionSpecs);
+
+                // No need to test ParserMode.Default, as it should always be one of the above modes
+                default:
+                return Tokenizer.ConfigureTokenizer(
+                    settings.NameComparer,
+                    settings.IgnoreUnknownArguments,
+                    settings.EnableDashDash)(arguments, optionSpecs);
+            }
         }
 
         private static ParserResult<T> MakeParserResult<T>(ParserResult<T> parserResult, ParserSettings settings)

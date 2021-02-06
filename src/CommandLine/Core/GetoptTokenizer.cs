@@ -88,36 +88,6 @@ namespace CommandLine.Core
             return Result.Succeed<IEnumerable<Token>, Error>(tokens.AsEnumerable(), errors.AsEnumerable());
         }
 
-        public static Result<IEnumerable<Token>, Error> ExplodeOptionList(
-            Result<IEnumerable<Token>, Error> tokenizerResult,
-            Func<string, Maybe<char>> optionSequenceWithSeparatorLookup)
-        {
-            var tokens = tokenizerResult.SucceededWith().Memoize();
-
-            var exploded = new List<Token>(tokens is ICollection<Token> coll ? coll.Count : tokens.Count());
-            var nothing = Maybe.Nothing<char>();  // Re-use same Nothing instance for efficiency
-            var separator = nothing;
-            foreach (var token in tokens) {
-                if (token.IsName()) {
-                    separator = optionSequenceWithSeparatorLookup(token.Text);
-                    exploded.Add(token);
-                } else {
-                    // Forced values are never considered option values, so they should not be split
-                    if (separator.MatchJust(out char sep) && sep != '\0' && !token.IsValueForced()) {
-                        if (token.Text.Contains(sep)) {
-                            exploded.AddRange(token.Text.Split(sep).Select(Token.ValueFromSeparator));
-                        } else {
-                            exploded.Add(token);
-                        }
-                    } else {
-                        exploded.Add(token);
-                    }
-                    separator = nothing;  // Only first value after a separator can possibly be split
-                }
-            }
-            return Result.Succeed(exploded as IEnumerable<Token>, tokenizerResult.SuccessMessages());
-        }
-
         public static Func<
                     IEnumerable<string>,
                     IEnumerable<OptionSpecification>,
@@ -131,7 +101,7 @@ namespace CommandLine.Core
             return (arguments, optionSpecs) =>
                 {
                     var tokens = GetoptTokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, nameComparer), ignoreUnknownArguments, enableDashDash, posixlyCorrect);
-                    var explodedTokens = GetoptTokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
+                    var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
                     return explodedTokens;
                 };
         }
