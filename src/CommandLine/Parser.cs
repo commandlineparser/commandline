@@ -187,13 +187,13 @@ namespace CommandLine
         {
             switch (settings.ParserMode)
             {
-                case ParserMode.Classic:
+                case ParserMode.GetoptParserV1:
                 return Tokenizer.ConfigureTokenizer(
                     settings.NameComparer,
                     settings.IgnoreUnknownArguments,
                     settings.EnableDashDash)(arguments, optionSpecs);
 
-                case ParserMode.Getopt:
+                case ParserMode.GetoptParserV2:
                 return GetoptTokenizer.ConfigureTokenizer(
                     settings.NameComparer,
                     settings.IgnoreUnknownArguments,

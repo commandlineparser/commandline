@@ -17,8 +17,8 @@ namespace CommandLine.Tests.Unit
     {
         // Issue #91
         [Theory]
-        [InlineData(ParserMode.Classic)]
-        [InlineData(ParserMode.Getopt)]
+        [InlineData(ParserMode.GetoptParserV1)]
+        [InlineData(ParserMode.GetoptParserV2)]
         public static void Enumerable_with_separator_before_values_does_not_try_to_parse_too_much(ParserMode parserMode)
         {
             var args = "--exclude=a,b InputFile.txt".Split();
@@ -35,8 +35,8 @@ namespace CommandLine.Tests.Unit
 
         // Issue #396
         [Theory]
-        [InlineData(ParserMode.Classic)]
-        [InlineData(ParserMode.Getopt)]
+        [InlineData(ParserMode.GetoptParserV1)]
+        [InlineData(ParserMode.GetoptParserV2)]
         public static void Options_with_similar_names_are_not_ambiguous(ParserMode parserMode)
         {
             var args = new[] { "--configure-profile", "deploy", "--profile", "local" };
@@ -68,8 +68,8 @@ namespace CommandLine.Tests.Unit
 
         // Issue #454
         [Theory]
-        [InlineData(ParserMode.Classic)]
-        [InlineData(ParserMode.Getopt)]
+        [InlineData(ParserMode.GetoptParserV1)]
+        [InlineData(ParserMode.GetoptParserV2)]
 
         public static void Enumerable_with_colon_separator_before_values_does_not_try_to_parse_too_much(ParserMode parserMode)
         {
@@ -86,8 +86,8 @@ namespace CommandLine.Tests.Unit
 
         // Issue #510
         [Theory]
-        [InlineData(ParserMode.Classic)]
-        [InlineData(ParserMode.Getopt)]
+        [InlineData(ParserMode.GetoptParserV1)]
+        [InlineData(ParserMode.GetoptParserV2)]
 
         public static void Enumerable_before_values_does_not_try_to_parse_too_much(ParserMode parserMode)
         {
@@ -101,8 +101,8 @@ namespace CommandLine.Tests.Unit
 
         // Issue #617
         [Theory]
-        [InlineData(ParserMode.Classic)]
-        [InlineData(ParserMode.Getopt)]
+        [InlineData(ParserMode.GetoptParserV1)]
+        [InlineData(ParserMode.GetoptParserV2)]
 
         public static void Enumerable_with_enum_before_values_does_not_try_to_parse_too_much(ParserMode parserMode)
         {
@@ -119,8 +119,8 @@ namespace CommandLine.Tests.Unit
 
         // Issue #619
         [Theory]
-        [InlineData(ParserMode.Classic)]
-        [InlineData(ParserMode.Getopt)]
+        [InlineData(ParserMode.GetoptParserV1)]
+        [InlineData(ParserMode.GetoptParserV2)]
 
         public static void Separator_just_before_values_does_not_try_to_parse_values(ParserMode parserMode)
         {

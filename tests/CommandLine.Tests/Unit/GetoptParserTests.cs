@@ -155,7 +155,7 @@ namespace CommandLine.Tests.Unit
         {
             // Arrange
             var sut = new Parser(config => {
-                config.ParserMode = ParserMode.Getopt;
+                config.ParserMode = ParserMode.GetoptParserV2;
                 config.PosixlyCorrect = false;
             });
 
@@ -215,7 +215,7 @@ namespace CommandLine.Tests.Unit
         {
             // Arrange
             var sut = new Parser(config => {
-                config.ParserMode = ParserMode.Getopt;
+                config.ParserMode = ParserMode.GetoptParserV2;
                 config.PosixlyCorrect = true;
                 config.EnableDashDash = true;
             });
@@ -233,7 +233,7 @@ namespace CommandLine.Tests.Unit
         {
             // Arrange
             var sut = new Parser(config => {
-                config.ParserMode = ParserMode.Getopt;
+                config.ParserMode = ParserMode.GetoptParserV2;
                 config.PosixlyCorrect = false;
             });
             var args = new string [] {"--stringvalue", "foo", "256", "--", "-x", "-sbar" };
@@ -259,7 +259,7 @@ namespace CommandLine.Tests.Unit
         {
             // Arrange
             var sut = new Parser(config => {
-                config.ParserMode = ParserMode.Getopt;
+                config.ParserMode = ParserMode.GetoptParserV2;
                 config.PosixlyCorrect = false;
                 config.EnableDashDash = false;
             });

@@ -11,10 +11,10 @@ namespace CommandLine
 {
     public enum ParserMode
     {
-        Classic,
-        Getopt,
+        GetoptParserV1,
+        GetoptParserV2,
 
-        Default = Classic
+        Default = GetoptParserV1
     }
 
     /// <summary>
@@ -174,11 +174,11 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets a value indicating whether enable double dash '--' syntax,
         /// that forces parsing of all subsequent tokens as values.
-        /// Normally defaults to false. If ParserMode = ParserMode.Getopt, this defaults to true, but can be turned off by explicitly specifying EnableDashDash = false.
+        /// Normally defaults to false. If ParserMode = ParserMode.GetoptParserV2, this defaults to true, but can be turned off by explicitly specifying EnableDashDash = false.
         /// </summary>
         public bool EnableDashDash
         {
-            get => enableDashDash.MatchJust(out bool value) ? value : (parserMode == ParserMode.Getopt);
+            get => enableDashDash.MatchJust(out bool value) ? value : (parserMode == ParserMode.GetoptParserV2);
             set => PopsicleSetter.Set(Consumed, ref enableDashDash, Maybe.Just(value));
         }
 
@@ -193,11 +193,11 @@ namespace CommandLine
 
         /// <summary>
         /// Gets or sets a value indicating whether options are allowed to be specified multiple times.
-        /// If ParserMode = ParserMode.Getopt, this defaults to true, but can be turned off by explicitly specifying AllowMultiInstance = false.
+        /// If ParserMode = ParserMode.GetoptParserV2, this defaults to true, but can be turned off by explicitly specifying AllowMultiInstance = false.
         /// </summary>
         public bool AllowMultiInstance
         {
-            get => allowMultiInstance.MatchJust(out bool value) ? value : (parserMode == ParserMode.Getopt);
+            get => allowMultiInstance.MatchJust(out bool value) ? value : (parserMode == ParserMode.GetoptParserV2);
             set => PopsicleSetter.Set(Consumed, ref allowMultiInstance, Maybe.Just(value));
         }
 
