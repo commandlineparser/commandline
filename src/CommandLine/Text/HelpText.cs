@@ -349,7 +349,7 @@ namespace CommandLine.Text
             if (onError != null && parserResult.Tag == ParserResultType.NotParsed)
             {
                 errors = ((NotParsed<T>)parserResult).Errors;
-                if (errors.IsHelp() || errors.OnlyMeaningfulOnes().Any())
+                if (errors.IsHelp() || errors.IsVersion() || errors.OnlyMeaningfulOnes().Any())
                     auto = onError(auto);
             }
 
