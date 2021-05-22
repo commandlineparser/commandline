@@ -21,12 +21,16 @@ namespace CommandLine.Tests.Unit
         [InlineData("Help text", null, "Help text")]
         [InlineData("HelpText", typeof(Fakes.StaticResource), "Localized HelpText")]
         [InlineData("HelpText", typeof(Fakes.NonStaticResource), "Localized HelpText")]
+        [InlineData("ImplicitCastHelpText", typeof(Fakes.StaticResource), "Localized HelpText")]
+        [InlineData("ImplicitCastHelpText", typeof(Fakes.NonStaticResource), "Localized HelpText")]
+        [InlineData("ExplicitCastHelpText", typeof(Fakes.StaticResource), "Localized HelpText")]
+        [InlineData("ExplicitCastHelpText", typeof(Fakes.NonStaticResource), "Localized HelpText")]
         public static void HelpText(string helpText, Type resourceType, string expected)
         {
             TestBaseAttribute baseAttribute = new TestBaseAttribute();
             baseAttribute.HelpText = helpText;
             baseAttribute.ResourceType = resourceType;
-            
+
             Assert.Equal(expected, baseAttribute.HelpText);
         }
 
@@ -35,6 +39,10 @@ namespace CommandLine.Tests.Unit
         [InlineData("WriteOnlyText", typeof(Fakes.NonStaticResource))]
         [InlineData("PrivateOnlyText", typeof(Fakes.NonStaticResource))]
         [InlineData("HelpText", typeof(Fakes.InternalResource))]
+        [InlineData("WrongImplicitCastHelpText", typeof(Fakes.StaticResource))]
+        [InlineData("WrongExplicitCastHelpText", typeof(Fakes.StaticResource))]
+        [InlineData("WrongImplicitCastHelpText", typeof(Fakes.NonStaticResource))]
+        [InlineData("WrongExplicitCastHelpText", typeof(Fakes.NonStaticResource))]
         public void ThrowsHelpText(string helpText, Type resourceType)
         {
             TestBaseAttribute baseAttribute = new TestBaseAttribute();
