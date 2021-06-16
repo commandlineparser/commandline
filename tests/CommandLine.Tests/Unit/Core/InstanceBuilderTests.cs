@@ -564,10 +564,10 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Breaking_required_constraint_in_string_scalar_as_value_generates_MissingRequiredOptionError()
+        public void Breaking_required_constraint_in_string_scalar_as_value_generates_MissingRequiredValueError()
         {
             // Fixture setup
-            var expectedResult = new[] { new MissingRequiredOptionError(NameInfo.EmptyName) };
+            var expectedResult = new[] { new MissingRequiredValueError(NameInfo.EmptyName, 0) };
 
             // Exercize system 
             var result = InvokeBuild<Options_With_Required_Set_To_True_For_Values>(
