@@ -28,6 +28,10 @@ namespace CommandLine
         /// </summary>
         MissingRequiredOptionError,
         /// <summary>
+        /// Value of <see cref="CommandLine.MissingRequiredValueError"/> type.
+        /// </summary>
+        MissingRequiredValueError,
+        /// <summary>
         /// Value of <see cref="CommandLine.MutuallyExclusiveSetError"/> type.
         /// </summary>
         MutuallyExclusiveSetError,
@@ -353,6 +357,24 @@ namespace CommandLine
             : base(ErrorType.MissingRequiredOptionError, nameInfo)
         {
         }
+    }
+
+    /// <summary>
+    /// Models an error generated when a required value is mssing.
+    /// </summary>
+    public sealed class MissingRequiredValueError : NamedError
+    {
+        internal MissingRequiredValueError(NameInfo nameInfo, int valuePostion)
+            : base(ErrorType.MissingRequiredValueError, nameInfo)
+        {
+            this.ValuePosition = valuePostion;
+        }
+
+        /// <summary>
+        /// Gets the value position of the missing positional argument.
+        /// </summary>
+        /// <value></value>
+        public int ValuePosition { get; }
     }
 
     /// <summary>

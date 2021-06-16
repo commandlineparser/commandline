@@ -130,6 +130,11 @@ namespace CommandLine.Text
                                     return errMisssing.NameInfo.Equals(NameInfo.EmptyName)
                                                ? "A required value not bound to option name is missing."
                                                : "Required option '".JoinTo(errMisssing.NameInfo.NameText, "' is missing.");
+                                case ErrorType.MissingRequiredValueError:
+                                    var errMissing = ((MissingRequiredValueError)error);
+                                    return errMissing.NameInfo.Equals(NameInfo.EmptyName)
+                                               ? "A required value at position '".JoinTo(Convert.ToString(errMissing.ValuePosition), "' is missing.")
+                                               : "Positional argument '".JoinTo(errMissing.NameInfo.NameText, "' is missing.");
                                 case ErrorType.BadFormatConversionError:
                                     var badFormat = ((BadFormatConversionError)error);
                                     return badFormat.NameInfo.Equals(NameInfo.EmptyName)
