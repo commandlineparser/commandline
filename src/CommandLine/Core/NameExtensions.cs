@@ -20,12 +20,21 @@ namespace CommandLine.Core
                 specification.LongName);
         }
 
+        public static NameInfo FromValueSpecification(this ValueSpecification specification)
+        {
+            return new NameInfo(
+                string.Empty,
+                specification.MetaName);
+        }
+
         public static NameInfo FromSpecification(this Specification specification)
         {
             switch (specification.Tag)
             {
                 case SpecificationType.Option:
                     return FromOptionSpecification((OptionSpecification)specification);
+                case SpecificationType.Value:
+                    return FromValueSpecification((ValueSpecification)specification);
                 default:
                     return NameInfo.EmptyName;
             }
