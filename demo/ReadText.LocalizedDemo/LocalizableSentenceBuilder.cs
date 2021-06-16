@@ -59,6 +59,10 @@ namespace ReadText.LocalizedDemo
                             return errMisssing.NameInfo.Equals(NameInfo.EmptyName)
                                        ? Properties.Resources.SentenceMissingRequiredOptionError
                                        : String.Format(Properties.Resources.SentenceMissingRequiredOptionError, errMisssing.NameInfo.NameText);
+                        case ErrorType.MissingRequiredValueError:
+                            var errMissing = ((MissingRequiredValueError)error);
+                            return String.Format(Properties.Resources.SentenceMissingRequiredValueError, 
+                                errMisssing.NameInfo.Equals(NameInfo.EmptyName) ? errMissing.NameInfo.NameText : Convert.ToString(error.ValuePosition));
                         case ErrorType.BadFormatConversionError:
                             var badFormat = ((BadFormatConversionError)error);
                             return badFormat.NameInfo.Equals(NameInfo.EmptyName)
