@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using CommandLine.Infrastructure;
 using CommandLine.Text;
@@ -121,11 +120,7 @@ namespace CommandLine.Core
 
         public static object GetDefaultValue(this Type type)
         {
-            var e = Expression.Lambda<Func<object>>(
-                Expression.Convert(
-                    Expression.Default(type),
-                    typeof(object)));
-            return e.Compile()();
+            return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
 
         public static bool IsMutable(this Type type)
