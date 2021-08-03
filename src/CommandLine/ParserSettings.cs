@@ -25,6 +25,7 @@ namespace CommandLine
         private bool autoVersion;
         private CultureInfo parsingCulture;
         private Maybe<bool> enableDashDash;
+        private OptionsParseMode optionsParseMode;
         private int maximumDisplayWidth;
         private Maybe<bool> allowMultiInstance;
         private bool getoptMode;
@@ -172,6 +173,15 @@ namespace CommandLine
         {
             get => enableDashDash.MatchJust(out bool value) ? value : getoptMode;
             set => PopsicleSetter.Set(Consumed, ref enableDashDash, Maybe.Just(value));
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating how commandline options are being parsed.
+        /// </summary>
+        public OptionsParseMode OptionsParseMode
+        {
+            get => optionsParseMode;
+            set => PopsicleSetter.Set(Consumed, ref optionsParseMode, value);
         }
 
         /// <summary>

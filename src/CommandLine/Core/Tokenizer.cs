@@ -22,21 +22,41 @@ namespace CommandLine.Core
         public static Result<IEnumerable<Token>, Error> Tokenize(
             IEnumerable<string> arguments,
             Func<string, NameLookupResult> nameLookup,
-            Func<IEnumerable<Token>, IEnumerable<Token>> normalize)
+            Func<IEnumerable<Token>, IEnumerable<Token>> normalize,
+            OptionsParseMode optionsParseMode = OptionsParseMode.Default)
         {
+            var tokens = new List<Token>();
             var errors = new List<Error>();
+            
             Action<Error> onError = errors.Add;
 
-            var tokens = (from arg in arguments
-                          from token in !arg.StartsWith("-", StringComparison.Ordinal)
-                               ? new[] { Token.Value(arg) }
-                               : arg.StartsWith("--", StringComparison.Ordinal)
-                                     ? TokenizeLongName(arg, onError)
-                                     : TokenizeShortName(arg, nameLookup)
-                          select token)
-                            .Memoize();
+            foreach (var argument in arguments)
+            {
+                if (!argument.StartsWith("-", StringComparison.Ordinal))
+                {
+                    tokens.Add(Token.Value(argument));
+                }
+                else if (argument.StartsWith("--", StringComparison.Ordinal))
+                {
+                    if (optionsParseMode == OptionsParseMode.SingleDashOnly)
+                    {
+                        onError(new BadFormatTokenError(argument));
+                        continue;
+                    }
+                    
+                    tokens.AddRange(TokenizeLongName(argument, onError));
+                }
+                else if (optionsParseMode == OptionsParseMode.SingleOrDoubleDash || optionsParseMode == OptionsParseMode.SingleDashOnly)
+                {
+                    tokens.AddRange(TokenizeLongName(argument, onError, dashCount: 1));
+                }
+                else
+                {
+                    tokens.AddRange(TokenizeShortName(argument, nameLookup));
+                }
+            }
 
-            var normalized = normalize(tokens).Memoize();
+            var normalized = normalize(tokens.Memoize()).Memoize();
 
             var unkTokens = (from t in normalized where t.IsName() && nameLookup(t.Text) == NameLookupResult.NoOptionFound select t).Memoize();
 
@@ -123,7 +143,8 @@ namespace CommandLine.Core
             ConfigureTokenizer(
                     StringComparer nameComparer,
                     bool ignoreUnknownArguments,
-                    bool enableDashDash)
+                    bool enableDashDash,
+                    OptionsParseMode optionsParseMode = OptionsParseMode.Default)
         {
             return (arguments, optionSpecs) =>
                 {
@@ -136,8 +157,8 @@ namespace CommandLine.Core
                         ? Tokenizer.PreprocessDashDash(
                                 arguments,
                                 args =>
-                                    Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer), normalize))
-                        : Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, nameComparer), normalize);
+                                    Tokenizer.Tokenize(args, name => NameLookup.Contains(name, optionSpecs, nameComparer), normalize, optionsParseMode))
+                        : Tokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, nameComparer), normalize, optionsParseMode);
                     var explodedTokens = Tokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
                     return explodedTokens;
                 };
@@ -191,11 +212,12 @@ namespace CommandLine.Core
 
         private static IEnumerable<Token> TokenizeLongName(
             string value,
-            Action<Error> onError)
+            Action<Error> onError,
+            int dashCount = 2)
         {
-            if (value.Length > 2 && value.StartsWith("--", StringComparison.Ordinal))
+            if (value.Length > dashCount && value.StartsWith(new string('-', dashCount), StringComparison.Ordinal))
             {
-                var text = value.Substring(2);
+                var text = value.Substring(dashCount);
                 var equalIndex = text.IndexOf('=');
                 if (equalIndex <= 0)
                 {
