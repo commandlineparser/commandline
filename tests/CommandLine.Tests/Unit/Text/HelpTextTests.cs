@@ -22,6 +22,7 @@ namespace CommandLine.Tests.Unit.Text
         public void Dispose()
         {
             ReflectionHelper.SetAttributeOverride(null);
+            HelpText.AutoBuildMetadataAssembly = null;
         }
 
         [Fact]
@@ -714,6 +715,21 @@ namespace CommandLine.Tests.Unit.Text
 
             onErrorCalled.Should().BeFalse(); // Other attributes have fallback logic
             actualResult.Copyright.Should().Be(string.Format("Copyright (C) {0} {1}", DateTime.Now.Year, expectedCompany));
+        }
+
+        [Fact]
+        public void AutoBuild_with_AutoBuildMetadataAssembly_defined()
+        {
+            HelpText.AutoBuildMetadataAssembly = typeof(HelpText).Assembly;
+            string expectedHeading = "CommandLine 0.0.0";
+            string expectedCopyright = "Copyright (c) 2005 - 2020 Giacomo Stelluti Scala & Contributors";
+
+            ParserResult<Simple_Options> fakeResult = new NotParsed<Simple_Options>(
+                TypeInfo.Create(typeof(Simple_Options)), new Error[0]);
+            HelpText actualResult = HelpText.AutoBuild(fakeResult, ht => ht, ex => ex);
+
+            actualResult.Heading.Should().Be(expectedHeading);
+            actualResult.Copyright.Should().Be(expectedCopyright);
         }
 
         [Fact]
