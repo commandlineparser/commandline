@@ -306,6 +306,17 @@ namespace CommandLine.Text
         }
 
         /// <summary>
+        /// Gets or sets the <see cref="Assembly"/> that will be used to look for meta data (assembly attributes) to auto build the help.
+        /// By default the entry assembly is automatically selected, but this may not match what is really expected, in particular when
+        /// running unit tests.
+        /// </summary>
+        public static Assembly AutoBuildMetadataAssembly
+        {
+            get => ReflectionHelper.ProgramAssembly;
+            set => ReflectionHelper.ProgramAssembly = value;
+        }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="CommandLine.Text.HelpText"/> class using common defaults.
         /// </summary>
         /// <returns>
