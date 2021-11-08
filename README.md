@@ -40,7 +40,7 @@ __This library provides _hassle free_ command line parsing with a constantly upd
 - Support Mutable and Immutable types.
 - Support HelpText localization.
 - Support ordering of options in HelpText.
-- Support [Mutually Exclusive Options](https://github.com/commandlineparser/commandline/wiki/Mutually-Exclusive-Options) and Options groups.
+- Support [Mutually Exclusive Options](https://github.com/commandlineparser/commandline/wiki/Mutually-Exclusive-Options) and [Option groups](https://github.com/commandlineparser/commandline/wiki/Option-Groups).
 - Support named and value options.
 - Support Asynchronous programming with async and await.
 - Unparsing support: `CommandLine.Parser.Default.FormatCommandLine<T>(T options)`.
