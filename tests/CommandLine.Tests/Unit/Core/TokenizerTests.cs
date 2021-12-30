@@ -62,12 +62,12 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Normalize_should_remove_all_value_with_explicit_assignment_of_existing_name()
+        public void Normalize_should_remove_all_names_and_values_with_explicit_assignment_of_non_existing_names()
         {
             // Fixture setup
             var expectedTokens = new[] {
-                Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
-                Token.Name("unknown"), Token.Name("switch") };
+                Token.Name("x"), Token.Name("string-seq"), Token.Value("value0", true), Token.Value("bb"),
+                Token.Name("switch") };
             Func<string, bool> nameLookup =
                 name => name.Equals("x") || name.Equals("string-seq") || name.Equals("switch");
 
@@ -78,8 +78,36 @@ namespace CommandLine.Tests.Unit.Core
                         Enumerable.Empty<Token>()
                             .Concat(
                                 new[] {
-                                    Token.Name("x"), Token.Name("string-seq"), Token.Value("aaa"), Token.Value("bb"),
+                                    Token.Name("x"), Token.Name("string-seq"), Token.Value("value0", true), Token.Value("bb"),
                                     Token.Name("unknown"), Token.Value("value0", true), Token.Name("switch") })
+                    //,Enumerable.Empty<Error>()),
+                    , nameLookup);
+
+            // Verify outcome
+            result.Should().BeEquivalentTo(expectedTokens);
+
+            // Teardown
+        }
+
+        [Fact]
+        public void Normalize_should_remove_all_names_of_non_existing_names()
+        {
+            // Fixture setup
+            var expectedTokens = new[] {
+                Token.Name("x"), Token.Name("string-seq"), Token.Value("value0", true), Token.Value("bb"),
+                Token.Name("switch") };
+            Func<string, bool> nameLookup =
+                name => name.Equals("x") || name.Equals("string-seq") || name.Equals("switch");
+
+            // Exercize system
+            var result =
+                Tokenizer.Normalize(
+                    //Result.Succeed(
+                    Enumerable.Empty<Token>()
+                        .Concat(
+                            new[] {
+                                Token.Name("x"), Token.Name("string-seq"), Token.Value("value0", true), Token.Value("bb"),
+                                Token.Name("unknown"), Token.Name("switch") })
                     //,Enumerable.Empty<Error>()),
                     , nameLookup);
 
