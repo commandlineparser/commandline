@@ -48,7 +48,7 @@ namespace CommandLine.Infrastructure
                     throw new ArgumentException($"Invalid resource type '{_type.FullName}'! {_type.Name} is not visible for the parser! Change resources 'Access Modifier' to 'Public'", _propertyName);
                 PropertyInfo propertyInfo = _type.GetProperty(_value, BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.Static);
                 if (propertyInfo == null || !propertyInfo.CanRead || propertyInfo.PropertyType != typeof(string))
-                    throw new ArgumentException("Invalid resource property name! Localized value: {_value}", _propertyName);
+                    throw new ArgumentException($"Invalid resource property name! Localized value: {_value}", _propertyName);
                 _localizationPropertyInfo = propertyInfo;
             }
             return (string)_localizationPropertyInfo.GetValue(null, null);
