@@ -43,8 +43,8 @@ namespace CommandLine.Core
         private static Maybe<object> ChangeTypeScalar(string value, Type conversionType, CultureInfo conversionCulture, bool ignoreValueCase)
         {
             var result = ChangeTypeScalarImpl(value, conversionType, conversionCulture, ignoreValueCase);
-            result.Match((_,__) => { }, e => e.First().RethrowWhenAbsentIn(
-                new[] { typeof(InvalidCastException), typeof(FormatException), typeof(OverflowException) }));
+            result.Match((_, __) => { }, e => e.First().RethrowWhenAbsentIn(
+                 new[] { typeof(InvalidCastException), typeof(FormatException), typeof(OverflowException) }));
             return result.ToMaybe();
         }
 
@@ -113,11 +113,14 @@ namespace CommandLine.Core
                 try
                 {
                     var ctor = conversionType.GetTypeInfo().GetConstructor(new[] { typeof(string) });
-                    return ctor.Invoke(new object[] { value });
+                    if (ctor != null)
+                        return ctor.Invoke(new object[] { value });
+                    else
+                        return ConvertString(value, conversionType, conversionCulture);
                 }
                 catch (Exception)
                 {
-                    throw new FormatException("Destination conversion type must have a constructor that accepts a string.");
+                    throw new FormatException("Destination conversion type must have a constructor that accepts a string or registered System.ComponentModel.TypeConverter");
                 }
             };
 
