@@ -15,7 +15,8 @@ namespace CommandLine.Tests.Unit.Core
     {
         private static ParserResult<object> InvokeChoose(
             IEnumerable<Type> types,
-            IEnumerable<string> arguments)
+            IEnumerable<string> arguments,
+            bool multiInstance = false)
         {
             return InstanceChooser.Choose(
                 (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
@@ -26,6 +27,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture,
                 true,
                 true,
+                multiInstance,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -167,6 +169,19 @@ namespace CommandLine.Tests.Unit.Core
             Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
             expected.Should().BeEquivalentTo(((Parsed<object>)result).Value);
             // Teardown
+        }
+
+        [Fact]
+        public void Parse_sequence_verb_with_multi_instance_returns_verb_instance()
+        {
+            var expected = new SequenceOptions { LongSequence = new long[] { }, StringSequence = new[] { "s1", "s2" } };
+            var result = InvokeChoose(
+                new[] { typeof(Add_Verb), typeof(Commit_Verb), typeof(Clone_Verb), typeof(SequenceOptions) },
+                new[] { "sequence", "-s", "s1", "-s", "s2" },
+                true);
+
+            Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
+            expected.Should().BeEquivalentTo(((Parsed<object>)result).Value);
         }
     }
 }

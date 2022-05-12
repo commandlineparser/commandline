@@ -20,7 +20,7 @@ namespace CommandLine.Core
         {
             var option = specifications.FirstOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer));
             if (option == null) return NameLookupResult.NoOptionFound;
-            return option.ConversionType == typeof(bool)
+            return option.ConversionType == typeof(bool) || (option.ConversionType == typeof(int) && option.FlagCounter)
                 ? NameLookupResult.BooleanOptionFound
                 : NameLookupResult.OtherOptionFound;
         }

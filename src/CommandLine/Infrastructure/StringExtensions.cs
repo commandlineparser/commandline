@@ -73,5 +73,23 @@ namespace CommandLine.Infrastructure
         {
             return value.Equals("true", StringComparison.OrdinalIgnoreCase);
         }
+
+        public static bool ToBooleanLoose(this string value)
+        {
+            if ((string.IsNullOrEmpty(value)) ||
+                (value == "0") ||
+                (value.Equals("f", StringComparison.OrdinalIgnoreCase)) ||
+                (value.Equals("n", StringComparison.OrdinalIgnoreCase)) ||
+                (value.Equals("no", StringComparison.OrdinalIgnoreCase)) ||
+                (value.Equals("off", StringComparison.OrdinalIgnoreCase)) ||
+                (value.Equals("false", StringComparison.OrdinalIgnoreCase)))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

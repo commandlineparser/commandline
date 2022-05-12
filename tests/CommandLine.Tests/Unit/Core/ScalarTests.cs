@@ -15,12 +15,13 @@ namespace CommandLine.Tests.Unit.Core
         {
             var expected = new Token[] { };
 
-            var result = Scalar.Partition(
+            var tokens = TokenPartitioner.PartitionTokensByType(
                 new Token[] { },
                 name =>
                     new[] { "str", "int" }.Contains(name)
                         ? Maybe.Just(TypeDescriptor.Create(TargetType.Scalar, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
+            var result = tokens.Item2;  // Switch, *Scalar*, Sequence, NonOption
 
             expected.Should().BeEquivalentTo(result);
         }
@@ -30,7 +31,7 @@ namespace CommandLine.Tests.Unit.Core
         {
             var expected = new [] { Token.Name("str"), Token.Value("strvalue") };
 
-            var result = Scalar.Partition(
+            var tokens = TokenPartitioner.PartitionTokensByType(
                 new []
                     {
                         Token.Name("str"), Token.Value("strvalue"), Token.Value("freevalue"),
@@ -40,6 +41,7 @@ namespace CommandLine.Tests.Unit.Core
                     new[] { "str", "int" }.Contains(name)
                         ? Maybe.Just(TypeDescriptor.Create(TargetType.Scalar, Maybe.Nothing<int>()))
                         : Maybe.Nothing<TypeDescriptor>());
+            var result = tokens.Item2;  // Switch, *Scalar*, Sequence, NonOption
 
             expected.Should().BeEquivalentTo(result);
         }

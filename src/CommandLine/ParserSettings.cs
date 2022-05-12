@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 
 using CommandLine.Infrastructure;
+using CSharpx;
 
 namespace CommandLine
 {
@@ -23,8 +24,11 @@ namespace CommandLine
         private bool autoHelp;
         private bool autoVersion;
         private CultureInfo parsingCulture;
-        private bool enableDashDash;
+        private Maybe<bool> enableDashDash;
         private int maximumDisplayWidth;
+        private Maybe<bool> allowMultiInstance;
+        private bool getoptMode;
+        private Maybe<bool> posixlyCorrect;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class.
@@ -37,6 +41,10 @@ namespace CommandLine
             autoVersion = true;
             parsingCulture = CultureInfo.InvariantCulture;
             maximumDisplayWidth = GetWindowWidth();
+            getoptMode = false;
+            enableDashDash = Maybe.Nothing<bool>();
+            allowMultiInstance = Maybe.Nothing<bool>();
+            posixlyCorrect = Maybe.Nothing<bool>();
         }
 
         private int GetWindowWidth()
@@ -158,11 +166,12 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets a value indicating whether enable double dash '--' syntax,
         /// that forces parsing of all subsequent tokens as values.
+        /// If GetoptMode is true, this defaults to true, but can be turned off by explicitly specifying EnableDashDash = false.
         /// </summary>
         public bool EnableDashDash
         {
-            get { return enableDashDash; }
-            set { PopsicleSetter.Set(Consumed, ref enableDashDash, value); }
+            get => enableDashDash.MatchJust(out bool value) ? value : getoptMode;
+            set => PopsicleSetter.Set(Consumed, ref enableDashDash, Maybe.Just(value));
         }
 
         /// <summary>
@@ -172,6 +181,35 @@ namespace CommandLine
         {
             get { return maximumDisplayWidth; }
             set { maximumDisplayWidth = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether options are allowed to be specified multiple times.
+        /// If GetoptMode is true, this defaults to true, but can be turned off by explicitly specifying AllowMultiInstance = false.
+        /// </summary>
+        public bool AllowMultiInstance
+        {
+            get => allowMultiInstance.MatchJust(out bool value) ? value : getoptMode;
+            set => PopsicleSetter.Set(Consumed, ref allowMultiInstance, Maybe.Just(value));
+        }
+
+        /// <summary>
+        /// Whether strict getopt-like processing is applied to option values; if true, AllowMultiInstance and EnableDashDash will default to true as well.
+        /// </summary>
+        public bool GetoptMode
+        {
+            get => getoptMode;
+            set => PopsicleSetter.Set(Consumed, ref getoptMode, value);
+        }
+
+        /// <summary>
+        /// Whether getopt-like processing should follow the POSIX rules (the equivalent of using the "+" prefix in the C getopt() call).
+        /// If not explicitly set, will default to false unless the POSIXLY_CORRECT environment variable is set, in which case it will default to true.
+        /// </summary>
+        public bool PosixlyCorrect
+        {
+            get => posixlyCorrect.MapValueOrDefault(val => val, () => Environment.GetEnvironmentVariable("POSIXLY_CORRECT").ToBooleanLoose());
+            set => PopsicleSetter.Set(Consumed, ref posixlyCorrect, Maybe.Just(value));
         }
 
         internal StringComparer NameComparer

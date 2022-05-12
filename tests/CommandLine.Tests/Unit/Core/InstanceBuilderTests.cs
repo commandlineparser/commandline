@@ -19,7 +19,7 @@ namespace CommandLine.Tests.Unit.Core
 {
     public class InstanceBuilderTests
     {
-        private static ParserResult<T> InvokeBuild<T>(string[] arguments, bool autoHelp = true, bool autoVersion = true)
+        private static ParserResult<T> InvokeBuild<T>(string[] arguments, bool autoHelp = true, bool autoVersion = true, bool multiInstance = false)
             where T : new()
         {
             return InstanceBuilder.Build(
@@ -31,6 +31,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture,
                 autoHelp,
                 autoVersion,
+                multiInstance,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -184,7 +185,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Breaking_min_constraint_in_string_sequence_gererates_MissingValueOptionError()
+        public void Breaking_min_constraint_in_string_sequence_generates_MissingValueOptionError()
         {
             // Fixture setup
             var expectedResult = new[] { new MissingValueOptionError(new NameInfo("s", "string-seq")) };
@@ -198,7 +199,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Breaking_min_constraint_in_string_sequence_as_value_gererates_SequenceOutOfRangeError()
+        public void Breaking_min_constraint_in_string_sequence_as_value_generates_SequenceOutOfRangeError()
         {
             // Fixture setup
             var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
@@ -212,21 +213,22 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Breaking_max_constraint_in_string_sequence_gererates_SequenceOutOfRangeError()
+        public void Breaking_max_constraint_in_string_sequence_does_not_generate_SequenceOutOfRangeError()
         {
             // Fixture setup
-            var expectedResult = new[] { new SequenceOutOfRangeError(new NameInfo("s", "string-seq")) };
+            var expectedResult = new[] { "one", "two", "three" };
 
             // Exercize system 
             var result = InvokeBuild<Options_With_Sequence_And_Only_Max_Constraint>(
                 new[] { "--string-seq=one", "two", "three", "this-is-too-much" });
 
             // Verify outcome
-            ((NotParsed<Options_With_Sequence_And_Only_Max_Constraint>)result).Errors.Should().BeEquivalentTo(expectedResult);
+            ((Parsed<Options_With_Sequence_And_Only_Max_Constraint>)result).Value.StringSequence.Should().BeEquivalentTo(expectedResult);
+            // The "this-is-too-much" arg would end up assigned to a Value; since there is no Value, it is silently dropped
         }
 
         [Fact]
-        public void Breaking_max_constraint_in_string_sequence_as_value_gererates_SequenceOutOfRangeError()
+        public void Breaking_max_constraint_in_string_sequence_as_value_generates_SequenceOutOfRangeError()
         {
             // Fixture setup
             var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
@@ -426,7 +428,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Parse_option_from_different_sets_gererates_MutuallyExclusiveSetError()
+        public void Parse_option_from_different_sets_generates_MutuallyExclusiveSetError()
         {
             // Fixture setup
             var expectedResult = new[]
@@ -479,7 +481,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Omitting_required_option_gererates_MissingRequiredOptionError()
+        public void Omitting_required_option_generates_MissingRequiredOptionError()
         {
             // Fixture setup
             var expectedResult = new[] { new MissingRequiredOptionError(new NameInfo("", "str")) };
@@ -493,7 +495,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Wrong_range_in_sequence_gererates_SequenceOutOfRangeError()
+        public void Wrong_range_in_sequence_generates_SequenceOutOfRangeError()
         {
             // Fixture setup
             var expectedResult = new[] { new SequenceOutOfRangeError(new NameInfo("i", "")) };
@@ -507,7 +509,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Parse_unknown_long_option_gererates_UnknownOptionError()
+        public void Parse_unknown_long_option_generates_UnknownOptionError()
         {
             // Fixture setup
             var expectedResult = new[] { new UnknownOptionError("xyz") };
@@ -521,7 +523,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Parse_unknown_short_option_gererates_UnknownOptionError()
+        public void Parse_unknown_short_option_generates_UnknownOptionError()
         {
             // Fixture setup
             var expectedResult = new[] { new UnknownOptionError("z") };
@@ -535,7 +537,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Parse_unknown_short_option_in_option_group_gererates_UnknownOptionError()
+        public void Parse_unknown_short_option_in_option_group_generates_UnknownOptionError()
         {
             // Fixture setup
             var expectedResult = new[] { new UnknownOptionError("z") };
@@ -595,7 +597,7 @@ namespace CommandLine.Tests.Unit.Core
         }
 
         [Fact]
-        public void Breaking_equal_min_max_constraint_in_string_sequence_as_value_gererates_SequenceOutOfRangeError()
+        public void Breaking_equal_min_max_constraint_in_string_sequence_as_value_generates_SequenceOutOfRangeError()
         {
             // Fixture setup
             var expectedResult = new[] { new SequenceOutOfRangeError(NameInfo.EmptyName) };
@@ -1249,6 +1251,17 @@ namespace CommandLine.Tests.Unit.Core
             var errors = ((NotParsed<Simple_Options_With_OptionGroup_MutuallyExclusiveSet>)result).Errors;
 
             errors.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public void Parse_int_sequence_with_multi_instance()
+        {
+            var expected = new[] { 1, 2, 3 };
+            var result = InvokeBuild<Options_With_Sequence>(
+                new[] { "--int-seq", "1", "2", "--int-seq", "3" },
+                multiInstance: true);
+
+            ((Parsed<Options_With_Sequence>)result).Value.IntSequence.Should().BeEquivalentTo(expected);
         }
 
         #region custom types 

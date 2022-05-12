@@ -101,6 +101,7 @@ namespace CommandLine
                     settings.ParsingCulture,
                     settings.AutoHelp,
                     settings.AutoVersion,
+                    settings.AllowMultiInstance,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -131,6 +132,7 @@ namespace CommandLine
                     settings.ParsingCulture,
                     settings.AutoHelp,
                     settings.AutoVersion,
+                    settings.AllowMultiInstance,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -163,6 +165,7 @@ namespace CommandLine
                     settings.ParsingCulture,
                     settings.AutoHelp,
                     settings.AutoVersion,
+                    settings.AllowMultiInstance,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -182,8 +185,13 @@ namespace CommandLine
                 IEnumerable<OptionSpecification> optionSpecs,
                 ParserSettings settings)
         {
-            return
-                Tokenizer.ConfigureTokenizer(
+            return settings.GetoptMode
+                ? GetoptTokenizer.ConfigureTokenizer(
+                    settings.NameComparer,
+                    settings.IgnoreUnknownArguments,
+                    settings.EnableDashDash,
+                    settings.PosixlyCorrect)(arguments, optionSpecs)
+                : Tokenizer.ConfigureTokenizer(
                     settings.NameComparer,
                     settings.IgnoreUnknownArguments,
                     settings.EnableDashDash)(arguments, optionSpecs);

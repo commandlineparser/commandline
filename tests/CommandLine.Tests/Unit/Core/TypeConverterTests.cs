@@ -27,7 +27,7 @@ namespace CommandLine.Tests.Unit.Core
         [MemberData(nameof(ChangeType_scalars_source))]
         public void ChangeType_scalars(string testValue, Type destinationType, bool expectFail, object expectedResult)
         {
-            Maybe<object> result = TypeConverter.ChangeType(new[] {testValue}, destinationType, true, CultureInfo.InvariantCulture, true);
+            Maybe<object> result = TypeConverter.ChangeType(new[] {testValue}, destinationType, true, false, CultureInfo.InvariantCulture, true);
 
             if (expectFail)
             {
@@ -119,6 +119,48 @@ namespace CommandLine.Tests.Unit.Core
                     new object[] {"true", typeof (int), true, 0}
                 };
             }
+        }
+
+        [Theory]
+        [MemberData(nameof(ChangeType_flagCounters_source))]
+        public void ChangeType_flagCounters(string[] testValue, Type destinationType, bool expectFail, object expectedResult)
+        {
+            Maybe<object> result = TypeConverter.ChangeType(testValue, destinationType, true, true, CultureInfo.InvariantCulture, true);
+
+            if (expectFail)
+            {
+                result.MatchNothing().Should().BeTrue("should fail parsing");
+            }
+            else
+            {
+                result.MatchJust(out object matchedValue).Should().BeTrue("should parse successfully");
+                Assert.Equal(matchedValue, expectedResult);
+            }
+        }
+
+        public static IEnumerable<object[]> ChangeType_flagCounters_source
+        {
+            get
+            {
+                return new[]
+                {
+                    new object[] {new string[0], typeof (int), false, 0},
+                    new object[] {new[] {"true"}, typeof (int), false, 1},
+                    new object[] {new[] {"true", "true"}, typeof (int), false, 2},
+                    new object[] {new[] {"true", "true", "true"}, typeof (int), false, 3},
+                    new object[] {new[] {"true", "x"}, typeof (int), true, 0},
+                };
+            }
+        }
+
+        [Fact]
+        public void ChangeType_Scalar_LastOneWins()
+        {
+            var values = new[] { "100", "200", "300", "400", "500" };
+            var result = TypeConverter.ChangeType(values, typeof(int), true, false, CultureInfo.InvariantCulture, true);
+            result.MatchJust(out var matchedValue).Should().BeTrue("should parse successfully");
+            Assert.Equal(500, matchedValue);
+
         }
     }
 }
