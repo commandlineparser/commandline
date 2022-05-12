@@ -16,6 +16,14 @@ namespace CommandLine.Infrastructure
         /// </summary>
         [ThreadStatic] private static IDictionary<Type, Attribute> _overrides;
 
+        private static Assembly _programAssembly;
+
+        public static Assembly ProgramAssembly
+        {
+            get => _programAssembly ?? GetExecutingOrEntryAssembly();
+            set => _programAssembly = value;
+        }
+
         /// <summary>
         /// Assembly attribute overrides for testing.
         /// </summary>
@@ -51,12 +59,10 @@ namespace CommandLine.Infrastructure
                         Maybe.Nothing<TAttribute>();
             }
 
-            var assembly = GetExecutingOrEntryAssembly();
-
 #if NET40
-            var attributes = assembly.GetCustomAttributes(typeof(TAttribute), false);
+            var attributes = ProgramAssembly.GetCustomAttributes(typeof(TAttribute), false);
 #else
-            var attributes = assembly.GetCustomAttributes<TAttribute>().ToArray();
+            var attributes = ProgramAssembly.GetCustomAttributes<TAttribute>().ToArray();
 #endif
 
             return attributes.Length > 0
@@ -66,14 +72,12 @@ namespace CommandLine.Infrastructure
 
         public static string GetAssemblyName()
         {
-            var assembly = GetExecutingOrEntryAssembly();
-            return assembly.GetName().Name;
+            return ProgramAssembly.GetName().Name;
         }
 
         public static string GetAssemblyVersion()
         {
-            var assembly = GetExecutingOrEntryAssembly();
-            return assembly.GetName().Version.ToStringInvariant();
+            return ProgramAssembly.GetName().Version.ToStringInvariant();
         }
 
         public static bool IsFSharpOptionType(Type type)
