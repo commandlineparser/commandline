@@ -86,29 +86,32 @@ namespace CommandLine.Core
             return Result.Succeed(exploded as IEnumerable<Token>, tokenizerResult.SuccessMessages());
         }
 
+        /// <summary>
+        /// Normalizes the given <paramref name="tokens"/>.
+        /// </summary>
+        /// <returns>The given <paramref name="tokens"/> minus all names, and their value if one was present, that are not found using <paramref name="nameLookup"/>.</returns>
         public static IEnumerable<Token> Normalize(
             IEnumerable<Token> tokens, Func<string, bool> nameLookup)
         {
-            var indexes =
+            var toExclude =
                 from i in
                     tokens.Select(
                         (t, i) =>
                         {
-                            var prev = tokens.ElementAtOrDefault(i - 1).ToMaybe();
-                            return t.IsValue() && ((Value)t).ExplicitlyAssigned
-                                   && prev.MapValueOrDefault(p => p.IsName() && !nameLookup(p.Text), false)
-                                ? Maybe.Just(i)
-                                : Maybe.Nothing<int>();
+                            if (t.IsName() == false
+                                || nameLookup(t.Text))
+                            {
+                                return Maybe.Nothing<Tuple<Token, Token>>();
+                            }
+
+                            var next = tokens.ElementAtOrDefault(i + 1).ToMaybe();
+                            var removeValue = next.MatchJust(out var nextValue)
+                                              && next.MapValueOrDefault(p => p.IsValue() && ((Value)p).ExplicitlyAssigned, false);
+                            return Maybe.Just(new Tuple<Token, Token>(t, removeValue ? nextValue : null));
                         }).Where(i => i.IsJust())
                 select i.FromJustOrFail();
 
-            var toExclude =
-                from t in
-                    tokens.Select((t, i) => indexes.Contains(i) ? Maybe.Just(t) : Maybe.Nothing<Token>())
-                        .Where(t => t.IsJust())
-                select t.FromJustOrFail();
-
-            var normalized = tokens.Where(t => toExclude.Contains(t) == false);
+            var normalized = tokens.Where(t => toExclude.Any(e => ReferenceEquals(e.Item1, t) || ReferenceEquals(e.Item2, t)) == false);
 
             return normalized;
         }
