@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CommandLine
 {
@@ -66,6 +67,34 @@ namespace CommandLine
             return result;
         }
 
+        /// <summary>
+        /// Provides a way to transform result data into another value.
+        /// </summary>
+        /// <param name="result">An <see cref="CommandLine.ParserResult{T}"/> instance.</param>
+        /// <param name="notParsedFunc">Lambda executed on failed parsing.</param>
+        /// <param name="parseFunctions">A collection which contains the parsing methods to execute on successful
+        /// parsing.</param>
+        /// <typeparam name="TResult">The type of the new value.</typeparam>
+        /// <returns>The new value.</returns>
+        public static TResult MapResult<TResult>(this ParserResult<object> result,
+            Func<IEnumerable<Error>, TResult> notParsedFunc, params Delegate[] parseFunctions)
+        {
+            if (!(result is Parsed<object> parsed))
+            {
+                return notParsedFunc(((NotParsed<object>) result).Errors);
+            }
+
+            var handler = parseFunctions.FirstOrDefault(m =>
+                parsed.Value.GetType() == m.Method.GetParameters()[0].ParameterType);
+            if (handler == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var invokedResult = handler.Method.Invoke(handler.Target, new[] {parsed.Value});
+            return (TResult) invokedResult;
+        }
+        
         /// <summary>
         /// Provides a way to transform result data into another value.
         /// </summary>
