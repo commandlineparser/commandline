@@ -26,7 +26,9 @@ namespace CommandLine.Tests.Unit.Core
                 false,
                 CultureInfo.InvariantCulture,
                 true,
+                false,
                 true,
+                false,
                 multiInstance,
                 Enumerable.Empty<ErrorType>());
         }
