@@ -156,7 +156,9 @@ namespace CommandLine.Core
                             select sp.Specification);
                 return
                     from sp in missing
-                    select new MissingRequiredOptionError(sp.FromSpecification());
+                    select 
+                        sp.IsOption() ? new MissingRequiredOptionError(sp.FromSpecification()) as Error
+                                      : new MissingRequiredValueError(sp.FromSpecification(), ((ValueSpecification)sp).Index) as Error;
             };
         }
 
