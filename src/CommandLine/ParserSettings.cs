@@ -9,6 +9,14 @@ using CSharpx;
 
 namespace CommandLine
 {
+    public enum ParserMode
+    {
+        GetoptParserV1,
+        GetoptParserV2,
+
+        Default = GetoptParserV1
+    }
+
     /// <summary>
     /// Provides settings for <see cref="CommandLine.Parser"/>. Once consumed cannot be reused.
     /// </summary>
@@ -27,7 +35,7 @@ namespace CommandLine
         private Maybe<bool> enableDashDash;
         private int maximumDisplayWidth;
         private Maybe<bool> allowMultiInstance;
-        private bool getoptMode;
+        private ParserMode parserMode;
         private Maybe<bool> posixlyCorrect;
 
         /// <summary>
@@ -41,7 +49,7 @@ namespace CommandLine
             autoVersion = true;
             parsingCulture = CultureInfo.InvariantCulture;
             maximumDisplayWidth = GetWindowWidth();
-            getoptMode = false;
+            parserMode = ParserMode.Default;
             enableDashDash = Maybe.Nothing<bool>();
             allowMultiInstance = Maybe.Nothing<bool>();
             posixlyCorrect = Maybe.Nothing<bool>();
@@ -166,11 +174,11 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets a value indicating whether enable double dash '--' syntax,
         /// that forces parsing of all subsequent tokens as values.
-        /// If GetoptMode is true, this defaults to true, but can be turned off by explicitly specifying EnableDashDash = false.
+        /// Normally defaults to false. If ParserMode = ParserMode.GetoptParserV2, this defaults to true, but can be turned off by explicitly specifying EnableDashDash = false.
         /// </summary>
         public bool EnableDashDash
         {
-            get => enableDashDash.MatchJust(out bool value) ? value : getoptMode;
+            get => enableDashDash.MatchJust(out bool value) ? value : (parserMode == ParserMode.GetoptParserV2);
             set => PopsicleSetter.Set(Consumed, ref enableDashDash, Maybe.Just(value));
         }
 
@@ -185,21 +193,38 @@ namespace CommandLine
 
         /// <summary>
         /// Gets or sets a value indicating whether options are allowed to be specified multiple times.
-        /// If GetoptMode is true, this defaults to true, but can be turned off by explicitly specifying AllowMultiInstance = false.
+        /// If ParserMode = ParserMode.GetoptParserV2, this defaults to true, but can be turned off by explicitly specifying AllowMultiInstance = false.
         /// </summary>
         public bool AllowMultiInstance
         {
-            get => allowMultiInstance.MatchJust(out bool value) ? value : getoptMode;
+            get => allowMultiInstance.MatchJust(out bool value) ? value : (parserMode == ParserMode.GetoptParserV2);
             set => PopsicleSetter.Set(Consumed, ref allowMultiInstance, Maybe.Just(value));
         }
 
         /// <summary>
-        /// Whether strict getopt-like processing is applied to option values; if true, AllowMultiInstance and EnableDashDash will default to true as well.
+        /// Set this to change how the parser processes command-line arguments. Currently valid values are:
+        /// <list>
+        /// <item>
+        /// <term>Classic</term>
+        /// <description>Uses - for short options and -- for long options.
+        /// Values of long options can only start with a - character if the = syntax is used.
+        /// E.g., "--string-option -x" will consider "-x" to be an option, not the value of "--string-option",
+        /// but "--string-option=-x" will consider "-x" to be the value of "--string-option".</description>
+        /// </item>
+        /// <item>
+        /// <term>Getopt</term>
+        /// <description>Strict getopt-like processing is applied to option values.
+        /// Mostly like classic mode, except that option values with = and with space are more consistent.
+        /// After an option that takes a value, and whose value was not specified with "=", the next argument will be considered the value even if it starts with "-".
+        /// E.g., both "--string-option=-x" and "--string-option -x" will consider "-x" to be the value of "--string-option".
+        /// If this mode is chosen, AllowMultiInstance and EnableDashDash will default to true as well, though they can be explicitly turned off if desired.</description>
+        /// </item>
+        /// </list>
         /// </summary>
-        public bool GetoptMode
+        public ParserMode ParserMode
         {
-            get => getoptMode;
-            set => PopsicleSetter.Set(Consumed, ref getoptMode, value);
+            get => parserMode;
+            set => PopsicleSetter.Set(Consumed, ref parserMode, value);
         }
 
         /// <summary>
