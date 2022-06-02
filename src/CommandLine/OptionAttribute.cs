@@ -19,7 +19,13 @@ namespace CommandLine
         private char separator;
         private string group=string.Empty;
 
-        private OptionAttribute(string shortName, string longName) : base()
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.OptionAttribute"/> class.
+        /// </summary>
+        /// <param name="shortName">The short name of the option.</param>
+        /// <param name="longName">The long name of the option.</param>
+        public OptionAttribute(string shortName, string longName) : base()
         {
             if (shortName == null) throw new ArgumentNullException("shortName");
             if (longName == null) throw new ArgumentNullException("longName");
