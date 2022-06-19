@@ -36,7 +36,7 @@ namespace CommandLine.Tests.Unit
 
             var lines = result.ToLines().TrimStringArray();
             lines[3].Should().BeEquivalentTo("Do something very cool:");
-            lines[4].Should().BeEquivalentTo("CommandLine --opt test1 test2");
+            lines[4].Should().BeEquivalentTo("myApp.txt --opt test1 test2");
         }
 
         private class Options
@@ -51,7 +51,7 @@ namespace CommandLine.Tests.Unit
             [Value(0, Required = true)]
             private string PrivateValue { get; set; }
 
-            [Usage]
+            [Usage(ApplicationAlias = "myApp.txt")]
             private static IEnumerable<Example> PrivateUsage { get; } = new List<Example>
             {
                 new Example("Do something very cool", new Options
