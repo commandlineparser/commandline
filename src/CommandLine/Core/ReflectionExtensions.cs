@@ -15,7 +15,10 @@ namespace CommandLine.Core
     {
         public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
         {
-            return from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
+            return from pi in type.FlattenHierarchy()
+                    .SelectMany(x => x.GetTypeInfo()
+                        .GetProperties(BindingFlags.Instance | BindingFlags.Static |
+                                       BindingFlags.NonPublic | BindingFlags.Public))
                    let attrs = pi.GetCustomAttributes(true)
                    where
                        attrs.OfType<OptionAttribute>().Any() ||
@@ -38,7 +41,9 @@ namespace CommandLine.Core
         public static Maybe<Tuple<PropertyInfo, UsageAttribute>> GetUsageData(this Type type)
         {
             return
-                (from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
+                (from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties(
+                        BindingFlags.Instance | BindingFlags.Static |
+                        BindingFlags.NonPublic | BindingFlags.Public))
                     let attrs = pi.GetCustomAttributes(typeof(UsageAttribute), true)
                     where attrs.Any()
                     select Tuple.Create(pi, (UsageAttribute)attrs.First()))
