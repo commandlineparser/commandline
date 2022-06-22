@@ -16,11 +16,11 @@ namespace CommandLine.Tests
     {
         public static CultureHandlers MakeCultureHandlers(this CultureInfo newCulture)
         {
-            var currentClutre = Thread.CurrentThread.CurrentCulture;
+            var currentCulture = Thread.CurrentThread.CurrentCulture;
 
             Action changer = () => Thread.CurrentThread.CurrentCulture = newCulture;
 
-            Action resetter = () => Thread.CurrentThread.CurrentCulture = currentClutre;
+            Action resetter = () => Thread.CurrentThread.CurrentCulture = currentCulture;
 
             return new CultureHandlers { ChangeCulture = changer, ResetCulture = resetter };
         }
