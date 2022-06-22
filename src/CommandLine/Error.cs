@@ -189,7 +189,7 @@ namespace CommandLine
         protected internal TokenError(ErrorType tag, string token)
             : base(tag)
         {
-            if (token == null) throw new ArgumentNullException("token");
+            if (token == null) throw new ArgumentNullException(nameof(token));
 
             this.token = token;
         }
@@ -209,8 +209,7 @@ namespace CommandLine
         /// <returns><value>true</value> if the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>; otherwise, <value>false</value>.</returns>
         public override bool Equals(object obj)
         {
-            var other = obj as TokenError;
-            if (other != null)
+            if (obj is TokenError other)
             {
                 return Equals(other);
             }

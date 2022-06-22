@@ -21,8 +21,8 @@ namespace CommandLine
 
         private OptionAttribute(string shortName, string longName) : base()
         {
-            if (shortName == null) throw new ArgumentNullException("shortName");
-            if (longName == null) throw new ArgumentNullException("longName");
+            if (shortName == null) throw new ArgumentNullException(nameof(shortName));
+            if (longName == null) throw new ArgumentNullException(nameof(longName));
 
             this.shortName = shortName;
             this.longName = longName;
@@ -91,7 +91,7 @@ namespace CommandLine
             get { return setName; }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
+                if (value == null) throw new ArgumentNullException(nameof(value));
 
                 setName = value;
             }

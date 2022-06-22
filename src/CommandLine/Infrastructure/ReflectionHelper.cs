@@ -29,14 +29,7 @@ namespace CommandLine.Infrastructure
         /// </param>
         public static void SetAttributeOverride(IEnumerable<Attribute> overrides)
         {
-            if (overrides != null)
-            {
-                _overrides = overrides.ToDictionary(attr => attr.GetType(), attr => attr);
-            }
-            else
-            {
-                _overrides = null;
-            }
+            _overrides = overrides?.ToDictionary(attr => attr.GetType(), attr => attr);
         }
 
         public static Maybe<TAttribute> GetAttribute<TAttribute>()

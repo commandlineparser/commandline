@@ -37,7 +37,7 @@ namespace CommandLine
         /// aspects and behaviors of the parser.</param>
         public Parser(Action<ParserSettings> configuration)
         {
-            if (configuration == null) throw new ArgumentNullException("configuration");
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
             settings = new ParserSettings();
             configuration(settings);
@@ -85,7 +85,7 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         public ParserResult<T> ParseArguments<T>(IEnumerable<string> args)
         {
-            if (args == null) throw new ArgumentNullException("args");
+            if (args == null) throw new ArgumentNullException(nameof(args));
 
             var factory = typeof(T).IsMutable()
                 ? Maybe.Just<Func<T>>(Activator.CreateInstance<T>)
@@ -118,9 +118,9 @@ namespace CommandLine
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
         public ParserResult<T> ParseArguments<T>(Func<T> factory, IEnumerable<string> args)
         {
-            if (factory == null) throw new ArgumentNullException("factory");
-            if (!typeof(T).IsMutable()) throw new ArgumentException("factory");
-            if (args == null) throw new ArgumentNullException("args");
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
+            if (!typeof(T).IsMutable()) throw new ArgumentException(nameof(factory));
+            if (args == null) throw new ArgumentNullException(nameof(args));
 
             return MakeParserResult(
                 InstanceBuilder.Build(
@@ -151,9 +151,9 @@ namespace CommandLine
         /// <remarks>All types must expose a parameterless constructor. It's strongly recommended to use a generic overload.</remarks>
         public ParserResult<object> ParseArguments(IEnumerable<string> args, params Type[] types)
         {
-            if (args == null) throw new ArgumentNullException("args");
-            if (types == null) throw new ArgumentNullException("types");
-            if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
+            if (args == null) throw new ArgumentNullException(nameof(args));
+            if (types == null) throw new ArgumentNullException(nameof(types));
+            if (types.Length == 0) throw new ArgumentOutOfRangeException(nameof(types));
 
             return MakeParserResult(
                 InstanceChooser.Choose(

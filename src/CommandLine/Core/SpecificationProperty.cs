@@ -21,7 +21,7 @@ namespace CommandLine.Core
 
         public static SpecificationProperty Create(Specification specification, PropertyInfo property, Maybe<object> value)
         {
-            if (value == null) throw new ArgumentNullException("value");
+            if (value == null) throw new ArgumentNullException(nameof(value));
 
             return new SpecificationProperty(specification, property, value);
         }

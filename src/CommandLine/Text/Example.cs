@@ -23,9 +23,9 @@ namespace CommandLine.Text
         /// <param name="sample">A sample instance.</param>
         public Example(string helpText, IEnumerable<UnParserSettings> formatStyles, object sample)
         {
-            if (string.IsNullOrEmpty(helpText)) throw new ArgumentException("helpText can't be null or empty", "helpText");
-            if (formatStyles == null) throw new ArgumentNullException("formatStyles");
-            if (sample == null) throw new ArgumentNullException("sample");
+            if (string.IsNullOrEmpty(helpText)) throw new ArgumentException("helpText can't be null or empty", nameof(helpText));
+            if (formatStyles == null) throw new ArgumentNullException(nameof(formatStyles));
+            if (sample == null) throw new ArgumentNullException(nameof(sample));
 
             this.helpText = helpText;
             this.formatStyles = formatStyles;
@@ -84,8 +84,7 @@ namespace CommandLine.Text
         /// <returns><value>true</value> if the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>; otherwise, <value>false</value>.</returns>
         public override bool Equals(object obj)
         {
-            var other = obj as Example;
-            if (other != null)
+            if (obj is Example other)
             {
                 return Equals(other);
             }
