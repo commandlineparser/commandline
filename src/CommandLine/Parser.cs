@@ -201,16 +201,18 @@ namespace CommandLine
         {
             return DisplayHelp(
                 parserResult,
+                settings.AutoVersion,
+                settings.AutoHelp,
                 settings.HelpWriter,
                 settings.MaximumDisplayWidth);
         }
 
-        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter, int maxDisplayWidth)
+        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, bool autoVersion, bool autoHelp, TextWriter helpWriter, int maxDisplayWidth)
         {
             parserResult.WithNotParsed(
                 errors =>
                     Maybe.Merge(errors.ToMaybe(), helpWriter.ToMaybe())
-                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult, maxDisplayWidth)))
+                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult, maxDisplayWidth, autoVersion, autoHelp)))
                 );
 
             return parserResult;

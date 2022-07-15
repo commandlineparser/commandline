@@ -314,6 +314,8 @@ namespace CommandLine.Text
         /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
         /// <param name='onError'>A delegate used to customize the text block of reporting parsing errors text block.</param>
         /// <param name='onExample'>A delegate used to customize <see cref="CommandLine.Text.Example"/> model used to render text block of usage examples.</param>
+        /// <param name='autoVersion'>A value to indicate whether <see cref="HelpText.AutoVersion" /> shall be set or not.</param>
+        /// <param name='autoHelp'>A value to indicate whether <see cref="HelpText.AutoHelp" /> shall be set or not.</param>
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
         /// <remarks>The parameter <paramref name="verbsIndex"/> is not ontly a metter of formatting, it controls whether to handle verbs or options.</remarks>
@@ -322,7 +324,9 @@ namespace CommandLine.Text
             Func<HelpText, HelpText> onError,
             Func<Example, Example> onExample,
             bool verbsIndex = false,
-            int maxDisplayWidth = DefaultMaximumLength)
+            int maxDisplayWidth = DefaultMaximumLength,
+            bool autoVersion = true,
+            bool autoHelp = true)
         {
             var auto = new HelpText
             {
@@ -330,7 +334,9 @@ namespace CommandLine.Text
                 Copyright = CopyrightInfo.Empty,
                 AdditionalNewLineAfterOption = true,
                 AddDashesToOption = !verbsIndex,
-                MaximumDisplayWidth = maxDisplayWidth
+                MaximumDisplayWidth = maxDisplayWidth,
+                AutoVersion = autoVersion,
+                AutoHelp = autoHelp,
             };
 
             try
@@ -394,14 +400,16 @@ namespace CommandLine.Text
         /// </summary>
         /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
+        /// <param name='autoVersion'>A value to indicate whether <see cref="HelpText.AutoVersion" /> shall be set or not.</param>
+        /// <param name='autoHelp'>A value to indicate whether <see cref="HelpText.AutoHelp" /> shall be set or not.</param>
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
-        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = DefaultMaximumLength)
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = DefaultMaximumLength, bool autoVersion = true, bool autoHelp = true)
         {
-            return AutoBuild<T>(parserResult, h => h, maxDisplayWidth);
+            return AutoBuild<T>(parserResult, h => h, maxDisplayWidth, autoVersion, autoHelp);
         }
 
         /// <summary>
@@ -411,12 +419,14 @@ namespace CommandLine.Text
         /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
         ///  <param name='onError'>A delegate used to customize the text block of reporting parsing errors text block.</param>
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
+        /// <param name="autoVersion">A value to indicate whether <see cref="HelpText.AutoVersion" /> shall be set or not.</param>
+        /// <param name="autoHelp">A value to indicate whether <see cref="HelpText.AutoHelp" /> shall be set or not.</param>
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
-        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, Func<HelpText, HelpText> onError, int maxDisplayWidth = DefaultMaximumLength)
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, Func<HelpText, HelpText> onError, int maxDisplayWidth = DefaultMaximumLength, bool autoVersion = true, bool autoHelp = true)
         {
             if (parserResult.Tag != ParserResultType.NotParsed)
                 throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
@@ -431,7 +441,7 @@ namespace CommandLine.Text
                 {
                     onError?.Invoke(current);
                     return DefaultParsingErrorsHandler(parserResult, current);
-                }, e => e, maxDisplayWidth: maxDisplayWidth);
+                }, e => e, maxDisplayWidth: maxDisplayWidth, autoVersion: autoVersion, autoHelp: autoHelp);
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             var pr = new NotParsed<object>(TypeInfo.Create(err.Type), new Error[] { err });
@@ -440,12 +450,12 @@ namespace CommandLine.Text
                 {
                     onError?.Invoke(current);
                     return DefaultParsingErrorsHandler(pr, current);
-                }, e => e, maxDisplayWidth: maxDisplayWidth)
+                }, e => e, maxDisplayWidth: maxDisplayWidth, autoVersion: autoVersion, autoHelp: autoHelp)
                 : AutoBuild(parserResult, current =>
                 {
                     onError?.Invoke(current);
                     return DefaultParsingErrorsHandler(parserResult, current);
-                }, e => e, true, maxDisplayWidth);
+                }, e => e, true, maxDisplayWidth, autoVersion: autoVersion, autoHelp: autoHelp);
         }
 
         /// <summary>
