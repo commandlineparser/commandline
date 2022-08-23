@@ -897,9 +897,8 @@ namespace CommandLine.Text
             }
             else
             {
-                specifications.ForEach(
-                    option =>
-                        AddOption(requiredWord, optionGroupWord, maxLength, option, remainingSpace));
+                foreach (var option in specifications)
+                    AddOption(requiredWord, optionGroupWord, maxLength, option, remainingSpace);
 
             }
 
