@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace CommandLine
 {
-    public static class CastExtensions
+    internal static class CastExtensions
     {
         private const string ImplicitCastMethodName = "op_Implicit";
         private const string ExplicitCastMethodName = "op_Explicit";
