@@ -102,6 +102,7 @@ namespace CommandLine
                     settings.AutoHelp,
                     settings.AutoVersion,
                     settings.AllowMultiInstance,
+                    settings.OptionsParseMode,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -133,6 +134,7 @@ namespace CommandLine
                     settings.AutoHelp,
                     settings.AutoVersion,
                     settings.AllowMultiInstance,
+                    settings.OptionsParseMode,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -166,6 +168,7 @@ namespace CommandLine
                     settings.AutoHelp,
                     settings.AutoVersion,
                     settings.AllowMultiInstance,
+                    settings.OptionsParseMode,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
