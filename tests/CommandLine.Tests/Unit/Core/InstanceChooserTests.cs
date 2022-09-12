@@ -16,7 +16,8 @@ namespace CommandLine.Tests.Unit.Core
         private static ParserResult<object> InvokeChoose(
             IEnumerable<Type> types,
             IEnumerable<string> arguments,
-            bool multiInstance = false)
+            bool multiInstance = false,
+            OptionsParseMode optionsParseMode = OptionsParseMode.Default)
         {
             return InstanceChooser.Choose(
                 (args, optionSpecs) => Tokenizer.ConfigureTokenizer(StringComparer.Ordinal, false, false)(args, optionSpecs),
@@ -28,6 +29,7 @@ namespace CommandLine.Tests.Unit.Core
                 true,
                 true,
                 multiInstance,
+                optionsParseMode,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -182,6 +184,61 @@ namespace CommandLine.Tests.Unit.Core
 
             Assert.IsType<SequenceOptions>(((Parsed<object>)result).Value);
             expected.Should().BeEquivalentTo(((Parsed<object>)result).Value);
+        }
+
+        [Theory]
+        [InlineData("help", OptionsParseMode.Default)]
+        [InlineData("help", OptionsParseMode.SingleDashOnly)]
+        [InlineData("help", OptionsParseMode.SingleOrDoubleDash)]
+        [InlineData("-help", OptionsParseMode.SingleDashOnly)]
+        [InlineData("-help", OptionsParseMode.SingleOrDoubleDash)]
+        [InlineData("--help", OptionsParseMode.Default)]
+        [InlineData("--help", OptionsParseMode.SingleOrDoubleDash)]
+        public void Parse_Built_In_Help_Argument(string argument, OptionsParseMode optionsParseMode)
+        {
+            var result = InvokeChoose(
+                Type.EmptyTypes,
+                new[] { argument },
+                true,
+                optionsParseMode);
+
+            result.Errors.Single().Should().BeOfType<HelpVerbRequestedError>();
+        }
+
+        [Theory]
+        [InlineData("version", OptionsParseMode.Default)]
+        [InlineData("version", OptionsParseMode.SingleDashOnly)]
+        [InlineData("version", OptionsParseMode.SingleOrDoubleDash)]
+        [InlineData("-version", OptionsParseMode.SingleDashOnly)]
+        [InlineData("-version", OptionsParseMode.SingleOrDoubleDash)]
+        [InlineData("--version", OptionsParseMode.Default)]
+        [InlineData("--version", OptionsParseMode.SingleOrDoubleDash)]
+        public void Parse_Built_In_Version_Argument(string argument, OptionsParseMode optionsParseMode)
+        {
+            var result = InvokeChoose(
+                Type.EmptyTypes,
+                new[] { argument },
+                true,
+                optionsParseMode);
+
+            result.Errors.Single().Should().BeOfType<VersionRequestedError>();
+        }
+
+        [Theory]
+        [InlineData("-help", OptionsParseMode.Default)]
+        [InlineData("--help", OptionsParseMode.SingleDashOnly)]
+        [InlineData("-version", OptionsParseMode.Default)]
+        [InlineData("--version", OptionsParseMode.SingleDashOnly)]
+        public void Parse_Invalid_Built_In_Argument(string argument, OptionsParseMode optionsParseMode)
+        {
+            var result = InvokeChoose(
+                Type.EmptyTypes,
+                new[] { argument },
+                true,
+                optionsParseMode);
+
+            result.Errors.Single().Should().NotBeOfType<HelpVerbRequestedError>()
+                .And.Should().NotBeOfType<VersionRequestedError>();
         }
     }
 }

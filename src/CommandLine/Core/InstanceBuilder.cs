@@ -22,6 +22,7 @@ namespace CommandLine.Core
             CultureInfo parsingCulture,
             bool autoHelp,
             bool autoVersion,
+            OptionsParseMode optionsParseMode,
             IEnumerable<ErrorType> nonFatalErrors)
         {
             return Build(
@@ -34,6 +35,7 @@ namespace CommandLine.Core
                 autoHelp,
                 autoVersion,
                 false,
+                optionsParseMode,
                 nonFatalErrors);
         }
 
@@ -47,6 +49,7 @@ namespace CommandLine.Core
             bool autoHelp,
             bool autoVersion,
             bool allowMultiInstance,
+            OptionsParseMode optionsParseMode,
             IEnumerable<ErrorType> nonFatalErrors)        {
             var typeInfo = factory.MapValueOrDefault(f => f().GetType(), typeof(T));
 
@@ -137,7 +140,7 @@ namespace CommandLine.Core
 
             var preprocessorErrors = (
                     argumentsList.Any()
-                    ? arguments.Preprocess(PreprocessorGuards.Lookup(nameComparer, autoHelp, autoVersion))
+                    ? arguments.Preprocess(PreprocessorGuards.Lookup(nameComparer, autoHelp, autoVersion, optionsParseMode))
                     : Enumerable.Empty<Error>()
                 ).Memoize();
 

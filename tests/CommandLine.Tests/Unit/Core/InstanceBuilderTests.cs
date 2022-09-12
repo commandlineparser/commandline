@@ -19,7 +19,7 @@ namespace CommandLine.Tests.Unit.Core
 {
     public class InstanceBuilderTests
     {
-        private static ParserResult<T> InvokeBuild<T>(string[] arguments, bool autoHelp = true, bool autoVersion = true, bool multiInstance = false)
+        private static ParserResult<T> InvokeBuild<T>(string[] arguments, bool autoHelp = true, bool autoVersion = true, bool multiInstance = false, OptionsParseMode optionsParseMode = OptionsParseMode.Default)
             where T : new()
         {
             return InstanceBuilder.Build(
@@ -32,6 +32,7 @@ namespace CommandLine.Tests.Unit.Core
                 autoHelp,
                 autoVersion,
                 multiInstance,
+                optionsParseMode,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -47,6 +48,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture,
                 true,
                 true,
+                OptionsParseMode.Default,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -61,6 +63,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture,
                 true,
                 true,
+                OptionsParseMode.Default,
                 Enumerable.Empty<ErrorType>());
         }
 
@@ -421,6 +424,7 @@ namespace CommandLine.Tests.Unit.Core
                 CultureInfo.InvariantCulture,
                 true,
                 true,
+                OptionsParseMode.Default,
                 Enumerable.Empty<ErrorType>());
 
             // Verify outcome
@@ -1262,6 +1266,43 @@ namespace CommandLine.Tests.Unit.Core
                 multiInstance: true);
 
             ((Parsed<Options_With_Sequence>)result).Value.IntSequence.Should().BeEquivalentTo(expected);
+        }
+        
+        [Theory]
+        [InlineData("-help", OptionsParseMode.SingleDashOnly)]
+        [InlineData("-help", OptionsParseMode.SingleOrDoubleDash)]
+        [InlineData("--help", OptionsParseMode.Default)]
+        [InlineData("--help", OptionsParseMode.SingleOrDoubleDash)]
+        public void Parse_Built_In_Help_Argument(string argument, OptionsParseMode optionsParseMode)
+        {
+            var result = InvokeBuild<Simple_Options>(new[] { argument }, optionsParseMode: optionsParseMode);
+
+            result.Errors.Single().Should().BeOfType<HelpRequestedError>();
+        }
+
+        [Theory]
+        [InlineData("-version", OptionsParseMode.SingleDashOnly)]
+        [InlineData("-version", OptionsParseMode.SingleOrDoubleDash)]
+        [InlineData("--version", OptionsParseMode.Default)]
+        [InlineData("--version", OptionsParseMode.SingleOrDoubleDash)]
+        public void Parse_Built_In_Version_Argument(string argument, OptionsParseMode optionsParseMode)
+        {
+            var result = InvokeBuild<Simple_Options>(new[] { argument }, optionsParseMode: optionsParseMode);
+
+            result.Errors.Single().Should().BeOfType<VersionRequestedError>();
+        }
+
+        [Theory]
+        [InlineData("-help", OptionsParseMode.Default)]
+        [InlineData("--help", OptionsParseMode.SingleDashOnly)]
+        [InlineData("-version", OptionsParseMode.Default)]
+        [InlineData("--version", OptionsParseMode.SingleDashOnly)]
+        public void Parse_Invalid_Built_In_Argument(string argument, OptionsParseMode optionsParseMode)
+        {
+            var result = InvokeBuild<Simple_Options>(new[] { argument }, optionsParseMode: optionsParseMode);
+
+            result.Errors.Should().NotBeOfType<HelpVerbRequestedError>()
+                .And.Should().NotBeOfType<VersionRequestedError>();
         }
 
         #region custom types 

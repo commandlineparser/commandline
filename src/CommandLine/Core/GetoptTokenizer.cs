@@ -16,7 +16,13 @@ namespace CommandLine.Core
             IEnumerable<string> arguments,
             Func<string, NameLookupResult> nameLookup)
         {
-            return GetoptTokenizer.Tokenize(arguments, nameLookup, ignoreUnknownArguments:false, allowDashDash:true, posixlyCorrect:false);
+            return GetoptTokenizer.Tokenize(
+                arguments,
+                nameLookup,
+                ignoreUnknownArguments: false,
+                allowDashDash: true,
+                posixlyCorrect: false,
+                optionsParseMode: OptionsParseMode.Default);
         }
 
         public static Result<IEnumerable<Token>, Error> Tokenize(
@@ -24,7 +30,8 @@ namespace CommandLine.Core
             Func<string, NameLookupResult> nameLookup,
             bool ignoreUnknownArguments,
             bool allowDashDash,
-            bool posixlyCorrect)
+            bool posixlyCorrect,
+            OptionsParseMode optionsParseMode)
         {
             var errors = new List<Error>();
             Action<string> onBadFormatToken = arg => errors.Add(new BadFormatTokenError(arg));
@@ -70,11 +77,31 @@ namespace CommandLine.Core
                         break;
 
                     case string arg when arg.StartsWith("--"):
+                        
+                        if (optionsParseMode == OptionsParseMode.SingleDashOnly)
+                        {
+                            onBadFormatToken(arg);
+                            continue;
+                        }
+                        
                         tokens.AddRange(TokenizeLongName(arg, nameLookup, onBadFormatToken, onUnknownOption, onConsumeNext));
                         break;
 
                     case string arg when arg.StartsWith("-"):
-                        tokens.AddRange(TokenizeShortName(arg, nameLookup, onUnknownOption, onConsumeNext));
+                        switch(optionsParseMode)
+                        {
+                            case OptionsParseMode.Default:
+                                tokens.AddRange(TokenizeShortName(arg, nameLookup, onUnknownOption, onConsumeNext));
+                                break;
+                            
+                            case OptionsParseMode.SingleOrDoubleDash:
+                            case OptionsParseMode.SingleDashOnly:
+                                tokens.AddRange(TokenizeLongName(arg, nameLookup, onBadFormatToken, onUnknownOption, onConsumeNext, dashCount: 1));
+                                break;
+                            
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(optionsParseMode), optionsParseMode, null);
+                        }
                         break;
 
                     case string arg:
@@ -126,12 +153,23 @@ namespace CommandLine.Core
                     StringComparer nameComparer,
                     bool ignoreUnknownArguments,
                     bool enableDashDash,
-                    bool posixlyCorrect)
+                    bool posixlyCorrect,
+                    OptionsParseMode optionsParseMode)
         {
             return (arguments, optionSpecs) =>
                 {
-                    var tokens = GetoptTokenizer.Tokenize(arguments, name => NameLookup.Contains(name, optionSpecs, nameComparer), ignoreUnknownArguments, enableDashDash, posixlyCorrect);
-                    var explodedTokens = GetoptTokenizer.ExplodeOptionList(tokens, name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
+                    var tokens = GetoptTokenizer.Tokenize(
+                        arguments, 
+                        name => NameLookup.Contains(name, optionSpecs, nameComparer),
+                        ignoreUnknownArguments, 
+                        enableDashDash, 
+                        posixlyCorrect,
+                        optionsParseMode);
+                    
+                    var explodedTokens = GetoptTokenizer.ExplodeOptionList(
+                        tokens, 
+                        name => NameLookup.HavingSeparator(name, optionSpecs, nameComparer));
+                    
                     return explodedTokens;
                 };
         }
@@ -190,9 +228,10 @@ namespace CommandLine.Core
             Func<string, NameLookupResult> nameLookup,
             Action<string> onBadFormatToken,
             Action<string> onUnknownOption,
-            Action<int> onConsumeNext)
+            Action<int> onConsumeNext,
+            int dashCount = 2)
         {
-            string[] parts = arg.Substring(2).Split(new char[] { '=' }, 2);
+            string[] parts = arg.Substring(dashCount).Split(new char[] { '=' }, 2);
             string name = parts[0];
             string value = (parts.Length > 1) ? parts[1] : null;
             // A parameter like "--stringvalue=" is acceptable, and makes stringvalue be the empty string

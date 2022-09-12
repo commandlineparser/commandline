@@ -1025,5 +1025,32 @@ namespace CommandLine.Tests.Unit
             //Assert
             sut.Settings.MaximumDisplayWidth.Should().BeGreaterThan(1);
         }
+        
+        [Theory]
+        [InlineData(OptionsParseMode.SingleOrDoubleDash, ParserResultType.Parsed, new[]{ "-s", "value" })]
+        [InlineData(OptionsParseMode.SingleOrDoubleDash, ParserResultType.Parsed, new[]{ "-shortandlong", "value" })]
+        [InlineData(OptionsParseMode.SingleOrDoubleDash, ParserResultType.Parsed, new[]{ "--s", "value" })]
+        [InlineData(OptionsParseMode.SingleOrDoubleDash, ParserResultType.Parsed, new[]{ "--shortandlong", "value" })]
+        [InlineData(OptionsParseMode.SingleDashOnly, ParserResultType.Parsed, new[]{ "-s", "value" })]
+        [InlineData(OptionsParseMode.SingleDashOnly, ParserResultType.Parsed, new[]{ "-shortandlong", "value" })]
+        [InlineData(OptionsParseMode.SingleDashOnly, ParserResultType.NotParsed, new[]{ "--s", "value" })]
+        [InlineData(OptionsParseMode.SingleDashOnly, ParserResultType.NotParsed, new[]{ "--shortanlong", "value" })]
+        public void Parse_Options_With_Custom_OptionsParseMode(OptionsParseMode mode, ParserResultType result, string[] arguments)
+        {
+            // Arrange
+            var sut = new Parser(with =>
+            {
+                with.OptionsParseMode = mode;
+            });
+
+            // Act
+            var options = sut.ParseArguments<Simple_Options>(arguments);
+
+            // Assert
+            options.Tag.Should().Be(result);
+
+            if (options.Tag == ParserResultType.Parsed)
+                options.Value.ShortAndLong.Should().Be("value");
+        }
     }
 }

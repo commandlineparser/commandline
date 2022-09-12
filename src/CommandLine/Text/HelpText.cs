@@ -111,6 +111,7 @@ namespace CommandLine.Text
         private bool addEnumValuesToHelpText;
         private bool autoHelp;
         private bool autoVersion;
+        private bool useSingleDashForOptions;
         private bool addNewLineBetweenHelpSections;
 
         /// <summary>
@@ -296,6 +297,15 @@ namespace CommandLine.Text
             get { return autoVersion; }
             set { autoVersion = value; }
         }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether a single dash is used for options.
+        /// </summary>
+        public bool UseSingleDashForOptions
+        {
+            get { return useSingleDashForOptions; }
+            set { useSingleDashForOptions = value; }
+        }
 
         /// <summary>
         /// Gets the <see cref="SentenceBuilder"/> instance specified in constructor.
@@ -316,13 +326,15 @@ namespace CommandLine.Text
         /// <param name='onExample'>A delegate used to customize <see cref="CommandLine.Text.Example"/> model used to render text block of usage examples.</param>
         /// <param name="verbsIndex">If true the output style is consistent with verb commands (no dashes), otherwise it outputs options.</param>
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
+        /// <param name="useSingleDashForOptions">Indicating whether a single dash is used for options.</param>
         /// <remarks>The parameter <paramref name="verbsIndex"/> is not ontly a metter of formatting, it controls whether to handle verbs or options.</remarks>
         public static HelpText AutoBuild<T>(
             ParserResult<T> parserResult,
             Func<HelpText, HelpText> onError,
             Func<Example, Example> onExample,
             bool verbsIndex = false,
-            int maxDisplayWidth = DefaultMaximumLength)
+            int maxDisplayWidth = DefaultMaximumLength,
+            bool useSingleDashForOptions = false)
         {
             var auto = new HelpText
             {
@@ -330,7 +342,8 @@ namespace CommandLine.Text
                 Copyright = CopyrightInfo.Empty,
                 AdditionalNewLineAfterOption = true,
                 AddDashesToOption = !verbsIndex,
-                MaximumDisplayWidth = maxDisplayWidth
+                MaximumDisplayWidth = maxDisplayWidth,
+                UseSingleDashForOptions = useSingleDashForOptions
             };
 
             try
@@ -394,14 +407,15 @@ namespace CommandLine.Text
         /// </summary>
         /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
+        /// <param name="useSingleDashForOptions">Indicating whether a single dash is used for options.</param>
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
-        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = DefaultMaximumLength)
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, int maxDisplayWidth = DefaultMaximumLength, bool useSingleDashForOptions = false)
         {
-            return AutoBuild<T>(parserResult, h => h, maxDisplayWidth);
+            return AutoBuild<T>(parserResult, h => h, maxDisplayWidth, useSingleDashForOptions);
         }
 
         /// <summary>
@@ -411,12 +425,13 @@ namespace CommandLine.Text
         /// <param name='parserResult'>The <see cref="CommandLine.ParserResult{T}"/> containing the instance that collected command line arguments parsed with <see cref="CommandLine.Parser"/> class.</param>
         ///  <param name='onError'>A delegate used to customize the text block of reporting parsing errors text block.</param>
         /// <param name="maxDisplayWidth">The maximum width of the display.</param>
+        /// <param name="useSingleDashForOptions">Indicating whether a single dash is used for options.</param>
         /// <returns>
         /// An instance of <see cref="CommandLine.Text.HelpText"/> class.
         /// </returns>
         /// <remarks>This feature is meant to be invoked automatically by the parser, setting the HelpWriter property
         /// of <see cref="CommandLine.ParserSettings"/>.</remarks>
-        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, Func<HelpText, HelpText> onError, int maxDisplayWidth = DefaultMaximumLength)
+        public static HelpText AutoBuild<T>(ParserResult<T> parserResult, Func<HelpText, HelpText> onError, int maxDisplayWidth = DefaultMaximumLength, bool useSingleDashForOptions = false)
         {
             if (parserResult.Tag != ParserResultType.NotParsed)
                 throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
@@ -424,14 +439,14 @@ namespace CommandLine.Text
             var errors = ((NotParsed<T>)parserResult).Errors;
 
             if (errors.Any(e => e.Tag == ErrorType.VersionRequestedError))
-                return new HelpText($"{HeadingInfo.Default}{Environment.NewLine}") { MaximumDisplayWidth = maxDisplayWidth }.AddPreOptionsLine(Environment.NewLine);
+                return new HelpText($"{HeadingInfo.Default}{Environment.NewLine}") { MaximumDisplayWidth = maxDisplayWidth, UseSingleDashForOptions = useSingleDashForOptions }.AddPreOptionsLine(Environment.NewLine);
 
             if (!errors.Any(e => e.Tag == ErrorType.HelpVerbRequestedError))
                 return AutoBuild(parserResult, current =>
                 {
                     onError?.Invoke(current);
                     return DefaultParsingErrorsHandler(parserResult, current);
-                }, e => e, maxDisplayWidth: maxDisplayWidth);
+                }, e => e, maxDisplayWidth: maxDisplayWidth, useSingleDashForOptions: useSingleDashForOptions);
 
             var err = errors.OfType<HelpVerbRequestedError>().Single();
             var pr = new NotParsed<object>(TypeInfo.Create(err.Type), new Error[] { err });
@@ -1010,7 +1025,7 @@ namespace CommandLine.Text
                     .MapIf(
                         specification.LongName.Length > 0,
                         it => it
-                            .AppendWhen(addDashesToOption, "--")
+                            .AppendWhen(addDashesToOption, useSingleDashForOptions ? "-" : "--")
                             .AppendFormat("{0}", specification.LongName)
                             .AppendFormatWhen(specification.MetaValue.Length > 0, "={0}", specification.MetaValue))
                     .ToString();

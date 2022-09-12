@@ -102,6 +102,7 @@ namespace CommandLine
                     settings.AutoHelp,
                     settings.AutoVersion,
                     settings.AllowMultiInstance,
+                    settings.OptionsParseMode,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -133,6 +134,7 @@ namespace CommandLine
                     settings.AutoHelp,
                     settings.AutoVersion,
                     settings.AllowMultiInstance,
+                    settings.OptionsParseMode,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -166,6 +168,7 @@ namespace CommandLine
                     settings.AutoHelp,
                     settings.AutoVersion,
                     settings.AllowMultiInstance,
+                    settings.OptionsParseMode,
                     HandleUnknownArguments(settings.IgnoreUnknownArguments)),
                 settings);
         }
@@ -190,11 +193,13 @@ namespace CommandLine
                     settings.NameComparer,
                     settings.IgnoreUnknownArguments,
                     settings.EnableDashDash,
-                    settings.PosixlyCorrect)(arguments, optionSpecs)
+                    settings.PosixlyCorrect,
+                    settings.OptionsParseMode)(arguments, optionSpecs)
                 : Tokenizer.ConfigureTokenizer(
                     settings.NameComparer,
                     settings.IgnoreUnknownArguments,
-                    settings.EnableDashDash)(arguments, optionSpecs);
+                    settings.EnableDashDash,
+                    settings.OptionsParseMode)(arguments, optionSpecs);
         }
 
         private static ParserResult<T> MakeParserResult<T>(ParserResult<T> parserResult, ParserSettings settings)
@@ -202,15 +207,16 @@ namespace CommandLine
             return DisplayHelp(
                 parserResult,
                 settings.HelpWriter,
-                settings.MaximumDisplayWidth);
+                settings.MaximumDisplayWidth,
+                settings.OptionsParseMode != OptionsParseMode.Default);
         }
 
-        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter, int maxDisplayWidth)
+        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter, int maxDisplayWidth, bool useSingleDashForOptions)
         {
             parserResult.WithNotParsed(
                 errors =>
                     Maybe.Merge(errors.ToMaybe(), helpWriter.ToMaybe())
-                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult, maxDisplayWidth)))
+                        .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult, maxDisplayWidth, useSingleDashForOptions)))
                 );
 
             return parserResult;
