@@ -154,8 +154,8 @@ namespace CommandLine
             var allOptSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                               let o = (OptionSpecification)info.Specification
                               where o.TargetType != TargetType.Switch ||
-                                   (o.TargetType == TargetType.Switch && o.FlagCounter && ((int)info.Value > 0)) ||
-                                   (o.TargetType == TargetType.Switch && ((bool)info.Value))
+                                   (o.TargetType == TargetType.Switch && o.FlagCounter && info.Value is int i && i > 0) ||
+                                   (o.TargetType == TargetType.Switch && info.Value is bool b && b)
                               where !o.Hidden || settings.ShowHidden
                               orderby o.UniqueName()
                               select info;
@@ -294,14 +294,15 @@ namespace CommandLine
         private static bool IsEmpty(this object value, Specification specification, bool skipDefault)
         {
             if (value == null) return true;
-
+            if (specification.Required) return false;   // always output arguments with Required = true
             if (skipDefault && value.Equals(specification.DefaultValue.FromJust())) return true;
             if (Nullable.GetUnderlyingType(specification.ConversionType) != null) return false; //nullable
 
 #if !SKIP_FSHARP
             if (ReflectionHelper.IsFSharpOptionType(value.GetType()) && !FSharpOptionHelper.IsSome(value)) return true;
 #endif
-            if (value is ValueType && value.Equals(value.GetType().GetDefaultValue())) return true;
+            // Option arguments should be output if Required = false && value == default && OptionAttribute.Default != default
+            if (!specification.IsOption() && value is ValueType && value.Equals(value.GetType().GetDefaultValue())) return true;
             if (value is string && ((string)value).Length == 0) return true;
             if (value is IEnumerable && !((IEnumerable)value).GetEnumerator().MoveNext()) return true;
             return false;

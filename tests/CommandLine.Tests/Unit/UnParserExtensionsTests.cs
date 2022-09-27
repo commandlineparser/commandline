@@ -227,9 +227,10 @@ namespace CommandLine.Tests.Unit
         }
 
         [Theory]
-        [InlineData(false, 0, "")] //default behaviour based on type
+        [InlineData(false, 0, "-v 0")]  // value == default(int) && value != OptionAttribute.Default
         [InlineData(false, 1, "-v 1")]  //default skip=false
         [InlineData(false, 2, "-v 2")]
+        [InlineData(true, 0, "-v 0")]   // value == default(int) && value != OptionAttribute.Default
         [InlineData(true, 1, "")]  //default skip=true
         public static void UnParsing_instance_with_int(bool skipDefault, int value, string expected)
         {
@@ -241,10 +242,11 @@ namespace CommandLine.Tests.Unit
         }
 
         [Theory]
-        [InlineData(false, 0, "-v 0")]
+        [InlineData(false, 0, "-v 0")]  // value == default(int) && value != OptionAttribute.Default
         [InlineData(false, 1, "-v 1")]  //default
         [InlineData(false, 2, "-v 2")]
         [InlineData(false, null, "")]
+        [InlineData(true, 0, "-v 0")]  // value == default(int) && value != OptionAttribute.Default
         [InlineData(true, 1, "")]  //default
         public static void UnParsing_instance_with_int_nullable(bool skipDefault, int? value, string expected)
         {
