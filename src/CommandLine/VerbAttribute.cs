@@ -22,7 +22,7 @@ namespace CommandLine
         /// <param name="isDefault">Whether the verb is the default verb.</param>
         /// <param name="aliases">aliases for this verb. i.e. "move" and "mv"</param>
         /// <exception cref="System.ArgumentException">Thrown if <paramref name="name"/> is null, empty or whitespace and <paramref name="isDefault"/> is false.</exception>
-        public VerbAttribute(string name, bool isDefault = false, string[] aliases = null)
+        public VerbAttribute(string name, bool isDefault, params string[] aliases)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name");
 
