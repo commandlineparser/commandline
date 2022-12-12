@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using CommandLine.Infrastructure;
 using CSharpx;
 
@@ -54,7 +56,7 @@ namespace CommandLine.Core
             this.hidden = hidden;
         }
 
-        public SpecificationType Tag 
+        public SpecificationType Tag
         {
             get { return tag; }
         }
@@ -110,28 +112,40 @@ namespace CommandLine.Core
         }
 
         public static Specification FromProperty(PropertyInfo property)
-        {       
+        {
             var attrs = property.GetCustomAttributes(true);
+
+#if NET7_0_OR_GREATER
+            var isRequired = attrs.OfType<RequiredMemberAttribute>().Any();
+#else
+            var isRequired = false;
+#endif
+
             var oa = attrs.OfType<OptionAttribute>();
             if (oa.Count() == 1)
             {
-                var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType,
-                    ReflectionHelper.GetNamesOfEnum(property.PropertyType)); 
+                var optionAttribute = oa.Single();
+                optionAttribute.Required |= isRequired;
+                var spec = OptionSpecification.FromAttribute(optionAttribute, property.PropertyType,
+                                                             ReflectionHelper.GetNamesOfEnum(property.PropertyType));
 
                 if (spec.ShortName.Length == 0 && spec.LongName.Length == 0)
                 {
                     return spec.WithLongName(property.Name.ToLowerInvariant());
                 }
+
                 return spec;
             }
 
             var va = attrs.OfType<ValueAttribute>();
             if (va.Count() == 1)
             {
-                return ValueSpecification.FromAttribute(va.Single(), property.PropertyType,
-                    property.PropertyType.GetTypeInfo().IsEnum
-                        ? Enum.GetNames(property.PropertyType)
-                        : Enumerable.Empty<string>());
+                var valueAttribute = va.Single();
+                valueAttribute.Required |= isRequired;
+                return ValueSpecification.FromAttribute(valueAttribute, property.PropertyType,
+                                                        property.PropertyType.GetTypeInfo().IsEnum
+                                                            ? Enum.GetNames(property.PropertyType)
+                                                            : Enumerable.Empty<string>());
             }
 
             throw new InvalidOperationException();
