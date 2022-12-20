@@ -208,7 +208,7 @@
     <value>A sequence option '{0}' is defined with fewer or more items than required.</value>
   </data>
   <data name="SentenceSequenceOutOfRangeErrorValue" xml:space="preserve">
-    <value>A sequence value not bound to option name is defined with few items than required.</value>
+    <value>A sequence value not bound to option name is defined with fewer items than required.</value>
   </data>
   <data name="SentenceSetValueExceptionError" xml:space="preserve">
     <value>Error setting value to option '{0}': {1}</value>
