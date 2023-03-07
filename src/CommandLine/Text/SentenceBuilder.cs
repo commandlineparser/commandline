@@ -138,7 +138,7 @@ namespace CommandLine.Text
                                 case ErrorType.SequenceOutOfRangeError:
                                     var seqOutRange = ((SequenceOutOfRangeError)error);
                                     return seqOutRange.NameInfo.Equals(NameInfo.EmptyName)
-                                               ? "A sequence value not bound to option name is defined with few items than required."
+                                               ? "A sequence value not bound to option name is defined with fewer items than required."
                                                : "A sequence option '".JoinTo(seqOutRange.NameInfo.NameText,
                                                     "' is defined with fewer or more items than required.");
                                 case ErrorType.BadVerbSelectedError:
