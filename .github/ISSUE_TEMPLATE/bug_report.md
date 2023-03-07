@@ -11,7 +11,9 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Fork from this fiddle and paste link here: https://dotnetfiddle.net/mh9CjX
+Either fork from this fiddle and paste link here: https://dotnetfiddle.net/mh9CjX
+
+or
 
 Steps to reproduce the behavior:
 1. Go to '...'
