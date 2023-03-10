@@ -49,13 +49,12 @@ namespace CommandLine
 
         private int GetWindowWidth()
         {
-
-#if !NET40
-            if (Console.IsOutputRedirected) return DefaultMaximumLength;
-#endif
             var width = 1;
             try
             {
+#if !NET40
+            	if (Console.IsOutputRedirected) return DefaultMaximumLength;
+#endif
                 width = Console.WindowWidth;
                 if (width < 1)
                 {
