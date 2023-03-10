@@ -911,8 +911,25 @@ namespace CommandLine.Tests.Unit.Text
             lines[7].Should().BeEquivalentTo("--version             Display version information.");
         }
 
+        [Fact]
+        public void AutoText_simple()
+        {
+            var message = HelpText.AutoBuild<Simple_Options>();
+            var text = message.ToString();
+            var lines = text.ToNotEmptyLines().TrimStringArray();
+
+            // Skip two top heading lines 
+            lines[2].Should().BeEquivalentTo("--stringvalue         Define a string value here.");
+            lines[3].Should().BeEquivalentTo("-s, --shortandlong    Example with both short and long name.");
+            lines[4].Should().BeEquivalentTo("-i                    Define a int sequence here.");
+            lines[5].Should().BeEquivalentTo("-x                    Define a boolean or switch value here.");
+            lines[6].Should().BeEquivalentTo("--help                Display this help screen.");
+            lines[7].Should().BeEquivalentTo("--version             Display version information.");
+            lines[8].Should().BeEquivalentTo("value pos. 0          Define a long value here.");
+        }
+
         #region Custom Help
-        
+
         [Fact]
         [Trait("Category", "CustomHelp")]
         public void AutoBuild_with_custom_copyright_using_onError_action()
