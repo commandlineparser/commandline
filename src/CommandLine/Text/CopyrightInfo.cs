@@ -71,8 +71,8 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when parameter <paramref name="copyrightYears"/> is not supplied.</exception>
         public CopyrightInfo(bool isSymbolUpper, string author, params int[] copyrightYears)
         {
-            if (string.IsNullOrWhiteSpace(author)) throw new ArgumentException("author");
-            if (copyrightYears.Length == 0) throw new ArgumentOutOfRangeException("copyrightYears");
+            if (string.IsNullOrWhiteSpace(author)) throw new ArgumentException(nameof(author));
+            if (copyrightYears.Length == 0) throw new ArgumentOutOfRangeException(nameof(copyrightYears));
 
             const int ExtraLength = 10;
             this.isSymbolUpper = isSymbolUpper;

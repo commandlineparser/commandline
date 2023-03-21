@@ -177,9 +177,9 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when one or more parameters are null or empty strings.</exception>
         public HelpText(SentenceBuilder sentenceBuilder, string heading, string copyright)
         {
-            if (sentenceBuilder == null) throw new ArgumentNullException("sentenceBuilder");
-            if (heading == null) throw new ArgumentNullException("heading");
-            if (copyright == null) throw new ArgumentNullException("copyright");
+            if (sentenceBuilder == null) throw new ArgumentNullException(nameof(sentenceBuilder));
+            if (heading == null) throw new ArgumentNullException(nameof(heading));
+            if (copyright == null) throw new ArgumentNullException(nameof(copyright));
 
             preOptionsHelp = new StringBuilder(BuilderCapacity);
             postOptionsHelp = new StringBuilder(BuilderCapacity);
@@ -211,7 +211,7 @@ namespace CommandLine.Text
             get { return heading; }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
+                if (value == null) throw new ArgumentNullException(nameof(value));
 
                 heading = value;
             }
@@ -226,7 +226,7 @@ namespace CommandLine.Text
             get { return copyright; }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
+                if (value == null) throw new ArgumentNullException(nameof(value));
 
                 copyright = value;
             }
@@ -419,7 +419,7 @@ namespace CommandLine.Text
         public static HelpText AutoBuild<T>(ParserResult<T> parserResult, Func<HelpText, HelpText> onError, int maxDisplayWidth = DefaultMaximumLength)
         {
             if (parserResult.Tag != ParserResultType.NotParsed)
-                throw new ArgumentException("Excepting NotParsed<T> type.", "parserResult");
+                throw new ArgumentException("Excepting NotParsed<T> type.", nameof(parserResult));
 
             var errors = ((NotParsed<T>)parserResult).Errors;
 
@@ -455,8 +455,8 @@ namespace CommandLine.Text
         /// <param name="current">The <see cref="CommandLine.Text.HelpText"/> instance.</param>
         public static HelpText DefaultParsingErrorsHandler<T>(ParserResult<T> parserResult, HelpText current)
         {
-            if (parserResult == null) throw new ArgumentNullException("parserResult");
-            if (current == null) throw new ArgumentNullException("current");
+            if (parserResult == null) throw new ArgumentNullException(nameof(parserResult));
+            if (current == null) throw new ArgumentNullException(nameof(current));
 
             if (((NotParsed<T>)parserResult).Errors.OnlyMeaningfulOnes().Empty())
                 return current;
@@ -558,7 +558,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="result"/> is null.</exception>
         public HelpText AddOptions<T>(ParserResult<T> result)
         {
-            if (result == null) throw new ArgumentNullException("result");
+            if (result == null) throw new ArgumentNullException(nameof(result));
 
             return AddOptionsImpl(
                 GetSpecificationsFromType(result.TypeInfo.Current),
@@ -575,8 +575,8 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown if <paramref name="types"/> array is empty.</exception>
         public HelpText AddVerbs(params Type[] types)
         {
-            if (types == null) throw new ArgumentNullException("types");
-            if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
+            if (types == null) throw new ArgumentNullException(nameof(types));
+            if (types.Length == 0) throw new ArgumentOutOfRangeException(nameof(types));
 
             return AddOptionsImpl(
                 AdaptVerbsToSpecifications(types),
@@ -593,7 +593,7 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentNullException">Thrown when parameter <paramref name="result"/> is null.</exception>    
         public HelpText AddOptions<T>(int maximumLength, ParserResult<T> result)
         {
-            if (result == null) throw new ArgumentNullException("result");
+            if (result == null) throw new ArgumentNullException(nameof(result));
 
             return AddOptionsImpl(
                 GetSpecificationsFromType(result.TypeInfo.Current),
@@ -611,8 +611,8 @@ namespace CommandLine.Text
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown if <paramref name="types"/> array is empty.</exception>
         public HelpText AddVerbs(int maximumLength, params Type[] types)
         {
-            if (types == null) throw new ArgumentNullException("types");
-            if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
+            if (types == null) throw new ArgumentNullException(nameof(types));
+            if (types.Length == 0) throw new ArgumentOutOfRangeException(nameof(types));
 
             return AddOptionsImpl(
                 AdaptVerbsToSpecifications(types),
@@ -654,7 +654,7 @@ namespace CommandLine.Text
             Func<IEnumerable<MutuallyExclusiveSetError>, string> formatMutuallyExclusiveSetErrors,
             int indent)
         {
-            if (parserResult == null) throw new ArgumentNullException("parserResult");
+            if (parserResult == null) throw new ArgumentNullException(nameof(parserResult));
 
             var meaningfulErrors =
                 ((NotParsed<T>)parserResult).Errors.OnlyMeaningfulOnes();

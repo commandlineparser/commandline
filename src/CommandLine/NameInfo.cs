@@ -20,8 +20,8 @@ namespace CommandLine
 
         internal NameInfo(string shortName, string longName)
         {
-            if (shortName == null) throw new ArgumentNullException("shortName");
-            if (longName == null) throw new ArgumentNullException("longName");
+            if (shortName == null) throw new ArgumentNullException(nameof(shortName));
+            if (longName == null) throw new ArgumentNullException(nameof(longName));
 
             this.longName = longName;
             this.shortName = shortName;
@@ -65,8 +65,7 @@ namespace CommandLine
         /// <returns><value>true</value> if the specified <see cref="System.Object"/> is equal to the current <see cref="System.Object"/>; otherwise, <value>false</value>.</returns>
         public override bool Equals(object obj)
         {
-            var other = obj as NameInfo;
-            if (other != null)
+            if (obj is NameInfo other)
             {
                 return Equals(other);
             }
