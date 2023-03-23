@@ -62,8 +62,19 @@ namespace CommandLine.Core
                         converted => Tuple.Create(pt.WithValue(Maybe.Just(converted)), Maybe.Nothing<Error>()),
                         Tuple.Create<SpecificationProperty, Maybe<Error>>(
                             pt, Maybe.Just<Error>(new BadFormatConversionError(NameInfo.EmptyName))));
+
+            var remainingSpecs = specProps.Skip(1);
+            var remainingValues = values.Skip(taken.Count());
+
+            if (remainingValues.Any() && remainingSpecs.Empty())
+            {
+                foreach ( var value in remainingValues )
+                {
+                    yield return Tuple.Create<SpecificationProperty, Maybe<Error>>(pt, Maybe.Just<Error>(new UnknownValueError(value)));
+                }
+            }
          
-            foreach (var value in MapValuesImpl(specProps.Skip(1), values.Skip(taken.Count()), converter))
+            foreach (var value in MapValuesImpl(remainingSpecs, remainingValues, converter))
             {
                 yield return value;
             }

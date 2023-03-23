@@ -24,6 +24,10 @@ namespace CommandLine
         /// </summary>
         UnknownOptionError,
         /// <summary>
+        /// Value of <see cref="CommandLine.UnknownValueError"/> type.
+        /// </summary>
+        UnknownValueError,
+        /// <summary>
         /// Value of <see cref="CommandLine.MissingRequiredOptionError"/> type.
         /// </summary>
         MissingRequiredOptionError,
@@ -340,6 +344,17 @@ namespace CommandLine
     {
         internal UnknownOptionError(string token)
             : base(ErrorType.UnknownOptionError, token)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Models an error generated when an unknown value is detected.
+    /// </summary>
+    public sealed class UnknownValueError : TokenError
+    {
+        internal UnknownValueError(string token)
+            : base(ErrorType.UnknownValueError, token)
         {
         }
     }
