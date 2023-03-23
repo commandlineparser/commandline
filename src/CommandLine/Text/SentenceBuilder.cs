@@ -125,6 +125,8 @@ namespace CommandLine.Text
                                         "' has no value.");
                                 case ErrorType.UnknownOptionError:
                                     return "Option '".JoinTo(((UnknownOptionError)error).Token, "' is unknown.");
+                                case ErrorType.UnknownValueError:
+                                    return "Value '".JoinTo(((UnknownValueError)error).Token, "' is unknown.");
                                 case ErrorType.MissingRequiredOptionError:
                                     var errMisssing = ((MissingRequiredOptionError)error);
                                     return errMisssing.NameInfo.Equals(NameInfo.EmptyName)

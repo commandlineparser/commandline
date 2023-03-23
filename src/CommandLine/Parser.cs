@@ -219,7 +219,7 @@ namespace CommandLine
         private static IEnumerable<ErrorType> HandleUnknownArguments(bool ignoreUnknownArguments)
         {
             return ignoreUnknownArguments
-                ? Enumerable.Empty<ErrorType>().Concat(ErrorType.UnknownOptionError)
+                ? Enumerable.Empty<ErrorType>().Concat(ErrorType.UnknownOptionError).Concat(ErrorType.UnknownValueError)
                 : Enumerable.Empty<ErrorType>();
         }
 
