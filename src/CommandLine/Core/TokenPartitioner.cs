@@ -15,8 +15,6 @@ namespace CommandLine.Core
                 IEnumerable<Token> tokens,
                 Func<string, Maybe<TypeDescriptor>> typeLookup)
         {
-            IEqualityComparer<Token> tokenComparer = ReferenceEqualityComparer.Default;
-
             var tokenList = tokens.Memoize();
             var partitioned = PartitionTokensByType(tokenList, typeLookup);
             var switches = partitioned.Item1;
