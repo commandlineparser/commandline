@@ -137,7 +137,7 @@ by [@WallaceKelly](https://github.com/commandlineparser/commandline/pull/493)
 
 
 ### Removed
-- Disable faulty tests in netsatbdard2.0 and enable testing in CI.
+- Disable faulty tests in netstandard2.0 and enable testing in CI.
 
 
 ### Fixed
