@@ -24,13 +24,15 @@ namespace CommandLine.Text
         /// </summary>
         /// <param name="programName">The name of the program.</param>
         /// <param name="version">The version of the program.</param>
+        /// <param name="versionPrefix">The optional prefix that can be added in front of the version string.</param>
         /// <exception cref="System.ArgumentException">Thrown when parameter <paramref name="programName"/> is null or empty string.</exception>
-        public HeadingInfo(string programName, string version = null)
+        public HeadingInfo(string programName, string version = null, string versionPrefix = null)
         {
             if (string.IsNullOrWhiteSpace("programName")) throw new ArgumentException("programName");
+            if (versionPrefix == null) versionPrefix = string.Empty;
 
             this.programName = programName;
-            this.version = version;
+            this.version = string.IsNullOrWhiteSpace(version) ? null : versionPrefix + version;
         }
 
         /// <summary>
@@ -55,17 +57,31 @@ namespace CommandLine.Text
         {
             get
             {
-                var title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
-                    .MapValueOrDefault(
-                        titleAttribute => titleAttribute.Title,
-                        ReflectionHelper.GetAssemblyName());
-
-                var version = ReflectionHelper.GetAttribute<AssemblyInformationalVersionAttribute>()
-                    .MapValueOrDefault(
-                        versionAttribute => versionAttribute.InformationalVersion,
-                        ReflectionHelper.GetAssemblyVersion());
-                return new HeadingInfo(title, version);
+                return DefaultVP(null);
             }
+        }
+
+        /// <summary>
+        /// Gets the default heading instance that allows adding a custom version prefix.
+        /// The title is retrieved from <see cref="AssemblyTitleAttribute"/>,
+        /// or the assembly short name if its not defined.
+        /// The version is retrieved from <see cref="AssemblyInformationalVersionAttribute"/>,
+        /// or the assembly version if its not defined.
+        /// </summary>
+        /// <param name="versionPrefix">The optional prefix that can be added in front of the version string.</param>
+        public static HeadingInfo DefaultVP(string versionPrefix = null)
+        {
+            var title = ReflectionHelper.GetAttribute<AssemblyTitleAttribute>()
+                .MapValueOrDefault(
+                    titleAttribute => titleAttribute.Title,
+                    ReflectionHelper.GetAssemblyName());
+
+            var version = ReflectionHelper.GetAttribute<AssemblyInformationalVersionAttribute>()
+                .MapValueOrDefault(
+                    versionAttribute => versionAttribute.InformationalVersion,
+                    ReflectionHelper.GetAssemblyVersion());
+
+            return new HeadingInfo(title, version, versionPrefix);
         }
 
         /// <summary>
