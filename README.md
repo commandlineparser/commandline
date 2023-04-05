@@ -155,6 +155,7 @@ Demo to show IEnumerable  options and other usage:  [Online Demo](https://dotnet
   <summary>Click to expand!</summary>
 
 ```fsharp
+open CommandLine
 
 type options = {
   [<Option('r', "read", Required = true, HelpText = "Input files.")>] files : seq<string>;
@@ -163,11 +164,10 @@ type options = {
   [<Value(0, MetaName="offset", HelpText = "File offset.")>] offset : int64 option;
 }
 
-let main argv =
-  let result = CommandLine.Parser.Default.ParseArguments<options>(argv)
-  match result with
-  | :? Parsed<options> as parsed -> run parsed.Value
-  | :? NotParsed<options> as notParsed -> fail notParsed.Errors
+let arguments = CommandLine.Parser.Default.ParseArguments<options>(System.Environment.GetCommandLineArgs())
+match arguments with
+    | :? Parsed<options> as parsed -> printfn "Success: %A" parsed.Value
+    | _ -> ()
 ```
 </details>
 
