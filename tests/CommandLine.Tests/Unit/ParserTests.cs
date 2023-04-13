@@ -550,6 +550,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public void Properly_formatted_help_screen_is_displayed_when_usage_is_defined_in_verb_scenario()
         {
+            Console.WindowWidth = 80;
             // Fixture setup
             var help = new StringWriter();
             var sut = new Parser(config =>
@@ -674,6 +675,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public void Specific_verb_help_screen_should_be_displayed_regardless_other_argument()
         {
+            Console.WindowWidth = 80;
             // Fixture setup
             var help = new StringWriter();
             var sut = new Parser(config =>
@@ -742,6 +744,7 @@ namespace CommandLine.Tests.Unit
         [Fact]
         public void Properly_formatted_help_screen_excludes_help_as_unknown_option()
         {
+            Console.WindowWidth = 80;
             // Fixture setup
             var help = new StringWriter();
             var sut = new Parser(config =>
