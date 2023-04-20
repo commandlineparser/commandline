@@ -22,7 +22,7 @@ namespace CommandLine.Core
         {
             return new OptionSpecification(
                 specification.ShortName,
-                newLongName,
+                new [] { newLongName },
                 specification.Required,
                 specification.SetName,
                 specification.Min,
@@ -41,7 +41,7 @@ namespace CommandLine.Core
 
         public static string UniqueName(this OptionSpecification specification)
         {
-            return specification.ShortName.Length > 0 ? specification.ShortName : specification.LongName;
+            return specification.ShortName.Length > 0 ? specification.ShortName : specification.LongNames[0];
         }
 
         public static IEnumerable<Specification> ThrowingValidate(this IEnumerable<Specification> specifications, IEnumerable<Tuple<Func<Specification, bool>, string>> guardsLookup)

@@ -1,7 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
 using System;
-using CommandLine.Core;
+using System.Linq;
 
 namespace CommandLine
 {
@@ -14,16 +14,40 @@ namespace CommandLine
         /// Represents an empty name information. Used when <see cref="CommandLine.Error"/> are tied to values,
         /// rather than options.
         /// </summary>
-        public static readonly NameInfo EmptyName = new NameInfo(string.Empty, string.Empty);
-        private readonly string longName;
+        public static readonly NameInfo EmptyName = new NameInfo(string.Empty, new string[0]);
+        private readonly string[] longNames;
         private readonly string shortName;
+
+        internal NameInfo(string shortName)
+        {
+            if (shortName == null) throw new ArgumentNullException("shortName");
+
+            this.longNames = new string[0];
+            this.shortName = shortName;
+        }
 
         internal NameInfo(string shortName, string longName)
         {
             if (shortName == null) throw new ArgumentNullException("shortName");
             if (longName == null) throw new ArgumentNullException("longName");
+            if (longName == string.Empty)
+            {
+                this.longNames = new string[0];
+            }
+            else
+            {
+                this.longNames = new [] { longName };
+            }
 
-            this.longName = longName;
+            this.shortName = shortName;
+        }
+
+        internal NameInfo(string shortName, string[] longNames)
+        {
+            if (shortName == null) throw new ArgumentNullException("shortName");
+            if (longNames == null) throw new ArgumentNullException("longNames");
+            if (longNames.Any(x => x == null)) throw new ArgumentNullException("longNames");
+            this.longNames = longNames;
             this.shortName = shortName;
         }
 
@@ -38,9 +62,9 @@ namespace CommandLine
         /// <summary>
         /// Gets the long name of the name information.
         /// </summary>
-        public string LongName
+        public string[] LongNames
         {
-            get { return longName; }
+            get { return longNames; }
         }
 
         /// <summary>
@@ -50,11 +74,11 @@ namespace CommandLine
         {
             get
             {
-                return ShortName.Length > 0 && LongName.Length > 0
-                           ? ShortName + ", " + LongName
+                return ShortName.Length > 0 && LongNames.Length > 0
+                           ? ShortName + ", " + string.Join(", ", LongNames)
                            : ShortName.Length > 0
                                 ? ShortName
-                                : LongName;
+                                : string.Join(", ", LongNames);
             }
         }
 
@@ -80,7 +104,7 @@ namespace CommandLine
         /// <remarks>A hash code for the current <see cref="System.Object"/>.</remarks>
         public override int GetHashCode()
         {
-            return new { ShortName, LongName }.GetHashCode();
+            return CSharpx.EnumerableExtensions.Prepend(LongNames, ShortName).ToArray().GetHashCode();
         }
 
         /// <summary>
@@ -95,7 +119,7 @@ namespace CommandLine
                 return false;
             }
 
-            return ShortName.Equals(other.ShortName) && LongName.Equals(other.LongName);
+            return ShortName.Equals(other.ShortName) && LongNames.SequenceEqual(other.LongNames);
         }
     }
 }

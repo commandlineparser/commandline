@@ -12,20 +12,20 @@ namespace CommandLine
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class OptionAttribute : BaseAttribute
     {
-        private readonly string longName;
+        private readonly string[] longNames;
         private readonly string shortName;
         private string setName;
         private bool flagCounter;
         private char separator;
         private string group=string.Empty;
 
-        private OptionAttribute(string shortName, string longName) : base()
+        private OptionAttribute(string shortName, string[] longNames) : base()
         {
             if (shortName == null) throw new ArgumentNullException("shortName");
-            if (longName == null) throw new ArgumentNullException("longName");
+            if (longNames == null) throw new ArgumentNullException("longNames");
 
             this.shortName = shortName;
-            this.longName = longName;
+            this.longNames = longNames;
             setName = string.Empty;
             separator = '\0';
         }
@@ -35,7 +35,7 @@ namespace CommandLine
         /// The default long name will be inferred from target property.
         /// </summary>
         public OptionAttribute()
-            : this(string.Empty, string.Empty)
+            : this(string.Empty, new string[0])
         {
         }
 
@@ -44,7 +44,25 @@ namespace CommandLine
         /// </summary>
         /// <param name="longName">The long name of the option.</param>
         public OptionAttribute(string longName)
-            : this(string.Empty, longName)
+            : this(string.Empty, new []{ longName })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.OptionAttribute"/> class.
+        /// </summary>
+        /// <param name="longNames">The long name of the option.</param>
+        public OptionAttribute(string[] longNames)
+            : this(string.Empty, longNames)
+        {
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLine.OptionAttribute"/> class.
+        /// </summary>
+        /// <param name="shortName">The short name of the option.</param>
+        /// <param name="longName">The long name of the option or null if not used.</param>
+        public OptionAttribute(char shortName, string longName)
+            : this(shortName.ToOneCharString(), new []{ longName })
         {
         }
 
@@ -52,9 +70,9 @@ namespace CommandLine
         /// Initializes a new instance of the <see cref="CommandLine.OptionAttribute"/> class.
         /// </summary>
         /// <param name="shortName">The short name of the option.</param>
-        /// <param name="longName">The long name of the option or null if not used.</param>
-        public OptionAttribute(char shortName, string longName)
-            : this(shortName.ToOneCharString(), longName)
+        /// <param name="longNames">The long name of the option or null if not used.</param>
+        public OptionAttribute(char shortName, string[] longNames)
+            : this(shortName.ToOneCharString(), longNames)
         {
         }
 
@@ -63,16 +81,16 @@ namespace CommandLine
         /// </summary>
         /// <param name="shortName">The short name of the option..</param>
         public OptionAttribute(char shortName)
-            : this(shortName.ToOneCharString(), string.Empty)
+            : this(shortName.ToOneCharString(), new string[0])
         {
         }
 
         /// <summary>
         /// Gets long name of this command line option. This name is usually a single english word.
         /// </summary>
-        public string LongName
+        public string[] LongNames
         {
-            get { return longName; }
+            get { return longNames; }
         }
 
         /// <summary>

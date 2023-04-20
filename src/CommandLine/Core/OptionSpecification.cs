@@ -10,7 +10,7 @@ namespace CommandLine.Core
     sealed class OptionSpecification : Specification
     {
         private readonly string shortName;
-        private readonly string longName;
+        private readonly string[] longNames;
         private readonly char separator;
         private readonly string setName;
         private readonly string group;
@@ -23,7 +23,21 @@ namespace CommandLine.Core
                  required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType, conversionType == typeof(int) && flagCounter ? TargetType.Switch : targetType, hidden)
         {
             this.shortName = shortName;
-            this.longName = longName;
+            this.longNames = new [] { longName };
+            this.separator = separator;
+            this.setName = setName;
+            this.group = group;
+            this.flagCounter = flagCounter;
+        }
+
+        public OptionSpecification(string shortName, string[] longNames, bool required, string setName, Maybe<int> min, Maybe<int> max,
+            char separator, Maybe<object> defaultValue, string helpText, string metaValue, IEnumerable<string> enumValues,
+            Type conversionType, TargetType targetType, string group, bool flagCounter = false, bool hidden = false)
+            : base(SpecificationType.Option,
+                required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType, conversionType == typeof(int) && flagCounter ? TargetType.Switch : targetType, hidden)
+        {
+            this.shortName = shortName;
+            this.longNames = longNames;
             this.separator = separator;
             this.setName = setName;
             this.group = group;
@@ -34,7 +48,7 @@ namespace CommandLine.Core
         {
             return new OptionSpecification(
                 attribute.ShortName,
-                attribute.LongName,
+                attribute.LongNames,
                 attribute.Required,
                 attribute.SetName,
                 attribute.Min == -1 ? Maybe.Nothing<int>() : Maybe.Just(attribute.Min),
@@ -57,14 +71,20 @@ namespace CommandLine.Core
                 '\0', Maybe.Nothing<object>(), helpText, metaValue, Enumerable.Empty<string>(), typeof(bool), TargetType.Switch, string.Empty, false, hidden);
         }
 
+        public static OptionSpecification NewSwitch(string shortName, string[] longNames, bool required, string helpText, string metaValue, bool hidden = false)
+        {
+            return new OptionSpecification(shortName, longNames, required, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(),
+                '\0', Maybe.Nothing<object>(), helpText, metaValue, Enumerable.Empty<string>(), typeof(bool), TargetType.Switch, string.Empty, false, hidden);
+        }
+
         public string ShortName
         {
             get { return shortName; }
         }
 
-        public string LongName
+        public string[] LongNames
         {
-            get { return longName; }
+            get { return longNames; }
         }
 
         public char Separator
