@@ -27,7 +27,7 @@ namespace CommandLine.Text
         public bool Required;
         public bool IsOption;
         public bool IsValue;
-        public string LongName;
+        public string[] LongNames;
         public string ShortName;
         public int Index;
     }
@@ -48,7 +48,7 @@ namespace CommandLine.Text
                 Required = required,
                 IsOption = option != null,
                 IsValue = value != null,
-                LongName = option?.LongName ?? value?.MetaName,
+                LongNames = option?.LongNames ?? new [] { value?.MetaName },
                 ShortName = option?.ShortName,
                 Index = index
             };
@@ -70,8 +70,18 @@ namespace CommandLine.Text
                    return 1;
                }
 
-               return String.Compare(attr1.LongName, attr2.LongName, StringComparison.Ordinal);
+               if (attr1.LongNames.Length != attr2.LongNames.Length)
+               {
+                   return attr1.LongNames.Length.CompareTo(attr2.LongNames.Length);
+               }
 
+               for (int i = 0; i < attr1.LongNames.Length; i++)
+               {
+                   var cmp = String.Compare(attr1.LongNames[i], attr2.LongNames[i], StringComparison.Ordinal);
+                   if (cmp != 0) return cmp;
+               }
+               
+               return 0;
            }
            else if (attr1.IsOption && attr2.IsValue)
            {
@@ -95,6 +105,8 @@ namespace CommandLine.Text
         /// The width of the option prefix (either "--" or "  "
         /// </summary>
         private const int OptionPrefixWidth = 2;
+
+        private const string CommaSeparation = ", ";
         /// <summary>
         /// The total amount of extra space that needs to accounted for when indenting Option help text
         /// </summary>
@@ -852,7 +864,7 @@ namespace CommandLine.Text
                               select
                                   OptionSpecification.NewSwitch(
                                       string.Empty,
-                                      verbTuple.Item1.Name.Concat(verbTuple.Item1.Aliases).ToDelimitedString(", "),
+                                      verbTuple.Item1.Name.Concat(verbTuple.Item1.Aliases).ToDelimitedString(CommaSeparation),
                                       false,
                                       verbTuple.Item1.IsDefault ? "(Default Verb) " + verbTuple.Item1.HelpText : verbTuple.Item1.HelpText,  //Default verb
                                       string.Empty,
@@ -910,7 +922,7 @@ namespace CommandLine.Text
         {
             return OptionSpecification.NewSwitch(
                 string.Empty,
-                "help",
+                new [] { "help" },
                 false,
                 sentenceBuilder.HelpCommandText(AddDashesToOption),
                 string.Empty,
@@ -921,7 +933,7 @@ namespace CommandLine.Text
         {
             return OptionSpecification.NewSwitch(
                 string.Empty,
-                "version",
+                new [] { "version" },
                 false,
                 sentenceBuilder.VersionCommandText(AddDashesToOption),
                 string.Empty,
@@ -969,7 +981,7 @@ namespace CommandLine.Text
             var optionHelpText = specification.HelpText;
 
             if (addEnumValuesToHelpText && specification.EnumValues.Any())
-                optionHelpText += " Valid values: " + string.Join(", ", specification.EnumValues);
+                optionHelpText += " Valid values: " + string.Join(CommaSeparation, specification.EnumValues);
 
             specification.DefaultValue.Do(
                 defaultValue => optionHelpText = "(Default: {0}) ".FormatInvariant(FormatDefaultValue(defaultValue)) + optionHelpText);
@@ -1006,13 +1018,25 @@ namespace CommandLine.Text
                             .AppendWhen(addDashesToOption, '-')
                             .AppendFormat("{0}", specification.ShortName)
                             .AppendFormatWhen(specification.MetaValue.Length > 0, " {0}", specification.MetaValue)
-                            .AppendWhen(specification.LongName.Length > 0, ", "))
+                            .AppendWhen(specification.LongNames.Length > 0, CommaSeparation))
                     .MapIf(
-                        specification.LongName.Length > 0,
-                        it => it
+                        specification.LongNames.Length > 0,
+                        it =>
+                        {
+                            it
                             .AppendWhen(addDashesToOption, "--")
-                            .AppendFormat("{0}", specification.LongName)
-                            .AppendFormatWhen(specification.MetaValue.Length > 0, "={0}", specification.MetaValue))
+                            .Append(specification.LongNames[0])
+                            .AppendFormatWhen(specification.MetaValue.Length > 0, "={0}", specification.MetaValue);
+                            foreach (var longName in specification.LongNames.Skip(1))
+                            {
+                                it
+                                .Append(CommaSeparation)
+                                .AppendWhen(addDashesToOption, "--")
+                                .AppendFormat("{0}", longName)
+                                .AppendFormatWhen(specification.MetaValue.Length > 0, "={0}", specification.MetaValue);
+                            }
+                            return it;
+                        })
                     .ToString();
         }
 
@@ -1056,7 +1080,7 @@ namespace CommandLine.Text
             var specLength = 0;
 
             var hasShort = spec.ShortName.Length > 0;
-            var hasLong = spec.LongName.Length > 0;
+            var hasLong = spec.LongNames.Length > 0;
 
             var metaLength = 0;
             if (spec.MetaValue.Length > 0)
@@ -1073,15 +1097,18 @@ namespace CommandLine.Text
 
             if (hasLong)
             {
-                specLength += spec.LongName.Length;
+                specLength += spec.LongNames.Sum(x => x.Length);
                 if (AddDashesToOption)
-                    specLength += OptionPrefixWidth;
+                    specLength += OptionPrefixWidth * spec.LongNames.Length;
 
-                specLength += metaLength;
+                if (spec.LongNames.Length > 1)
+                    specLength += CommaSeparation.Length * (spec.LongNames.Length - 1);
+
+                specLength += metaLength * spec.LongNames.Length;
             }
 
             if (hasShort && hasLong)
-                specLength += OptionPrefixWidth;
+                specLength += CommaSeparation.Length;
 
             return specLength;
         }

@@ -118,7 +118,7 @@ namespace CommandLine.Core
                 var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType,
                     ReflectionHelper.GetNamesOfEnum(property.PropertyType)); 
 
-                if (spec.ShortName.Length == 0 && spec.LongName.Length == 0)
+                if (spec.ShortName.Length == 0 && spec.LongNames.Length == 0)
                 {
                     return spec.WithLongName(property.Name.ToLowerInvariant());
                 }

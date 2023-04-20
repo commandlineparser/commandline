@@ -35,7 +35,7 @@ namespace CommandLine.Tests.Fakes
     [Verb("commit", HelpText = "Record changes to the repository.")]
     public class Commit_Verb
     {
-        [Option('p', "patch",
+        [Option('p', new[] { "patch" },
             HelpText = "Use the interactive patch selection interface to chose which changes to commit.")]
         public bool Patch { get; set; }
 
@@ -118,5 +118,17 @@ namespace CommandLine.Tests.Fakes
     {
         [Option('t', "test")]
         public bool TestValue { get; set; }
+    }
+    [Verb("multilong")]
+    public class Verb_With_Option_With_Several_Long_Names
+    {
+        [Option('d', new [] { "downloadfiles", "dlf", "df" }, HelpText = "Downloads files.")]
+        public bool DownloadFiles { get; set; }
+        
+        [Option(new [] { "rooturl", "ru" }, HelpText = "Root URL.")]
+        public string RootUrl { get; set; }
+        
+        [Option(new [] { "wm", "withmeta" }, HelpText = "With Meta.", MetaValue = "NUM")]
+        public string WithMeta { get; set; }
     }
 }

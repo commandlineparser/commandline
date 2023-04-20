@@ -266,12 +266,12 @@ namespace CommandLine
         {
             // Have a long name and short name not preferred? Go with long! 
             // No short name? Has to be long!
-            var longName = (optionSpec.LongName.Length > 0 && !settings.PreferShortName)
+            var longName = (optionSpec.LongNames.Length > 0 && !settings.PreferShortName)
                          || optionSpec.ShortName.Length == 0;
 
             var formattedName =
                 new StringBuilder(longName
-                    ? "--".JoinTo(optionSpec.LongName)
+                    ? "--".JoinTo(optionSpec.LongNames[0])
                     : "-".JoinTo(optionSpec.ShortName))
                         .AppendWhen(optionSpec.TargetType != TargetType.Switch, longName && settings.UseEqualToken ? "=" : " ")
                     .ToString();
