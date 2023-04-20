@@ -15,7 +15,7 @@ namespace CommandLine.Core
             StringComparer comparer)
         {
             var info =
-                specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongName, comparer))
+                specifications.SingleOrDefault(a => name.MatchName(a.ShortName, a.LongNames, comparer))
                     .ToMaybe()
                     .Map(
                         first =>

@@ -364,6 +364,57 @@ namespace CommandLine.Tests.Unit
             public DateTimeOffset Start { get; set; }
         }
         #endregion
+        
+        
+        #region Issue 885
+        [Theory]
+        [MemberData(nameof(UnParseMultiLongArgsVerbs))]
+        public static void UnParsing_instance_with_multiple_long_args_returns_with_first_long_arg(Verb_With_Option_With_Several_Long_Names verb, string result)
+        {
+            new Parser()
+                .FormatCommandLine(verb)
+                .Should().BeEquivalentTo(result);
+        }
+
+        [Theory]
+        [MemberData(nameof(UnParseMultiLongArgsVerbsPreferShort))]
+        public static void UnParsing_instance_with_multiple_long_args_returns_with_first_long_arg_prefer_short_name(
+            Verb_With_Option_With_Several_Long_Names verb, string result)
+        {
+            new Parser()
+                .FormatCommandLine(verb, settings => settings.PreferShortName = true)
+                .Should().BeEquivalentTo(result);
+        }
+
+        public static IEnumerable<object[]> UnParseMultiLongArgsVerbs
+        {
+            get
+            {
+                yield return new object[] { new Verb_With_Option_With_Several_Long_Names(), "multilong" };
+                yield return new object[] { new Verb_With_Option_With_Several_Long_Names { DownloadFiles = true }, "multilong --downloadfiles" };
+                yield return new object[]
+                {
+                    new Verb_With_Option_With_Several_Long_Names { DownloadFiles = true, WithMeta = "qwert" },
+                    "multilong --downloadfiles --wm qwert"
+                };
+            }
+        }
+
+        public static IEnumerable<object[]> UnParseMultiLongArgsVerbsPreferShort
+        {
+            get
+            {
+                yield return new object[] { new Verb_With_Option_With_Several_Long_Names(), "multilong" };
+                yield return new object[] { new Verb_With_Option_With_Several_Long_Names { DownloadFiles = true }, "multilong -d" };
+                yield return new object[]
+                {
+                    new Verb_With_Option_With_Several_Long_Names { DownloadFiles = true, WithMeta = "qwert" },
+                    "multilong -d --wm qwert"
+                };
+            }
+        }
+
+        #endregion
         public static IEnumerable<object[]> UnParseData
         {
             get

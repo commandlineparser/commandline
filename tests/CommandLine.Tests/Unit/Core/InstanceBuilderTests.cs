@@ -1264,6 +1264,21 @@ namespace CommandLine.Tests.Unit.Core
             ((Parsed<Options_With_Sequence>)result).Value.IntSequence.Should().BeEquivalentTo(expected);
         }
 
+        [Theory]
+        [InlineData(new[] { "--wm", "qwer" }, "qwer")]
+        [InlineData(new[] { "--withmeta", "qwer" }, "qwer")]
+        public void Parse_string_with_multiple_long_args(string[] arguments, string expected)
+        {
+            // Fixture setup in attributes
+
+            // Exercize system 
+            var result = InvokeBuild<Verb_With_Option_With_Several_Long_Names>(
+                arguments);
+
+            // Verify outcome
+            expected.Should().BeEquivalentTo(((Parsed<Verb_With_Option_With_Several_Long_Names>)result).Value.WithMeta);
+        }
+
         #region custom types 
        
 

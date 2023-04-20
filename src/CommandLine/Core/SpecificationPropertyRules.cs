@@ -48,7 +48,7 @@ namespace CommandLine.Core
                 if (options.Any())
                 {
                     return from o in options
-                           select new GroupOptionAmbiguityError(new NameInfo(o.ShortName, o.LongName));
+                           select new GroupOptionAmbiguityError(new NameInfo(o.ShortName, o.LongNames));
                 }
 
                 return Enumerable.Empty<Error>();
@@ -79,7 +79,7 @@ namespace CommandLine.Core
 
                 if (errorGroups.Any())
                 {
-                    return errorGroups.Select(gr => new MissingGroupOptionError(gr.Key, gr.Select(g => new NameInfo(g.Option.ShortName, g.Option.LongName))));
+                    return errorGroups.Select(gr => new MissingGroupOptionError(gr.Key, gr.Select(g => new NameInfo(g.Option.ShortName, g.Option.LongNames))));
                 }
 
                 return Enumerable.Empty<Error>();
@@ -199,20 +199,19 @@ namespace CommandLine.Core
                                        join o in specs on t.Text equals o.ShortName into to
                                        from o in to.DefaultIfEmpty()
                                        where o != null
-                                       select new { o.ShortName, o.LongName };
+                                       select new { o.ShortName, o.LongNames };
                     var longOptions = from t in tokens
                                       where t.IsName()
-                                      join o in specs on t.Text equals o.LongName into to
-                                      from o in to.DefaultIfEmpty()
-                                      where o != null
-                                      select new { o.ShortName, o.LongName };
+                                      from o in specs
+                                      where o.LongNames.Contains(t.Text)
+                                      select new { o.ShortName, o.LongNames };
                     var groups = from x in shortOptions.Concat(longOptions)
                                  group x by x into g
                                  let count = g.Count()
                                  select new { Value = g.Key, Count = count };
                     var errors = from y in groups
                                  where y.Count > 1
-                                 select new RepeatedOptionError(new NameInfo(y.Value.ShortName, y.Value.LongName));
+                                 select new RepeatedOptionError(new NameInfo(y.Value.ShortName, y.Value.LongNames));
                     return errors;
                 };
         }

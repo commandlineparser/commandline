@@ -911,6 +911,36 @@ namespace CommandLine.Tests.Unit.Text
             lines[7].Should().BeEquivalentTo("--version             Display version information.");
         }
 
+        [Fact]
+        public void Invoke_AutoBuild_for_Verbs_with_multiple_long_names()
+        {
+            // Fixture setup
+            var fakeResult = new NotParsed<object>(
+                TypeInfo.Create(typeof(NullInstance)),
+                new Error[]
+                {
+                    new HelpVerbRequestedError("multilong", typeof(Verb_With_Option_With_Several_Long_Names), true)
+                });
+
+            // Exercize system
+            var helpText = HelpText.AutoBuild(fakeResult);
+
+            // Verify outcome
+            var lines = helpText.ToString().ToLines().TrimStringArray();
+
+            lines[0].Should().Be(HeadingInfo.Default.ToString());
+            lines[1].Should().Be(CopyrightInfo.Default.ToString());
+            lines[2].Should().BeEmpty();
+            lines[3].Should().BeEquivalentTo("-d, --downloadfiles, --dlf, --df    Downloads files.");
+            lines[4].Should().BeEmpty();
+            lines[5].Should().BeEquivalentTo("--rooturl, --ru                     Root URL.");
+            lines[6].Should().BeEmpty();
+            lines[7].Should().BeEquivalentTo("--wm=NUM, --withmeta=NUM            With Meta.");
+            lines[8].Should().BeEmpty();
+            lines[9].Should().BeEquivalentTo("--help                              Display this help screen.");
+            // Teardown
+        }
+
         #region Custom Help
         
         [Fact]

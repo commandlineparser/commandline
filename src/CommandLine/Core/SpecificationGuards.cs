@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CSharpx;
 
 namespace CommandLine.Core
@@ -30,7 +31,11 @@ namespace CommandLine.Core
 
         private static Func<Specification, bool> GuardAgainstOneCharLongName()
         {
-            return spec => spec.IsOption() && ((OptionSpecification)spec).LongName.Length == 1;
+            return spec =>
+            {
+                var optionSpecification = spec as OptionSpecification;
+                return spec.IsOption() && (optionSpecification?.LongNames.Any(x => x.Length == 1) ?? false);
+            };
         }
 
         private static Func<Specification, bool> GuardAgainstSequenceWithZeroRange()

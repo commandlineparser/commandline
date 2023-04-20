@@ -23,7 +23,7 @@ namespace CommandLine.Core
                     pt =>
                     {
                         var matched = options.Where(s =>
-                            s.Key.MatchName(((OptionSpecification)pt.Specification).ShortName, ((OptionSpecification)pt.Specification).LongName, comparer)).ToMaybe();
+                            s.Key.MatchName(((OptionSpecification)pt.Specification).ShortName, ((OptionSpecification)pt.Specification).LongNames, comparer)).ToMaybe();
                         if (matched.IsJust())
                         {
                             var matches = matched.GetValueOrDefault(Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>());

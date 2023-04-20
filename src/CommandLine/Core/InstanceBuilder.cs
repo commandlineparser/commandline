@@ -100,7 +100,7 @@ namespace CommandLine.Core
                 var missingValueErrors = from token in errorsPartition
                                          select
                         new MissingValueOptionError(
-                            optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongName, nameComparer))
+                            optionSpecs.Single(o => token.Text.MatchName(o.ShortName, o.LongNames, nameComparer))
                                 .FromOptionSpecification());
 
                 var specPropsWithValue =
