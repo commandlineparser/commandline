@@ -935,7 +935,7 @@ namespace CommandLine.Tests.Unit.Text
             lines[4].Should().BeEmpty();
             lines[5].Should().BeEquivalentTo("--rooturl, --ru                     Root URL.");
             lines[6].Should().BeEmpty();
-            lines[7].Should().BeEquivalentTo("--withmeta=NUM, --wm=NUM            With Meta.");
+            lines[7].Should().BeEquivalentTo("--wm=NUM, --withmeta=NUM            With Meta.");
             lines[8].Should().BeEmpty();
             lines[9].Should().BeEquivalentTo("--help                              Display this help screen.");
             // Teardown
