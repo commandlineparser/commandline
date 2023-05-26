@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 CommandLineParser project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0-preview2] 
+
+### Added
+- Properly assign arguments after a double dash to values, fix #605 by [@robnasby, PR# 610](https://github.com/commandlineparser/commandline/pull/610).
+
+### Changed
+- Drop "Add multi-instance option support".
+
+
 ## [2.9.0-preview1] - 2020-7-24
 
 ### Added

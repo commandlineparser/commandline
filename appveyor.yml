@@ -1,6 +1,6 @@
 #version should be only changed with RELEASE eminent, see RELEASE.md
 
-version: 2.9.0-ci-{build}
+version: 2.9.1-ci-{build}
 
 image: Visual Studio 2019
 
@@ -44,18 +44,9 @@ on_failure:
     appveyor PushArtifact .\files.lst -DeploymentName "Failed Build File Listing"
 
 deploy:
-- provider: GitHub
-  auth_token:
-    secure: hVyVwHl0JiVq0VxXB4VMRWbUtrGclIzadfnWFcWCQBLvbgMLahLBnWlwGglT63pZ
-  artifact: /.*(\.|\.s)nupkg/
-  prerelease: false
-  force_update: true #fsharp package runs as separate build job, so have to force_update to add fsharp.nuget added
-  on:
-    APPVEYOR_REPO_TAG: true
-
 - provider: NuGet
   api_key:
-    secure: e2gJJ3r6Uls5trJwryaudAZd49QniNfIjax/A+tfywlchSnIQVOzOQCO9tTSNccI
+    secure: llMIgYMuLHh9thyKMEAmkWraTaA9Zvcm1F8/yRwm0HCiPIt/ehR/GI4kJKyMTPyf
   artifact: /.*(\.|\.s)nupkg/
   on:
     APPVEYOR_REPO_TAG: true

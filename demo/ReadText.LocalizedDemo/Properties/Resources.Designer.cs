@@ -331,7 +331,7 @@ namespace ReadText.LocalizedDemo.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A sequence value not bound to option name is defined with few items than required..
+        ///   Looks up a localized string similar to A sequence value not bound to option name is defined with fewer items than required..
         /// </summary>
         public static string SentenceSequenceOutOfRangeErrorValue {
             get {

@@ -13,7 +13,8 @@ namespace CommandLine.Core
                 Tuple.Create(GuardAgainstScalarWithRange(), "Scalar option specifications do not support range specification."),
                 Tuple.Create(GuardAgainstSequenceWithWrongRange(), "Bad range in sequence option specifications."),
                 Tuple.Create(GuardAgainstSequenceWithZeroRange(), "Zero is not allowed in range of sequence option specifications."),
-                Tuple.Create(GuardAgainstOneCharLongName(), "Long name should be longer than one character.")
+                Tuple.Create(GuardAgainstOneCharLongName(), "Long name should be longer than one character."),
+                Tuple.Create(GaurdAgainstUnsupportedSequenceTypes(), "Unsupported sequence type specification.")
             };
 
         private static Func<Specification, bool> GuardAgainstScalarWithRange()
@@ -38,6 +39,11 @@ namespace CommandLine.Core
             return spec => spec.TargetType == TargetType.Sequence
                 && (spec.HavingMin(min => min == 0)
                 || spec.HavingMax(max => max == 0));
+        }
+
+        private static Func<Specification, bool> GaurdAgainstUnsupportedSequenceTypes()
+        {
+            return spec => spec.TargetType == TargetType.Sequence && spec.ConversionType.GetGenericArguments().Length != 1;
         }
     }
 }

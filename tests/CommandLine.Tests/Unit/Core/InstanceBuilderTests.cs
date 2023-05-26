@@ -686,6 +686,17 @@ namespace CommandLine.Tests.Unit.Core
 
 
         [Fact]
+        public void Dictionary_type_throws_exception()
+        {
+            // Exercize system
+            Action test = () => InvokeBuild<Options_With_Dictionary_Specification>(
+                new string[] { });
+
+            // Verify outcome
+            Assert.Throws<InvalidOperationException>(test);
+        }
+
+        [Fact]
         public void Min_constraint_set_to_zero_throws_exception()
         {
             // Exercize system 
