@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using CommandLine.Infrastructure;
 using CSharpx;
 using RailwaySharp.ErrorHandling;
-using System.Reflection;
 
 namespace CommandLine.Core
 {
@@ -62,7 +62,7 @@ namespace CommandLine.Core
                 .Memoize();
 
             Func<T> makeDefault = () =>
-                typeof(T).IsMutable()
+                typeof(T).IsMutable() && typeof(T).HasParameterlessConstructor()
                     ? factory.MapValueOrDefault(f => f(), () => Activator.CreateInstance<T>())
                     : ReflectionHelper.CreateDefaultImmutableInstance<T>(
                         (from p in specProps select p.Specification.ConversionType).ToArray());
@@ -110,7 +110,7 @@ namespace CommandLine.Core
 
                 //build the instance, determining if the type is mutable or not.
                 T instance;
-                if(typeInfo.IsMutable() == true)
+                if (typeInfo.IsMutable() && typeInfo.HasParameterlessConstructor())
                 {
                     instance = BuildMutable(factory, specPropsWithValue, setPropertyErrors);
                 }

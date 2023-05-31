@@ -133,16 +133,21 @@ namespace CommandLine.Core
 
             foreach (var inheritedType in inheritedTypes)
             {
-                if (inheritedType.GetTypeInfo().GetConstructor(Type.EmptyTypes) == null || (
-                    inheritedType.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).All(p => !p.CanWrite) &&
-                    !inheritedType.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any()
-                    ))
+                if (
+                    inheritedType.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite) ||
+                    inheritedType.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any()
+                    )
                 {
-                    return false;
+                    return true;
                 }
             }
 
-            return true;
+            return false;
+        }
+
+        public static bool HasParameterlessConstructor(this Type type)
+        {
+            return type.GetTypeInfo().GetConstructor(Type.EmptyTypes) != null;
         }
 
         public static object CreateDefaultForImmutable(this Type type)
@@ -156,7 +161,7 @@ namespace CommandLine.Core
 
         public static object AutoDefault(this Type type)
         {
-            if (type.IsMutable())
+            if (type.IsMutable() && type.HasParameterlessConstructor())
             {
                 return Activator.CreateInstance(type);
             }

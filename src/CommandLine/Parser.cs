@@ -87,7 +87,7 @@ namespace CommandLine
         {
             if (args == null) throw new ArgumentNullException("args");
 
-            var factory = typeof(T).IsMutable()
+            var factory = typeof(T).IsMutable() && typeof(T).HasParameterlessConstructor()
                 ? Maybe.Just<Func<T>>(Activator.CreateInstance<T>)
                 : Maybe.Nothing<Func<T>>();
 
