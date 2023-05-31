@@ -131,18 +131,18 @@ namespace CommandLine.Core
             // Find all inherited defined properties and fields on the type
             var inheritedTypes = type.GetTypeInfo().FlattenHierarchy().Select(i => i.GetTypeInfo());
 
-            foreach (var inheritedType in inheritedTypes) 
+            foreach (var inheritedType in inheritedTypes)
             {
-                if (
-                    inheritedType.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite) ||
-                    inheritedType.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any()
-                    )
+                if (inheritedType.GetTypeInfo().GetConstructor(Type.EmptyTypes) == null || (
+                    inheritedType.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).All(p => !p.CanWrite) &&
+                    !inheritedType.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any()
+                    ))
                 {
-                    return true;
+                    return false;
                 }
             }
 
-            return false;
+            return true;
         }
 
         public static object CreateDefaultForImmutable(this Type type)
