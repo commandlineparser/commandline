@@ -131,7 +131,7 @@ namespace CommandLine.Core
             // Find all inherited defined properties and fields on the type
             var inheritedTypes = type.GetTypeInfo().FlattenHierarchy().Select(i => i.GetTypeInfo());
 
-            foreach (var inheritedType in inheritedTypes) 
+            foreach (var inheritedType in inheritedTypes)
             {
                 if (
                     inheritedType.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite) ||
@@ -145,6 +145,11 @@ namespace CommandLine.Core
             return false;
         }
 
+        public static bool HasParameterlessConstructor(this Type type)
+        {
+            return type.GetTypeInfo().GetConstructor(Type.EmptyTypes) != null;
+        }
+
         public static object CreateDefaultForImmutable(this Type type)
         {
             if (type.GetTypeInfo().IsGenericType && type.GetTypeInfo().GetGenericTypeDefinition() == typeof(IEnumerable<>))
@@ -156,7 +161,7 @@ namespace CommandLine.Core
 
         public static object AutoDefault(this Type type)
         {
-            if (type.IsMutable())
+            if (type.IsMutable() && type.HasParameterlessConstructor())
             {
                 return Activator.CreateInstance(type);
             }
