@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using CommandLine.Infrastructure;
 using CSharpx;
 using RailwaySharp.ErrorHandling;
@@ -61,11 +62,12 @@ namespace CommandLine.Core
                 .OfType<OptionSpecification>()
                 .Memoize();
 
-            Func<T> makeDefault = () =>
-                typeof(T).IsMutable() && typeof(T).HasParameterlessConstructor()
-                    ? factory.MapValueOrDefault(f => f(), () => Activator.CreateInstance<T>())
-                    : ReflectionHelper.CreateDefaultImmutableInstance<T>(
-                        (from p in specProps select p.Specification.ConversionType).ToArray());
+            Func<T> makeDefaultImmutable = () => ReflectionHelper.CreateDefaultImmutableInstance<T>((from p in specProps select p.Specification.ConversionType).ToArray());
+
+            Func<T> makeDefault =
+                typeof(T).IsMutable()
+                    ? () => factory.MapValueOrDefault(f => f(), () => typeof(T).HasParameterlessConstructor() ? Activator.CreateInstance<T>() : makeDefaultImmutable())
+                    : makeDefaultImmutable;
 
             Func<IEnumerable<Error>, ParserResult<T>> notParsed =
                 errs => new NotParsed<T>(makeDefault().GetType().ToTypeInfo(), errs);
@@ -110,7 +112,7 @@ namespace CommandLine.Core
 
                 //build the instance, determining if the type is mutable or not.
                 T instance;
-                if (typeInfo.IsMutable() && typeInfo.HasParameterlessConstructor())
+                if (typeInfo.IsMutable() && (!factory.IsNothing() || typeInfo.HasParameterlessConstructor()))
                 {
                     instance = BuildMutable(factory, specPropsWithValue, setPropertyErrors);
                 }
