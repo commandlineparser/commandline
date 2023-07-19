@@ -28,7 +28,7 @@ namespace CommandLine.Core
             Action<Error> onError = errors.Add;
 
             var tokens = (from arg in arguments
-                          from token in (!arg.StartsWith("-", StringComparison.Ordinal) || arg.Contains(" "))
+                          from token in (!arg.StartsWith("-", StringComparison.Ordinal) || (arg.Contains(" ") && !arg.Contains("=")))
                                ? new[] { Token.Value(arg) }
                                : arg.StartsWith("--", StringComparison.Ordinal)
                                      ? TokenizeLongName(arg, onError)
