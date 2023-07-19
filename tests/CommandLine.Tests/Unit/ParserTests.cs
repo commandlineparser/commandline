@@ -164,6 +164,27 @@ namespace CommandLine.Tests.Unit
         }
 
         [Fact]
+        public void Parse_options_with_whitespace_and_double_dash()
+        {
+            // Fixture setup
+            var expectedOptions = new Simple_Options
+            {
+                StringValue = "--astring value",
+                IntSequence = Enumerable.Empty<int>(),
+            };
+            var sut = new Parser();
+
+            // Exercize system
+            var result =
+                sut.ParseArguments<Simple_Options>(
+                    new[] { "--stringvalue", "--astring value" });
+
+            // Verify outcome
+            ((Parsed<Simple_Options>)result).Value.Should().BeEquivalentTo(expectedOptions);
+            // Teardown
+        }
+
+        [Fact]
         public void Parse_options_with_repeated_value_in_values_sequence_and_option()
         {
             var text = "x1 x2 x3 -c x1"; // x1 is the same in -c option and first value
