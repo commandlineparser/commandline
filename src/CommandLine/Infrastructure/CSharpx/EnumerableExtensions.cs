@@ -459,5 +459,30 @@ namespace CSharpx
                 }
             }
         }
+
+        /// <summary>
+        /// Throws the specified exception if the <c>IEnumerable</c> contains more than one element.
+        /// </summary>
+        /// <param name="source">The IEnumerable this extension method is called upon</param>
+        /// <param name="exceptionToThrow">The exception to throw if the sequence has more than one element</param>
+        /// <remarks>
+        /// It is not recommended to use this extension method without a custom exception
+        /// one could simply use the default Linq .Single() and .SingleOrDefault() methods.
+        /// </remarks>
+        public static IEnumerable<T> FailIfMoreThanoneElement<T>(this IEnumerable<T> source, Exception exceptionToThrow = null)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            if (source.Take(2).Count() > 1)
+            {
+                if (exceptionToThrow != null)
+                    throw exceptionToThrow;
+
+                // A desidered exception has not been specified - in this case a default error message is used
+                throw new InvalidOperationException("Sequence contains more than one elemen");
+            }
+
+            return source;
+        }
     }
 }

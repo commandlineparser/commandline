@@ -27,6 +27,7 @@ namespace CommandLine.Core
             var type =
                 conversionType.GetTypeInfo()
                               .GetGenericArguments()
+                              .FailIfMoreThanoneElement(new InvalidOperationException("Unsupported sequence type - non scalar properties should be sequence of type IEnumerable<T>."))
                               .SingleOrDefault()
                               .ToMaybe()
                               .FromJustOrFail(
