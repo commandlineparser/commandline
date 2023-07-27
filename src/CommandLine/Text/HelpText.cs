@@ -971,8 +971,11 @@ namespace CommandLine.Text
             if (addEnumValuesToHelpText && specification.EnumValues.Any())
                 optionHelpText += " Valid values: " + string.Join(", ", specification.EnumValues);
 
+            var separator = (specification is OptionSpecification optionSpecification && optionSpecification.Separator != '\0')
+                ? optionSpecification.Separator
+                : ' ';
             specification.DefaultValue.Do(
-                defaultValue => optionHelpText = "(Default: {0}) ".FormatInvariant(FormatDefaultValue(defaultValue)) + optionHelpText);
+                defaultValue => optionHelpText = "(Default: {0}) ".FormatInvariant(FormatDefaultValue(defaultValue, separator)) + optionHelpText);
 
             var optionGroupSpecification = GetOptionGroupSpecification();
 
@@ -1106,7 +1109,7 @@ namespace CommandLine.Text
             return specLength;
         }
 
-        private static string FormatDefaultValue<T>(T value)
+        private static string FormatDefaultValue<T>(T value, char separator)
         {
             if (value is bool)
                 return value.ToStringLocal().ToLowerInvariant();
@@ -1122,7 +1125,7 @@ namespace CommandLine.Text
             foreach (var item in asEnumerable)
                 builder
                     .Append(item.ToStringLocal())
-                    .Append(" ");
+                    .Append(separator);
 
             return builder.Length > 0
                 ? builder.ToString(0, builder.Length - 1)

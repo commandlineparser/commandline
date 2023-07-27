@@ -849,6 +849,33 @@ namespace CommandLine.Tests.Unit.Text
 
             // Teardown
         }
+        
+        [Fact]
+        public void Options_should_be_separated_by_separator()
+        {
+            // Fixture setup
+            var handlers = new CultureInfo("en-US").MakeCultureHandlers();
+            var fakeResult =
+                new NotParsed<Options_With_Default_Set_To_Sequence_With_Separator>(
+                    typeof(Options_With_Default_Set_To_Sequence_With_Separator).ToTypeInfo(),
+                    Enumerable.Empty<Error>()
+                );
+
+            // Exercize system
+            handlers.ChangeCulture();
+            var helpText = HelpText.AutoBuild(fakeResult);
+            handlers.ResetCulture();
+
+            // Verify outcome
+            var text = helpText.ToString();
+            var lines = text.ToLines().TrimStringArray();
+            
+            lines[3].Should().Be("-z, --strseq    (Default: a,b,c)");
+            lines[5].Should().Be("-y, --intseq    (Default: 1,2,3)");
+            lines[7].Should().Be("-q, --dblseq    (Default: 1.1,2.2,3.3)");
+
+            // Teardown
+        }
 
         [Fact]
         public void Options_Should_Render_OptionGroup_In_Parenthesis_When_Available()
