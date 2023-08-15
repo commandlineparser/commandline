@@ -10,7 +10,7 @@ namespace CommandLine
     /// Models an option specification.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class OptionAttribute : BaseAttribute
+    public class OptionAttribute : BaseAttribute
     {
         private readonly string longName;
         private readonly string shortName;
