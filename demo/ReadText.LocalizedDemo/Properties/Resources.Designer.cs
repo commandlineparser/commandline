@@ -196,7 +196,7 @@ namespace ReadText.LocalizedDemo.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Možnost &apos;{0}&apos; je definována ve špatném formátu..
+        ///   Looks up a localized string similar to Option &apos;{0}&apos; is defined with a bad format..
         /// </summary>
         public static string SentenceBadFormatConversionErrorOption {
             get {
