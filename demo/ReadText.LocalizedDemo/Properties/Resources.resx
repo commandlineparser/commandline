@@ -163,7 +163,7 @@
     <value>Displays last lines of a file.</value>
   </data>
   <data name="SentenceBadFormatConversionErrorOption" xml:space="preserve">
-    <value>Možnost '{0}' je definována ve špatném formátu.</value>
+    <value>Option '{0}' is defined with a bad format.</value>
   </data>
   <data name="SentenceBadFormatConversionErrorValue" xml:space="preserve">
     <value>A value not bound to option name is defined with a bad format.</value>
