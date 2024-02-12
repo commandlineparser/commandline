@@ -1,6 +1,7 @@
 ﻿// Copyright 2005-2015 Giacomo Stelluti Scala & Contributors. All rights reserved. See License.md in the project root for license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CommandLine
 {
@@ -14,6 +15,11 @@ namespace CommandLine
         private object @default;
         private Infrastructure.LocalizableAttributeProperty helpText;
         private string metaValue;
+
+#if NET8_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+            DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
         private Type resourceType;
 
         /// <summary>
@@ -31,11 +37,7 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets a value indicating whether a command line option is required.
         /// </summary>
-        public bool Required
-        {
-            get;
-            set;
-        }
+        public bool Required { get; set; }
 
         /// <summary>
         /// When applied to <see cref="System.Collections.Generic.IEnumerable{T}"/> properties defines
@@ -81,10 +83,7 @@ namespace CommandLine
         public object Default
         {
             get { return @default; }
-            set
-            {
-                @default = value;
-            }
+            set { @default = value; }
         }
 
         /// <summary>
@@ -92,7 +91,7 @@ namespace CommandLine
         /// </summary>
         public string HelpText
         {
-            get => helpText.Value??string.Empty;
+            get => helpText.Value ?? string.Empty;
             set => helpText.Value = value ?? throw new ArgumentNullException("value");
         }
 
@@ -116,22 +115,22 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets a value indicating whether a command line option is visible in the help text.
         /// </summary>
-        public bool Hidden
-        {
-            get;
-            set;
-        }
+        public bool Hidden { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="System.Type"/> that contains the resources for <see cref="HelpText"/>.
         /// </summary>
+#if NET8_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+            DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
         public Type ResourceType
         {
             get { return resourceType; }
             set
             {
                 resourceType =
-                helpText.ResourceType = value;
+                    helpText.ResourceType = value;
             }
         }
     }

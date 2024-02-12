@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using CSharpx;
 
@@ -16,11 +17,29 @@ namespace CommandLine.Core
         private readonly string group;
         private readonly bool flagCounter;
 
-        public OptionSpecification(string shortName, string longName, bool required, string setName, Maybe<int> min, Maybe<int> max,
-            char separator, Maybe<object> defaultValue, string helpText, string metaValue, IEnumerable<string> enumValues,
-            Type conversionType, TargetType targetType, string group, bool flagCounter = false, bool hidden = false)
+        public OptionSpecification(
+            string shortName,
+            string longName,
+            bool required,
+            string setName,
+            Maybe<int> min,
+            Maybe<int> max,
+            char separator,
+            Maybe<object> defaultValue,
+            string helpText,
+            string metaValue,
+            IEnumerable<string> enumValues,
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+#endif
+            Type conversionType,
+            TargetType targetType,
+            string group,
+            bool flagCounter = false,
+            bool hidden = false)
             : base(SpecificationType.Option,
-                 required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType, conversionType == typeof(int) && flagCounter ? TargetType.Switch : targetType, hidden)
+                required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType,
+                conversionType == typeof(int) && flagCounter ? TargetType.Switch : targetType, hidden)
         {
             this.shortName = shortName;
             this.longName = longName;
@@ -30,7 +49,13 @@ namespace CommandLine.Core
             this.flagCounter = flagCounter;
         }
 
-        public static OptionSpecification FromAttribute(OptionAttribute attribute, Type conversionType, IEnumerable<string> enumValues)
+        public static OptionSpecification FromAttribute(
+            OptionAttribute attribute,
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+#endif
+            Type conversionType,
+            IEnumerable<string> enumValues)
         {
             return new OptionSpecification(
                 attribute.ShortName,
@@ -51,10 +76,18 @@ namespace CommandLine.Core
                 attribute.Hidden);
         }
 
-        public static OptionSpecification NewSwitch(string shortName, string longName, bool required, string helpText, string metaValue, bool hidden = false)
+        public static OptionSpecification NewSwitch(
+            string shortName,
+            string longName,
+            bool required,
+            string helpText,
+            string metaValue,
+            bool hidden = false)
         {
-            return new OptionSpecification(shortName, longName, required, string.Empty, Maybe.Nothing<int>(), Maybe.Nothing<int>(),
-                '\0', Maybe.Nothing<object>(), helpText, metaValue, Enumerable.Empty<string>(), typeof(bool), TargetType.Switch, string.Empty, false, hidden);
+            return new OptionSpecification(shortName, longName, required, string.Empty, Maybe.Nothing<int>(),
+                Maybe.Nothing<int>(),
+                '\0', Maybe.Nothing<object>(), helpText, metaValue, Enumerable.Empty<string>(), typeof(bool),
+                TargetType.Switch, string.Empty, false, hidden);
         }
 
         public string ShortName

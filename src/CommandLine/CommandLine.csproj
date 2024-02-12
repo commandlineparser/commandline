@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<AssemblyName>CommandLine</AssemblyName>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>netstandard2.0;net40;net45;net461</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;net40;net45;net461;net8.0</TargetFrameworks>
 		<DefineConstants>$(DefineConstants);CSX_EITHER_INTERNAL;CSX_REM_EITHER_BEYOND_2;CSX_ENUM_INTERNAL;ERRH_INTERNAL;CSX_MAYBE_INTERNAL;CSX_REM_EITHER_FUNC;CSX_REM_CRYPTORAND;ERRH_ADD_MAYBE_METHODS</DefineConstants>
 		<DefineConstants Condition="'$(BuildTarget)' != 'fsharp'">$(DefineConstants);SKIP_FSHARP</DefineConstants>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -24,9 +24,10 @@
 		<PackageTags>command line;commandline;argument;option;parser;parsing;library;syntax;shell</PackageTags>
 		<PackageReleaseNotes>https://github.com/commandlineparser/commandline/blob/master/CHANGELOG.md</PackageReleaseNotes>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<LangVersion>8.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<TrimmerRemoveSymbols>true</TrimmerRemoveSymbols>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(BuildTarget)' != 'fsharp'">

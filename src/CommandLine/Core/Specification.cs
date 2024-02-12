@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using CommandLine.Infrastructure;
@@ -33,13 +34,30 @@ namespace CommandLine.Core
         private readonly string helpText;
         private readonly string metaValue;
         private readonly IEnumerable<string> enumValues;
+
         /// This information is denormalized to decouple Specification from PropertyInfo.
+#if NET8_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+#endif
         private readonly Type conversionType;
+
         private readonly TargetType targetType;
 
-        protected Specification(SpecificationType tag, bool required, Maybe<int> min, Maybe<int> max,
-            Maybe<object> defaultValue, string helpText, string metaValue, IEnumerable<string> enumValues,
-            Type conversionType, TargetType targetType, bool hidden = false)
+        protected Specification(
+            SpecificationType tag,
+            bool required,
+            Maybe<int> min,
+            Maybe<int> max,
+            Maybe<object> defaultValue,
+            string helpText,
+            string metaValue,
+            IEnumerable<string> enumValues,
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+#endif
+            Type conversionType,
+            TargetType targetType,
+            bool hidden = false)
         {
             this.tag = tag;
             this.required = required;
@@ -54,7 +72,7 @@ namespace CommandLine.Core
             this.hidden = hidden;
         }
 
-        public SpecificationType Tag 
+        public SpecificationType Tag
         {
             get { return tag; }
         }
@@ -94,6 +112,9 @@ namespace CommandLine.Core
             get { return enumValues; }
         }
 
+#if NET8_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+#endif
         public Type ConversionType
         {
             get { return conversionType; }
@@ -109,28 +130,34 @@ namespace CommandLine.Core
             get { return hidden; }
         }
 
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Reflection", "IL2072")]
+#endif
         public static Specification FromProperty(PropertyInfo property)
-        {       
+        {
             var attrs = property.GetCustomAttributes(true);
-            var oa = attrs.OfType<OptionAttribute>();
-            if (oa.Count() == 1)
+            var oa = attrs.OfType<OptionAttribute>().ToArray();
+
+            var conversionType = property.PropertyType;
+            if (oa.Length == 1)
             {
-                var spec = OptionSpecification.FromAttribute(oa.Single(), property.PropertyType,
-                    ReflectionHelper.GetNamesOfEnum(property.PropertyType)); 
+                var spec = OptionSpecification.FromAttribute(oa.Single(), conversionType,
+                    ReflectionHelper.GetNamesOfEnum(conversionType));
 
                 if (spec.ShortName.Length == 0 && spec.LongName.Length == 0)
                 {
                     return spec.WithLongName(property.Name.ToLowerInvariant());
                 }
+
                 return spec;
             }
 
-            var va = attrs.OfType<ValueAttribute>();
-            if (va.Count() == 1)
+            var va = attrs.OfType<ValueAttribute>().ToArray();
+            if (va.Length == 1)
             {
-                return ValueSpecification.FromAttribute(va.Single(), property.PropertyType,
-                    property.PropertyType.GetTypeInfo().IsEnum
-                        ? Enum.GetNames(property.PropertyType)
+                return ValueSpecification.FromAttribute(va.Single(), conversionType,
+                    conversionType.GetTypeInfo().IsEnum
+                        ? Enum.GetNames(conversionType)
                         : Enumerable.Empty<string>());
             }
 

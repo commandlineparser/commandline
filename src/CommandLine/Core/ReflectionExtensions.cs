@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using CommandLine.Infrastructure;
@@ -11,31 +12,57 @@ using CSharpx;
 
 namespace CommandLine.Core
 {
-    static class ReflectionExtensions
+    internal static class ReflectionExtensions
     {
-        public static IEnumerable<T> GetSpecifications<T>(this Type type, Func<PropertyInfo, T> selector)
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Missing type annotation", "IL2070")]
+#endif
+        public static IEnumerable<T> GetSpecifications<T>(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties |
+                DynamicallyAccessedMemberTypes.PublicMethods |
+                DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            this Type type,
+            Func<PropertyInfo, T> selector)
         {
-            return from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
+            return from pi in type.FlattenHierarchy().Select(x => x.GetTypeInfo()).SelectMany(x => x.GetProperties())
                    let attrs = pi.GetCustomAttributes(true)
                    where
                        attrs.OfType<OptionAttribute>().Any() ||
                        attrs.OfType<ValueAttribute>().Any()
-                   group pi by pi.Name into g
+                   group pi by pi.Name
+                   into g
                    select selector(g.First());
         }
 
-        public static Maybe<VerbAttribute> GetVerbSpecification(this Type type)
+        public static Maybe<VerbAttribute> GetVerbSpecification(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+                DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            this Type type)
         {
             return
                 (from attr in
-                 type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetCustomAttributes(typeof(VerbAttribute), true))
+                     type.FlattenHierarchy()
+                         .SelectMany(x => x.GetTypeInfo().GetCustomAttributes(typeof(VerbAttribute), true))
                  let vattr = (VerbAttribute)attr
                  select vattr)
-                    .SingleOrDefault()
-                    .ToMaybe();
+                .SingleOrDefault()
+                .ToMaybe();
         }
 
-        public static Maybe<Tuple<PropertyInfo, UsageAttribute>> GetUsageData(this Type type)
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Accessed via reflection", "IL2070")]
+#endif
+        public static Maybe<Tuple<PropertyInfo, UsageAttribute>> GetUsageData(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties |
+                DynamicallyAccessedMemberTypes.PublicMethods |
+                DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            this Type type)
         {
             return
                 (from pi in type.FlattenHierarchy().SelectMany(x => x.GetTypeInfo().GetProperties())
@@ -46,37 +73,48 @@ namespace CommandLine.Core
                         .ToMaybe();
         }
 
-        private static IEnumerable<Type> FlattenHierarchy(this Type type)
+        private static IEnumerable<Type> FlattenHierarchy(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+                DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            this Type type)
         {
             if (type == null)
             {
                 yield break;
             }
+
             yield return type;
             foreach (var @interface in type.SafeGetInterfaces())
             {
                 yield return @interface;
             }
+
             foreach (var @interface in FlattenHierarchy(type.GetTypeInfo().BaseType))
             {
                 yield return @interface;
             }
         }
 
-        private static IEnumerable<Type> SafeGetInterfaces(this Type type)
+        private static Type[] SafeGetInterfaces(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            this Type type)
         {
-            return type == null ? Enumerable.Empty<Type>() : type.GetTypeInfo().GetInterfaces();
+            return type.GetTypeInfo().GetInterfaces();
         }
 
         public static TargetType ToTargetType(this Type type)
         {
             return type == typeof(bool)
-                       ? TargetType.Switch
-                       : type == typeof(string)
-                             ? TargetType.Scalar
-                             : type.IsArray || typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(type)
-                                   ? TargetType.Sequence
-                                   : TargetType.Scalar;
+                ? TargetType.Switch
+                : type == typeof(string)
+                    ? TargetType.Scalar
+                    : type.IsArray || typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(type)
+                        ? TargetType.Sequence
+                        : TargetType.Scalar;
         }
 
         public static IEnumerable<Error> SetProperties<T>(
@@ -97,7 +135,8 @@ namespace CommandLine.Core
             }
             catch (TargetInvocationException e)
             {
-                return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e.InnerException, value) };
+                return new[]
+                    { new SetValueExceptionError(specProp.Specification.FromSpecification(), e.InnerException, value) };
             }
             catch (ArgumentException e)
             {
@@ -110,7 +149,6 @@ namespace CommandLine.Core
             {
                 return new[] { new SetValueExceptionError(specProp.Specification.FromSpecification(), e, value) };
             }
-
         }
 
         public static object CreateEmptyArray(this Type type)
@@ -118,25 +156,38 @@ namespace CommandLine.Core
             return Array.CreateInstance(type, 0);
         }
 
-        public static object GetDefaultValue(this Type type)
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Missing type annotation", "IL2067")]
+#endif
+        internal static object GetDefaultValue(this Type type)
         {
             return type.IsValueType ? Activator.CreateInstance(type) : null;
         }
 
-        public static bool IsMutable(this Type type)
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Requires reflection on members", "IL2075")]
+#endif
+        public static bool IsMutable(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties |
+                DynamicallyAccessedMemberTypes.PublicMethods |
+                DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            this Type type)
         {
-            if(type == typeof(object))
+            if (type == typeof(object))
                 return true;
 
             // Find all inherited defined properties and fields on the type
             var inheritedTypes = type.GetTypeInfo().FlattenHierarchy().Select(i => i.GetTypeInfo());
 
-            foreach (var inheritedType in inheritedTypes) 
+            foreach (var inheritedType in inheritedTypes)
             {
                 if (
-                    inheritedType.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p => p.CanWrite) ||
+                    inheritedType.GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .Any(p => p.CanWrite) ||
                     inheritedType.GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance).Any()
-                    )
+                )
                 {
                     return true;
                 }
@@ -145,16 +196,29 @@ namespace CommandLine.Core
             return false;
         }
 
-        public static object CreateDefaultForImmutable(this Type type)
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Missing type annotation", "IL2070")]
+#endif
+        public static object CreateDefaultForImmutable(
+            this Type type)
         {
-            if (type.GetTypeInfo().IsGenericType && type.GetTypeInfo().GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            if (type.GetTypeInfo().IsGenericType &&
+                type.GetTypeInfo().GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 return type.GetTypeInfo().GetGenericArguments()[0].CreateEmptyArray();
             }
+
             return type.GetDefaultValue();
         }
 
-        public static object AutoDefault(this Type type)
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Missing type annotation", "IL2067")]
+#endif
+        public static object AutoDefault(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+#endif
+            this Type type)
         {
             if (type.IsMutable())
             {
@@ -162,7 +226,7 @@ namespace CommandLine.Core
             }
 
             var ctorTypes = type.GetSpecifications(pi => pi.PropertyType).ToArray();
- 
+
             return ReflectionHelper.CreateDefaultImmutableInstance(type, ctorTypes);
         }
 
@@ -171,7 +235,13 @@ namespace CommandLine.Core
             return TypeInfo.Create(type);
         }
 
-        public static object StaticMethod(this Type type, string name, params object[] args)
+        public static object StaticMethod(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+            this Type type,
+            string name,
+            params object[] args)
         {
             return type.GetTypeInfo().InvokeMember(
                 name,
@@ -181,7 +251,12 @@ namespace CommandLine.Core
                 args);
         }
 
-        public static object StaticProperty(this Type type, string name)
+        public static object StaticProperty(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+            this Type type,
+            string name)
         {
             return type.GetTypeInfo().InvokeMember(
                 name,
@@ -191,7 +266,13 @@ namespace CommandLine.Core
                 new object[] { });
         }
 
-        public static object InstanceProperty(this Type type, string name, object target)
+        public static object InstanceProperty(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+            this Type type,
+            string name,
+            object target)
         {
             return type.GetTypeInfo().InvokeMember(
                 name,
@@ -204,21 +285,23 @@ namespace CommandLine.Core
         public static bool IsPrimitiveEx(this Type type)
         {
             return
-                   (type.GetTypeInfo().IsValueType && type != typeof(Guid))
-                || type.GetTypeInfo().IsPrimitive
-                || new [] { 
-                     typeof(string)
-                    ,typeof(decimal)
-                    ,typeof(DateTime)
-                    ,typeof(DateTimeOffset)
-                    ,typeof(TimeSpan)
-                   }.Contains(type)
-                || Convert.GetTypeCode(type) != TypeCode.Object;
+                (type.GetTypeInfo().IsValueType && type != typeof(Guid))
+             || type.GetTypeInfo().IsPrimitive
+             || new[]
+                {
+                    typeof(string), typeof(decimal), typeof(DateTime), typeof(DateTimeOffset), typeof(TimeSpan)
+                }.Contains(type)
+             || Convert.GetTypeCode(type) != TypeCode.Object;
         }
 
-        public static bool IsCustomStruct(this Type type)
+        public static bool IsCustomStruct(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
+#endif
+            this Type type)
         {
-            var isStruct = type.GetTypeInfo().IsValueType && !type.GetTypeInfo().IsPrimitive && !type.GetTypeInfo().IsEnum &&  type != typeof(Guid);
+            var isStruct = type.GetTypeInfo().IsValueType && !type.GetTypeInfo().IsPrimitive &&
+                !type.GetTypeInfo().IsEnum && type != typeof(Guid);
             if (!isStruct) return false;
             var ctor = type.GetTypeInfo().GetConstructor(new[] { typeof(string) });
             return ctor != null;

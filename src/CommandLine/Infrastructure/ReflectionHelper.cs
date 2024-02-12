@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using CommandLine.Core;
@@ -46,9 +47,9 @@ namespace CommandLine.Infrastructure
             if (_overrides != null)
             {
                 return
-                    _overrides.ContainsKey(typeof(TAttribute)) ?
-                        Maybe.Just((TAttribute)_overrides[typeof(TAttribute)]) :
-                        Maybe.Nothing<TAttribute>();
+                    _overrides.ContainsKey(typeof(TAttribute))
+                        ? Maybe.Just((TAttribute)_overrides[typeof(TAttribute)])
+                        : Maybe.Nothing<TAttribute>();
             }
 
             var assembly = GetExecutingOrEntryAssembly();
@@ -82,23 +83,43 @@ namespace CommandLine.Infrastructure
                 "Microsoft.FSharp.Core.FSharpOption`1", StringComparison.Ordinal);
         }
 
-        public static T CreateDefaultImmutableInstance<T>(Type[] constructorTypes)
+        public static T CreateDefaultImmutableInstance<
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
+#endif
+            T>(Type[] constructorTypes)
         {
             var t = typeof(T);
             return (T)CreateDefaultImmutableInstance(t, constructorTypes);
         }
 
-        public static object CreateDefaultImmutableInstance(Type type, Type[] constructorTypes)
+        public static object CreateDefaultImmutableInstance(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors |
+                DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+#endif
+            Type type,
+            Type[] constructorTypes)
         {
             var ctor = type.GetTypeInfo().GetConstructor(constructorTypes);
             if (ctor == null)
             {
-                throw new InvalidOperationException($"Type {type.FullName} appears to be immutable, but no constructor found to accept values.");
+                throw new InvalidOperationException(
+                    $"Type {type.FullName} appears to be immutable, but no constructor found to accept values.");
             }
 
-            var values = (from prms in ctor.GetParameters()
-                          select prms.ParameterType.CreateDefaultForImmutable()).ToArray();
+            var objects = (from prms in ctor.GetParameters()
+                           select GetDefaultValue(prms.ParameterType)).ToArray();
+            var values = objects;
             return ctor.Invoke(values);
+
+#if NET8_0_OR_GREATER
+            [UnconditionalSuppressMessage("Reflection instantiation", "IL2072")]
+#endif
+            object GetDefaultValue(Type t)
+            {
+                return t.CreateDefaultForImmutable();
+            }
         }
 
         private static Assembly GetExecutingOrEntryAssembly()
@@ -108,7 +129,7 @@ namespace CommandLine.Infrastructure
             return Assembly.GetEntryAssembly() ?? Assembly.GetCallingAssembly();
         }
 
-       public static IEnumerable<string> GetNamesOfEnum(Type t)
+        public static IEnumerable<string> GetNamesOfEnum(Type t)
         {
             if (t.IsEnum)
                 return Enum.GetNames(t);

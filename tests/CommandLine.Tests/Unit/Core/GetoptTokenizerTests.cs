@@ -87,10 +87,10 @@ namespace CommandLine.Tests.Unit.Core
 
             var result = GetoptTokenizer.Tokenize(args, name => NameLookupResult.OtherOptionFound);
 
-            var errors = result.SuccessMessages();
+            var errors = result.SuccessMessages().ToArray();
 
             Assert.NotNull(errors);
-            Assert.Equal(1, errors.Count());
+            Assert.Single(errors);
             Assert.Equal(ErrorType.BadFormatTokenError, errors.First().Tag);
 
             var tokens = result.SucceededWith();

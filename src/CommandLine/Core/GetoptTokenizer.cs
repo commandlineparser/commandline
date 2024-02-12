@@ -147,7 +147,7 @@ namespace CommandLine.Core
             // But if there is no rest of the string, then instead we swallow the next argument
             string chars = arg.Substring(1);
             int len = chars.Length;
-            if (len > 0 && Char.IsDigit(chars[0]))
+            if (len > 0 && char.IsDigit(chars[0]))
             {
                 // Assume it's a negative number
                 yield return Token.Value(arg);
@@ -155,7 +155,7 @@ namespace CommandLine.Core
             }
             for (int i = 0; i < len; i++)
             {
-                var s = new String(chars[i], 1);
+                var s = new string(chars[i], 1);
                 switch(nameLookup(s))
                 {
                     case NameLookupResult.OtherOptionFound:
@@ -196,7 +196,7 @@ namespace CommandLine.Core
             string name = parts[0];
             string value = (parts.Length > 1) ? parts[1] : null;
             // A parameter like "--stringvalue=" is acceptable, and makes stringvalue be the empty string
-            if (String.IsNullOrWhiteSpace(name) || name.Contains(" "))
+            if (string.IsNullOrWhiteSpace(name) || name.Contains(" "))
             {
                 onBadFormatToken(arg);
                 yield break;

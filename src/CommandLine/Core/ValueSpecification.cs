@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using CSharpx;
 
 namespace CommandLine.Core
@@ -11,16 +12,36 @@ namespace CommandLine.Core
         private readonly int index;
         private readonly string metaName;
 
-        public ValueSpecification(int index, string metaName, bool required, Maybe<int> min, Maybe<int> max, Maybe<object> defaultValue,
-            string helpText, string metaValue, IEnumerable<string> enumValues,
-            Type conversionType, TargetType targetType, bool hidden = false)
-            : base(SpecificationType.Value, required, min, max, defaultValue, helpText, metaValue, enumValues, conversionType, targetType, hidden)
+        public ValueSpecification(
+            int index,
+            string metaName,
+            bool required,
+            Maybe<int> min,
+            Maybe<int> max,
+            Maybe<object> defaultValue,
+            string helpText,
+            string metaValue,
+            IEnumerable<string> enumValues,
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+#endif
+            Type conversionType,
+            TargetType targetType,
+            bool hidden = false)
+            : base(SpecificationType.Value, required, min, max, defaultValue, helpText, metaValue, enumValues,
+                conversionType, targetType, hidden)
         {
             this.index = index;
             this.metaName = metaName;
         }
 
-        public static ValueSpecification FromAttribute(ValueAttribute attribute, Type conversionType, IEnumerable<string> enumValues)
+        public static ValueSpecification FromAttribute(
+            ValueAttribute attribute,
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
+#endif
+            Type conversionType,
+            IEnumerable<string> enumValues)
         {
             return new ValueSpecification(
                 attribute.Index,
@@ -44,7 +65,7 @@ namespace CommandLine.Core
 
         public string MetaName
         {
-            get { return metaName;}
+            get { return metaName; }
         }
     }
 }

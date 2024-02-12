@@ -407,7 +407,7 @@ namespace CommandLine.Tests.Unit
             // Verify outcome
             result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
-            lines.Should().HaveCount(x => x == 1);			
+            lines.Should().HaveCount(x => x == 1);
             lines[0].Should().Be(HeadingInfo.Default.ToString());
             // Teardown
         }
@@ -437,7 +437,7 @@ namespace CommandLine.Tests.Unit
             lines[8].Should().BeEquivalentTo("version    Display version information.");
             // Teardown
         }
-       
+
         [Fact]
         public void Help_screen_in_default_verb_scenario()
         {
@@ -448,7 +448,7 @@ namespace CommandLine.Tests.Unit
             // Exercise system
             sut.ParseArguments<Add_Verb_As_Default, Commit_Verb, Clone_Verb>(new string[] {"--help" });
             var result = help.ToString();
-         
+
             // Verify outcome
             result.Length.Should().BeGreaterThan(0);
             var lines = result.ToNotEmptyLines().TrimStringArray();
@@ -459,7 +459,7 @@ namespace CommandLine.Tests.Unit
             lines[4].Should().BeEquivalentTo("clone      Clone a repository into a new directory.");
             lines[5].Should().BeEquivalentTo("help       Display more information on a specific command.");
             lines[6].Should().BeEquivalentTo("version    Display version information.");
-            
+
         }
         [Fact]
         public void Double_dash_help_dispalys_verbs_index_in_verbs_scenario()
@@ -558,7 +558,7 @@ namespace CommandLine.Tests.Unit
                 config.MaximumDisplayWidth = 80;
             });
 
-            // Exercize system
+            // Exercise system
             sut.ParseArguments<Add_Verb_With_Usage_Attribute, Commit_Verb_With_Usage_Attribute, Clone_Verb_With_Usage_Attribute>(
                 new[] { "clone", "--badoption=@bad?value" });
             var result = help.ToString();
@@ -596,7 +596,7 @@ namespace CommandLine.Tests.Unit
             // Exercize system
             sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { });
             var result = help.ToString();
-            
+
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines[0].Should().Be(HeadingInfo.Default.ToString());
@@ -620,7 +620,7 @@ namespace CommandLine.Tests.Unit
             // Exercize system
             sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { "secert", "--help" });
             var result = help.ToString();
-            
+
             // Verify outcome
             var lines = result.ToNotEmptyLines().TrimStringArray();
             lines[0].Should().Be(HeadingInfo.Default.ToString());
@@ -631,7 +631,7 @@ namespace CommandLine.Tests.Unit
 
             // Teardown
         }
-        
+
         [Fact]
         public void Parse_options_when_given_hidden_verb()
         {
@@ -642,7 +642,7 @@ namespace CommandLine.Tests.Unit
 
             // Exercize system
             var result = sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { "secert", "--force" });
-            
+
 
             // Verify outcome
             result.Tag.Should().BeEquivalentTo(ParserResultType.Parsed);
@@ -662,7 +662,7 @@ namespace CommandLine.Tests.Unit
 
             // Exercize system
             var result = sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { "secert", "--force", "--secert-option", "shhh" });
-            
+
             // Verify outcome
             result.Tag.Should().BeEquivalentTo(ParserResultType.Parsed);
             result.GetType().Should().Be<Parsed<object>>();
@@ -783,13 +783,13 @@ namespace CommandLine.Tests.Unit
             };
             var sut = new Parser();
 
-            // Exercize system 
+            // Exercize system
             var result = sut.ParseArguments<Options_With_SetName_That_Ends_With_Previous_SetName>(
                 new[] { "--weburl", "value", "--somethingelse", "othervalue" });
 
             // Verify outcome
             ((NotParsed<Options_With_SetName_That_Ends_With_Previous_SetName>)result).Errors.Should().BeEquivalentTo(expectedResult);
-           
+
         }
 
         [Fact]
@@ -867,7 +867,7 @@ namespace CommandLine.Tests.Unit
         {
             var parser = Parser.Default;
             var result = parser.ParseArguments(
-                new[] { "test", "arg", "-o", "arg" }, 
+                new[] { "test", "arg", "-o", "arg" },
                 typeof(Verb_With_Option_And_Value_Of_String_Type));
             result
                 .WithNotParsed(errors => { throw new InvalidOperationException("Must be parsed."); })
@@ -905,7 +905,7 @@ namespace CommandLine.Tests.Unit
             // Exercize system
             sut.ParseArguments<Secert_Verb, Add_Verb_With_Usage_Attribute>(new string[] { });
             var result = help.ToString();
-            
+
             // Verify outcome
             var lines = result.ToLines().TrimStringArray();
             lines[6].Should().BeEquivalentTo("add        Add file contents to the index.");
@@ -1018,7 +1018,7 @@ namespace CommandLine.Tests.Unit
         public void When_HelpWriter_is_null_it_should_not_fire_exception()
         {
             // Arrange
-            
+
             //Act
             var sut = new Parser(config => config.HelpWriter = null);
             sut.ParseArguments<Simple_Options>(new[] {"--dummy"});
