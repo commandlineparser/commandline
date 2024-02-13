@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using CommandLine.Core;
@@ -57,6 +58,7 @@ namespace CommandLine
             get { return showHidden; }
             set { PopsicleSetter.Set(Consumed, ref showHidden, value); }
         }
+
         /// <summary>
         /// Gets or sets a value indicating whether unparsing process shall skip options with DefaultValue.
         /// </summary>
@@ -65,6 +67,7 @@ namespace CommandLine
             get { return skipDefault; }
             set { PopsicleSetter.Set(Consumed, ref skipDefault, value); }
         }
+
         /// <summary>
         /// Factory method that creates an instance of <see cref="CommandLine.UnParserSettings"/> with GroupSwitches set to true.
         /// </summary>
@@ -92,31 +95,42 @@ namespace CommandLine
     public static class UnParserExtensions
     {
         /// <summary>
-        /// Format a command line argument string from a parsed instance. 
+        /// Format a command line argument string from a parsed instance.
         /// </summary>
         /// <typeparam name="T">Type of <paramref name="options"/>.</typeparam>
         /// <param name="parser">Parser instance.</param>
         /// <param name="options">A parsed (or manually correctly constructed instance).</param>
         /// <returns>A string with command line arguments.</returns>
-        public static string FormatCommandLine<T>(this Parser parser, T options)
+        public static string FormatCommandLine<
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(
+                DynamicallyAccessedMemberTypes.PublicMethods |
+                DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            T>(this Parser parser, T options)
         {
             return parser.FormatCommandLine(options, config => { });
         }
 
         /// <summary>
-        /// Format a command line argument string from a parsed instance in the form of string[]. 
+        /// Format a command line argument string from a parsed instance in the form of string[].
         /// </summary>
         /// <typeparam name="T">Type of <paramref name="options"/>.</typeparam>
         /// <param name="parser">Parser instance.</param>
         /// <param name="options">A parsed (or manually correctly constructed instance).</param>
         /// <returns>A string[] with command line arguments.</returns>
-        public static string[] FormatCommandLineArgs<T>(this Parser parser, T options)
+        public static string[] FormatCommandLineArgs<
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+                DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+            T>(this Parser parser, T options)
         {
             return parser.FormatCommandLine(options, config => { }).SplitArgs();
         }
 
         /// <summary>
-        /// Format a command line argument string from a parsed instance. 
+        /// Format a command line argument string from a parsed instance.
         /// </summary>
         /// <typeparam name="T">Type of <paramref name="options"/>.</typeparam>
         /// <param name="parser">Parser instance.</param>
@@ -124,9 +138,24 @@ namespace CommandLine
         /// <param name="configuration">The <see cref="Action{UnParserSettings}"/> lambda used to configure
         /// aspects and behaviors of the unparsersing process.</param>
         /// <returns>A string with command line arguments.</returns>
-        public static string FormatCommandLine<T>(this Parser parser, T options, Action<UnParserSettings> configuration)
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Missing annotations on method", "IL2072")]
+#endif
+        public static string FormatCommandLine<
+#if NET8_0_OR_GREATER
+                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+                    DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+                T>(
+            this Parser parser,
+            T options,
+            Action<UnParserSettings> configuration)
         {
-            if (options == null) throw new ArgumentNullException("options");
+#if NET8_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(options);
+#else
+            if (options == null) throw new ArgumentNullException(nameof(options));
+#endif
 
             var settings = new UnParserSettings();
             configuration(settings);
@@ -140,22 +169,22 @@ namespace CommandLine
 
             var specs =
                 (from info in
-                    type.GetSpecifications(
-                        pi => new
-                        {
-                            Specification = Specification.FromProperty(pi),
-                            Value = pi.GetValue(options, null).NormalizeValue(),
-                            PropertyValue = pi.GetValue(options, null)
-                        })
+                     type.GetSpecifications(
+                         pi => new
+                         {
+                             Specification = Specification.FromProperty(pi),
+                             Value = pi.GetValue(options, null).NormalizeValue(),
+                             PropertyValue = pi.GetValue(options, null)
+                         })
                  where !info.PropertyValue.IsEmpty(info.Specification, settings.SkipDefault)
                  select info)
-                    .Memoize();
+                .Memoize();
 
             var allOptSpecs = from info in specs.Where(i => i.Specification.Tag == SpecificationType.Option)
                               let o = (OptionSpecification)info.Specification
                               where o.TargetType != TargetType.Switch ||
-                                   (o.TargetType == TargetType.Switch && o.FlagCounter && ((int)info.Value > 0)) ||
-                                   (o.TargetType == TargetType.Switch && ((bool)info.Value))
+                                  (o.TargetType == TargetType.Switch && o.FlagCounter && ((int)info.Value > 0)) ||
+                                  (o.TargetType == TargetType.Switch && ((bool)info.Value))
                               where !o.Hidden || settings.ShowHidden
                               orderby o.UniqueName()
                               select info;
@@ -178,7 +207,8 @@ namespace CommandLine
 
             builder = settings.GroupSwitches && shortSwitches.Any()
                 ? builder.Append('-').Append(string.Join(string.Empty, shortSwitches.Select(
-                    info => {
+                    info =>
+                    {
                         var o = (OptionSpecification)info.Specification;
                         return o.FlagCounter
                             ? string.Concat(Enumerable.Repeat(o.ShortName, (int)info.Value))
@@ -190,7 +220,7 @@ namespace CommandLine
                     builder
                         .Append(FormatOption((OptionSpecification)opt.Specification, opt.Value, settings))
                         .Append(' ')
-                );
+            );
 
             builder.AppendWhen(valSpecs.Any() && parser.Settings.EnableDashDash, "-- ");
 
@@ -200,8 +230,9 @@ namespace CommandLine
             return builder
                 .ToString().TrimEnd(' ');
         }
+
         /// <summary>
-        /// Format a command line argument string[] from a parsed instance. 
+        /// Format a command line argument string[] from a parsed instance.
         /// </summary>
         /// <typeparam name="T">Type of <paramref name="options"/>.</typeparam>
         /// <param name="parser">Parser instance.</param>
@@ -209,10 +240,19 @@ namespace CommandLine
         /// <param name="configuration">The <see cref="Action{UnParserSettings}"/> lambda used to configure
         /// aspects and behaviors of the unparsersing process.</param>
         /// <returns>A string[] with command line arguments.</returns>
-        public static string[] FormatCommandLineArgs<T>(this Parser parser, T options, Action<UnParserSettings> configuration)
+        public static string[] FormatCommandLineArgs<
+#if NET8_0_OR_GREATER
+                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+                    DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+                T>(
+            this Parser parser,
+            T options,
+            Action<UnParserSettings> configuration)
         {
             return FormatCommandLine<T>(parser, options, configuration).SplitArgs();
         }
+
         private static string FormatValue(Specification spec, object value)
         {
             var builder = new StringBuilder();
@@ -231,6 +271,7 @@ namespace CommandLine
                     builder.TrimEndIfMatch(sep);
                     break;
             }
+
             return builder.ToString();
         }
 
@@ -244,8 +285,9 @@ namespace CommandLine
                 => v.Contains("\"") ? v.Replace("\"", "\\\"") : v;
 
             return s.ToMaybe()
-                    .MapValueOrDefault(v => v.Contains(' ') || v.Contains("\"")
-                        ? "\"".JoinTo(doubQt(v), "\"") : v, value);
+                .MapValueOrDefault(v => v.Contains(' ') || v.Contains("\"")
+                    ? "\"".JoinTo(doubQt(v), "\"")
+                    : v, value);
         }
 
         private static char SeperatorOrSpace(this Specification spec)
@@ -257,25 +299,28 @@ namespace CommandLine
         private static string FormatOption(OptionSpecification spec, object value, UnParserSettings settings)
         {
             return new StringBuilder()
-                    .Append(spec.FormatName(value, settings))
-                    .AppendWhen(spec.TargetType != TargetType.Switch, FormatValue(spec, value))
+                .Append(spec.FormatName(value, settings))
+                .AppendWhen(spec.TargetType != TargetType.Switch, FormatValue(spec, value))
                 .ToString();
         }
 
         private static string FormatName(this OptionSpecification optionSpec, object value, UnParserSettings settings)
         {
-            // Have a long name and short name not preferred? Go with long! 
+            // Have a long name and short name not preferred? Go with long!
             // No short name? Has to be long!
             var longName = (optionSpec.LongName.Length > 0 && !settings.PreferShortName)
-                         || optionSpec.ShortName.Length == 0;
+             || optionSpec.ShortName.Length == 0;
 
             var formattedName =
                 new StringBuilder(longName
-                    ? "--".JoinTo(optionSpec.LongName)
-                    : "-".JoinTo(optionSpec.ShortName))
-                        .AppendWhen(optionSpec.TargetType != TargetType.Switch, longName && settings.UseEqualToken ? "=" : " ")
+                        ? "--".JoinTo(optionSpec.LongName)
+                        : "-".JoinTo(optionSpec.ShortName))
+                    .AppendWhen(optionSpec.TargetType != TargetType.Switch,
+                        longName && settings.UseEqualToken ? "=" : " ")
                     .ToString();
-            return optionSpec.FlagCounter ? String.Join(" ", Enumerable.Repeat(formattedName, (int)value)) : formattedName;
+            return optionSpec.FlagCounter
+                ? string.Join(" ", Enumerable.Repeat(formattedName, (int)value))
+                : formattedName;
         }
 
         private static object NormalizeValue(this object value)
@@ -291,7 +336,13 @@ namespace CommandLine
             return value;
         }
 
-        private static bool IsEmpty(this object value, Specification specification, bool skipDefault)
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Types are safe", "IL2072")]
+#endif
+        private static bool IsEmpty(
+            this object value,
+            Specification specification,
+            bool skipDefault)
         {
             if (value == null) return true;
 
@@ -309,6 +360,7 @@ namespace CommandLine
 
 
         #region splitter
+
         /// <summary>
         /// Returns a string array that contains the substrings in this instance that are delimited by space considering string between double quote.
         /// </summary>
@@ -335,6 +387,5 @@ namespace CommandLine
         }
 
         #endregion
-
     }
 }

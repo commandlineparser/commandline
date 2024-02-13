@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CommandLine
 {
@@ -13,6 +14,11 @@ namespace CommandLine
     public class VerbAttribute : Attribute
     {
         private readonly Infrastructure.LocalizableAttributeProperty helpText;
+
+#if NET8_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+            DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
         private Type resourceType;
 
         /// <summary>
@@ -41,23 +47,24 @@ namespace CommandLine
         /// <summary>
         /// Gets or sets a value indicating whether a command line verb is visible in the help text.
         /// </summary>
-        public bool Hidden
-        {
-            get;
-            set;
-        }
+        public bool Hidden { get; set; }
 
         /// <summary>
-        /// Gets or sets a short description of this command line option. Usually a sentence summary. 
+        /// Gets or sets a short description of this command line option. Usually a sentence summary.
         /// </summary>
         public string HelpText
         {
             get => helpText.Value ?? string.Empty;
             set => helpText.Value = value ?? throw new ArgumentNullException("value");
         }
+
         /// <summary>
         /// Gets or sets the <see cref="System.Type"/> that contains the resources for <see cref="HelpText"/>.
         /// </summary>
+#if NET8_0_OR_GREATER
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+            DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
         public Type ResourceType
         {
             get => resourceType;

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using CommandLine.Core;
@@ -18,6 +19,7 @@ namespace CommandLine
     {
         private bool disposed;
         private readonly ParserSettings settings;
+
         private static readonly Lazy<Parser> DefaultParser = new Lazy<Parser>(
             () => new Parser(new ParserSettings { HelpWriter = Console.Error }));
 
@@ -83,9 +85,23 @@ namespace CommandLine
         /// <returns>A <see cref="CommandLine.ParserResult{T}"/> containing an instance of type <typeparamref name="T"/> with parsed values
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
-        public ParserResult<T> ParseArguments<T>(IEnumerable<string> args)
+        public ParserResult<T> ParseArguments<
+#if NET8_0_OR_GREATER
+                [DynamicallyAccessedMembers(
+                    DynamicallyAccessedMemberTypes.PublicParameterlessConstructor |
+                    DynamicallyAccessedMemberTypes.PublicConstructors |
+                    DynamicallyAccessedMemberTypes.PublicProperties |
+                    DynamicallyAccessedMemberTypes.PublicMethods |
+                    DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+                T>(
+            IEnumerable<string> args)
         {
-            if (args == null) throw new ArgumentNullException("args");
+#if NET8_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(args);
+#else
+            if (args == null) throw new ArgumentNullException(nameof(args));
+#endif
 
             var factory = typeof(T).IsMutable()
                 ? Maybe.Just<Func<T>>(Activator.CreateInstance<T>)
@@ -116,11 +132,27 @@ namespace CommandLine
         /// <returns>A <see cref="CommandLine.ParserResult{T}"/> containing an instance of type <typeparamref name="T"/> with parsed values
         /// and a sequence of <see cref="CommandLine.Error"/>.</returns>
         /// <exception cref="System.ArgumentNullException">Thrown if one or more arguments are null.</exception>
-        public ParserResult<T> ParseArguments<T>(Func<T> factory, IEnumerable<string> args)
+        public ParserResult<T> ParseArguments<
+#if NET8_0_OR_GREATER
+                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+                    DynamicallyAccessedMemberTypes.PublicProperties |
+                    DynamicallyAccessedMemberTypes.PublicConstructors |
+                    DynamicallyAccessedMemberTypes.PublicParameterlessConstructor |
+                    DynamicallyAccessedMemberTypes.Interfaces)]
+#endif
+                T>(
+            Func<T> factory,
+            IEnumerable<string> args)
         {
-            if (factory == null) throw new ArgumentNullException("factory");
-            if (!typeof(T).IsMutable()) throw new ArgumentException("factory");
-            if (args == null) throw new ArgumentNullException("args");
+#if NET8_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(factory);
+            if (!typeof(T).IsMutable()) throw new ArgumentException(null, nameof(factory));
+            ArgumentNullException.ThrowIfNull(args);
+#else
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
+            if (!typeof(T).IsMutable()) throw new ArgumentException(null, nameof(factory));
+            if (args == null) throw new ArgumentNullException(nameof(args));
+#endif
 
             return MakeParserResult(
                 InstanceBuilder.Build(
@@ -151,9 +183,14 @@ namespace CommandLine
         /// <remarks>All types must expose a parameterless constructor. It's strongly recommended to use a generic overload.</remarks>
         public ParserResult<object> ParseArguments(IEnumerable<string> args, params Type[] types)
         {
-            if (args == null) throw new ArgumentNullException("args");
-            if (types == null) throw new ArgumentNullException("types");
-            if (types.Length == 0) throw new ArgumentOutOfRangeException("types");
+#if NET8_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(args);
+            ArgumentNullException.ThrowIfNull(types);
+#else
+            if (args == null) throw new ArgumentNullException(nameof(args));
+            if (types == null) throw new ArgumentNullException(nameof(types));
+#endif
+            if (types.Length == 0) throw new ArgumentOutOfRangeException(nameof(types));
 
             return MakeParserResult(
                 InstanceChooser.Choose(
@@ -181,9 +218,9 @@ namespace CommandLine
         }
 
         private static Result<IEnumerable<Token>, Error> Tokenize(
-                IEnumerable<string> arguments,
-                IEnumerable<OptionSpecification> optionSpecs,
-                ParserSettings settings)
+            IEnumerable<string> arguments,
+            IEnumerable<OptionSpecification> optionSpecs,
+            ParserSettings settings)
         {
             return settings.GetoptMode
                 ? GetoptTokenizer.ConfigureTokenizer(
@@ -197,7 +234,14 @@ namespace CommandLine
                     settings.EnableDashDash)(arguments, optionSpecs);
         }
 
-        private static ParserResult<T> MakeParserResult<T>(ParserResult<T> parserResult, ParserSettings settings)
+        private static ParserResult<T> MakeParserResult<
+#if NET8_0_OR_GREATER
+                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+                    DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
+                T>(
+            ParserResult<T> parserResult,
+            ParserSettings settings)
         {
             return DisplayHelp(
                 parserResult,
@@ -205,13 +249,21 @@ namespace CommandLine
                 settings.MaximumDisplayWidth);
         }
 
-        private static ParserResult<T> DisplayHelp<T>(ParserResult<T> parserResult, TextWriter helpWriter, int maxDisplayWidth)
+        private static ParserResult<T> DisplayHelp<
+#if NET8_0_OR_GREATER
+                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+                    DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
+                T>(
+            ParserResult<T> parserResult,
+            TextWriter helpWriter,
+            int maxDisplayWidth)
         {
             parserResult.WithNotParsed(
                 errors =>
                     Maybe.Merge(errors.ToMaybe(), helpWriter.ToMaybe())
                         .Do((_, writer) => writer.Write(HelpText.AutoBuild(parserResult, maxDisplayWidth)))
-                );
+            );
 
             return parserResult;
         }

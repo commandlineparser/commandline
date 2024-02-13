@@ -1,4 +1,7 @@
 ﻿using System;
+#if NET8_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Linq;
 using System.Reflection;
 
@@ -9,11 +12,18 @@ namespace CommandLine
         private const string ImplicitCastMethodName = "op_Implicit";
         private const string ExplicitCastMethodName = "op_Explicit";
 
-        public static bool CanCast<T>(this Type baseType)
+        public static bool CanCast<T>(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]
+#endif
+            this Type baseType)
         {
             return baseType.CanImplicitCast<T>() || baseType.CanExplicitCast<T>();
         }
 
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Missing annotations on type", "IL2072")]
+#endif
         public static bool CanCast<T>(this object obj)
         {
             var objType = obj.GetType();
@@ -24,7 +34,7 @@ namespace CommandLine
         {
             try
             {
-                return (T) obj;
+                return (T)obj;
             }
             catch (InvalidCastException)
             {
@@ -37,29 +47,48 @@ namespace CommandLine
             }
         }
 
-        private static bool CanImplicitCast<T>(this Type baseType)
+        private static bool CanImplicitCast<T>(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]
+#endif
+            this Type baseType)
         {
             return baseType.CanCast<T>(ImplicitCastMethodName);
         }
 
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Missing annotations on type", "IL2072")]
+#endif
         private static bool CanImplicitCast<T>(this object obj)
         {
             var baseType = obj.GetType();
             return baseType.CanImplicitCast<T>();
         }
 
-        private static bool CanExplicitCast<T>(this Type baseType)
+        private static bool CanExplicitCast<T>(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]
+#endif
+            this Type baseType)
         {
             return baseType.CanCast<T>(ExplicitCastMethodName);
         }
 
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Missing annotations on type", "IL2072")]
+#endif
         private static bool CanExplicitCast<T>(this object obj)
         {
             var baseType = obj.GetType();
             return baseType.CanExplicitCast<T>();
         }
 
-        private static bool CanCast<T>(this Type baseType, string castMethodName)
+        private static bool CanCast<T>(
+#if NET8_0_OR_GREATER
+            [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)]
+#endif
+            this Type baseType,
+            string castMethodName)
         {
             var targetType = typeof(T);
             return baseType.GetMethods(BindingFlags.Public | BindingFlags.Static)
@@ -81,6 +110,9 @@ namespace CommandLine
             return obj.Cast<T>(ExplicitCastMethodName);
         }
 
+#if NET8_0_OR_GREATER
+        [UnconditionalSuppressMessage("Reflection on object", "IL2075")]
+#endif
         private static T Cast<T>(this object obj, string castMethodName)
         {
             var objType = obj.GetType();
@@ -91,10 +123,9 @@ namespace CommandLine
                     ParameterInfo pi = mi.GetParameters().FirstOrDefault();
                     return pi != null && pi.ParameterType == objType;
                 });
-            if (conversionMethod != null)
-                return (T) conversionMethod.Invoke(null, new[] {obj});
-            else
-                throw new InvalidCastException($"No method to cast {objType.FullName} to {typeof(T).FullName}");
+            return conversionMethod != null
+                ? (T)conversionMethod.Invoke(null, new[] { obj })
+                : throw new InvalidCastException($"No method to cast {objType.FullName} to {typeof(T).FullName}");
         }
     }
 }
