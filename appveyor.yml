@@ -24,13 +24,13 @@ environment:
     - BUILD_TARGET: fsharp
 
 build_script:
-- cmd: dotnet build src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
+- cmd: dotnet build src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET% /p:ContinuousIntegrationBuild=True
 
 test_script: 
 - cmd: dotnet test tests/CommandLine.Tests/ /p:BuildTarget=%BUILD_TARGET%
 
 after_test:
-- cmd: dotnet pack src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET%
+- cmd: dotnet pack src/CommandLine/ -c Release --version-suffix %APPVEYOR_BUILD_VERSION% /p:BuildTarget=%BUILD_TARGET% /p:ContinuousIntegrationBuild=True
 
 artifacts:
 - path: 'src/CommandLine/bin/Release/*.nupkg'

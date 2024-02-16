@@ -18,7 +18,7 @@
 		<Description Condition="'$(BuildTarget)' != 'fsharp'">Terse syntax C# command line parser for .NET.  For FSharp support see CommandLineParser.FSharp.  The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</Description>
 		<Description Condition="'$(BuildTarget)' == 'fsharp'">Terse syntax C# command line parser for .NET with F# support. The Command Line Parser Library offers to CLR applications a clean and concise API for manipulating command line arguments and related tasks.</Description>
 		<Copyright>Copyright (c) 2005 - 2020 Giacomo Stelluti Scala &amp; Contributors</Copyright>
-		<PackageLicenseFile>License.md</PackageLicenseFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageIcon>CommandLine20.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/commandlineparser/commandline</PackageProjectUrl>
 		<PackageTags>command line;commandline;argument;option;parser;parsing;library;syntax;shell</PackageTags>
@@ -27,6 +27,7 @@
 		<LangVersion>8.0</LangVersion>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(BuildTarget)' != 'fsharp'">
@@ -34,23 +35,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="..\..\README.md" Link="README.md">
-			<Pack>true</Pack>
-			<PackagePath>README.md</PackagePath>
-		</Content>
+		<Content Include="..\..\README.md" Link="README.md" Pack="true" PackagePath="README.md" />
+		<Content Include="..\..\License.md" Link="License.md" Pack="true" PackagePath="License.md" />
+		<Content Include="..\..\art\CommandLine20.png" Pack="true" PackagePath="$(PackageIconPackageIcon)" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'net40' and '$(BuildTarget)' == 'fsharp'">
 		<PackageReference Include="FSharp.Core" Version="4.5.1" Condition="'$(BuildTarget)' == 'fsharp'" />
 	</ItemGroup>
+
 	<ItemGroup Condition="'$(TargetFramework)' == 'net40' and '$(BuildTarget)' == 'fsharp'">
 		<PackageReference Include="FSharp.Core" Version="4.0.0.1" Condition="'$(BuildTarget)' == 'fsharp'" />
 	</ItemGroup>
-	<ItemGroup>
-		<None Include="..\..\License.md" Pack="true" PackagePath="$(PackageLicenseFile)" />
-		<None Include="..\..\art\CommandLine20.png" Pack="true" PackagePath="$(PackageIcon)" />
-	</ItemGroup>
+
 	<ItemGroup>
 	  <Folder Include="Infrastructure\CSharpx\" />
 	</ItemGroup>
+
 </Project>
